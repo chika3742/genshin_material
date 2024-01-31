@@ -1,4 +1,4 @@
-package com.example.genshin_material
+package net.chikach.genshinmaterial
 
 import io.flutter.embedding.android.FlutterActivity
 
