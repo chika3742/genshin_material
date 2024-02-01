@@ -21,9 +21,12 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    require_trailing_commas: true
-    prefer_final_fields: true
-    prefer_double_quotes: true
+    - require_trailing_commas
+    - prefer_final_fields
+    - prefer_double_quotes
+    - always_declare_return_types
+    - avoid_void_async
+    - prefer_final_locals
 
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
