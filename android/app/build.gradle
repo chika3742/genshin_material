@@ -50,10 +50,12 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(localProperties.getProperty("gm.keyStorePath"))
-            storePassword localProperties.getProperty("gm.keyStorePassword")
-            keyAlias localProperties.getProperty("gm.keyAlias")
-            keyPassword localProperties.getProperty("gm.keyPassword")
+            if (localProperties.getProperty("gm.keystorePath") != null) {
+                storeFile file(localProperties.getProperty("gm.keyStorePath"))
+                storePassword localProperties.getProperty("gm.keyStorePassword")
+                keyAlias localProperties.getProperty("gm.keyAlias")
+                keyPassword localProperties.getProperty("gm.keyPassword")
+            }
         }
     }
 
