@@ -1,0 +1,51 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "prConcurrentLimit": 0,
+  "dependencyDashboard": false,
+  "timezone": "Asia/Tokyo",
+  "ignoreDeps": [
+    "gradle"
+  ],
+  "branchPrefix": "deps/",
+  "packageRules": [
+    {
+      "matchFileNames": [
+        "pubspec.yaml"
+      ],
+      "labels": [
+        "deps:pub"
+      ],
+      "semanticCommitScope": "pub"
+    },
+    {
+      "matchFileNames": [
+        "android/**/*"
+      ],
+      "labels": [
+        "deps:android"
+      ],
+      "semanticCommitScope": "android"
+    },
+    {
+      "matchFileNames": [
+        "ios/**/*"
+      ],
+      "labels": [
+        "deps:ios"
+      ],
+      "semanticCommitScope": "ios"
+    },
+    {
+      "matchFileNames": [
+        ".github/workflows/*"
+      ],
+      "labels": [
+        "deps:workflow"
+      ],
+      "semanticCommitScope": "workflow"
+    }
+  ]
+}
