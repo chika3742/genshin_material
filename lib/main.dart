@@ -9,7 +9,8 @@ void main() {
 }
 
 final _router = GoRouter(
-  routes: routes,
+  initialLocation: "/bookmarks",
+  routes: $appRoutes,
 );
 
 class MyApp extends StatelessWidget {
