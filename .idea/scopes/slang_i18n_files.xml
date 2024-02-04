@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="slang i18n files" pattern="file[genshin_material]:lib/i18n//*" />
+</component>

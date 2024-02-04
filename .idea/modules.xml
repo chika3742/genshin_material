@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/genshin_material.iml" filepath="$PROJECT_DIR$/genshin_material.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/genshin_material_android.iml" filepath="$PROJECT_DIR$/android/genshin_material_android.iml" />
     </modules>
   </component>
 </project>
