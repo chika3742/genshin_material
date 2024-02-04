@@ -5,17 +5,17 @@ import "package:go_router/go_router.dart";
 
 part "routes.g.dart";
 
-@TypedShellRoute<HomeScreenRoute>(
+@TypedShellRoute<HomeRoute>(
   routes: [
-    TypedGoRoute<BookmarksNavPageRoute>(path: "/bookmarks"),
-    TypedGoRoute<DatabaseNavPageRoute>(path: "/database"),
-    TypedGoRoute<DailyNavPageRoute>(path: "/daily"),
-    TypedGoRoute<ToolsNavPageRoute>(path: "/tools"),
-    TypedGoRoute<MoreNavPageRoute>(path: "/more"),
+    TypedGoRoute<BookmarksNavRoute>(path: "/bookmarks"),
+    TypedGoRoute<DatabaseNavRoute>(path: "/database"),
+    TypedGoRoute<DailyNavRoute>(path: "/daily"),
+    TypedGoRoute<ToolsNavRoute>(path: "/tools"),
+    TypedGoRoute<MoreNavRoute>(path: "/more"),
   ],
 )
 @immutable
-class HomeScreenRoute extends ShellRouteData {
+class HomeRoute extends ShellRouteData {
   @override
   Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
     return HomePage(child: navigator);

@@ -41,27 +41,27 @@ class _HomePageState extends State<HomePage> {
     createNavEntry(
       icon: Symbols.home_filled,
       label: tr.homeNavDestinations.bookmarks,
-      location: BookmarksNavPageRoute().location,
+      location: BookmarksNavRoute().location,
     ),
     createNavEntry(
       icon: Symbols.database,
       label: tr.homeNavDestinations.database,
-      location: DatabaseNavPageRoute().location,
+      location: DatabaseNavRoute().location,
     ),
     createNavEntry(
       icon: Symbols.today,
       label: tr.homeNavDestinations.daily,
-      location: DailyNavPageRoute().location,
+      location: DailyNavRoute().location,
     ),
     createNavEntry(
       icon: Symbols.home_repair_service,
       label: tr.homeNavDestinations.tools,
-      location: ToolsNavPageRoute().location,
+      location: ToolsNavRoute().location,
     ),
     createNavEntry(
       icon: Symbols.more_horiz,
       label: tr.homeNavDestinations.more,
-      location: MoreNavPageRoute().location,
+      location: MoreNavRoute().location,
     ),
   ];
 

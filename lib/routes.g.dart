@@ -7,42 +7,42 @@ part of 'routes.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
-      $homeScreenRoute,
+      $homeRoute,
     ];
 
-RouteBase get $homeScreenRoute => ShellRouteData.$route(
-      factory: $HomeScreenRouteExtension._fromState,
+RouteBase get $homeRoute => ShellRouteData.$route(
+      factory: $HomeRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
           path: '/bookmarks',
-          factory: $BookmarksNavPageRouteExtension._fromState,
+          factory: $BookmarksNavRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: '/database',
-          factory: $DatabaseNavPageRouteExtension._fromState,
+          factory: $DatabaseNavRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: '/daily',
-          factory: $DailyNavPageRouteExtension._fromState,
+          factory: $DailyNavRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: '/tools',
-          factory: $ToolsNavPageRouteExtension._fromState,
+          factory: $ToolsNavRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: '/more',
-          factory: $MoreNavPageRouteExtension._fromState,
+          factory: $MoreNavRouteExtension._fromState,
         ),
       ],
     );
 
-extension $HomeScreenRouteExtension on HomeScreenRoute {
-  static HomeScreenRoute _fromState(GoRouterState state) => HomeScreenRoute();
+extension $HomeRouteExtension on HomeRoute {
+  static HomeRoute _fromState(GoRouterState state) => HomeRoute();
 }
 
-extension $BookmarksNavPageRouteExtension on BookmarksNavPageRoute {
-  static BookmarksNavPageRoute _fromState(GoRouterState state) =>
-      BookmarksNavPageRoute();
+extension $BookmarksNavRouteExtension on BookmarksNavRoute {
+  static BookmarksNavRoute _fromState(GoRouterState state) =>
+      BookmarksNavRoute();
 
   String get location => GoRouteData.$location(
         '/bookmarks',
@@ -58,9 +58,8 @@ extension $BookmarksNavPageRouteExtension on BookmarksNavPageRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $DatabaseNavPageRouteExtension on DatabaseNavPageRoute {
-  static DatabaseNavPageRoute _fromState(GoRouterState state) =>
-      DatabaseNavPageRoute();
+extension $DatabaseNavRouteExtension on DatabaseNavRoute {
+  static DatabaseNavRoute _fromState(GoRouterState state) => DatabaseNavRoute();
 
   String get location => GoRouteData.$location(
         '/database',
@@ -76,9 +75,8 @@ extension $DatabaseNavPageRouteExtension on DatabaseNavPageRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $DailyNavPageRouteExtension on DailyNavPageRoute {
-  static DailyNavPageRoute _fromState(GoRouterState state) =>
-      DailyNavPageRoute();
+extension $DailyNavRouteExtension on DailyNavRoute {
+  static DailyNavRoute _fromState(GoRouterState state) => DailyNavRoute();
 
   String get location => GoRouteData.$location(
         '/daily',
@@ -94,9 +92,8 @@ extension $DailyNavPageRouteExtension on DailyNavPageRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ToolsNavPageRouteExtension on ToolsNavPageRoute {
-  static ToolsNavPageRoute _fromState(GoRouterState state) =>
-      ToolsNavPageRoute();
+extension $ToolsNavRouteExtension on ToolsNavRoute {
+  static ToolsNavRoute _fromState(GoRouterState state) => ToolsNavRoute();
 
   String get location => GoRouteData.$location(
         '/tools',
@@ -112,8 +109,8 @@ extension $ToolsNavPageRouteExtension on ToolsNavPageRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $MoreNavPageRouteExtension on MoreNavPageRoute {
-  static MoreNavPageRoute _fromState(GoRouterState state) => MoreNavPageRoute();
+extension $MoreNavRouteExtension on MoreNavRoute {
+  static MoreNavRoute _fromState(GoRouterState state) => MoreNavRoute();
 
   String get location => GoRouteData.$location(
         '/more',

@@ -7,7 +7,7 @@ import "package:genshin_material/pages/home/navigation_pages/tools.dart";
 import "package:go_router/go_router.dart";
 
 @immutable
-class BookmarksNavPageRoute extends GoRouteData {
+class BookmarksNavRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return const NoTransitionPage(child: BookmarksNavPage());
@@ -15,7 +15,7 @@ class BookmarksNavPageRoute extends GoRouteData {
 }
 
 @immutable
-class DatabaseNavPageRoute extends GoRouteData {
+class DatabaseNavRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return const NoTransitionPage(child: DatabaseNavPage());
@@ -23,7 +23,7 @@ class DatabaseNavPageRoute extends GoRouteData {
 }
 
 @immutable
-class DailyNavPageRoute extends GoRouteData {
+class DailyNavRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return const NoTransitionPage(child: DailyNavPage());
@@ -31,7 +31,7 @@ class DailyNavPageRoute extends GoRouteData {
 }
 
 @immutable
-class ToolsNavPageRoute extends GoRouteData {
+class ToolsNavRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return const NoTransitionPage(child: ToolsNavPage());
@@ -39,7 +39,7 @@ class ToolsNavPageRoute extends GoRouteData {
 }
 
 @immutable
-class MoreNavPageRoute extends GoRouteData {
+class MoreNavRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return const NoTransitionPage(child: MoreNavPage());
