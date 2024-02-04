@@ -1,11 +1,9 @@
-import "dart:async";
-
 import "package:flutter/material.dart";
 import "package:genshin_material/home_nav_routes.dart";
 import "package:genshin_material/pages/home.dart";
 import "package:go_router/go_router.dart";
 
-part "generated/routes.g.dart";
+part "routes.g.dart";
 
 @TypedShellRoute<HomeScreenRoute>(
   routes: [
