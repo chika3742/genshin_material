@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:genshin_material/generated/strings.g.dart";
 import "package:genshin_material/home_nav_routes.dart";
 import "package:genshin_material/routes.dart";
 import "package:go_router/go_router.dart";
@@ -21,40 +22,45 @@ class _HomeNavEntry {
 }
 
 class _HomePageState extends State<HomePage> {
-  final navDestinations = <_HomeNavEntry>[
-    _HomeNavEntry(
-      destination: const NavigationDestination(
-        icon: Icon(Symbols.home_filled),
-        label: "Bookmarks",
+  /// Creates new [_HomeNavEntry] class from params.
+  static _HomeNavEntry createNavEntry({
+    required IconData icon,
+    required String label,
+    required String location,
+  }) {
+    return _HomeNavEntry(
+      destination: NavigationDestination(
+        icon: Icon(icon),
+        label: label,
       ),
+      location: location,
+    );
+  }
+
+  final navDestinations = <_HomeNavEntry>[
+    createNavEntry(
+      icon: Symbols.home_filled,
+      label: tr.homeNavDestinations.bookmarks,
       location: BookmarksNavPageRoute().location,
     ),
-    _HomeNavEntry(
-      destination: const NavigationDestination(
-        icon: Icon(Symbols.database),
-        label: "Database",
-      ),
+    createNavEntry(
+      icon: Symbols.database,
+      label: tr.homeNavDestinations.database,
       location: DatabaseNavPageRoute().location,
     ),
-    _HomeNavEntry(
-      destination: const NavigationDestination(
-        icon: Icon(Symbols.today),
-        label: "Daily",
-      ),
+    createNavEntry(
+      icon: Symbols.today,
+      label: tr.homeNavDestinations.daily,
       location: DailyNavPageRoute().location,
     ),
-    _HomeNavEntry(
-      destination: const NavigationDestination(
-        icon: Icon(Symbols.home_repair_service),
-        label: "Tools",
-      ),
+    createNavEntry(
+      icon: Symbols.home_repair_service,
+      label: tr.homeNavDestinations.tools,
       location: ToolsNavPageRoute().location,
     ),
-    _HomeNavEntry(
-      destination: const NavigationDestination(
-        icon: Icon(Symbols.more_horiz),
-        label: "More",
-      ),
+    createNavEntry(
+      icon: Symbols.more_horiz,
+      label: tr.homeNavDestinations.more,
       location: MoreNavPageRoute().location,
     ),
   ];
