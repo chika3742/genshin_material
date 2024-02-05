@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Home")),
+      appBar: AppBar(title: Text(navDestinations[selectedNavIndex].destination.label)),
       bottomNavigationBar: NavigationBar(
         destinations: navDestinations.map((e) => e.destination).toList(),
         selectedIndex: selectedNavIndex,
