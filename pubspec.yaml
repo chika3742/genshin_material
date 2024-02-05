@@ -31,6 +31,10 @@ dependencies:
   material_symbols_icons: ^4.2718.0
   slang: ^3.29.0
   slang_flutter: ^3.29.0
+  timelines: ^0.1.0
+  json_annotation: ^4.8.1
+  yaml: ^3.1.2
+  collection: ^1.18.0
 
 dev_dependencies:
   flutter_test:
@@ -44,6 +48,7 @@ dev_dependencies:
   freezed: ^2.4.6
   go_router_builder: ^2.4.1
   build_verify: ^3.1.0
+  json_serializable: ^6.7.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -65,6 +70,9 @@ flutter:
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
+
+  assets:
+    - assets/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
