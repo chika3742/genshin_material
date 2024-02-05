@@ -11,8 +11,11 @@ void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+
 final _router = GoRouter(
   initialLocation: "/bookmarks",
+  navigatorKey: rootNavigatorKey,
   routes: $appRoutes,
 );
 
