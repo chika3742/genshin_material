@@ -2,5 +2,13 @@ homeNavDestinations:
   bookmarks: Bookmarks
   database: Database
   daily: Daily
-  tools: tools
-  more: more
+  tools: Tools
+  more: More
+
+pages:
+  settings: Settings
+  account: Account
+  releaseNotes: Release Notes
+
+morePage:
+  accountDesc: You can sync bookmarks etc. between devices.

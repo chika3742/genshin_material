@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 10 (5 per locale)
+/// Strings: 18 (9 per locale)
 ///
-/// Built on 2024-02-04 at 07:54 UTC
+/// Built on 2024-02-05 at 15:17 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -150,6 +150,8 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final _StringsHomeNavDestinationsJa homeNavDestinations = _StringsHomeNavDestinationsJa._(_root);
+	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
+	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
 }
 
 // Path: homeNavDestinations
@@ -164,6 +166,28 @@ class _StringsHomeNavDestinationsJa {
 	String get daily => '日替わり素材';
 	String get tools => 'ツール';
 	String get more => 'その他';
+}
+
+// Path: pages
+class _StringsPagesJa {
+	_StringsPagesJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get settings => '設定';
+	String get account => 'アカウント';
+	String get releaseNotes => '更新履歴';
+}
+
+// Path: morePage
+class _StringsMorePageJa {
+	_StringsMorePageJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get accountDesc => 'ブックマーク等をデバイス間で同期できます。';
 }
 
 // Path: <root>
@@ -193,6 +217,8 @@ class _StringsEn extends Translations {
 
 	// Translations
 	@override late final _StringsHomeNavDestinationsEn homeNavDestinations = _StringsHomeNavDestinationsEn._(_root);
+	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
+	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
 }
 
 // Path: homeNavDestinations
@@ -205,8 +231,30 @@ class _StringsHomeNavDestinationsEn extends _StringsHomeNavDestinationsJa {
 	@override String get bookmarks => 'Bookmarks';
 	@override String get database => 'Database';
 	@override String get daily => 'Daily';
-	@override String get tools => 'tools';
-	@override String get more => 'more';
+	@override String get tools => 'Tools';
+	@override String get more => 'More';
+}
+
+// Path: pages
+class _StringsPagesEn extends _StringsPagesJa {
+	_StringsPagesEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get settings => 'Settings';
+	@override String get account => 'Account';
+	@override String get releaseNotes => 'Release Notes';
+}
+
+// Path: morePage
+class _StringsMorePageEn extends _StringsMorePageJa {
+	_StringsMorePageEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get accountDesc => 'You can sync bookmarks etc. between devices.';
 }
 
 /// Flat map(s) containing all translations.
@@ -220,6 +268,10 @@ extension on Translations {
 			case 'homeNavDestinations.daily': return '日替わり素材';
 			case 'homeNavDestinations.tools': return 'ツール';
 			case 'homeNavDestinations.more': return 'その他';
+			case 'pages.settings': return '設定';
+			case 'pages.account': return 'アカウント';
+			case 'pages.releaseNotes': return '更新履歴';
+			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			default: return null;
 		}
 	}
@@ -231,8 +283,12 @@ extension on _StringsEn {
 			case 'homeNavDestinations.bookmarks': return 'Bookmarks';
 			case 'homeNavDestinations.database': return 'Database';
 			case 'homeNavDestinations.daily': return 'Daily';
-			case 'homeNavDestinations.tools': return 'tools';
-			case 'homeNavDestinations.more': return 'more';
+			case 'homeNavDestinations.tools': return 'Tools';
+			case 'homeNavDestinations.more': return 'More';
+			case 'pages.settings': return 'Settings';
+			case 'pages.account': return 'Account';
+			case 'pages.releaseNotes': return 'Release Notes';
+			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			default: return null;
 		}
 	}

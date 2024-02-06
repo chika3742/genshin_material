@@ -4,3 +4,11 @@ homeNavDestinations:
   daily: 日替わり素材
   tools: ツール
   more: その他
+
+pages:
+  settings: 設定
+  account: アカウント
+  releaseNotes: 更新履歴
+
+morePage:
+  accountDesc: ブックマーク等をデバイス間で同期できます。
