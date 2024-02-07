@@ -16,14 +16,18 @@ class ReleaseNoteContents extends StatelessWidget {
   List<Widget> buildColumns(BuildContext context) {
     final widgets = <Widget>[];
 
-    for (final line in contentsText.split("\n")) {
+    final lines = contentsText.split("\n");
+
+    for (final line in lines) {
       if (line.isNotEmpty) {
         widgets.add(buildLine(context, line));
         widgets.add(const SizedBox(height: 4));
       }
     }
 
-    widgets.removeLast(); // remove last SizedBox widget
+    if (widgets.isNotEmpty) {
+      widgets.removeLast(); // remove last SizedBox widget
+    }
 
     return widgets;
   }
