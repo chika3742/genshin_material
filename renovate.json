@@ -8,6 +8,7 @@
   "timezone": "Asia/Tokyo",
   "ignoreDeps": [
     "gradle",
+    "dev.flutter.flutter-gradle-plugin",
     "dev.flutter.flutter-plugin-loader"
   ],
   "branchPrefix": "deps/",
