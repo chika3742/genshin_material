@@ -15,15 +15,14 @@ class SimpleListItem extends StatelessWidget {
   final void Function()? onTap;
 
   const SimpleListItem({
-    Key? key,
+    super.key,
     this.title,
     this.subtitle,
     this.leadingIcon,
     this.trailingIcon,
     this.location,
     this.onTap,
-  })  : assert(location == null || onTap == null),
-        super(key: key);
+  })  : assert(location == null || onTap == null);
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +30,7 @@ class SimpleListItem extends StatelessWidget {
       title: title != null ? Text(title!) : null,
       subtitle: subtitle != null ? Text(subtitle!) : null,
       leading: leadingIcon != null ? Icon(leadingIcon) : null,
+
       trailing: trailingIcon != null
           ? Icon(trailingIcon)
           : location != null
