@@ -56,8 +56,16 @@ class _MoreNavPageState extends ConsumerState<MoreNavPage> {
             launchCustomTab(privacyPolicyUrl);
           },
         ),
-        SimpleListItem(
-          subtitle: buildVersionString(),
+        InkWell(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+            child: Text(
+              buildVersionString(),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              ),
+            ),
+          ),
           onTap: () {
             setState(() {
               showVersionDetails = !showVersionDetails;
