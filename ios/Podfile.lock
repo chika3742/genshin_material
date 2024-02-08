@@ -2,21 +2,27 @@ PODS:
   - Flutter (1.0.0)
   - flutter_custom_tabs_ios (2.0.0):
     - Flutter
+  - package_info_plus (0.4.5):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_custom_tabs_ios (from `.symlinks/plugins/flutter_custom_tabs_ios/ios`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
   flutter_custom_tabs_ios:
     :path: ".symlinks/plugins/flutter_custom_tabs_ios/ios"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_custom_tabs_ios: 62439c843b2691aae516fd50119a01eb9755fff7
+  package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
 
-PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+PODFILE CHECKSUM: 9c46fd01abff66081b39f5fa5767b3f1d0b11d76
 
 COCOAPODS: 1.15.0
