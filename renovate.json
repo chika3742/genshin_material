@@ -7,7 +7,8 @@
   "dependencyDashboard": false,
   "timezone": "Asia/Tokyo",
   "ignoreDeps": [
-    "gradle"
+    "gradle",
+    "dev.flutter.flutter-gradle-plugin:dev.flutter.flutter-gradle-plugin.gradle.plugin"
   ],
   "branchPrefix": "deps/",
   "packageRules": [
