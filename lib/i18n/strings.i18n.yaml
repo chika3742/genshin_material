@@ -1,3 +1,7 @@
+common:
+  tos: 利用規約
+  privacyPolicy: プライバシーポリシー
+
 homeNavDestinations:
   bookmarks: ブックマーク
   database: データベース

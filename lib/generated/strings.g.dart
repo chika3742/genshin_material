@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 18 (9 per locale)
+/// Strings: 20 (10 per locale)
 ///
-/// Built on 2024-02-05 at 15:17 UTC
+/// Built on 2024-02-08 at 04:40 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -149,9 +149,21 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final Translations _root = this; // ignore: unused_field
 
 	// Translations
+	late final _StringsCommonJa common = _StringsCommonJa._(_root);
 	late final _StringsHomeNavDestinationsJa homeNavDestinations = _StringsHomeNavDestinationsJa._(_root);
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
+}
+
+// Path: common
+class _StringsCommonJa {
+	_StringsCommonJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get tos => '利用規約';
+	String get privacyPolicy => 'プライバシーポリシー';
 }
 
 // Path: homeNavDestinations
@@ -263,6 +275,8 @@ class _StringsMorePageEn extends _StringsMorePageJa {
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'common.tos': return '利用規約';
+			case 'common.privacyPolicy': return 'プライバシーポリシー';
 			case 'homeNavDestinations.bookmarks': return 'ブックマーク';
 			case 'homeNavDestinations.database': return 'データベース';
 			case 'homeNavDestinations.daily': return '日替わり素材';

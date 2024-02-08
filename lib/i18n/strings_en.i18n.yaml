@@ -1,14 +1,15 @@
+common:
+  tos: Terms of Use
+  privacyPolicy: Privacy Policy
 homeNavDestinations:
   bookmarks: Bookmarks
   database: Database
   daily: Daily
   tools: Tools
   more: More
-
 pages:
   settings: Settings
   account: Account
   releaseNotes: Release Notes
-
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.

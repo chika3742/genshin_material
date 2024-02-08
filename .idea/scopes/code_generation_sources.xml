@@ -1,3 +1,3 @@
 <component name="DependencyValidationManager">
-  <scope name="code generation sources" pattern="file[genshin_material]:lib/routes.dart||file[genshin_material]:lib/models//*||file[genshin_material]:lib/core/data.dart||file[genshin_material]:lib/utils/text_style_parser.dart" />
+  <scope name="code generation sources" pattern="file[genshin_material]:lib/routes.dart||file[genshin_material]:lib/models//*||file[genshin_material]:lib/core/data.dart||file[genshin_material]:lib/utils/text_style_parser.dart||file[genshin_material]:lib/core/versions.dart" />
 </component>
