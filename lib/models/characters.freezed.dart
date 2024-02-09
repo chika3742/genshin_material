@@ -30,17 +30,24 @@ Character _$CharacterFromJson(Map<String, dynamic> json) {
 mixin _$Character {
   String get id => throw _privateConstructorUsedError;
   LocalizedText get name => throw _privateConstructorUsedError;
+  String get jaPronunciation => throw _privateConstructorUsedError;
   int get rarity => throw _privateConstructorUsedError;
   WeaponType get weaponType => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)
+    required TResult Function(
+            String id,
+            LocalizedText name,
+            String jaPronunciation,
+            int rarity,
+            WeaponType weaponType,
+            List<String> variantIds)
         group,
     required TResult Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -51,6 +58,7 @@ mixin _$Character {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -60,13 +68,14 @@ mixin _$Character {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)?
+    TResult? Function(String id, LocalizedText name, String jaPronunciation,
+            int rarity, WeaponType weaponType, List<String> variantIds)?
         group,
     TResult? Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -77,6 +86,7 @@ mixin _$Character {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -86,13 +96,14 @@ mixin _$Character {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)?
+    TResult Function(String id, LocalizedText name, String jaPronunciation,
+            int rarity, WeaponType weaponType, List<String> variantIds)?
         group,
     TResult Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -103,6 +114,7 @@ mixin _$Character {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -144,7 +156,12 @@ abstract class $CharacterCopyWith<$Res> {
   factory $CharacterCopyWith(Character value, $Res Function(Character) then) =
       _$CharacterCopyWithImpl<$Res, Character>;
   @useResult
-  $Res call({String id, LocalizedText name, int rarity, WeaponType weaponType});
+  $Res call(
+      {String id,
+      LocalizedText name,
+      String jaPronunciation,
+      int rarity,
+      WeaponType weaponType});
 
   $LocalizedTextCopyWith<$Res> get name;
 }
@@ -164,6 +181,7 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? jaPronunciation = null,
     Object? rarity = null,
     Object? weaponType = null,
   }) {
@@ -176,6 +194,10 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as LocalizedText,
+      jaPronunciation: null == jaPronunciation
+          ? _value.jaPronunciation
+          : jaPronunciation // ignore: cast_nullable_to_non_nullable
+              as String,
       rarity: null == rarity
           ? _value.rarity
           : rarity // ignore: cast_nullable_to_non_nullable
@@ -207,6 +229,7 @@ abstract class _$$CharacterGroupImplCopyWith<$Res>
   $Res call(
       {String id,
       LocalizedText name,
+      String jaPronunciation,
       int rarity,
       WeaponType weaponType,
       List<String> variantIds});
@@ -228,6 +251,7 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? jaPronunciation = null,
     Object? rarity = null,
     Object? weaponType = null,
     Object? variantIds = null,
@@ -241,6 +265,10 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as LocalizedText,
+      jaPronunciation: null == jaPronunciation
+          ? _value.jaPronunciation
+          : jaPronunciation // ignore: cast_nullable_to_non_nullable
+              as String,
       rarity: null == rarity
           ? _value.rarity
           : rarity // ignore: cast_nullable_to_non_nullable
@@ -263,6 +291,7 @@ class _$CharacterGroupImpl implements CharacterGroup {
   const _$CharacterGroupImpl(
       {required this.id,
       required this.name,
+      required this.jaPronunciation,
       required this.rarity,
       required this.weaponType,
       required final List<String> variantIds,
@@ -277,6 +306,8 @@ class _$CharacterGroupImpl implements CharacterGroup {
   final String id;
   @override
   final LocalizedText name;
+  @override
+  final String jaPronunciation;
   @override
   final int rarity;
   @override
@@ -294,7 +325,7 @@ class _$CharacterGroupImpl implements CharacterGroup {
 
   @override
   String toString() {
-    return 'Character.group(id: $id, name: $name, rarity: $rarity, weaponType: $weaponType, variantIds: $variantIds)';
+    return 'Character.group(id: $id, name: $name, jaPronunciation: $jaPronunciation, rarity: $rarity, weaponType: $weaponType, variantIds: $variantIds)';
   }
 
   @override
@@ -304,6 +335,8 @@ class _$CharacterGroupImpl implements CharacterGroup {
             other is _$CharacterGroupImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
             (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.weaponType, weaponType) ||
                 other.weaponType == weaponType) &&
@@ -313,8 +346,8 @@ class _$CharacterGroupImpl implements CharacterGroup {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, rarity, weaponType,
-      const DeepCollectionEquality().hash(_variantIds));
+  int get hashCode => Object.hash(runtimeType, id, name, jaPronunciation,
+      rarity, weaponType, const DeepCollectionEquality().hash(_variantIds));
 
   @JsonKey(ignore: true)
   @override
@@ -326,13 +359,19 @@ class _$CharacterGroupImpl implements CharacterGroup {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)
+    required TResult Function(
+            String id,
+            LocalizedText name,
+            String jaPronunciation,
+            int rarity,
+            WeaponType weaponType,
+            List<String> variantIds)
         group,
     required TResult Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -343,25 +382,27 @@ class _$CharacterGroupImpl implements CharacterGroup {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
             CharacterMaterialDefinitions materials)
         unlisted,
   }) {
-    return group(id, name, rarity, weaponType, variantIds);
+    return group(id, name, jaPronunciation, rarity, weaponType, variantIds);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)?
+    TResult? Function(String id, LocalizedText name, String jaPronunciation,
+            int rarity, WeaponType weaponType, List<String> variantIds)?
         group,
     TResult? Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -372,25 +413,28 @@ class _$CharacterGroupImpl implements CharacterGroup {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
             CharacterMaterialDefinitions materials)?
         unlisted,
   }) {
-    return group?.call(id, name, rarity, weaponType, variantIds);
+    return group?.call(
+        id, name, jaPronunciation, rarity, weaponType, variantIds);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)?
+    TResult Function(String id, LocalizedText name, String jaPronunciation,
+            int rarity, WeaponType weaponType, List<String> variantIds)?
         group,
     TResult Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -401,6 +445,7 @@ class _$CharacterGroupImpl implements CharacterGroup {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -409,7 +454,7 @@ class _$CharacterGroupImpl implements CharacterGroup {
     required TResult orElse(),
   }) {
     if (group != null) {
-      return group(id, name, rarity, weaponType, variantIds);
+      return group(id, name, jaPronunciation, rarity, weaponType, variantIds);
     }
     return orElse();
   }
@@ -460,6 +505,7 @@ abstract class CharacterGroup implements Character {
   const factory CharacterGroup(
       {required final String id,
       required final LocalizedText name,
+      required final String jaPronunciation,
       required final int rarity,
       required final WeaponType weaponType,
       required final List<String> variantIds}) = _$CharacterGroupImpl;
@@ -471,6 +517,8 @@ abstract class CharacterGroup implements Character {
   String get id;
   @override
   LocalizedText get name;
+  @override
+  String get jaPronunciation;
   @override
   int get rarity;
   @override
@@ -494,6 +542,7 @@ abstract class _$$ListedCharacterImplCopyWith<$Res>
       {String id,
       String rid,
       LocalizedText name,
+      String jaPronunciation,
       int rarity,
       WeaponType weaponType,
       TeyvatElement element,
@@ -518,6 +567,7 @@ class __$$ListedCharacterImplCopyWithImpl<$Res>
     Object? id = null,
     Object? rid = null,
     Object? name = null,
+    Object? jaPronunciation = null,
     Object? rarity = null,
     Object? weaponType = null,
     Object? element = null,
@@ -536,6 +586,10 @@ class __$$ListedCharacterImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as LocalizedText,
+      jaPronunciation: null == jaPronunciation
+          ? _value.jaPronunciation
+          : jaPronunciation // ignore: cast_nullable_to_non_nullable
+              as String,
       rarity: null == rarity
           ? _value.rarity
           : rarity // ignore: cast_nullable_to_non_nullable
@@ -572,6 +626,7 @@ class _$ListedCharacterImpl implements ListedCharacter {
       {required this.id,
       required this.rid,
       required this.name,
+      required this.jaPronunciation,
       required this.rarity,
       required this.weaponType,
       required this.element,
@@ -589,6 +644,8 @@ class _$ListedCharacterImpl implements ListedCharacter {
   @override
   final LocalizedText name;
   @override
+  final String jaPronunciation;
+  @override
   final int rarity;
   @override
   final WeaponType weaponType;
@@ -602,7 +659,7 @@ class _$ListedCharacterImpl implements ListedCharacter {
 
   @override
   String toString() {
-    return 'Character.listed(id: $id, rid: $rid, name: $name, rarity: $rarity, weaponType: $weaponType, element: $element, materials: $materials)';
+    return 'Character.listed(id: $id, rid: $rid, name: $name, jaPronunciation: $jaPronunciation, rarity: $rarity, weaponType: $weaponType, element: $element, materials: $materials)';
   }
 
   @override
@@ -613,6 +670,8 @@ class _$ListedCharacterImpl implements ListedCharacter {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.rid, rid) || other.rid == rid) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
             (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.weaponType, weaponType) ||
                 other.weaponType == weaponType) &&
@@ -623,8 +682,8 @@ class _$ListedCharacterImpl implements ListedCharacter {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, rid, name, rarity, weaponType, element, materials);
+  int get hashCode => Object.hash(runtimeType, id, rid, name, jaPronunciation,
+      rarity, weaponType, element, materials);
 
   @JsonKey(ignore: true)
   @override
@@ -636,13 +695,19 @@ class _$ListedCharacterImpl implements ListedCharacter {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)
+    required TResult Function(
+            String id,
+            LocalizedText name,
+            String jaPronunciation,
+            int rarity,
+            WeaponType weaponType,
+            List<String> variantIds)
         group,
     required TResult Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -653,25 +718,28 @@ class _$ListedCharacterImpl implements ListedCharacter {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
             CharacterMaterialDefinitions materials)
         unlisted,
   }) {
-    return listed(id, rid, name, rarity, weaponType, element, materials);
+    return listed(
+        id, rid, name, jaPronunciation, rarity, weaponType, element, materials);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)?
+    TResult? Function(String id, LocalizedText name, String jaPronunciation,
+            int rarity, WeaponType weaponType, List<String> variantIds)?
         group,
     TResult? Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -682,25 +750,28 @@ class _$ListedCharacterImpl implements ListedCharacter {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
             CharacterMaterialDefinitions materials)?
         unlisted,
   }) {
-    return listed?.call(id, rid, name, rarity, weaponType, element, materials);
+    return listed?.call(
+        id, rid, name, jaPronunciation, rarity, weaponType, element, materials);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)?
+    TResult Function(String id, LocalizedText name, String jaPronunciation,
+            int rarity, WeaponType weaponType, List<String> variantIds)?
         group,
     TResult Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -711,6 +782,7 @@ class _$ListedCharacterImpl implements ListedCharacter {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -719,7 +791,8 @@ class _$ListedCharacterImpl implements ListedCharacter {
     required TResult orElse(),
   }) {
     if (listed != null) {
-      return listed(id, rid, name, rarity, weaponType, element, materials);
+      return listed(id, rid, name, jaPronunciation, rarity, weaponType, element,
+          materials);
     }
     return orElse();
   }
@@ -771,6 +844,7 @@ abstract class ListedCharacter implements Character, CharacterWithMaterials {
           {required final String id,
           required final String rid,
           required final LocalizedText name,
+          required final String jaPronunciation,
           required final int rarity,
           required final WeaponType weaponType,
           required final TeyvatElement element,
@@ -785,6 +859,8 @@ abstract class ListedCharacter implements Character, CharacterWithMaterials {
   String get rid;
   @override
   LocalizedText get name;
+  @override
+  String get jaPronunciation;
   @override
   int get rarity;
   @override
@@ -810,6 +886,7 @@ abstract class _$$UnlistedCharacterImplCopyWith<$Res>
       String rid,
       String parentId,
       LocalizedText name,
+      String jaPronunciation,
       int rarity,
       WeaponType weaponType,
       TeyvatElement element,
@@ -835,6 +912,7 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
     Object? rid = null,
     Object? parentId = null,
     Object? name = null,
+    Object? jaPronunciation = null,
     Object? rarity = null,
     Object? weaponType = null,
     Object? element = null,
@@ -857,6 +935,10 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as LocalizedText,
+      jaPronunciation: null == jaPronunciation
+          ? _value.jaPronunciation
+          : jaPronunciation // ignore: cast_nullable_to_non_nullable
+              as String,
       rarity: null == rarity
           ? _value.rarity
           : rarity // ignore: cast_nullable_to_non_nullable
@@ -894,6 +976,7 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
       required this.rid,
       required this.parentId,
       required this.name,
+      required this.jaPronunciation,
       required this.rarity,
       required this.weaponType,
       required this.element,
@@ -913,6 +996,8 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
   @override
   final LocalizedText name;
   @override
+  final String jaPronunciation;
+  @override
   final int rarity;
   @override
   final WeaponType weaponType;
@@ -926,7 +1011,7 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
 
   @override
   String toString() {
-    return 'Character.unlisted(id: $id, rid: $rid, parentId: $parentId, name: $name, rarity: $rarity, weaponType: $weaponType, element: $element, materials: $materials)';
+    return 'Character.unlisted(id: $id, rid: $rid, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, rarity: $rarity, weaponType: $weaponType, element: $element, materials: $materials)';
   }
 
   @override
@@ -939,6 +1024,8 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             (identical(other.parentId, parentId) ||
                 other.parentId == parentId) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
             (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.weaponType, weaponType) ||
                 other.weaponType == weaponType) &&
@@ -949,8 +1036,8 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, rid, parentId, name, rarity,
-      weaponType, element, materials);
+  int get hashCode => Object.hash(runtimeType, id, rid, parentId, name,
+      jaPronunciation, rarity, weaponType, element, materials);
 
   @JsonKey(ignore: true)
   @override
@@ -962,13 +1049,19 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)
+    required TResult Function(
+            String id,
+            LocalizedText name,
+            String jaPronunciation,
+            int rarity,
+            WeaponType weaponType,
+            List<String> variantIds)
         group,
     required TResult Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -979,26 +1072,28 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
             CharacterMaterialDefinitions materials)
         unlisted,
   }) {
-    return unlisted(
-        id, rid, parentId, name, rarity, weaponType, element, materials);
+    return unlisted(id, rid, parentId, name, jaPronunciation, rarity,
+        weaponType, element, materials);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)?
+    TResult? Function(String id, LocalizedText name, String jaPronunciation,
+            int rarity, WeaponType weaponType, List<String> variantIds)?
         group,
     TResult? Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -1009,26 +1104,28 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
             CharacterMaterialDefinitions materials)?
         unlisted,
   }) {
-    return unlisted?.call(
-        id, rid, parentId, name, rarity, weaponType, element, materials);
+    return unlisted?.call(id, rid, parentId, name, jaPronunciation, rarity,
+        weaponType, element, materials);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, LocalizedText name, int rarity,
-            WeaponType weaponType, List<String> variantIds)?
+    TResult Function(String id, LocalizedText name, String jaPronunciation,
+            int rarity, WeaponType weaponType, List<String> variantIds)?
         group,
     TResult Function(
             String id,
             String rid,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -1039,6 +1136,7 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             String rid,
             String parentId,
             LocalizedText name,
+            String jaPronunciation,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
@@ -1047,8 +1145,8 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
     required TResult orElse(),
   }) {
     if (unlisted != null) {
-      return unlisted(
-          id, rid, parentId, name, rarity, weaponType, element, materials);
+      return unlisted(id, rid, parentId, name, jaPronunciation, rarity,
+          weaponType, element, materials);
     }
     return orElse();
   }
@@ -1101,6 +1199,7 @@ abstract class UnlistedCharacter implements Character, CharacterWithMaterials {
           required final String rid,
           required final String parentId,
           required final LocalizedText name,
+          required final String jaPronunciation,
           required final int rarity,
           required final WeaponType weaponType,
           required final TeyvatElement element,
@@ -1116,6 +1215,8 @@ abstract class UnlistedCharacter implements Character, CharacterWithMaterials {
   String get parentId;
   @override
   LocalizedText get name;
+  @override
+  String get jaPronunciation;
   @override
   int get rarity;
   @override
@@ -1137,22 +1238,17 @@ CharacterMaterialDefinitions _$CharacterMaterialDefinitionsFromJson(
       return TravelerTalentMaterialDefinitions.fromJson(json);
 
     default:
-      return NormalCharacterMaterialDefinitions.fromJson(json);
+      return _CharacterMaterialDefinitions.fromJson(json);
   }
 }
 
 /// @nodoc
 mixin _$CharacterMaterialDefinitions {
   @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            String primary,
-            String elementalStone,
-            String local,
-            String secondary,
-            String talentPrimary,
-            String talentBoss)
-        normal,
+  TResult when<TResult extends Object?>(
+    TResult Function(String primary, String elementalStone, String local,
+            String secondary, String talentPrimary, String talentBoss)
+        $default, {
     required TResult Function(String primary, String local, String secondary)
         travelerAscension,
     required TResult Function(MaterialIdPerType talentPrimary,
@@ -1161,10 +1257,10 @@ mixin _$CharacterMaterialDefinitions {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
+  TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(String primary, String elementalStone, String local,
             String secondary, String talentPrimary, String talentBoss)?
-        normal,
+        $default, {
     TResult? Function(String primary, String local, String secondary)?
         travelerAscension,
     TResult? Function(MaterialIdPerType talentPrimary,
@@ -1173,10 +1269,10 @@ mixin _$CharacterMaterialDefinitions {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
+  TResult maybeWhen<TResult extends Object?>(
     TResult Function(String primary, String elementalStone, String local,
             String secondary, String talentPrimary, String talentBoss)?
-        normal,
+        $default, {
     TResult Function(String primary, String local, String secondary)?
         travelerAscension,
     TResult Function(MaterialIdPerType talentPrimary,
@@ -1186,8 +1282,8 @@ mixin _$CharacterMaterialDefinitions {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NormalCharacterMaterialDefinitions value) normal,
+  TResult map<TResult extends Object?>(
+    TResult Function(_CharacterMaterialDefinitions value) $default, {
     required TResult Function(TravelerAscensionMaterialDefinitions value)
         travelerAscension,
     required TResult Function(TravelerTalentMaterialDefinitions value)
@@ -1195,16 +1291,16 @@ mixin _$CharacterMaterialDefinitions {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NormalCharacterMaterialDefinitions value)? normal,
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_CharacterMaterialDefinitions value)? $default, {
     TResult? Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
     TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NormalCharacterMaterialDefinitions value)? normal,
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_CharacterMaterialDefinitions value)? $default, {
     TResult Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
     TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
@@ -1236,11 +1332,11 @@ class _$CharacterMaterialDefinitionsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$NormalCharacterMaterialDefinitionsImplCopyWith<$Res> {
-  factory _$$NormalCharacterMaterialDefinitionsImplCopyWith(
-          _$NormalCharacterMaterialDefinitionsImpl value,
-          $Res Function(_$NormalCharacterMaterialDefinitionsImpl) then) =
-      __$$NormalCharacterMaterialDefinitionsImplCopyWithImpl<$Res>;
+abstract class _$$CharacterMaterialDefinitionsImplCopyWith<$Res> {
+  factory _$$CharacterMaterialDefinitionsImplCopyWith(
+          _$CharacterMaterialDefinitionsImpl value,
+          $Res Function(_$CharacterMaterialDefinitionsImpl) then) =
+      __$$CharacterMaterialDefinitionsImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {String primary,
@@ -1252,13 +1348,13 @@ abstract class _$$NormalCharacterMaterialDefinitionsImplCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$NormalCharacterMaterialDefinitionsImplCopyWithImpl<$Res>
+class __$$CharacterMaterialDefinitionsImplCopyWithImpl<$Res>
     extends _$CharacterMaterialDefinitionsCopyWithImpl<$Res,
-        _$NormalCharacterMaterialDefinitionsImpl>
-    implements _$$NormalCharacterMaterialDefinitionsImplCopyWith<$Res> {
-  __$$NormalCharacterMaterialDefinitionsImplCopyWithImpl(
-      _$NormalCharacterMaterialDefinitionsImpl _value,
-      $Res Function(_$NormalCharacterMaterialDefinitionsImpl) _then)
+        _$CharacterMaterialDefinitionsImpl>
+    implements _$$CharacterMaterialDefinitionsImplCopyWith<$Res> {
+  __$$CharacterMaterialDefinitionsImplCopyWithImpl(
+      _$CharacterMaterialDefinitionsImpl _value,
+      $Res Function(_$CharacterMaterialDefinitionsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1271,7 +1367,7 @@ class __$$NormalCharacterMaterialDefinitionsImplCopyWithImpl<$Res>
     Object? talentPrimary = null,
     Object? talentBoss = null,
   }) {
-    return _then(_$NormalCharacterMaterialDefinitionsImpl(
+    return _then(_$CharacterMaterialDefinitionsImpl(
       primary: null == primary
           ? _value.primary
           : primary // ignore: cast_nullable_to_non_nullable
@@ -1302,9 +1398,9 @@ class __$$NormalCharacterMaterialDefinitionsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NormalCharacterMaterialDefinitionsImpl
-    implements NormalCharacterMaterialDefinitions {
-  const _$NormalCharacterMaterialDefinitionsImpl(
+class _$CharacterMaterialDefinitionsImpl
+    implements _CharacterMaterialDefinitions {
+  const _$CharacterMaterialDefinitionsImpl(
       {required this.primary,
       required this.elementalStone,
       required this.local,
@@ -1312,11 +1408,11 @@ class _$NormalCharacterMaterialDefinitionsImpl
       required this.talentPrimary,
       required this.talentBoss,
       final String? $type})
-      : $type = $type ?? 'normal';
+      : $type = $type ?? 'default';
 
-  factory _$NormalCharacterMaterialDefinitionsImpl.fromJson(
+  factory _$CharacterMaterialDefinitionsImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$NormalCharacterMaterialDefinitionsImplFromJson(json);
+      _$$CharacterMaterialDefinitionsImplFromJson(json);
 
   @override
   final String primary;
@@ -1336,14 +1432,14 @@ class _$NormalCharacterMaterialDefinitionsImpl
 
   @override
   String toString() {
-    return 'CharacterMaterialDefinitions.normal(primary: $primary, elementalStone: $elementalStone, local: $local, secondary: $secondary, talentPrimary: $talentPrimary, talentBoss: $talentBoss)';
+    return 'CharacterMaterialDefinitions(primary: $primary, elementalStone: $elementalStone, local: $local, secondary: $secondary, talentPrimary: $talentPrimary, talentBoss: $talentBoss)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NormalCharacterMaterialDefinitionsImpl &&
+            other is _$CharacterMaterialDefinitionsImpl &&
             (identical(other.primary, primary) || other.primary == primary) &&
             (identical(other.elementalStone, elementalStone) ||
                 other.elementalStone == elementalStone) &&
@@ -1364,54 +1460,49 @@ class _$NormalCharacterMaterialDefinitionsImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$NormalCharacterMaterialDefinitionsImplCopyWith<
-          _$NormalCharacterMaterialDefinitionsImpl>
-      get copyWith => __$$NormalCharacterMaterialDefinitionsImplCopyWithImpl<
-          _$NormalCharacterMaterialDefinitionsImpl>(this, _$identity);
+  _$$CharacterMaterialDefinitionsImplCopyWith<
+          _$CharacterMaterialDefinitionsImpl>
+      get copyWith => __$$CharacterMaterialDefinitionsImplCopyWithImpl<
+          _$CharacterMaterialDefinitionsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            String primary,
-            String elementalStone,
-            String local,
-            String secondary,
-            String talentPrimary,
-            String talentBoss)
-        normal,
+  TResult when<TResult extends Object?>(
+    TResult Function(String primary, String elementalStone, String local,
+            String secondary, String talentPrimary, String talentBoss)
+        $default, {
     required TResult Function(String primary, String local, String secondary)
         travelerAscension,
     required TResult Function(MaterialIdPerType talentPrimary,
             MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)
         travelerTalent,
   }) {
-    return normal(
+    return $default(
         primary, elementalStone, local, secondary, talentPrimary, talentBoss);
   }
 
   @override
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
+  TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(String primary, String elementalStone, String local,
             String secondary, String talentPrimary, String talentBoss)?
-        normal,
+        $default, {
     TResult? Function(String primary, String local, String secondary)?
         travelerAscension,
     TResult? Function(MaterialIdPerType talentPrimary,
             MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
         travelerTalent,
   }) {
-    return normal?.call(
+    return $default?.call(
         primary, elementalStone, local, secondary, talentPrimary, talentBoss);
   }
 
   @override
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
+  TResult maybeWhen<TResult extends Object?>(
     TResult Function(String primary, String elementalStone, String local,
             String secondary, String talentPrimary, String talentBoss)?
-        normal,
+        $default, {
     TResult Function(String primary, String local, String secondary)?
         travelerAscension,
     TResult Function(MaterialIdPerType talentPrimary,
@@ -1419,8 +1510,8 @@ class _$NormalCharacterMaterialDefinitionsImpl
         travelerTalent,
     required TResult orElse(),
   }) {
-    if (normal != null) {
-      return normal(
+    if ($default != null) {
+      return $default(
           primary, elementalStone, local, secondary, talentPrimary, talentBoss);
     }
     return orElse();
@@ -1428,64 +1519,62 @@ class _$NormalCharacterMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NormalCharacterMaterialDefinitions value) normal,
+  TResult map<TResult extends Object?>(
+    TResult Function(_CharacterMaterialDefinitions value) $default, {
     required TResult Function(TravelerAscensionMaterialDefinitions value)
         travelerAscension,
     required TResult Function(TravelerTalentMaterialDefinitions value)
         travelerTalent,
   }) {
-    return normal(this);
+    return $default(this);
   }
 
   @override
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NormalCharacterMaterialDefinitions value)? normal,
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_CharacterMaterialDefinitions value)? $default, {
     TResult? Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
     TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
   }) {
-    return normal?.call(this);
+    return $default?.call(this);
   }
 
   @override
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NormalCharacterMaterialDefinitions value)? normal,
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_CharacterMaterialDefinitions value)? $default, {
     TResult Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
     TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
     required TResult orElse(),
   }) {
-    if (normal != null) {
-      return normal(this);
+    if ($default != null) {
+      return $default(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$NormalCharacterMaterialDefinitionsImplToJson(
+    return _$$CharacterMaterialDefinitionsImplToJson(
       this,
     );
   }
 }
 
-abstract class NormalCharacterMaterialDefinitions
+abstract class _CharacterMaterialDefinitions
     implements CharacterMaterialDefinitions {
-  const factory NormalCharacterMaterialDefinitions(
-          {required final String primary,
-          required final String elementalStone,
-          required final String local,
-          required final String secondary,
-          required final String talentPrimary,
-          required final String talentBoss}) =
-      _$NormalCharacterMaterialDefinitionsImpl;
+  const factory _CharacterMaterialDefinitions(
+      {required final String primary,
+      required final String elementalStone,
+      required final String local,
+      required final String secondary,
+      required final String talentPrimary,
+      required final String talentBoss}) = _$CharacterMaterialDefinitionsImpl;
 
-  factory NormalCharacterMaterialDefinitions.fromJson(
-          Map<String, dynamic> json) =
-      _$NormalCharacterMaterialDefinitionsImpl.fromJson;
+  factory _CharacterMaterialDefinitions.fromJson(Map<String, dynamic> json) =
+      _$CharacterMaterialDefinitionsImpl.fromJson;
 
   String get primary;
   String get elementalStone;
@@ -1494,8 +1583,8 @@ abstract class NormalCharacterMaterialDefinitions
   String get talentPrimary;
   String get talentBoss;
   @JsonKey(ignore: true)
-  _$$NormalCharacterMaterialDefinitionsImplCopyWith<
-          _$NormalCharacterMaterialDefinitionsImpl>
+  _$$CharacterMaterialDefinitionsImplCopyWith<
+          _$CharacterMaterialDefinitionsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1598,15 +1687,10 @@ class _$TravelerAscensionMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            String primary,
-            String elementalStone,
-            String local,
-            String secondary,
-            String talentPrimary,
-            String talentBoss)
-        normal,
+  TResult when<TResult extends Object?>(
+    TResult Function(String primary, String elementalStone, String local,
+            String secondary, String talentPrimary, String talentBoss)
+        $default, {
     required TResult Function(String primary, String local, String secondary)
         travelerAscension,
     required TResult Function(MaterialIdPerType talentPrimary,
@@ -1618,10 +1702,10 @@ class _$TravelerAscensionMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
+  TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(String primary, String elementalStone, String local,
             String secondary, String talentPrimary, String talentBoss)?
-        normal,
+        $default, {
     TResult? Function(String primary, String local, String secondary)?
         travelerAscension,
     TResult? Function(MaterialIdPerType talentPrimary,
@@ -1633,10 +1717,10 @@ class _$TravelerAscensionMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
+  TResult maybeWhen<TResult extends Object?>(
     TResult Function(String primary, String elementalStone, String local,
             String secondary, String talentPrimary, String talentBoss)?
-        normal,
+        $default, {
     TResult Function(String primary, String local, String secondary)?
         travelerAscension,
     TResult Function(MaterialIdPerType talentPrimary,
@@ -1652,8 +1736,8 @@ class _$TravelerAscensionMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NormalCharacterMaterialDefinitions value) normal,
+  TResult map<TResult extends Object?>(
+    TResult Function(_CharacterMaterialDefinitions value) $default, {
     required TResult Function(TravelerAscensionMaterialDefinitions value)
         travelerAscension,
     required TResult Function(TravelerTalentMaterialDefinitions value)
@@ -1664,8 +1748,8 @@ class _$TravelerAscensionMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NormalCharacterMaterialDefinitions value)? normal,
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_CharacterMaterialDefinitions value)? $default, {
     TResult? Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
     TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
@@ -1675,8 +1759,8 @@ class _$TravelerAscensionMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NormalCharacterMaterialDefinitions value)? normal,
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_CharacterMaterialDefinitions value)? $default, {
     TResult Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
     TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
@@ -1850,15 +1934,10 @@ class _$TravelerTalentMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            String primary,
-            String elementalStone,
-            String local,
-            String secondary,
-            String talentPrimary,
-            String talentBoss)
-        normal,
+  TResult when<TResult extends Object?>(
+    TResult Function(String primary, String elementalStone, String local,
+            String secondary, String talentPrimary, String talentBoss)
+        $default, {
     required TResult Function(String primary, String local, String secondary)
         travelerAscension,
     required TResult Function(MaterialIdPerType talentPrimary,
@@ -1870,10 +1949,10 @@ class _$TravelerTalentMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
+  TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(String primary, String elementalStone, String local,
             String secondary, String talentPrimary, String talentBoss)?
-        normal,
+        $default, {
     TResult? Function(String primary, String local, String secondary)?
         travelerAscension,
     TResult? Function(MaterialIdPerType talentPrimary,
@@ -1885,10 +1964,10 @@ class _$TravelerTalentMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
+  TResult maybeWhen<TResult extends Object?>(
     TResult Function(String primary, String elementalStone, String local,
             String secondary, String talentPrimary, String talentBoss)?
-        normal,
+        $default, {
     TResult Function(String primary, String local, String secondary)?
         travelerAscension,
     TResult Function(MaterialIdPerType talentPrimary,
@@ -1904,8 +1983,8 @@ class _$TravelerTalentMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NormalCharacterMaterialDefinitions value) normal,
+  TResult map<TResult extends Object?>(
+    TResult Function(_CharacterMaterialDefinitions value) $default, {
     required TResult Function(TravelerAscensionMaterialDefinitions value)
         travelerAscension,
     required TResult Function(TravelerTalentMaterialDefinitions value)
@@ -1916,8 +1995,8 @@ class _$TravelerTalentMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NormalCharacterMaterialDefinitions value)? normal,
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_CharacterMaterialDefinitions value)? $default, {
     TResult? Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
     TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
@@ -1927,8 +2006,8 @@ class _$TravelerTalentMaterialDefinitionsImpl
 
   @override
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NormalCharacterMaterialDefinitions value)? normal,
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_CharacterMaterialDefinitions value)? $default, {
     TResult Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
     TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,

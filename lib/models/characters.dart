@@ -11,6 +11,8 @@ typedef Characters = List<Character>;
 abstract class CharacterWithMaterials {
   String get id;
   String get rid;
+  LocalizedText get name;
+  String get jaPronunciation;
   int get rarity;
   WeaponType get weaponType;
   TeyvatElement get element;
@@ -22,6 +24,7 @@ sealed class Character with _$Character {
   const factory Character.group({
     required String id,
     required LocalizedText name,
+    required String jaPronunciation,
     required int rarity,
     required WeaponType weaponType,
     required List<String> variantIds,
@@ -32,6 +35,7 @@ sealed class Character with _$Character {
     required String id,
     required String rid,
     required LocalizedText name,
+    required String jaPronunciation,
     required int rarity,
     required WeaponType weaponType,
     required TeyvatElement element,
@@ -44,6 +48,7 @@ sealed class Character with _$Character {
     required String rid,
     required String parentId,
     required LocalizedText name,
+    required String jaPronunciation,
     required int rarity,
     required WeaponType weaponType,
     required TeyvatElement element,
@@ -54,16 +59,16 @@ sealed class Character with _$Character {
       _$CharacterFromJson(json);
 }
 
-@Freezed(fallbackUnion: "normal")
+@Freezed(fallbackUnion: "default")
 sealed class CharacterMaterialDefinitions with _$CharacterMaterialDefinitions {
-  const factory CharacterMaterialDefinitions.normal({
+  const factory CharacterMaterialDefinitions({
     required String primary,
     required String elementalStone,
     required String local,
     required String secondary,
     required String talentPrimary,
     required String talentBoss,
-  }) = NormalCharacterMaterialDefinitions;
+  }) = _CharacterMaterialDefinitions;
 
   const factory CharacterMaterialDefinitions.travelerAscension({
     required String primary,

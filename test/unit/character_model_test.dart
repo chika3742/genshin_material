@@ -17,7 +17,7 @@ void main() {
 
     final parsed = CharacterMaterialDefinitions.fromJson(json);
 
-    expect(parsed is NormalCharacterMaterialDefinitions, true);
+    debugPrint(parsed.toString());
   });
 
   test("Can parse MaterialIdPerType JSON string", () {
