@@ -97,5 +97,3 @@ sealed class MaterialIdPerLevel with _$MaterialIdPerLevel {
   factory MaterialIdPerLevel.fromJson(Map<String, dynamic> json) =>
       _$MaterialIdPerLevelFromJson(json);
 }
-
-
