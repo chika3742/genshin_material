@@ -6,42 +6,8 @@ part of 'characters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CharacterGroupImpl _$$CharacterGroupImplFromJson(Map<String, dynamic> json) =>
-    _$CharacterGroupImpl(
-      id: json['id'] as String,
-      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
-      jaPronunciation: json['jaPronunciation'] as String,
-      rarity: json['rarity'] as int,
-      weaponType: $enumDecode(_$WeaponTypeEnumMap, json['weaponType']),
-      variantIds: (json['variantIds'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$CharacterGroupImplToJson(
-        _$CharacterGroupImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'jaPronunciation': instance.jaPronunciation,
-      'rarity': instance.rarity,
-      'weaponType': _$WeaponTypeEnumMap[instance.weaponType]!,
-      'variantIds': instance.variantIds,
-      'runtimeType': instance.$type,
-    };
-
-const _$WeaponTypeEnumMap = {
-  WeaponType.sword: 'sword',
-  WeaponType.claymore: 'claymore',
-  WeaponType.polearm: 'polearm',
-  WeaponType.bow: 'bow',
-  WeaponType.catalyst: 'catalyst',
-};
-
-_$ListedCharacterImpl _$$ListedCharacterImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ListedCharacterImpl(
+_$CharacterImpl _$$CharacterImplFromJson(Map<String, dynamic> json) =>
+    _$CharacterImpl(
       id: json['id'] as String,
       rid: json['rid'] as String,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
@@ -54,8 +20,7 @@ _$ListedCharacterImpl _$$ListedCharacterImplFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ListedCharacterImplToJson(
-        _$ListedCharacterImpl instance) =>
+Map<String, dynamic> _$$CharacterImplToJson(_$CharacterImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'rid': instance.rid,
@@ -68,6 +33,14 @@ Map<String, dynamic> _$$ListedCharacterImplToJson(
       'runtimeType': instance.$type,
     };
 
+const _$WeaponTypeEnumMap = {
+  WeaponType.sword: 'sword',
+  WeaponType.claymore: 'claymore',
+  WeaponType.polearm: 'polearm',
+  WeaponType.bow: 'bow',
+  WeaponType.catalyst: 'catalyst',
+};
+
 const _$TeyvatElementEnumMap = {
   TeyvatElement.pyro: 'pyro',
   TeyvatElement.cryo: 'cryo',
@@ -77,6 +50,34 @@ const _$TeyvatElementEnumMap = {
   TeyvatElement.geo: 'geo',
   TeyvatElement.dendro: 'dendro',
 };
+
+_$CharacterGroupImpl _$$CharacterGroupImplFromJson(Map<String, dynamic> json) =>
+    _$CharacterGroupImpl(
+      id: json['id'] as String,
+      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+      jaPronunciation: json['jaPronunciation'] as String,
+      rarity: json['rarity'] as int,
+      weaponType: $enumDecode(_$WeaponTypeEnumMap, json['weaponType']),
+      variantIds: (json['variantIds'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      materials: CharacterMaterialDefinitions.fromJson(
+          json['materials'] as Map<String, dynamic>),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$CharacterGroupImplToJson(
+        _$CharacterGroupImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'jaPronunciation': instance.jaPronunciation,
+      'rarity': instance.rarity,
+      'weaponType': _$WeaponTypeEnumMap[instance.weaponType]!,
+      'variantIds': instance.variantIds,
+      'materials': instance.materials,
+      'runtimeType': instance.$type,
+    };
 
 _$UnlistedCharacterImpl _$$UnlistedCharacterImplFromJson(
         Map<String, dynamic> json) =>

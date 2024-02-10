@@ -8,30 +8,9 @@ part "characters.g.dart";
 
 typedef Characters = List<Character>;
 
-abstract class CharacterWithMaterials {
-  String get id;
-  String get rid;
-  LocalizedText get name;
-  String get jaPronunciation;
-  int get rarity;
-  WeaponType get weaponType;
-  TeyvatElement get element;
-  CharacterMaterialDefinitions get materials;
-}
-
-@Freezed(fallbackUnion: "listed")
+@Freezed(fallbackUnion: "default")
 sealed class Character with _$Character {
-  const factory Character.group({
-    required String id,
-    required LocalizedText name,
-    required String jaPronunciation,
-    required int rarity,
-    required WeaponType weaponType,
-    required List<String> variantIds,
-  }) = CharacterGroup;
-
-  @Implements<CharacterWithMaterials>()
-  const factory Character.listed({
+  const factory Character({
     required String id,
     required String rid,
     required LocalizedText name,
@@ -40,9 +19,18 @@ sealed class Character with _$Character {
     required WeaponType weaponType,
     required TeyvatElement element,
     required CharacterMaterialDefinitions materials,
-  }) = ListedCharacter;
+  }) = _Character;
 
-  @Implements<CharacterWithMaterials>()
+  const factory Character.group({
+    required String id,
+    required LocalizedText name,
+    required String jaPronunciation,
+    required int rarity,
+    required WeaponType weaponType,
+    required List<String> variantIds,
+    required CharacterMaterialDefinitions materials,
+  }) = CharacterGroup;
+
   const factory Character.unlisted({
     required String id,
     required String rid,

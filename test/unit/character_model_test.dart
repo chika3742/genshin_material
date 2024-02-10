@@ -91,6 +91,7 @@ void main() {
     const json = {
       "id": "foo",
       "rid": "bar",
+      "jaPronunciation": "フー",
       "name": {
         "locales": {
           "ja": "ふー",
