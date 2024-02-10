@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:genshin_material/generated/strings.g.dart";
 import "package:genshin_material/home_nav_routes.dart";
+import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/routes.dart";
 import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";

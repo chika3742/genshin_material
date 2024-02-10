@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:genshin_material/i18n/strings.g.dart";
 
 class ToolsNavPage extends StatefulWidget {
   const ToolsNavPage({super.key});

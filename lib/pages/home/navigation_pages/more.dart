@@ -3,7 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:genshin_material/components/simple_list_item.dart";
 import "package:genshin_material/constants/urls.dart";
 import "package:genshin_material/core/versions.dart";
-import "package:genshin_material/generated/strings.g.dart";
+import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/routes.dart";
 import "package:genshin_material/ui_core/custom_tabs.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";

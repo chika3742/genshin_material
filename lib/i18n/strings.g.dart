@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 20 (10 per locale)
+/// Strings: 22 (11 per locale)
 ///
-/// Built on 2024-02-08 at 04:40 UTC
+/// Built on 2024-02-10 at 14:34 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -228,9 +228,21 @@ class _StringsEn extends Translations {
 	@override late final _StringsEn _root = this; // ignore: unused_field
 
 	// Translations
+	@override late final _StringsCommonEn common = _StringsCommonEn._(_root);
 	@override late final _StringsHomeNavDestinationsEn homeNavDestinations = _StringsHomeNavDestinationsEn._(_root);
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
+}
+
+// Path: common
+class _StringsCommonEn extends _StringsCommonJa {
+	_StringsCommonEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get tos => 'Terms of Use';
+	@override String get privacyPolicy => 'Privacy Policy';
 }
 
 // Path: homeNavDestinations
@@ -294,6 +306,8 @@ extension on Translations {
 extension on _StringsEn {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'common.tos': return 'Terms of Use';
+			case 'common.privacyPolicy': return 'Privacy Policy';
 			case 'homeNavDestinations.bookmarks': return 'Bookmarks';
 			case 'homeNavDestinations.database': return 'Database';
 			case 'homeNavDestinations.daily': return 'Daily';
