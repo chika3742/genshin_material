@@ -4,7 +4,6 @@ import "dart:io";
 
 import "package:archive/archive_io.dart";
 import "package:flutter/foundation.dart";
-import "package:genshin_material/constants/directory_name.dart";
 import "package:genshin_material/constants/urls.dart";
 import "package:genshin_material/models/asset_release_version.dart";
 import "package:http/http.dart" as http;
@@ -54,8 +53,6 @@ class AssetUpdater {
     final file = await _downloadRelease(Uri.parse(release.distUrl));
     await _unzipRelease(file.path);
     await file.delete(); // delete temporary file
-
-    state = null;
   }
 
   Future<AssetReleaseVersion?> _fetchAssetRelease(String channel) async {
@@ -82,7 +79,7 @@ class AssetUpdater {
 
     receivedBytes = 0;
 
-    final file = File(path.join(tempDir!.path, appTempDirName, path.basename(uri.path)));
+    final file = File(path.join(tempDir!.path, path.basename(uri.path)));
     await file.create(recursive: true);
     final fileSink = file.openWrite();
 
@@ -115,7 +112,7 @@ Future<Directory> getLocalAssetDirectory() async {
   final applicationSupportDir = await getApplicationSupportDirectory();
   return Directory(
     path.join(
-      applicationSupportDir.path, "genshin_material_assets", "current",
+      applicationSupportDir.path, "assets", "current",
     ),
   );
 }
