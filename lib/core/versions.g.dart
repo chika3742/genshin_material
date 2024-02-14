@@ -20,5 +20,20 @@ final packageInfoProvider = FutureProvider<PackageInfo>.internal(
 );
 
 typedef PackageInfoRef = FutureProviderRef<PackageInfo>;
+String _$assetVersionDataHash() => r'8dc5f300fe4214bc4ca5b2142f15e0eaf35a3e48';
+
+/// See also [assetVersionData].
+@ProviderFor(assetVersionData)
+final assetVersionDataProvider = FutureProvider<AssetReleaseVersion?>.internal(
+  assetVersionData,
+  name: r'assetVersionDataProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$assetVersionDataHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AssetVersionDataRef = FutureProviderRef<AssetReleaseVersion?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
