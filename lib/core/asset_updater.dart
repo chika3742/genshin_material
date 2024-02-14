@@ -53,6 +53,7 @@ class AssetUpdater {
   Future<void> installRelease(AssetReleaseVersion release) async {
     final file = await _downloadRelease(Uri.parse(release.distUrl));
     await _unzipRelease(file.path);
+    await file.delete(); // delete temporary file
   }
 
   Future<AssetReleaseVersion?> _fetchAssetRelease(String channel) async {
@@ -101,14 +102,6 @@ class AssetUpdater {
     final archive = ZipDecoder().decodeBuffer(inputStream);
 
     await extractArchiveToDiskAsync(archive, assetDir.path);
-  }
-
-  Future<void> deleteDownloadTemp() async {
-    if (tempDir == null) {
-      throw "tempDir must be specified.";
-    }
-
-    await tempDir!.delete(recursive: true);
   }
 }
 
