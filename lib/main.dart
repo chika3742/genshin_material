@@ -9,10 +9,12 @@ import "routes.dart";
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   LocaleSettings.useDeviceLocale();
-  runApp(ProviderScope(
-    observers: [ProviderErrorObserver()],
-    child: const MyApp(),
-  ),);
+  runApp(
+    ProviderScope(
+      observers: [ProviderErrorObserver()],
+      child: const MyApp(),
+    ),
+  );
 }
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();

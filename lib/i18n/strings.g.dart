@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 22 (11 per locale)
+/// Strings: 26 (13 per locale)
 ///
-/// Built on 2024-02-10 at 14:34 UTC
+/// Built on 2024-02-14 at 08:05 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -150,6 +150,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final _StringsCommonJa common = _StringsCommonJa._(_root);
+	late final _StringsUpdatesJa updates = _StringsUpdatesJa._(_root);
 	late final _StringsHomeNavDestinationsJa homeNavDestinations = _StringsHomeNavDestinationsJa._(_root);
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
@@ -164,6 +165,19 @@ class _StringsCommonJa {
 	// Translations
 	String get tos => '利用規約';
 	String get privacyPolicy => 'プライバシーポリシー';
+}
+
+// Path: updates
+class _StringsUpdatesJa {
+	_StringsUpdatesJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get downloading => 'データ更新をダウンロードしています…';
+	String get failed => 'データ更新に失敗しました。アプリを再起動すると再試行します。';
+	String get complete => '更新が完了しました。';
+	String get installing => 'インストールしています...';
 }
 
 // Path: homeNavDestinations
@@ -289,6 +303,10 @@ extension on Translations {
 		switch (path) {
 			case 'common.tos': return '利用規約';
 			case 'common.privacyPolicy': return 'プライバシーポリシー';
+			case 'updates.downloading': return 'データ更新をダウンロードしています…';
+			case 'updates.failed': return 'データ更新に失敗しました。アプリを再起動すると再試行します。';
+			case 'updates.complete': return '更新が完了しました。';
+			case 'updates.installing': return 'インストールしています...';
 			case 'homeNavDestinations.bookmarks': return 'ブックマーク';
 			case 'homeNavDestinations.database': return 'データベース';
 			case 'homeNavDestinations.daily': return '日替わり素材';

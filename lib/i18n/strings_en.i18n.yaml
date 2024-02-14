@@ -1,6 +1,11 @@
 common:
   tos: Terms of Use
   privacyPolicy: Privacy Policy
+updates:
+  downloading: Downloading data updates...
+  failed: Failed to update data. Restarting app to retry.
+  complete: Data update completed.
+  installing: Installing...
 homeNavDestinations:
   bookmarks: Bookmarks
   database: Database

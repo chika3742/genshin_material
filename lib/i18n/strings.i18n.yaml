@@ -2,6 +2,12 @@ common:
   tos: 利用規約
   privacyPolicy: プライバシーポリシー
 
+updates:
+  downloading: データ更新をダウンロードしています…
+  failed: データ更新に失敗しました。アプリを再起動すると再試行します。
+  complete: 更新が完了しました。
+  installing: インストールしています...
+
 homeNavDestinations:
   bookmarks: ブックマーク
   database: データベース
