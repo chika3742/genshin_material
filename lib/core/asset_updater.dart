@@ -54,6 +54,8 @@ class AssetUpdater {
     final file = await _downloadRelease(Uri.parse(release.distUrl));
     await _unzipRelease(file.path);
     await file.delete(); // delete temporary file
+
+    state = null;
   }
 
   Future<AssetReleaseVersion?> _fetchAssetRelease(String channel) async {
@@ -76,9 +78,12 @@ class AssetUpdater {
       throw "tempDir must be specified.";
     }
 
+    debugPrint("Downloading update: ${uri.toString()}");
+
     receivedBytes = 0;
 
     final file = File(path.join(tempDir!.path, appTempDirName, path.basename(uri.path)));
+    await file.create(recursive: true);
     final fileSink = file.openWrite();
 
     final resp = await httpClient.send(http.Request("GET", uri));
@@ -89,8 +94,9 @@ class AssetUpdater {
       fileSink.add(bytes);
       receivedBytes += bytes.length;
       onProgress?.call();
-    }).onDone(() {
-      fileSink.close();
+    }).onDone(() async {
+      await fileSink.flush();
+      await fileSink.close();
       completer.complete(file);
     });
 
