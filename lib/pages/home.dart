@@ -1,9 +1,8 @@
-
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:genshin_material/components/progress_snack_bar.dart";
 import "package:genshin_material/core/asset_updater.dart";
-import "package:genshin_material/core/data.dart";
+import "package:genshin_material/core/versions.dart";
 import "package:genshin_material/home_nav_routes.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/routes.dart";

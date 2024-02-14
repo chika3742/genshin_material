@@ -6,7 +6,7 @@ import "package:yaml/yaml.dart";
 
 part "data.g.dart";
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<ReleaseNote>> releaseNotesData(ReleaseNotesDataRef ref) async {
   const assetName = "assets/release_notes.yaml";
 
