@@ -7,6 +7,7 @@ class SimpleListItem extends StatelessWidget {
   final String? subtitle;
   final IconData? leadingIcon;
   final IconData? trailingIcon;
+  final bool enabled;
 
   /// Exclusive with [onTap]
   final String? location;
@@ -20,6 +21,7 @@ class SimpleListItem extends StatelessWidget {
     this.subtitle,
     this.leadingIcon,
     this.trailingIcon,
+    this.enabled = true,
     this.location,
     this.onTap,
   })  : assert(location == null || onTap == null);
@@ -30,7 +32,7 @@ class SimpleListItem extends StatelessWidget {
       title: title != null ? Text(title!) : null,
       subtitle: subtitle != null ? Text(subtitle!) : null,
       leading: leadingIcon != null ? Icon(leadingIcon) : null,
-
+      enabled: enabled,
       trailing: trailingIcon != null
           ? Icon(trailingIcon)
           : location != null

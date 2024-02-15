@@ -24,3 +24,7 @@ morePage:
 releaseNotesPage:
   featureUpdates: 機能更新
   assetUpdates: データ更新
+settingsPage:
+  assetData: アセットデータ
+  reDownloadAssets: アセットデータを再ダウンロード
+  reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
