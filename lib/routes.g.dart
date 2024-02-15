@@ -178,11 +178,17 @@ extension $AccountRouteExtension on AccountRoute {
 }
 
 extension $ReleaseNotesRouteExtension on ReleaseNotesRoute {
-  static ReleaseNotesRoute _fromState(GoRouterState state) =>
-      ReleaseNotesRoute();
+  static ReleaseNotesRoute _fromState(GoRouterState state) => ReleaseNotesRoute(
+        tabIndex: _$convertMapValue(
+                'tab-index', state.uri.queryParameters, int.parse) ??
+            0,
+      );
 
   String get location => GoRouteData.$location(
         '/more/release-notes',
+        queryParams: {
+          if (tabIndex != 0) 'tab-index': tabIndex.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -193,4 +199,13 @@ extension $ReleaseNotesRouteExtension on ReleaseNotesRoute {
       context.pushReplacement(location);
 
   void replace(BuildContext context) => context.replace(location);
+}
+
+T? _$convertMapValue<T>(
+  String key,
+  Map<String, String> map,
+  T Function(String) converter,
+) {
+  final value = map[key];
+  return value == null ? null : converter(value);
 }

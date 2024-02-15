@@ -133,6 +133,12 @@ class _HomePageState extends ConsumerState<HomePage> {
           messenger.hideCurrentSnackBar();
           messenger.showSnackBar(createSnackBar(
             message: tr.updates.completed,
+            action: SnackBarAction(
+              label: tr.pages.releaseNotes,
+              onPressed: () {
+                context.go(const ReleaseNotesRoute(tabIndex: 1).location);
+              },
+            ),
           ),);
         } catch (e, st) {
           debugPrint(e.toString());

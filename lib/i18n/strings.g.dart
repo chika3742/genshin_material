@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 34 (17 per locale)
+/// Strings: 40 (20 per locale)
 ///
-/// Built on 2024-02-15 at 07:32 UTC
+/// Built on 2024-02-15 at 09:55 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -154,6 +154,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsHomeNavDestinationsJa homeNavDestinations = _StringsHomeNavDestinationsJa._(_root);
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
+	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
 }
 
 // Path: common
@@ -165,6 +166,7 @@ class _StringsCommonJa {
 	// Translations
 	String get tos => '利用規約';
 	String get privacyPolicy => 'プライバシーポリシー';
+	String get error => 'エラーが発生しました。';
 }
 
 // Path: updates
@@ -218,6 +220,17 @@ class _StringsMorePageJa {
 	String get accountDesc => 'ブックマーク等をデバイス間で同期できます。';
 }
 
+// Path: releaseNotesPage
+class _StringsReleaseNotesPageJa {
+	_StringsReleaseNotesPageJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get featureUpdates => '機能更新';
+	String get assetUpdates => 'データ更新';
+}
+
 // Path: <root>
 class _StringsEn extends Translations {
 	/// You can call this constructor and build your own translation instance of this locale.
@@ -249,6 +262,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsHomeNavDestinationsEn homeNavDestinations = _StringsHomeNavDestinationsEn._(_root);
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
+	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
 }
 
 // Path: common
@@ -260,6 +274,7 @@ class _StringsCommonEn extends _StringsCommonJa {
 	// Translations
 	@override String get tos => 'Terms of Use';
 	@override String get privacyPolicy => 'Privacy Policy';
+	@override String get error => 'An error occurred.';
 }
 
 // Path: updates
@@ -313,6 +328,17 @@ class _StringsMorePageEn extends _StringsMorePageJa {
 	@override String get accountDesc => 'You can sync bookmarks etc. between devices.';
 }
 
+// Path: releaseNotesPage
+class _StringsReleaseNotesPageEn extends _StringsReleaseNotesPageJa {
+	_StringsReleaseNotesPageEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get featureUpdates => 'Feature Updates';
+	@override String get assetUpdates => 'Asset Updates';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 
@@ -321,6 +347,7 @@ extension on Translations {
 		switch (path) {
 			case 'common.tos': return '利用規約';
 			case 'common.privacyPolicy': return 'プライバシーポリシー';
+			case 'common.error': return 'エラーが発生しました。';
 			case 'updates.downloading': return 'データ更新をダウンロードしています…';
 			case 'updates.failed': return 'データ更新に失敗しました。アプリを再起動すると再試行します。';
 			case 'updates.completed': return '更新が完了しました。';
@@ -336,6 +363,8 @@ extension on Translations {
 			case 'pages.account': return 'アカウント';
 			case 'pages.releaseNotes': return '更新履歴';
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
+			case 'releaseNotesPage.featureUpdates': return '機能更新';
+			case 'releaseNotesPage.assetUpdates': return 'データ更新';
 			default: return null;
 		}
 	}
@@ -346,6 +375,7 @@ extension on _StringsEn {
 		switch (path) {
 			case 'common.tos': return 'Terms of Use';
 			case 'common.privacyPolicy': return 'Privacy Policy';
+			case 'common.error': return 'An error occurred.';
 			case 'updates.downloading': return 'Downloading data updates...';
 			case 'updates.failed': return 'Failed to update data. Restarting app to retry.';
 			case 'updates.completed': return 'Data update completed.';
@@ -361,6 +391,8 @@ extension on _StringsEn {
 			case 'pages.account': return 'Account';
 			case 'pages.releaseNotes': return 'Release Notes';
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
+			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
+			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
 			default: return null;
 		}
 	}

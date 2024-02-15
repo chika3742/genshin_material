@@ -15,10 +15,12 @@ void showSnackBar({
 
 SnackBar createSnackBar({
   required String message,
+  SnackBarAction? action,
   Duration duration = const Duration(seconds: 4),
 }) {
   return SnackBar(
     content: Text(message),
+    action: action,
     duration: duration,
     behavior: SnackBarBehavior.floating,
     dismissDirection: DismissDirection.horizontal,
