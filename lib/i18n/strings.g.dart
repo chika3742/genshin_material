@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 40 (20 per locale)
+/// Strings: 46 (23 per locale)
 ///
-/// Built on 2024-02-15 at 09:55 UTC
+/// Built on 2024-02-15 at 15:32 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -155,6 +155,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
 	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
+	late final _StringsSettingsPageJa settingsPage = _StringsSettingsPageJa._(_root);
 }
 
 // Path: common
@@ -231,6 +232,18 @@ class _StringsReleaseNotesPageJa {
 	String get assetUpdates => 'データ更新';
 }
 
+// Path: settingsPage
+class _StringsSettingsPageJa {
+	_StringsSettingsPageJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get assetData => 'アセットデータ';
+	String get reDownloadAssets => 'アセットデータを再ダウンロード';
+	String get reDownloadAssetsDesc => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
+}
+
 // Path: <root>
 class _StringsEn extends Translations {
 	/// You can call this constructor and build your own translation instance of this locale.
@@ -263,6 +276,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
 	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
+	@override late final _StringsSettingsPageEn settingsPage = _StringsSettingsPageEn._(_root);
 }
 
 // Path: common
@@ -339,6 +353,18 @@ class _StringsReleaseNotesPageEn extends _StringsReleaseNotesPageJa {
 	@override String get assetUpdates => 'Asset Updates';
 }
 
+// Path: settingsPage
+class _StringsSettingsPageEn extends _StringsSettingsPageJa {
+	_StringsSettingsPageEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get assetData => 'Assets';
+	@override String get reDownloadAssets => 'Re-download Assets';
+	@override String get reDownloadAssetsDesc => 'Please try this if the images, characters, etc. of the app are not loading properly.';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 
@@ -365,6 +391,9 @@ extension on Translations {
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
+			case 'settingsPage.assetData': return 'アセットデータ';
+			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
+			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
 			default: return null;
 		}
 	}
@@ -393,6 +422,9 @@ extension on _StringsEn {
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
+			case 'settingsPage.assetData': return 'Assets';
+			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
+			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the images, characters, etc. of the app are not loading properly.';
 			default: return null;
 		}
 	}

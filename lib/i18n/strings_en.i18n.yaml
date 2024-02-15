@@ -24,3 +24,7 @@ morePage:
 releaseNotesPage:
   featureUpdates: Feature Updates
   assetUpdates: Asset Updates
+settingsPage:
+  assetData: Assets
+  reDownloadAssets: Re-download Assets
+  reDownloadAssetsDesc: "Please try this if the images, characters, etc. of the app are not loading properly."
