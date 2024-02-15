@@ -15,6 +15,10 @@ Future<void> installLatestAssets({
   required WidgetRef ref,
   required AssetUpdater updater,
 }) async {
+  if (!context.mounted || !ref.context.mounted) {
+    return;
+  }
+
   final messenger = ScaffoldMessenger.of(context);
 
   // show progress snack bar
@@ -23,7 +27,7 @@ Future<void> installLatestAssets({
       content: AssetUpdateProgressSnackBar(),
       behavior: SnackBarBehavior.floating,
       dismissDirection: DismissDirection.none,
-      duration: Duration(minutes: 1),
+      duration: Duration(minutes: 10),
     ),
   );
 
