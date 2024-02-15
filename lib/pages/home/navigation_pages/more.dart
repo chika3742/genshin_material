@@ -4,8 +4,8 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/simple_list_item.dart";
 import "../../../constants/urls.dart";
-import "../../../core/versions.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../providers/versions.dart";
 import "../../../routes.dart";
 import "../../../ui_core/custom_tabs.dart";
 

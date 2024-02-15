@@ -1,8 +1,8 @@
 import "package:package_info_plus/package_info_plus.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../core/asset_updater.dart";
 import "../models/asset_release_version.dart";
-import "asset_updater.dart";
 
 part "versions.g.dart";
 

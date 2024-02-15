@@ -6,10 +6,10 @@ import "package:path_provider/path_provider.dart";
 
 import "../components/asset_update_progress_snack_bar.dart";
 import "../core/asset_updater.dart";
-import "../core/versions.dart";
 import "../home_nav_routes.dart";
 import "../i18n/strings.g.dart";
 import "../providers/asset_updating_state.dart";
+import "../providers/versions.dart";
 import "../routes.dart";
 import "../ui_core/snack_bar.dart";
 
