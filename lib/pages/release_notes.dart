@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:timelines/timelines.dart";
 
-import "../components/center_error.dart";
+import "../components/center_text.dart";
 import "../components/data_asset_scope.dart";
 import "../components/release_notes_timeline.dart";
 import "../i18n/strings.g.dart";

@@ -4,6 +4,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "../i18n/strings.g.dart";
 import "../providers/asset_updating_state.dart";
 import "../providers/versions.dart";
+import "center_text.dart";
 
 /// Shows [CircularProgressIndicator] during loading asset,
 /// and then shows [builder] widget.
@@ -23,12 +24,7 @@ class DataAssetScope extends ConsumerWidget {
     }
     if (updatingState.state != null) {
       // No installed assets present and installation process running
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Text(tr.updates.pleaseWaitUntilComplete),
-        ),
-      );
+      return CenterText(tr.updates.pleaseWaitUntilComplete);
     }
     if (assetVersion.isLoading) {
       // Asset version is loading
@@ -38,8 +34,6 @@ class DataAssetScope extends ConsumerWidget {
     }
 
     // Asset installation failed
-    return Center(
-      child: Text(tr.updates.failed),
-    );
+    return CenterText(tr.updates.failed);
   }
 }
