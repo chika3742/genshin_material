@@ -10,7 +10,9 @@ import "../models/release_note.dart";
 import "../providers/versions.dart";
 
 class ReleaseNotesPage extends StatefulWidget {
-  const ReleaseNotesPage({super.key});
+  final int initialTabIndex;
+
+  const ReleaseNotesPage({super.key, this.initialTabIndex = 0});
 
   @override
   State<ReleaseNotesPage> createState() => _ReleaseNotesPageState();
@@ -27,7 +29,11 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _tabs.length, vsync: this);
+    _tabController = TabController(
+      length: _tabs.length,
+      initialIndex: widget.initialTabIndex,
+      vsync: this,
+    );
   }
 
   @override

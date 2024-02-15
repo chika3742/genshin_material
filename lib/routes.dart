@@ -58,8 +58,12 @@ class AccountRoute extends GoRouteData {
 class ReleaseNotesRoute extends GoRouteData {
   static final $parentNavigatorKey = rootNavigatorKey;
 
+  final int tabIndex;
+
+  const ReleaseNotesRoute({this.tabIndex = 0});
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const ReleaseNotesPage();
+    return ReleaseNotesPage(initialTabIndex: tabIndex);
   }
 }

@@ -38,7 +38,7 @@ class _MoreNavPageState extends ConsumerState<MoreNavPage> {
         SimpleListItem(
           title: tr.pages.releaseNotes,
           leadingIcon: Symbols.new_releases,
-          location: ReleaseNotesRoute().location,
+          location: const ReleaseNotesRoute().location,
         ),
         const Divider(),
         SimpleListItem(
