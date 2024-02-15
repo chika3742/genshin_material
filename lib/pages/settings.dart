@@ -6,6 +6,7 @@ import "package:path_provider/path_provider.dart";
 import "../components/list_subheader.dart";
 import "../components/simple_list_item.dart";
 import "../core/asset_updater.dart";
+import "../core/handle_error.dart";
 import "../i18n/strings.g.dart";
 import "../main.dart";
 import "../providers/asset_updating_state.dart";
@@ -50,8 +51,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               try {
                 await updater.checkForUpdate();
               } catch (e, st) {
-                debugPrint(e.toString());
-                debugPrintStack(stackTrace: st);
+                handleError(e, st);
 
                 showSnackBar(context: routerContext!, message: tr.updates.failed);
                 return;

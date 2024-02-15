@@ -5,10 +5,13 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "package:path_provider/path_provider.dart";
 
 import "../core/asset_updater.dart";
+import "../core/handle_error.dart";
 import "../home_nav_routes.dart";
 import "../i18n/strings.g.dart";
+import "../main.dart";
 import "../routes.dart";
 import "../ui_core/install_latest_assets.dart";
+import "../ui_core/snack_bar.dart";
 
 class HomePage extends ConsumerStatefulWidget {
   final Widget child;
@@ -78,7 +81,14 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     Future(() async {
       final updater = AssetUpdater(await getLocalAssetDirectory(), tempDir: await getTemporaryDirectory());
-      await updater.checkForUpdate();
+      try {
+        await updater.checkForUpdate();
+      } catch (e, st) {
+        handleError(e, st);
+
+        showSnackBar(context: routerContext!, message: tr.updates.failed);
+        return;
+      }
 
       if (updater.isUpdateAvailable && mounted) {
         await installLatestAssets(

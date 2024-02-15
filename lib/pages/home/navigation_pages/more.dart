@@ -4,6 +4,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/simple_list_item.dart";
 import "../../../constants/urls.dart";
+import "../../../core/handle_error.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../providers/versions.dart";
 import "../../../routes.dart";
@@ -91,7 +92,7 @@ class _MoreNavPageState extends ConsumerState<MoreNavPage> {
         return "v${packageInfo.version} / Build ${packageInfo.buildNumber} / Data Version $dataVersionText";
       }
     } else if (packageInfoAsync.hasError) {
-      debugPrint(packageInfoAsync.error.toString());
+      handleError(packageInfoAsync.error!, packageInfoAsync.stackTrace!);
       return "Failed to load version info.";
     }
 

@@ -4,6 +4,7 @@ import "package:go_router/go_router.dart";
 
 import "../components/asset_update_progress_snack_bar.dart";
 import "../core/asset_updater.dart";
+import "../core/handle_error.dart";
 import "../i18n/strings.g.dart";
 import "../main.dart";
 import "../providers/asset_updating_state.dart";
@@ -52,8 +53,7 @@ Future<void> installLatestAssets({
       ),
     );
   } catch (e, st) {
-    debugPrint(e.toString());
-    debugPrintStack(stackTrace: st);
+    handleError(e, st);
 
     // hide progress snack bar
     messenger.hideCurrentSnackBar();
