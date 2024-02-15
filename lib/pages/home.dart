@@ -1,10 +1,11 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:genshin_material/components/progress_snack_bar.dart";
+import "package:genshin_material/components/asset_update_progress_snack_bar.dart";
 import "package:genshin_material/core/asset_updater.dart";
 import "package:genshin_material/core/versions.dart";
 import "package:genshin_material/home_nav_routes.dart";
 import "package:genshin_material/i18n/strings.g.dart";
+import "package:genshin_material/providers/asset_updating_state.dart";
 import "package:genshin_material/routes.dart";
 import "package:genshin_material/ui_core/snack_bar.dart";
 import "package:go_router/go_router.dart";
@@ -72,7 +73,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   ];
 
   var selectedNavIndex = 0;
-  final progressSnackBarKey = GlobalKey<ProgressSnackBarState>();
 
   @override
   void initState() {
@@ -81,33 +81,48 @@ class _HomePageState extends ConsumerState<HomePage> {
     Future(() async {
       final messenger = ScaffoldMessenger.of(context);
 
+      try {
+        await (await getLocalAssetDirectory()).delete(recursive: true);
+      } catch (_) {}
+
       final updater = AssetUpdater(await getLocalAssetDirectory(), tempDir: await getTemporaryDirectory());
       final foundUpdate = await updater.checkForUpdates();
       if (foundUpdate != null) {
         messenger.showSnackBar(
-          SnackBar(
-            content: ProgressSnackBar(
-              key: progressSnackBarKey,
-              initialText: tr.updates.downloading,
-            ),
+          const SnackBar(
+            content: AssetUpdateProgressSnackBar(),
             behavior: SnackBarBehavior.floating,
-            duration: const Duration(minutes: 1),
+            dismissDirection: DismissDirection.none,
+            duration: Duration(minutes: 1),
+          ),
+        );
+
+        ref.read(assetUpdatingStateNotifierProvider.notifier).setState(
+          const AssetUpdatingState(
+            state: AssetUpdateProgressState.downloading,
           ),
         );
 
         updater.onProgress = () {
-          final snackBarState = progressSnackBarKey.currentState;
-          snackBarState?.setState(() {
-            if (updater.state == ProgressState.downloading && updater.totalBytes != 0) {
-              snackBarState.totalSize = "${(updater.totalBytes / 1024 / 1024).toStringAsFixed(2)} MB";
-              snackBarState.progress = updater.receivedBytes / updater.totalBytes;
-            } else if (updater.state == ProgressState.unzipping) {
-              snackBarState.text = tr.updates.installing;
-              snackBarState.totalSize = null;
-              snackBarState.progress = null;
-            }
-          });
+          final state = ref.read(assetUpdatingStateNotifierProvider.notifier);
+
+          if (updater.state == AssetUpdateProgressState.downloading && updater.totalBytes != 0) {
+            state.setState(
+              AssetUpdatingState(
+                state: AssetUpdateProgressState.downloading,
+                progress: updater.receivedBytes / updater.totalBytes,
+                totalBytes: updater.totalBytes,
+              ),
+            );
+          } else if (updater.state == AssetUpdateProgressState.installing) {
+            state.setState(
+              const AssetUpdatingState(
+                state: AssetUpdateProgressState.installing,
+              ),
+            );
+          }
         };
+
         try {
           await updater.installRelease(foundUpdate);
 
@@ -115,7 +130,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
           messenger.hideCurrentSnackBar();
           messenger.showSnackBar(createSnackBar(
-            message: tr.updates.complete,
+            message: tr.updates.completed,
           ),);
         } catch (e, st) {
           debugPrint(e.toString());
@@ -126,6 +141,12 @@ class _HomePageState extends ConsumerState<HomePage> {
             content: Text(tr.updates.failed),
             behavior: SnackBarBehavior.floating,
           ),);
+        } finally {
+          ref.read(assetUpdatingStateNotifierProvider.notifier).setState(
+            const AssetUpdatingState(
+              state: null,
+            ),
+          );
         }
       }
     });

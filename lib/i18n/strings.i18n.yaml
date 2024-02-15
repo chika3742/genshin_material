@@ -1,24 +1,22 @@
 common:
   tos: 利用規約
   privacyPolicy: プライバシーポリシー
-
 updates:
   downloading: データ更新をダウンロードしています…
   failed: データ更新に失敗しました。アプリを再起動すると再試行します。
-  complete: 更新が完了しました。
+  completed: 更新が完了しました。
   installing: インストールしています...
-
+  pleaseWaitUntilComplete: データ更新が完了するまでお待ちください。
 homeNavDestinations:
   bookmarks: ブックマーク
   database: データベース
   daily: 日替わり素材
   tools: ツール
   more: その他
-
 pages:
+  characters: キャラクター
   settings: 設定
   account: アカウント
   releaseNotes: 更新履歴
-
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。

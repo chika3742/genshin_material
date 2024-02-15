@@ -20,7 +20,7 @@ class AssetUpdater {
   void Function()? onProgress;
   int receivedBytes = 0;
   int totalBytes = 0;
-  ProgressState? state;
+  AssetUpdateProgressState? state;
 
   /// If new version found, returns the latest [AssetReleaseVersion].
   /// If not, `null` will be returned.
@@ -51,10 +51,10 @@ class AssetUpdater {
   }
 
   Future<void> installRelease(AssetReleaseVersion release) async {
-    state = ProgressState.downloading;
+    state = AssetUpdateProgressState.downloading;
     final file = await _downloadRelease(Uri.parse(release.distUrl));
 
-    state = ProgressState.unzipping;
+    state = AssetUpdateProgressState.installing;
     onProgress?.call();
     await _unzipRelease(file.path);
     await file.delete(); // delete temporary file
@@ -126,7 +126,7 @@ Future<Directory> getLocalAssetDirectory() async {
   );
 }
 
-enum ProgressState {
+enum AssetUpdateProgressState {
   downloading,
-  unzipping,
+  installing,
 }
