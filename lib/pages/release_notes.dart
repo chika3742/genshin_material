@@ -3,9 +3,9 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:timelines/timelines.dart";
 
 import "../components/release_note_contents.dart";
-import "../core/data.dart";
 import "../i18n/strings.g.dart";
 import "../models/release_note.dart";
+import "../providers/data.dart";
 
 class ReleaseNotesPage extends ConsumerStatefulWidget {
   const ReleaseNotesPage({super.key});
