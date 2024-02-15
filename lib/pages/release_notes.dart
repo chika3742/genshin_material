@@ -5,7 +5,7 @@ import "package:timelines/timelines.dart";
 import "../components/release_note_contents.dart";
 import "../i18n/strings.g.dart";
 import "../models/release_note.dart";
-import "../providers/data.dart";
+import "../providers/versions.dart";
 
 class ReleaseNotesPage extends ConsumerStatefulWidget {
   const ReleaseNotesPage({super.key});
@@ -17,7 +17,7 @@ class ReleaseNotesPage extends ConsumerStatefulWidget {
 class _ReleaseNotesPageState extends ConsumerState<ReleaseNotesPage> {
 @override
   Widget build(BuildContext context) {
-    final releaseNotes = ref.watch(releaseNotesDataProvider);
+    final releaseNotes = ref.watch(featuresReleaseNotesDataProvider);
 
     return Scaffold(
       appBar: AppBar(
