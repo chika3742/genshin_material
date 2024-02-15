@@ -82,6 +82,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     Future(() async {
       final messenger = ScaffoldMessenger.of(context);
 
+      // TODO: リリース時に除去
       try {
         await (await getLocalAssetDirectory()).delete(recursive: true);
       } catch (_) {}
