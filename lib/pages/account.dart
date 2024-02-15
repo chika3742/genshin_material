@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
-import "package:genshin_material/i18n/strings.g.dart";
+
+import "../i18n/strings.g.dart";
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});

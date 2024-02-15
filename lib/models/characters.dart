@@ -1,7 +1,7 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:genshin_material/models/localized_text.dart";
 
 import "common.dart";
+import "localized_text.dart";
 
 part "characters.freezed.dart";
 part "characters.g.dart";

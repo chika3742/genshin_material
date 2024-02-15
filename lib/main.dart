@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:genshin_material/core/provider_error_observer.dart";
-import "package:genshin_material/i18n/strings.g.dart";
 import "package:go_router/go_router.dart";
 
+import "core/provider_error_observer.dart";
+import "i18n/strings.g.dart";
 import "routes.dart";
 
 void main() {

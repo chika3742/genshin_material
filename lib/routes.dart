@@ -1,11 +1,12 @@
 import "package:flutter/material.dart";
-import "package:genshin_material/home_nav_routes.dart";
-import "package:genshin_material/main.dart";
-import "package:genshin_material/pages/account.dart";
-import "package:genshin_material/pages/home.dart";
-import "package:genshin_material/pages/release_notes.dart";
-import "package:genshin_material/pages/settings.dart";
 import "package:go_router/go_router.dart";
+
+import "home_nav_routes.dart";
+import "main.dart";
+import "pages/account.dart";
+import "pages/home.dart";
+import "pages/release_notes.dart";
+import "pages/settings.dart";
 
 part "routes.g.dart";
 

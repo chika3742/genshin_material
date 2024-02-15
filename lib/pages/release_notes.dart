@@ -1,10 +1,11 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:genshin_material/components/release_note_contents.dart";
-import "package:genshin_material/core/data.dart";
-import "package:genshin_material/i18n/strings.g.dart";
-import "package:genshin_material/models/release_note.dart";
 import "package:timelines/timelines.dart";
+
+import "../components/release_note_contents.dart";
+import "../core/data.dart";
+import "../i18n/strings.g.dart";
+import "../models/release_note.dart";
 
 class ReleaseNotesPage extends ConsumerStatefulWidget {
   const ReleaseNotesPage({super.key});

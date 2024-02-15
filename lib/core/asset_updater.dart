@@ -4,11 +4,12 @@ import "dart:io";
 
 import "package:archive/archive_io.dart";
 import "package:flutter/foundation.dart";
-import "package:genshin_material/constants/urls.dart";
-import "package:genshin_material/models/asset_release_version.dart";
 import "package:http/http.dart" as http;
 import "package:path/path.dart" as path;
 import "package:path_provider/path_provider.dart";
+
+import "../constants/urls.dart";
+import "../models/asset_release_version.dart";
 
 class AssetUpdater {
   AssetUpdater(this.assetDir, {this.tempDir, http.Client? httpClient})

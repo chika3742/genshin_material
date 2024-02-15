@@ -1,12 +1,13 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:genshin_material/components/simple_list_item.dart";
-import "package:genshin_material/constants/urls.dart";
-import "package:genshin_material/core/versions.dart";
-import "package:genshin_material/i18n/strings.g.dart";
-import "package:genshin_material/routes.dart";
-import "package:genshin_material/ui_core/custom_tabs.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
+
+import "../../../components/simple_list_item.dart";
+import "../../../constants/urls.dart";
+import "../../../core/versions.dart";
+import "../../../i18n/strings.g.dart";
+import "../../../routes.dart";
+import "../../../ui_core/custom_tabs.dart";
 
 class MoreNavPage extends ConsumerStatefulWidget {
   const MoreNavPage({super.key});

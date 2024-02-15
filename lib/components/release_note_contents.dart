@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
-import "package:genshin_material/components/style_parsed_text.dart";
+
+import "style_parsed_text.dart";
 
 class ReleaseNoteContents extends StatelessWidget {
   final String contentsText;

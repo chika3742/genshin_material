@@ -1,16 +1,17 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:genshin_material/components/asset_update_progress_snack_bar.dart";
-import "package:genshin_material/core/asset_updater.dart";
-import "package:genshin_material/core/versions.dart";
-import "package:genshin_material/home_nav_routes.dart";
-import "package:genshin_material/i18n/strings.g.dart";
-import "package:genshin_material/providers/asset_updating_state.dart";
-import "package:genshin_material/routes.dart";
-import "package:genshin_material/ui_core/snack_bar.dart";
 import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 import "package:path_provider/path_provider.dart";
+
+import "../components/asset_update_progress_snack_bar.dart";
+import "../core/asset_updater.dart";
+import "../core/versions.dart";
+import "../home_nav_routes.dart";
+import "../i18n/strings.g.dart";
+import "../providers/asset_updating_state.dart";
+import "../routes.dart";
+import "../ui_core/snack_bar.dart";
 
 class HomePage extends ConsumerStatefulWidget {
   final Widget child;
