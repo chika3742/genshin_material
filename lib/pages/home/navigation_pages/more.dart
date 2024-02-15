@@ -78,14 +78,16 @@ class _MoreNavPageState extends ConsumerState<MoreNavPage> {
 
   String buildVersionString() {
     final packageInfoAsync = ref.watch(packageInfoProvider);
-    const dataVersion = "4.4.0"; // placeholder
+    final dataVersion = ref.watch(assetVersionDataProvider);
+
+    final dataVersionText = dataVersion.value?.dataVersion ?? "Unknown";
 
     if (packageInfoAsync.value != null) {
       final packageInfo = packageInfoAsync.value!;
       if (!showVersionDetails) {
-        return "v${packageInfo.version}_D$dataVersion";
+        return "v${packageInfo.version}_D$dataVersionText";
       } else {
-        return "v${packageInfo.version} / Build ${packageInfo.buildNumber} / Data Version $dataVersion";
+        return "v${packageInfo.version} / Build ${packageInfo.buildNumber} / Data Version $dataVersionText";
       }
     } else if (packageInfoAsync.hasError) {
       debugPrint(packageInfoAsync.error.toString());

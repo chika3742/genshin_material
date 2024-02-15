@@ -6,12 +6,11 @@ part of 'data.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$releaseNotesDataHash() => r'6aed50dec70b1f08087db0aef1aa7d7fba61396e';
+String _$releaseNotesDataHash() => r'b91b7982f8d51e5d5a9d1778cc27396084d50f0d';
 
 /// See also [releaseNotesData].
 @ProviderFor(releaseNotesData)
-final releaseNotesDataProvider =
-    AutoDisposeFutureProvider<List<ReleaseNote>>.internal(
+final releaseNotesDataProvider = FutureProvider<List<ReleaseNote>>.internal(
   releaseNotesData,
   name: r'releaseNotesDataProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +20,6 @@ final releaseNotesDataProvider =
   allTransitiveDependencies: null,
 );
 
-typedef ReleaseNotesDataRef = AutoDisposeFutureProviderRef<List<ReleaseNote>>;
+typedef ReleaseNotesDataRef = FutureProviderRef<List<ReleaseNote>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

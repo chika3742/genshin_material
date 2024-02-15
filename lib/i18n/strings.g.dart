@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 22 (11 per locale)
+/// Strings: 34 (17 per locale)
 ///
-/// Built on 2024-02-10 at 14:34 UTC
+/// Built on 2024-02-15 at 07:32 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -150,6 +150,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final _StringsCommonJa common = _StringsCommonJa._(_root);
+	late final _StringsUpdatesJa updates = _StringsUpdatesJa._(_root);
 	late final _StringsHomeNavDestinationsJa homeNavDestinations = _StringsHomeNavDestinationsJa._(_root);
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
@@ -164,6 +165,20 @@ class _StringsCommonJa {
 	// Translations
 	String get tos => '利用規約';
 	String get privacyPolicy => 'プライバシーポリシー';
+}
+
+// Path: updates
+class _StringsUpdatesJa {
+	_StringsUpdatesJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get downloading => 'データ更新をダウンロードしています…';
+	String get failed => 'データ更新に失敗しました。アプリを再起動すると再試行します。';
+	String get completed => '更新が完了しました。';
+	String get installing => 'インストールしています...';
+	String get pleaseWaitUntilComplete => 'データ更新が完了するまでお待ちください。';
 }
 
 // Path: homeNavDestinations
@@ -187,6 +202,7 @@ class _StringsPagesJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	String get characters => 'キャラクター';
 	String get settings => '設定';
 	String get account => 'アカウント';
 	String get releaseNotes => '更新履歴';
@@ -229,6 +245,7 @@ class _StringsEn extends Translations {
 
 	// Translations
 	@override late final _StringsCommonEn common = _StringsCommonEn._(_root);
+	@override late final _StringsUpdatesEn updates = _StringsUpdatesEn._(_root);
 	@override late final _StringsHomeNavDestinationsEn homeNavDestinations = _StringsHomeNavDestinationsEn._(_root);
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
@@ -243,6 +260,20 @@ class _StringsCommonEn extends _StringsCommonJa {
 	// Translations
 	@override String get tos => 'Terms of Use';
 	@override String get privacyPolicy => 'Privacy Policy';
+}
+
+// Path: updates
+class _StringsUpdatesEn extends _StringsUpdatesJa {
+	_StringsUpdatesEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get downloading => 'Downloading data updates...';
+	@override String get failed => 'Failed to update data. Restarting app to retry.';
+	@override String get completed => 'Data update completed.';
+	@override String get installing => 'Installing...';
+	@override String get pleaseWaitUntilComplete => 'Please wait until data update is complete.';
 }
 
 // Path: homeNavDestinations
@@ -266,6 +297,7 @@ class _StringsPagesEn extends _StringsPagesJa {
 	@override final _StringsEn _root; // ignore: unused_field
 
 	// Translations
+	@override String get characters => 'Characters';
 	@override String get settings => 'Settings';
 	@override String get account => 'Account';
 	@override String get releaseNotes => 'Release Notes';
@@ -289,11 +321,17 @@ extension on Translations {
 		switch (path) {
 			case 'common.tos': return '利用規約';
 			case 'common.privacyPolicy': return 'プライバシーポリシー';
+			case 'updates.downloading': return 'データ更新をダウンロードしています…';
+			case 'updates.failed': return 'データ更新に失敗しました。アプリを再起動すると再試行します。';
+			case 'updates.completed': return '更新が完了しました。';
+			case 'updates.installing': return 'インストールしています...';
+			case 'updates.pleaseWaitUntilComplete': return 'データ更新が完了するまでお待ちください。';
 			case 'homeNavDestinations.bookmarks': return 'ブックマーク';
 			case 'homeNavDestinations.database': return 'データベース';
 			case 'homeNavDestinations.daily': return '日替わり素材';
 			case 'homeNavDestinations.tools': return 'ツール';
 			case 'homeNavDestinations.more': return 'その他';
+			case 'pages.characters': return 'キャラクター';
 			case 'pages.settings': return '設定';
 			case 'pages.account': return 'アカウント';
 			case 'pages.releaseNotes': return '更新履歴';
@@ -308,11 +346,17 @@ extension on _StringsEn {
 		switch (path) {
 			case 'common.tos': return 'Terms of Use';
 			case 'common.privacyPolicy': return 'Privacy Policy';
+			case 'updates.downloading': return 'Downloading data updates...';
+			case 'updates.failed': return 'Failed to update data. Restarting app to retry.';
+			case 'updates.completed': return 'Data update completed.';
+			case 'updates.installing': return 'Installing...';
+			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
 			case 'homeNavDestinations.bookmarks': return 'Bookmarks';
 			case 'homeNavDestinations.database': return 'Database';
 			case 'homeNavDestinations.daily': return 'Daily';
 			case 'homeNavDestinations.tools': return 'Tools';
 			case 'homeNavDestinations.more': return 'More';
+			case 'pages.characters': return 'Characters';
 			case 'pages.settings': return 'Settings';
 			case 'pages.account': return 'Account';
 			case 'pages.releaseNotes': return 'Release Notes';

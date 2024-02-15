@@ -20,6 +20,7 @@ class AssetUpdater {
   void Function()? onProgress;
   int receivedBytes = 0;
   int totalBytes = 0;
+  AssetUpdateProgressState? state;
 
   /// If new version found, returns the latest [AssetReleaseVersion].
   /// If not, `null` will be returned.
@@ -50,7 +51,11 @@ class AssetUpdater {
   }
 
   Future<void> installRelease(AssetReleaseVersion release) async {
+    state = AssetUpdateProgressState.downloading;
     final file = await _downloadRelease(Uri.parse(release.distUrl));
+
+    state = AssetUpdateProgressState.installing;
+    onProgress?.call();
     await _unzipRelease(file.path);
     await file.delete(); // delete temporary file
   }
@@ -85,6 +90,10 @@ class AssetUpdater {
 
     final resp = await httpClient.send(http.Request("GET", uri));
 
+    if (resp.statusCode.toString()[0] != "2") {
+      throw "Error: Resource server responded with non-OK status code.";
+    }
+
     totalBytes = resp.contentLength ?? 0;
     final completer = Completer<File>();
     resp.stream.listen((bytes) {
@@ -104,7 +113,7 @@ class AssetUpdater {
     final inputStream = InputFileStream(zipPath);
     final archive = ZipDecoder().decodeBuffer(inputStream);
 
-    await extractArchiveToDiskAsync(archive, assetDir.path);
+    await extractArchiveToDiskAsync(archive, assetDir.path, asyncWrite: true);
   }
 }
 
@@ -117,8 +126,7 @@ Future<Directory> getLocalAssetDirectory() async {
   );
 }
 
-// LocalAssetDirectoryとcurrent-release.yamlの存在チェック
-//   存在しない ->
-//     最新版をダウンロード
-//   存在する ->
-//
+enum AssetUpdateProgressState {
+  downloading,
+  installing,
+}

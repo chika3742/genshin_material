@@ -1,6 +1,12 @@
 common:
   tos: Terms of Use
   privacyPolicy: Privacy Policy
+updates:
+  downloading: Downloading data updates...
+  failed: Failed to update data. Restarting app to retry.
+  completed: Data update completed.
+  installing: Installing...
+  pleaseWaitUntilComplete: Please wait until data update is complete.
 homeNavDestinations:
   bookmarks: Bookmarks
   database: Database
@@ -8,6 +14,7 @@ homeNavDestinations:
   tools: Tools
   more: More
 pages:
+  characters: Characters
   settings: Settings
   account: Account
   releaseNotes: Release Notes

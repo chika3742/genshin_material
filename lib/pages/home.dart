@@ -1,17 +1,24 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:genshin_material/components/asset_update_progress_snack_bar.dart";
+import "package:genshin_material/core/asset_updater.dart";
+import "package:genshin_material/core/versions.dart";
 import "package:genshin_material/home_nav_routes.dart";
 import "package:genshin_material/i18n/strings.g.dart";
+import "package:genshin_material/providers/asset_updating_state.dart";
 import "package:genshin_material/routes.dart";
+import "package:genshin_material/ui_core/snack_bar.dart";
 import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
+import "package:path_provider/path_provider.dart";
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   final Widget child;
 
   const HomePage({super.key, required this.child});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
 class _HomeNavEntry {
@@ -21,7 +28,7 @@ class _HomeNavEntry {
   const _HomeNavEntry({required this.destination, required this.location});
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   /// Creates new [_HomeNavEntry] class from params.
   static _HomeNavEntry createNavEntry({
     required IconData icon,
@@ -66,6 +73,84 @@ class _HomePageState extends State<HomePage> {
   ];
 
   var selectedNavIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future(() async {
+      final messenger = ScaffoldMessenger.of(context);
+
+      try {
+        await (await getLocalAssetDirectory()).delete(recursive: true);
+      } catch (_) {}
+
+      final updater = AssetUpdater(await getLocalAssetDirectory(), tempDir: await getTemporaryDirectory());
+      final foundUpdate = await updater.checkForUpdates();
+      if (foundUpdate != null) {
+        messenger.showSnackBar(
+          const SnackBar(
+            content: AssetUpdateProgressSnackBar(),
+            behavior: SnackBarBehavior.floating,
+            dismissDirection: DismissDirection.none,
+            duration: Duration(minutes: 1),
+          ),
+        );
+
+        ref.read(assetUpdatingStateNotifierProvider.notifier).setState(
+          const AssetUpdatingState(
+            state: AssetUpdateProgressState.downloading,
+          ),
+        );
+
+        updater.onProgress = () {
+          final state = ref.read(assetUpdatingStateNotifierProvider.notifier);
+
+          if (updater.state == AssetUpdateProgressState.downloading && updater.totalBytes != 0) {
+            state.setState(
+              AssetUpdatingState(
+                state: AssetUpdateProgressState.downloading,
+                progress: updater.receivedBytes / updater.totalBytes,
+                totalBytes: updater.totalBytes,
+              ),
+            );
+          } else if (updater.state == AssetUpdateProgressState.installing) {
+            state.setState(
+              const AssetUpdatingState(
+                state: AssetUpdateProgressState.installing,
+              ),
+            );
+          }
+        };
+
+        try {
+          await updater.installRelease(foundUpdate);
+
+          ref.invalidate(assetVersionDataProvider);
+
+          messenger.hideCurrentSnackBar();
+          messenger.showSnackBar(createSnackBar(
+            message: tr.updates.completed,
+          ),);
+        } catch (e, st) {
+          debugPrint(e.toString());
+          debugPrintStack(stackTrace: st);
+
+          messenger.hideCurrentSnackBar();
+          messenger.showSnackBar(SnackBar(
+            content: Text(tr.updates.failed),
+            behavior: SnackBarBehavior.floating,
+          ),);
+        } finally {
+          ref.read(assetUpdatingStateNotifierProvider.notifier).setState(
+            const AssetUpdatingState(
+              state: null,
+            ),
+          );
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
