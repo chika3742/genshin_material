@@ -1,105 +1,72 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:timelines/timelines.dart";
 
-import "../components/release_note_contents.dart";
+import "../components/center_error.dart";
+import "../components/data_asset_scope.dart";
+import "../components/release_notes_timeline.dart";
 import "../i18n/strings.g.dart";
 import "../models/release_note.dart";
 import "../providers/versions.dart";
 
-class ReleaseNotesPage extends ConsumerStatefulWidget {
+class ReleaseNotesPage extends StatefulWidget {
   const ReleaseNotesPage({super.key});
 
   @override
-  ConsumerState<ReleaseNotesPage> createState() => _ReleaseNotesPageState();
+  State<ReleaseNotesPage> createState() => _ReleaseNotesPageState();
 }
 
-class _ReleaseNotesPageState extends ConsumerState<ReleaseNotesPage> {
-@override
-  Widget build(BuildContext context) {
-    final releaseNotes = ref.watch(featuresReleaseNotesDataProvider);
+class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerProviderStateMixin {
+  static final _tabs = [
+    Tab(text: tr.releaseNotesPage.featureUpdates),
+    Tab(text: tr.releaseNotesPage.assetUpdates),
+  ];
 
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: _tabs.length, vsync: this);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.releaseNotes),
-      ),
-      body: switch (releaseNotes) {
-        AsyncData(:final value) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: buildTimeline(value),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: _tabs,
         ),
-        AsyncError() => const Center(
-            child: Text("Failed to load release notes"),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          _ReleaseNotesTab(provider: featuresReleaseNotesDataProvider),
+          DataAssetScope(
+            child: _ReleaseNotesTab(provider: assetsReleaseNotesDataProvider),
           ),
-        _ => const Center(
-            child: CircularProgressIndicator(),
-          ),
-      },
+        ],
+      ),
     );
   }
+}
 
-  final tlContentsKeys = <int, GlobalKey>{};
-  Map<int, double>? tlContentsHeights;
+class _ReleaseNotesTab extends ConsumerWidget {
+  final FutureProvider<List<ReleaseNote>> provider;
 
-  Widget buildTimeline(List<ReleaseNote> releaseNotes) {
-    if (tlContentsHeights == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        setState(() {
-          tlContentsHeights = <int, double>{};
-          tlContentsKeys.forEach((key, value) {
-            tlContentsHeights![key] = (value.currentContext!.findRenderObject() as RenderBox).size.height;
-          });
-        });
-      });
-    }
+  const _ReleaseNotesTab({required this.provider});
 
-    return Timeline.tileBuilder(
-      builder: TimelineTileBuilder.connectedFromStyle(
-        itemCount: releaseNotes.length,
-        firstConnectorStyle: ConnectorStyle.dashedLine,
-        lastConnectorStyle: ConnectorStyle.dashedLine,
-        nodePositionBuilder: (context, index) => 0.05,
-        connectorStyleBuilder: (context, index) => ConnectorStyle.solidLine,
-        indicatorStyleBuilder: (context, index) {
-          return index % 2 == 0 ? IndicatorStyle.dot : IndicatorStyle.outlined;
-        },
-        indicatorPositionBuilder: (context, index) {
-          final widgetHeight = tlContentsHeights?[index];
-          if (widgetHeight == null) {
-            return 0;
-          }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final releaseNotes = ref.watch(provider);
 
-          const top = 36;
-
-          return top / widgetHeight;
-        },
-        contentsBuilder: (context, index) {
-          return Column(
-            key: tlContentsKeys[index] ??= GlobalKey(),
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceVariant,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                margin: const EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      "v${releaseNotes[index].version}",
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    Text(releaseNotes[index].releasedOn),
-                  ],
-                ),
-              ),
-              ReleaseNoteContents(contentsText: releaseNotes[index].contents),
-            ],
-          );
-        },
+    return switch (releaseNotes) {
+      AsyncData(:final value) => ReleaseNotesTimeline(
+        items: value,
       ),
-    );
+      AsyncError(:final error) => CenterError(error),
+      _ => const CircularProgressIndicator(),
+    };
   }
 }

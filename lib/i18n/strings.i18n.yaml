@@ -1,6 +1,7 @@
 common:
   tos: 利用規約
   privacyPolicy: プライバシーポリシー
+  error: エラーが発生しました。
 updates:
   downloading: データ更新をダウンロードしています…
   failed: データ更新に失敗しました。アプリを再起動すると再試行します。
@@ -20,3 +21,6 @@ pages:
   releaseNotes: 更新履歴
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
+releaseNotesPage:
+  featureUpdates: 機能更新
+  assetUpdates: データ更新
