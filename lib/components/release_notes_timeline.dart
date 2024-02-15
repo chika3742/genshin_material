@@ -6,8 +6,13 @@ import "release_note_contents.dart";
 
 class ReleaseNotesTimeline extends StatefulWidget {
   final List<ReleaseNote> items;
+  final String versionPrefix;
 
-  const ReleaseNotesTimeline({super.key, required this.items});
+  const ReleaseNotesTimeline({
+    super.key,
+    required this.items,
+    required this.versionPrefix,
+  });
 
   @override
   State<ReleaseNotesTimeline> createState() => _ReleaseNotesTimelineState();
@@ -67,7 +72,7 @@ class _ReleaseNotesTimelineState extends State<ReleaseNotesTimeline> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        "v${widget.items[index].version}",
+                        "${widget.versionPrefix}${widget.items[index].version}",
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       Text(widget.items[index].releasedOn),

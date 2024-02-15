@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:timelines/timelines.dart";
 
 import "../components/center_error.dart";
 import "../components/data_asset_scope.dart";
@@ -42,11 +43,35 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
       body: TabBarView(
         controller: _tabController,
         children: [
-          _ReleaseNotesTab(provider: featuresReleaseNotesDataProvider),
+          _buildReleaseNotesTab(
+            provider: featuresReleaseNotesDataProvider,
+            versionPrefix: "v",
+            color: Theme.of(context).colorScheme.primary,
+          ),
           DataAssetScope(
-            child: _ReleaseNotesTab(provider: assetsReleaseNotesDataProvider),
+            child: _buildReleaseNotesTab(
+              provider: assetsReleaseNotesDataProvider,
+              versionPrefix: "D",
+              color: Theme.of(context).colorScheme.secondary,
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildReleaseNotesTab({
+    required FutureProvider<List<ReleaseNote>> provider,
+    required String versionPrefix,
+    required Color color,
+  }) {
+    return TimelineTheme(
+      data: TimelineThemeData(
+        color: color,
+      ),
+      child: _ReleaseNotesTab(
+        provider: provider,
+        versionPrefix: versionPrefix,
       ),
     );
   }
@@ -54,8 +79,9 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
 
 class _ReleaseNotesTab extends ConsumerWidget {
   final FutureProvider<List<ReleaseNote>> provider;
+  final String versionPrefix;
 
-  const _ReleaseNotesTab({required this.provider});
+  const _ReleaseNotesTab({required this.provider, this.versionPrefix = "v"});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,6 +90,7 @@ class _ReleaseNotesTab extends ConsumerWidget {
     return switch (releaseNotes) {
       AsyncData(:final value) => ReleaseNotesTimeline(
         items: value,
+        versionPrefix: versionPrefix,
       ),
       AsyncError(:final error) => CenterError(error),
       _ => const CircularProgressIndicator(),
