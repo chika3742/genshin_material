@@ -1,8 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:genshin_material/core/asset_updater.dart";
-import "package:genshin_material/i18n/strings.g.dart";
-import "package:genshin_material/providers/asset_updating_state.dart";
+
+import "../core/asset_updater.dart";
+import "../i18n/strings.g.dart";
+import "../providers/asset_updating_state.dart";
 
 class AssetUpdateProgressSnackBar extends ConsumerWidget {
   const AssetUpdateProgressSnackBar({super.key});

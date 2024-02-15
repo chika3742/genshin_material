@@ -1,8 +1,9 @@
 import "package:flutter/services.dart";
-import "package:genshin_material/models/release_note.dart";
-import "package:genshin_material/utils/unwrap_yaml_value.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 import "package:yaml/yaml.dart";
+
+import "../models/release_note.dart";
+import "../utils/unwrap_yaml_value.dart";
 
 part "data.g.dart";
 

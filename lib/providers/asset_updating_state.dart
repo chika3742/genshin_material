@@ -1,6 +1,7 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:genshin_material/core/asset_updater.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
+
+import "../core/asset_updater.dart";
 
 part "asset_updating_state.freezed.dart";
 part "asset_updating_state.g.dart";

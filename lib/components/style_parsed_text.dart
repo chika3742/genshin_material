@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
-import "package:genshin_material/utils/text_style_parser.dart";
+
+import "../utils/text_style_parser.dart";
 
 class StyleParsedText extends StatelessWidget {
   final String text;

@@ -1,10 +1,11 @@
 import "package:flutter/material.dart";
-import "package:genshin_material/pages/home/navigation_pages/bookmarks.dart";
-import "package:genshin_material/pages/home/navigation_pages/daily.dart";
-import "package:genshin_material/pages/home/navigation_pages/database.dart";
-import "package:genshin_material/pages/home/navigation_pages/more.dart";
-import "package:genshin_material/pages/home/navigation_pages/tools.dart";
 import "package:go_router/go_router.dart";
+
+import "pages/home/navigation_pages/bookmarks.dart";
+import "pages/home/navigation_pages/daily.dart";
+import "pages/home/navigation_pages/database.dart";
+import "pages/home/navigation_pages/more.dart";
+import "pages/home/navigation_pages/tools.dart";
 
 @immutable
 class BookmarksNavRoute extends GoRouteData {

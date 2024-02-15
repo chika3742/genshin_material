@@ -36,6 +36,8 @@ linter:
     - avoid_void_async
     - prefer_final_locals
     - eol_at_end_of_file
+    - prefer_relative_imports
+    - directives_ordering
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
