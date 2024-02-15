@@ -18,10 +18,13 @@ void main() {
       return http.Response('{"channels": {"staging": {"releasedAt": "2024-01-01T00:00:00Z", "dataVersion": "test", "channel": "staging", "distUrl": ""}}}', 200);
     });
 
-    expect(await AssetUpdater(
+    final updater = AssetUpdater(
       Directory.current,
       tempDir: Directory.systemTemp,
       httpClient: client,
-    ).checkForUpdates() != null, true,);
+    );
+    await updater.checkForUpdate();
+
+    expect(updater.isUpdateAvailable, true);
   });
 }

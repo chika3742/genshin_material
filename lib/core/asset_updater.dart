@@ -18,28 +18,34 @@ class AssetUpdater {
   final Directory assetDir;
   final Directory? tempDir;
   final http.Client httpClient;
+
   void Function()? onProgress;
   int receivedBytes = 0;
   int totalBytes = 0;
   AssetUpdateProgressState? state;
+  bool isUpdateChecked = false;
+  AssetReleaseVersion? foundUpdate;
+
+  bool get isUpdateAvailable => isUpdateChecked && foundUpdate != null;
 
   /// If new version found, returns the latest [AssetReleaseVersion].
   /// If not, `null` will be returned.
-  Future<AssetReleaseVersion?> checkForUpdates() async {
+  Future<void> checkForUpdate() async {
     final latestRelease = await _fetchAssetRelease(kReleaseMode ? "prod" : "staging");
     if (latestRelease == null) {
-      throw "No latest release.";
+      throw "No releases found.";
     }
 
     final currentVersion = await getCurrentVersion();
 
     if (currentVersion == null || latestRelease.releasedAt.isAfter(currentVersion.releasedAt)) {
       // No local assets exist or a new version found
-      return latestRelease;
+      foundUpdate = latestRelease;
     } else {
-      // No updates available
-      return null;
+      // No update available
     }
+
+    isUpdateChecked = true;
   }
 
   Future<AssetReleaseVersion?> getCurrentVersion() async {
@@ -51,14 +57,19 @@ class AssetUpdater {
     return AssetReleaseVersion.fromJson(const JsonDecoder().convert(await versionFile.readAsString()));
   }
 
-  Future<void> installRelease(AssetReleaseVersion release) async {
+  Future<void> installUpdate() async {
+    assert(isUpdateChecked, "checkForUpdate() must be called successfully.");
+    assert(foundUpdate != null, "No update found.");
+
     state = AssetUpdateProgressState.downloading;
-    final file = await _downloadRelease(Uri.parse(release.distUrl));
+    final file = await _downloadRelease(Uri.parse(foundUpdate!.distUrl));
 
     state = AssetUpdateProgressState.installing;
     onProgress?.call();
     await _unzipRelease(file.path);
     await file.delete(); // delete temporary file
+
+    debugPrint("Installation completed!");
   }
 
   Future<AssetReleaseVersion?> _fetchAssetRelease(String channel) async {

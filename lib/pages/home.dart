@@ -4,14 +4,11 @@ import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 import "package:path_provider/path_provider.dart";
 
-import "../components/asset_update_progress_snack_bar.dart";
 import "../core/asset_updater.dart";
 import "../home_nav_routes.dart";
 import "../i18n/strings.g.dart";
-import "../providers/asset_updating_state.dart";
-import "../providers/versions.dart";
 import "../routes.dart";
-import "../ui_core/snack_bar.dart";
+import "../ui_core/install_latest_assets.dart";
 
 class HomePage extends ConsumerStatefulWidget {
   final Widget child;
@@ -80,82 +77,15 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.initState();
 
     Future(() async {
-      final messenger = ScaffoldMessenger.of(context);
-
-      // TODO: リリース時に除去
-      try {
-        await (await getLocalAssetDirectory()).delete(recursive: true);
-      } catch (_) {}
-
       final updater = AssetUpdater(await getLocalAssetDirectory(), tempDir: await getTemporaryDirectory());
-      final foundUpdate = await updater.checkForUpdates();
-      if (foundUpdate != null) {
-        messenger.showSnackBar(
-          const SnackBar(
-            content: AssetUpdateProgressSnackBar(),
-            behavior: SnackBarBehavior.floating,
-            dismissDirection: DismissDirection.none,
-            duration: Duration(minutes: 1),
-          ),
+      await updater.checkForUpdate();
+
+      if (updater.isUpdateAvailable && mounted) {
+        await installLatestAssets(
+          context: context,
+          ref: ref,
+          updater: updater,
         );
-
-        ref.read(assetUpdatingStateNotifierProvider.notifier).setState(
-          const AssetUpdatingState(
-            state: AssetUpdateProgressState.downloading,
-          ),
-        );
-
-        updater.onProgress = () {
-          final state = ref.read(assetUpdatingStateNotifierProvider.notifier);
-
-          if (updater.state == AssetUpdateProgressState.downloading && updater.totalBytes != 0) {
-            state.setState(
-              AssetUpdatingState(
-                state: AssetUpdateProgressState.downloading,
-                progress: updater.receivedBytes / updater.totalBytes,
-                totalBytes: updater.totalBytes,
-              ),
-            );
-          } else if (updater.state == AssetUpdateProgressState.installing) {
-            state.setState(
-              const AssetUpdatingState(
-                state: AssetUpdateProgressState.installing,
-              ),
-            );
-          }
-        };
-
-        try {
-          await updater.installRelease(foundUpdate);
-
-          ref.invalidate(assetVersionDataProvider);
-
-          messenger.hideCurrentSnackBar();
-          messenger.showSnackBar(createSnackBar(
-            message: tr.updates.completed,
-            action: SnackBarAction(
-              label: tr.pages.releaseNotes,
-              onPressed: () {
-                context.go(const ReleaseNotesRoute(tabIndex: 1).location);
-              },
-            ),
-          ),);
-        } catch (e, st) {
-          debugPrint(e.toString());
-          debugPrintStack(stackTrace: st);
-
-          messenger.hideCurrentSnackBar();
-          messenger.showSnackBar(SnackBar(
-            content: Text(tr.updates.failed),
-            behavior: SnackBarBehavior.floating,
-          ),);
-        } finally {
-          ref.read(assetUpdatingStateNotifierProvider.notifier).setState(
-            const AssetUpdatingState(
-              state: null,
-            ),
-          );
-        }
       }
     });
   }

@@ -25,6 +25,8 @@ final _router = GoRouter(
   routes: $appRoutes,
 );
 
+BuildContext? get routerContext => _router.routerDelegate.navigatorKey.currentContext;
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
