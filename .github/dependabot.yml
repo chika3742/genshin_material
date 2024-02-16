@@ -6,6 +6,7 @@ updates:
       interval: daily
       timezone: Asia/Tokyo
     labels:
+      - "deps"
       - "deps:pub"
     open-pull-requests-limit: 0
     commit-message:
@@ -14,3 +15,13 @@ updates:
       patch-updates:
         update-types:
           - patch
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      timezone: Asia/Tokyo
+    labels:
+      - "deps"
+      - "deps:workflow"
+    commit-message:
+      prefix: "deps(workflow)"
