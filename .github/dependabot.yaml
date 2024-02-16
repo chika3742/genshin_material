@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: pub
+    directory: /
+    schedule:
+      interval: daily
+      timezone: Asia/Tokyo
+    labels:
+      - "deps:pub"
+    open-pull-requests-limit: 0
+    commit-message:
+      prefix: "deps(pub)"
+    groups:
+      patch-updates:
+        update-types:
+          - patch
