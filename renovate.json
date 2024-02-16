@@ -12,6 +12,9 @@
     "dev.flutter.flutter-plugin-loader"
   ],
   "branchPrefix": "deps/",
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "matchFileNames": [
