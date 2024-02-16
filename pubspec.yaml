@@ -28,7 +28,7 @@ dependencies:
   riverpod_annotation: ^2.3.3
   go_router: ^13.1.0
   freezed_annotation: ^2.4.1
-  material_symbols_icons: ^4.2718.0
+  material_symbols_icons: ^4.2719.1
   slang: ^3.29.0
   slang_flutter: ^3.29.0
   timelines: ^0.1.0
