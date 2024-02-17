@@ -8,17 +8,16 @@ updates:
   completed: 更新が完了しました。
   installing: インストールしています...
   pleaseWaitUntilComplete: データ更新が完了するまでお待ちください。
-homeNavDestinations:
-  bookmarks: ブックマーク
-  database: データベース
-  daily: 日替わり素材
-  tools: ツール
-  more: その他
 pages:
   characters: キャラクター
   settings: 設定
   account: アカウント
   releaseNotes: 更新履歴
+  bookmarks: ブックマーク
+  database: データベース
+  daily: 日替わり素材
+  tools: ツール
+  more: その他
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
 releaseNotesPage:

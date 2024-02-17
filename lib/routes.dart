@@ -4,14 +4,14 @@ import "package:go_router/go_router.dart";
 
 import "main.dart";
 import "pages/account.dart";
+import "pages/bookmarks.dart";
+import "pages/daily.dart";
+import "pages/database.dart";
 import "pages/home.dart";
-import "pages/home/navigation_pages/bookmarks.dart";
-import "pages/home/navigation_pages/daily.dart";
-import "pages/home/navigation_pages/database.dart";
-import "pages/home/navigation_pages/more.dart";
-import "pages/home/navigation_pages/tools.dart";
+import "pages/more.dart";
 import "pages/release_notes.dart";
 import "pages/settings.dart";
+import "pages/tools.dart";
 
 part "routes.g.dart";
 
@@ -70,7 +70,7 @@ class BookmarksNavRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return _buildTransitionPage(
       context: context,
-      child: const BookmarksNavPage(),
+      child: const BookmarksPage(),
     );
   }
 }
@@ -81,7 +81,7 @@ class DatabaseNavRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return _buildTransitionPage(
       context: context,
-      child: const DatabaseNavPage(),
+      child: const DatabasePage(),
     );
   }
 }
@@ -92,7 +92,7 @@ class DailyNavRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return _buildTransitionPage(
       context: context,
-      child: const DailyNavPage(),
+      child: const DailyPage(),
     );
   }
 }
@@ -103,7 +103,7 @@ class ToolsNavRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return _buildTransitionPage(
       context: context,
-      child: const ToolsNavPage(),
+      child: const ToolsPage(),
     );
   }
 }
@@ -114,7 +114,7 @@ class MoreNavRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return _buildTransitionPage(
       context: context,
-      child: const MoreNavPage(),
+      child: const MorePage(),
     );
   }
 }

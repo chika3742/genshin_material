@@ -1,15 +1,15 @@
 import "package:flutter/material.dart";
 
-import "../../../i18n/strings.g.dart";
+import "../i18n/strings.g.dart";
 
-class BookmarksNavPage extends StatelessWidget {
-  const BookmarksNavPage({super.key});
+class DailyPage extends StatelessWidget {
+  const DailyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr.homeNavDestinations.bookmarks),
+        title: Text(tr.pages.daily),
       ),
       body: const Placeholder(),
     );

@@ -10,21 +10,21 @@ import "../../../providers/versions.dart";
 import "../../../routes.dart";
 import "../../../ui_core/custom_tabs.dart";
 
-class MoreNavPage extends ConsumerStatefulWidget {
-  const MoreNavPage({super.key});
+class MorePage extends ConsumerStatefulWidget {
+  const MorePage({super.key});
 
   @override
-  ConsumerState<MoreNavPage> createState() => _MoreNavPageState();
+  ConsumerState<MorePage> createState() => _MoreNavPageState();
 }
 
-class _MoreNavPageState extends ConsumerState<MoreNavPage> {
+class _MoreNavPageState extends ConsumerState<MorePage> {
   var showVersionDetails = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr.homeNavDestinations.more),
+        title: Text(tr.pages.more),
       ),
       body: ListView(
         children: [

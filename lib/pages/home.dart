@@ -24,23 +24,23 @@ class _HomePageState extends ConsumerState<HomePage> {
   final navDestinations = <NavigationDestination>[
     NavigationDestination(
       icon: const Icon(Symbols.home_filled),
-      label: tr.homeNavDestinations.bookmarks,
+      label: tr.pages.bookmarks,
     ),
     NavigationDestination(
       icon: const Icon(Symbols.database),
-      label: tr.homeNavDestinations.database,
+      label: tr.pages.database,
     ),
     NavigationDestination(
       icon: const Icon(Symbols.today),
-      label: tr.homeNavDestinations.daily,
+      label: tr.pages.daily,
     ),
     NavigationDestination(
       icon: const Icon(Symbols.home_repair_service),
-      label: tr.homeNavDestinations.tools,
+      label: tr.pages.tools,
     ),
     NavigationDestination(
       icon: const Icon(Symbols.more_horiz),
-      label: tr.homeNavDestinations.more,
+      label: tr.pages.more,
     ),
   ];
 

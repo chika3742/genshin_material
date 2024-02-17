@@ -8,17 +8,16 @@ updates:
   completed: Data update completed.
   installing: Installing...
   pleaseWaitUntilComplete: Please wait until data update is complete.
-homeNavDestinations:
-  bookmarks: Bookmarks
-  database: Database
-  daily: Daily
-  tools: Tools
-  more: More
 pages:
   characters: Characters
   settings: Settings
   account: Account
   releaseNotes: Release Notes
+  bookmarks: Bookmarks
+  database: Database
+  daily: Daily
+  tools: Tools
+  more: More
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
 releaseNotesPage:

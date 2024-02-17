@@ -1,15 +1,15 @@
 import "package:flutter/material.dart";
 
-import "../../../i18n/strings.g.dart";
+import "../i18n/strings.g.dart";
 
-class DailyNavPage extends StatelessWidget {
-  const DailyNavPage({super.key});
+class DatabasePage extends StatelessWidget {
+  const DatabasePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr.homeNavDestinations.daily),
+        title: Text(tr.pages.database),
       ),
       body: const Placeholder(),
     );
