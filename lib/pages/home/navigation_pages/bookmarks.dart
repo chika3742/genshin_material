@@ -1,15 +1,17 @@
 import "package:flutter/material.dart";
 
-class BookmarksNavPage extends StatefulWidget {
+import "../../../i18n/strings.g.dart";
+
+class BookmarksNavPage extends StatelessWidget {
   const BookmarksNavPage({super.key});
 
   @override
-  State<BookmarksNavPage> createState() => _BookmarksNavPageState();
-}
-
-class _BookmarksNavPageState extends State<BookmarksNavPage> {
-  @override
   Widget build(BuildContext context) {
-    return const Placeholder(child: Text("BookmarksNavPage"));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(tr.homeNavDestinations.bookmarks),
+      ),
+      body: const Placeholder(),
+    );
   }
 }

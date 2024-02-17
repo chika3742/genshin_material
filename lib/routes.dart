@@ -1,36 +1,121 @@
+import "package:animations/animations.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 
-import "home_nav_routes.dart";
 import "main.dart";
 import "pages/account.dart";
 import "pages/home.dart";
+import "pages/home/navigation_pages/bookmarks.dart";
+import "pages/home/navigation_pages/daily.dart";
+import "pages/home/navigation_pages/database.dart";
+import "pages/home/navigation_pages/more.dart";
+import "pages/home/navigation_pages/tools.dart";
 import "pages/release_notes.dart";
 import "pages/settings.dart";
 
 part "routes.g.dart";
 
-@TypedShellRoute<HomeRoute>(
-  routes: [
-    TypedGoRoute<BookmarksNavRoute>(path: "/bookmarks"),
-    TypedGoRoute<DatabaseNavRoute>(path: "/database"),
-    TypedGoRoute<DailyNavRoute>(path: "/daily"),
-    TypedGoRoute<ToolsNavRoute>(path: "/tools"),
-    TypedGoRoute<MoreNavRoute>(
-      path: "/more",
+@TypedStatefulShellRoute<HomeRoute>(
+  branches: [
+    TypedStatefulShellBranch(
       routes: [
-        TypedGoRoute<SettingsRoute>(path: "settings"),
-        TypedGoRoute<AccountRoute>(path: "account"),
-        TypedGoRoute<ReleaseNotesRoute>(path: "release-notes"),
+        TypedGoRoute<BookmarksNavRoute>(path: "/bookmarks"),
+      ],
+    ),
+    TypedStatefulShellBranch(
+      routes: [
+        TypedGoRoute<DatabaseNavRoute>(
+          path: "/database",
+          routes: [],
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch(
+      routes: [
+        TypedGoRoute<DailyNavRoute>(path: "/daily"),
+      ],
+    ),
+    TypedStatefulShellBranch(
+      routes: [
+        TypedGoRoute<ToolsNavRoute>(path: "/tools"),
+      ],
+    ),
+    TypedStatefulShellBranch(
+      routes: [
+        TypedGoRoute<MoreNavRoute>(
+          path: "/more",
+          routes: [
+            TypedGoRoute<SettingsRoute>(path: "settings"),
+            TypedGoRoute<AccountRoute>(path: "account"),
+            TypedGoRoute<ReleaseNotesRoute>(path: "release-notes"),
+          ],
+        ),
       ],
     ),
   ],
 )
 @immutable
-class HomeRoute extends ShellRouteData {
+class HomeRoute extends StatefulShellRouteData {
+  const HomeRoute();
+
   @override
-  Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
-    return HomePage(child: navigator);
+  Widget builder(BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
+    return HomePage(navigationShell: navigationShell);
+  }
+}
+
+@immutable
+class BookmarksNavRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const BookmarksNavPage(),
+    );
+  }
+}
+
+@immutable
+class DatabaseNavRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const DatabaseNavPage(),
+    );
+  }
+}
+
+@immutable
+class DailyNavRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const DailyNavPage(),
+    );
+  }
+}
+
+@immutable
+class ToolsNavRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const ToolsNavPage(),
+    );
+  }
+}
+
+@immutable
+class MoreNavRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const MoreNavPage(),
+    );
   }
 }
 
@@ -66,4 +151,22 @@ class ReleaseNotesRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) {
     return ReleaseNotesPage(initialTabIndex: tabIndex);
   }
+}
+
+Page _buildTransitionPage({
+  required BuildContext context,
+  required Widget child,
+}) {
+  return CustomTransitionPage(
+    child: child,
+    barrierColor: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SharedAxisTransition(
+        transitionType: SharedAxisTransitionType.horizontal,
+        animation: animation,
+        secondaryAnimation: secondaryAnimation,
+        child: child,
+      );
+    },
+  );
 }

@@ -1,15 +1,17 @@
 import "package:flutter/material.dart";
 
-class DailyNavPage extends StatefulWidget {
+import "../../../i18n/strings.g.dart";
+
+class DailyNavPage extends StatelessWidget {
   const DailyNavPage({super.key});
 
   @override
-  State<DailyNavPage> createState() => _DailyNavPageState();
-}
-
-class _DailyNavPageState extends State<DailyNavPage> {
-  @override
   Widget build(BuildContext context) {
-    return const Placeholder(child: Text("DailyNavPage"));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(tr.homeNavDestinations.daily),
+      ),
+      body: const Placeholder(),
+    );
   }
 }

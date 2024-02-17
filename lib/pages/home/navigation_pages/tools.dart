@@ -1,15 +1,17 @@
 import "package:flutter/material.dart";
 
-class ToolsNavPage extends StatefulWidget {
+import "../../../i18n/strings.g.dart";
+
+class ToolsNavPage extends StatelessWidget {
   const ToolsNavPage({super.key});
 
   @override
-  State<ToolsNavPage> createState() => _ToolsNavPageState();
-}
-
-class _ToolsNavPageState extends State<ToolsNavPage> {
-  @override
   Widget build(BuildContext context) {
-    return const Placeholder(child: Text("ToolsNavPage"));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(tr.homeNavDestinations.tools),
+      ),
+      body: const Placeholder(),
+    );
   }
 }

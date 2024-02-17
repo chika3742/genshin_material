@@ -22,59 +22,64 @@ class _MoreNavPageState extends ConsumerState<MoreNavPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        SimpleListItem(
-          title: tr.pages.settings,
-          leadingIcon: Symbols.settings,
-          location: SettingsRoute().location,
-        ),
-        SimpleListItem(
-          title: tr.pages.account,
-          subtitle: tr.morePage.accountDesc,
-          leadingIcon: Symbols.account_box,
-          location: AccountRoute().location,
-        ),
-        const Divider(),
-        SimpleListItem(
-          title: tr.pages.releaseNotes,
-          leadingIcon: Symbols.new_releases,
-          location: const ReleaseNotesRoute().location,
-        ),
-        const Divider(),
-        SimpleListItem(
-          title: tr.common.tos,
-          leadingIcon: Symbols.gavel,
-          trailingIcon: Symbols.open_in_browser,
-          onTap: () {
-            launchCustomTab(tosUrl);
-          },
-        ),
-        SimpleListItem(
-          title: tr.common.privacyPolicy,
-          leadingIcon: Symbols.policy,
-          trailingIcon: Symbols.open_in_browser,
-          onTap: () {
-            launchCustomTab(privacyPolicyUrl);
-          },
-        ),
-        InkWell(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-            child: Text(
-              buildVersionString(),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(tr.homeNavDestinations.more),
+      ),
+      body: ListView(
+        children: [
+          SimpleListItem(
+            title: tr.pages.settings,
+            leadingIcon: Symbols.settings,
+            location: SettingsRoute().location,
+          ),
+          SimpleListItem(
+            title: tr.pages.account,
+            subtitle: tr.morePage.accountDesc,
+            leadingIcon: Symbols.account_box,
+            location: AccountRoute().location,
+          ),
+          const Divider(),
+          SimpleListItem(
+            title: tr.pages.releaseNotes,
+            leadingIcon: Symbols.new_releases,
+            location: const ReleaseNotesRoute().location,
+          ),
+          const Divider(),
+          SimpleListItem(
+            title: tr.common.tos,
+            leadingIcon: Symbols.gavel,
+            trailingIcon: Symbols.open_in_browser,
+            onTap: () {
+              launchCustomTab(tosUrl);
+            },
+          ),
+          SimpleListItem(
+            title: tr.common.privacyPolicy,
+            leadingIcon: Symbols.policy,
+            trailingIcon: Symbols.open_in_browser,
+            onTap: () {
+              launchCustomTab(privacyPolicyUrl);
+            },
+          ),
+          InkWell(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+              child: Text(
+                buildVersionString(),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                ),
               ),
             ),
+            onTap: () {
+              setState(() {
+                showVersionDetails = !showVersionDetails;
+              });
+            },
           ),
-          onTap: () {
-            setState(() {
-              showVersionDetails = !showVersionDetails;
-            });
-          },
-        ),
-      ],
+        ],
+      ),
     );
   }
 

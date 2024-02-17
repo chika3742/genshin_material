@@ -1,15 +1,17 @@
 import "package:flutter/material.dart";
 
-class DatabaseNavPage extends StatefulWidget {
+import "../../../i18n/strings.g.dart";
+
+class DatabaseNavPage extends StatelessWidget {
   const DatabaseNavPage({super.key});
 
   @override
-  State<DatabaseNavPage> createState() => _DatabaseNavPageState();
-}
-
-class _DatabaseNavPageState extends State<DatabaseNavPage> {
-  @override
   Widget build(BuildContext context) {
-    return const Placeholder(child: Text("DatabaseNavPage"));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(tr.homeNavDestinations.database),
+      ),
+      body: const Placeholder(),
+    );
   }
 }

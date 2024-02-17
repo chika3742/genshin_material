@@ -6,74 +6,43 @@ import "package:path_provider/path_provider.dart";
 
 import "../core/asset_updater.dart";
 import "../core/handle_error.dart";
-import "../home_nav_routes.dart";
 import "../i18n/strings.g.dart";
 import "../main.dart";
-import "../routes.dart";
 import "../ui_core/install_latest_assets.dart";
 import "../ui_core/snack_bar.dart";
 
 class HomePage extends ConsumerStatefulWidget {
-  final Widget child;
+  final StatefulNavigationShell navigationShell;
 
-  const HomePage({super.key, required this.child});
+  const HomePage({super.key, required this.navigationShell});
 
   @override
   ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomeNavEntry {
-  final NavigationDestination destination;
-  final String location;
-
-  const _HomeNavEntry({required this.destination, required this.location});
-}
-
 class _HomePageState extends ConsumerState<HomePage> {
-  /// Creates new [_HomeNavEntry] class from params.
-  static _HomeNavEntry createNavEntry({
-    required IconData icon,
-    required String label,
-    required String location,
-  }) {
-    return _HomeNavEntry(
-      destination: NavigationDestination(
-        icon: Icon(icon),
-        label: label,
-      ),
-      location: location,
-    );
-  }
-
-  final navDestinations = <_HomeNavEntry>[
-    createNavEntry(
-      icon: Symbols.home_filled,
+  final navDestinations = <NavigationDestination>[
+    NavigationDestination(
+      icon: const Icon(Symbols.home_filled),
       label: tr.homeNavDestinations.bookmarks,
-      location: BookmarksNavRoute().location,
     ),
-    createNavEntry(
-      icon: Symbols.database,
+    NavigationDestination(
+      icon: const Icon(Symbols.database),
       label: tr.homeNavDestinations.database,
-      location: DatabaseNavRoute().location,
     ),
-    createNavEntry(
-      icon: Symbols.today,
+    NavigationDestination(
+      icon: const Icon(Symbols.today),
       label: tr.homeNavDestinations.daily,
-      location: DailyNavRoute().location,
     ),
-    createNavEntry(
-      icon: Symbols.home_repair_service,
+    NavigationDestination(
+      icon: const Icon(Symbols.home_repair_service),
       label: tr.homeNavDestinations.tools,
-      location: ToolsNavRoute().location,
     ),
-    createNavEntry(
-      icon: Symbols.more_horiz,
+    NavigationDestination(
+      icon: const Icon(Symbols.more_horiz),
       label: tr.homeNavDestinations.more,
-      location: MoreNavRoute().location,
     ),
   ];
-
-  var selectedNavIndex = 0;
 
   @override
   void initState() {
@@ -103,18 +72,17 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(navDestinations[selectedNavIndex].destination.label)),
       bottomNavigationBar: NavigationBar(
-        destinations: navDestinations.map((e) => e.destination).toList(),
-        selectedIndex: selectedNavIndex,
+        destinations: navDestinations,
+        selectedIndex: widget.navigationShell.currentIndex,
         onDestinationSelected: (index) {
-          setState(() {
-            selectedNavIndex = index;
-            context.go(navDestinations[index].location);
-          });
+          widget.navigationShell.goBranch(
+            index,
+            initialLocation: index == widget.navigationShell.currentIndex,
+          );
         },
       ),
-      body: widget.child,
+      body: widget.navigationShell,
     );
   }
 }
