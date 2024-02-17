@@ -10,43 +10,63 @@ List<RouteBase> get $appRoutes => [
       $homeRoute,
     ];
 
-RouteBase get $homeRoute => ShellRouteData.$route(
+RouteBase get $homeRoute => StatefulShellRouteData.$route(
       factory: $HomeRouteExtension._fromState,
-      routes: [
-        GoRouteData.$route(
-          path: '/bookmarks',
-          factory: $BookmarksNavRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: '/database',
-          factory: $DatabaseNavRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: '/daily',
-          factory: $DailyNavRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: '/tools',
-          factory: $ToolsNavRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: '/more',
-          factory: $MoreNavRouteExtension._fromState,
+      branches: [
+        StatefulShellBranchData.$branch(
           routes: [
             GoRouteData.$route(
-              path: 'settings',
-              parentNavigatorKey: SettingsRoute.$parentNavigatorKey,
-              factory: $SettingsRouteExtension._fromState,
+              path: '/bookmarks',
+              factory: $BookmarksNavRouteExtension._fromState,
             ),
+          ],
+        ),
+        StatefulShellBranchData.$branch(
+          routes: [
             GoRouteData.$route(
-              path: 'account',
-              parentNavigatorKey: AccountRoute.$parentNavigatorKey,
-              factory: $AccountRouteExtension._fromState,
+              path: '/database',
+              factory: $DatabaseNavRouteExtension._fromState,
             ),
+          ],
+        ),
+        StatefulShellBranchData.$branch(
+          routes: [
             GoRouteData.$route(
-              path: 'release-notes',
-              parentNavigatorKey: ReleaseNotesRoute.$parentNavigatorKey,
-              factory: $ReleaseNotesRouteExtension._fromState,
+              path: '/daily',
+              factory: $DailyNavRouteExtension._fromState,
+            ),
+          ],
+        ),
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: '/tools',
+              factory: $ToolsNavRouteExtension._fromState,
+            ),
+          ],
+        ),
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: '/more',
+              factory: $MoreNavRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'settings',
+                  parentNavigatorKey: SettingsRoute.$parentNavigatorKey,
+                  factory: $SettingsRouteExtension._fromState,
+                ),
+                GoRouteData.$route(
+                  path: 'account',
+                  parentNavigatorKey: AccountRoute.$parentNavigatorKey,
+                  factory: $AccountRouteExtension._fromState,
+                ),
+                GoRouteData.$route(
+                  path: 'release-notes',
+                  parentNavigatorKey: ReleaseNotesRoute.$parentNavigatorKey,
+                  factory: $ReleaseNotesRouteExtension._fromState,
+                ),
+              ],
             ),
           ],
         ),
@@ -54,7 +74,7 @@ RouteBase get $homeRoute => ShellRouteData.$route(
     );
 
 extension $HomeRouteExtension on HomeRoute {
-  static HomeRoute _fromState(GoRouterState state) => HomeRoute();
+  static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
 }
 
 extension $BookmarksNavRouteExtension on BookmarksNavRoute {

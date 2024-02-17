@@ -6,7 +6,7 @@
 /// Locales: 2
 /// Strings: 46 (23 per locale)
 ///
-/// Built on 2024-02-15 at 15:32 UTC
+/// Built on 2024-02-17 at 11:43 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -151,7 +151,6 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	// Translations
 	late final _StringsCommonJa common = _StringsCommonJa._(_root);
 	late final _StringsUpdatesJa updates = _StringsUpdatesJa._(_root);
-	late final _StringsHomeNavDestinationsJa homeNavDestinations = _StringsHomeNavDestinationsJa._(_root);
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
 	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
@@ -184,20 +183,6 @@ class _StringsUpdatesJa {
 	String get pleaseWaitUntilComplete => 'データ更新が完了するまでお待ちください。';
 }
 
-// Path: homeNavDestinations
-class _StringsHomeNavDestinationsJa {
-	_StringsHomeNavDestinationsJa._(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-	String get bookmarks => 'ブックマーク';
-	String get database => 'データベース';
-	String get daily => '日替わり素材';
-	String get tools => 'ツール';
-	String get more => 'その他';
-}
-
 // Path: pages
 class _StringsPagesJa {
 	_StringsPagesJa._(this._root);
@@ -209,6 +194,11 @@ class _StringsPagesJa {
 	String get settings => '設定';
 	String get account => 'アカウント';
 	String get releaseNotes => '更新履歴';
+	String get bookmarks => 'ブックマーク';
+	String get database => 'データベース';
+	String get daily => '日替わり素材';
+	String get tools => 'ツール';
+	String get more => 'その他';
 }
 
 // Path: morePage
@@ -272,7 +262,6 @@ class _StringsEn extends Translations {
 	// Translations
 	@override late final _StringsCommonEn common = _StringsCommonEn._(_root);
 	@override late final _StringsUpdatesEn updates = _StringsUpdatesEn._(_root);
-	@override late final _StringsHomeNavDestinationsEn homeNavDestinations = _StringsHomeNavDestinationsEn._(_root);
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
 	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
@@ -305,20 +294,6 @@ class _StringsUpdatesEn extends _StringsUpdatesJa {
 	@override String get pleaseWaitUntilComplete => 'Please wait until data update is complete.';
 }
 
-// Path: homeNavDestinations
-class _StringsHomeNavDestinationsEn extends _StringsHomeNavDestinationsJa {
-	_StringsHomeNavDestinationsEn._(_StringsEn root) : this._root = root, super._(root);
-
-	@override final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	@override String get bookmarks => 'Bookmarks';
-	@override String get database => 'Database';
-	@override String get daily => 'Daily';
-	@override String get tools => 'Tools';
-	@override String get more => 'More';
-}
-
 // Path: pages
 class _StringsPagesEn extends _StringsPagesJa {
 	_StringsPagesEn._(_StringsEn root) : this._root = root, super._(root);
@@ -330,6 +305,11 @@ class _StringsPagesEn extends _StringsPagesJa {
 	@override String get settings => 'Settings';
 	@override String get account => 'Account';
 	@override String get releaseNotes => 'Release Notes';
+	@override String get bookmarks => 'Bookmarks';
+	@override String get database => 'Database';
+	@override String get daily => 'Daily';
+	@override String get tools => 'Tools';
+	@override String get more => 'More';
 }
 
 // Path: morePage
@@ -379,15 +359,15 @@ extension on Translations {
 			case 'updates.completed': return '更新が完了しました。';
 			case 'updates.installing': return 'インストールしています...';
 			case 'updates.pleaseWaitUntilComplete': return 'データ更新が完了するまでお待ちください。';
-			case 'homeNavDestinations.bookmarks': return 'ブックマーク';
-			case 'homeNavDestinations.database': return 'データベース';
-			case 'homeNavDestinations.daily': return '日替わり素材';
-			case 'homeNavDestinations.tools': return 'ツール';
-			case 'homeNavDestinations.more': return 'その他';
 			case 'pages.characters': return 'キャラクター';
 			case 'pages.settings': return '設定';
 			case 'pages.account': return 'アカウント';
 			case 'pages.releaseNotes': return '更新履歴';
+			case 'pages.bookmarks': return 'ブックマーク';
+			case 'pages.database': return 'データベース';
+			case 'pages.daily': return '日替わり素材';
+			case 'pages.tools': return 'ツール';
+			case 'pages.more': return 'その他';
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
@@ -410,15 +390,15 @@ extension on _StringsEn {
 			case 'updates.completed': return 'Data update completed.';
 			case 'updates.installing': return 'Installing...';
 			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
-			case 'homeNavDestinations.bookmarks': return 'Bookmarks';
-			case 'homeNavDestinations.database': return 'Database';
-			case 'homeNavDestinations.daily': return 'Daily';
-			case 'homeNavDestinations.tools': return 'Tools';
-			case 'homeNavDestinations.more': return 'More';
 			case 'pages.characters': return 'Characters';
 			case 'pages.settings': return 'Settings';
 			case 'pages.account': return 'Account';
 			case 'pages.releaseNotes': return 'Release Notes';
+			case 'pages.bookmarks': return 'Bookmarks';
+			case 'pages.database': return 'Database';
+			case 'pages.daily': return 'Daily';
+			case 'pages.tools': return 'Tools';
+			case 'pages.more': return 'More';
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
