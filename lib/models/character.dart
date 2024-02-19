@@ -1,42 +1,70 @@
-import "package:freezed_annotation/freezed_annotation.dart";
+import "dart:io";
 
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:path/path.dart" as path;
+
+import "../i18n/strings.g.dart";
 import "common.dart";
 import "localized_text.dart";
 
-part "characters.freezed.dart";
-part "characters.g.dart";
+part "character.freezed.dart";
+part "character.g.dart";
 
-typedef Characters = List<Character>;
+typedef CharacterList = List<Character>;
+
+mixin CharacterWithLargeImage on Character {
+  String get imageUrl;
+
+  File getImageFile(String localAssetPath) =>
+      File(path.join(localAssetPath, imageUrl));
+}
+
+mixin CharacterWithSmallImage on Character {
+  String get smallImageUrl;
+
+  File getSmallImageFile(String localAssetPath) =>
+      File(path.join(localAssetPath, smallImageUrl));
+}
 
 @Freezed(fallbackUnion: "default")
 sealed class Character with _$Character {
+  const Character._();
+
+  @With<CharacterWithLargeImage>()
+  @With<CharacterWithSmallImage>()
   const factory Character({
     required String id,
     required String rid,
     required LocalizedText name,
     required String jaPronunciation,
+    required String imageUrl,
+    required String smallImageUrl,
     required int rarity,
     required WeaponType weaponType,
     required TeyvatElement element,
     required CharacterMaterialDefinitions materials,
-  }) = _Character;
+  }) = ListedCharacter;
 
+  @With<CharacterWithLargeImage>()
   const factory Character.group({
     required String id,
     required LocalizedText name,
     required String jaPronunciation,
+    required String imageUrl,
     required int rarity,
     required WeaponType weaponType,
     required List<String> variantIds,
     required CharacterMaterialDefinitions materials,
   }) = CharacterGroup;
 
+  @With<CharacterWithSmallImage>()
   const factory Character.unlisted({
     required String id,
     required String rid,
     required String parentId,
     required LocalizedText name,
     required String jaPronunciation,
+    required String smallImageUrl,
     required int rarity,
     required WeaponType weaponType,
     required TeyvatElement element,
@@ -45,6 +73,15 @@ sealed class Character with _$Character {
 
   factory Character.fromJson(Map<String, dynamic> json) =>
       _$CharacterFromJson(json);
+
+  String get localizedName {
+    final lang = LocaleSettings.currentLocale.languageCode;
+    final s = name.locales[lang];
+    if (s == null) {
+      throw "No $lang localization found";
+    }
+    return s;
+  }
 }
 
 @Freezed(fallbackUnion: "default")

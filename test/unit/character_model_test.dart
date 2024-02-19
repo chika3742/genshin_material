@@ -1,7 +1,7 @@
 
 import "package:flutter/foundation.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/models/characters.dart";
+import "package:genshin_material/models/character.dart";
 
 void main() {
   test("Can parse NormalCharacterMaterialDefinition JSON", () {

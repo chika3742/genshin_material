@@ -1,17 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'characters.dart';
+part of 'character.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CharacterImpl _$$CharacterImplFromJson(Map<String, dynamic> json) =>
-    _$CharacterImpl(
+_$ListedCharacterImpl _$$ListedCharacterImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ListedCharacterImpl(
       id: json['id'] as String,
       rid: json['rid'] as String,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
+      imageUrl: json['imageUrl'] as String,
+      smallImageUrl: json['smallImageUrl'] as String,
       rarity: json['rarity'] as int,
       weaponType: $enumDecode(_$WeaponTypeEnumMap, json['weaponType']),
       element: $enumDecode(_$TeyvatElementEnumMap, json['element']),
@@ -20,12 +23,15 @@ _$CharacterImpl _$$CharacterImplFromJson(Map<String, dynamic> json) =>
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CharacterImplToJson(_$CharacterImpl instance) =>
+Map<String, dynamic> _$$ListedCharacterImplToJson(
+        _$ListedCharacterImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'rid': instance.rid,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,
+      'imageUrl': instance.imageUrl,
+      'smallImageUrl': instance.smallImageUrl,
       'rarity': instance.rarity,
       'weaponType': _$WeaponTypeEnumMap[instance.weaponType]!,
       'element': _$TeyvatElementEnumMap[instance.element]!,
@@ -56,6 +62,7 @@ _$CharacterGroupImpl _$$CharacterGroupImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
+      imageUrl: json['imageUrl'] as String,
       rarity: json['rarity'] as int,
       weaponType: $enumDecode(_$WeaponTypeEnumMap, json['weaponType']),
       variantIds: (json['variantIds'] as List<dynamic>)
@@ -72,6 +79,7 @@ Map<String, dynamic> _$$CharacterGroupImplToJson(
       'id': instance.id,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,
+      'imageUrl': instance.imageUrl,
       'rarity': instance.rarity,
       'weaponType': _$WeaponTypeEnumMap[instance.weaponType]!,
       'variantIds': instance.variantIds,
@@ -87,6 +95,7 @@ _$UnlistedCharacterImpl _$$UnlistedCharacterImplFromJson(
       parentId: json['parentId'] as String,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
+      smallImageUrl: json['smallImageUrl'] as String,
       rarity: json['rarity'] as int,
       weaponType: $enumDecode(_$WeaponTypeEnumMap, json['weaponType']),
       element: $enumDecode(_$TeyvatElementEnumMap, json['element']),
@@ -103,6 +112,7 @@ Map<String, dynamic> _$$UnlistedCharacterImplToJson(
       'parentId': instance.parentId,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,
+      'smallImageUrl': instance.smallImageUrl,
       'rarity': instance.rarity,
       'weaponType': _$WeaponTypeEnumMap[instance.weaponType]!,
       'element': _$TeyvatElementEnumMap[instance.element]!,
