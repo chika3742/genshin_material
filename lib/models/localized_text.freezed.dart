@@ -96,9 +96,10 @@ class __$$LocalizedTextImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$LocalizedTextImpl implements _LocalizedText {
+class _$LocalizedTextImpl extends _LocalizedText {
   const _$LocalizedTextImpl({required final Map<String, String> locales})
-      : _locales = locales;
+      : _locales = locales,
+        super._();
 
   factory _$LocalizedTextImpl.fromJson(Map<String, dynamic> json) =>
       _$$LocalizedTextImplFromJson(json);
@@ -143,9 +144,10 @@ class _$LocalizedTextImpl implements _LocalizedText {
   }
 }
 
-abstract class _LocalizedText implements LocalizedText {
+abstract class _LocalizedText extends LocalizedText {
   const factory _LocalizedText({required final Map<String, String> locales}) =
       _$LocalizedTextImpl;
+  const _LocalizedText._() : super._();
 
   factory _LocalizedText.fromJson(Map<String, dynamic> json) =
       _$LocalizedTextImpl.fromJson;
