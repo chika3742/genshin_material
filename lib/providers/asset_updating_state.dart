@@ -36,7 +36,7 @@ class AssetUpdatingStateNotifier extends _$AssetUpdatingStateNotifier {
     try {
       await updater.installUpdate();
 
-      ref.invalidate(assetVersionDataProvider);
+      ref.invalidate(assetDataProvider);
     } finally {
       completeUpdate();
     }

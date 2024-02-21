@@ -20,21 +20,20 @@ final packageInfoProvider = FutureProvider<PackageInfo>.internal(
 );
 
 typedef PackageInfoRef = FutureProviderRef<PackageInfo>;
-String _$assetVersionDataHash() => r'8dc5f300fe4214bc4ca5b2142f15e0eaf35a3e48';
+String _$assetDataHash() => r'32f4652e2b4cffb7e0cc817f7ad45a33755971bb';
 
-/// See also [assetVersionData].
-@ProviderFor(assetVersionData)
-final assetVersionDataProvider = FutureProvider<AssetReleaseVersion?>.internal(
-  assetVersionData,
-  name: r'assetVersionDataProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$assetVersionDataHash,
+/// See also [assetData].
+@ProviderFor(assetData)
+final assetDataProvider = FutureProvider<AssetDataCache>.internal(
+  assetData,
+  name: r'assetDataProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$assetDataHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AssetVersionDataRef = FutureProviderRef<AssetReleaseVersion?>;
+typedef AssetDataRef = FutureProviderRef<AssetDataCache>;
 String _$featuresReleaseNotesDataHash() =>
     r'61992b0546d8d43847e9a6ec4048c1fa9cbcda14';
 
@@ -53,7 +52,7 @@ final featuresReleaseNotesDataProvider =
 
 typedef FeaturesReleaseNotesDataRef = FutureProviderRef<List<ReleaseNote>>;
 String _$assetsReleaseNotesDataHash() =>
-    r'386f0f6b8b39498c4edb0a18a9c95efb4baf9ccd';
+    r'6b5bfffa60cd98592042a508db0c76e2df5fe452';
 
 /// See also [assetsReleaseNotesData].
 @ProviderFor(assetsReleaseNotesData)

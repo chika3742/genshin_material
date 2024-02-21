@@ -42,7 +42,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 (await getLocalAssetDirectory()).delete(recursive: true);
               } catch (_) {}
 
-              ref.invalidate(assetVersionDataProvider);
+              ref.invalidate(assetDataProvider);
 
               final updater = AssetUpdater(
                 (await getLocalAssetDirectory()).path,
