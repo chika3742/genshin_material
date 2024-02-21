@@ -26,6 +26,18 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
             GoRouteData.$route(
               path: '/database',
               factory: $DatabaseNavRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'characters',
+                  factory: $CharacterListRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: ':id',
+                      factory: $CharacterDetailsRouteExtension._fromState,
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
@@ -100,6 +112,44 @@ extension $DatabaseNavRouteExtension on DatabaseNavRoute {
 
   String get location => GoRouteData.$location(
         '/database',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $CharacterListRouteExtension on CharacterListRoute {
+  static CharacterListRoute _fromState(GoRouterState state) =>
+      CharacterListRoute();
+
+  String get location => GoRouteData.$location(
+        '/database/characters',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $CharacterDetailsRouteExtension on CharacterDetailsRoute {
+  static CharacterDetailsRoute _fromState(GoRouterState state) =>
+      CharacterDetailsRoute(
+        id: state.pathParameters['id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/database/characters/${Uri.encodeComponent(id)}',
       );
 
   void go(BuildContext context) => context.go(location);
