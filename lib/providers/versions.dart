@@ -19,7 +19,7 @@ Future<PackageInfo> packageInfo(PackageInfoRef ref) async {
 
 @Riverpod(keepAlive: true)
 Future<AssetReleaseVersion?> assetVersionData(AssetVersionDataRef ref) async {
-  return await AssetUpdater(await getLocalAssetDirectory()).getCurrentVersion();
+  return await AssetUpdater((await getLocalAssetDirectory()).path).getCurrentVersion();
 }
 
 @Riverpod(keepAlive: true)

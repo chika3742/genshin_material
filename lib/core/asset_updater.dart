@@ -15,8 +15,8 @@ class AssetUpdater {
   AssetUpdater(this.assetDir, {this.tempDir, http.Client? httpClient})
       : httpClient = httpClient ?? http.Client();
 
-  final Directory assetDir;
-  final Directory? tempDir;
+  final String assetDir;
+  final String? tempDir;
   final http.Client httpClient;
 
   void Function()? onProgress;
@@ -49,7 +49,7 @@ class AssetUpdater {
   }
 
   Future<AssetReleaseVersion?> getCurrentVersion() async {
-    final versionFile = File(path.join(assetDir.path, "version.json"));
+    final versionFile = File(path.join(assetDir, "version.json"));
     if (!await versionFile.exists()) {
       return null;
     }
@@ -96,7 +96,7 @@ class AssetUpdater {
 
     receivedBytes = 0;
 
-    final file = File(path.join(tempDir!.path, path.basename(uri.path)));
+    final file = File(path.join(tempDir!, path.basename(uri.path)));
     await file.create(recursive: true);
     final fileSink = file.openWrite();
 
@@ -125,7 +125,7 @@ class AssetUpdater {
     final inputStream = InputFileStream(zipPath);
     final archive = ZipDecoder().decodeBuffer(inputStream);
 
-    await extractArchiveToDiskAsync(archive, assetDir.path, asyncWrite: true);
+    await extractArchiveToDiskAsync(archive, assetDir, asyncWrite: true);
   }
 }
 

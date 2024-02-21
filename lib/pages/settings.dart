@@ -45,8 +45,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               ref.invalidate(assetVersionDataProvider);
 
               final updater = AssetUpdater(
-                await getLocalAssetDirectory(),
-                tempDir: await getTemporaryDirectory(),
+                (await getLocalAssetDirectory()).path,
+                tempDir: (await getTemporaryDirectory()).path,
               );
               try {
                 await updater.checkForUpdate();
