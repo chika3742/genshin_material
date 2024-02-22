@@ -38,6 +38,7 @@ Future<void> installLatestAssets({
     // execute update
     await updatingState.executeUpdate(updater);
 
+    final messenger = ScaffoldMessenger.of(routerContext!);
     // hide progress snack bar
     messenger.hideCurrentSnackBar();
     // Display a snack bar to indicate SUCCESS
@@ -55,6 +56,7 @@ Future<void> installLatestAssets({
   } catch (e, st) {
     handleError(e, st);
 
+    final messenger = ScaffoldMessenger.of(routerContext!);
     // hide progress snack bar
     messenger.hideCurrentSnackBar();
     // Display a snack bar to indicate FAILURE
