@@ -3,7 +3,6 @@ import "dart:io";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:path/path.dart" as path;
 
-import "../i18n/strings.g.dart";
 import "common.dart";
 import "localized_text.dart";
 
@@ -21,6 +20,7 @@ mixin CharacterWithLargeImage on Character {
 
 mixin CharacterWithSmallImage on Character {
   String get smallImageUrl;
+  TeyvatElement get element;
 
   File getSmallImageFile(String localAssetPath) =>
       File(path.join(localAssetPath, smallImageUrl));
@@ -73,15 +73,6 @@ sealed class Character with _$Character {
 
   factory Character.fromJson(Map<String, dynamic> json) =>
       _$CharacterFromJson(json);
-
-  String get localizedName {
-    final lang = LocaleSettings.currentLocale.languageCode;
-    final s = name.locales[lang];
-    if (s == null) {
-      throw "No $lang localization found";
-    }
-    return s;
-  }
 }
 
 @Freezed(fallbackUnion: "default")

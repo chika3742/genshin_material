@@ -11,8 +11,9 @@ import "center_text.dart";
 /// and then shows [builder] widget.
 class DataAssetScope extends ConsumerWidget {
   final Widget Function(AssetDataCache assetData) builder;
+  final bool wrapCenterTextWithScaffold;
 
-  const DataAssetScope({super.key, required this.builder});
+  const DataAssetScope({super.key, required this.builder, this.wrapCenterTextWithScaffold = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +26,7 @@ class DataAssetScope extends ConsumerWidget {
     }
     if (updatingState.state != null) {
       // No installed assets present and installation process running
-      return CenterText(tr.updates.pleaseWaitUntilComplete);
+      return _wrapWithScaffold(CenterText(tr.updates.pleaseWaitUntilComplete));
     }
     if (assetData.isLoading) {
       // Asset version is loading
@@ -35,6 +36,17 @@ class DataAssetScope extends ConsumerWidget {
     }
 
     // Asset installation failed
-    return CenterText(tr.updates.failed);
+    return _wrapWithScaffold(CenterText(tr.updates.failed));
+  }
+
+  Widget _wrapWithScaffold(Widget child) {
+    if (wrapCenterTextWithScaffold) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: child,
+      );
+    } else {
+      return child;
+    }
   }
 }

@@ -7,7 +7,9 @@ import "main.dart";
 import "pages/account.dart";
 import "pages/bookmarks.dart";
 import "pages/daily.dart";
-import "pages/database.dart";
+import "pages/database/characters/character_details.dart";
+import "pages/database/characters/character_list.dart";
+import "pages/database/database.dart";
 import "pages/home.dart";
 import "pages/more.dart";
 import "pages/release_notes.dart";
@@ -27,7 +29,14 @@ part "routes.g.dart";
       routes: [
         TypedGoRoute<DatabaseNavRoute>(
           path: "/database",
-          routes: [],
+          routes: [
+            TypedGoRoute<CharacterListRoute>(
+              path: "characters",
+              routes: [
+                TypedGoRoute<CharacterDetailsRoute>(path: ":id"),
+              ],
+            ),
+          ],
         ),
       ],
     ),
@@ -83,6 +92,32 @@ class DatabaseNavRoute extends GoRouteData {
     return _buildTransitionPage(
       context: context,
       child: const DatabasePage(),
+    );
+  }
+}
+
+@immutable
+class CharacterListRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const CharacterListPage(),
+    );
+  }
+}
+
+@immutable
+class CharacterDetailsRoute extends GoRouteData {
+  final String id;
+
+  const CharacterDetailsRoute({required this.id});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: CharacterDetailsPage(id: id),
     );
   }
 }

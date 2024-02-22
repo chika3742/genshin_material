@@ -5,6 +5,7 @@ import "package:yaml/yaml.dart";
 
 import "../models/asset_release_version.dart";
 import "../models/character.dart";
+import "../models/character_ingredients.dart";
 import "../models/common.dart";
 import "../models/element.dart";
 import "../utils/unwrap_yaml_value.dart";
@@ -18,6 +19,7 @@ class AssetDataCache {
 
   AssetReleaseVersion? version;
   List<Character>? characters;
+  CharacterIngredients? characterIngredients;
   Map<TeyvatElement, Element>? elements;
 
   Future<void> init() async {
@@ -39,6 +41,9 @@ class AssetDataCache {
         Element.fromJson(value),
       );
     });
+    characterIngredients = CharacterIngredients.fromJson(
+      await loadDataAsset<Map<String, dynamic>>("character-ingredients.yaml"),
+    );
   }
 
   /// Reads data asset file and parses YAML into JSON.

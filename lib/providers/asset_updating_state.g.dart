@@ -7,7 +7,7 @@ part of 'asset_updating_state.dart';
 // **************************************************************************
 
 String _$assetUpdatingStateNotifierHash() =>
-    r'aa94f4d5466b729b0e485345522c99d706206f56';
+    r'35a4a282c662909dabcc1fd253de69d3bbe4fbab';
 
 /// See also [AssetUpdatingStateNotifier].
 @ProviderFor(AssetUpdatingStateNotifier)
