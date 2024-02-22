@@ -98,6 +98,8 @@ void main() {
           "en": "Foo",
         },
       },
+      "imageUrl": "https://example.com/foo.png",
+      "smallImageUrl": "https://example.com/foo.png",
       "rarity": 5,
       "weaponType": "sword",
       "element": "pyro",
