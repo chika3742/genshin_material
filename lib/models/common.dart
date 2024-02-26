@@ -1,9 +1,9 @@
 import "../i18n/strings.g.dart";
 
 enum TalentType {
-  normal,
-  skill,
-  burst,
+  normalAttack,
+  elementalSkill,
+  elementalBurst,
 }
 
 enum WeaponType {

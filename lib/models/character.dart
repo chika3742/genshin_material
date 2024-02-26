@@ -42,6 +42,7 @@ sealed class Character with _$Character {
     required int rarity,
     required WeaponType weaponType,
     required TeyvatElement element,
+    required Map<TalentType, LocalizedText> talents,
     required CharacterMaterialDefinitions materials,
   }) = ListedCharacter;
 
@@ -68,6 +69,7 @@ sealed class Character with _$Character {
     required int rarity,
     required WeaponType weaponType,
     required TeyvatElement element,
+    required Map<TalentType, LocalizedText> talents,
     required CharacterMaterialDefinitions materials,
   }) = UnlistedCharacter;
 

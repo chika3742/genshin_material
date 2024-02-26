@@ -18,6 +18,10 @@ _$ListedCharacterImpl _$$ListedCharacterImplFromJson(
       rarity: json['rarity'] as int,
       weaponType: $enumDecode(_$WeaponTypeEnumMap, json['weaponType']),
       element: $enumDecode(_$TeyvatElementEnumMap, json['element']),
+      talents: (json['talents'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry($enumDecode(_$TalentTypeEnumMap, k),
+            LocalizedText.fromJson(e as Map<String, dynamic>)),
+      ),
       materials: CharacterMaterialDefinitions.fromJson(
           json['materials'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
@@ -35,6 +39,8 @@ Map<String, dynamic> _$$ListedCharacterImplToJson(
       'rarity': instance.rarity,
       'weaponType': _$WeaponTypeEnumMap[instance.weaponType]!,
       'element': _$TeyvatElementEnumMap[instance.element]!,
+      'talents':
+          instance.talents.map((k, e) => MapEntry(_$TalentTypeEnumMap[k]!, e)),
       'materials': instance.materials,
       'runtimeType': instance.$type,
     };
@@ -55,6 +61,12 @@ const _$TeyvatElementEnumMap = {
   TeyvatElement.anemo: 'anemo',
   TeyvatElement.geo: 'geo',
   TeyvatElement.dendro: 'dendro',
+};
+
+const _$TalentTypeEnumMap = {
+  TalentType.normalAttack: 'normalAttack',
+  TalentType.elementalSkill: 'elementalSkill',
+  TalentType.elementalBurst: 'elementalBurst',
 };
 
 _$CharacterGroupImpl _$$CharacterGroupImplFromJson(Map<String, dynamic> json) =>
@@ -99,6 +111,10 @@ _$UnlistedCharacterImpl _$$UnlistedCharacterImplFromJson(
       rarity: json['rarity'] as int,
       weaponType: $enumDecode(_$WeaponTypeEnumMap, json['weaponType']),
       element: $enumDecode(_$TeyvatElementEnumMap, json['element']),
+      talents: (json['talents'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry($enumDecode(_$TalentTypeEnumMap, k),
+            LocalizedText.fromJson(e as Map<String, dynamic>)),
+      ),
       materials: CharacterMaterialDefinitions.fromJson(
           json['materials'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
@@ -116,6 +132,8 @@ Map<String, dynamic> _$$UnlistedCharacterImplToJson(
       'rarity': instance.rarity,
       'weaponType': _$WeaponTypeEnumMap[instance.weaponType]!,
       'element': _$TeyvatElementEnumMap[instance.element]!,
+      'talents':
+          instance.talents.map((k, e) => MapEntry(_$TalentTypeEnumMap[k]!, e)),
       'materials': instance.materials,
       'runtimeType': instance.$type,
     };
@@ -201,12 +219,6 @@ Map<String, dynamic> _$$MaterialIdPerTypeImplToJson(
           instance.types.map((k, e) => MapEntry(_$TalentTypeEnumMap[k]!, e)),
       'runtimeType': instance.$type,
     };
-
-const _$TalentTypeEnumMap = {
-  TalentType.normal: 'normal',
-  TalentType.skill: 'skill',
-  TalentType.burst: 'burst',
-};
 
 _$MaterialIdPerLevelPerTypeImpl _$$MaterialIdPerLevelPerTypeImplFromJson(
         Map<String, dynamic> json) =>
