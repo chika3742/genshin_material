@@ -2,9 +2,18 @@ common:
   tos: 利用規約
   privacyPolicy: プライバシーポリシー
   error: エラーが発生しました。
-  element: 元素
   goalLevel: 目標レベル
   currentLevel: 現在レベル
+talentTypes(map):
+  normalAttack: 通常攻撃
+  elementalSkill: 元素スキル
+  elementalBurst: 元素爆発
+weaponTypes(map):
+  sword: 片手剣
+  claymore: 両手剣
+  polearm: 長柄武器
+  bow: 弓
+  catalyst: 法器
 updates:
   downloading: データ更新をダウンロードしています…
   failed: データ更新に失敗しました。アプリを再起動すると再試行します。
@@ -36,10 +45,3 @@ settingsPage:
   assetData: アセットデータ
   reDownloadAssets: アセットデータを再ダウンロード
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
-
-weaponTypes(map):
-  sword: 片手剣
-  claymore: 両手剣
-  polearm: 長柄武器
-  bow: 弓
-  catalyst: 法器

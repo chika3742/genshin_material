@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 70 (35 per locale)
+/// Strings: 74 (37 per locale)
 ///
-/// Built on 2024-02-22 at 13:48 UTC
+/// Built on 2024-02-26 at 10:08 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -150,13 +150,11 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final _StringsCommonJa common = _StringsCommonJa._(_root);
-	late final _StringsUpdatesJa updates = _StringsUpdatesJa._(_root);
-	late final _StringsErrorsJa errors = _StringsErrorsJa._(_root);
-	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
-	late final _StringsCharacterDetailsPageJa characterDetailsPage = _StringsCharacterDetailsPageJa._(_root);
-	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
-	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
-	late final _StringsSettingsPageJa settingsPage = _StringsSettingsPageJa._(_root);
+	Map<String, String> get talentTypes => {
+		'normalAttack': '通常攻撃',
+		'elementalSkill': '元素スキル',
+		'elementalBurst': '元素爆発',
+	};
 	Map<String, String> get weaponTypes => {
 		'sword': '片手剣',
 		'claymore': '両手剣',
@@ -164,6 +162,13 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 		'bow': '弓',
 		'catalyst': '法器',
 	};
+	late final _StringsUpdatesJa updates = _StringsUpdatesJa._(_root);
+	late final _StringsErrorsJa errors = _StringsErrorsJa._(_root);
+	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
+	late final _StringsCharacterDetailsPageJa characterDetailsPage = _StringsCharacterDetailsPageJa._(_root);
+	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
+	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
+	late final _StringsSettingsPageJa settingsPage = _StringsSettingsPageJa._(_root);
 }
 
 // Path: common
@@ -176,7 +181,6 @@ class _StringsCommonJa {
 	String get tos => '利用規約';
 	String get privacyPolicy => 'プライバシーポリシー';
 	String get error => 'エラーが発生しました。';
-	String get element => '元素';
 	String get goalLevel => '目標レベル';
 	String get currentLevel => '現在レベル';
 }
@@ -295,13 +299,11 @@ class _StringsEn extends Translations {
 
 	// Translations
 	@override late final _StringsCommonEn common = _StringsCommonEn._(_root);
-	@override late final _StringsUpdatesEn updates = _StringsUpdatesEn._(_root);
-	@override late final _StringsErrorsEn errors = _StringsErrorsEn._(_root);
-	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
-	@override late final _StringsCharacterDetailsPageEn characterDetailsPage = _StringsCharacterDetailsPageEn._(_root);
-	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
-	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
-	@override late final _StringsSettingsPageEn settingsPage = _StringsSettingsPageEn._(_root);
+	@override Map<String, String> get talentTypes => {
+		'normalAttack': 'Normal Attack',
+		'elementalSkill': 'Elemental Skill',
+		'elementalBurst': 'Elemental Burst',
+	};
 	@override Map<String, String> get weaponTypes => {
 		'sword': 'Sword',
 		'claymore': 'Claymore',
@@ -309,6 +311,13 @@ class _StringsEn extends Translations {
 		'bow': 'Bow',
 		'catalyst': 'Catalyst',
 	};
+	@override late final _StringsUpdatesEn updates = _StringsUpdatesEn._(_root);
+	@override late final _StringsErrorsEn errors = _StringsErrorsEn._(_root);
+	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
+	@override late final _StringsCharacterDetailsPageEn characterDetailsPage = _StringsCharacterDetailsPageEn._(_root);
+	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
+	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
+	@override late final _StringsSettingsPageEn settingsPage = _StringsSettingsPageEn._(_root);
 }
 
 // Path: common
@@ -321,7 +330,6 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override String get tos => 'Terms of Use';
 	@override String get privacyPolicy => 'Privacy Policy';
 	@override String get error => 'An error occurred.';
-	@override String get element => 'Element';
 	@override String get goalLevel => 'Goal Level';
 	@override String get currentLevel => 'Current Level';
 }
@@ -422,9 +430,16 @@ extension on Translations {
 			case 'common.tos': return '利用規約';
 			case 'common.privacyPolicy': return 'プライバシーポリシー';
 			case 'common.error': return 'エラーが発生しました。';
-			case 'common.element': return '元素';
 			case 'common.goalLevel': return '目標レベル';
 			case 'common.currentLevel': return '現在レベル';
+			case 'talentTypes.normalAttack': return '通常攻撃';
+			case 'talentTypes.elementalSkill': return '元素スキル';
+			case 'talentTypes.elementalBurst': return '元素爆発';
+			case 'weaponTypes.sword': return '片手剣';
+			case 'weaponTypes.claymore': return '両手剣';
+			case 'weaponTypes.polearm': return '長柄武器';
+			case 'weaponTypes.bow': return '弓';
+			case 'weaponTypes.catalyst': return '法器';
 			case 'updates.downloading': return 'データ更新をダウンロードしています…';
 			case 'updates.failed': return 'データ更新に失敗しました。アプリを再起動すると再試行します。';
 			case 'updates.completed': return '更新が完了しました。';
@@ -449,11 +464,6 @@ extension on Translations {
 			case 'settingsPage.assetData': return 'アセットデータ';
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
-			case 'weaponTypes.sword': return '片手剣';
-			case 'weaponTypes.claymore': return '両手剣';
-			case 'weaponTypes.polearm': return '長柄武器';
-			case 'weaponTypes.bow': return '弓';
-			case 'weaponTypes.catalyst': return '法器';
 			default: return null;
 		}
 	}
@@ -465,9 +475,16 @@ extension on _StringsEn {
 			case 'common.tos': return 'Terms of Use';
 			case 'common.privacyPolicy': return 'Privacy Policy';
 			case 'common.error': return 'An error occurred.';
-			case 'common.element': return 'Element';
 			case 'common.goalLevel': return 'Goal Level';
 			case 'common.currentLevel': return 'Current Level';
+			case 'talentTypes.normalAttack': return 'Normal Attack';
+			case 'talentTypes.elementalSkill': return 'Elemental Skill';
+			case 'talentTypes.elementalBurst': return 'Elemental Burst';
+			case 'weaponTypes.sword': return 'Sword';
+			case 'weaponTypes.claymore': return 'Claymore';
+			case 'weaponTypes.polearm': return 'Polearm';
+			case 'weaponTypes.bow': return 'Bow';
+			case 'weaponTypes.catalyst': return 'Catalyst';
 			case 'updates.downloading': return 'Downloading data updates...';
 			case 'updates.failed': return 'Failed to update data. Restarting app to retry.';
 			case 'updates.completed': return 'Data update completed.';
@@ -492,11 +509,6 @@ extension on _StringsEn {
 			case 'settingsPage.assetData': return 'Assets';
 			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
 			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the images, characters, etc. of the app are not loading properly.';
-			case 'weaponTypes.sword': return 'Sword';
-			case 'weaponTypes.claymore': return 'Claymore';
-			case 'weaponTypes.polearm': return 'Polearm';
-			case 'weaponTypes.bow': return 'Bow';
-			case 'weaponTypes.catalyst': return 'Catalyst';
 			default: return null;
 		}
 	}

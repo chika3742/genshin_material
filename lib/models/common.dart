@@ -28,7 +28,7 @@ enum TeyvatElement {
   dendro,
 }
 
-enum PurposeType {
+enum Purpose {
   ascension,
   normalAttack,
   elementalSkill,

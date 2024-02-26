@@ -11,17 +11,11 @@ class CharacterIngredients with _$CharacterIngredients {
 
   const factory CharacterIngredients({
     required List<ExpItem> expItems,
-    required Map<PurposeType, CharacterIngredientsRarities> purposeTypes,
+    required Map<int, CharacterIngredientsPurposes> rarities,
   }) = _CharacterIngredients;
 
   factory CharacterIngredients.fromJson(Map<String, dynamic> json) =>
       _$CharacterIngredientsFromJson(json);
-
-  Map<int, List<CharacterIngredient>> getIngredientsForRarity(PurposeType purposeType, int rarity) {
-    final rarities = purposeTypes[purposeType]!.rarities;
-    final ingredients = rarities[rarity]!.levels;
-    return ingredients;
-  }
 }
 
 @freezed
@@ -36,13 +30,13 @@ class ExpItem with _$ExpItem {
 }
 
 @freezed
-class CharacterIngredientsRarities with _$CharacterIngredientsRarities {
-  const factory CharacterIngredientsRarities({
-    required Map<int, CharacterIngredientsLevels> rarities,
-  }) = _CharacterIngredientsRarities;
+class CharacterIngredientsPurposes with _$CharacterIngredientsPurposes {
+  const factory CharacterIngredientsPurposes({
+    required Map<Purpose, CharacterIngredientsLevels> purposes,
+  }) = _CharacterIngredientsPurposes;
 
-  factory CharacterIngredientsRarities.fromJson(Map<String, dynamic> json) =>
-      _$CharacterIngredientsRaritiesFromJson(json);
+  factory CharacterIngredientsPurposes.fromJson(Map<String, dynamic> json) =>
+      _$CharacterIngredientsPurposesFromJson(json);
 }
 
 @freezed
