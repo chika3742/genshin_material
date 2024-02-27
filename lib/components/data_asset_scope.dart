@@ -20,7 +20,7 @@ class DataAssetScope extends ConsumerWidget {
     final assetData = ref.watch(assetDataProvider);
     final updatingState = ref.watch(assetUpdatingStateNotifierProvider);
 
-    if (assetData.value?.version != null) {
+    if (assetData is AsyncData && assetData.value?.version != null) {
       // Valid assets present
       return builder(assetData.value!);
     }
