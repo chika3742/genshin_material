@@ -51,6 +51,8 @@ class CharacterIngredientsLevels with _$CharacterIngredientsLevels {
 
 @freezed
 sealed class CharacterIngredient with _$CharacterIngredient {
+  const CharacterIngredient._();
+
   const factory CharacterIngredient.byType({
     required CharacterIngredientType type,
     required int quantity,
@@ -68,8 +70,4 @@ sealed class CharacterIngredient with _$CharacterIngredient {
 
   factory CharacterIngredient.fromJson(Map<String, dynamic> json) =>
       _$CharacterIngredientFromJson(json);
-}
-
-enum CharacterIngredientType {
-  common,
 }

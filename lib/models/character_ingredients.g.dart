@@ -98,7 +98,8 @@ Map<String, dynamic> _$$CharacterIngredientByTypeImplToJson(
     };
 
 const _$CharacterIngredientTypeEnumMap = {
-  CharacterIngredientType.common: 'common',
+  CharacterIngredientType.primary: 'primary',
+  CharacterIngredientType.talentPrimary: 'talentPrimary',
 };
 
 _$CharacterIngredientExpImpl _$$CharacterIngredientExpImplFromJson(

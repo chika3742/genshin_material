@@ -1513,8 +1513,6 @@ CharacterMaterialDefinitions _$CharacterMaterialDefinitionsFromJson(
   switch (json['runtimeType']) {
     case 'travelerAscension':
       return TravelerAscensionMaterialDefinitions.fromJson(json);
-    case 'travelerTalent':
-      return TravelerTalentMaterialDefinitions.fromJson(json);
 
     default:
       return _CharacterMaterialDefinitions.fromJson(json);
@@ -1523,6 +1521,9 @@ CharacterMaterialDefinitions _$CharacterMaterialDefinitionsFromJson(
 
 /// @nodoc
 mixin _$CharacterMaterialDefinitions {
+  String get primary => throw _privateConstructorUsedError;
+  String get local => throw _privateConstructorUsedError;
+  String get secondary => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(String primary, String elementalStone, String local,
@@ -1530,9 +1531,6 @@ mixin _$CharacterMaterialDefinitions {
         $default, {
     required TResult Function(String primary, String local, String secondary)
         travelerAscension,
-    required TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)
-        travelerTalent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1542,9 +1540,6 @@ mixin _$CharacterMaterialDefinitions {
         $default, {
     TResult? Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult? Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1554,9 +1549,6 @@ mixin _$CharacterMaterialDefinitions {
         $default, {
     TResult Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1565,8 +1557,6 @@ mixin _$CharacterMaterialDefinitions {
     TResult Function(_CharacterMaterialDefinitions value) $default, {
     required TResult Function(TravelerAscensionMaterialDefinitions value)
         travelerAscension,
-    required TResult Function(TravelerTalentMaterialDefinitions value)
-        travelerTalent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1574,7 +1564,6 @@ mixin _$CharacterMaterialDefinitions {
     TResult? Function(_CharacterMaterialDefinitions value)? $default, {
     TResult? Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1582,11 +1571,13 @@ mixin _$CharacterMaterialDefinitions {
     TResult Function(_CharacterMaterialDefinitions value)? $default, {
     TResult Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CharacterMaterialDefinitionsCopyWith<CharacterMaterialDefinitions>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1596,6 +1587,8 @@ abstract class $CharacterMaterialDefinitionsCopyWith<$Res> {
           $Res Function(CharacterMaterialDefinitions) then) =
       _$CharacterMaterialDefinitionsCopyWithImpl<$Res,
           CharacterMaterialDefinitions>;
+  @useResult
+  $Res call({String primary, String local, String secondary});
 }
 
 /// @nodoc
@@ -1608,14 +1601,39 @@ class _$CharacterMaterialDefinitionsCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? primary = null,
+    Object? local = null,
+    Object? secondary = null,
+  }) {
+    return _then(_value.copyWith(
+      primary: null == primary
+          ? _value.primary
+          : primary // ignore: cast_nullable_to_non_nullable
+              as String,
+      local: null == local
+          ? _value.local
+          : local // ignore: cast_nullable_to_non_nullable
+              as String,
+      secondary: null == secondary
+          ? _value.secondary
+          : secondary // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$CharacterMaterialDefinitionsImplCopyWith<$Res> {
+abstract class _$$CharacterMaterialDefinitionsImplCopyWith<$Res>
+    implements $CharacterMaterialDefinitionsCopyWith<$Res> {
   factory _$$CharacterMaterialDefinitionsImplCopyWith(
           _$CharacterMaterialDefinitionsImpl value,
           $Res Function(_$CharacterMaterialDefinitionsImpl) then) =
       __$$CharacterMaterialDefinitionsImplCopyWithImpl<$Res>;
+  @override
   @useResult
   $Res call(
       {String primary,
@@ -1677,8 +1695,7 @@ class __$$CharacterMaterialDefinitionsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CharacterMaterialDefinitionsImpl
-    implements _CharacterMaterialDefinitions {
+class _$CharacterMaterialDefinitionsImpl extends _CharacterMaterialDefinitions {
   const _$CharacterMaterialDefinitionsImpl(
       {required this.primary,
       required this.elementalStone,
@@ -1687,7 +1704,8 @@ class _$CharacterMaterialDefinitionsImpl
       required this.talentPrimary,
       required this.talentBoss,
       final String? $type})
-      : $type = $type ?? 'default';
+      : $type = $type ?? 'default',
+        super._();
 
   factory _$CharacterMaterialDefinitionsImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -1752,9 +1770,6 @@ class _$CharacterMaterialDefinitionsImpl
         $default, {
     required TResult Function(String primary, String local, String secondary)
         travelerAscension,
-    required TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)
-        travelerTalent,
   }) {
     return $default(
         primary, elementalStone, local, secondary, talentPrimary, talentBoss);
@@ -1768,9 +1783,6 @@ class _$CharacterMaterialDefinitionsImpl
         $default, {
     TResult? Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult? Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
   }) {
     return $default?.call(
         primary, elementalStone, local, secondary, talentPrimary, talentBoss);
@@ -1784,9 +1796,6 @@ class _$CharacterMaterialDefinitionsImpl
         $default, {
     TResult Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -1802,8 +1811,6 @@ class _$CharacterMaterialDefinitionsImpl
     TResult Function(_CharacterMaterialDefinitions value) $default, {
     required TResult Function(TravelerAscensionMaterialDefinitions value)
         travelerAscension,
-    required TResult Function(TravelerTalentMaterialDefinitions value)
-        travelerTalent,
   }) {
     return $default(this);
   }
@@ -1814,7 +1821,6 @@ class _$CharacterMaterialDefinitionsImpl
     TResult? Function(_CharacterMaterialDefinitions value)? $default, {
     TResult? Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
   }) {
     return $default?.call(this);
   }
@@ -1825,7 +1831,6 @@ class _$CharacterMaterialDefinitionsImpl
     TResult Function(_CharacterMaterialDefinitions value)? $default, {
     TResult Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -1843,7 +1848,7 @@ class _$CharacterMaterialDefinitionsImpl
 }
 
 abstract class _CharacterMaterialDefinitions
-    implements CharacterMaterialDefinitions {
+    extends CharacterMaterialDefinitions {
   const factory _CharacterMaterialDefinitions(
       {required final String primary,
       required final String elementalStone,
@@ -1851,16 +1856,21 @@ abstract class _CharacterMaterialDefinitions
       required final String secondary,
       required final String talentPrimary,
       required final String talentBoss}) = _$CharacterMaterialDefinitionsImpl;
+  const _CharacterMaterialDefinitions._() : super._();
 
   factory _CharacterMaterialDefinitions.fromJson(Map<String, dynamic> json) =
       _$CharacterMaterialDefinitionsImpl.fromJson;
 
+  @override
   String get primary;
   String get elementalStone;
+  @override
   String get local;
+  @override
   String get secondary;
   String get talentPrimary;
   String get talentBoss;
+  @override
   @JsonKey(ignore: true)
   _$$CharacterMaterialDefinitionsImplCopyWith<
           _$CharacterMaterialDefinitionsImpl>
@@ -1868,11 +1878,13 @@ abstract class _CharacterMaterialDefinitions
 }
 
 /// @nodoc
-abstract class _$$TravelerAscensionMaterialDefinitionsImplCopyWith<$Res> {
+abstract class _$$TravelerAscensionMaterialDefinitionsImplCopyWith<$Res>
+    implements $CharacterMaterialDefinitionsCopyWith<$Res> {
   factory _$$TravelerAscensionMaterialDefinitionsImplCopyWith(
           _$TravelerAscensionMaterialDefinitionsImpl value,
           $Res Function(_$TravelerAscensionMaterialDefinitionsImpl) then) =
       __$$TravelerAscensionMaterialDefinitionsImplCopyWithImpl<$Res>;
+  @override
   @useResult
   $Res call({String primary, String local, String secondary});
 }
@@ -1914,13 +1926,14 @@ class __$$TravelerAscensionMaterialDefinitionsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TravelerAscensionMaterialDefinitionsImpl
-    implements TravelerAscensionMaterialDefinitions {
+    extends TravelerAscensionMaterialDefinitions {
   const _$TravelerAscensionMaterialDefinitionsImpl(
       {required this.primary,
       required this.local,
       required this.secondary,
       final String? $type})
-      : $type = $type ?? 'travelerAscension';
+      : $type = $type ?? 'travelerAscension',
+        super._();
 
   factory _$TravelerAscensionMaterialDefinitionsImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -1972,9 +1985,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
         $default, {
     required TResult Function(String primary, String local, String secondary)
         travelerAscension,
-    required TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)
-        travelerTalent,
   }) {
     return travelerAscension(primary, local, secondary);
   }
@@ -1987,9 +1997,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
         $default, {
     TResult? Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult? Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
   }) {
     return travelerAscension?.call(primary, local, secondary);
   }
@@ -2002,9 +2009,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
         $default, {
     TResult Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
     required TResult orElse(),
   }) {
     if (travelerAscension != null) {
@@ -2019,8 +2023,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
     TResult Function(_CharacterMaterialDefinitions value) $default, {
     required TResult Function(TravelerAscensionMaterialDefinitions value)
         travelerAscension,
-    required TResult Function(TravelerTalentMaterialDefinitions value)
-        travelerTalent,
   }) {
     return travelerAscension(this);
   }
@@ -2031,7 +2033,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
     TResult? Function(_CharacterMaterialDefinitions value)? $default, {
     TResult? Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
   }) {
     return travelerAscension?.call(this);
   }
@@ -2042,7 +2043,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
     TResult Function(_CharacterMaterialDefinitions value)? $default, {
     TResult Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
     required TResult orElse(),
   }) {
     if (travelerAscension != null) {
@@ -2060,818 +2060,27 @@ class _$TravelerAscensionMaterialDefinitionsImpl
 }
 
 abstract class TravelerAscensionMaterialDefinitions
-    implements CharacterMaterialDefinitions {
+    extends CharacterMaterialDefinitions {
   const factory TravelerAscensionMaterialDefinitions(
           {required final String primary,
           required final String local,
           required final String secondary}) =
       _$TravelerAscensionMaterialDefinitionsImpl;
+  const TravelerAscensionMaterialDefinitions._() : super._();
 
   factory TravelerAscensionMaterialDefinitions.fromJson(
           Map<String, dynamic> json) =
       _$TravelerAscensionMaterialDefinitionsImpl.fromJson;
 
+  @override
   String get primary;
+  @override
   String get local;
+  @override
   String get secondary;
+  @override
   @JsonKey(ignore: true)
   _$$TravelerAscensionMaterialDefinitionsImplCopyWith<
           _$TravelerAscensionMaterialDefinitionsImpl>
       get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$TravelerTalentMaterialDefinitionsImplCopyWith<$Res> {
-  factory _$$TravelerTalentMaterialDefinitionsImplCopyWith(
-          _$TravelerTalentMaterialDefinitionsImpl value,
-          $Res Function(_$TravelerTalentMaterialDefinitionsImpl) then) =
-      __$$TravelerTalentMaterialDefinitionsImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {MaterialIdPerType talentPrimary,
-      MaterialIdPerType talentSecondary,
-      MaterialIdPerType talentBoss});
-
-  $MaterialIdPerTypeCopyWith<$Res> get talentPrimary;
-  $MaterialIdPerTypeCopyWith<$Res> get talentSecondary;
-  $MaterialIdPerTypeCopyWith<$Res> get talentBoss;
-}
-
-/// @nodoc
-class __$$TravelerTalentMaterialDefinitionsImplCopyWithImpl<$Res>
-    extends _$CharacterMaterialDefinitionsCopyWithImpl<$Res,
-        _$TravelerTalentMaterialDefinitionsImpl>
-    implements _$$TravelerTalentMaterialDefinitionsImplCopyWith<$Res> {
-  __$$TravelerTalentMaterialDefinitionsImplCopyWithImpl(
-      _$TravelerTalentMaterialDefinitionsImpl _value,
-      $Res Function(_$TravelerTalentMaterialDefinitionsImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? talentPrimary = null,
-    Object? talentSecondary = null,
-    Object? talentBoss = null,
-  }) {
-    return _then(_$TravelerTalentMaterialDefinitionsImpl(
-      talentPrimary: null == talentPrimary
-          ? _value.talentPrimary
-          : talentPrimary // ignore: cast_nullable_to_non_nullable
-              as MaterialIdPerType,
-      talentSecondary: null == talentSecondary
-          ? _value.talentSecondary
-          : talentSecondary // ignore: cast_nullable_to_non_nullable
-              as MaterialIdPerType,
-      talentBoss: null == talentBoss
-          ? _value.talentBoss
-          : talentBoss // ignore: cast_nullable_to_non_nullable
-              as MaterialIdPerType,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MaterialIdPerTypeCopyWith<$Res> get talentPrimary {
-    return $MaterialIdPerTypeCopyWith<$Res>(_value.talentPrimary, (value) {
-      return _then(_value.copyWith(talentPrimary: value));
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MaterialIdPerTypeCopyWith<$Res> get talentSecondary {
-    return $MaterialIdPerTypeCopyWith<$Res>(_value.talentSecondary, (value) {
-      return _then(_value.copyWith(talentSecondary: value));
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MaterialIdPerTypeCopyWith<$Res> get talentBoss {
-    return $MaterialIdPerTypeCopyWith<$Res>(_value.talentBoss, (value) {
-      return _then(_value.copyWith(talentBoss: value));
-    });
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$TravelerTalentMaterialDefinitionsImpl
-    implements TravelerTalentMaterialDefinitions {
-  const _$TravelerTalentMaterialDefinitionsImpl(
-      {required this.talentPrimary,
-      required this.talentSecondary,
-      required this.talentBoss,
-      final String? $type})
-      : $type = $type ?? 'travelerTalent';
-
-  factory _$TravelerTalentMaterialDefinitionsImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$TravelerTalentMaterialDefinitionsImplFromJson(json);
-
-  @override
-  final MaterialIdPerType talentPrimary;
-  @override
-  final MaterialIdPerType talentSecondary;
-  @override
-  final MaterialIdPerType talentBoss;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'CharacterMaterialDefinitions.travelerTalent(talentPrimary: $talentPrimary, talentSecondary: $talentSecondary, talentBoss: $talentBoss)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TravelerTalentMaterialDefinitionsImpl &&
-            (identical(other.talentPrimary, talentPrimary) ||
-                other.talentPrimary == talentPrimary) &&
-            (identical(other.talentSecondary, talentSecondary) ||
-                other.talentSecondary == talentSecondary) &&
-            (identical(other.talentBoss, talentBoss) ||
-                other.talentBoss == talentBoss));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, talentPrimary, talentSecondary, talentBoss);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TravelerTalentMaterialDefinitionsImplCopyWith<
-          _$TravelerTalentMaterialDefinitionsImpl>
-      get copyWith => __$$TravelerTalentMaterialDefinitionsImplCopyWithImpl<
-          _$TravelerTalentMaterialDefinitionsImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(String primary, String elementalStone, String local,
-            String secondary, String talentPrimary, String talentBoss)
-        $default, {
-    required TResult Function(String primary, String local, String secondary)
-        travelerAscension,
-    required TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)
-        travelerTalent,
-  }) {
-    return travelerTalent(talentPrimary, talentSecondary, talentBoss);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String primary, String elementalStone, String local,
-            String secondary, String talentPrimary, String talentBoss)?
-        $default, {
-    TResult? Function(String primary, String local, String secondary)?
-        travelerAscension,
-    TResult? Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
-  }) {
-    return travelerTalent?.call(talentPrimary, talentSecondary, talentBoss);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String primary, String elementalStone, String local,
-            String secondary, String talentPrimary, String talentBoss)?
-        $default, {
-    TResult Function(String primary, String local, String secondary)?
-        travelerAscension,
-    TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
-    required TResult orElse(),
-  }) {
-    if (travelerTalent != null) {
-      return travelerTalent(talentPrimary, talentSecondary, talentBoss);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_CharacterMaterialDefinitions value) $default, {
-    required TResult Function(TravelerAscensionMaterialDefinitions value)
-        travelerAscension,
-    required TResult Function(TravelerTalentMaterialDefinitions value)
-        travelerTalent,
-  }) {
-    return travelerTalent(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_CharacterMaterialDefinitions value)? $default, {
-    TResult? Function(TravelerAscensionMaterialDefinitions value)?
-        travelerAscension,
-    TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
-  }) {
-    return travelerTalent?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_CharacterMaterialDefinitions value)? $default, {
-    TResult Function(TravelerAscensionMaterialDefinitions value)?
-        travelerAscension,
-    TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
-    required TResult orElse(),
-  }) {
-    if (travelerTalent != null) {
-      return travelerTalent(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TravelerTalentMaterialDefinitionsImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class TravelerTalentMaterialDefinitions
-    implements CharacterMaterialDefinitions {
-  const factory TravelerTalentMaterialDefinitions(
-          {required final MaterialIdPerType talentPrimary,
-          required final MaterialIdPerType talentSecondary,
-          required final MaterialIdPerType talentBoss}) =
-      _$TravelerTalentMaterialDefinitionsImpl;
-
-  factory TravelerTalentMaterialDefinitions.fromJson(
-          Map<String, dynamic> json) =
-      _$TravelerTalentMaterialDefinitionsImpl.fromJson;
-
-  MaterialIdPerType get talentPrimary;
-  MaterialIdPerType get talentSecondary;
-  MaterialIdPerType get talentBoss;
-  @JsonKey(ignore: true)
-  _$$TravelerTalentMaterialDefinitionsImplCopyWith<
-          _$TravelerTalentMaterialDefinitionsImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-MaterialIdPerType _$MaterialIdPerTypeFromJson(Map<String, dynamic> json) {
-  switch (json['runtimeType']) {
-    case 'byLevel':
-      return MaterialIdPerLevelPerType.fromJson(json);
-
-    default:
-      return _MaterialIdPerType.fromJson(json);
-  }
-}
-
-/// @nodoc
-mixin _$MaterialIdPerType {
-  Map<TalentType, Object> get types => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types) $default, {
-    required TResult Function(Map<TalentType, MaterialIdPerLevel> types)
-        byLevel,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Map<TalentType, String> types)? $default, {
-    TResult? Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types)? $default, {
-    TResult Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value) $default, {
-    required TResult Function(MaterialIdPerLevelPerType value) byLevel,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_MaterialIdPerType value)? $default, {
-    TResult? Function(MaterialIdPerLevelPerType value)? byLevel,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value)? $default, {
-    TResult Function(MaterialIdPerLevelPerType value)? byLevel,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MaterialIdPerTypeCopyWith<$Res> {
-  factory $MaterialIdPerTypeCopyWith(
-          MaterialIdPerType value, $Res Function(MaterialIdPerType) then) =
-      _$MaterialIdPerTypeCopyWithImpl<$Res, MaterialIdPerType>;
-}
-
-/// @nodoc
-class _$MaterialIdPerTypeCopyWithImpl<$Res, $Val extends MaterialIdPerType>
-    implements $MaterialIdPerTypeCopyWith<$Res> {
-  _$MaterialIdPerTypeCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-}
-
-/// @nodoc
-abstract class _$$MaterialIdPerTypeImplCopyWith<$Res> {
-  factory _$$MaterialIdPerTypeImplCopyWith(_$MaterialIdPerTypeImpl value,
-          $Res Function(_$MaterialIdPerTypeImpl) then) =
-      __$$MaterialIdPerTypeImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Map<TalentType, String> types});
-}
-
-/// @nodoc
-class __$$MaterialIdPerTypeImplCopyWithImpl<$Res>
-    extends _$MaterialIdPerTypeCopyWithImpl<$Res, _$MaterialIdPerTypeImpl>
-    implements _$$MaterialIdPerTypeImplCopyWith<$Res> {
-  __$$MaterialIdPerTypeImplCopyWithImpl(_$MaterialIdPerTypeImpl _value,
-      $Res Function(_$MaterialIdPerTypeImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? types = null,
-  }) {
-    return _then(_$MaterialIdPerTypeImpl(
-      types: null == types
-          ? _value._types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<TalentType, String>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MaterialIdPerTypeImpl implements _MaterialIdPerType {
-  const _$MaterialIdPerTypeImpl(
-      {required final Map<TalentType, String> types, final String? $type})
-      : _types = types,
-        $type = $type ?? 'default';
-
-  factory _$MaterialIdPerTypeImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaterialIdPerTypeImplFromJson(json);
-
-  final Map<TalentType, String> _types;
-  @override
-  Map<TalentType, String> get types {
-    if (_types is EqualUnmodifiableMapView) return _types;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_types);
-  }
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'MaterialIdPerType(types: $types)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MaterialIdPerTypeImpl &&
-            const DeepCollectionEquality().equals(other._types, _types));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_types));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaterialIdPerTypeImplCopyWith<_$MaterialIdPerTypeImpl> get copyWith =>
-      __$$MaterialIdPerTypeImplCopyWithImpl<_$MaterialIdPerTypeImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types) $default, {
-    required TResult Function(Map<TalentType, MaterialIdPerLevel> types)
-        byLevel,
-  }) {
-    return $default(types);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Map<TalentType, String> types)? $default, {
-    TResult? Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-  }) {
-    return $default?.call(types);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types)? $default, {
-    TResult Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-    required TResult orElse(),
-  }) {
-    if ($default != null) {
-      return $default(types);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value) $default, {
-    required TResult Function(MaterialIdPerLevelPerType value) byLevel,
-  }) {
-    return $default(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_MaterialIdPerType value)? $default, {
-    TResult? Function(MaterialIdPerLevelPerType value)? byLevel,
-  }) {
-    return $default?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value)? $default, {
-    TResult Function(MaterialIdPerLevelPerType value)? byLevel,
-    required TResult orElse(),
-  }) {
-    if ($default != null) {
-      return $default(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MaterialIdPerTypeImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _MaterialIdPerType implements MaterialIdPerType {
-  const factory _MaterialIdPerType(
-      {required final Map<TalentType, String> types}) = _$MaterialIdPerTypeImpl;
-
-  factory _MaterialIdPerType.fromJson(Map<String, dynamic> json) =
-      _$MaterialIdPerTypeImpl.fromJson;
-
-  @override
-  Map<TalentType, String> get types;
-  @JsonKey(ignore: true)
-  _$$MaterialIdPerTypeImplCopyWith<_$MaterialIdPerTypeImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$MaterialIdPerLevelPerTypeImplCopyWith<$Res> {
-  factory _$$MaterialIdPerLevelPerTypeImplCopyWith(
-          _$MaterialIdPerLevelPerTypeImpl value,
-          $Res Function(_$MaterialIdPerLevelPerTypeImpl) then) =
-      __$$MaterialIdPerLevelPerTypeImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Map<TalentType, MaterialIdPerLevel> types});
-}
-
-/// @nodoc
-class __$$MaterialIdPerLevelPerTypeImplCopyWithImpl<$Res>
-    extends _$MaterialIdPerTypeCopyWithImpl<$Res,
-        _$MaterialIdPerLevelPerTypeImpl>
-    implements _$$MaterialIdPerLevelPerTypeImplCopyWith<$Res> {
-  __$$MaterialIdPerLevelPerTypeImplCopyWithImpl(
-      _$MaterialIdPerLevelPerTypeImpl _value,
-      $Res Function(_$MaterialIdPerLevelPerTypeImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? types = null,
-  }) {
-    return _then(_$MaterialIdPerLevelPerTypeImpl(
-      types: null == types
-          ? _value._types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<TalentType, MaterialIdPerLevel>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MaterialIdPerLevelPerTypeImpl implements MaterialIdPerLevelPerType {
-  const _$MaterialIdPerLevelPerTypeImpl(
-      {required final Map<TalentType, MaterialIdPerLevel> types,
-      final String? $type})
-      : _types = types,
-        $type = $type ?? 'byLevel';
-
-  factory _$MaterialIdPerLevelPerTypeImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaterialIdPerLevelPerTypeImplFromJson(json);
-
-  final Map<TalentType, MaterialIdPerLevel> _types;
-  @override
-  Map<TalentType, MaterialIdPerLevel> get types {
-    if (_types is EqualUnmodifiableMapView) return _types;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_types);
-  }
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'MaterialIdPerType.byLevel(types: $types)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MaterialIdPerLevelPerTypeImpl &&
-            const DeepCollectionEquality().equals(other._types, _types));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_types));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaterialIdPerLevelPerTypeImplCopyWith<_$MaterialIdPerLevelPerTypeImpl>
-      get copyWith => __$$MaterialIdPerLevelPerTypeImplCopyWithImpl<
-          _$MaterialIdPerLevelPerTypeImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types) $default, {
-    required TResult Function(Map<TalentType, MaterialIdPerLevel> types)
-        byLevel,
-  }) {
-    return byLevel(types);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Map<TalentType, String> types)? $default, {
-    TResult? Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-  }) {
-    return byLevel?.call(types);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types)? $default, {
-    TResult Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-    required TResult orElse(),
-  }) {
-    if (byLevel != null) {
-      return byLevel(types);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value) $default, {
-    required TResult Function(MaterialIdPerLevelPerType value) byLevel,
-  }) {
-    return byLevel(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_MaterialIdPerType value)? $default, {
-    TResult? Function(MaterialIdPerLevelPerType value)? byLevel,
-  }) {
-    return byLevel?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value)? $default, {
-    TResult Function(MaterialIdPerLevelPerType value)? byLevel,
-    required TResult orElse(),
-  }) {
-    if (byLevel != null) {
-      return byLevel(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MaterialIdPerLevelPerTypeImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class MaterialIdPerLevelPerType implements MaterialIdPerType {
-  const factory MaterialIdPerLevelPerType(
-          {required final Map<TalentType, MaterialIdPerLevel> types}) =
-      _$MaterialIdPerLevelPerTypeImpl;
-
-  factory MaterialIdPerLevelPerType.fromJson(Map<String, dynamic> json) =
-      _$MaterialIdPerLevelPerTypeImpl.fromJson;
-
-  @override
-  Map<TalentType, MaterialIdPerLevel> get types;
-  @JsonKey(ignore: true)
-  _$$MaterialIdPerLevelPerTypeImplCopyWith<_$MaterialIdPerLevelPerTypeImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-MaterialIdPerLevel _$MaterialIdPerLevelFromJson(Map<String, dynamic> json) {
-  return _MaterialIdPerLevel.fromJson(json);
-}
-
-/// @nodoc
-mixin _$MaterialIdPerLevel {
-  Map<int, String> get levels => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $MaterialIdPerLevelCopyWith<MaterialIdPerLevel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MaterialIdPerLevelCopyWith<$Res> {
-  factory $MaterialIdPerLevelCopyWith(
-          MaterialIdPerLevel value, $Res Function(MaterialIdPerLevel) then) =
-      _$MaterialIdPerLevelCopyWithImpl<$Res, MaterialIdPerLevel>;
-  @useResult
-  $Res call({Map<int, String> levels});
-}
-
-/// @nodoc
-class _$MaterialIdPerLevelCopyWithImpl<$Res, $Val extends MaterialIdPerLevel>
-    implements $MaterialIdPerLevelCopyWith<$Res> {
-  _$MaterialIdPerLevelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? levels = null,
-  }) {
-    return _then(_value.copyWith(
-      levels: null == levels
-          ? _value.levels
-          : levels // ignore: cast_nullable_to_non_nullable
-              as Map<int, String>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$MaterialIdPerLevelImplCopyWith<$Res>
-    implements $MaterialIdPerLevelCopyWith<$Res> {
-  factory _$$MaterialIdPerLevelImplCopyWith(_$MaterialIdPerLevelImpl value,
-          $Res Function(_$MaterialIdPerLevelImpl) then) =
-      __$$MaterialIdPerLevelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Map<int, String> levels});
-}
-
-/// @nodoc
-class __$$MaterialIdPerLevelImplCopyWithImpl<$Res>
-    extends _$MaterialIdPerLevelCopyWithImpl<$Res, _$MaterialIdPerLevelImpl>
-    implements _$$MaterialIdPerLevelImplCopyWith<$Res> {
-  __$$MaterialIdPerLevelImplCopyWithImpl(_$MaterialIdPerLevelImpl _value,
-      $Res Function(_$MaterialIdPerLevelImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? levels = null,
-  }) {
-    return _then(_$MaterialIdPerLevelImpl(
-      levels: null == levels
-          ? _value._levels
-          : levels // ignore: cast_nullable_to_non_nullable
-              as Map<int, String>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MaterialIdPerLevelImpl implements _MaterialIdPerLevel {
-  const _$MaterialIdPerLevelImpl({required final Map<int, String> levels})
-      : _levels = levels;
-
-  factory _$MaterialIdPerLevelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaterialIdPerLevelImplFromJson(json);
-
-  final Map<int, String> _levels;
-  @override
-  Map<int, String> get levels {
-    if (_levels is EqualUnmodifiableMapView) return _levels;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_levels);
-  }
-
-  @override
-  String toString() {
-    return 'MaterialIdPerLevel(levels: $levels)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MaterialIdPerLevelImpl &&
-            const DeepCollectionEquality().equals(other._levels, _levels));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_levels));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaterialIdPerLevelImplCopyWith<_$MaterialIdPerLevelImpl> get copyWith =>
-      __$$MaterialIdPerLevelImplCopyWithImpl<_$MaterialIdPerLevelImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MaterialIdPerLevelImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _MaterialIdPerLevel implements MaterialIdPerLevel {
-  const factory _MaterialIdPerLevel({required final Map<int, String> levels}) =
-      _$MaterialIdPerLevelImpl;
-
-  factory _MaterialIdPerLevel.fromJson(Map<String, dynamic> json) =
-      _$MaterialIdPerLevelImpl.fromJson;
-
-  @override
-  Map<int, String> get levels;
-  @override
-  @JsonKey(ignore: true)
-  _$$MaterialIdPerLevelImplCopyWith<_$MaterialIdPerLevelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }

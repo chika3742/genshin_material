@@ -798,13 +798,14 @@ class __$$CharacterIngredientByTypeImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CharacterIngredientByTypeImpl implements CharacterIngredientByType {
+class _$CharacterIngredientByTypeImpl extends CharacterIngredientByType {
   const _$CharacterIngredientByTypeImpl(
       {required this.type,
       required this.quantity,
       this.craftLevel,
       final String? $type})
-      : $type = $type ?? 'byType';
+      : $type = $type ?? 'byType',
+        super._();
 
   factory _$CharacterIngredientByTypeImpl.fromJson(Map<String, dynamic> json) =>
       _$$CharacterIngredientByTypeImplFromJson(json);
@@ -929,11 +930,12 @@ class _$CharacterIngredientByTypeImpl implements CharacterIngredientByType {
   }
 }
 
-abstract class CharacterIngredientByType implements CharacterIngredient {
+abstract class CharacterIngredientByType extends CharacterIngredient {
   const factory CharacterIngredientByType(
       {required final CharacterIngredientType type,
       required final int quantity,
       final int? craftLevel}) = _$CharacterIngredientByTypeImpl;
+  const CharacterIngredientByType._() : super._();
 
   factory CharacterIngredientByType.fromJson(Map<String, dynamic> json) =
       _$CharacterIngredientByTypeImpl.fromJson;
@@ -982,9 +984,10 @@ class __$$CharacterIngredientExpImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CharacterIngredientExpImpl implements CharacterIngredientExp {
+class _$CharacterIngredientExpImpl extends CharacterIngredientExp {
   const _$CharacterIngredientExpImpl({required this.exp, final String? $type})
-      : $type = $type ?? 'exp';
+      : $type = $type ?? 'exp',
+        super._();
 
   factory _$CharacterIngredientExpImpl.fromJson(Map<String, dynamic> json) =>
       _$$CharacterIngredientExpImplFromJson(json);
@@ -1101,9 +1104,10 @@ class _$CharacterIngredientExpImpl implements CharacterIngredientExp {
   }
 }
 
-abstract class CharacterIngredientExp implements CharacterIngredient {
+abstract class CharacterIngredientExp extends CharacterIngredient {
   const factory CharacterIngredientExp({required final int exp}) =
       _$CharacterIngredientExpImpl;
+  const CharacterIngredientExp._() : super._();
 
   factory CharacterIngredientExp.fromJson(Map<String, dynamic> json) =
       _$CharacterIngredientExpImpl.fromJson;
@@ -1156,10 +1160,11 @@ class __$$CharacterIngredientWithFixedIdImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CharacterIngredientWithFixedIdImpl
-    implements CharacterIngredientWithFixedId {
+    extends CharacterIngredientWithFixedId {
   const _$CharacterIngredientWithFixedIdImpl(
       {required this.itemId, required this.quantity, final String? $type})
-      : $type = $type ?? 'fixed';
+      : $type = $type ?? 'fixed',
+        super._();
 
   factory _$CharacterIngredientWithFixedIdImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -1282,10 +1287,11 @@ class _$CharacterIngredientWithFixedIdImpl
   }
 }
 
-abstract class CharacterIngredientWithFixedId implements CharacterIngredient {
+abstract class CharacterIngredientWithFixedId extends CharacterIngredient {
   const factory CharacterIngredientWithFixedId(
       {required final String itemId,
       required final int quantity}) = _$CharacterIngredientWithFixedIdImpl;
+  const CharacterIngredientWithFixedId._() : super._();
 
   factory CharacterIngredientWithFixedId.fromJson(Map<String, dynamic> json) =
       _$CharacterIngredientWithFixedIdImpl.fromJson;

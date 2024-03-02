@@ -5,12 +5,15 @@ import "../../../components/center_text.dart";
 import "../../../components/gapped_flex.dart";
 import "../../../components/labeled_check_box.dart";
 import "../../../components/level_slider.dart";
+import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/bookmarkable_material.dart";
 import "../../../models/character.dart";
 import "../../../models/character_ingredients.dart";
 import "../../../models/common.dart";
+import "../../../utils/ingredients-converters.dart";
 
 class CharacterDetailsPage extends StatefulWidget {
   final String id;
@@ -35,24 +38,24 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
   late CharacterIngredientsPurposes _ingredientsForRarity;
 
   final _scrollController = ScrollController();
+  final _talentMaterialsKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
 
+    // initialize character and ingredients
     final c = widget.assetData.characters!
         .firstWhereOrNull((element) => element.id == widget.id);
     if (c != null && c is CharacterWithSmallImage) {
       _character = c;
       _ingredientsForRarity =
           widget.assetData.characterIngredients!.rarities[_character!.rarity]!;
+      // init the range values and checked talent types for each purpose
       for (final purpose in _ingredientsForRarity.purposes.keys) {
-        _sliderTickLabels[purpose] = [
-          1,
-          ..._ingredientsForRarity.purposes[purpose]!.levels.keys,
-        ];
-        _rangeValues[purpose] = LevelRangeValues(
-            1, _ingredientsForRarity.purposes[purpose]!.levels.keys.last,);
+        final levels = _ingredientsForRarity.purposes[purpose]!.levels;
+        _sliderTickLabels[purpose] = [1, ...levels.keys];
+        _rangeValues[purpose] = LevelRangeValues(1, levels.keys.last);
         _checkedTalentTypes[purpose] = true;
       }
     }
@@ -60,9 +63,12 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    // show error message if character is not initialized
     if (_character == null) {
       return CenterText(tr.errors.characterNotFound);
     }
+
+    final assetData = widget.assetData;
 
     return Scaffold(
       appBar: AppBar(
@@ -83,7 +89,11 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
               // character information
               Row(
                 children: [
-                  Image.file(_character!.getSmallImageFile(widget.assetData.assetDir!), width: 70, height: 70,),
+                  Image.file(
+                    _character!.getSmallImageFile(assetData.assetDir!),
+                    width: 70,
+                    height: 70,
+                  ),
                   const SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,12 +105,12 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                       Row(
                         children: [
                           Image.file(
-                            widget.assetData.elements![_character!.element]!.getImageFile(widget.assetData.assetDir!),
+                            assetData.elements![_character!.element]!.getImageFile(assetData.assetDir!),
                             width: 26,
                             height: 26,
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
-                          Text(widget.assetData.elements![_character!.element]!.text.localized),
+                          Text(assetData.elements![_character!.element]!.text.localized),
                         ],
                       ),
                       const SizedBox(height: 4),
@@ -125,6 +135,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                         levels: _sliderTickLabels[Purpose.ascension]!,
                         values: _rangeValues[Purpose.ascension]!,
                         onChanged: (values) {
+                          // avoid overlapping slider handles
                           if (values.start == values.end) {
                             return;
                           }
@@ -136,6 +147,18 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                       ),
                     ),
                   ),
+                  Wrap(
+                    children: [
+                      for (final material in toBookmarkableMaterials(
+                        levelMapToList(narrowLevelMap(_ingredientsForRarity.purposes[Purpose.ascension]!.levels, _rangeValues[Purpose.ascension]!)),
+                        _character!.materials,
+                      ))
+                        MaterialItem(
+                          material: assetData.materials!.firstWhereOrNull((e) => e.id == material.id),
+                          bookmarkableMaterial: material,
+                        ),
+                    ],
+                  ),
                 ],
               ),
               GappedColumn(
@@ -146,8 +169,9 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      for (final talentType in _ingredientsForRarity.purposes.keys
+                      for (final purpose in _ingredientsForRarity.purposes.keys
                           .whereNot((e) => e == Purpose.ascension))
                         Card(
                           child: Padding(
@@ -155,17 +179,50 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                             child: Column(
                               children: [
                                 LabeledCheckBox(
-                                  value: _checkedTalentTypes[talentType]!,
+                                  value: _checkedTalentTypes[purpose]!,
                                   onChanged: (value) {
                                     setState(() {
-                                      _checkedTalentTypes[talentType] = value!;
+                                      _checkedTalentTypes[purpose] = value!;
                                     });
+
+                                    // scroll to the talent materials section on checkbox checked
+                                    if (value == true) {
+                                      Future.delayed(const Duration(milliseconds: 200), () {
+                                        Scrollable.ensureVisible(
+                                          _talentMaterialsKey.currentContext!,
+                                          duration: const Duration(milliseconds: 300),
+                                          curve: Curves.easeOutQuint,
+                                          alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+                                        );
+                                      });
+                                    }
                                   },
-                                  child: Text(tr.talentTypes[talentType.name]!),
+                                  child: Text.rich( // checkbox label
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: tr.talentTypes[purpose.name]!,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                        ),
+                                        const TextSpan(text: "  "),
+                                        TextSpan(
+                                          text: _character!
+                                              .talents[TalentType.fromPurpose(
+                                                  purpose,)]!
+                                              .localized,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                AnimatedCrossFade(
+                                AnimatedCrossFade( // talent level slider with size animation
                                   duration: const Duration(milliseconds: 300),
-                                  crossFadeState: _checkedTalentTypes[talentType]!
+                                  crossFadeState: _checkedTalentTypes[purpose]!
                                       ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                                   firstCurve: Curves.easeOutQuint,
                                   secondCurve: Curves.easeOutQuint,
@@ -175,15 +232,15 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                                     children: [
                                       const SizedBox(height: 8),
                                       LevelSlider(
-                                        levels: _sliderTickLabels[talentType]!,
-                                        values: _rangeValues[talentType]!,
+                                        levels: _sliderTickLabels[purpose]!,
+                                        values: _rangeValues[purpose]!,
                                         onChanged: (values) {
                                           if (values.start == values.end) {
                                             return;
                                           }
 
                                           setState(() {
-                                            _rangeValues[talentType] = values;
+                                            _rangeValues[purpose] = values;
                                           });
                                         },
                                       ),
@@ -194,6 +251,19 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                             ),
                           ),
                         ),
+                      Wrap(
+                        key: _talentMaterialsKey,
+                        children: toBookmarkableMaterials(
+                          _getTalentIngredients(),
+                          _character!.materials,
+                        ).map(
+                              (e) => MaterialItem(
+                                material: assetData.materials!
+                                    .firstWhereOrNull((f) => e.id == f.id),
+                                bookmarkableMaterial: e,
+                              ),
+                            ).toList(),
+                      ),
                     ],
                   ),
                 ],
@@ -203,5 +273,22 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
         ),
       ),
     );
+  }
+
+  List<IngredientsWithLevel> _getTalentIngredients() {
+    final result = <IngredientsWithLevel>[];
+    for (final talentType in _character!.talents.keys) {
+      if (_checkedTalentTypes[Purpose.fromTalentType(talentType)]!) {
+        result.addAll(
+          levelMapToList(
+            narrowLevelMap(
+              _ingredientsForRarity.purposes[Purpose.fromTalentType(talentType)]!.levels,
+              _rangeValues[Purpose.fromTalentType(talentType)]!,
+            ),
+          ),
+        );
+      }
+    }
+    return result;
   }
 }

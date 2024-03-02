@@ -70,8 +70,11 @@ class HomeRoute extends StatefulShellRouteData {
   const HomeRoute();
 
   @override
-  Widget builder(BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
-    return HomePage(navigationShell: navigationShell);
+  Page<void> pageBuilder(BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
+    return _buildTransitionPage(
+      context: context,
+      child: HomePage(navigationShell: navigationShell),
+    );
   }
 }
 

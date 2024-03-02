@@ -21,6 +21,7 @@ mixin CharacterWithLargeImage on Character {
 mixin CharacterWithSmallImage on Character {
   String get smallImageUrl;
   TeyvatElement get element;
+  Map<TalentType, LocalizedText> get talents;
 
   File getSmallImageFile(String localAssetPath) =>
       File(path.join(localAssetPath, smallImageUrl));
@@ -79,6 +80,8 @@ sealed class Character with _$Character {
 
 @Freezed(fallbackUnion: "default")
 sealed class CharacterMaterialDefinitions with _$CharacterMaterialDefinitions {
+  const CharacterMaterialDefinitions._();
+
   const factory CharacterMaterialDefinitions({
     required String primary,
     required String elementalStone,
@@ -94,36 +97,10 @@ sealed class CharacterMaterialDefinitions with _$CharacterMaterialDefinitions {
     required String secondary,
   }) = TravelerAscensionMaterialDefinitions;
 
-  const factory CharacterMaterialDefinitions.travelerTalent({
-    required MaterialIdPerType talentPrimary,
-    required MaterialIdPerType talentSecondary,
-    required MaterialIdPerType talentBoss,
-  }) = TravelerTalentMaterialDefinitions;
-
   factory CharacterMaterialDefinitions.fromJson(Map<String, dynamic> json) =>
       _$CharacterMaterialDefinitionsFromJson(json);
-}
 
-@Freezed(fallbackUnion: "default")
-sealed class MaterialIdPerType with _$MaterialIdPerType {
-  const factory MaterialIdPerType({
-    required Map<TalentType, String> types,
-  }) = _MaterialIdPerType;
-
-  const factory MaterialIdPerType.byLevel({
-    required Map<TalentType, MaterialIdPerLevel> types,
-  }) = MaterialIdPerLevelPerType;
-
-  factory MaterialIdPerType.fromJson(Map<String, dynamic> json) =>
-      _$MaterialIdPerTypeFromJson(json);
-}
-
-@freezed
-sealed class MaterialIdPerLevel with _$MaterialIdPerLevel {
-  const factory MaterialIdPerLevel({
-    required Map<int, String> levels,
-  }) = _MaterialIdPerLevel;
-
-  factory MaterialIdPerLevel.fromJson(Map<String, dynamic> json) =>
-      _$MaterialIdPerLevelFromJson(json);
+  String withType(CharacterIngredientType type) {
+    return toJson()[type.name] as String;
+  }
 }

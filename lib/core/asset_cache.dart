@@ -8,6 +8,7 @@ import "../models/character.dart";
 import "../models/character_ingredients.dart";
 import "../models/common.dart";
 import "../models/element.dart";
+import "../models/material.dart";
 import "../utils/unwrap_yaml_value.dart";
 import "asset_updater.dart";
 import "data_parsing_exception.dart";
@@ -21,6 +22,7 @@ class AssetDataCache {
   List<Character>? characters;
   CharacterIngredients? characterIngredients;
   Map<TeyvatElement, Element>? elements;
+  List<Material>? materials;
 
   Future<void> init() async {
     assetDir ??= (await getLocalAssetDirectory()).path;
@@ -35,15 +37,17 @@ class AssetDataCache {
 
     characters = (await loadDataAsset<List>("characters.yaml"))
         .map((e) => Character.fromJson(e)).toList();
+    characterIngredients = CharacterIngredients.fromJson(
+      await loadDataAsset<Map<String, dynamic>>("character-ingredients.yaml"),
+    );
     elements = (await loadDataAsset<Map>("elements.yaml")).map((key, value) {
       return MapEntry(
         TeyvatElement.values.firstWhere((e) => e.name == key),
         Element.fromJson(value),
       );
     });
-    characterIngredients = CharacterIngredients.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("character-ingredients.yaml"),
-    );
+    materials = (await loadDataAsset<List>("materials.yaml"))
+        .map((e) => Material.fromJson(e)).toList();
   }
 
   /// Reads data asset file and parses YAML into JSON.
