@@ -13,7 +13,7 @@ import "../../../models/bookmarkable_material.dart";
 import "../../../models/character.dart";
 import "../../../models/character_ingredients.dart";
 import "../../../models/common.dart";
-import "../../../utils/ingredients-converters.dart";
+import "../../../utils/ingredients_converter.dart";
 
 class CharacterDetailsPage extends StatefulWidget {
   final String id;
