@@ -67,7 +67,7 @@ Map<String, dynamic> _$$CharacterIngredientsLevelsImplToJson(
 _$CharacterIngredientByTypeImpl _$$CharacterIngredientByTypeImplFromJson(
         Map<String, dynamic> json) =>
     _$CharacterIngredientByTypeImpl(
-      type: $enumDecode(_$CharacterIngredientTypeEnumMap, json['type']),
+      type: json['type'] as String,
       quantity: json['quantity'] as int,
       craftLevel: json['craftLevel'] as int?,
       $type: json['runtimeType'] as String?,
@@ -76,20 +76,11 @@ _$CharacterIngredientByTypeImpl _$$CharacterIngredientByTypeImplFromJson(
 Map<String, dynamic> _$$CharacterIngredientByTypeImplToJson(
         _$CharacterIngredientByTypeImpl instance) =>
     <String, dynamic>{
-      'type': _$CharacterIngredientTypeEnumMap[instance.type]!,
+      'type': instance.type,
       'quantity': instance.quantity,
       'craftLevel': instance.craftLevel,
       'runtimeType': instance.$type,
     };
-
-const _$CharacterIngredientTypeEnumMap = {
-  CharacterIngredientType.primary: 'primary',
-  CharacterIngredientType.secondary: 'secondary',
-  CharacterIngredientType.elementalStone: 'elementalStone',
-  CharacterIngredientType.local: 'local',
-  CharacterIngredientType.talentPrimary: 'talentPrimary',
-  CharacterIngredientType.talentBoss: 'talentBoss',
-};
 
 _$CharacterIngredientExpImpl _$$CharacterIngredientExpImplFromJson(
         Map<String, dynamic> json) =>

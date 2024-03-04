@@ -523,8 +523,7 @@ CharacterIngredient _$CharacterIngredientFromJson(Map<String, dynamic> json) {
 mixin _$CharacterIngredient {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)
+    required TResult Function(String type, int quantity, int? craftLevel)
         byType,
     required TResult Function(int exp) exp,
     required TResult Function(String itemId, int quantity) fixed,
@@ -532,18 +531,14 @@ mixin _$CharacterIngredient {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)?
-        byType,
+    TResult? Function(String type, int quantity, int? craftLevel)? byType,
     TResult? Function(int exp)? exp,
     TResult? Function(String itemId, int quantity)? fixed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)?
-        byType,
+    TResult Function(String type, int quantity, int? craftLevel)? byType,
     TResult Function(int exp)? exp,
     TResult Function(String itemId, int quantity)? fixed,
     required TResult orElse(),
@@ -599,7 +594,7 @@ abstract class _$$CharacterIngredientByTypeImplCopyWith<$Res> {
           $Res Function(_$CharacterIngredientByTypeImpl) then) =
       __$$CharacterIngredientByTypeImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({CharacterIngredientType type, int quantity, int? craftLevel});
+  $Res call({String type, int quantity, int? craftLevel});
 }
 
 /// @nodoc
@@ -623,7 +618,7 @@ class __$$CharacterIngredientByTypeImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as CharacterIngredientType,
+              as String,
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -651,7 +646,7 @@ class _$CharacterIngredientByTypeImpl extends CharacterIngredientByType {
       _$$CharacterIngredientByTypeImplFromJson(json);
 
   @override
-  final CharacterIngredientType type;
+  final String type;
   @override
   final int quantity;
   @override
@@ -691,8 +686,7 @@ class _$CharacterIngredientByTypeImpl extends CharacterIngredientByType {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)
+    required TResult Function(String type, int quantity, int? craftLevel)
         byType,
     required TResult Function(int exp) exp,
     required TResult Function(String itemId, int quantity) fixed,
@@ -703,9 +697,7 @@ class _$CharacterIngredientByTypeImpl extends CharacterIngredientByType {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)?
-        byType,
+    TResult? Function(String type, int quantity, int? craftLevel)? byType,
     TResult? Function(int exp)? exp,
     TResult? Function(String itemId, int quantity)? fixed,
   }) {
@@ -715,9 +707,7 @@ class _$CharacterIngredientByTypeImpl extends CharacterIngredientByType {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)?
-        byType,
+    TResult Function(String type, int quantity, int? craftLevel)? byType,
     TResult Function(int exp)? exp,
     TResult Function(String itemId, int quantity)? fixed,
     required TResult orElse(),
@@ -772,7 +762,7 @@ class _$CharacterIngredientByTypeImpl extends CharacterIngredientByType {
 
 abstract class CharacterIngredientByType extends CharacterIngredient {
   const factory CharacterIngredientByType(
-      {required final CharacterIngredientType type,
+      {required final String type,
       required final int quantity,
       final int? craftLevel}) = _$CharacterIngredientByTypeImpl;
   const CharacterIngredientByType._() : super._();
@@ -780,7 +770,7 @@ abstract class CharacterIngredientByType extends CharacterIngredient {
   factory CharacterIngredientByType.fromJson(Map<String, dynamic> json) =
       _$CharacterIngredientByTypeImpl.fromJson;
 
-  CharacterIngredientType get type;
+  String get type;
   int get quantity;
   int? get craftLevel;
   @JsonKey(ignore: true)
@@ -865,8 +855,7 @@ class _$CharacterIngredientExpImpl extends CharacterIngredientExp {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)
+    required TResult Function(String type, int quantity, int? craftLevel)
         byType,
     required TResult Function(int exp) exp,
     required TResult Function(String itemId, int quantity) fixed,
@@ -877,9 +866,7 @@ class _$CharacterIngredientExpImpl extends CharacterIngredientExp {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)?
-        byType,
+    TResult? Function(String type, int quantity, int? craftLevel)? byType,
     TResult? Function(int exp)? exp,
     TResult? Function(String itemId, int quantity)? fixed,
   }) {
@@ -889,9 +876,7 @@ class _$CharacterIngredientExpImpl extends CharacterIngredientExp {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)?
-        byType,
+    TResult Function(String type, int quantity, int? craftLevel)? byType,
     TResult Function(int exp)? exp,
     TResult Function(String itemId, int quantity)? fixed,
     required TResult orElse(),
@@ -1048,8 +1033,7 @@ class _$CharacterIngredientWithFixedIdImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)
+    required TResult Function(String type, int quantity, int? craftLevel)
         byType,
     required TResult Function(int exp) exp,
     required TResult Function(String itemId, int quantity) fixed,
@@ -1060,9 +1044,7 @@ class _$CharacterIngredientWithFixedIdImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)?
-        byType,
+    TResult? Function(String type, int quantity, int? craftLevel)? byType,
     TResult? Function(int exp)? exp,
     TResult? Function(String itemId, int quantity)? fixed,
   }) {
@@ -1072,9 +1054,7 @@ class _$CharacterIngredientWithFixedIdImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            CharacterIngredientType type, int quantity, int? craftLevel)?
-        byType,
+    TResult Function(String type, int quantity, int? craftLevel)? byType,
     TResult Function(int exp)? exp,
     TResult Function(String itemId, int quantity)? fixed,
     required TResult orElse(),

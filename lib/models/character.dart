@@ -100,7 +100,7 @@ sealed class CharacterMaterialDefinitions with _$CharacterMaterialDefinitions {
   factory CharacterMaterialDefinitions.fromJson(Map<String, dynamic> json) =>
       _$CharacterMaterialDefinitionsFromJson(json);
 
-  String withType(CharacterIngredientType type) {
-    return toJson()[type.name] as String;
+  String withType(String type) {
+    return toJson()[type] as String;
   }
 }

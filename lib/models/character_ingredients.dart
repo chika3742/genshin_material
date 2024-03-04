@@ -44,7 +44,7 @@ sealed class CharacterIngredient with _$CharacterIngredient {
   const CharacterIngredient._();
 
   const factory CharacterIngredient.byType({
-    required CharacterIngredientType type,
+    required String type,
     required int quantity,
     int? craftLevel,
   }) = CharacterIngredientByType;

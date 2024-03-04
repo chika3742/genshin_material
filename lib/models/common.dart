@@ -65,15 +65,6 @@ enum MaterialCategory {
   others,
 }
 
-enum CharacterIngredientType {
-  primary,
-  secondary,
-  elementalStone,
-  local,
-  talentPrimary,
-  talentBoss,
-}
-
 enum BookmarkState {
   none,
   partial,
