@@ -23,6 +23,8 @@ class AssetDataCache {
   CharacterIngredients? characterIngredients;
   Map<TeyvatElement, Element>? elements;
   List<Material>? materials;
+  List<String>? materialCategories;
+  List<String>? materialSortOrder;
 
   Future<void> init() async {
     assetDir ??= (await getLocalAssetDirectory()).path;
@@ -46,8 +48,12 @@ class AssetDataCache {
         Element.fromJson(value),
       );
     });
-    materials = (await loadDataAsset<List>("materials.yaml"))
-        .map((e) => Material.fromJson(e)).toList();
+    final materialData = MaterialData.fromJson(
+      await loadDataAsset<Map<String, dynamic>>("materials.yaml"),
+    );
+    materials = materialData.items;
+    materialCategories = materialData.categories;
+    materialSortOrder = materialData.sortOrder;
   }
 
   /// Reads data asset file and parses YAML into JSON.

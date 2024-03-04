@@ -14,6 +14,208 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+MaterialData _$MaterialDataFromJson(Map<String, dynamic> json) {
+  return _MaterialData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MaterialData {
+  List<Material> get items => throw _privateConstructorUsedError;
+  List<String> get categories => throw _privateConstructorUsedError;
+  List<String> get sortOrder => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MaterialDataCopyWith<MaterialData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MaterialDataCopyWith<$Res> {
+  factory $MaterialDataCopyWith(
+          MaterialData value, $Res Function(MaterialData) then) =
+      _$MaterialDataCopyWithImpl<$Res, MaterialData>;
+  @useResult
+  $Res call(
+      {List<Material> items, List<String> categories, List<String> sortOrder});
+}
+
+/// @nodoc
+class _$MaterialDataCopyWithImpl<$Res, $Val extends MaterialData>
+    implements $MaterialDataCopyWith<$Res> {
+  _$MaterialDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+    Object? categories = null,
+    Object? sortOrder = null,
+  }) {
+    return _then(_value.copyWith(
+      items: null == items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<Material>,
+      categories: null == categories
+          ? _value.categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      sortOrder: null == sortOrder
+          ? _value.sortOrder
+          : sortOrder // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MaterialDataImplCopyWith<$Res>
+    implements $MaterialDataCopyWith<$Res> {
+  factory _$$MaterialDataImplCopyWith(
+          _$MaterialDataImpl value, $Res Function(_$MaterialDataImpl) then) =
+      __$$MaterialDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<Material> items, List<String> categories, List<String> sortOrder});
+}
+
+/// @nodoc
+class __$$MaterialDataImplCopyWithImpl<$Res>
+    extends _$MaterialDataCopyWithImpl<$Res, _$MaterialDataImpl>
+    implements _$$MaterialDataImplCopyWith<$Res> {
+  __$$MaterialDataImplCopyWithImpl(
+      _$MaterialDataImpl _value, $Res Function(_$MaterialDataImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+    Object? categories = null,
+    Object? sortOrder = null,
+  }) {
+    return _then(_$MaterialDataImpl(
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<Material>,
+      categories: null == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      sortOrder: null == sortOrder
+          ? _value._sortOrder
+          : sortOrder // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MaterialDataImpl implements _MaterialData {
+  const _$MaterialDataImpl(
+      {required final List<Material> items,
+      required final List<String> categories,
+      required final List<String> sortOrder})
+      : _items = items,
+        _categories = categories,
+        _sortOrder = sortOrder;
+
+  factory _$MaterialDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MaterialDataImplFromJson(json);
+
+  final List<Material> _items;
+  @override
+  List<Material> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  final List<String> _categories;
+  @override
+  List<String> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
+  final List<String> _sortOrder;
+  @override
+  List<String> get sortOrder {
+    if (_sortOrder is EqualUnmodifiableListView) return _sortOrder;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sortOrder);
+  }
+
+  @override
+  String toString() {
+    return 'MaterialData(items: $items, categories: $categories, sortOrder: $sortOrder)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MaterialDataImpl &&
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories) &&
+            const DeepCollectionEquality()
+                .equals(other._sortOrder, _sortOrder));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_items),
+      const DeepCollectionEquality().hash(_categories),
+      const DeepCollectionEquality().hash(_sortOrder));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MaterialDataImplCopyWith<_$MaterialDataImpl> get copyWith =>
+      __$$MaterialDataImplCopyWithImpl<_$MaterialDataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MaterialDataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MaterialData implements MaterialData {
+  const factory _MaterialData(
+      {required final List<Material> items,
+      required final List<String> categories,
+      required final List<String> sortOrder}) = _$MaterialDataImpl;
+
+  factory _MaterialData.fromJson(Map<String, dynamic> json) =
+      _$MaterialDataImpl.fromJson;
+
+  @override
+  List<Material> get items;
+  @override
+  List<String> get categories;
+  @override
+  List<String> get sortOrder;
+  @override
+  @JsonKey(ignore: true)
+  _$$MaterialDataImplCopyWith<_$MaterialDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Material _$MaterialFromJson(Map<String, dynamic> json) {
   return _Material.fromJson(json);
 }
@@ -25,7 +227,7 @@ mixin _$Material {
   String get jaPronunciation => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   int get rarity => throw _privateConstructorUsedError;
-  MaterialCategory get category => throw _privateConstructorUsedError;
+  String get category => throw _privateConstructorUsedError;
   String? get groupId => throw _privateConstructorUsedError;
   int? get craftLevel => throw _privateConstructorUsedError;
 
@@ -46,7 +248,7 @@ abstract class $MaterialCopyWith<$Res> {
       String jaPronunciation,
       String imageUrl,
       int rarity,
-      MaterialCategory category,
+      String category,
       String? groupId,
       int? craftLevel});
 
@@ -99,7 +301,7 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as MaterialCategory,
+              as String,
       groupId: freezed == groupId
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
@@ -134,7 +336,7 @@ abstract class _$$MaterialImplCopyWith<$Res>
       String jaPronunciation,
       String imageUrl,
       int rarity,
-      MaterialCategory category,
+      String category,
       String? groupId,
       int? craftLevel});
 
@@ -186,7 +388,7 @@ class __$$MaterialImplCopyWithImpl<$Res>
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as MaterialCategory,
+              as String,
       groupId: freezed == groupId
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
@@ -227,7 +429,7 @@ class _$MaterialImpl extends _Material {
   @override
   final int rarity;
   @override
-  final MaterialCategory category;
+  final String category;
   @override
   final String? groupId;
   @override
@@ -283,7 +485,7 @@ abstract class _Material extends Material {
       required final String jaPronunciation,
       required final String imageUrl,
       required final int rarity,
-      required final MaterialCategory category,
+      required final String category,
       final String? groupId,
       final int? craftLevel}) = _$MaterialImpl;
   const _Material._() : super._();
@@ -302,7 +504,7 @@ abstract class _Material extends Material {
   @override
   int get rarity;
   @override
-  MaterialCategory get category;
+  String get category;
   @override
   String? get groupId;
   @override

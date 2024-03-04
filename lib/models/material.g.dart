@@ -6,6 +6,25 @@ part of 'material.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$MaterialDataImpl _$$MaterialDataImplFromJson(Map<String, dynamic> json) =>
+    _$MaterialDataImpl(
+      items: (json['items'] as List<dynamic>)
+          .map((e) => Material.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      categories: (json['categories'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      sortOrder:
+          (json['sortOrder'] as List<dynamic>).map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$$MaterialDataImplToJson(_$MaterialDataImpl instance) =>
+    <String, dynamic>{
+      'items': instance.items,
+      'categories': instance.categories,
+      'sortOrder': instance.sortOrder,
+    };
+
 _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
     _$MaterialImpl(
       id: json['id'] as String,
@@ -13,7 +32,7 @@ _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
       rarity: json['rarity'] as int,
-      category: $enumDecode(_$MaterialCategoryEnumMap, json['category']),
+      category: json['category'] as String,
       groupId: json['groupId'] as String?,
       craftLevel: json['craftLevel'] as int?,
     );
@@ -25,18 +44,7 @@ Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
       'jaPronunciation': instance.jaPronunciation,
       'imageUrl': instance.imageUrl,
       'rarity': instance.rarity,
-      'category': _$MaterialCategoryEnumMap[instance.category]!,
+      'category': instance.category,
       'groupId': instance.groupId,
       'craftLevel': instance.craftLevel,
     };
-
-const _$MaterialCategoryEnumMap = {
-  MaterialCategory.exp: 'exp',
-  MaterialCategory.gems: 'gems',
-  MaterialCategory.elementalStone: 'elementalStone',
-  MaterialCategory.local: 'local',
-  MaterialCategory.talentBook: 'talentBook',
-  MaterialCategory.talentBoss: 'talentBoss',
-  MaterialCategory.common: 'common',
-  MaterialCategory.others: 'others',
-};

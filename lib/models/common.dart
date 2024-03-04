@@ -54,17 +54,6 @@ enum Purpose {
   }
 }
 
-enum MaterialCategory {
-  exp,
-  gems,
-  elementalStone,
-  local,
-  talentBook,
-  talentBoss,
-  common,
-  others,
-}
-
 enum BookmarkState {
   none,
   partial,

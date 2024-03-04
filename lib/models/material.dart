@@ -7,6 +7,18 @@ part "material.freezed.dart";
 part "material.g.dart";
 
 @freezed
+class MaterialData with _$MaterialData {
+  const factory MaterialData({
+    required List<Material> items,
+    required List<String> categories,
+    required List<String> sortOrder,
+  }) = _MaterialData;
+
+  factory MaterialData.fromJson(Map<String, dynamic> json) =>
+      _$MaterialDataFromJson(json);
+}
+
+@freezed
 sealed class Material with _$Material, ImageGetter {
   const Material._();
 
@@ -16,7 +28,7 @@ sealed class Material with _$Material, ImageGetter {
     required String jaPronunciation,
     required String imageUrl,
     required int rarity,
-    required MaterialCategory category,
+    required String category,
     String? groupId,
     int? craftLevel,
   }) = _Material;
