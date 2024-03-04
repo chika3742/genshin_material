@@ -253,10 +253,9 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                           _getTalentIngredients(),
                           _character!.materials,
                         ).map(
-                              (e) => MaterialItem(
-                                material: assetData.materials!
-                                    .firstWhereOrNull((f) => e.id == f.id),
-                                bookmarkableMaterial: e,
+                              (bm) => MaterialItem(
+                                material: bm.isExp ? null : bm.material,
+                                bookmarkableMaterial: bm,
                               ),
                             ).toList(),
                       ),
