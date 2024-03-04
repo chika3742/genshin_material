@@ -21,7 +21,7 @@ CharacterIngredients _$CharacterIngredientsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CharacterIngredients {
   List<ExpItem> get expItems => throw _privateConstructorUsedError;
-  Map<int, CharacterIngredientsPurposes> get rarities =>
+  Map<Purpose, CharacterIngredientsLevels> get purposes =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $CharacterIngredientsCopyWith<$Res> {
   @useResult
   $Res call(
       {List<ExpItem> expItems,
-      Map<int, CharacterIngredientsPurposes> rarities});
+      Map<Purpose, CharacterIngredientsLevels> purposes});
 }
 
 /// @nodoc
@@ -56,17 +56,17 @@ class _$CharacterIngredientsCopyWithImpl<$Res,
   @override
   $Res call({
     Object? expItems = null,
-    Object? rarities = null,
+    Object? purposes = null,
   }) {
     return _then(_value.copyWith(
       expItems: null == expItems
           ? _value.expItems
           : expItems // ignore: cast_nullable_to_non_nullable
               as List<ExpItem>,
-      rarities: null == rarities
-          ? _value.rarities
-          : rarities // ignore: cast_nullable_to_non_nullable
-              as Map<int, CharacterIngredientsPurposes>,
+      purposes: null == purposes
+          ? _value.purposes
+          : purposes // ignore: cast_nullable_to_non_nullable
+              as Map<Purpose, CharacterIngredientsLevels>,
     ) as $Val);
   }
 }
@@ -81,7 +81,7 @@ abstract class _$$CharacterIngredientsImplCopyWith<$Res>
   @useResult
   $Res call(
       {List<ExpItem> expItems,
-      Map<int, CharacterIngredientsPurposes> rarities});
+      Map<Purpose, CharacterIngredientsLevels> purposes});
 }
 
 /// @nodoc
@@ -96,17 +96,17 @@ class __$$CharacterIngredientsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? expItems = null,
-    Object? rarities = null,
+    Object? purposes = null,
   }) {
     return _then(_$CharacterIngredientsImpl(
       expItems: null == expItems
           ? _value._expItems
           : expItems // ignore: cast_nullable_to_non_nullable
               as List<ExpItem>,
-      rarities: null == rarities
-          ? _value._rarities
-          : rarities // ignore: cast_nullable_to_non_nullable
-              as Map<int, CharacterIngredientsPurposes>,
+      purposes: null == purposes
+          ? _value._purposes
+          : purposes // ignore: cast_nullable_to_non_nullable
+              as Map<Purpose, CharacterIngredientsLevels>,
     ));
   }
 }
@@ -116,9 +116,9 @@ class __$$CharacterIngredientsImplCopyWithImpl<$Res>
 class _$CharacterIngredientsImpl extends _CharacterIngredients {
   const _$CharacterIngredientsImpl(
       {required final List<ExpItem> expItems,
-      required final Map<int, CharacterIngredientsPurposes> rarities})
+      required final Map<Purpose, CharacterIngredientsLevels> purposes})
       : _expItems = expItems,
-        _rarities = rarities,
+        _purposes = purposes,
         super._();
 
   factory _$CharacterIngredientsImpl.fromJson(Map<String, dynamic> json) =>
@@ -132,17 +132,17 @@ class _$CharacterIngredientsImpl extends _CharacterIngredients {
     return EqualUnmodifiableListView(_expItems);
   }
 
-  final Map<int, CharacterIngredientsPurposes> _rarities;
+  final Map<Purpose, CharacterIngredientsLevels> _purposes;
   @override
-  Map<int, CharacterIngredientsPurposes> get rarities {
-    if (_rarities is EqualUnmodifiableMapView) return _rarities;
+  Map<Purpose, CharacterIngredientsLevels> get purposes {
+    if (_purposes is EqualUnmodifiableMapView) return _purposes;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_rarities);
+    return EqualUnmodifiableMapView(_purposes);
   }
 
   @override
   String toString() {
-    return 'CharacterIngredients(expItems: $expItems, rarities: $rarities)';
+    return 'CharacterIngredients(expItems: $expItems, purposes: $purposes)';
   }
 
   @override
@@ -151,7 +151,7 @@ class _$CharacterIngredientsImpl extends _CharacterIngredients {
         (other.runtimeType == runtimeType &&
             other is _$CharacterIngredientsImpl &&
             const DeepCollectionEquality().equals(other._expItems, _expItems) &&
-            const DeepCollectionEquality().equals(other._rarities, _rarities));
+            const DeepCollectionEquality().equals(other._purposes, _purposes));
   }
 
   @JsonKey(ignore: true)
@@ -159,7 +159,7 @@ class _$CharacterIngredientsImpl extends _CharacterIngredients {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_expItems),
-      const DeepCollectionEquality().hash(_rarities));
+      const DeepCollectionEquality().hash(_purposes));
 
   @JsonKey(ignore: true)
   @override
@@ -180,7 +180,7 @@ class _$CharacterIngredientsImpl extends _CharacterIngredients {
 abstract class _CharacterIngredients extends CharacterIngredients {
   const factory _CharacterIngredients(
           {required final List<ExpItem> expItems,
-          required final Map<int, CharacterIngredientsPurposes> rarities}) =
+          required final Map<Purpose, CharacterIngredientsLevels> purposes}) =
       _$CharacterIngredientsImpl;
   const _CharacterIngredients._() : super._();
 
@@ -190,7 +190,7 @@ abstract class _CharacterIngredients extends CharacterIngredients {
   @override
   List<ExpItem> get expItems;
   @override
-  Map<int, CharacterIngredientsPurposes> get rarities;
+  Map<Purpose, CharacterIngredientsLevels> get purposes;
   @override
   @JsonKey(ignore: true)
   _$$CharacterIngredientsImplCopyWith<_$CharacterIngredientsImpl>
@@ -346,166 +346,6 @@ abstract class _ExpItem implements ExpItem {
   @JsonKey(ignore: true)
   _$$ExpItemImplCopyWith<_$ExpItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-CharacterIngredientsPurposes _$CharacterIngredientsPurposesFromJson(
-    Map<String, dynamic> json) {
-  return _CharacterIngredientsPurposes.fromJson(json);
-}
-
-/// @nodoc
-mixin _$CharacterIngredientsPurposes {
-  Map<Purpose, CharacterIngredientsLevels> get purposes =>
-      throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $CharacterIngredientsPurposesCopyWith<CharacterIngredientsPurposes>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $CharacterIngredientsPurposesCopyWith<$Res> {
-  factory $CharacterIngredientsPurposesCopyWith(
-          CharacterIngredientsPurposes value,
-          $Res Function(CharacterIngredientsPurposes) then) =
-      _$CharacterIngredientsPurposesCopyWithImpl<$Res,
-          CharacterIngredientsPurposes>;
-  @useResult
-  $Res call({Map<Purpose, CharacterIngredientsLevels> purposes});
-}
-
-/// @nodoc
-class _$CharacterIngredientsPurposesCopyWithImpl<$Res,
-        $Val extends CharacterIngredientsPurposes>
-    implements $CharacterIngredientsPurposesCopyWith<$Res> {
-  _$CharacterIngredientsPurposesCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? purposes = null,
-  }) {
-    return _then(_value.copyWith(
-      purposes: null == purposes
-          ? _value.purposes
-          : purposes // ignore: cast_nullable_to_non_nullable
-              as Map<Purpose, CharacterIngredientsLevels>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$CharacterIngredientsPurposesImplCopyWith<$Res>
-    implements $CharacterIngredientsPurposesCopyWith<$Res> {
-  factory _$$CharacterIngredientsPurposesImplCopyWith(
-          _$CharacterIngredientsPurposesImpl value,
-          $Res Function(_$CharacterIngredientsPurposesImpl) then) =
-      __$$CharacterIngredientsPurposesImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Map<Purpose, CharacterIngredientsLevels> purposes});
-}
-
-/// @nodoc
-class __$$CharacterIngredientsPurposesImplCopyWithImpl<$Res>
-    extends _$CharacterIngredientsPurposesCopyWithImpl<$Res,
-        _$CharacterIngredientsPurposesImpl>
-    implements _$$CharacterIngredientsPurposesImplCopyWith<$Res> {
-  __$$CharacterIngredientsPurposesImplCopyWithImpl(
-      _$CharacterIngredientsPurposesImpl _value,
-      $Res Function(_$CharacterIngredientsPurposesImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? purposes = null,
-  }) {
-    return _then(_$CharacterIngredientsPurposesImpl(
-      purposes: null == purposes
-          ? _value._purposes
-          : purposes // ignore: cast_nullable_to_non_nullable
-              as Map<Purpose, CharacterIngredientsLevels>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$CharacterIngredientsPurposesImpl
-    implements _CharacterIngredientsPurposes {
-  const _$CharacterIngredientsPurposesImpl(
-      {required final Map<Purpose, CharacterIngredientsLevels> purposes})
-      : _purposes = purposes;
-
-  factory _$CharacterIngredientsPurposesImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$CharacterIngredientsPurposesImplFromJson(json);
-
-  final Map<Purpose, CharacterIngredientsLevels> _purposes;
-  @override
-  Map<Purpose, CharacterIngredientsLevels> get purposes {
-    if (_purposes is EqualUnmodifiableMapView) return _purposes;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_purposes);
-  }
-
-  @override
-  String toString() {
-    return 'CharacterIngredientsPurposes(purposes: $purposes)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CharacterIngredientsPurposesImpl &&
-            const DeepCollectionEquality().equals(other._purposes, _purposes));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_purposes));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CharacterIngredientsPurposesImplCopyWith<
-          _$CharacterIngredientsPurposesImpl>
-      get copyWith => __$$CharacterIngredientsPurposesImplCopyWithImpl<
-          _$CharacterIngredientsPurposesImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CharacterIngredientsPurposesImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _CharacterIngredientsPurposes
-    implements CharacterIngredientsPurposes {
-  const factory _CharacterIngredientsPurposes(
-          {required final Map<Purpose, CharacterIngredientsLevels> purposes}) =
-      _$CharacterIngredientsPurposesImpl;
-
-  factory _CharacterIngredientsPurposes.fromJson(Map<String, dynamic> json) =
-      _$CharacterIngredientsPurposesImpl.fromJson;
-
-  @override
-  Map<Purpose, CharacterIngredientsLevels> get purposes;
-  @override
-  @JsonKey(ignore: true)
-  _$$CharacterIngredientsPurposesImplCopyWith<
-          _$CharacterIngredientsPurposesImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 CharacterIngredientsLevels _$CharacterIngredientsLevelsFromJson(

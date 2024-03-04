@@ -11,7 +11,7 @@ class CharacterIngredients with _$CharacterIngredients {
 
   const factory CharacterIngredients({
     required List<ExpItem> expItems,
-    required Map<int, CharacterIngredientsPurposes> rarities,
+    required Map<Purpose, CharacterIngredientsLevels> purposes,
   }) = _CharacterIngredients;
 
   factory CharacterIngredients.fromJson(Map<String, dynamic> json) =>
@@ -27,16 +27,6 @@ class ExpItem with _$ExpItem {
 
   factory ExpItem.fromJson(Map<String, dynamic> json) =>
       _$ExpItemFromJson(json);
-}
-
-@freezed
-class CharacterIngredientsPurposes with _$CharacterIngredientsPurposes {
-  const factory CharacterIngredientsPurposes({
-    required Map<Purpose, CharacterIngredientsLevels> purposes,
-  }) = _CharacterIngredientsPurposes;
-
-  factory CharacterIngredientsPurposes.fromJson(Map<String, dynamic> json) =>
-      _$CharacterIngredientsPurposesFromJson(json);
 }
 
 @freezed

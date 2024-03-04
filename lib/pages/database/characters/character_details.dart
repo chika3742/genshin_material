@@ -11,7 +11,6 @@ import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/bookmarkable_material.dart";
 import "../../../models/character.dart";
-import "../../../models/character_ingredients.dart";
 import "../../../models/common.dart";
 import "../../../utils/ingredients_converter.dart";
 
@@ -35,9 +34,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
   final Map<Purpose, bool> _checkedTalentTypes = {};
 
   CharacterWithSmallImage? _character;
-  late CharacterIngredientsPurposes _ingredientsForRarity;
 
-  final _scrollController = ScrollController();
   final _talentMaterialsKey = GlobalKey();
 
   @override
@@ -49,11 +46,10 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
         .firstWhereOrNull((element) => element.id == widget.id);
     if (c != null && c is CharacterWithSmallImage) {
       _character = c;
-      _ingredientsForRarity =
-          widget.assetData.characterIngredients!.rarities[_character!.rarity]!;
       // init the range values and checked talent types for each purpose
-      for (final purpose in _ingredientsForRarity.purposes.keys) {
-        final levels = _ingredientsForRarity.purposes[purpose]!.levels;
+      final ingredients = widget.assetData.characterIngredients!;
+      for (final purpose in ingredients.purposes.keys) {
+        final levels = ingredients.purposes[purpose]!.levels;
         _sliderTickLabels[purpose] = [1, ...levels.keys];
         _rangeValues[purpose] = LevelRangeValues(1, levels.keys.last);
         _checkedTalentTypes[purpose] = true;
@@ -69,6 +65,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
     }
 
     final assetData = widget.assetData;
+    final ingredients = assetData.characterIngredients!;
 
     return Scaffold(
       appBar: AppBar(
@@ -79,7 +76,6 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
         ),
       ),
       body: SingleChildScrollView(
-        controller: _scrollController,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: GappedColumn(
@@ -150,7 +146,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                   Wrap(
                     children: [
                       for (final material in toBookmarkableMaterials(
-                        levelMapToList(narrowLevelMap(_ingredientsForRarity.purposes[Purpose.ascension]!.levels, _rangeValues[Purpose.ascension]!)),
+                        levelMapToList(narrowLevelMap(ingredients.purposes[Purpose.ascension]!.levels, _rangeValues[Purpose.ascension]!)),
                         _character!.materials,
                       ))
                         MaterialItem(
@@ -171,7 +167,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      for (final purpose in _ingredientsForRarity.purposes.keys
+                      for (final purpose in ingredients.purposes.keys
                           .whereNot((e) => e == Purpose.ascension))
                         Card(
                           child: Padding(
@@ -282,7 +278,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
         result.addAll(
           levelMapToList(
             narrowLevelMap(
-              _ingredientsForRarity.purposes[Purpose.fromTalentType(talentType)]!.levels,
+              widget.assetData.characterIngredients!.purposes[Purpose.fromTalentType(talentType)]!.levels,
               _rangeValues[Purpose.fromTalentType(talentType)]!,
             ),
           ),

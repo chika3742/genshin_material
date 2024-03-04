@@ -12,9 +12,9 @@ _$CharacterIngredientsImpl _$$CharacterIngredientsImplFromJson(
       expItems: (json['expItems'] as List<dynamic>)
           .map((e) => ExpItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rarities: (json['rarities'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(int.parse(k),
-            CharacterIngredientsPurposes.fromJson(e as Map<String, dynamic>)),
+      purposes: (json['purposes'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry($enumDecode(_$PurposeEnumMap, k),
+            CharacterIngredientsLevels.fromJson(e as Map<String, dynamic>)),
       ),
     );
 
@@ -22,8 +22,16 @@ Map<String, dynamic> _$$CharacterIngredientsImplToJson(
         _$CharacterIngredientsImpl instance) =>
     <String, dynamic>{
       'expItems': instance.expItems,
-      'rarities': instance.rarities.map((k, e) => MapEntry(k.toString(), e)),
+      'purposes':
+          instance.purposes.map((k, e) => MapEntry(_$PurposeEnumMap[k]!, e)),
     };
+
+const _$PurposeEnumMap = {
+  Purpose.ascension: 'ascension',
+  Purpose.normalAttack: 'normalAttack',
+  Purpose.elementalSkill: 'elementalSkill',
+  Purpose.elementalBurst: 'elementalBurst',
+};
 
 _$ExpItemImpl _$$ExpItemImplFromJson(Map<String, dynamic> json) =>
     _$ExpItemImpl(
@@ -36,29 +44,6 @@ Map<String, dynamic> _$$ExpItemImplToJson(_$ExpItemImpl instance) =>
       'itemId': instance.itemId,
       'expPerItem': instance.expPerItem,
     };
-
-_$CharacterIngredientsPurposesImpl _$$CharacterIngredientsPurposesImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CharacterIngredientsPurposesImpl(
-      purposes: (json['purposes'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry($enumDecode(_$PurposeEnumMap, k),
-            CharacterIngredientsLevels.fromJson(e as Map<String, dynamic>)),
-      ),
-    );
-
-Map<String, dynamic> _$$CharacterIngredientsPurposesImplToJson(
-        _$CharacterIngredientsPurposesImpl instance) =>
-    <String, dynamic>{
-      'purposes':
-          instance.purposes.map((k, e) => MapEntry(_$PurposeEnumMap[k]!, e)),
-    };
-
-const _$PurposeEnumMap = {
-  Purpose.ascension: 'ascension',
-  Purpose.normalAttack: 'normalAttack',
-  Purpose.elementalSkill: 'elementalSkill',
-  Purpose.elementalBurst: 'elementalBurst',
-};
 
 _$CharacterIngredientsLevelsImpl _$$CharacterIngredientsLevelsImplFromJson(
         Map<String, dynamic> json) =>
@@ -99,7 +84,11 @@ Map<String, dynamic> _$$CharacterIngredientByTypeImplToJson(
 
 const _$CharacterIngredientTypeEnumMap = {
   CharacterIngredientType.primary: 'primary',
+  CharacterIngredientType.secondary: 'secondary',
+  CharacterIngredientType.elementalStone: 'elementalStone',
+  CharacterIngredientType.local: 'local',
   CharacterIngredientType.talentPrimary: 'talentPrimary',
+  CharacterIngredientType.talentBoss: 'talentBoss',
 };
 
 _$CharacterIngredientExpImpl _$$CharacterIngredientExpImplFromJson(
