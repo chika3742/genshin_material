@@ -57,11 +57,21 @@ enum Purpose {
 enum MaterialCategory {
   exp,
   gems,
+  elementalStone,
+  local,
+  talentBook,
+  talentBoss,
+  common,
+  others,
 }
 
 enum CharacterIngredientType {
   primary,
+  secondary,
+  elementalStone,
+  local,
   talentPrimary,
+  talentBoss,
 }
 
 enum BookmarkState {
