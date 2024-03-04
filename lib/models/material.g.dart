@@ -14,8 +14,8 @@ _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
       imageUrl: json['imageUrl'] as String,
       rarity: json['rarity'] as int,
       category: $enumDecode(_$MaterialCategoryEnumMap, json['category']),
-      groupId: json['groupId'] as String,
-      craftLevel: json['craftLevel'] as int,
+      groupId: json['groupId'] as String?,
+      craftLevel: json['craftLevel'] as int?,
     );
 
 Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
@@ -33,4 +33,10 @@ Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
 const _$MaterialCategoryEnumMap = {
   MaterialCategory.exp: 'exp',
   MaterialCategory.gems: 'gems',
+  MaterialCategory.elementalStone: 'elementalStone',
+  MaterialCategory.local: 'local',
+  MaterialCategory.talentBook: 'talentBook',
+  MaterialCategory.talentBoss: 'talentBoss',
+  MaterialCategory.common: 'common',
+  MaterialCategory.others: 'others',
 };

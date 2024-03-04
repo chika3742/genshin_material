@@ -17,8 +17,8 @@ sealed class Material with _$Material, ImageGetter {
     required String imageUrl,
     required int rarity,
     required MaterialCategory category,
-    required String groupId,
-    required int craftLevel,
+    String? groupId,
+    int? craftLevel,
   }) = _Material;
 
   factory Material.fromJson(Map<String, dynamic> json) =>

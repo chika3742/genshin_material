@@ -26,8 +26,8 @@ mixin _$Material {
   String get imageUrl => throw _privateConstructorUsedError;
   int get rarity => throw _privateConstructorUsedError;
   MaterialCategory get category => throw _privateConstructorUsedError;
-  String get groupId => throw _privateConstructorUsedError;
-  int get craftLevel => throw _privateConstructorUsedError;
+  String? get groupId => throw _privateConstructorUsedError;
+  int? get craftLevel => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,8 +47,8 @@ abstract class $MaterialCopyWith<$Res> {
       String imageUrl,
       int rarity,
       MaterialCategory category,
-      String groupId,
-      int craftLevel});
+      String? groupId,
+      int? craftLevel});
 
   $LocalizedTextCopyWith<$Res> get name;
 }
@@ -72,8 +72,8 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
     Object? imageUrl = null,
     Object? rarity = null,
     Object? category = null,
-    Object? groupId = null,
-    Object? craftLevel = null,
+    Object? groupId = freezed,
+    Object? craftLevel = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -100,14 +100,14 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as MaterialCategory,
-      groupId: null == groupId
+      groupId: freezed == groupId
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
-              as String,
-      craftLevel: null == craftLevel
+              as String?,
+      craftLevel: freezed == craftLevel
           ? _value.craftLevel
           : craftLevel // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ) as $Val);
   }
 
@@ -135,8 +135,8 @@ abstract class _$$MaterialImplCopyWith<$Res>
       String imageUrl,
       int rarity,
       MaterialCategory category,
-      String groupId,
-      int craftLevel});
+      String? groupId,
+      int? craftLevel});
 
   @override
   $LocalizedTextCopyWith<$Res> get name;
@@ -159,8 +159,8 @@ class __$$MaterialImplCopyWithImpl<$Res>
     Object? imageUrl = null,
     Object? rarity = null,
     Object? category = null,
-    Object? groupId = null,
-    Object? craftLevel = null,
+    Object? groupId = freezed,
+    Object? craftLevel = freezed,
   }) {
     return _then(_$MaterialImpl(
       id: null == id
@@ -187,14 +187,14 @@ class __$$MaterialImplCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as MaterialCategory,
-      groupId: null == groupId
+      groupId: freezed == groupId
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
-              as String,
-      craftLevel: null == craftLevel
+              as String?,
+      craftLevel: freezed == craftLevel
           ? _value.craftLevel
           : craftLevel // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -209,8 +209,8 @@ class _$MaterialImpl extends _Material {
       required this.imageUrl,
       required this.rarity,
       required this.category,
-      required this.groupId,
-      required this.craftLevel})
+      this.groupId,
+      this.craftLevel})
       : super._();
 
   factory _$MaterialImpl.fromJson(Map<String, dynamic> json) =>
@@ -229,9 +229,9 @@ class _$MaterialImpl extends _Material {
   @override
   final MaterialCategory category;
   @override
-  final String groupId;
+  final String? groupId;
   @override
-  final int craftLevel;
+  final int? craftLevel;
 
   @override
   String toString() {
@@ -284,8 +284,8 @@ abstract class _Material extends Material {
       required final String imageUrl,
       required final int rarity,
       required final MaterialCategory category,
-      required final String groupId,
-      required final int craftLevel}) = _$MaterialImpl;
+      final String? groupId,
+      final int? craftLevel}) = _$MaterialImpl;
   const _Material._() : super._();
 
   factory _Material.fromJson(Map<String, dynamic> json) =
@@ -304,9 +304,9 @@ abstract class _Material extends Material {
   @override
   MaterialCategory get category;
   @override
-  String get groupId;
+  String? get groupId;
   @override
-  int get craftLevel;
+  int? get craftLevel;
   @override
   @JsonKey(ignore: true)
   _$$MaterialImplCopyWith<_$MaterialImpl> get copyWith =>
