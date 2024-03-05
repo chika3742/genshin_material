@@ -1,3 +1,5 @@
+import "package:collection/collection.dart";
+
 import "../components/level_slider.dart";
 import "../core/asset_cache.dart";
 import "../models/bookmarkable_material.dart";
@@ -63,5 +65,5 @@ List<BookmarkableMaterial> toBookmarkableMaterials(List<IngredientsWithLevel> in
       id: e.key,
       levels: e.value,
     ),
-  ).toList();
+  ).toList().sorted((a, b) => a.sortOrder.compareTo(b.sortOrder));
 }

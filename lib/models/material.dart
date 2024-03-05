@@ -11,7 +11,7 @@ class MaterialData with _$MaterialData {
   const factory MaterialData({
     required List<Material> items,
     required List<String> categories,
-    required List<String> sortOrder,
+    required Map<String, int> sortOrder,
   }) = _MaterialData;
 
   factory MaterialData.fromJson(Map<String, dynamic> json) =>

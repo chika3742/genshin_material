@@ -36,6 +36,15 @@ class BookmarkableMaterial with _$BookmarkableMaterial {
     }
     return result;
   }
+
+  int get sortOrder {
+    if (isExp) {
+      return -1;
+    }
+
+    final sortOrderMap = AssetDataCache.instance.materialSortOrder!;
+    return sortOrderMap["id:$id"] ?? sortOrderMap["category:${material.category}"] ?? 0;
+  }
 }
 
 @freezed

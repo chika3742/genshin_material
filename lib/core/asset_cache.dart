@@ -24,7 +24,7 @@ class AssetDataCache {
   Map<TeyvatElement, Element>? elements;
   List<Material>? materials;
   List<String>? materialCategories;
-  List<String>? materialSortOrder;
+  Map<String, int>? materialSortOrder;
 
   Future<void> init() async {
     assetDir ??= (await getLocalAssetDirectory()).path;

@@ -14,8 +14,7 @@ _$MaterialDataImpl _$$MaterialDataImplFromJson(Map<String, dynamic> json) =>
       categories: (json['categories'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      sortOrder:
-          (json['sortOrder'] as List<dynamic>).map((e) => e as String).toList(),
+      sortOrder: Map<String, int>.from(json['sortOrder'] as Map),
     );
 
 Map<String, dynamic> _$$MaterialDataImplToJson(_$MaterialDataImpl instance) =>

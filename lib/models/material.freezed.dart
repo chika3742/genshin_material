@@ -22,7 +22,7 @@ MaterialData _$MaterialDataFromJson(Map<String, dynamic> json) {
 mixin _$MaterialData {
   List<Material> get items => throw _privateConstructorUsedError;
   List<String> get categories => throw _privateConstructorUsedError;
-  List<String> get sortOrder => throw _privateConstructorUsedError;
+  Map<String, int> get sortOrder => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +37,9 @@ abstract class $MaterialDataCopyWith<$Res> {
       _$MaterialDataCopyWithImpl<$Res, MaterialData>;
   @useResult
   $Res call(
-      {List<Material> items, List<String> categories, List<String> sortOrder});
+      {List<Material> items,
+      List<String> categories,
+      Map<String, int> sortOrder});
 }
 
 /// @nodoc
@@ -69,7 +71,7 @@ class _$MaterialDataCopyWithImpl<$Res, $Val extends MaterialData>
       sortOrder: null == sortOrder
           ? _value.sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Map<String, int>,
     ) as $Val);
   }
 }
@@ -83,7 +85,9 @@ abstract class _$$MaterialDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<Material> items, List<String> categories, List<String> sortOrder});
+      {List<Material> items,
+      List<String> categories,
+      Map<String, int> sortOrder});
 }
 
 /// @nodoc
@@ -113,7 +117,7 @@ class __$$MaterialDataImplCopyWithImpl<$Res>
       sortOrder: null == sortOrder
           ? _value._sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Map<String, int>,
     ));
   }
 }
@@ -124,7 +128,7 @@ class _$MaterialDataImpl implements _MaterialData {
   const _$MaterialDataImpl(
       {required final List<Material> items,
       required final List<String> categories,
-      required final List<String> sortOrder})
+      required final Map<String, int> sortOrder})
       : _items = items,
         _categories = categories,
         _sortOrder = sortOrder;
@@ -148,12 +152,12 @@ class _$MaterialDataImpl implements _MaterialData {
     return EqualUnmodifiableListView(_categories);
   }
 
-  final List<String> _sortOrder;
+  final Map<String, int> _sortOrder;
   @override
-  List<String> get sortOrder {
-    if (_sortOrder is EqualUnmodifiableListView) return _sortOrder;
+  Map<String, int> get sortOrder {
+    if (_sortOrder is EqualUnmodifiableMapView) return _sortOrder;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_sortOrder);
+    return EqualUnmodifiableMapView(_sortOrder);
   }
 
   @override
@@ -199,7 +203,7 @@ abstract class _MaterialData implements MaterialData {
   const factory _MaterialData(
       {required final List<Material> items,
       required final List<String> categories,
-      required final List<String> sortOrder}) = _$MaterialDataImpl;
+      required final Map<String, int> sortOrder}) = _$MaterialDataImpl;
 
   factory _MaterialData.fromJson(Map<String, dynamic> json) =
       _$MaterialDataImpl.fromJson;
@@ -209,7 +213,7 @@ abstract class _MaterialData implements MaterialData {
   @override
   List<String> get categories;
   @override
-  List<String> get sortOrder;
+  Map<String, int> get sortOrder;
   @override
   @JsonKey(ignore: true)
   _$$MaterialDataImplCopyWith<_$MaterialDataImpl> get copyWith =>
