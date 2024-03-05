@@ -28,7 +28,7 @@ String getConcreteItemId(CharacterIngredient ingredient, CharacterMaterialDefini
 }
 
 Map<int, List<CharacterIngredient>> narrowLevelMap(Map<int, List<CharacterIngredient>> map, LevelRangeValues levelRangeValues) {
-  return Map.fromEntries(map.entries.where((e) => e.key >= levelRangeValues.start && e.key <= levelRangeValues.end));
+  return Map.fromEntries(map.entries.where((e) => e.key > levelRangeValues.start && e.key <= levelRangeValues.end));
 }
 
 /// Merge the ingredients of the same id in the list.
