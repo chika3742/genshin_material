@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
+import "../core/asset_cache.dart";
 import "../i18n/strings.g.dart";
 import "../providers/asset_updating_state.dart";
 import "../providers/versions.dart";
@@ -9,24 +10,25 @@ import "center_text.dart";
 /// Shows [CircularProgressIndicator] during loading asset,
 /// and then shows [builder] widget.
 class DataAssetScope extends ConsumerWidget {
-  final Widget child;
+  final Widget Function(AssetDataCache assetData) builder;
+  final bool wrapCenterTextWithScaffold;
 
-  const DataAssetScope({super.key, required this.child});
+  const DataAssetScope({super.key, required this.builder, this.wrapCenterTextWithScaffold = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetVersion = ref.watch(assetVersionDataProvider);
+    final assetData = ref.watch(assetDataProvider);
     final updatingState = ref.watch(assetUpdatingStateNotifierProvider);
 
-    if (assetVersion.value != null) {
+    if (assetData is AsyncData && assetData.value?.version != null) {
       // Valid assets present
-      return child;
+      return builder(assetData.value!);
     }
     if (updatingState.state != null) {
       // No installed assets present and installation process running
-      return CenterText(tr.updates.pleaseWaitUntilComplete);
+      return _wrapWithScaffold(CenterText(tr.updates.pleaseWaitUntilComplete));
     }
-    if (assetVersion.isLoading) {
+    if (assetData.isLoading) {
       // Asset version is loading
       return const Center(
         child: CircularProgressIndicator(),
@@ -34,6 +36,17 @@ class DataAssetScope extends ConsumerWidget {
     }
 
     // Asset installation failed
-    return CenterText(tr.updates.failed);
+    return _wrapWithScaffold(CenterText(tr.updates.failed));
+  }
+
+  Widget _wrapWithScaffold(Widget child) {
+    if (wrapCenterTextWithScaffold) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: child,
+      );
+    } else {
+      return child;
+    }
   }
 }

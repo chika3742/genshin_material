@@ -55,11 +55,13 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
             color: Theme.of(context).colorScheme.primary,
           ),
           DataAssetScope(
-            child: _buildReleaseNotesTab(
-              provider: assetsReleaseNotesDataProvider,
-              versionPrefix: "D",
-              color: Theme.of(context).colorScheme.secondary,
-            ),
+            builder: (_) {
+              return _buildReleaseNotesTab(
+                provider: assetsReleaseNotesDataProvider,
+                versionPrefix: "D",
+                color: Theme.of(context).colorScheme.secondary,
+              );
+            },
           ),
         ],
       ),

@@ -13,6 +13,7 @@ import "../providers/asset_updating_state.dart";
 import "../providers/versions.dart";
 import "../ui_core/install_latest_assets.dart";
 import "../ui_core/snack_bar.dart";
+import "../utils/show_loading_modal.dart";
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
@@ -37,16 +38,18 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             trailingIcon: Symbols.download,
             enabled: ref.watch(assetUpdatingStateNotifierProvider).state == null,
             onTap: () async {
+              showLoadingModal(context);
+
               // Delete existing assets in the device
               try {
                 (await getLocalAssetDirectory()).delete(recursive: true);
               } catch (_) {}
 
-              ref.invalidate(assetVersionDataProvider);
+              ref.invalidate(assetDataProvider);
 
               final updater = AssetUpdater(
-                await getLocalAssetDirectory(),
-                tempDir: await getTemporaryDirectory(),
+                (await getLocalAssetDirectory()).path,
+                tempDir: (await getTemporaryDirectory()).path,
               );
               try {
                 await updater.checkForUpdate();
@@ -55,6 +58,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
                 showSnackBar(context: routerContext!, message: tr.updates.failed);
                 return;
+              }
+
+              if (context.mounted) {
+                Navigator.of(context, rootNavigator: true).pop();
               }
 
               await installLatestAssets(

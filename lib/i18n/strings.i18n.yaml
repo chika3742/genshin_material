@@ -2,14 +2,29 @@ common:
   tos: 利用規約
   privacyPolicy: プライバシーポリシー
   error: エラーが発生しました。
+  goalLevel: 目標レベル
+  currentLevel: 現在レベル
+talentTypes(map):
+  normalAttack: 通常攻撃
+  elementalSkill: 元素スキル
+  elementalBurst: 元素爆発
+weaponTypes(map):
+  sword: 片手剣
+  claymore: 両手剣
+  polearm: 長柄武器
+  bow: 弓
+  catalyst: 法器
 updates:
   downloading: データ更新をダウンロードしています…
   failed: データ更新に失敗しました。アプリを再起動すると再試行します。
   completed: 更新が完了しました。
   installing: インストールしています...
   pleaseWaitUntilComplete: データ更新が完了するまでお待ちください。
+errors:
+  characterNotFound: キャラクターが見つかりません
 pages:
   characters: キャラクター
+  characterDetails: $character - キャラクター
   settings: 設定
   account: アカウント
   releaseNotes: 更新履歴
@@ -18,6 +33,9 @@ pages:
   daily: 日替わり素材
   tools: ツール
   more: その他
+characterDetailsPage:
+  charaLevelUpAndAscensionMaterials: キャラクターLvアップ・突破素材
+  talentLevelUpMaterials: 天賦Lvアップ素材
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
 releaseNotesPage:

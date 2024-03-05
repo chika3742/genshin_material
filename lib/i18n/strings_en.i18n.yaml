@@ -2,14 +2,29 @@ common:
   tos: Terms of Use
   privacyPolicy: Privacy Policy
   error: An error occurred.
+  goalLevel: Goal Level
+  currentLevel: Current Level
+talentTypes(map):
+  normalAttack: Normal Attack
+  elementalSkill: Elemental Skill
+  elementalBurst: Elemental Burst
+weaponTypes(map):
+  sword: Sword
+  claymore: Claymore
+  polearm: Polearm
+  bow: Bow
+  catalyst: Catalyst
 updates:
   downloading: Downloading data updates...
   failed: Failed to update data. Restarting app to retry.
   completed: Data update completed.
   installing: Installing...
   pleaseWaitUntilComplete: Please wait until data update is complete.
+errors:
+  characterNotFound: Character not found
 pages:
   characters: Characters
+  characterDetails: $character - Character
   settings: Settings
   account: Account
   releaseNotes: Release Notes
@@ -18,6 +33,9 @@ pages:
   daily: Daily
   tools: Tools
   more: More
+characterDetailsPage:
+  charaLevelUpAndAscensionMaterials: "Character Lv Up & Ascension Materials"
+  talentLevelUpMaterials: Talent Lv Up Materials
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
 releaseNotesPage:

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'characters.dart';
+part of 'character.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -22,7 +22,7 @@ Character _$CharacterFromJson(Map<String, dynamic> json) {
       return UnlistedCharacter.fromJson(json);
 
     default:
-      return _Character.fromJson(json);
+      return ListedCharacter.fromJson(json);
   }
 }
 
@@ -42,15 +42,19 @@ mixin _$Character {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)
         $default, {
     required TResult Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -62,9 +66,11 @@ mixin _$Character {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)
         unlisted,
   }) =>
@@ -76,15 +82,19 @@ mixin _$Character {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         $default, {
     TResult? Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -96,9 +106,11 @@ mixin _$Character {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         unlisted,
   }) =>
@@ -110,15 +122,19 @@ mixin _$Character {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         $default, {
     TResult Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -130,9 +146,11 @@ mixin _$Character {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         unlisted,
     required TResult orElse(),
@@ -140,21 +158,21 @@ mixin _$Character {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Character value) $default, {
+    TResult Function(ListedCharacter value) $default, {
     required TResult Function(CharacterGroup value) group,
     required TResult Function(UnlistedCharacter value) unlisted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Character value)? $default, {
+    TResult? Function(ListedCharacter value)? $default, {
     TResult? Function(CharacterGroup value)? group,
     TResult? Function(UnlistedCharacter value)? unlisted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Character value)? $default, {
+    TResult Function(ListedCharacter value)? $default, {
     TResult Function(CharacterGroup value)? group,
     TResult Function(UnlistedCharacter value)? unlisted,
     required TResult orElse(),
@@ -250,11 +268,11 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
 }
 
 /// @nodoc
-abstract class _$$CharacterImplCopyWith<$Res>
+abstract class _$$ListedCharacterImplCopyWith<$Res>
     implements $CharacterCopyWith<$Res> {
-  factory _$$CharacterImplCopyWith(
-          _$CharacterImpl value, $Res Function(_$CharacterImpl) then) =
-      __$$CharacterImplCopyWithImpl<$Res>;
+  factory _$$ListedCharacterImplCopyWith(_$ListedCharacterImpl value,
+          $Res Function(_$ListedCharacterImpl) then) =
+      __$$ListedCharacterImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -262,9 +280,12 @@ abstract class _$$CharacterImplCopyWith<$Res>
       String rid,
       LocalizedText name,
       String jaPronunciation,
+      String imageUrl,
+      String smallImageUrl,
       int rarity,
       WeaponType weaponType,
       TeyvatElement element,
+      Map<TalentType, LocalizedText> talents,
       CharacterMaterialDefinitions materials});
 
   @override
@@ -274,11 +295,11 @@ abstract class _$$CharacterImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CharacterImplCopyWithImpl<$Res>
-    extends _$CharacterCopyWithImpl<$Res, _$CharacterImpl>
-    implements _$$CharacterImplCopyWith<$Res> {
-  __$$CharacterImplCopyWithImpl(
-      _$CharacterImpl _value, $Res Function(_$CharacterImpl) _then)
+class __$$ListedCharacterImplCopyWithImpl<$Res>
+    extends _$CharacterCopyWithImpl<$Res, _$ListedCharacterImpl>
+    implements _$$ListedCharacterImplCopyWith<$Res> {
+  __$$ListedCharacterImplCopyWithImpl(
+      _$ListedCharacterImpl _value, $Res Function(_$ListedCharacterImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -288,12 +309,15 @@ class __$$CharacterImplCopyWithImpl<$Res>
     Object? rid = null,
     Object? name = null,
     Object? jaPronunciation = null,
+    Object? imageUrl = null,
+    Object? smallImageUrl = null,
     Object? rarity = null,
     Object? weaponType = null,
     Object? element = null,
+    Object? talents = null,
     Object? materials = null,
   }) {
-    return _then(_$CharacterImpl(
+    return _then(_$ListedCharacterImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -310,6 +334,14 @@ class __$$CharacterImplCopyWithImpl<$Res>
           ? _value.jaPronunciation
           : jaPronunciation // ignore: cast_nullable_to_non_nullable
               as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      smallImageUrl: null == smallImageUrl
+          ? _value.smallImageUrl
+          : smallImageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
       rarity: null == rarity
           ? _value.rarity
           : rarity // ignore: cast_nullable_to_non_nullable
@@ -322,6 +354,10 @@ class __$$CharacterImplCopyWithImpl<$Res>
           ? _value.element
           : element // ignore: cast_nullable_to_non_nullable
               as TeyvatElement,
+      talents: null == talents
+          ? _value._talents
+          : talents // ignore: cast_nullable_to_non_nullable
+              as Map<TalentType, LocalizedText>,
       materials: null == materials
           ? _value.materials
           : materials // ignore: cast_nullable_to_non_nullable
@@ -332,21 +368,27 @@ class __$$CharacterImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CharacterImpl implements _Character {
-  const _$CharacterImpl(
+class _$ListedCharacterImpl extends ListedCharacter
+    with CharacterWithLargeImage, CharacterWithSmallImage {
+  const _$ListedCharacterImpl(
       {required this.id,
       required this.rid,
       required this.name,
       required this.jaPronunciation,
+      required this.imageUrl,
+      required this.smallImageUrl,
       required this.rarity,
       required this.weaponType,
       required this.element,
+      required final Map<TalentType, LocalizedText> talents,
       required this.materials,
       final String? $type})
-      : $type = $type ?? 'default';
+      : _talents = talents,
+        $type = $type ?? 'default',
+        super._();
 
-  factory _$CharacterImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CharacterImplFromJson(json);
+  factory _$ListedCharacterImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListedCharacterImplFromJson(json);
 
   @override
   final String id;
@@ -357,11 +399,23 @@ class _$CharacterImpl implements _Character {
   @override
   final String jaPronunciation;
   @override
+  final String imageUrl;
+  @override
+  final String smallImageUrl;
+  @override
   final int rarity;
   @override
   final WeaponType weaponType;
   @override
   final TeyvatElement element;
+  final Map<TalentType, LocalizedText> _talents;
+  @override
+  Map<TalentType, LocalizedText> get talents {
+    if (_talents is EqualUnmodifiableMapView) return _talents;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_talents);
+  }
+
   @override
   final CharacterMaterialDefinitions materials;
 
@@ -370,37 +424,54 @@ class _$CharacterImpl implements _Character {
 
   @override
   String toString() {
-    return 'Character(id: $id, rid: $rid, name: $name, jaPronunciation: $jaPronunciation, rarity: $rarity, weaponType: $weaponType, element: $element, materials: $materials)';
+    return 'Character(id: $id, rid: $rid, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CharacterImpl &&
+            other is _$ListedCharacterImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.rid, rid) || other.rid == rid) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
                 other.jaPronunciation == jaPronunciation) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.smallImageUrl, smallImageUrl) ||
+                other.smallImageUrl == smallImageUrl) &&
             (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.weaponType, weaponType) ||
                 other.weaponType == weaponType) &&
             (identical(other.element, element) || other.element == element) &&
+            const DeepCollectionEquality().equals(other._talents, _talents) &&
             (identical(other.materials, materials) ||
                 other.materials == materials));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, rid, name, jaPronunciation,
-      rarity, weaponType, element, materials);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      rid,
+      name,
+      jaPronunciation,
+      imageUrl,
+      smallImageUrl,
+      rarity,
+      weaponType,
+      element,
+      const DeepCollectionEquality().hash(_talents),
+      materials);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CharacterImplCopyWith<_$CharacterImpl> get copyWith =>
-      __$$CharacterImplCopyWithImpl<_$CharacterImpl>(this, _$identity);
+  _$$ListedCharacterImplCopyWith<_$ListedCharacterImpl> get copyWith =>
+      __$$ListedCharacterImplCopyWithImpl<_$ListedCharacterImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -410,15 +481,19 @@ class _$CharacterImpl implements _Character {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)
         $default, {
     required TResult Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -430,14 +505,16 @@ class _$CharacterImpl implements _Character {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)
         unlisted,
   }) {
-    return $default(
-        id, rid, name, jaPronunciation, rarity, weaponType, element, materials);
+    return $default(id, rid, name, jaPronunciation, imageUrl, smallImageUrl,
+        rarity, weaponType, element, talents, materials);
   }
 
   @override
@@ -448,15 +525,19 @@ class _$CharacterImpl implements _Character {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         $default, {
     TResult? Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -468,14 +549,16 @@ class _$CharacterImpl implements _Character {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         unlisted,
   }) {
-    return $default?.call(
-        id, rid, name, jaPronunciation, rarity, weaponType, element, materials);
+    return $default?.call(id, rid, name, jaPronunciation, imageUrl,
+        smallImageUrl, rarity, weaponType, element, talents, materials);
   }
 
   @override
@@ -486,15 +569,19 @@ class _$CharacterImpl implements _Character {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         $default, {
     TResult Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -506,16 +593,18 @@ class _$CharacterImpl implements _Character {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         unlisted,
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(id, rid, name, jaPronunciation, rarity, weaponType,
-          element, materials);
+      return $default(id, rid, name, jaPronunciation, imageUrl, smallImageUrl,
+          rarity, weaponType, element, talents, materials);
     }
     return orElse();
   }
@@ -523,7 +612,7 @@ class _$CharacterImpl implements _Character {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Character value) $default, {
+    TResult Function(ListedCharacter value) $default, {
     required TResult Function(CharacterGroup value) group,
     required TResult Function(UnlistedCharacter value) unlisted,
   }) {
@@ -533,7 +622,7 @@ class _$CharacterImpl implements _Character {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Character value)? $default, {
+    TResult? Function(ListedCharacter value)? $default, {
     TResult? Function(CharacterGroup value)? group,
     TResult? Function(UnlistedCharacter value)? unlisted,
   }) {
@@ -543,7 +632,7 @@ class _$CharacterImpl implements _Character {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Character value)? $default, {
+    TResult Function(ListedCharacter value)? $default, {
     TResult Function(CharacterGroup value)? group,
     TResult Function(UnlistedCharacter value)? unlisted,
     required TResult orElse(),
@@ -556,25 +645,31 @@ class _$CharacterImpl implements _Character {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CharacterImplToJson(
+    return _$$ListedCharacterImplToJson(
       this,
     );
   }
 }
 
-abstract class _Character implements Character {
-  const factory _Character(
-      {required final String id,
-      required final String rid,
-      required final LocalizedText name,
-      required final String jaPronunciation,
-      required final int rarity,
-      required final WeaponType weaponType,
-      required final TeyvatElement element,
-      required final CharacterMaterialDefinitions materials}) = _$CharacterImpl;
+abstract class ListedCharacter extends Character
+    implements CharacterWithLargeImage, CharacterWithSmallImage {
+  const factory ListedCharacter(
+          {required final String id,
+          required final String rid,
+          required final LocalizedText name,
+          required final String jaPronunciation,
+          required final String imageUrl,
+          required final String smallImageUrl,
+          required final int rarity,
+          required final WeaponType weaponType,
+          required final TeyvatElement element,
+          required final Map<TalentType, LocalizedText> talents,
+          required final CharacterMaterialDefinitions materials}) =
+      _$ListedCharacterImpl;
+  const ListedCharacter._() : super._();
 
-  factory _Character.fromJson(Map<String, dynamic> json) =
-      _$CharacterImpl.fromJson;
+  factory ListedCharacter.fromJson(Map<String, dynamic> json) =
+      _$ListedCharacterImpl.fromJson;
 
   @override
   String get id;
@@ -583,16 +678,19 @@ abstract class _Character implements Character {
   LocalizedText get name;
   @override
   String get jaPronunciation;
+  String get imageUrl;
+  String get smallImageUrl;
   @override
   int get rarity;
   @override
   WeaponType get weaponType;
   TeyvatElement get element;
+  Map<TalentType, LocalizedText> get talents;
   @override
   CharacterMaterialDefinitions get materials;
   @override
   @JsonKey(ignore: true)
-  _$$CharacterImplCopyWith<_$CharacterImpl> get copyWith =>
+  _$$ListedCharacterImplCopyWith<_$ListedCharacterImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -608,6 +706,7 @@ abstract class _$$CharacterGroupImplCopyWith<$Res>
       {String id,
       LocalizedText name,
       String jaPronunciation,
+      String imageUrl,
       int rarity,
       WeaponType weaponType,
       List<String> variantIds,
@@ -633,6 +732,7 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? jaPronunciation = null,
+    Object? imageUrl = null,
     Object? rarity = null,
     Object? weaponType = null,
     Object? variantIds = null,
@@ -650,6 +750,10 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
       jaPronunciation: null == jaPronunciation
           ? _value.jaPronunciation
           : jaPronunciation // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
       rarity: null == rarity
           ? _value.rarity
@@ -673,18 +777,20 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CharacterGroupImpl implements CharacterGroup {
+class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
   const _$CharacterGroupImpl(
       {required this.id,
       required this.name,
       required this.jaPronunciation,
+      required this.imageUrl,
       required this.rarity,
       required this.weaponType,
       required final List<String> variantIds,
       required this.materials,
       final String? $type})
       : _variantIds = variantIds,
-        $type = $type ?? 'group';
+        $type = $type ?? 'group',
+        super._();
 
   factory _$CharacterGroupImpl.fromJson(Map<String, dynamic> json) =>
       _$$CharacterGroupImplFromJson(json);
@@ -695,6 +801,8 @@ class _$CharacterGroupImpl implements CharacterGroup {
   final LocalizedText name;
   @override
   final String jaPronunciation;
+  @override
+  final String imageUrl;
   @override
   final int rarity;
   @override
@@ -715,7 +823,7 @@ class _$CharacterGroupImpl implements CharacterGroup {
 
   @override
   String toString() {
-    return 'Character.group(id: $id, name: $name, jaPronunciation: $jaPronunciation, rarity: $rarity, weaponType: $weaponType, variantIds: $variantIds, materials: $materials)';
+    return 'Character.group(id: $id, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, weaponType: $weaponType, variantIds: $variantIds, materials: $materials)';
   }
 
   @override
@@ -727,6 +835,8 @@ class _$CharacterGroupImpl implements CharacterGroup {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
                 other.jaPronunciation == jaPronunciation) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.weaponType, weaponType) ||
                 other.weaponType == weaponType) &&
@@ -743,6 +853,7 @@ class _$CharacterGroupImpl implements CharacterGroup {
       id,
       name,
       jaPronunciation,
+      imageUrl,
       rarity,
       weaponType,
       const DeepCollectionEquality().hash(_variantIds),
@@ -763,15 +874,19 @@ class _$CharacterGroupImpl implements CharacterGroup {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)
         $default, {
     required TResult Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -783,14 +898,16 @@ class _$CharacterGroupImpl implements CharacterGroup {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)
         unlisted,
   }) {
-    return group(
-        id, name, jaPronunciation, rarity, weaponType, variantIds, materials);
+    return group(id, name, jaPronunciation, imageUrl, rarity, weaponType,
+        variantIds, materials);
   }
 
   @override
@@ -801,15 +918,19 @@ class _$CharacterGroupImpl implements CharacterGroup {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         $default, {
     TResult? Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -821,14 +942,16 @@ class _$CharacterGroupImpl implements CharacterGroup {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         unlisted,
   }) {
-    return group?.call(
-        id, name, jaPronunciation, rarity, weaponType, variantIds, materials);
+    return group?.call(id, name, jaPronunciation, imageUrl, rarity, weaponType,
+        variantIds, materials);
   }
 
   @override
@@ -839,15 +962,19 @@ class _$CharacterGroupImpl implements CharacterGroup {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         $default, {
     TResult Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -859,16 +986,18 @@ class _$CharacterGroupImpl implements CharacterGroup {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         unlisted,
     required TResult orElse(),
   }) {
     if (group != null) {
-      return group(
-          id, name, jaPronunciation, rarity, weaponType, variantIds, materials);
+      return group(id, name, jaPronunciation, imageUrl, rarity, weaponType,
+          variantIds, materials);
     }
     return orElse();
   }
@@ -876,7 +1005,7 @@ class _$CharacterGroupImpl implements CharacterGroup {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Character value) $default, {
+    TResult Function(ListedCharacter value) $default, {
     required TResult Function(CharacterGroup value) group,
     required TResult Function(UnlistedCharacter value) unlisted,
   }) {
@@ -886,7 +1015,7 @@ class _$CharacterGroupImpl implements CharacterGroup {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Character value)? $default, {
+    TResult? Function(ListedCharacter value)? $default, {
     TResult? Function(CharacterGroup value)? group,
     TResult? Function(UnlistedCharacter value)? unlisted,
   }) {
@@ -896,7 +1025,7 @@ class _$CharacterGroupImpl implements CharacterGroup {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Character value)? $default, {
+    TResult Function(ListedCharacter value)? $default, {
     TResult Function(CharacterGroup value)? group,
     TResult Function(UnlistedCharacter value)? unlisted,
     required TResult orElse(),
@@ -915,16 +1044,19 @@ class _$CharacterGroupImpl implements CharacterGroup {
   }
 }
 
-abstract class CharacterGroup implements Character {
+abstract class CharacterGroup extends Character
+    implements CharacterWithLargeImage {
   const factory CharacterGroup(
           {required final String id,
           required final LocalizedText name,
           required final String jaPronunciation,
+          required final String imageUrl,
           required final int rarity,
           required final WeaponType weaponType,
           required final List<String> variantIds,
           required final CharacterMaterialDefinitions materials}) =
       _$CharacterGroupImpl;
+  const CharacterGroup._() : super._();
 
   factory CharacterGroup.fromJson(Map<String, dynamic> json) =
       _$CharacterGroupImpl.fromJson;
@@ -935,6 +1067,7 @@ abstract class CharacterGroup implements Character {
   LocalizedText get name;
   @override
   String get jaPronunciation;
+  String get imageUrl;
   @override
   int get rarity;
   @override
@@ -962,9 +1095,11 @@ abstract class _$$UnlistedCharacterImplCopyWith<$Res>
       String parentId,
       LocalizedText name,
       String jaPronunciation,
+      String smallImageUrl,
       int rarity,
       WeaponType weaponType,
       TeyvatElement element,
+      Map<TalentType, LocalizedText> talents,
       CharacterMaterialDefinitions materials});
 
   @override
@@ -989,9 +1124,11 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
     Object? parentId = null,
     Object? name = null,
     Object? jaPronunciation = null,
+    Object? smallImageUrl = null,
     Object? rarity = null,
     Object? weaponType = null,
     Object? element = null,
+    Object? talents = null,
     Object? materials = null,
   }) {
     return _then(_$UnlistedCharacterImpl(
@@ -1015,6 +1152,10 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
           ? _value.jaPronunciation
           : jaPronunciation // ignore: cast_nullable_to_non_nullable
               as String,
+      smallImageUrl: null == smallImageUrl
+          ? _value.smallImageUrl
+          : smallImageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
       rarity: null == rarity
           ? _value.rarity
           : rarity // ignore: cast_nullable_to_non_nullable
@@ -1027,6 +1168,10 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
           ? _value.element
           : element // ignore: cast_nullable_to_non_nullable
               as TeyvatElement,
+      talents: null == talents
+          ? _value._talents
+          : talents // ignore: cast_nullable_to_non_nullable
+              as Map<TalentType, LocalizedText>,
       materials: null == materials
           ? _value.materials
           : materials // ignore: cast_nullable_to_non_nullable
@@ -1037,19 +1182,24 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnlistedCharacterImpl implements UnlistedCharacter {
+class _$UnlistedCharacterImpl extends UnlistedCharacter
+    with CharacterWithSmallImage {
   const _$UnlistedCharacterImpl(
       {required this.id,
       required this.rid,
       required this.parentId,
       required this.name,
       required this.jaPronunciation,
+      required this.smallImageUrl,
       required this.rarity,
       required this.weaponType,
       required this.element,
+      required final Map<TalentType, LocalizedText> talents,
       required this.materials,
       final String? $type})
-      : $type = $type ?? 'unlisted';
+      : _talents = talents,
+        $type = $type ?? 'unlisted',
+        super._();
 
   factory _$UnlistedCharacterImpl.fromJson(Map<String, dynamic> json) =>
       _$$UnlistedCharacterImplFromJson(json);
@@ -1065,11 +1215,21 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
   @override
   final String jaPronunciation;
   @override
+  final String smallImageUrl;
+  @override
   final int rarity;
   @override
   final WeaponType weaponType;
   @override
   final TeyvatElement element;
+  final Map<TalentType, LocalizedText> _talents;
+  @override
+  Map<TalentType, LocalizedText> get talents {
+    if (_talents is EqualUnmodifiableMapView) return _talents;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_talents);
+  }
+
   @override
   final CharacterMaterialDefinitions materials;
 
@@ -1078,7 +1238,7 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
 
   @override
   String toString() {
-    return 'Character.unlisted(id: $id, rid: $rid, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, rarity: $rarity, weaponType: $weaponType, element: $element, materials: $materials)';
+    return 'Character.unlisted(id: $id, rid: $rid, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
   }
 
   @override
@@ -1093,18 +1253,32 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
                 other.jaPronunciation == jaPronunciation) &&
+            (identical(other.smallImageUrl, smallImageUrl) ||
+                other.smallImageUrl == smallImageUrl) &&
             (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.weaponType, weaponType) ||
                 other.weaponType == weaponType) &&
             (identical(other.element, element) || other.element == element) &&
+            const DeepCollectionEquality().equals(other._talents, _talents) &&
             (identical(other.materials, materials) ||
                 other.materials == materials));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, rid, parentId, name,
-      jaPronunciation, rarity, weaponType, element, materials);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      rid,
+      parentId,
+      name,
+      jaPronunciation,
+      smallImageUrl,
+      rarity,
+      weaponType,
+      element,
+      const DeepCollectionEquality().hash(_talents),
+      materials);
 
   @JsonKey(ignore: true)
   @override
@@ -1121,15 +1295,19 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)
         $default, {
     required TResult Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -1141,14 +1319,16 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)
         unlisted,
   }) {
-    return unlisted(id, rid, parentId, name, jaPronunciation, rarity,
-        weaponType, element, materials);
+    return unlisted(id, rid, parentId, name, jaPronunciation, smallImageUrl,
+        rarity, weaponType, element, talents, materials);
   }
 
   @override
@@ -1159,15 +1339,19 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         $default, {
     TResult? Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -1179,14 +1363,16 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         unlisted,
   }) {
-    return unlisted?.call(id, rid, parentId, name, jaPronunciation, rarity,
-        weaponType, element, materials);
+    return unlisted?.call(id, rid, parentId, name, jaPronunciation,
+        smallImageUrl, rarity, weaponType, element, talents, materials);
   }
 
   @override
@@ -1197,15 +1383,19 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             String rid,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         $default, {
     TResult Function(
             String id,
             LocalizedText name,
             String jaPronunciation,
+            String imageUrl,
             int rarity,
             WeaponType weaponType,
             List<String> variantIds,
@@ -1217,16 +1407,18 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
             String parentId,
             LocalizedText name,
             String jaPronunciation,
+            String smallImageUrl,
             int rarity,
             WeaponType weaponType,
             TeyvatElement element,
+            Map<TalentType, LocalizedText> talents,
             CharacterMaterialDefinitions materials)?
         unlisted,
     required TResult orElse(),
   }) {
     if (unlisted != null) {
-      return unlisted(id, rid, parentId, name, jaPronunciation, rarity,
-          weaponType, element, materials);
+      return unlisted(id, rid, parentId, name, jaPronunciation, smallImageUrl,
+          rarity, weaponType, element, talents, materials);
     }
     return orElse();
   }
@@ -1234,7 +1426,7 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Character value) $default, {
+    TResult Function(ListedCharacter value) $default, {
     required TResult Function(CharacterGroup value) group,
     required TResult Function(UnlistedCharacter value) unlisted,
   }) {
@@ -1244,7 +1436,7 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Character value)? $default, {
+    TResult? Function(ListedCharacter value)? $default, {
     TResult? Function(CharacterGroup value)? group,
     TResult? Function(UnlistedCharacter value)? unlisted,
   }) {
@@ -1254,7 +1446,7 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Character value)? $default, {
+    TResult Function(ListedCharacter value)? $default, {
     TResult Function(CharacterGroup value)? group,
     TResult Function(UnlistedCharacter value)? unlisted,
     required TResult orElse(),
@@ -1273,18 +1465,22 @@ class _$UnlistedCharacterImpl implements UnlistedCharacter {
   }
 }
 
-abstract class UnlistedCharacter implements Character {
+abstract class UnlistedCharacter extends Character
+    implements CharacterWithSmallImage {
   const factory UnlistedCharacter(
           {required final String id,
           required final String rid,
           required final String parentId,
           required final LocalizedText name,
           required final String jaPronunciation,
+          required final String smallImageUrl,
           required final int rarity,
           required final WeaponType weaponType,
           required final TeyvatElement element,
+          required final Map<TalentType, LocalizedText> talents,
           required final CharacterMaterialDefinitions materials}) =
       _$UnlistedCharacterImpl;
+  const UnlistedCharacter._() : super._();
 
   factory UnlistedCharacter.fromJson(Map<String, dynamic> json) =
       _$UnlistedCharacterImpl.fromJson;
@@ -1297,11 +1493,13 @@ abstract class UnlistedCharacter implements Character {
   LocalizedText get name;
   @override
   String get jaPronunciation;
+  String get smallImageUrl;
   @override
   int get rarity;
   @override
   WeaponType get weaponType;
   TeyvatElement get element;
+  Map<TalentType, LocalizedText> get talents;
   @override
   CharacterMaterialDefinitions get materials;
   @override
@@ -1315,8 +1513,6 @@ CharacterMaterialDefinitions _$CharacterMaterialDefinitionsFromJson(
   switch (json['runtimeType']) {
     case 'travelerAscension':
       return TravelerAscensionMaterialDefinitions.fromJson(json);
-    case 'travelerTalent':
-      return TravelerTalentMaterialDefinitions.fromJson(json);
 
     default:
       return _CharacterMaterialDefinitions.fromJson(json);
@@ -1325,6 +1521,9 @@ CharacterMaterialDefinitions _$CharacterMaterialDefinitionsFromJson(
 
 /// @nodoc
 mixin _$CharacterMaterialDefinitions {
+  String get primary => throw _privateConstructorUsedError;
+  String get local => throw _privateConstructorUsedError;
+  String get secondary => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(String primary, String elementalStone, String local,
@@ -1332,9 +1531,6 @@ mixin _$CharacterMaterialDefinitions {
         $default, {
     required TResult Function(String primary, String local, String secondary)
         travelerAscension,
-    required TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)
-        travelerTalent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1344,9 +1540,6 @@ mixin _$CharacterMaterialDefinitions {
         $default, {
     TResult? Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult? Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1356,9 +1549,6 @@ mixin _$CharacterMaterialDefinitions {
         $default, {
     TResult Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1367,8 +1557,6 @@ mixin _$CharacterMaterialDefinitions {
     TResult Function(_CharacterMaterialDefinitions value) $default, {
     required TResult Function(TravelerAscensionMaterialDefinitions value)
         travelerAscension,
-    required TResult Function(TravelerTalentMaterialDefinitions value)
-        travelerTalent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1376,7 +1564,6 @@ mixin _$CharacterMaterialDefinitions {
     TResult? Function(_CharacterMaterialDefinitions value)? $default, {
     TResult? Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1384,11 +1571,13 @@ mixin _$CharacterMaterialDefinitions {
     TResult Function(_CharacterMaterialDefinitions value)? $default, {
     TResult Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CharacterMaterialDefinitionsCopyWith<CharacterMaterialDefinitions>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1398,6 +1587,8 @@ abstract class $CharacterMaterialDefinitionsCopyWith<$Res> {
           $Res Function(CharacterMaterialDefinitions) then) =
       _$CharacterMaterialDefinitionsCopyWithImpl<$Res,
           CharacterMaterialDefinitions>;
+  @useResult
+  $Res call({String primary, String local, String secondary});
 }
 
 /// @nodoc
@@ -1410,14 +1601,39 @@ class _$CharacterMaterialDefinitionsCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? primary = null,
+    Object? local = null,
+    Object? secondary = null,
+  }) {
+    return _then(_value.copyWith(
+      primary: null == primary
+          ? _value.primary
+          : primary // ignore: cast_nullable_to_non_nullable
+              as String,
+      local: null == local
+          ? _value.local
+          : local // ignore: cast_nullable_to_non_nullable
+              as String,
+      secondary: null == secondary
+          ? _value.secondary
+          : secondary // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$CharacterMaterialDefinitionsImplCopyWith<$Res> {
+abstract class _$$CharacterMaterialDefinitionsImplCopyWith<$Res>
+    implements $CharacterMaterialDefinitionsCopyWith<$Res> {
   factory _$$CharacterMaterialDefinitionsImplCopyWith(
           _$CharacterMaterialDefinitionsImpl value,
           $Res Function(_$CharacterMaterialDefinitionsImpl) then) =
       __$$CharacterMaterialDefinitionsImplCopyWithImpl<$Res>;
+  @override
   @useResult
   $Res call(
       {String primary,
@@ -1479,8 +1695,7 @@ class __$$CharacterMaterialDefinitionsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CharacterMaterialDefinitionsImpl
-    implements _CharacterMaterialDefinitions {
+class _$CharacterMaterialDefinitionsImpl extends _CharacterMaterialDefinitions {
   const _$CharacterMaterialDefinitionsImpl(
       {required this.primary,
       required this.elementalStone,
@@ -1489,7 +1704,8 @@ class _$CharacterMaterialDefinitionsImpl
       required this.talentPrimary,
       required this.talentBoss,
       final String? $type})
-      : $type = $type ?? 'default';
+      : $type = $type ?? 'default',
+        super._();
 
   factory _$CharacterMaterialDefinitionsImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -1554,9 +1770,6 @@ class _$CharacterMaterialDefinitionsImpl
         $default, {
     required TResult Function(String primary, String local, String secondary)
         travelerAscension,
-    required TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)
-        travelerTalent,
   }) {
     return $default(
         primary, elementalStone, local, secondary, talentPrimary, talentBoss);
@@ -1570,9 +1783,6 @@ class _$CharacterMaterialDefinitionsImpl
         $default, {
     TResult? Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult? Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
   }) {
     return $default?.call(
         primary, elementalStone, local, secondary, talentPrimary, talentBoss);
@@ -1586,9 +1796,6 @@ class _$CharacterMaterialDefinitionsImpl
         $default, {
     TResult Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -1604,8 +1811,6 @@ class _$CharacterMaterialDefinitionsImpl
     TResult Function(_CharacterMaterialDefinitions value) $default, {
     required TResult Function(TravelerAscensionMaterialDefinitions value)
         travelerAscension,
-    required TResult Function(TravelerTalentMaterialDefinitions value)
-        travelerTalent,
   }) {
     return $default(this);
   }
@@ -1616,7 +1821,6 @@ class _$CharacterMaterialDefinitionsImpl
     TResult? Function(_CharacterMaterialDefinitions value)? $default, {
     TResult? Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
   }) {
     return $default?.call(this);
   }
@@ -1627,7 +1831,6 @@ class _$CharacterMaterialDefinitionsImpl
     TResult Function(_CharacterMaterialDefinitions value)? $default, {
     TResult Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -1645,7 +1848,7 @@ class _$CharacterMaterialDefinitionsImpl
 }
 
 abstract class _CharacterMaterialDefinitions
-    implements CharacterMaterialDefinitions {
+    extends CharacterMaterialDefinitions {
   const factory _CharacterMaterialDefinitions(
       {required final String primary,
       required final String elementalStone,
@@ -1653,16 +1856,21 @@ abstract class _CharacterMaterialDefinitions
       required final String secondary,
       required final String talentPrimary,
       required final String talentBoss}) = _$CharacterMaterialDefinitionsImpl;
+  const _CharacterMaterialDefinitions._() : super._();
 
   factory _CharacterMaterialDefinitions.fromJson(Map<String, dynamic> json) =
       _$CharacterMaterialDefinitionsImpl.fromJson;
 
+  @override
   String get primary;
   String get elementalStone;
+  @override
   String get local;
+  @override
   String get secondary;
   String get talentPrimary;
   String get talentBoss;
+  @override
   @JsonKey(ignore: true)
   _$$CharacterMaterialDefinitionsImplCopyWith<
           _$CharacterMaterialDefinitionsImpl>
@@ -1670,11 +1878,13 @@ abstract class _CharacterMaterialDefinitions
 }
 
 /// @nodoc
-abstract class _$$TravelerAscensionMaterialDefinitionsImplCopyWith<$Res> {
+abstract class _$$TravelerAscensionMaterialDefinitionsImplCopyWith<$Res>
+    implements $CharacterMaterialDefinitionsCopyWith<$Res> {
   factory _$$TravelerAscensionMaterialDefinitionsImplCopyWith(
           _$TravelerAscensionMaterialDefinitionsImpl value,
           $Res Function(_$TravelerAscensionMaterialDefinitionsImpl) then) =
       __$$TravelerAscensionMaterialDefinitionsImplCopyWithImpl<$Res>;
+  @override
   @useResult
   $Res call({String primary, String local, String secondary});
 }
@@ -1716,13 +1926,14 @@ class __$$TravelerAscensionMaterialDefinitionsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TravelerAscensionMaterialDefinitionsImpl
-    implements TravelerAscensionMaterialDefinitions {
+    extends TravelerAscensionMaterialDefinitions {
   const _$TravelerAscensionMaterialDefinitionsImpl(
       {required this.primary,
       required this.local,
       required this.secondary,
       final String? $type})
-      : $type = $type ?? 'travelerAscension';
+      : $type = $type ?? 'travelerAscension',
+        super._();
 
   factory _$TravelerAscensionMaterialDefinitionsImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -1774,9 +1985,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
         $default, {
     required TResult Function(String primary, String local, String secondary)
         travelerAscension,
-    required TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)
-        travelerTalent,
   }) {
     return travelerAscension(primary, local, secondary);
   }
@@ -1789,9 +1997,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
         $default, {
     TResult? Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult? Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
   }) {
     return travelerAscension?.call(primary, local, secondary);
   }
@@ -1804,9 +2009,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
         $default, {
     TResult Function(String primary, String local, String secondary)?
         travelerAscension,
-    TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
     required TResult orElse(),
   }) {
     if (travelerAscension != null) {
@@ -1821,8 +2023,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
     TResult Function(_CharacterMaterialDefinitions value) $default, {
     required TResult Function(TravelerAscensionMaterialDefinitions value)
         travelerAscension,
-    required TResult Function(TravelerTalentMaterialDefinitions value)
-        travelerTalent,
   }) {
     return travelerAscension(this);
   }
@@ -1833,7 +2033,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
     TResult? Function(_CharacterMaterialDefinitions value)? $default, {
     TResult? Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
   }) {
     return travelerAscension?.call(this);
   }
@@ -1844,7 +2043,6 @@ class _$TravelerAscensionMaterialDefinitionsImpl
     TResult Function(_CharacterMaterialDefinitions value)? $default, {
     TResult Function(TravelerAscensionMaterialDefinitions value)?
         travelerAscension,
-    TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
     required TResult orElse(),
   }) {
     if (travelerAscension != null) {
@@ -1862,818 +2060,27 @@ class _$TravelerAscensionMaterialDefinitionsImpl
 }
 
 abstract class TravelerAscensionMaterialDefinitions
-    implements CharacterMaterialDefinitions {
+    extends CharacterMaterialDefinitions {
   const factory TravelerAscensionMaterialDefinitions(
           {required final String primary,
           required final String local,
           required final String secondary}) =
       _$TravelerAscensionMaterialDefinitionsImpl;
+  const TravelerAscensionMaterialDefinitions._() : super._();
 
   factory TravelerAscensionMaterialDefinitions.fromJson(
           Map<String, dynamic> json) =
       _$TravelerAscensionMaterialDefinitionsImpl.fromJson;
 
+  @override
   String get primary;
+  @override
   String get local;
+  @override
   String get secondary;
+  @override
   @JsonKey(ignore: true)
   _$$TravelerAscensionMaterialDefinitionsImplCopyWith<
           _$TravelerAscensionMaterialDefinitionsImpl>
       get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$TravelerTalentMaterialDefinitionsImplCopyWith<$Res> {
-  factory _$$TravelerTalentMaterialDefinitionsImplCopyWith(
-          _$TravelerTalentMaterialDefinitionsImpl value,
-          $Res Function(_$TravelerTalentMaterialDefinitionsImpl) then) =
-      __$$TravelerTalentMaterialDefinitionsImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {MaterialIdPerType talentPrimary,
-      MaterialIdPerType talentSecondary,
-      MaterialIdPerType talentBoss});
-
-  $MaterialIdPerTypeCopyWith<$Res> get talentPrimary;
-  $MaterialIdPerTypeCopyWith<$Res> get talentSecondary;
-  $MaterialIdPerTypeCopyWith<$Res> get talentBoss;
-}
-
-/// @nodoc
-class __$$TravelerTalentMaterialDefinitionsImplCopyWithImpl<$Res>
-    extends _$CharacterMaterialDefinitionsCopyWithImpl<$Res,
-        _$TravelerTalentMaterialDefinitionsImpl>
-    implements _$$TravelerTalentMaterialDefinitionsImplCopyWith<$Res> {
-  __$$TravelerTalentMaterialDefinitionsImplCopyWithImpl(
-      _$TravelerTalentMaterialDefinitionsImpl _value,
-      $Res Function(_$TravelerTalentMaterialDefinitionsImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? talentPrimary = null,
-    Object? talentSecondary = null,
-    Object? talentBoss = null,
-  }) {
-    return _then(_$TravelerTalentMaterialDefinitionsImpl(
-      talentPrimary: null == talentPrimary
-          ? _value.talentPrimary
-          : talentPrimary // ignore: cast_nullable_to_non_nullable
-              as MaterialIdPerType,
-      talentSecondary: null == talentSecondary
-          ? _value.talentSecondary
-          : talentSecondary // ignore: cast_nullable_to_non_nullable
-              as MaterialIdPerType,
-      talentBoss: null == talentBoss
-          ? _value.talentBoss
-          : talentBoss // ignore: cast_nullable_to_non_nullable
-              as MaterialIdPerType,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MaterialIdPerTypeCopyWith<$Res> get talentPrimary {
-    return $MaterialIdPerTypeCopyWith<$Res>(_value.talentPrimary, (value) {
-      return _then(_value.copyWith(talentPrimary: value));
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MaterialIdPerTypeCopyWith<$Res> get talentSecondary {
-    return $MaterialIdPerTypeCopyWith<$Res>(_value.talentSecondary, (value) {
-      return _then(_value.copyWith(talentSecondary: value));
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MaterialIdPerTypeCopyWith<$Res> get talentBoss {
-    return $MaterialIdPerTypeCopyWith<$Res>(_value.talentBoss, (value) {
-      return _then(_value.copyWith(talentBoss: value));
-    });
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$TravelerTalentMaterialDefinitionsImpl
-    implements TravelerTalentMaterialDefinitions {
-  const _$TravelerTalentMaterialDefinitionsImpl(
-      {required this.talentPrimary,
-      required this.talentSecondary,
-      required this.talentBoss,
-      final String? $type})
-      : $type = $type ?? 'travelerTalent';
-
-  factory _$TravelerTalentMaterialDefinitionsImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$TravelerTalentMaterialDefinitionsImplFromJson(json);
-
-  @override
-  final MaterialIdPerType talentPrimary;
-  @override
-  final MaterialIdPerType talentSecondary;
-  @override
-  final MaterialIdPerType talentBoss;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'CharacterMaterialDefinitions.travelerTalent(talentPrimary: $talentPrimary, talentSecondary: $talentSecondary, talentBoss: $talentBoss)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TravelerTalentMaterialDefinitionsImpl &&
-            (identical(other.talentPrimary, talentPrimary) ||
-                other.talentPrimary == talentPrimary) &&
-            (identical(other.talentSecondary, talentSecondary) ||
-                other.talentSecondary == talentSecondary) &&
-            (identical(other.talentBoss, talentBoss) ||
-                other.talentBoss == talentBoss));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, talentPrimary, talentSecondary, talentBoss);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TravelerTalentMaterialDefinitionsImplCopyWith<
-          _$TravelerTalentMaterialDefinitionsImpl>
-      get copyWith => __$$TravelerTalentMaterialDefinitionsImplCopyWithImpl<
-          _$TravelerTalentMaterialDefinitionsImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(String primary, String elementalStone, String local,
-            String secondary, String talentPrimary, String talentBoss)
-        $default, {
-    required TResult Function(String primary, String local, String secondary)
-        travelerAscension,
-    required TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)
-        travelerTalent,
-  }) {
-    return travelerTalent(talentPrimary, talentSecondary, talentBoss);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String primary, String elementalStone, String local,
-            String secondary, String talentPrimary, String talentBoss)?
-        $default, {
-    TResult? Function(String primary, String local, String secondary)?
-        travelerAscension,
-    TResult? Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
-  }) {
-    return travelerTalent?.call(talentPrimary, talentSecondary, talentBoss);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String primary, String elementalStone, String local,
-            String secondary, String talentPrimary, String talentBoss)?
-        $default, {
-    TResult Function(String primary, String local, String secondary)?
-        travelerAscension,
-    TResult Function(MaterialIdPerType talentPrimary,
-            MaterialIdPerType talentSecondary, MaterialIdPerType talentBoss)?
-        travelerTalent,
-    required TResult orElse(),
-  }) {
-    if (travelerTalent != null) {
-      return travelerTalent(talentPrimary, talentSecondary, talentBoss);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_CharacterMaterialDefinitions value) $default, {
-    required TResult Function(TravelerAscensionMaterialDefinitions value)
-        travelerAscension,
-    required TResult Function(TravelerTalentMaterialDefinitions value)
-        travelerTalent,
-  }) {
-    return travelerTalent(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_CharacterMaterialDefinitions value)? $default, {
-    TResult? Function(TravelerAscensionMaterialDefinitions value)?
-        travelerAscension,
-    TResult? Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
-  }) {
-    return travelerTalent?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_CharacterMaterialDefinitions value)? $default, {
-    TResult Function(TravelerAscensionMaterialDefinitions value)?
-        travelerAscension,
-    TResult Function(TravelerTalentMaterialDefinitions value)? travelerTalent,
-    required TResult orElse(),
-  }) {
-    if (travelerTalent != null) {
-      return travelerTalent(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TravelerTalentMaterialDefinitionsImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class TravelerTalentMaterialDefinitions
-    implements CharacterMaterialDefinitions {
-  const factory TravelerTalentMaterialDefinitions(
-          {required final MaterialIdPerType talentPrimary,
-          required final MaterialIdPerType talentSecondary,
-          required final MaterialIdPerType talentBoss}) =
-      _$TravelerTalentMaterialDefinitionsImpl;
-
-  factory TravelerTalentMaterialDefinitions.fromJson(
-          Map<String, dynamic> json) =
-      _$TravelerTalentMaterialDefinitionsImpl.fromJson;
-
-  MaterialIdPerType get talentPrimary;
-  MaterialIdPerType get talentSecondary;
-  MaterialIdPerType get talentBoss;
-  @JsonKey(ignore: true)
-  _$$TravelerTalentMaterialDefinitionsImplCopyWith<
-          _$TravelerTalentMaterialDefinitionsImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-MaterialIdPerType _$MaterialIdPerTypeFromJson(Map<String, dynamic> json) {
-  switch (json['runtimeType']) {
-    case 'byLevel':
-      return MaterialIdPerLevelPerType.fromJson(json);
-
-    default:
-      return _MaterialIdPerType.fromJson(json);
-  }
-}
-
-/// @nodoc
-mixin _$MaterialIdPerType {
-  Map<TalentType, Object> get types => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types) $default, {
-    required TResult Function(Map<TalentType, MaterialIdPerLevel> types)
-        byLevel,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Map<TalentType, String> types)? $default, {
-    TResult? Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types)? $default, {
-    TResult Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value) $default, {
-    required TResult Function(MaterialIdPerLevelPerType value) byLevel,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_MaterialIdPerType value)? $default, {
-    TResult? Function(MaterialIdPerLevelPerType value)? byLevel,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value)? $default, {
-    TResult Function(MaterialIdPerLevelPerType value)? byLevel,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MaterialIdPerTypeCopyWith<$Res> {
-  factory $MaterialIdPerTypeCopyWith(
-          MaterialIdPerType value, $Res Function(MaterialIdPerType) then) =
-      _$MaterialIdPerTypeCopyWithImpl<$Res, MaterialIdPerType>;
-}
-
-/// @nodoc
-class _$MaterialIdPerTypeCopyWithImpl<$Res, $Val extends MaterialIdPerType>
-    implements $MaterialIdPerTypeCopyWith<$Res> {
-  _$MaterialIdPerTypeCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-}
-
-/// @nodoc
-abstract class _$$MaterialIdPerTypeImplCopyWith<$Res> {
-  factory _$$MaterialIdPerTypeImplCopyWith(_$MaterialIdPerTypeImpl value,
-          $Res Function(_$MaterialIdPerTypeImpl) then) =
-      __$$MaterialIdPerTypeImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Map<TalentType, String> types});
-}
-
-/// @nodoc
-class __$$MaterialIdPerTypeImplCopyWithImpl<$Res>
-    extends _$MaterialIdPerTypeCopyWithImpl<$Res, _$MaterialIdPerTypeImpl>
-    implements _$$MaterialIdPerTypeImplCopyWith<$Res> {
-  __$$MaterialIdPerTypeImplCopyWithImpl(_$MaterialIdPerTypeImpl _value,
-      $Res Function(_$MaterialIdPerTypeImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? types = null,
-  }) {
-    return _then(_$MaterialIdPerTypeImpl(
-      types: null == types
-          ? _value._types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<TalentType, String>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MaterialIdPerTypeImpl implements _MaterialIdPerType {
-  const _$MaterialIdPerTypeImpl(
-      {required final Map<TalentType, String> types, final String? $type})
-      : _types = types,
-        $type = $type ?? 'default';
-
-  factory _$MaterialIdPerTypeImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaterialIdPerTypeImplFromJson(json);
-
-  final Map<TalentType, String> _types;
-  @override
-  Map<TalentType, String> get types {
-    if (_types is EqualUnmodifiableMapView) return _types;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_types);
-  }
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'MaterialIdPerType(types: $types)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MaterialIdPerTypeImpl &&
-            const DeepCollectionEquality().equals(other._types, _types));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_types));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaterialIdPerTypeImplCopyWith<_$MaterialIdPerTypeImpl> get copyWith =>
-      __$$MaterialIdPerTypeImplCopyWithImpl<_$MaterialIdPerTypeImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types) $default, {
-    required TResult Function(Map<TalentType, MaterialIdPerLevel> types)
-        byLevel,
-  }) {
-    return $default(types);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Map<TalentType, String> types)? $default, {
-    TResult? Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-  }) {
-    return $default?.call(types);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types)? $default, {
-    TResult Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-    required TResult orElse(),
-  }) {
-    if ($default != null) {
-      return $default(types);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value) $default, {
-    required TResult Function(MaterialIdPerLevelPerType value) byLevel,
-  }) {
-    return $default(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_MaterialIdPerType value)? $default, {
-    TResult? Function(MaterialIdPerLevelPerType value)? byLevel,
-  }) {
-    return $default?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value)? $default, {
-    TResult Function(MaterialIdPerLevelPerType value)? byLevel,
-    required TResult orElse(),
-  }) {
-    if ($default != null) {
-      return $default(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MaterialIdPerTypeImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _MaterialIdPerType implements MaterialIdPerType {
-  const factory _MaterialIdPerType(
-      {required final Map<TalentType, String> types}) = _$MaterialIdPerTypeImpl;
-
-  factory _MaterialIdPerType.fromJson(Map<String, dynamic> json) =
-      _$MaterialIdPerTypeImpl.fromJson;
-
-  @override
-  Map<TalentType, String> get types;
-  @JsonKey(ignore: true)
-  _$$MaterialIdPerTypeImplCopyWith<_$MaterialIdPerTypeImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$MaterialIdPerLevelPerTypeImplCopyWith<$Res> {
-  factory _$$MaterialIdPerLevelPerTypeImplCopyWith(
-          _$MaterialIdPerLevelPerTypeImpl value,
-          $Res Function(_$MaterialIdPerLevelPerTypeImpl) then) =
-      __$$MaterialIdPerLevelPerTypeImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Map<TalentType, MaterialIdPerLevel> types});
-}
-
-/// @nodoc
-class __$$MaterialIdPerLevelPerTypeImplCopyWithImpl<$Res>
-    extends _$MaterialIdPerTypeCopyWithImpl<$Res,
-        _$MaterialIdPerLevelPerTypeImpl>
-    implements _$$MaterialIdPerLevelPerTypeImplCopyWith<$Res> {
-  __$$MaterialIdPerLevelPerTypeImplCopyWithImpl(
-      _$MaterialIdPerLevelPerTypeImpl _value,
-      $Res Function(_$MaterialIdPerLevelPerTypeImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? types = null,
-  }) {
-    return _then(_$MaterialIdPerLevelPerTypeImpl(
-      types: null == types
-          ? _value._types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<TalentType, MaterialIdPerLevel>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MaterialIdPerLevelPerTypeImpl implements MaterialIdPerLevelPerType {
-  const _$MaterialIdPerLevelPerTypeImpl(
-      {required final Map<TalentType, MaterialIdPerLevel> types,
-      final String? $type})
-      : _types = types,
-        $type = $type ?? 'byLevel';
-
-  factory _$MaterialIdPerLevelPerTypeImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaterialIdPerLevelPerTypeImplFromJson(json);
-
-  final Map<TalentType, MaterialIdPerLevel> _types;
-  @override
-  Map<TalentType, MaterialIdPerLevel> get types {
-    if (_types is EqualUnmodifiableMapView) return _types;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_types);
-  }
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'MaterialIdPerType.byLevel(types: $types)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MaterialIdPerLevelPerTypeImpl &&
-            const DeepCollectionEquality().equals(other._types, _types));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_types));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaterialIdPerLevelPerTypeImplCopyWith<_$MaterialIdPerLevelPerTypeImpl>
-      get copyWith => __$$MaterialIdPerLevelPerTypeImplCopyWithImpl<
-          _$MaterialIdPerLevelPerTypeImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types) $default, {
-    required TResult Function(Map<TalentType, MaterialIdPerLevel> types)
-        byLevel,
-  }) {
-    return byLevel(types);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Map<TalentType, String> types)? $default, {
-    TResult? Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-  }) {
-    return byLevel?.call(types);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Map<TalentType, String> types)? $default, {
-    TResult Function(Map<TalentType, MaterialIdPerLevel> types)? byLevel,
-    required TResult orElse(),
-  }) {
-    if (byLevel != null) {
-      return byLevel(types);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value) $default, {
-    required TResult Function(MaterialIdPerLevelPerType value) byLevel,
-  }) {
-    return byLevel(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_MaterialIdPerType value)? $default, {
-    TResult? Function(MaterialIdPerLevelPerType value)? byLevel,
-  }) {
-    return byLevel?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_MaterialIdPerType value)? $default, {
-    TResult Function(MaterialIdPerLevelPerType value)? byLevel,
-    required TResult orElse(),
-  }) {
-    if (byLevel != null) {
-      return byLevel(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MaterialIdPerLevelPerTypeImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class MaterialIdPerLevelPerType implements MaterialIdPerType {
-  const factory MaterialIdPerLevelPerType(
-          {required final Map<TalentType, MaterialIdPerLevel> types}) =
-      _$MaterialIdPerLevelPerTypeImpl;
-
-  factory MaterialIdPerLevelPerType.fromJson(Map<String, dynamic> json) =
-      _$MaterialIdPerLevelPerTypeImpl.fromJson;
-
-  @override
-  Map<TalentType, MaterialIdPerLevel> get types;
-  @JsonKey(ignore: true)
-  _$$MaterialIdPerLevelPerTypeImplCopyWith<_$MaterialIdPerLevelPerTypeImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-MaterialIdPerLevel _$MaterialIdPerLevelFromJson(Map<String, dynamic> json) {
-  return _MaterialIdPerLevel.fromJson(json);
-}
-
-/// @nodoc
-mixin _$MaterialIdPerLevel {
-  Map<int, String> get levels => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $MaterialIdPerLevelCopyWith<MaterialIdPerLevel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MaterialIdPerLevelCopyWith<$Res> {
-  factory $MaterialIdPerLevelCopyWith(
-          MaterialIdPerLevel value, $Res Function(MaterialIdPerLevel) then) =
-      _$MaterialIdPerLevelCopyWithImpl<$Res, MaterialIdPerLevel>;
-  @useResult
-  $Res call({Map<int, String> levels});
-}
-
-/// @nodoc
-class _$MaterialIdPerLevelCopyWithImpl<$Res, $Val extends MaterialIdPerLevel>
-    implements $MaterialIdPerLevelCopyWith<$Res> {
-  _$MaterialIdPerLevelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? levels = null,
-  }) {
-    return _then(_value.copyWith(
-      levels: null == levels
-          ? _value.levels
-          : levels // ignore: cast_nullable_to_non_nullable
-              as Map<int, String>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$MaterialIdPerLevelImplCopyWith<$Res>
-    implements $MaterialIdPerLevelCopyWith<$Res> {
-  factory _$$MaterialIdPerLevelImplCopyWith(_$MaterialIdPerLevelImpl value,
-          $Res Function(_$MaterialIdPerLevelImpl) then) =
-      __$$MaterialIdPerLevelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Map<int, String> levels});
-}
-
-/// @nodoc
-class __$$MaterialIdPerLevelImplCopyWithImpl<$Res>
-    extends _$MaterialIdPerLevelCopyWithImpl<$Res, _$MaterialIdPerLevelImpl>
-    implements _$$MaterialIdPerLevelImplCopyWith<$Res> {
-  __$$MaterialIdPerLevelImplCopyWithImpl(_$MaterialIdPerLevelImpl _value,
-      $Res Function(_$MaterialIdPerLevelImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? levels = null,
-  }) {
-    return _then(_$MaterialIdPerLevelImpl(
-      levels: null == levels
-          ? _value._levels
-          : levels // ignore: cast_nullable_to_non_nullable
-              as Map<int, String>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MaterialIdPerLevelImpl implements _MaterialIdPerLevel {
-  const _$MaterialIdPerLevelImpl({required final Map<int, String> levels})
-      : _levels = levels;
-
-  factory _$MaterialIdPerLevelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaterialIdPerLevelImplFromJson(json);
-
-  final Map<int, String> _levels;
-  @override
-  Map<int, String> get levels {
-    if (_levels is EqualUnmodifiableMapView) return _levels;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_levels);
-  }
-
-  @override
-  String toString() {
-    return 'MaterialIdPerLevel(levels: $levels)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MaterialIdPerLevelImpl &&
-            const DeepCollectionEquality().equals(other._levels, _levels));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_levels));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaterialIdPerLevelImplCopyWith<_$MaterialIdPerLevelImpl> get copyWith =>
-      __$$MaterialIdPerLevelImplCopyWithImpl<_$MaterialIdPerLevelImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MaterialIdPerLevelImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _MaterialIdPerLevel implements MaterialIdPerLevel {
-  const factory _MaterialIdPerLevel({required final Map<int, String> levels}) =
-      _$MaterialIdPerLevelImpl;
-
-  factory _MaterialIdPerLevel.fromJson(Map<String, dynamic> json) =
-      _$MaterialIdPerLevelImpl.fromJson;
-
-  @override
-  Map<int, String> get levels;
-  @override
-  @JsonKey(ignore: true)
-  _$$MaterialIdPerLevelImplCopyWith<_$MaterialIdPerLevelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }

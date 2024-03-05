@@ -19,8 +19,8 @@ void main() {
     });
 
     final updater = AssetUpdater(
-      Directory.current,
-      tempDir: Directory.systemTemp,
+      Directory.current.path,
+      tempDir: Directory.systemTemp.path,
       httpClient: client,
     );
     await updater.checkForUpdate();
