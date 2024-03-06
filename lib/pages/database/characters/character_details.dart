@@ -3,8 +3,8 @@ import "package:flutter/material.dart";
 
 import "../../../components/center_text.dart";
 import "../../../components/data_asset_scope.dart";
-import "../../../components/gapped_flex.dart";
 import "../../../components/labeled_check_box.dart";
+import "../../../components/layout.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";

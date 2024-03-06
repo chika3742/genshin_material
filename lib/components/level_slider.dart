@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../i18n/strings.g.dart";
-import "gapped_flex.dart";
+import "layout.dart";
 
 class LevelSlider extends StatelessWidget {
   final List<int> levels;
