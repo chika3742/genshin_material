@@ -3,7 +3,6 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 
-import "components/data_asset_scope.dart";
 import "main.dart";
 import "pages/account.dart";
 import "pages/bookmarks.dart";
@@ -129,15 +128,7 @@ class CharacterDetailsRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return _buildTransitionPage(
       context: context,
-      child: DataAssetScope(
-        wrapCenterTextWithScaffold: true,
-        builder: (assetData) {
-          return CharacterDetailsPage(
-            id: id,
-            assetData: assetData,
-          );
-        },
-      ),
+      child: CharacterDetailsPage(id),
     );
   }
 }
