@@ -39,7 +39,7 @@ class MaterialDetailsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               gap: 16,
               children: [
-                Row(
+                GappedRow(
                   children: [
                     Image.file(
                       material.getImageFile(assetData.assetDir!),
