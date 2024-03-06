@@ -38,6 +38,16 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                   ],
                 ),
                 GoRouteData.$route(
+                  path: 'weapons',
+                  factory: $WeaponListRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: ':id',
+                      factory: $WeaponDetailsRouteExtension._fromState,
+                    ),
+                  ],
+                ),
+                GoRouteData.$route(
                   path: 'materials',
                   factory: $MaterialListRouteExtension._fromState,
                   routes: [
@@ -160,6 +170,43 @@ extension $CharacterDetailsRouteExtension on CharacterDetailsRoute {
 
   String get location => GoRouteData.$location(
         '/database/characters/${Uri.encodeComponent(id)}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WeaponListRouteExtension on WeaponListRoute {
+  static WeaponListRoute _fromState(GoRouterState state) => WeaponListRoute();
+
+  String get location => GoRouteData.$location(
+        '/database/weapons',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WeaponDetailsRouteExtension on WeaponDetailsRoute {
+  static WeaponDetailsRoute _fromState(GoRouterState state) =>
+      WeaponDetailsRoute(
+        id: state.pathParameters['id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/database/weapons/${Uri.encodeComponent(id)}',
       );
 
   void go(BuildContext context) => context.go(location);
