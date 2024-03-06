@@ -1,4 +1,3 @@
-import "dart:math";
 
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
@@ -6,6 +5,7 @@ import "package:flutter_sticky_header/flutter_sticky_header.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../../../components/data_asset_scope.dart";
+import "../../../components/list_index_sheet.dart";
 import "../../../i18n/strings.g.dart";
 
 class MaterialListPage extends StatelessWidget {
@@ -30,47 +30,22 @@ class MaterialListPage extends StatelessWidget {
             showDragHandle: true,
             builder: (context) => DataAssetScope(
               builder: (assetData) {
-                return DraggableScrollableSheet(
-                  expand: false,
-                  snap: true,
-                  initialChildSize: 0.8,
-                  maxChildSize: 0.8,
-                  builder: (context, scrollController) {
-                    return SingleChildScrollView(
-                      controller: scrollController,
-                      child: Column(
-                        children: [
-                          for (final category in assetData.materialCategories!)
-                            ListTile(
-                              leading: Image.file(
-                                assetData.materials!.firstWhere((e) => e.category == category.id)
-                                    .getImageFile(assetData.assetDir!),
-                                width: 36,
-                                height: 36,
-                              ),
-                              title: Text(category.text.localized),
-                              onTap: () {
-                                Navigator.pop(context);
+                var offset = 0.0;
+                final materialsGroupedByCategory = assetData.materials!
+                    .groupListsBy((element) => element.category);
 
-                                var offset = 0.0;
-                                final grouped = assetData.materials!.groupListsBy((element) => element.category);
-                                for (final element in assetData.materialCategories!) {
-                                  if (element.id == category.id) {
-                                    break;
-                                  }
-                                  offset += _listHeaderHeight + _listTileHeight * grouped[element.id]!.length;
-                                }
-                                _scrollController.animateTo(
-                                  min(offset, _scrollController.position.maxScrollExtent),
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOutQuint,
-                                );
-                              },
-                            ),
-                        ],
-                      ),
-                    );
-                  },
+                return ListIndexSheet(
+                  listScrollController: _scrollController,
+                  items: assetData.materialCategories!
+                      .map((e) {
+                        final item = ListIndexItem(
+                          title: e.text.localized,
+                          image: materialsGroupedByCategory[e.id]!.first.getImageFile(assetData.assetDir!),
+                          scrollOffset: offset,
+                        );
+                        offset += _listHeaderHeight + _listTileHeight * materialsGroupedByCategory[e.id]!.length;
+                        return item;
+                  }).toList(),
                 );
               },
             ),
