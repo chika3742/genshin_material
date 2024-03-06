@@ -3,7 +3,6 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 
-import "components/data_asset_scope.dart";
 import "main.dart";
 import "pages/account.dart";
 import "pages/bookmarks.dart";
@@ -11,6 +10,7 @@ import "pages/daily.dart";
 import "pages/database/characters/character_details.dart";
 import "pages/database/characters/character_list.dart";
 import "pages/database/database.dart";
+import "pages/database/materials/material_details.dart";
 import "pages/database/materials/material_list.dart";
 import "pages/home.dart";
 import "pages/more.dart";
@@ -41,6 +41,7 @@ part "routes.g.dart";
             TypedGoRoute<MaterialListRoute>(
               path: "materials",
               routes: [
+                TypedGoRoute<MaterialDetailsRoute>(path: ":id"),
               ],
             ),
           ],
@@ -127,15 +128,7 @@ class CharacterDetailsRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return _buildTransitionPage(
       context: context,
-      child: DataAssetScope(
-        wrapCenterTextWithScaffold: true,
-        builder: (assetData) {
-          return CharacterDetailsPage(
-            id: id,
-            assetData: assetData,
-          );
-        },
-      ),
+      child: CharacterDetailsPage(id),
     );
   }
 }
@@ -147,6 +140,21 @@ class MaterialListRoute extends GoRouteData {
     return _buildTransitionPage(
       context: context,
       child: MaterialListPage(),
+    );
+  }
+}
+
+@immutable
+class MaterialDetailsRoute extends GoRouteData {
+  final String id;
+
+  const MaterialDetailsRoute({required this.id});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: MaterialDetailsPage(id),
     );
   }
 }

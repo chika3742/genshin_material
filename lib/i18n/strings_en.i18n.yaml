@@ -4,6 +4,7 @@ common:
   error: An error occurred.
   goalLevel: Goal Level
   currentLevel: Current Level
+  index: Index
 talentTypes(map):
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill
@@ -16,15 +17,18 @@ weaponTypes(map):
   catalyst: Catalyst
 updates:
   downloading: Downloading data updates...
-  failed: Failed to update data. Restarting app to retry.
+  failed: "Failed to load data. Try re-downloading from \"Settings\" -> \"Re-download Assets\"."
   completed: Data update completed.
   installing: Installing...
   pleaseWaitUntilComplete: Please wait until data update is complete.
 errors:
   characterNotFound: Character not found
+  materialNotFound: Material not found
 pages:
   characters: Characters
   characterDetails: $character - Character
+  materials: Materials
+  materialDetails: $material - Material
   settings: Settings
   account: Account
   releaseNotes: Release Notes
@@ -36,6 +40,8 @@ pages:
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: "Character Lv Up & Ascension Materials"
   talentLevelUpMaterials: Talent Lv Up Materials
+materialDetailsPage:
+  charactersUsing: Characters Using This Material
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
 releaseNotesPage:

@@ -7,6 +7,7 @@ import "package:material_symbols_icons/symbols.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/list_index_sheet.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../routes.dart";
 
 class MaterialListPage extends StatelessWidget {
   MaterialListPage({super.key});
@@ -87,6 +88,9 @@ class MaterialListPage extends StatelessWidget {
                           height: 36,
                         ),
                         title: Text(material.name.localized),
+                        onTap: () {
+                          MaterialDetailsRoute(id: material.id).go(context);
+                        },
                       );
                     },
                     childCount: materialsGroupedByCategory[e.id]!.length,

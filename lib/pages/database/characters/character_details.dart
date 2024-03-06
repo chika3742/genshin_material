@@ -2,8 +2,9 @@ import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 
 import "../../../components/center_text.dart";
-import "../../../components/gapped_flex.dart";
+import "../../../components/data_asset_scope.dart";
 import "../../../components/labeled_check_box.dart";
+import "../../../components/layout.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
@@ -14,26 +15,53 @@ import "../../../models/character.dart";
 import "../../../models/common.dart";
 import "../../../utils/ingredients_converter.dart";
 
-class CharacterDetailsPage extends StatefulWidget {
+class CharacterDetailsPage extends StatelessWidget {
   final String id;
+  
+  const CharacterDetailsPage(this.id, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DataAssetScope(
+      wrapCenterTextWithScaffold: true,
+      builder: (assetData) {
+        final character = assetData.characters!
+            .firstWhereOrNull((e) => e.id == id);
+        if (character == null || character is! CharacterWithSmallImage) {
+          return Scaffold(
+            appBar: AppBar(),
+            body: CenterText(tr.errors.characterNotFound),
+          );
+        }
+        
+        return CharacterDetailsPageContents(
+          character: character,
+          assetData: assetData,
+        );
+      },
+    );
+  }
+}
+
+/// Ensure that this widget is within a [DataAssetScope].
+class CharacterDetailsPageContents extends StatefulWidget {
+  final CharacterWithSmallImage character;
   final AssetDataCache assetData;
 
-  const CharacterDetailsPage({
+  const CharacterDetailsPageContents({
     super.key,
-    required this.id,
+    required this.character,
     required this.assetData,
   });
 
   @override
-  State<CharacterDetailsPage> createState() => _CharacterDetailsPageState();
+  State<CharacterDetailsPageContents> createState() => _CharacterDetailsPageContentsState();
 }
 
-class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
+class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageContents> {
   final Map<Purpose, LevelRangeValues> _rangeValues = {};
   final Map<Purpose, List<int>> _sliderTickLabels = {};
   final Map<Purpose, bool> _checkedTalentTypes = {};
-
-  CharacterWithSmallImage? _character;
 
   final _talentMaterialsKey = GlobalKey();
 
@@ -41,37 +69,27 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
   void initState() {
     super.initState();
 
-    // initialize character and ingredients
-    final c = widget.assetData.characters!
-        .firstWhereOrNull((element) => element.id == widget.id);
-    if (c != null && c is CharacterWithSmallImage) {
-      _character = c;
-      // init the range values and checked talent types for each purpose
-      final ingredients = widget.assetData.characterIngredients!;
-      for (final purpose in ingredients.purposes.keys) {
-        final levels = ingredients.purposes[purpose]!.levels;
-        _sliderTickLabels[purpose] = [1, ...levels.keys];
-        _rangeValues[purpose] = LevelRangeValues(1, levels.keys.last);
-        _checkedTalentTypes[purpose] = true;
-      }
+    // init the range values and checked talent types for each purpose
+    final ingredients = widget.assetData.characterIngredients!;
+    for (final purpose in ingredients.purposes.keys) {
+      final levels = ingredients.purposes[purpose]!.levels;
+      _sliderTickLabels[purpose] = [1, ...levels.keys];
+      _rangeValues[purpose] = LevelRangeValues(1, levels.keys.last);
+      _checkedTalentTypes[purpose] = true;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // show error message if character is not initialized
-    if (_character == null) {
-      return CenterText(tr.errors.characterNotFound);
-    }
-
     final assetData = widget.assetData;
+    final character = widget.character;
     final ingredients = assetData.characterIngredients!;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           tr.pages.characterDetails(
-            character: _character!.name.localized,
+            character: character.name.localized,
           ),
         ),
       ),
@@ -86,7 +104,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
               Row(
                 children: [
                   Image.file(
-                    _character!.getSmallImageFile(assetData.assetDir!),
+                    character.getSmallImageFile(assetData.assetDir!),
                     width: 70,
                     height: 70,
                   ),
@@ -95,23 +113,23 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // rarity
-                      RarityStars(count: _character!.rarity),
+                      RarityStars(count: character.rarity),
                       const SizedBox(height: 4),
                       // element
                       Row(
                         children: [
                           Image.file(
-                            assetData.elements![_character!.element]!.getImageFile(assetData.assetDir!),
+                            assetData.elements![character.element]!.getImageFile(assetData.assetDir!),
                             width: 26,
                             height: 26,
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
-                          Text(assetData.elements![_character!.element]!.text.localized),
+                          Text(assetData.elements![character.element]!.text.localized),
                         ],
                       ),
                       const SizedBox(height: 4),
                       // weapon type
-                      Text(_character!.weaponType.text),
+                      Text(character.weaponType.text),
                     ],
                   ),
                 ],
@@ -147,7 +165,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                     children: [
                       for (final material in toBookmarkableMaterials(
                         levelMapToList(narrowLevelMap(ingredients.purposes[Purpose.ascension]!.levels, _rangeValues[Purpose.ascension]!)),
-                        _character!.materials,
+                        character.materials,
                       ))
                         MaterialItem(
                           material: assetData.materials!.firstWhereOrNull((e) => e.id == material.id),
@@ -207,7 +225,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                                         ),
                                         const TextSpan(text: "  "),
                                         TextSpan(
-                                          text: _character!
+                                          text: character
                                               .talents[TalentType.fromPurpose(
                                                   purpose,)]!
                                               .localized,
@@ -251,7 +269,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
                         key: _talentMaterialsKey,
                         children: toBookmarkableMaterials(
                           _getTalentIngredients(),
-                          _character!.materials,
+                          character.materials,
                         ).map(
                               (bm) => MaterialItem(
                                 material: bm.isExp ? null : bm.material,
@@ -272,7 +290,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
 
   List<IngredientsWithLevel> _getTalentIngredients() {
     final result = <IngredientsWithLevel>[];
-    for (final talentType in _character!.talents.keys) {
+    for (final talentType in widget.character.talents.keys) {
       if (_checkedTalentTypes[Purpose.fromTalentType(talentType)]!) {
         result.addAll(
           levelMapToList(

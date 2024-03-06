@@ -40,6 +40,12 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                 GoRouteData.$route(
                   path: 'materials',
                   factory: $MaterialListRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: ':id',
+                      factory: $MaterialDetailsRouteExtension._fromState,
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -172,6 +178,26 @@ extension $MaterialListRouteExtension on MaterialListRoute {
 
   String get location => GoRouteData.$location(
         '/database/materials',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $MaterialDetailsRouteExtension on MaterialDetailsRoute {
+  static MaterialDetailsRoute _fromState(GoRouterState state) =>
+      MaterialDetailsRoute(
+        id: state.pathParameters['id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/database/materials/${Uri.encodeComponent(id)}',
       );
 
   void go(BuildContext context) => context.go(location);
