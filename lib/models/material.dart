@@ -10,7 +10,7 @@ part "material.g.dart";
 class MaterialData with _$MaterialData {
   const factory MaterialData({
     required List<Material> items,
-    required List<String> categories,
+    required List<MaterialCategory> categories,
     required Map<String, int> sortOrder,
   }) = _MaterialData;
 
@@ -35,4 +35,15 @@ sealed class Material with _$Material, ImageGetter {
 
   factory Material.fromJson(Map<String, dynamic> json) =>
       _$MaterialFromJson(json);
+}
+
+@freezed
+class MaterialCategory with _$MaterialCategory {
+  const factory MaterialCategory({
+    required String id,
+    required LocalizedText text,
+  }) = _MaterialCategory;
+
+  factory MaterialCategory.fromJson(Map<String, dynamic> json) =>
+      _$MaterialCategoryFromJson(json);
 }

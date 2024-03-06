@@ -4,6 +4,7 @@ common:
   error: エラーが発生しました。
   goalLevel: 目標レベル
   currentLevel: 現在レベル
+  index: 目次
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル
@@ -25,6 +26,7 @@ errors:
 pages:
   characters: キャラクター
   characterDetails: $character - キャラクター
+  materials: 素材一覧(逆引き)
   settings: 設定
   account: アカウント
   releaseNotes: 更新履歴

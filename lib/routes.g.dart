@@ -37,6 +37,10 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                     ),
                   ],
                 ),
+                GoRouteData.$route(
+                  path: 'materials',
+                  factory: $MaterialListRouteExtension._fromState,
+                ),
               ],
             ),
           ],
@@ -150,6 +154,24 @@ extension $CharacterDetailsRouteExtension on CharacterDetailsRoute {
 
   String get location => GoRouteData.$location(
         '/database/characters/${Uri.encodeComponent(id)}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $MaterialListRouteExtension on MaterialListRoute {
+  static MaterialListRoute _fromState(GoRouterState state) =>
+      MaterialListRoute();
+
+  String get location => GoRouteData.$location(
+        '/database/materials',
       );
 
   void go(BuildContext context) => context.go(location);

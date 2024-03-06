@@ -12,7 +12,7 @@ _$MaterialDataImpl _$$MaterialDataImplFromJson(Map<String, dynamic> json) =>
           .map((e) => Material.fromJson(e as Map<String, dynamic>))
           .toList(),
       categories: (json['categories'] as List<dynamic>)
-          .map((e) => e as String)
+          .map((e) => MaterialCategory.fromJson(e as Map<String, dynamic>))
           .toList(),
       sortOrder: Map<String, int>.from(json['sortOrder'] as Map),
     );
@@ -46,4 +46,18 @@ Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
       'category': instance.category,
       'groupId': instance.groupId,
       'craftLevel': instance.craftLevel,
+    };
+
+_$MaterialCategoryImpl _$$MaterialCategoryImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MaterialCategoryImpl(
+      id: json['id'] as String,
+      text: LocalizedText.fromJson(json['text'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$MaterialCategoryImplToJson(
+        _$MaterialCategoryImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'text': instance.text,
     };
