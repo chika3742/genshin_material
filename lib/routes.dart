@@ -11,6 +11,7 @@ import "pages/daily.dart";
 import "pages/database/characters/character_details.dart";
 import "pages/database/characters/character_list.dart";
 import "pages/database/database.dart";
+import "pages/database/materials/material_list.dart";
 import "pages/home.dart";
 import "pages/more.dart";
 import "pages/release_notes.dart";
@@ -35,6 +36,11 @@ part "routes.g.dart";
               path: "characters",
               routes: [
                 TypedGoRoute<CharacterDetailsRoute>(path: ":id"),
+              ],
+            ),
+            TypedGoRoute<MaterialListRoute>(
+              path: "materials",
+              routes: [
               ],
             ),
           ],
@@ -130,6 +136,17 @@ class CharacterDetailsRoute extends GoRouteData {
           );
         },
       ),
+    );
+  }
+}
+
+@immutable
+class MaterialListRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: MaterialListPage(),
     );
   }
 }

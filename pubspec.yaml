@@ -42,6 +42,7 @@ dependencies:
   http: ^1.2.0
   archive: ^3.4.10
   animations: ^2.0.11
+  flutter_sticky_header: ^0.6.5
 
 dev_dependencies:
   flutter_test:

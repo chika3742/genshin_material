@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 74 (37 per locale)
+/// Strings: 76 (38 per locale)
 ///
-/// Built on 2024-02-26 at 10:08 UTC
+/// Built on 2024-03-05 at 15:13 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -183,6 +183,7 @@ class _StringsCommonJa {
 	String get error => 'エラーが発生しました。';
 	String get goalLevel => '目標レベル';
 	String get currentLevel => '現在レベル';
+	String get index => '目次';
 }
 
 // Path: updates
@@ -218,6 +219,7 @@ class _StringsPagesJa {
 	// Translations
 	String get characters => 'キャラクター';
 	String characterDetails({required Object character}) => '${character} - キャラクター';
+	String get materials => '素材一覧(逆引き)';
 	String get settings => '設定';
 	String get account => 'アカウント';
 	String get releaseNotes => '更新履歴';
@@ -432,6 +434,7 @@ extension on Translations {
 			case 'common.error': return 'エラーが発生しました。';
 			case 'common.goalLevel': return '目標レベル';
 			case 'common.currentLevel': return '現在レベル';
+			case 'common.index': return '目次';
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';
@@ -448,6 +451,7 @@ extension on Translations {
 			case 'errors.characterNotFound': return 'キャラクターが見つかりません';
 			case 'pages.characters': return 'キャラクター';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - キャラクター';
+			case 'pages.materials': return '素材一覧(逆引き)';
 			case 'pages.settings': return '設定';
 			case 'pages.account': return 'アカウント';
 			case 'pages.releaseNotes': return '更新履歴';

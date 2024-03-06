@@ -23,7 +23,7 @@ class AssetDataCache {
   CharacterIngredients? characterIngredients;
   Map<TeyvatElement, Element>? elements;
   List<Material>? materials;
-  List<String>? materialCategories;
+  List<MaterialCategory>? materialCategories;
   Map<String, int>? materialSortOrder;
 
   Future<void> init() async {

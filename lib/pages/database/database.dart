@@ -21,6 +21,11 @@ class DatabasePage extends StatelessWidget {
             leadingIcon: Symbols.account_circle,
             location: CharacterListRoute().location,
           ),
+          SimpleListItem(
+            title: tr.pages.materials,
+            leadingIcon: Symbols.grass,
+            location: MaterialListRoute().location,
+          ),
         ],
       ),
     );
