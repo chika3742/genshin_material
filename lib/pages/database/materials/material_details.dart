@@ -17,6 +17,7 @@ class MaterialDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DataAssetScope(
+      wrapCenterTextWithScaffold: true,
       builder: (assetData) {
         final material = assetData.materials!.firstWhereOrNull((m) => m.id == id);
         if (material == null) {
