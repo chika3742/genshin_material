@@ -42,6 +42,11 @@ class MyApp extends StatelessWidget {
         extensions: [
           ComponentThemeExtension(
             starColor: Colors.orange,
+            rarity1Color: Colors.grey.shade600,
+            rarity2Color: Colors.green,
+            rarity3Color: Colors.blue,
+            rarity4Color: Colors.purple,
+            rarity5Color: Colors.orange.shade700,
           ),
         ],
       ),
@@ -53,6 +58,11 @@ class MyApp extends StatelessWidget {
         extensions: [
           ComponentThemeExtension(
             starColor: Colors.yellow,
+            rarity1Color: Colors.grey,
+            rarity2Color: Colors.green,
+            rarity3Color: Colors.blue,
+            rarity4Color: Colors.purple.shade300,
+            rarity5Color: Colors.orange,
           ),
         ],
       ),

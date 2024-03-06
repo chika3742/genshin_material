@@ -6,6 +6,7 @@ import "package:material_symbols_icons/symbols.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/list_index_sheet.dart";
 import "../../../components/sticky_list_header.dart";
+import "../../../core/theme.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../routes.dart";
 
@@ -76,6 +77,28 @@ class MaterialListPage extends StatelessWidget {
                           height: 36,
                         ),
                         title: Text(material.name.localized),
+                        trailing: Container(
+                          width: 48,
+                          height: 30,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .extension<ComponentThemeExtension>()!
+                                  .getRarityColor(material.rarity),
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Text(
+                            "★${material.rarity}",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context)
+                                  .extension<ComponentThemeExtension>()!
+                                  .getRarityColor(material.rarity),
+                            ),
+                          ),
+                        ),
                         onTap: () {
                           MaterialDetailsRoute(id: material.id).go(context);
                         },
