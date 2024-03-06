@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 76 (38 per locale)
+/// Strings: 84 (42 per locale)
 ///
-/// Built on 2024-03-06 at 04:29 UTC
+/// Built on 2024-03-06 at 09:53 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -166,6 +166,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsErrorsJa errors = _StringsErrorsJa._(_root);
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsCharacterDetailsPageJa characterDetailsPage = _StringsCharacterDetailsPageJa._(_root);
+	late final _StringsMaterialDetailsPageJa materialDetailsPage = _StringsMaterialDetailsPageJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
 	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
 	late final _StringsSettingsPageJa settingsPage = _StringsSettingsPageJa._(_root);
@@ -208,6 +209,7 @@ class _StringsErrorsJa {
 
 	// Translations
 	String get characterNotFound => 'キャラクターが見つかりません';
+	String get materialNotFound => '素材が見つかりません';
 }
 
 // Path: pages
@@ -220,6 +222,7 @@ class _StringsPagesJa {
 	String get characters => 'キャラクター';
 	String characterDetails({required Object character}) => '${character} - キャラクター';
 	String get materials => '素材一覧(逆引き)';
+	String materialDetails({required Object material}) => '${material} - 素材';
 	String get settings => '設定';
 	String get account => 'アカウント';
 	String get releaseNotes => '更新履歴';
@@ -239,6 +242,16 @@ class _StringsCharacterDetailsPageJa {
 	// Translations
 	String get charaLevelUpAndAscensionMaterials => 'キャラクターLvアップ・突破素材';
 	String get talentLevelUpMaterials => '天賦Lvアップ素材';
+}
+
+// Path: materialDetailsPage
+class _StringsMaterialDetailsPageJa {
+	_StringsMaterialDetailsPageJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get charactersUsing => 'この素材を使用するキャラクター';
 }
 
 // Path: morePage
@@ -317,6 +330,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsErrorsEn errors = _StringsErrorsEn._(_root);
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsCharacterDetailsPageEn characterDetailsPage = _StringsCharacterDetailsPageEn._(_root);
+	@override late final _StringsMaterialDetailsPageEn materialDetailsPage = _StringsMaterialDetailsPageEn._(_root);
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
 	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
 	@override late final _StringsSettingsPageEn settingsPage = _StringsSettingsPageEn._(_root);
@@ -334,6 +348,7 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override String get error => 'An error occurred.';
 	@override String get goalLevel => 'Goal Level';
 	@override String get currentLevel => 'Current Level';
+	@override String get index => 'Index';
 }
 
 // Path: updates
@@ -358,6 +373,7 @@ class _StringsErrorsEn extends _StringsErrorsJa {
 
 	// Translations
 	@override String get characterNotFound => 'Character not found';
+	@override String get materialNotFound => 'Material not found';
 }
 
 // Path: pages
@@ -369,6 +385,8 @@ class _StringsPagesEn extends _StringsPagesJa {
 	// Translations
 	@override String get characters => 'Characters';
 	@override String characterDetails({required Object character}) => '${character} - Character';
+	@override String get materials => 'Materials';
+	@override String materialDetails({required Object material}) => '${material} - Material';
 	@override String get settings => 'Settings';
 	@override String get account => 'Account';
 	@override String get releaseNotes => 'Release Notes';
@@ -388,6 +406,16 @@ class _StringsCharacterDetailsPageEn extends _StringsCharacterDetailsPageJa {
 	// Translations
 	@override String get charaLevelUpAndAscensionMaterials => 'Character Lv Up & Ascension Materials';
 	@override String get talentLevelUpMaterials => 'Talent Lv Up Materials';
+}
+
+// Path: materialDetailsPage
+class _StringsMaterialDetailsPageEn extends _StringsMaterialDetailsPageJa {
+	_StringsMaterialDetailsPageEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get charactersUsing => 'Characters Using This Material';
 }
 
 // Path: morePage
@@ -449,9 +477,11 @@ extension on Translations {
 			case 'updates.installing': return 'インストールしています...';
 			case 'updates.pleaseWaitUntilComplete': return 'データ更新が完了するまでお待ちください。';
 			case 'errors.characterNotFound': return 'キャラクターが見つかりません';
+			case 'errors.materialNotFound': return '素材が見つかりません';
 			case 'pages.characters': return 'キャラクター';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - キャラクター';
 			case 'pages.materials': return '素材一覧(逆引き)';
+			case 'pages.materialDetails': return ({required Object material}) => '${material} - 素材';
 			case 'pages.settings': return '設定';
 			case 'pages.account': return 'アカウント';
 			case 'pages.releaseNotes': return '更新履歴';
@@ -462,6 +492,7 @@ extension on Translations {
 			case 'pages.more': return 'その他';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
+			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
@@ -481,6 +512,7 @@ extension on _StringsEn {
 			case 'common.error': return 'An error occurred.';
 			case 'common.goalLevel': return 'Goal Level';
 			case 'common.currentLevel': return 'Current Level';
+			case 'common.index': return 'Index';
 			case 'talentTypes.normalAttack': return 'Normal Attack';
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
@@ -495,8 +527,11 @@ extension on _StringsEn {
 			case 'updates.installing': return 'Installing...';
 			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
 			case 'errors.characterNotFound': return 'Character not found';
+			case 'errors.materialNotFound': return 'Material not found';
 			case 'pages.characters': return 'Characters';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - Character';
+			case 'pages.materials': return 'Materials';
+			case 'pages.materialDetails': return ({required Object material}) => '${material} - Material';
 			case 'pages.settings': return 'Settings';
 			case 'pages.account': return 'Account';
 			case 'pages.releaseNotes': return 'Release Notes';
@@ -507,6 +542,7 @@ extension on _StringsEn {
 			case 'pages.more': return 'More';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'Character Lv Up & Ascension Materials';
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
+			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';

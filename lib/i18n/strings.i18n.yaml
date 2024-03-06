@@ -23,10 +23,12 @@ updates:
   pleaseWaitUntilComplete: データ更新が完了するまでお待ちください。
 errors:
   characterNotFound: キャラクターが見つかりません
+  materialNotFound: 素材が見つかりません
 pages:
   characters: キャラクター
   characterDetails: $character - キャラクター
   materials: 素材一覧(逆引き)
+  materialDetails: $material - 素材
   settings: 設定
   account: アカウント
   releaseNotes: 更新履歴
@@ -38,6 +40,8 @@ pages:
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: キャラクターLvアップ・突破素材
   talentLevelUpMaterials: 天賦Lvアップ素材
+materialDetailsPage:
+  charactersUsing: この素材を使用するキャラクター
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
 releaseNotesPage:
