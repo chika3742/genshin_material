@@ -60,11 +60,16 @@ class MaterialDetailsPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SectionHeading(tr.materialDetailsPage.charactersUsing),
-                Wrap(
+                if (characters.isNotEmpty) GappedColumn(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (final character in characters)
-                      CharacterSmallCard(character),
+                    SectionHeading(tr.materialDetailsPage.charactersUsing),
+                    Wrap(
+                      children: [
+                        for (final character in characters)
+                          CharacterSmallCard(character),
+                      ],
+                    ),
                   ],
                 ),
               ],
