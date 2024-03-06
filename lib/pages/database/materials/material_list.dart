@@ -1,4 +1,3 @@
-
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_sticky_header/flutter_sticky_header.dart";
@@ -6,6 +5,7 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../../../components/data_asset_scope.dart";
 import "../../../components/list_index_sheet.dart";
+import "../../../components/sticky_list_header.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../routes.dart";
 
@@ -14,8 +14,7 @@ class MaterialListPage extends StatelessWidget {
 
   final _scrollController = ScrollController();
 
-  final _listTileHeight = 56.0;
-  final _listHeaderHeight = 38.0;
+  static const _listTileHeight = 56.0;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class MaterialListPage extends StatelessWidget {
                           image: materialsGroupedByCategory[e.id]!.first.getImageFile(assetData.assetDir!),
                           scrollOffset: offset,
                         );
-                        offset += _listHeaderHeight + _listTileHeight * materialsGroupedByCategory[e.id]!.length;
+                        offset += StickyListHeader.height + _listTileHeight * materialsGroupedByCategory[e.id]!.length;
                         return item;
                   }).toList(),
                 );
@@ -65,18 +64,7 @@ class MaterialListPage extends StatelessWidget {
             slivers: categories.map((e) {
               return SliverStickyHeader.builder(
                 key: GlobalObjectKey(e.id),
-                builder: (context, state) {
-                  return Container(
-                    height: _listHeaderHeight,
-                    color: Theme.of(context).colorScheme.surfaceVariant,
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      e.text.localized,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  );
-                },
+                builder: (_, __) => StickyListHeader(e.text.localized),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
                         (context, index) {
