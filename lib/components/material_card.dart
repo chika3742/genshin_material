@@ -5,6 +5,7 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../core/theme.dart";
 import "../models/common.dart";
+import "../routes.dart";
 
 
 class MaterialCard extends StatelessWidget {
@@ -56,7 +57,7 @@ class MaterialCard extends StatelessWidget {
               InkWell(
                 borderRadius: BorderRadius.circular(8.0),
                 onTap: id != null ? () {
-                  // TODO: Navigate to the material details page
+                  MaterialDetailsRoute(id: id!).push(context);
                 } : null,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
