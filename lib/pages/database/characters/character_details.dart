@@ -63,7 +63,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
   final Map<Purpose, List<int>> _sliderTickLabels = {};
   final Map<Purpose, bool> _checkedTalentTypes = {};
 
-  final _talentMaterialsKey = GlobalKey();
+  final Map<Purpose, GlobalKey> _talentSectionKeys = {};
 
   @override
   void initState() {
@@ -203,7 +203,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                                     if (value == true) {
                                       Future.delayed(const Duration(milliseconds: 200), () {
                                         Scrollable.ensureVisible(
-                                          _talentMaterialsKey.currentContext!,
+                                          _talentSectionKeys[purpose]!.currentContext!,
                                           duration: const Duration(milliseconds: 300),
                                           curve: Curves.easeOutQuint,
                                           alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
@@ -226,8 +226,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                                         const TextSpan(text: "  "),
                                         TextSpan(
                                           text: character
-                                              .talents[TalentType.fromPurpose(
-                                                  purpose,)]!
+                                              .talents[TalentType.fromPurpose(purpose)]!
                                               .localized,
                                         ),
                                       ],
@@ -246,6 +245,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                                     children: [
                                       const SizedBox(height: 8),
                                       LevelSlider(
+                                        key: _talentSectionKeys[purpose] ??= GlobalKey(),
                                         levels: _sliderTickLabels[purpose]!,
                                         values: _rangeValues[purpose]!,
                                         onChanged: (values) {
@@ -266,7 +266,6 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                           ),
                         ),
                       Wrap(
-                        key: _talentMaterialsKey,
                         children: toBookmarkableMaterials(
                           _getTalentIngredients(),
                           character.materials,
