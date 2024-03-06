@@ -6,7 +6,7 @@
 /// Locales: 2
 /// Strings: 76 (38 per locale)
 ///
-/// Built on 2024-03-05 at 15:13 UTC
+/// Built on 2024-03-06 at 04:29 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -194,7 +194,7 @@ class _StringsUpdatesJa {
 
 	// Translations
 	String get downloading => 'データ更新をダウンロードしています…';
-	String get failed => 'データ更新に失敗しました。アプリを再起動すると再試行します。';
+	String get failed => 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
 	String get completed => '更新が完了しました。';
 	String get installing => 'インストールしています...';
 	String get pleaseWaitUntilComplete => 'データ更新が完了するまでお待ちください。';
@@ -344,7 +344,7 @@ class _StringsUpdatesEn extends _StringsUpdatesJa {
 
 	// Translations
 	@override String get downloading => 'Downloading data updates...';
-	@override String get failed => 'Failed to update data. Restarting app to retry.';
+	@override String get failed => 'Failed to load data. Try re-downloading from "Settings" -> "Re-download Assets".';
 	@override String get completed => 'Data update completed.';
 	@override String get installing => 'Installing...';
 	@override String get pleaseWaitUntilComplete => 'Please wait until data update is complete.';
@@ -444,7 +444,7 @@ extension on Translations {
 			case 'weaponTypes.bow': return '弓';
 			case 'weaponTypes.catalyst': return '法器';
 			case 'updates.downloading': return 'データ更新をダウンロードしています…';
-			case 'updates.failed': return 'データ更新に失敗しました。アプリを再起動すると再試行します。';
+			case 'updates.failed': return 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
 			case 'updates.completed': return '更新が完了しました。';
 			case 'updates.installing': return 'インストールしています...';
 			case 'updates.pleaseWaitUntilComplete': return 'データ更新が完了するまでお待ちください。';
@@ -490,7 +490,7 @@ extension on _StringsEn {
 			case 'weaponTypes.bow': return 'Bow';
 			case 'weaponTypes.catalyst': return 'Catalyst';
 			case 'updates.downloading': return 'Downloading data updates...';
-			case 'updates.failed': return 'Failed to update data. Restarting app to retry.';
+			case 'updates.failed': return 'Failed to load data. Try re-downloading from "Settings" -> "Re-download Assets".';
 			case 'updates.completed': return 'Data update completed.';
 			case 'updates.installing': return 'Installing...';
 			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
