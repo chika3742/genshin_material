@@ -7,12 +7,12 @@ List<CharacterWithSmallImage> getCharactersUsingMaterial(Material material, List
       return false;
     }
 
-    return c.materials.toJson().entries.any((entry) {
+    return c.materials.entries.any((entry) {
       if (entry.key == "runtimeType") {
         return false;
       }
 
-      final [type, expr] = (entry.value as String).split(":");
+      final [type, expr] = entry.value.split(":");
       if (type == "group") {
         return expr == material.groupId;
       }

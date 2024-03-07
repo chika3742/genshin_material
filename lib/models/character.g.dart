@@ -22,8 +22,7 @@ _$ListedCharacterImpl _$$ListedCharacterImplFromJson(
         (k, e) => MapEntry($enumDecode(_$TalentTypeEnumMap, k),
             LocalizedText.fromJson(e as Map<String, dynamic>)),
       ),
-      materials: CharacterMaterialDefinitions.fromJson(
-          json['materials'] as Map<String, dynamic>),
+      materials: Map<String, String>.from(json['materials'] as Map),
       $type: json['runtimeType'] as String?,
     );
 
@@ -80,8 +79,7 @@ _$CharacterGroupImpl _$$CharacterGroupImplFromJson(Map<String, dynamic> json) =>
       variantIds: (json['variantIds'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      materials: CharacterMaterialDefinitions.fromJson(
-          json['materials'] as Map<String, dynamic>),
+      materials: Map<String, String>.from(json['materials'] as Map),
       $type: json['runtimeType'] as String?,
     );
 
@@ -115,8 +113,7 @@ _$UnlistedCharacterImpl _$$UnlistedCharacterImplFromJson(
         (k, e) => MapEntry($enumDecode(_$TalentTypeEnumMap, k),
             LocalizedText.fromJson(e as Map<String, dynamic>)),
       ),
-      materials: CharacterMaterialDefinitions.fromJson(
-          json['materials'] as Map<String, dynamic>),
+      materials: Map<String, String>.from(json['materials'] as Map),
       $type: json['runtimeType'] as String?,
     );
 
@@ -135,48 +132,5 @@ Map<String, dynamic> _$$UnlistedCharacterImplToJson(
       'talents':
           instance.talents.map((k, e) => MapEntry(_$TalentTypeEnumMap[k]!, e)),
       'materials': instance.materials,
-      'runtimeType': instance.$type,
-    };
-
-_$CharacterMaterialDefinitionsImpl _$$CharacterMaterialDefinitionsImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CharacterMaterialDefinitionsImpl(
-      primary: json['primary'] as String,
-      elementalStone: json['elementalStone'] as String,
-      local: json['local'] as String,
-      secondary: json['secondary'] as String,
-      talentPrimary: json['talentPrimary'] as String,
-      talentBoss: json['talentBoss'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$CharacterMaterialDefinitionsImplToJson(
-        _$CharacterMaterialDefinitionsImpl instance) =>
-    <String, dynamic>{
-      'primary': instance.primary,
-      'elementalStone': instance.elementalStone,
-      'local': instance.local,
-      'secondary': instance.secondary,
-      'talentPrimary': instance.talentPrimary,
-      'talentBoss': instance.talentBoss,
-      'runtimeType': instance.$type,
-    };
-
-_$TravelerAscensionMaterialDefinitionsImpl
-    _$$TravelerAscensionMaterialDefinitionsImplFromJson(
-            Map<String, dynamic> json) =>
-        _$TravelerAscensionMaterialDefinitionsImpl(
-          primary: json['primary'] as String,
-          local: json['local'] as String,
-          secondary: json['secondary'] as String,
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$TravelerAscensionMaterialDefinitionsImplToJson(
-        _$TravelerAscensionMaterialDefinitionsImpl instance) =>
-    <String, dynamic>{
-      'primary': instance.primary,
-      'local': instance.local,
-      'secondary': instance.secondary,
       'runtimeType': instance.$type,
     };

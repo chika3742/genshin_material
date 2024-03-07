@@ -13,7 +13,12 @@ List<IngredientsWithLevel> levelMapToList(Map<int, List<CharacterIngredient>> ma
 String getConcreteItemId(CharacterIngredient ingredient, CharacterMaterialDefinitions definitions) {
   return switch (ingredient) {
     CharacterIngredientByType() => () {
-      final [defType, expr] = definitions.withType(ingredient.type).split(":");
+      final definition = definitions[ingredient.type];
+      if (definition == null) {
+        throw "Unknown type: ${ingredient.type}";
+      }
+
+      final [defType, expr] = definition.split(":");
       if (defType == "id") {
         return expr;
       }

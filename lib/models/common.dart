@@ -4,6 +4,8 @@ import "package:path/path.dart" as path;
 
 import "../i18n/strings.g.dart";
 
+typedef MaterialUsageType = String;
+
 mixin ImageGetter {
   String get imageUrl;
 

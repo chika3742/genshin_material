@@ -11,6 +11,8 @@ part "character.g.dart";
 
 typedef CharacterList = List<Character>;
 
+typedef CharacterMaterialDefinitions = Map<MaterialUsageType, String>;
+
 mixin CharacterWithLargeImage on Character {
   String get imageUrl;
 
@@ -76,31 +78,4 @@ sealed class Character with _$Character {
 
   factory Character.fromJson(Map<String, dynamic> json) =>
       _$CharacterFromJson(json);
-}
-
-@Freezed(fallbackUnion: "default")
-sealed class CharacterMaterialDefinitions with _$CharacterMaterialDefinitions {
-  const CharacterMaterialDefinitions._();
-
-  const factory CharacterMaterialDefinitions({
-    required String primary,
-    required String elementalStone,
-    required String local,
-    required String secondary,
-    required String talentPrimary,
-    required String talentBoss,
-  }) = _CharacterMaterialDefinitions;
-
-  const factory CharacterMaterialDefinitions.travelerAscension({
-    required String primary,
-    required String local,
-    required String secondary,
-  }) = TravelerAscensionMaterialDefinitions;
-
-  factory CharacterMaterialDefinitions.fromJson(Map<String, dynamic> json) =>
-      _$CharacterMaterialDefinitionsFromJson(json);
-
-  String withType(String type) {
-    return toJson()[type] as String;
-  }
 }
