@@ -8,7 +8,9 @@ import "../models/character.dart";
 import "../models/character_ingredients.dart";
 import "../models/common.dart";
 import "../models/element.dart";
+import "../models/localized_text.dart";
 import "../models/material.dart";
+import "../models/weapon.dart";
 import "../utils/unwrap_yaml_value.dart";
 import "asset_updater.dart";
 import "data_parsing_exception.dart";
@@ -21,6 +23,7 @@ class AssetDataCache {
   AssetReleaseVersion? version;
   List<Character>? characters;
   CharacterIngredients? characterIngredients;
+  Map<String, LocalizedText>? weaponTypes;
   Map<TeyvatElement, Element>? elements;
   List<Material>? materials;
   List<MaterialCategory>? materialCategories;
@@ -42,9 +45,13 @@ class AssetDataCache {
     characterIngredients = CharacterIngredients.fromJson(
       await loadDataAsset<Map<String, dynamic>>("character-ingredients.yaml"),
     );
-    elements = (await loadDataAsset<Map>("elements.yaml")).map((key, value) {
+    final weaponData = WeaponData.fromJson(
+      await loadDataAsset<Map<String, dynamic>>("weapons.yaml"),
+    );
+    weaponTypes = weaponData.types;
+    elements = (await loadDataAsset<Map<String, dynamic>>("elements.yaml")).map((key, value) {
       return MapEntry(
-        TeyvatElement.values.firstWhere((e) => e.name == key),
+        key,
         Element.fromJson(value),
       );
     });

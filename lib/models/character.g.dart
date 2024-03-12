@@ -16,11 +16,11 @@ _$ListedCharacterImpl _$$ListedCharacterImplFromJson(
       imageUrl: json['imageUrl'] as String,
       smallImageUrl: json['smallImageUrl'] as String,
       rarity: json['rarity'] as int,
-      weaponType: $enumDecode(_$WeaponTypeEnumMap, json['weaponType']),
-      element: $enumDecode(_$TeyvatElementEnumMap, json['element']),
+      weaponType: json['weaponType'] as String,
+      element: json['element'] as String,
       talents: (json['talents'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry($enumDecode(_$TalentTypeEnumMap, k),
-            LocalizedText.fromJson(e as Map<String, dynamic>)),
+        (k, e) =>
+            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
       ),
       materials: Map<String, String>.from(json['materials'] as Map),
       $type: json['runtimeType'] as String?,
@@ -36,37 +36,12 @@ Map<String, dynamic> _$$ListedCharacterImplToJson(
       'imageUrl': instance.imageUrl,
       'smallImageUrl': instance.smallImageUrl,
       'rarity': instance.rarity,
-      'weaponType': _$WeaponTypeEnumMap[instance.weaponType]!,
-      'element': _$TeyvatElementEnumMap[instance.element]!,
-      'talents':
-          instance.talents.map((k, e) => MapEntry(_$TalentTypeEnumMap[k]!, e)),
+      'weaponType': instance.weaponType,
+      'element': instance.element,
+      'talents': instance.talents,
       'materials': instance.materials,
       'runtimeType': instance.$type,
     };
-
-const _$WeaponTypeEnumMap = {
-  WeaponType.sword: 'sword',
-  WeaponType.claymore: 'claymore',
-  WeaponType.polearm: 'polearm',
-  WeaponType.bow: 'bow',
-  WeaponType.catalyst: 'catalyst',
-};
-
-const _$TeyvatElementEnumMap = {
-  TeyvatElement.pyro: 'pyro',
-  TeyvatElement.cryo: 'cryo',
-  TeyvatElement.hydro: 'hydro',
-  TeyvatElement.electro: 'electro',
-  TeyvatElement.anemo: 'anemo',
-  TeyvatElement.geo: 'geo',
-  TeyvatElement.dendro: 'dendro',
-};
-
-const _$TalentTypeEnumMap = {
-  TalentType.normalAttack: 'normalAttack',
-  TalentType.elementalSkill: 'elementalSkill',
-  TalentType.elementalBurst: 'elementalBurst',
-};
 
 _$CharacterGroupImpl _$$CharacterGroupImplFromJson(Map<String, dynamic> json) =>
     _$CharacterGroupImpl(
@@ -75,7 +50,7 @@ _$CharacterGroupImpl _$$CharacterGroupImplFromJson(Map<String, dynamic> json) =>
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
       rarity: json['rarity'] as int,
-      weaponType: $enumDecode(_$WeaponTypeEnumMap, json['weaponType']),
+      weaponType: json['weaponType'] as String,
       variantIds: (json['variantIds'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -91,7 +66,7 @@ Map<String, dynamic> _$$CharacterGroupImplToJson(
       'jaPronunciation': instance.jaPronunciation,
       'imageUrl': instance.imageUrl,
       'rarity': instance.rarity,
-      'weaponType': _$WeaponTypeEnumMap[instance.weaponType]!,
+      'weaponType': instance.weaponType,
       'variantIds': instance.variantIds,
       'materials': instance.materials,
       'runtimeType': instance.$type,
@@ -107,11 +82,11 @@ _$UnlistedCharacterImpl _$$UnlistedCharacterImplFromJson(
       jaPronunciation: json['jaPronunciation'] as String,
       smallImageUrl: json['smallImageUrl'] as String,
       rarity: json['rarity'] as int,
-      weaponType: $enumDecode(_$WeaponTypeEnumMap, json['weaponType']),
-      element: $enumDecode(_$TeyvatElementEnumMap, json['element']),
+      weaponType: json['weaponType'] as String,
+      element: json['element'] as String,
       talents: (json['talents'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry($enumDecode(_$TalentTypeEnumMap, k),
-            LocalizedText.fromJson(e as Map<String, dynamic>)),
+        (k, e) =>
+            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
       ),
       materials: Map<String, String>.from(json['materials'] as Map),
       $type: json['runtimeType'] as String?,
@@ -127,10 +102,9 @@ Map<String, dynamic> _$$UnlistedCharacterImplToJson(
       'jaPronunciation': instance.jaPronunciation,
       'smallImageUrl': instance.smallImageUrl,
       'rarity': instance.rarity,
-      'weaponType': _$WeaponTypeEnumMap[instance.weaponType]!,
-      'element': _$TeyvatElementEnumMap[instance.element]!,
-      'talents':
-          instance.talents.map((k, e) => MapEntry(_$TalentTypeEnumMap[k]!, e)),
+      'weaponType': instance.weaponType,
+      'element': instance.element,
+      'talents': instance.talents,
       'materials': instance.materials,
       'runtimeType': instance.$type,
     };

@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 84 (42 per locale)
+/// Strings: 74 (37 per locale)
 ///
-/// Built on 2024-03-06 at 09:53 UTC
+/// Built on 2024-03-12 at 03:52 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -14,7 +14,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:slang/builder/model/node.dart';
 import 'package:slang_flutter/slang_flutter.dart';
-
 export 'package:slang_flutter/slang_flutter.dart';
 
 const AppLocale _baseLocale = AppLocale.ja;
@@ -154,13 +153,6 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 		'normalAttack': '通常攻撃',
 		'elementalSkill': '元素スキル',
 		'elementalBurst': '元素爆発',
-	};
-	Map<String, String> get weaponTypes => {
-		'sword': '片手剣',
-		'claymore': '両手剣',
-		'polearm': '長柄武器',
-		'bow': '弓',
-		'catalyst': '法器',
 	};
 	late final _StringsUpdatesJa updates = _StringsUpdatesJa._(_root);
 	late final _StringsErrorsJa errors = _StringsErrorsJa._(_root);
@@ -319,13 +311,6 @@ class _StringsEn extends Translations {
 		'elementalSkill': 'Elemental Skill',
 		'elementalBurst': 'Elemental Burst',
 	};
-	@override Map<String, String> get weaponTypes => {
-		'sword': 'Sword',
-		'claymore': 'Claymore',
-		'polearm': 'Polearm',
-		'bow': 'Bow',
-		'catalyst': 'Catalyst',
-	};
 	@override late final _StringsUpdatesEn updates = _StringsUpdatesEn._(_root);
 	@override late final _StringsErrorsEn errors = _StringsErrorsEn._(_root);
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
@@ -466,11 +451,6 @@ extension on Translations {
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';
-			case 'weaponTypes.sword': return '片手剣';
-			case 'weaponTypes.claymore': return '両手剣';
-			case 'weaponTypes.polearm': return '長柄武器';
-			case 'weaponTypes.bow': return '弓';
-			case 'weaponTypes.catalyst': return '法器';
 			case 'updates.downloading': return 'データ更新をダウンロードしています…';
 			case 'updates.failed': return 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
 			case 'updates.completed': return '更新が完了しました。';
@@ -516,11 +496,6 @@ extension on _StringsEn {
 			case 'talentTypes.normalAttack': return 'Normal Attack';
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
-			case 'weaponTypes.sword': return 'Sword';
-			case 'weaponTypes.claymore': return 'Claymore';
-			case 'weaponTypes.polearm': return 'Polearm';
-			case 'weaponTypes.bow': return 'Bow';
-			case 'weaponTypes.catalyst': return 'Catalyst';
 			case 'updates.downloading': return 'Downloading data updates...';
 			case 'updates.failed': return 'Failed to load data. Try re-downloading from "Settings" -> "Re-download Assets".';
 			case 'updates.completed': return 'Data update completed.';

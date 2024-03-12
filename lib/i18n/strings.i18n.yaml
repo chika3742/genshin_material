@@ -9,12 +9,6 @@ talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル
   elementalBurst: 元素爆発
-weaponTypes(map):
-  sword: 片手剣
-  claymore: 両手剣
-  polearm: 長柄武器
-  bow: 弓
-  catalyst: 法器
 updates:
   downloading: データ更新をダウンロードしています…
   failed: データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。

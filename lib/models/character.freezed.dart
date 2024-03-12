@@ -32,7 +32,7 @@ mixin _$Character {
   LocalizedText get name => throw _privateConstructorUsedError;
   String get jaPronunciation => throw _privateConstructorUsedError;
   int get rarity => throw _privateConstructorUsedError;
-  WeaponType get weaponType => throw _privateConstructorUsedError;
+  String get weaponType => throw _privateConstructorUsedError;
   Map<String, String> get materials => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
@@ -44,9 +44,9 @@ mixin _$Character {
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)
         $default, {
     required TResult Function(
@@ -55,7 +55,7 @@ mixin _$Character {
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)
         group,
@@ -67,9 +67,9 @@ mixin _$Character {
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)
         unlisted,
   }) =>
@@ -84,9 +84,9 @@ mixin _$Character {
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         $default, {
     TResult? Function(
@@ -95,7 +95,7 @@ mixin _$Character {
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)?
         group,
@@ -107,9 +107,9 @@ mixin _$Character {
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         unlisted,
   }) =>
@@ -124,9 +124,9 @@ mixin _$Character {
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         $default, {
     TResult Function(
@@ -135,7 +135,7 @@ mixin _$Character {
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)?
         group,
@@ -147,9 +147,9 @@ mixin _$Character {
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         unlisted,
     required TResult orElse(),
@@ -193,7 +193,7 @@ abstract class $CharacterCopyWith<$Res> {
       LocalizedText name,
       String jaPronunciation,
       int rarity,
-      WeaponType weaponType,
+      String weaponType,
       Map<String, String> materials});
 
   $LocalizedTextCopyWith<$Res> get name;
@@ -239,7 +239,7 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
       weaponType: null == weaponType
           ? _value.weaponType
           : weaponType // ignore: cast_nullable_to_non_nullable
-              as WeaponType,
+              as String,
       materials: null == materials
           ? _value.materials
           : materials // ignore: cast_nullable_to_non_nullable
@@ -272,9 +272,9 @@ abstract class _$$ListedCharacterImplCopyWith<$Res>
       String imageUrl,
       String smallImageUrl,
       int rarity,
-      WeaponType weaponType,
-      TeyvatElement element,
-      Map<TalentType, LocalizedText> talents,
+      String weaponType,
+      String element,
+      Map<String, LocalizedText> talents,
       Map<String, String> materials});
 
   @override
@@ -336,15 +336,15 @@ class __$$ListedCharacterImplCopyWithImpl<$Res>
       weaponType: null == weaponType
           ? _value.weaponType
           : weaponType // ignore: cast_nullable_to_non_nullable
-              as WeaponType,
+              as String,
       element: null == element
           ? _value.element
           : element // ignore: cast_nullable_to_non_nullable
-              as TeyvatElement,
+              as String,
       talents: null == talents
           ? _value._talents
           : talents // ignore: cast_nullable_to_non_nullable
-              as Map<TalentType, LocalizedText>,
+              as Map<String, LocalizedText>,
       materials: null == materials
           ? _value._materials
           : materials // ignore: cast_nullable_to_non_nullable
@@ -367,7 +367,7 @@ class _$ListedCharacterImpl extends ListedCharacter
       required this.rarity,
       required this.weaponType,
       required this.element,
-      required final Map<TalentType, LocalizedText> talents,
+      required final Map<String, LocalizedText> talents,
       required final Map<String, String> materials,
       final String? $type})
       : _talents = talents,
@@ -393,12 +393,12 @@ class _$ListedCharacterImpl extends ListedCharacter
   @override
   final int rarity;
   @override
-  final WeaponType weaponType;
+  final String weaponType;
   @override
-  final TeyvatElement element;
-  final Map<TalentType, LocalizedText> _talents;
+  final String element;
+  final Map<String, LocalizedText> _talents;
   @override
-  Map<TalentType, LocalizedText> get talents {
+  Map<String, LocalizedText> get talents {
     if (_talents is EqualUnmodifiableMapView) return _talents;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_talents);
@@ -477,9 +477,9 @@ class _$ListedCharacterImpl extends ListedCharacter
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)
         $default, {
     required TResult Function(
@@ -488,7 +488,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)
         group,
@@ -500,9 +500,9 @@ class _$ListedCharacterImpl extends ListedCharacter
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)
         unlisted,
   }) {
@@ -521,9 +521,9 @@ class _$ListedCharacterImpl extends ListedCharacter
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         $default, {
     TResult? Function(
@@ -532,7 +532,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)?
         group,
@@ -544,9 +544,9 @@ class _$ListedCharacterImpl extends ListedCharacter
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         unlisted,
   }) {
@@ -565,9 +565,9 @@ class _$ListedCharacterImpl extends ListedCharacter
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         $default, {
     TResult Function(
@@ -576,7 +576,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)?
         group,
@@ -588,9 +588,9 @@ class _$ListedCharacterImpl extends ListedCharacter
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         unlisted,
     required TResult orElse(),
@@ -654,9 +654,9 @@ abstract class ListedCharacter extends Character
       required final String imageUrl,
       required final String smallImageUrl,
       required final int rarity,
-      required final WeaponType weaponType,
-      required final TeyvatElement element,
-      required final Map<TalentType, LocalizedText> talents,
+      required final String weaponType,
+      required final String element,
+      required final Map<String, LocalizedText> talents,
       required final Map<String, String> materials}) = _$ListedCharacterImpl;
   const ListedCharacter._() : super._();
 
@@ -675,9 +675,9 @@ abstract class ListedCharacter extends Character
   @override
   int get rarity;
   @override
-  WeaponType get weaponType;
-  TeyvatElement get element;
-  Map<TalentType, LocalizedText> get talents;
+  String get weaponType;
+  String get element;
+  Map<String, LocalizedText> get talents;
   @override
   Map<String, String> get materials;
   @override
@@ -700,7 +700,7 @@ abstract class _$$CharacterGroupImplCopyWith<$Res>
       String jaPronunciation,
       String imageUrl,
       int rarity,
-      WeaponType weaponType,
+      String weaponType,
       List<String> variantIds,
       Map<String, String> materials});
 
@@ -752,7 +752,7 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
       weaponType: null == weaponType
           ? _value.weaponType
           : weaponType // ignore: cast_nullable_to_non_nullable
-              as WeaponType,
+              as String,
       variantIds: null == variantIds
           ? _value._variantIds
           : variantIds // ignore: cast_nullable_to_non_nullable
@@ -797,7 +797,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
   @override
   final int rarity;
   @override
-  final WeaponType weaponType;
+  final String weaponType;
   final List<String> _variantIds;
   @override
   List<String> get variantIds {
@@ -873,9 +873,9 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)
         $default, {
     required TResult Function(
@@ -884,7 +884,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)
         group,
@@ -896,9 +896,9 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)
         unlisted,
   }) {
@@ -917,9 +917,9 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         $default, {
     TResult? Function(
@@ -928,7 +928,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)?
         group,
@@ -940,9 +940,9 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         unlisted,
   }) {
@@ -961,9 +961,9 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         $default, {
     TResult Function(
@@ -972,7 +972,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)?
         group,
@@ -984,9 +984,9 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         unlisted,
     required TResult orElse(),
@@ -1048,7 +1048,7 @@ abstract class CharacterGroup extends Character
       required final String jaPronunciation,
       required final String imageUrl,
       required final int rarity,
-      required final WeaponType weaponType,
+      required final String weaponType,
       required final List<String> variantIds,
       required final Map<String, String> materials}) = _$CharacterGroupImpl;
   const CharacterGroup._() : super._();
@@ -1066,7 +1066,7 @@ abstract class CharacterGroup extends Character
   @override
   int get rarity;
   @override
-  WeaponType get weaponType;
+  String get weaponType;
   List<String> get variantIds;
   @override
   Map<String, String> get materials;
@@ -1092,9 +1092,9 @@ abstract class _$$UnlistedCharacterImplCopyWith<$Res>
       String jaPronunciation,
       String smallImageUrl,
       int rarity,
-      WeaponType weaponType,
-      TeyvatElement element,
-      Map<TalentType, LocalizedText> talents,
+      String weaponType,
+      String element,
+      Map<String, LocalizedText> talents,
       Map<String, String> materials});
 
   @override
@@ -1156,15 +1156,15 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
       weaponType: null == weaponType
           ? _value.weaponType
           : weaponType // ignore: cast_nullable_to_non_nullable
-              as WeaponType,
+              as String,
       element: null == element
           ? _value.element
           : element // ignore: cast_nullable_to_non_nullable
-              as TeyvatElement,
+              as String,
       talents: null == talents
           ? _value._talents
           : talents // ignore: cast_nullable_to_non_nullable
-              as Map<TalentType, LocalizedText>,
+              as Map<String, LocalizedText>,
       materials: null == materials
           ? _value._materials
           : materials // ignore: cast_nullable_to_non_nullable
@@ -1187,7 +1187,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
       required this.rarity,
       required this.weaponType,
       required this.element,
-      required final Map<TalentType, LocalizedText> talents,
+      required final Map<String, LocalizedText> talents,
       required final Map<String, String> materials,
       final String? $type})
       : _talents = talents,
@@ -1213,12 +1213,12 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
   @override
   final int rarity;
   @override
-  final WeaponType weaponType;
+  final String weaponType;
   @override
-  final TeyvatElement element;
-  final Map<TalentType, LocalizedText> _talents;
+  final String element;
+  final Map<String, LocalizedText> _talents;
   @override
-  Map<TalentType, LocalizedText> get talents {
+  Map<String, LocalizedText> get talents {
     if (_talents is EqualUnmodifiableMapView) return _talents;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_talents);
@@ -1297,9 +1297,9 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)
         $default, {
     required TResult Function(
@@ -1308,7 +1308,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)
         group,
@@ -1320,9 +1320,9 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)
         unlisted,
   }) {
@@ -1341,9 +1341,9 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         $default, {
     TResult? Function(
@@ -1352,7 +1352,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)?
         group,
@@ -1364,9 +1364,9 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         unlisted,
   }) {
@@ -1385,9 +1385,9 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             String imageUrl,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         $default, {
     TResult Function(
@@ -1396,7 +1396,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             String jaPronunciation,
             String imageUrl,
             int rarity,
-            WeaponType weaponType,
+            String weaponType,
             List<String> variantIds,
             Map<String, String> materials)?
         group,
@@ -1408,9 +1408,9 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             String jaPronunciation,
             String smallImageUrl,
             int rarity,
-            WeaponType weaponType,
-            TeyvatElement element,
-            Map<TalentType, LocalizedText> talents,
+            String weaponType,
+            String element,
+            Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         unlisted,
     required TResult orElse(),
@@ -1474,9 +1474,9 @@ abstract class UnlistedCharacter extends Character
       required final String jaPronunciation,
       required final String smallImageUrl,
       required final int rarity,
-      required final WeaponType weaponType,
-      required final TeyvatElement element,
-      required final Map<TalentType, LocalizedText> talents,
+      required final String weaponType,
+      required final String element,
+      required final Map<String, LocalizedText> talents,
       required final Map<String, String> materials}) = _$UnlistedCharacterImpl;
   const UnlistedCharacter._() : super._();
 
@@ -1495,9 +1495,9 @@ abstract class UnlistedCharacter extends Character
   @override
   int get rarity;
   @override
-  WeaponType get weaponType;
-  TeyvatElement get element;
-  Map<TalentType, LocalizedText> get talents;
+  String get weaponType;
+  String get element;
+  Map<String, LocalizedText> get talents;
   @override
   Map<String, String> get materials;
   @override

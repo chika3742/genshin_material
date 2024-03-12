@@ -129,7 +129,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                       ),
                       const SizedBox(height: 4),
                       // weapon type
-                      Text(character.weaponType.text),
+                      Text(assetData.weaponTypes![character.weaponType]!.localized),
                     ],
                   ),
                 ],
@@ -226,7 +226,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                                         const TextSpan(text: "  "),
                                         TextSpan(
                                           text: character
-                                              .talents[TalentType.fromPurpose(purpose)]!
+                                              .talents[purpose.name]!
                                               .localized,
                                         ),
                                       ],
