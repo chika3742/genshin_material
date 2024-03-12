@@ -52,8 +52,7 @@ class MaterialDetailsPage extends StatelessWidget {
                       children: [
                         RarityStars(count: material.rarity),
                         Text(
-                          assetData.materialCategories!
-                              .firstWhere((c) => c.id == material.category).text.localized,
+                          assetData.materialCategories![material.category]!.localized,
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ],

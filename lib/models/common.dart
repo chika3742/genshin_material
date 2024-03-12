@@ -10,6 +10,8 @@ typedef TeyvatElement = String;
 
 typedef TalentType = String;
 
+typedef MaterialCategoryType = String;
+
 mixin ImageGetter {
   String get imageUrl;
 

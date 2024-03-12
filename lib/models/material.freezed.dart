@@ -21,7 +21,8 @@ MaterialData _$MaterialDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MaterialData {
   List<Material> get items => throw _privateConstructorUsedError;
-  List<MaterialCategory> get categories => throw _privateConstructorUsedError;
+  Map<String, LocalizedText> get categories =>
+      throw _privateConstructorUsedError;
   Map<String, int> get sortOrder => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +39,7 @@ abstract class $MaterialDataCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Material> items,
-      List<MaterialCategory> categories,
+      Map<String, LocalizedText> categories,
       Map<String, int> sortOrder});
 }
 
@@ -67,7 +68,7 @@ class _$MaterialDataCopyWithImpl<$Res, $Val extends MaterialData>
       categories: null == categories
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
-              as List<MaterialCategory>,
+              as Map<String, LocalizedText>,
       sortOrder: null == sortOrder
           ? _value.sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
@@ -86,7 +87,7 @@ abstract class _$$MaterialDataImplCopyWith<$Res>
   @useResult
   $Res call(
       {List<Material> items,
-      List<MaterialCategory> categories,
+      Map<String, LocalizedText> categories,
       Map<String, int> sortOrder});
 }
 
@@ -113,7 +114,7 @@ class __$$MaterialDataImplCopyWithImpl<$Res>
       categories: null == categories
           ? _value._categories
           : categories // ignore: cast_nullable_to_non_nullable
-              as List<MaterialCategory>,
+              as Map<String, LocalizedText>,
       sortOrder: null == sortOrder
           ? _value._sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
@@ -127,7 +128,7 @@ class __$$MaterialDataImplCopyWithImpl<$Res>
 class _$MaterialDataImpl implements _MaterialData {
   const _$MaterialDataImpl(
       {required final List<Material> items,
-      required final List<MaterialCategory> categories,
+      required final Map<String, LocalizedText> categories,
       required final Map<String, int> sortOrder})
       : _items = items,
         _categories = categories,
@@ -144,12 +145,12 @@ class _$MaterialDataImpl implements _MaterialData {
     return EqualUnmodifiableListView(_items);
   }
 
-  final List<MaterialCategory> _categories;
+  final Map<String, LocalizedText> _categories;
   @override
-  List<MaterialCategory> get categories {
-    if (_categories is EqualUnmodifiableListView) return _categories;
+  Map<String, LocalizedText> get categories {
+    if (_categories is EqualUnmodifiableMapView) return _categories;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_categories);
+    return EqualUnmodifiableMapView(_categories);
   }
 
   final Map<String, int> _sortOrder;
@@ -202,7 +203,7 @@ class _$MaterialDataImpl implements _MaterialData {
 abstract class _MaterialData implements MaterialData {
   const factory _MaterialData(
       {required final List<Material> items,
-      required final List<MaterialCategory> categories,
+      required final Map<String, LocalizedText> categories,
       required final Map<String, int> sortOrder}) = _$MaterialDataImpl;
 
   factory _MaterialData.fromJson(Map<String, dynamic> json) =
@@ -211,7 +212,7 @@ abstract class _MaterialData implements MaterialData {
   @override
   List<Material> get items;
   @override
-  List<MaterialCategory> get categories;
+  Map<String, LocalizedText> get categories;
   @override
   Map<String, int> get sortOrder;
   @override
@@ -516,173 +517,5 @@ abstract class _Material extends Material {
   @override
   @JsonKey(ignore: true)
   _$$MaterialImplCopyWith<_$MaterialImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-MaterialCategory _$MaterialCategoryFromJson(Map<String, dynamic> json) {
-  return _MaterialCategory.fromJson(json);
-}
-
-/// @nodoc
-mixin _$MaterialCategory {
-  String get id => throw _privateConstructorUsedError;
-  LocalizedText get text => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $MaterialCategoryCopyWith<MaterialCategory> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MaterialCategoryCopyWith<$Res> {
-  factory $MaterialCategoryCopyWith(
-          MaterialCategory value, $Res Function(MaterialCategory) then) =
-      _$MaterialCategoryCopyWithImpl<$Res, MaterialCategory>;
-  @useResult
-  $Res call({String id, LocalizedText text});
-
-  $LocalizedTextCopyWith<$Res> get text;
-}
-
-/// @nodoc
-class _$MaterialCategoryCopyWithImpl<$Res, $Val extends MaterialCategory>
-    implements $MaterialCategoryCopyWith<$Res> {
-  _$MaterialCategoryCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? text = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get text {
-    return $LocalizedTextCopyWith<$Res>(_value.text, (value) {
-      return _then(_value.copyWith(text: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$MaterialCategoryImplCopyWith<$Res>
-    implements $MaterialCategoryCopyWith<$Res> {
-  factory _$$MaterialCategoryImplCopyWith(_$MaterialCategoryImpl value,
-          $Res Function(_$MaterialCategoryImpl) then) =
-      __$$MaterialCategoryImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String id, LocalizedText text});
-
-  @override
-  $LocalizedTextCopyWith<$Res> get text;
-}
-
-/// @nodoc
-class __$$MaterialCategoryImplCopyWithImpl<$Res>
-    extends _$MaterialCategoryCopyWithImpl<$Res, _$MaterialCategoryImpl>
-    implements _$$MaterialCategoryImplCopyWith<$Res> {
-  __$$MaterialCategoryImplCopyWithImpl(_$MaterialCategoryImpl _value,
-      $Res Function(_$MaterialCategoryImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? text = null,
-  }) {
-    return _then(_$MaterialCategoryImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MaterialCategoryImpl implements _MaterialCategory {
-  const _$MaterialCategoryImpl({required this.id, required this.text});
-
-  factory _$MaterialCategoryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaterialCategoryImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final LocalizedText text;
-
-  @override
-  String toString() {
-    return 'MaterialCategory(id: $id, text: $text)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MaterialCategoryImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.text, text) || other.text == text));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, text);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaterialCategoryImplCopyWith<_$MaterialCategoryImpl> get copyWith =>
-      __$$MaterialCategoryImplCopyWithImpl<_$MaterialCategoryImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MaterialCategoryImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _MaterialCategory implements MaterialCategory {
-  const factory _MaterialCategory(
-      {required final String id,
-      required final LocalizedText text}) = _$MaterialCategoryImpl;
-
-  factory _MaterialCategory.fromJson(Map<String, dynamic> json) =
-      _$MaterialCategoryImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  LocalizedText get text;
-  @override
-  @JsonKey(ignore: true)
-  _$$MaterialCategoryImplCopyWith<_$MaterialCategoryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

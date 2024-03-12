@@ -37,14 +37,17 @@ class MaterialListPage extends StatelessWidget {
 
                 return ListIndexSheet(
                   listScrollController: _scrollController,
-                  items: assetData.materialCategories!
+                  items: assetData.materialCategories!.entries
                       .map((e) {
+                        final categoryId = e.key;
+                        final categoryText = e.value.localized;
+
                         final item = ListIndexItem(
-                          title: e.text.localized,
-                          image: materialsGroupedByCategory[e.id]!.first.getImageFile(assetData.assetDir!),
+                          title: categoryText,
+                          image: materialsGroupedByCategory[categoryId]!.first.getImageFile(assetData.assetDir!),
                           scrollOffset: offset,
                         );
-                        offset += StickyListHeader.height + _listTileHeight * materialsGroupedByCategory[e.id]!.length;
+                        offset += StickyListHeader.height + (_listTileHeight * materialsGroupedByCategory[categoryId]!.length);
                         return item;
                   }).toList(),
                 );
@@ -62,14 +65,17 @@ class MaterialListPage extends StatelessWidget {
               .groupListsBy((element) => element.category);
           return CustomScrollView(
             controller: _scrollController,
-            slivers: categories.map((e) {
+            slivers: categories.entries.map((e) {
+              final categoryId = e.key;
+              final categoryText = e.value.localized;
+
               return SliverStickyHeader.builder(
-                key: GlobalObjectKey(e.id),
-                builder: (_, __) => StickyListHeader(e.text.localized),
+                builder: (_, __) => StickyListHeader(categoryText),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
                         (context, index) {
-                      final material = materialsGroupedByCategory[e.id]![index];
+                      final material = materialsGroupedByCategory[categoryId]![index];
+
                       return ListTile(
                         leading: Image.file(
                           material.getImageFile(assetData.assetDir!),
@@ -104,7 +110,7 @@ class MaterialListPage extends StatelessWidget {
                         },
                       );
                     },
-                    childCount: materialsGroupedByCategory[e.id]!.length,
+                    childCount: materialsGroupedByCategory[categoryId]!.length,
                   ),
                 ),
               );

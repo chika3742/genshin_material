@@ -23,10 +23,10 @@ class AssetDataCache {
   AssetReleaseVersion? version;
   List<Character>? characters;
   CharacterIngredients? characterIngredients;
-  Map<String, LocalizedText>? weaponTypes;
+  Map<WeaponType, LocalizedText>? weaponTypes;
   Map<TeyvatElement, Element>? elements;
   List<Material>? materials;
-  List<MaterialCategory>? materialCategories;
+  Map<MaterialCategoryType, LocalizedText>? materialCategories;
   Map<String, int>? materialSortOrder;
 
   Future<void> init() async {
