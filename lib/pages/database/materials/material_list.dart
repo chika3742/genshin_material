@@ -1,3 +1,5 @@
+import "dart:math";
+
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_sticky_header/flutter_sticky_header.dart";
@@ -36,7 +38,13 @@ class MaterialListPage extends StatelessWidget {
                     .groupListsBy((element) => element.category);
 
                 return ListIndexSheet(
-                  listScrollController: _scrollController,
+                  onSelected: (scrollOffset) {
+                    _scrollController.animateTo(
+                      min(scrollOffset, _scrollController.position.maxScrollExtent),
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOutQuint,
+                    );
+                  },
                   items: assetData.materialCategories!.entries
                       .map((e) {
                         final categoryId = e.key;
