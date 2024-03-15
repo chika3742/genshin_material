@@ -6,7 +6,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../core/theme.dart";
 
-class SimpleListItem extends StatelessWidget {
+class SimpleListTile extends StatelessWidget {
   final String? title;
   final String? subtitle;
   final IconData? leadingIcon;
@@ -19,7 +19,7 @@ class SimpleListItem extends StatelessWidget {
   /// Exclusive with [location]
   final void Function()? onTap;
 
-  const SimpleListItem({
+  const SimpleListTile({
     super.key,
     this.title,
     this.subtitle,
@@ -100,4 +100,3 @@ class GameItemListTile extends StatelessWidget {
     );
   }
 }
-

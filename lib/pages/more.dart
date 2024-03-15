@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
-import "../../../components/list_items.dart";
+import "../../../components/list_tile.dart";
 import "../../../constants/urls.dart";
 import "../../../core/handle_error.dart";
 import "../../../i18n/strings.g.dart";
@@ -28,25 +28,25 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
       ),
       body: ListView(
         children: [
-          SimpleListItem(
+          SimpleListTile(
             title: tr.pages.settings,
             leadingIcon: Symbols.settings,
             location: SettingsRoute().location,
           ),
-          SimpleListItem(
+          SimpleListTile(
             title: tr.pages.account,
             subtitle: tr.morePage.accountDesc,
             leadingIcon: Symbols.account_box,
             location: AccountRoute().location,
           ),
           const Divider(),
-          SimpleListItem(
+          SimpleListTile(
             title: tr.pages.releaseNotes,
             leadingIcon: Symbols.new_releases,
             location: const ReleaseNotesRoute().location,
           ),
           const Divider(),
-          SimpleListItem(
+          SimpleListTile(
             title: tr.common.tos,
             leadingIcon: Symbols.gavel,
             trailingIcon: Symbols.open_in_browser,
@@ -54,7 +54,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
               launchCustomTab(tosUrl);
             },
           ),
-          SimpleListItem(
+          SimpleListTile(
             title: tr.common.privacyPolicy,
             leadingIcon: Symbols.policy,
             trailingIcon: Symbols.open_in_browser,

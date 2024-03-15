@@ -7,7 +7,7 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../../../components/data_asset_scope.dart";
 import "../../../components/list_index_sheet.dart";
-import "../../../components/list_items.dart";
+import "../../../components/list_tile.dart";
 import "../../../components/sticky_list_header.dart";
 import "../../../constants/dimens.dart";
 import "../../../i18n/strings.g.dart";
