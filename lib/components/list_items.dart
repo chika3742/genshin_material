@@ -1,6 +1,10 @@
+import "dart:io";
+
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
+
+import "../core/theme.dart";
 
 class SimpleListItem extends StatelessWidget {
   final String? title;
@@ -46,3 +50,54 @@ class SimpleListItem extends StatelessWidget {
     );
   }
 }
+
+class GameItemListTile extends StatelessWidget {
+  final File image;
+  final String name;
+  final int rarity;
+  final void Function()? onTap;
+
+  const GameItemListTile({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.rarity,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Image.file(
+        image,
+        width: 36,
+        height: 36,
+      ),
+      title: Text(name),
+      trailing: Container(
+        width: 48,
+        height: 30,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Theme.of(context)
+                .extension<ComponentThemeExtension>()!
+                .getRarityColor(rarity),
+          ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Text(
+          "★$rarity",
+          style: TextStyle(
+            fontSize: 14,
+            color: Theme.of(context)
+                .extension<ComponentThemeExtension>()!
+                .getRarityColor(rarity),
+          ),
+        ),
+      ),
+      onTap: onTap,
+    );
+  }
+}
+

@@ -21,6 +21,8 @@ errors:
 pages:
   characters: キャラクター
   characterDetails: $character - キャラクター
+  weapons: 武器
+  weaponDetails: $weapon - 武器
   materials: 素材一覧(逆引き)
   materialDetails: $material - 素材
   settings: 設定

@@ -23,6 +23,8 @@ class AssetDataCache {
   AssetReleaseVersion? version;
   List<Character>? characters;
   CharacterIngredients? characterIngredients;
+  List<Weapon>? weapons;
+  Map<WeaponSubStat, LocalizedText>? weaponSubStats;
   Map<WeaponType, LocalizedText>? weaponTypes;
   Map<TeyvatElement, Element>? elements;
   List<Material>? materials;
@@ -48,6 +50,8 @@ class AssetDataCache {
     final weaponData = WeaponData.fromJson(
       await loadDataAsset<Map<String, dynamic>>("weapons.yaml"),
     );
+    weapons = weaponData.items;
+    weaponSubStats = weaponData.subStats;
     weaponTypes = weaponData.types;
     elements = (await loadDataAsset<Map<String, dynamic>>("elements.yaml")).map((key, value) {
       return MapEntry(

@@ -3,8 +3,8 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 import "package:path_provider/path_provider.dart";
 
+import "../components/list_items.dart";
 import "../components/list_subheader.dart";
-import "../components/simple_list_item.dart";
 import "../core/asset_updater.dart";
 import "../core/handle_error.dart";
 import "../i18n/strings.g.dart";

@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:material_symbols_icons/symbols.dart";
 
-import "../../components/simple_list_item.dart";
+import "../../components/list_items.dart";
 import "../../i18n/strings.g.dart";
 import "../../routes.dart";
 
@@ -20,6 +20,11 @@ class DatabasePage extends StatelessWidget {
             title: tr.pages.characters,
             leadingIcon: Symbols.account_circle,
             location: CharacterListRoute().location,
+          ),
+          SimpleListItem(
+            title: tr.pages.weapons,
+            leadingIcon: Symbols.swords,
+            location: WeaponListRoute().location,
           ),
           SimpleListItem(
             title: tr.pages.materials,

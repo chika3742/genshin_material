@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
-import "../../../components/simple_list_item.dart";
+import "../../../components/list_items.dart";
 import "../../../constants/urls.dart";
 import "../../../core/handle_error.dart";
 import "../../../i18n/strings.g.dart";

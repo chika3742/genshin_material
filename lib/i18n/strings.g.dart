@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 74 (37 per locale)
+/// Strings: 76 (38 per locale)
 ///
-/// Built on 2024-03-12 at 03:52 UTC
+/// Built on 2024-03-12 at 09:59 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -14,6 +14,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:slang/builder/model/node.dart';
 import 'package:slang_flutter/slang_flutter.dart';
+
 export 'package:slang_flutter/slang_flutter.dart';
 
 const AppLocale _baseLocale = AppLocale.ja;
@@ -213,6 +214,8 @@ class _StringsPagesJa {
 	// Translations
 	String get characters => 'キャラクター';
 	String characterDetails({required Object character}) => '${character} - キャラクター';
+	String get weapons => '武器';
+	String weaponDetails({required Object weapon}) => '${weapon} - 武器';
 	String get materials => '素材一覧(逆引き)';
 	String materialDetails({required Object material}) => '${material} - 素材';
 	String get settings => '設定';
@@ -460,6 +463,8 @@ extension on Translations {
 			case 'errors.materialNotFound': return '素材が見つかりません';
 			case 'pages.characters': return 'キャラクター';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - キャラクター';
+			case 'pages.weapons': return '武器';
+			case 'pages.weaponDetails': return ({required Object weapon}) => '${weapon} - 武器';
 			case 'pages.materials': return '素材一覧(逆引き)';
 			case 'pages.materialDetails': return ({required Object material}) => '${material} - 素材';
 			case 'pages.settings': return '設定';
