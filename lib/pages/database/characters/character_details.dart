@@ -163,6 +163,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                         MaterialItem(
                           material: assetData.materials!.firstWhereOrNull((e) => e.id == material.id),
                           bookmarkableMaterial: material,
+                          expItems: assetData.characterIngredients!.expItems,
                         ),
                     ],
                   ),

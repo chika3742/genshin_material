@@ -2,6 +2,7 @@ import "package:flutter/material.dart" hide Material;
 
 import "../core/asset_cache.dart";
 import "../models/bookmarkable_material.dart";
+import "../models/character_ingredients.dart";
 import "../models/common.dart";
 import "../models/material.dart";
 import "material_card.dart";
@@ -10,11 +11,13 @@ import "material_card.dart";
 class MaterialItem extends StatefulWidget {
   final Material? material;
   final BookmarkableMaterial bookmarkableMaterial;
+  final List<ExpItem>? expItems;
 
   const MaterialItem({
     super.key,
-    this.material,
     required this.bookmarkableMaterial,
+    this.material,
+    this.expItems,
   });
 
   @override
@@ -27,10 +30,18 @@ class _MaterialItemState extends State<MaterialItem> {
   @override
   Widget build(BuildContext context) {
     final assetData = AssetDataCache.instance;
-    final expItem = assetData.characterIngredients!.expItems[_currentExpItemIndex];
-    final material = widget.material ?? assetData.materials!
-        .firstWhere((e) => e.id == expItem.itemId);
-    final quantity = widget.material != null ? widget.bookmarkableMaterial.sum : (widget.bookmarkableMaterial.sum / expItem.expPerItem).ceil();
+
+    Material material;
+    int quantity;
+    if (widget.material != null) {
+      material = widget.material!;
+      quantity = widget.bookmarkableMaterial.sum;
+    } else {
+      final expItem = widget.expItems![_currentExpItemIndex];
+      material = assetData.materials!
+          .firstWhere((e) => e.id == expItem.itemId);
+      quantity = (widget.bookmarkableMaterial.sum / expItem.expPerItem).ceil();
+    }
 
     return MaterialCard(
       image: material.getImageFile(assetData.assetDir!),
