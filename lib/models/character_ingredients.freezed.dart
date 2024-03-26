@@ -355,8 +355,7 @@ CharacterIngredientsLevels _$CharacterIngredientsLevelsFromJson(
 
 /// @nodoc
 mixin _$CharacterIngredientsLevels {
-  Map<int, List<CharacterIngredient>> get levels =>
-      throw _privateConstructorUsedError;
+  Map<int, List<Ingredient>> get levels => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -371,7 +370,7 @@ abstract class $CharacterIngredientsLevelsCopyWith<$Res> {
       _$CharacterIngredientsLevelsCopyWithImpl<$Res,
           CharacterIngredientsLevels>;
   @useResult
-  $Res call({Map<int, List<CharacterIngredient>> levels});
+  $Res call({Map<int, List<Ingredient>> levels});
 }
 
 /// @nodoc
@@ -394,7 +393,7 @@ class _$CharacterIngredientsLevelsCopyWithImpl<$Res,
       levels: null == levels
           ? _value.levels
           : levels // ignore: cast_nullable_to_non_nullable
-              as Map<int, List<CharacterIngredient>>,
+              as Map<int, List<Ingredient>>,
     ) as $Val);
   }
 }
@@ -408,7 +407,7 @@ abstract class _$$CharacterIngredientsLevelsImplCopyWith<$Res>
       __$$CharacterIngredientsLevelsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<int, List<CharacterIngredient>> levels});
+  $Res call({Map<int, List<Ingredient>> levels});
 }
 
 /// @nodoc
@@ -430,7 +429,7 @@ class __$$CharacterIngredientsLevelsImplCopyWithImpl<$Res>
       levels: null == levels
           ? _value._levels
           : levels // ignore: cast_nullable_to_non_nullable
-              as Map<int, List<CharacterIngredient>>,
+              as Map<int, List<Ingredient>>,
     ));
   }
 }
@@ -439,16 +438,16 @@ class __$$CharacterIngredientsLevelsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CharacterIngredientsLevelsImpl implements _CharacterIngredientsLevels {
   const _$CharacterIngredientsLevelsImpl(
-      {required final Map<int, List<CharacterIngredient>> levels})
+      {required final Map<int, List<Ingredient>> levels})
       : _levels = levels;
 
   factory _$CharacterIngredientsLevelsImpl.fromJson(
           Map<String, dynamic> json) =>
       _$$CharacterIngredientsLevelsImplFromJson(json);
 
-  final Map<int, List<CharacterIngredient>> _levels;
+  final Map<int, List<Ingredient>> _levels;
   @override
-  Map<int, List<CharacterIngredient>> get levels {
+  Map<int, List<Ingredient>> get levels {
     if (_levels is EqualUnmodifiableMapView) return _levels;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_levels);
@@ -490,636 +489,16 @@ class _$CharacterIngredientsLevelsImpl implements _CharacterIngredientsLevels {
 abstract class _CharacterIngredientsLevels
     implements CharacterIngredientsLevels {
   const factory _CharacterIngredientsLevels(
-          {required final Map<int, List<CharacterIngredient>> levels}) =
+          {required final Map<int, List<Ingredient>> levels}) =
       _$CharacterIngredientsLevelsImpl;
 
   factory _CharacterIngredientsLevels.fromJson(Map<String, dynamic> json) =
       _$CharacterIngredientsLevelsImpl.fromJson;
 
   @override
-  Map<int, List<CharacterIngredient>> get levels;
+  Map<int, List<Ingredient>> get levels;
   @override
   @JsonKey(ignore: true)
   _$$CharacterIngredientsLevelsImplCopyWith<_$CharacterIngredientsLevelsImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-CharacterIngredient _$CharacterIngredientFromJson(Map<String, dynamic> json) {
-  switch (json['runtimeType']) {
-    case 'byType':
-      return CharacterIngredientByType.fromJson(json);
-    case 'exp':
-      return CharacterIngredientExp.fromJson(json);
-    case 'fixed':
-      return CharacterIngredientWithFixedId.fromJson(json);
-
-    default:
-      throw CheckedFromJsonException(json, 'runtimeType', 'CharacterIngredient',
-          'Invalid union type "${json['runtimeType']}"!');
-  }
-}
-
-/// @nodoc
-mixin _$CharacterIngredient {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String type, int quantity, int? craftLevel)
-        byType,
-    required TResult Function(int exp) exp,
-    required TResult Function(String itemId, int quantity) fixed,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String type, int quantity, int? craftLevel)? byType,
-    TResult? Function(int exp)? exp,
-    TResult? Function(String itemId, int quantity)? fixed,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String type, int quantity, int? craftLevel)? byType,
-    TResult Function(int exp)? exp,
-    TResult Function(String itemId, int quantity)? fixed,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(CharacterIngredientByType value) byType,
-    required TResult Function(CharacterIngredientExp value) exp,
-    required TResult Function(CharacterIngredientWithFixedId value) fixed,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CharacterIngredientByType value)? byType,
-    TResult? Function(CharacterIngredientExp value)? exp,
-    TResult? Function(CharacterIngredientWithFixedId value)? fixed,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(CharacterIngredientByType value)? byType,
-    TResult Function(CharacterIngredientExp value)? exp,
-    TResult Function(CharacterIngredientWithFixedId value)? fixed,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $CharacterIngredientCopyWith<$Res> {
-  factory $CharacterIngredientCopyWith(
-          CharacterIngredient value, $Res Function(CharacterIngredient) then) =
-      _$CharacterIngredientCopyWithImpl<$Res, CharacterIngredient>;
-}
-
-/// @nodoc
-class _$CharacterIngredientCopyWithImpl<$Res, $Val extends CharacterIngredient>
-    implements $CharacterIngredientCopyWith<$Res> {
-  _$CharacterIngredientCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-}
-
-/// @nodoc
-abstract class _$$CharacterIngredientByTypeImplCopyWith<$Res> {
-  factory _$$CharacterIngredientByTypeImplCopyWith(
-          _$CharacterIngredientByTypeImpl value,
-          $Res Function(_$CharacterIngredientByTypeImpl) then) =
-      __$$CharacterIngredientByTypeImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String type, int quantity, int? craftLevel});
-}
-
-/// @nodoc
-class __$$CharacterIngredientByTypeImplCopyWithImpl<$Res>
-    extends _$CharacterIngredientCopyWithImpl<$Res,
-        _$CharacterIngredientByTypeImpl>
-    implements _$$CharacterIngredientByTypeImplCopyWith<$Res> {
-  __$$CharacterIngredientByTypeImplCopyWithImpl(
-      _$CharacterIngredientByTypeImpl _value,
-      $Res Function(_$CharacterIngredientByTypeImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-    Object? quantity = null,
-    Object? craftLevel = freezed,
-  }) {
-    return _then(_$CharacterIngredientByTypeImpl(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      quantity: null == quantity
-          ? _value.quantity
-          : quantity // ignore: cast_nullable_to_non_nullable
-              as int,
-      craftLevel: freezed == craftLevel
-          ? _value.craftLevel
-          : craftLevel // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$CharacterIngredientByTypeImpl extends CharacterIngredientByType {
-  const _$CharacterIngredientByTypeImpl(
-      {required this.type,
-      required this.quantity,
-      this.craftLevel,
-      final String? $type})
-      : $type = $type ?? 'byType',
-        super._();
-
-  factory _$CharacterIngredientByTypeImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CharacterIngredientByTypeImplFromJson(json);
-
-  @override
-  final String type;
-  @override
-  final int quantity;
-  @override
-  final int? craftLevel;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'CharacterIngredient.byType(type: $type, quantity: $quantity, craftLevel: $craftLevel)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CharacterIngredientByTypeImpl &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.quantity, quantity) ||
-                other.quantity == quantity) &&
-            (identical(other.craftLevel, craftLevel) ||
-                other.craftLevel == craftLevel));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, type, quantity, craftLevel);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CharacterIngredientByTypeImplCopyWith<_$CharacterIngredientByTypeImpl>
-      get copyWith => __$$CharacterIngredientByTypeImplCopyWithImpl<
-          _$CharacterIngredientByTypeImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String type, int quantity, int? craftLevel)
-        byType,
-    required TResult Function(int exp) exp,
-    required TResult Function(String itemId, int quantity) fixed,
-  }) {
-    return byType(type, quantity, craftLevel);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String type, int quantity, int? craftLevel)? byType,
-    TResult? Function(int exp)? exp,
-    TResult? Function(String itemId, int quantity)? fixed,
-  }) {
-    return byType?.call(type, quantity, craftLevel);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String type, int quantity, int? craftLevel)? byType,
-    TResult Function(int exp)? exp,
-    TResult Function(String itemId, int quantity)? fixed,
-    required TResult orElse(),
-  }) {
-    if (byType != null) {
-      return byType(type, quantity, craftLevel);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(CharacterIngredientByType value) byType,
-    required TResult Function(CharacterIngredientExp value) exp,
-    required TResult Function(CharacterIngredientWithFixedId value) fixed,
-  }) {
-    return byType(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CharacterIngredientByType value)? byType,
-    TResult? Function(CharacterIngredientExp value)? exp,
-    TResult? Function(CharacterIngredientWithFixedId value)? fixed,
-  }) {
-    return byType?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(CharacterIngredientByType value)? byType,
-    TResult Function(CharacterIngredientExp value)? exp,
-    TResult Function(CharacterIngredientWithFixedId value)? fixed,
-    required TResult orElse(),
-  }) {
-    if (byType != null) {
-      return byType(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CharacterIngredientByTypeImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class CharacterIngredientByType extends CharacterIngredient {
-  const factory CharacterIngredientByType(
-      {required final String type,
-      required final int quantity,
-      final int? craftLevel}) = _$CharacterIngredientByTypeImpl;
-  const CharacterIngredientByType._() : super._();
-
-  factory CharacterIngredientByType.fromJson(Map<String, dynamic> json) =
-      _$CharacterIngredientByTypeImpl.fromJson;
-
-  String get type;
-  int get quantity;
-  int? get craftLevel;
-  @JsonKey(ignore: true)
-  _$$CharacterIngredientByTypeImplCopyWith<_$CharacterIngredientByTypeImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$CharacterIngredientExpImplCopyWith<$Res> {
-  factory _$$CharacterIngredientExpImplCopyWith(
-          _$CharacterIngredientExpImpl value,
-          $Res Function(_$CharacterIngredientExpImpl) then) =
-      __$$CharacterIngredientExpImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({int exp});
-}
-
-/// @nodoc
-class __$$CharacterIngredientExpImplCopyWithImpl<$Res>
-    extends _$CharacterIngredientCopyWithImpl<$Res,
-        _$CharacterIngredientExpImpl>
-    implements _$$CharacterIngredientExpImplCopyWith<$Res> {
-  __$$CharacterIngredientExpImplCopyWithImpl(
-      _$CharacterIngredientExpImpl _value,
-      $Res Function(_$CharacterIngredientExpImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? exp = null,
-  }) {
-    return _then(_$CharacterIngredientExpImpl(
-      exp: null == exp
-          ? _value.exp
-          : exp // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$CharacterIngredientExpImpl extends CharacterIngredientExp {
-  const _$CharacterIngredientExpImpl({required this.exp, final String? $type})
-      : $type = $type ?? 'exp',
-        super._();
-
-  factory _$CharacterIngredientExpImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CharacterIngredientExpImplFromJson(json);
-
-  @override
-  final int exp;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'CharacterIngredient.exp(exp: $exp)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CharacterIngredientExpImpl &&
-            (identical(other.exp, exp) || other.exp == exp));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, exp);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CharacterIngredientExpImplCopyWith<_$CharacterIngredientExpImpl>
-      get copyWith => __$$CharacterIngredientExpImplCopyWithImpl<
-          _$CharacterIngredientExpImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String type, int quantity, int? craftLevel)
-        byType,
-    required TResult Function(int exp) exp,
-    required TResult Function(String itemId, int quantity) fixed,
-  }) {
-    return exp(this.exp);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String type, int quantity, int? craftLevel)? byType,
-    TResult? Function(int exp)? exp,
-    TResult? Function(String itemId, int quantity)? fixed,
-  }) {
-    return exp?.call(this.exp);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String type, int quantity, int? craftLevel)? byType,
-    TResult Function(int exp)? exp,
-    TResult Function(String itemId, int quantity)? fixed,
-    required TResult orElse(),
-  }) {
-    if (exp != null) {
-      return exp(this.exp);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(CharacterIngredientByType value) byType,
-    required TResult Function(CharacterIngredientExp value) exp,
-    required TResult Function(CharacterIngredientWithFixedId value) fixed,
-  }) {
-    return exp(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CharacterIngredientByType value)? byType,
-    TResult? Function(CharacterIngredientExp value)? exp,
-    TResult? Function(CharacterIngredientWithFixedId value)? fixed,
-  }) {
-    return exp?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(CharacterIngredientByType value)? byType,
-    TResult Function(CharacterIngredientExp value)? exp,
-    TResult Function(CharacterIngredientWithFixedId value)? fixed,
-    required TResult orElse(),
-  }) {
-    if (exp != null) {
-      return exp(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CharacterIngredientExpImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class CharacterIngredientExp extends CharacterIngredient {
-  const factory CharacterIngredientExp({required final int exp}) =
-      _$CharacterIngredientExpImpl;
-  const CharacterIngredientExp._() : super._();
-
-  factory CharacterIngredientExp.fromJson(Map<String, dynamic> json) =
-      _$CharacterIngredientExpImpl.fromJson;
-
-  int get exp;
-  @JsonKey(ignore: true)
-  _$$CharacterIngredientExpImplCopyWith<_$CharacterIngredientExpImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$CharacterIngredientWithFixedIdImplCopyWith<$Res> {
-  factory _$$CharacterIngredientWithFixedIdImplCopyWith(
-          _$CharacterIngredientWithFixedIdImpl value,
-          $Res Function(_$CharacterIngredientWithFixedIdImpl) then) =
-      __$$CharacterIngredientWithFixedIdImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String itemId, int quantity});
-}
-
-/// @nodoc
-class __$$CharacterIngredientWithFixedIdImplCopyWithImpl<$Res>
-    extends _$CharacterIngredientCopyWithImpl<$Res,
-        _$CharacterIngredientWithFixedIdImpl>
-    implements _$$CharacterIngredientWithFixedIdImplCopyWith<$Res> {
-  __$$CharacterIngredientWithFixedIdImplCopyWithImpl(
-      _$CharacterIngredientWithFixedIdImpl _value,
-      $Res Function(_$CharacterIngredientWithFixedIdImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? itemId = null,
-    Object? quantity = null,
-  }) {
-    return _then(_$CharacterIngredientWithFixedIdImpl(
-      itemId: null == itemId
-          ? _value.itemId
-          : itemId // ignore: cast_nullable_to_non_nullable
-              as String,
-      quantity: null == quantity
-          ? _value.quantity
-          : quantity // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$CharacterIngredientWithFixedIdImpl
-    extends CharacterIngredientWithFixedId {
-  const _$CharacterIngredientWithFixedIdImpl(
-      {required this.itemId, required this.quantity, final String? $type})
-      : $type = $type ?? 'fixed',
-        super._();
-
-  factory _$CharacterIngredientWithFixedIdImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$CharacterIngredientWithFixedIdImplFromJson(json);
-
-  @override
-  final String itemId;
-  @override
-  final int quantity;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'CharacterIngredient.fixed(itemId: $itemId, quantity: $quantity)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CharacterIngredientWithFixedIdImpl &&
-            (identical(other.itemId, itemId) || other.itemId == itemId) &&
-            (identical(other.quantity, quantity) ||
-                other.quantity == quantity));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, itemId, quantity);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CharacterIngredientWithFixedIdImplCopyWith<
-          _$CharacterIngredientWithFixedIdImpl>
-      get copyWith => __$$CharacterIngredientWithFixedIdImplCopyWithImpl<
-          _$CharacterIngredientWithFixedIdImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String type, int quantity, int? craftLevel)
-        byType,
-    required TResult Function(int exp) exp,
-    required TResult Function(String itemId, int quantity) fixed,
-  }) {
-    return fixed(itemId, quantity);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String type, int quantity, int? craftLevel)? byType,
-    TResult? Function(int exp)? exp,
-    TResult? Function(String itemId, int quantity)? fixed,
-  }) {
-    return fixed?.call(itemId, quantity);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String type, int quantity, int? craftLevel)? byType,
-    TResult Function(int exp)? exp,
-    TResult Function(String itemId, int quantity)? fixed,
-    required TResult orElse(),
-  }) {
-    if (fixed != null) {
-      return fixed(itemId, quantity);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(CharacterIngredientByType value) byType,
-    required TResult Function(CharacterIngredientExp value) exp,
-    required TResult Function(CharacterIngredientWithFixedId value) fixed,
-  }) {
-    return fixed(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CharacterIngredientByType value)? byType,
-    TResult? Function(CharacterIngredientExp value)? exp,
-    TResult? Function(CharacterIngredientWithFixedId value)? fixed,
-  }) {
-    return fixed?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(CharacterIngredientByType value)? byType,
-    TResult Function(CharacterIngredientExp value)? exp,
-    TResult Function(CharacterIngredientWithFixedId value)? fixed,
-    required TResult orElse(),
-  }) {
-    if (fixed != null) {
-      return fixed(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CharacterIngredientWithFixedIdImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class CharacterIngredientWithFixedId extends CharacterIngredient {
-  const factory CharacterIngredientWithFixedId(
-      {required final String itemId,
-      required final int quantity}) = _$CharacterIngredientWithFixedIdImpl;
-  const CharacterIngredientWithFixedId._() : super._();
-
-  factory CharacterIngredientWithFixedId.fromJson(Map<String, dynamic> json) =
-      _$CharacterIngredientWithFixedIdImpl.fromJson;
-
-  String get itemId;
-  int get quantity;
-  @JsonKey(ignore: true)
-  _$$CharacterIngredientWithFixedIdImplCopyWith<
-          _$CharacterIngredientWithFixedIdImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

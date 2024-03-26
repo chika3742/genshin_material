@@ -1,6 +1,7 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "common.dart";
+import "ingredient.dart";
 
 part "character_ingredients.freezed.dart";
 part "character_ingredients.g.dart";
@@ -32,32 +33,9 @@ class ExpItem with _$ExpItem {
 @freezed
 class CharacterIngredientsLevels with _$CharacterIngredientsLevels {
   const factory CharacterIngredientsLevels({
-    required Map<int, List<CharacterIngredient>> levels,
+    required Map<int, List<Ingredient>> levels,
   }) = _CharacterIngredientsLevels;
 
   factory CharacterIngredientsLevels.fromJson(Map<String, dynamic> json) =>
       _$CharacterIngredientsLevelsFromJson(json);
-}
-
-@freezed
-sealed class CharacterIngredient with _$CharacterIngredient {
-  const CharacterIngredient._();
-
-  const factory CharacterIngredient.byType({
-    required String type,
-    required int quantity,
-    int? craftLevel,
-  }) = CharacterIngredientByType;
-
-  const factory CharacterIngredient.exp({
-    required int exp,
-  }) = CharacterIngredientExp;
-
-  const factory CharacterIngredient.fixed({
-    required String itemId,
-    required int quantity,
-  }) = CharacterIngredientWithFixedId;
-
-  factory CharacterIngredient.fromJson(Map<String, dynamic> json) =>
-      _$CharacterIngredientFromJson(json);
 }
