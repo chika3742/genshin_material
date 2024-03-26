@@ -6,6 +6,8 @@ typedef MaterialUsageType = String;
 
 typedef WeaponType = String;
 
+typedef WeaponSubStat = String;
+
 typedef TeyvatElement = String;
 
 typedef TalentType = String;

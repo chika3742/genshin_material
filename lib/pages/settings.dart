@@ -4,7 +4,7 @@ import "package:material_symbols_icons/symbols.dart";
 import "package:path_provider/path_provider.dart";
 
 import "../components/list_subheader.dart";
-import "../components/simple_list_item.dart";
+import "../components/list_tile.dart";
 import "../core/asset_updater.dart";
 import "../core/handle_error.dart";
 import "../i18n/strings.g.dart";
@@ -32,7 +32,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       body: ListView(
         children: [
           ListSubheader(tr.settingsPage.assetData),
-          SimpleListItem(
+          SimpleListTile(
             title: tr.settingsPage.reDownloadAssets,
             subtitle: tr.settingsPage.reDownloadAssetsDesc,
             trailingIcon: Symbols.download,

@@ -52,8 +52,7 @@ _$CharacterIngredientsLevelsImpl _$$CharacterIngredientsLevelsImplFromJson(
         (k, e) => MapEntry(
             int.parse(k),
             (e as List<dynamic>)
-                .map((e) =>
-                    CharacterIngredient.fromJson(e as Map<String, dynamic>))
+                .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
                 .toList()),
       ),
     );
@@ -62,52 +61,4 @@ Map<String, dynamic> _$$CharacterIngredientsLevelsImplToJson(
         _$CharacterIngredientsLevelsImpl instance) =>
     <String, dynamic>{
       'levels': instance.levels.map((k, e) => MapEntry(k.toString(), e)),
-    };
-
-_$CharacterIngredientByTypeImpl _$$CharacterIngredientByTypeImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CharacterIngredientByTypeImpl(
-      type: json['type'] as String,
-      quantity: json['quantity'] as int,
-      craftLevel: json['craftLevel'] as int?,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$CharacterIngredientByTypeImplToJson(
-        _$CharacterIngredientByTypeImpl instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-      'quantity': instance.quantity,
-      'craftLevel': instance.craftLevel,
-      'runtimeType': instance.$type,
-    };
-
-_$CharacterIngredientExpImpl _$$CharacterIngredientExpImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CharacterIngredientExpImpl(
-      exp: json['exp'] as int,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$CharacterIngredientExpImplToJson(
-        _$CharacterIngredientExpImpl instance) =>
-    <String, dynamic>{
-      'exp': instance.exp,
-      'runtimeType': instance.$type,
-    };
-
-_$CharacterIngredientWithFixedIdImpl
-    _$$CharacterIngredientWithFixedIdImplFromJson(Map<String, dynamic> json) =>
-        _$CharacterIngredientWithFixedIdImpl(
-          itemId: json['itemId'] as String,
-          quantity: json['quantity'] as int,
-          $type: json['runtimeType'] as String?,
-        );
-
-Map<String, dynamic> _$$CharacterIngredientWithFixedIdImplToJson(
-        _$CharacterIngredientWithFixedIdImpl instance) =>
-    <String, dynamic>{
-      'itemId': instance.itemId,
-      'quantity': instance.quantity,
-      'runtimeType': instance.$type,
     };

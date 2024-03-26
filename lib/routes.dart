@@ -12,6 +12,8 @@ import "pages/database/characters/character_list.dart";
 import "pages/database/database.dart";
 import "pages/database/materials/material_details.dart";
 import "pages/database/materials/material_list.dart";
+import "pages/database/weapons/weapon_details.dart";
+import "pages/database/weapons/weapon_list.dart";
 import "pages/home.dart";
 import "pages/more.dart";
 import "pages/release_notes.dart";
@@ -36,6 +38,12 @@ part "routes.g.dart";
               path: "characters",
               routes: [
                 TypedGoRoute<CharacterDetailsRoute>(path: ":id"),
+              ],
+            ),
+            TypedGoRoute<WeaponListRoute>(
+              path: "weapons",
+              routes: [
+                TypedGoRoute<WeaponDetailsRoute>(path: ":id"),
               ],
             ),
             TypedGoRoute<MaterialListRoute>(
@@ -129,6 +137,32 @@ class CharacterDetailsRoute extends GoRouteData {
     return _buildTransitionPage(
       context: context,
       child: CharacterDetailsPage(id),
+    );
+  }
+}
+
+@immutable
+class WeaponListRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: WeaponListPage(),
+    );
+  }
+}
+
+@immutable
+class WeaponDetailsRoute extends GoRouteData {
+  final String id;
+
+  const WeaponDetailsRoute({required this.id});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: WeaponDetailsPage(id),
     );
   }
 }

@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 
-class StickyListHeader extends StatelessWidget {
-  static const height = 38.0;
+import "../constants/dimens.dart";
 
+class StickyListHeader extends StatelessWidget {
   final String text;
 
   const StickyListHeader(this.text, {super.key});
@@ -10,7 +10,7 @@ class StickyListHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
+      height: stickyListHeaderHeight,
       color: Theme.of(context).colorScheme.surfaceVariant,
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       alignment: Alignment.centerLeft,

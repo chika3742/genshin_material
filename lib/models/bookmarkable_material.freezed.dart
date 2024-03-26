@@ -559,8 +559,7 @@ abstract class BookmarkableMaterialLevelExp
 /// @nodoc
 mixin _$IngredientsWithLevel {
   int get level => throw _privateConstructorUsedError;
-  List<CharacterIngredient> get ingredients =>
-      throw _privateConstructorUsedError;
+  List<Ingredient> get ingredients => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $IngredientsWithLevelCopyWith<IngredientsWithLevel> get copyWith =>
@@ -573,7 +572,7 @@ abstract class $IngredientsWithLevelCopyWith<$Res> {
           $Res Function(IngredientsWithLevel) then) =
       _$IngredientsWithLevelCopyWithImpl<$Res, IngredientsWithLevel>;
   @useResult
-  $Res call({int level, List<CharacterIngredient> ingredients});
+  $Res call({int level, List<Ingredient> ingredients});
 }
 
 /// @nodoc
@@ -601,7 +600,7 @@ class _$IngredientsWithLevelCopyWithImpl<$Res,
       ingredients: null == ingredients
           ? _value.ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
-              as List<CharacterIngredient>,
+              as List<Ingredient>,
     ) as $Val);
   }
 }
@@ -614,7 +613,7 @@ abstract class _$$IngredientsWithLevelImplCopyWith<$Res>
       __$$IngredientsWithLevelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int level, List<CharacterIngredient> ingredients});
+  $Res call({int level, List<Ingredient> ingredients});
 }
 
 /// @nodoc
@@ -639,7 +638,7 @@ class __$$IngredientsWithLevelImplCopyWithImpl<$Res>
       ingredients: null == ingredients
           ? _value._ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
-              as List<CharacterIngredient>,
+              as List<Ingredient>,
     ));
   }
 }
@@ -648,15 +647,14 @@ class __$$IngredientsWithLevelImplCopyWithImpl<$Res>
 
 class _$IngredientsWithLevelImpl implements _IngredientsWithLevel {
   const _$IngredientsWithLevelImpl(
-      {required this.level,
-      required final List<CharacterIngredient> ingredients})
+      {required this.level, required final List<Ingredient> ingredients})
       : _ingredients = ingredients;
 
   @override
   final int level;
-  final List<CharacterIngredient> _ingredients;
+  final List<Ingredient> _ingredients;
   @override
-  List<CharacterIngredient> get ingredients {
+  List<Ingredient> get ingredients {
     if (_ingredients is EqualUnmodifiableListView) return _ingredients;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_ingredients);
@@ -693,13 +691,13 @@ class _$IngredientsWithLevelImpl implements _IngredientsWithLevel {
 abstract class _IngredientsWithLevel implements IngredientsWithLevel {
   const factory _IngredientsWithLevel(
           {required final int level,
-          required final List<CharacterIngredient> ingredients}) =
+          required final List<Ingredient> ingredients}) =
       _$IngredientsWithLevelImpl;
 
   @override
   int get level;
   @override
-  List<CharacterIngredient> get ingredients;
+  List<Ingredient> get ingredients;
   @override
   @JsonKey(ignore: true)
   _$$IngredientsWithLevelImplCopyWith<_$IngredientsWithLevelImpl>

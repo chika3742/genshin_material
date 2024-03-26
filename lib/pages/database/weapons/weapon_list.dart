@@ -13,8 +13,8 @@ import "../../../constants/dimens.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../routes.dart";
 
-class MaterialListPage extends StatelessWidget {
-  MaterialListPage({super.key});
+class WeaponListPage extends StatelessWidget {
+  WeaponListPage({super.key});
 
   final _scrollController = ScrollController();
 
@@ -22,7 +22,7 @@ class MaterialListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr.pages.materials),
+        title: Text(tr.pages.weapons),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -33,8 +33,8 @@ class MaterialListPage extends StatelessWidget {
             builder: (context) => DataAssetScope(
               builder: (assetData) {
                 var offset = 0.0;
-                final materialsGroupedByCategory = assetData.materials!
-                    .groupListsBy((element) => element.category);
+                final weaponsGroupedByType = assetData.weapons!
+                    .groupListsBy((element) => element.type);
 
                 return ListIndexSheet(
                   onSelected: (scrollOffset) {
@@ -44,18 +44,18 @@ class MaterialListPage extends StatelessWidget {
                       curve: Curves.easeInOutQuint,
                     );
                   },
-                  items: assetData.materialCategories!.entries
-                      .map((e) {
-                        final categoryId = e.key;
-                        final categoryText = e.value.localized;
+                  items: weaponsGroupedByType.entries.map((e) {
+                    final typeId = e.key;
+                    final items = e.value;
 
-                        final item = ListIndexItem(
-                          title: categoryText,
-                          image: materialsGroupedByCategory[categoryId]!.first.getImageFile(assetData.assetDir!),
-                          scrollOffset: offset,
-                        );
-                        offset += stickyListHeaderHeight + (listTileHeight * materialsGroupedByCategory[categoryId]!.length);
-                        return item;
+                    final item = ListIndexItem(
+                      title: assetData.weaponTypes![typeId]!.localized,
+                      image: items.first.getImageFile(assetData.assetDir!),
+                      scrollOffset: offset,
+                    );
+                    offset += stickyListHeaderHeight +
+                        (listTileHeight * items.length);
+                    return item;
                   }).toList(),
                 );
               },
@@ -67,32 +67,32 @@ class MaterialListPage extends StatelessWidget {
       ),
       body: DataAssetScope(
         builder: (assetData) {
-          final categories = assetData.materialCategories!;
-          final materialsGroupedByCategory = assetData.materials!
-              .groupListsBy((element) => element.category);
+          final weaponsGroupedByType = assetData.weapons!
+              .groupListsBy((element) => element.type);
+
           return CustomScrollView(
             controller: _scrollController,
-            slivers: categories.entries.map((e) {
+            slivers: weaponsGroupedByType.entries.map((e) {
               final categoryId = e.key;
-              final categoryText = e.value.localized;
+              final categoryText = assetData.weaponTypes![categoryId]!.localized;
 
               return SliverStickyHeader.builder(
                 builder: (_, __) => StickyListHeader(categoryText),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
                         (context, index) {
-                      final material = materialsGroupedByCategory[categoryId]![index];
+                      final weapon = weaponsGroupedByType[categoryId]![index];
 
                       return GameItemListTile(
-                        image: material.getImageFile(assetData.assetDir!),
-                        name: material.name.localized,
-                        rarity: material.rarity,
+                        image: weapon.getImageFile(assetData.assetDir!),
+                        name: weapon.name.localized,
+                        rarity: weapon.rarity,
                         onTap: () {
-                          MaterialDetailsRoute(id: material.id).go(context);
+                          WeaponDetailsRoute(id: weapon.id).go(context);
                         },
                       );
                     },
-                    childCount: materialsGroupedByCategory[categoryId]!.length,
+                    childCount: weaponsGroupedByType[categoryId]!.length,
                   ),
                 ),
               );

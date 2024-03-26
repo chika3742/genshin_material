@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 
 import "../../../components/center_text.dart";
 import "../../../components/data_asset_scope.dart";
+import "../../../components/game_item_info_box.dart";
 import "../../../components/labeled_check_box.dart";
 import "../../../components/layout.dart";
 import "../../../components/level_slider.dart";
@@ -101,37 +102,29 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // character information
-              Row(
+              GameItemInfoBox(
+                itemImage: Image.file(
+                  character.getSmallImageFile(assetData.assetDir!),
+                  width: 70,
+                  height: 70,
+                ),
                 children: [
-                  Image.file(
-                    character.getSmallImageFile(assetData.assetDir!),
-                    width: 70,
-                    height: 70,
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // rarity
+                  RarityStars(count: character.rarity),
+                  // element
+                  Row(
                     children: [
-                      // rarity
-                      RarityStars(count: character.rarity),
-                      const SizedBox(height: 4),
-                      // element
-                      Row(
-                        children: [
-                          Image.file(
-                            assetData.elements![character.element]!.getImageFile(assetData.assetDir!),
-                            width: 26,
-                            height: 26,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                          Text(assetData.elements![character.element]!.text.localized),
-                        ],
+                      Image.file(
+                        assetData.elements![character.element]!.getImageFile(assetData.assetDir!),
+                        width: 26,
+                        height: 26,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
-                      const SizedBox(height: 4),
-                      // weapon type
-                      Text(assetData.weaponTypes![character.weaponType]!.localized),
+                      Text(assetData.elements![character.element]!.text.localized),
                     ],
                   ),
+                  // weapon type
+                  Text(assetData.weaponTypes![character.weaponType]!.localized),
                 ],
               ),
               GappedColumn(
@@ -170,6 +163,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                         MaterialItem(
                           material: assetData.materials!.firstWhereOrNull((e) => e.id == material.id),
                           bookmarkableMaterial: material,
+                          expItems: assetData.characterIngredients!.expItems,
                         ),
                     ],
                   ),

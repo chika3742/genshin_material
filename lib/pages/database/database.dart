@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:material_symbols_icons/symbols.dart";
 
-import "../../components/simple_list_item.dart";
+import "../../components/list_tile.dart";
 import "../../i18n/strings.g.dart";
 import "../../routes.dart";
 
@@ -16,12 +16,17 @@ class DatabasePage extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          SimpleListItem(
+          SimpleListTile(
             title: tr.pages.characters,
             leadingIcon: Symbols.account_circle,
             location: CharacterListRoute().location,
           ),
-          SimpleListItem(
+          SimpleListTile(
+            title: tr.pages.weapons,
+            leadingIcon: Symbols.swords,
+            location: WeaponListRoute().location,
+          ),
+          SimpleListTile(
             title: tr.pages.materials,
             leadingIcon: Symbols.grass,
             location: MaterialListRoute().location,

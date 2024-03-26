@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 import "../../../components/center_text.dart";
 import "../../../components/character_small_card.dart";
 import "../../../components/data_asset_scope.dart";
+import "../../../components/game_item_info_box.dart";
 import "../../../components/layout.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../i18n/strings.g.dart";
@@ -39,23 +40,17 @@ class MaterialDetailsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               gap: 16,
               children: [
-                GappedRow(
+                GameItemInfoBox(
+                  itemImage: Image.file(
+                    material.getImageFile(assetData.assetDir!),
+                    width: 50,
+                    height: 50,
+                  ),
                   children: [
-                    Image.file(
-                      material.getImageFile(assetData.assetDir!),
-                      width: 50,
-                      height: 50,
-                    ),
-                    GappedColumn(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      gap: 4,
-                      children: [
-                        RarityStars(count: material.rarity),
-                        Text(
-                          assetData.materialCategories![material.category]!.localized,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                      ],
+                    RarityStars(count: material.rarity),
+                    Text(
+                      assetData.materialCategories![material.category]!.localized,
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],
                 ),

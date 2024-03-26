@@ -16,7 +16,7 @@ class GappedColumn extends Flex {
   }) : super(
     direction: Axis.vertical,
     children: List.generate(
-      children.length * 2 - 1,
+      children.isNotEmpty ? children.length * 2 - 1 : 0,
       (index) => index % 2 == 0 ? children[index ~/ 2] : SizedBox(height: gap),
     ),
   );
@@ -38,7 +38,7 @@ class GappedRow extends Flex {
   }) : super(
     direction: Axis.horizontal,
     children: List.generate(
-      children.length * 2 - 1,
+      children.isNotEmpty ? children.length * 2 - 1 : 0,
       (index) => index % 2 == 0 ? children[index ~/ 2] : SizedBox(width: gap),
     ),
   );

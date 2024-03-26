@@ -4,15 +4,15 @@ import "../components/level_slider.dart";
 import "../core/asset_cache.dart";
 import "../models/bookmarkable_material.dart";
 import "../models/character.dart";
-import "../models/character_ingredients.dart";
+import "../models/ingredient.dart";
 
-List<IngredientsWithLevel> levelMapToList(Map<int, List<CharacterIngredient>> map) {
+List<IngredientsWithLevel> levelMapToList(Map<int, List<Ingredient>> map) {
   return map.entries.map((e) => IngredientsWithLevel(level: e.key, ingredients: e.value)).toList();
 }
 
-String getConcreteItemId(CharacterIngredient ingredient, CharacterMaterialDefinitions definitions) {
+String getConcreteItemId(Ingredient ingredient, CharacterMaterialDefinitions definitions) {
   return switch (ingredient) {
-    CharacterIngredientByType() => () {
+    IngredientByType() => () {
       final definition = definitions[ingredient.type];
       if (definition == null) {
         throw "Unknown type: ${ingredient.type}";
@@ -29,12 +29,12 @@ String getConcreteItemId(CharacterIngredient ingredient, CharacterMaterialDefini
 
       throw "Unknown type: $defType";
     }(),
-    CharacterIngredientWithFixedId(:final itemId) => itemId,
+    IngredientWithFixedId(:final itemId) => itemId,
     _ => "exp",
   };
 }
 
-Map<int, List<CharacterIngredient>> narrowLevelMap(Map<int, List<CharacterIngredient>> map, LevelRangeValues levelRangeValues) {
+Map<int, List<Ingredient>> narrowLevelMap(Map<int, List<Ingredient>> map, LevelRangeValues levelRangeValues) {
   return Map.fromEntries(map.entries.where((e) => e.key > levelRangeValues.start && e.key <= levelRangeValues.end));
 }
 
@@ -47,16 +47,16 @@ List<BookmarkableMaterial> toBookmarkableMaterials(List<IngredientsWithLevel> in
       merged[itemId] ??= [];
       merged[itemId]!.add(
         switch (i) {
-          CharacterIngredientExp(:final exp) => BookmarkableMaterialLevel.exp(
+          IngredientExp(:final exp) => BookmarkableMaterialLevel.exp(
             level: ingredient.level,
             exp: exp,
           ),
-          CharacterIngredientWithFixedId(:final quantity) =>
+          IngredientWithFixedId(:final quantity) =>
               BookmarkableMaterialLevel(
                 level: ingredient.level,
                 quantity: quantity,
               ),
-          CharacterIngredientByType(:final quantity) =>
+          IngredientByType(:final quantity) =>
               BookmarkableMaterialLevel(
                 level: ingredient.level,
                 quantity: quantity,

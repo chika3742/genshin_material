@@ -1,16 +1,15 @@
 import "dart:io";
-import "dart:math";
 
 import "package:flutter/material.dart";
 
 class ListIndexSheet extends StatelessWidget {
-  final ScrollController listScrollController;
   final List<ListIndexItem> items;
+  final void Function(double scrollOffset)? onSelected;
 
   const ListIndexSheet({
     super.key,
-    required this.listScrollController,
     required this.items,
+    this.onSelected,
   });
 
   @override
@@ -35,12 +34,7 @@ class ListIndexSheet extends StatelessWidget {
                   title: Text(item.title),
                   onTap: () {
                     Navigator.pop(context);
-
-                    listScrollController.animateTo(
-                      min(item.scrollOffset, listScrollController.position.maxScrollExtent),
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOutQuint,
-                    );
+                    onSelected?.call(item.scrollOffset);
                   },
                 ),
             ],
