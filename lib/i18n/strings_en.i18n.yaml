@@ -21,6 +21,8 @@ errors:
 pages:
   characters: Characters
   characterDetails: $character - Character
+  weapons: Weapons
+  weaponDetails: $weapon - Weapon
   materials: Materials
   materialDetails: $material - Material
   settings: Settings
@@ -36,6 +38,7 @@ characterDetailsPage:
   talentLevelUpMaterials: Talent Lv Up Materials
 materialDetailsPage:
   charactersUsing: Characters Using This Material
+  weaponsUsing: Weapons Using This Material
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
 releaseNotesPage:
