@@ -4,6 +4,8 @@ import "package:path/path.dart" as path;
 
 typedef MaterialUsageType = String;
 
+typedef MaterialDefinitions = Map<MaterialUsageType, String>;
+
 typedef WeaponType = String;
 
 typedef WeaponSubStat = String;

@@ -11,8 +11,6 @@ part "character.g.dart";
 
 typedef CharacterList = List<Character>;
 
-typedef CharacterMaterialDefinitions = Map<MaterialUsageType, String>;
-
 mixin CharacterWithLargeImage on Character {
   String get imageUrl;
 
@@ -46,7 +44,7 @@ sealed class Character with _$Character {
     required WeaponType weaponType,
     required TeyvatElement element,
     required Map<TalentType, LocalizedText> talents,
-    required CharacterMaterialDefinitions materials,
+    required MaterialDefinitions materials,
   }) = ListedCharacter;
 
   @With<CharacterWithLargeImage>()
@@ -58,7 +56,7 @@ sealed class Character with _$Character {
     required int rarity,
     required WeaponType weaponType,
     required List<String> variantIds,
-    required CharacterMaterialDefinitions materials,
+    required MaterialDefinitions materials,
   }) = CharacterGroup;
 
   @With<CharacterWithSmallImage>()
@@ -73,7 +71,7 @@ sealed class Character with _$Character {
     required WeaponType weaponType,
     required TeyvatElement element,
     required Map<TalentType, LocalizedText> talents,
-    required CharacterMaterialDefinitions materials,
+    required MaterialDefinitions materials,
   }) = UnlistedCharacter;
 
   factory Character.fromJson(Map<String, dynamic> json) =>
