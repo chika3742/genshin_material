@@ -20,7 +20,7 @@ class WeaponData with _$WeaponData {
 }
 
 @freezed
-class Weapon with _$Weapon, ImageGetter {
+class Weapon with _$Weapon, ImageGetter, WithMaterialDefinitions {
   const Weapon._();
 
   const factory Weapon({

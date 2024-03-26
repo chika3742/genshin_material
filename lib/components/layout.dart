@@ -57,3 +57,22 @@ class SectionHeading extends StatelessWidget {
     );
   }
 }
+
+class SectionInnerHeading extends StatelessWidget {
+  final String text;
+
+  const SectionInnerHeading(this.text, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // leading triangle marker
+        const Icon(Icons.arrow_right, size: 32, color: Colors.green),
+        Expanded(
+          child: Text(text, style: Theme.of(context).textTheme.titleMedium),
+        ),
+      ],
+    );
+  }
+}

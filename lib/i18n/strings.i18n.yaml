@@ -38,6 +38,7 @@ characterDetailsPage:
   talentLevelUpMaterials: 天賦Lvアップ素材
 materialDetailsPage:
   charactersUsing: この素材を使用するキャラクター
+  weaponsUsing: この素材を使用する武器
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
 releaseNotesPage:

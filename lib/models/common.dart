@@ -39,3 +39,7 @@ enum BookmarkState {
   partial,
   bookmarked,
 }
+
+mixin WithMaterialDefinitions {
+  MaterialDefinitions get materials;
+}

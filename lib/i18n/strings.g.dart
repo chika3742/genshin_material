@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 76 (38 per locale)
+/// Strings: 80 (40 per locale)
 ///
-/// Built on 2024-03-12 at 09:59 UTC
+/// Built on 2024-03-26 at 10:25 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -247,6 +247,7 @@ class _StringsMaterialDetailsPageJa {
 
 	// Translations
 	String get charactersUsing => 'この素材を使用するキャラクター';
+	String get weaponsUsing => 'この素材を使用する武器';
 }
 
 // Path: morePage
@@ -373,6 +374,8 @@ class _StringsPagesEn extends _StringsPagesJa {
 	// Translations
 	@override String get characters => 'Characters';
 	@override String characterDetails({required Object character}) => '${character} - Character';
+	@override String get weapons => 'Weapons';
+	@override String weaponDetails({required Object weapon}) => '${weapon} - Weapon';
 	@override String get materials => 'Materials';
 	@override String materialDetails({required Object material}) => '${material} - Material';
 	@override String get settings => 'Settings';
@@ -404,6 +407,7 @@ class _StringsMaterialDetailsPageEn extends _StringsMaterialDetailsPageJa {
 
 	// Translations
 	@override String get charactersUsing => 'Characters Using This Material';
+	@override String get weaponsUsing => 'Weapons Using This Material';
 }
 
 // Path: morePage
@@ -478,6 +482,7 @@ extension on Translations {
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
+			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
@@ -510,6 +515,8 @@ extension on _StringsEn {
 			case 'errors.materialNotFound': return 'Material not found';
 			case 'pages.characters': return 'Characters';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - Character';
+			case 'pages.weapons': return 'Weapons';
+			case 'pages.weaponDetails': return ({required Object weapon}) => '${weapon} - Weapon';
 			case 'pages.materials': return 'Materials';
 			case 'pages.materialDetails': return ({required Object material}) => '${material} - Material';
 			case 'pages.settings': return 'Settings';
@@ -523,6 +530,7 @@ extension on _StringsEn {
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'Character Lv Up & Ascension Materials';
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
 			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
+			case 'materialDetailsPage.weaponsUsing': return 'Weapons Using This Material';
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';

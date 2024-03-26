@@ -33,6 +33,7 @@ sealed class Character with _$Character {
 
   @With<CharacterWithLargeImage>()
   @With<CharacterWithSmallImage>()
+  @With<WithMaterialDefinitions>()
   const factory Character({
     required String id,
     required String rid,
@@ -60,6 +61,7 @@ sealed class Character with _$Character {
   }) = CharacterGroup;
 
   @With<CharacterWithSmallImage>()
+  @With<WithMaterialDefinitions>()
   const factory Character.unlisted({
     required String id,
     required String rid,

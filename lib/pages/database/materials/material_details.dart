@@ -6,8 +6,10 @@ import "../../../components/character_small_card.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/layout.dart";
+import "../../../components/list_tile.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../routes.dart";
 import "../../../utils/material_usage.dart";
 
 class MaterialDetailsPage extends StatelessWidget {
@@ -28,7 +30,8 @@ class MaterialDetailsPage extends StatelessWidget {
           );
         }
 
-        final characters = getCharactersUsingMaterial(material, assetData.characters!);
+        final charactersUsingMaterial = getCharactersUsingMaterial(material, assetData.characters!);
+        final weaponsUseMaterial = getWeaponsUsingMaterial(material, assetData.weapons!);
 
         return Scaffold(
           appBar: AppBar(
@@ -54,16 +57,41 @@ class MaterialDetailsPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                if (characters.isNotEmpty) GappedColumn(
+
+                if (charactersUsingMaterial.isNotEmpty) GappedColumn(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SectionHeading(tr.materialDetailsPage.charactersUsing),
                     Wrap(
                       children: [
-                        for (final character in characters)
+                        for (final character in charactersUsingMaterial)
                           CharacterSmallCard(character),
                       ],
                     ),
+                  ],
+                ),
+
+                if (weaponsUseMaterial.isNotEmpty) GappedColumn(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SectionHeading(tr.materialDetailsPage.weaponsUsing),
+                    for (final weaponTypes in weaponsUseMaterial.groupListsBy((w) => w.type).entries)
+                      ...[
+                        SectionInnerHeading(assetData.weaponTypes![weaponTypes.key]!.localized),
+                        Column(
+                          children: [
+                            for (final weapon in weaponTypes.value)
+                              GameItemListTile(
+                                image: weapon.getImageFile(assetData.assetDir!),
+                                name: weapon.name.localized,
+                                rarity: weapon.rarity,
+                                onTap: () {
+                                  WeaponDetailsRoute(id: weapon.id).push(context);
+                                },
+                              ),
+                          ],
+                        ),
+                      ],
                   ],
                 ),
               ],

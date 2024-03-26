@@ -356,7 +356,10 @@ class __$$ListedCharacterImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ListedCharacterImpl extends ListedCharacter
-    with CharacterWithLargeImage, CharacterWithSmallImage {
+    with
+        CharacterWithLargeImage,
+        CharacterWithSmallImage,
+        WithMaterialDefinitions {
   const _$ListedCharacterImpl(
       {required this.id,
       required this.rid,
@@ -645,7 +648,10 @@ class _$ListedCharacterImpl extends ListedCharacter
 }
 
 abstract class ListedCharacter extends Character
-    implements CharacterWithLargeImage, CharacterWithSmallImage {
+    implements
+        CharacterWithLargeImage,
+        CharacterWithSmallImage,
+        WithMaterialDefinitions {
   const factory ListedCharacter(
       {required final String id,
       required final String rid,
@@ -1176,7 +1182,7 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UnlistedCharacterImpl extends UnlistedCharacter
-    with CharacterWithSmallImage {
+    with CharacterWithSmallImage, WithMaterialDefinitions {
   const _$UnlistedCharacterImpl(
       {required this.id,
       required this.rid,
@@ -1465,7 +1471,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
 }
 
 abstract class UnlistedCharacter extends Character
-    implements CharacterWithSmallImage {
+    implements CharacterWithSmallImage, WithMaterialDefinitions {
   const factory UnlistedCharacter(
       {required final String id,
       required final String rid,
