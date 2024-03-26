@@ -14,210 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-WeaponData _$WeaponDataFromJson(Map<String, dynamic> json) {
-  return _WeaponData.fromJson(json);
-}
-
-/// @nodoc
-mixin _$WeaponData {
-  Map<String, LocalizedText> get subStats => throw _privateConstructorUsedError;
-  Map<String, LocalizedText> get types => throw _privateConstructorUsedError;
-  List<Weapon> get items => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $WeaponDataCopyWith<WeaponData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $WeaponDataCopyWith<$Res> {
-  factory $WeaponDataCopyWith(
-          WeaponData value, $Res Function(WeaponData) then) =
-      _$WeaponDataCopyWithImpl<$Res, WeaponData>;
-  @useResult
-  $Res call(
-      {Map<String, LocalizedText> subStats,
-      Map<String, LocalizedText> types,
-      List<Weapon> items});
-}
-
-/// @nodoc
-class _$WeaponDataCopyWithImpl<$Res, $Val extends WeaponData>
-    implements $WeaponDataCopyWith<$Res> {
-  _$WeaponDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? subStats = null,
-    Object? types = null,
-    Object? items = null,
-  }) {
-    return _then(_value.copyWith(
-      subStats: null == subStats
-          ? _value.subStats
-          : subStats // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalizedText>,
-      types: null == types
-          ? _value.types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalizedText>,
-      items: null == items
-          ? _value.items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<Weapon>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$WeaponDataImplCopyWith<$Res>
-    implements $WeaponDataCopyWith<$Res> {
-  factory _$$WeaponDataImplCopyWith(
-          _$WeaponDataImpl value, $Res Function(_$WeaponDataImpl) then) =
-      __$$WeaponDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {Map<String, LocalizedText> subStats,
-      Map<String, LocalizedText> types,
-      List<Weapon> items});
-}
-
-/// @nodoc
-class __$$WeaponDataImplCopyWithImpl<$Res>
-    extends _$WeaponDataCopyWithImpl<$Res, _$WeaponDataImpl>
-    implements _$$WeaponDataImplCopyWith<$Res> {
-  __$$WeaponDataImplCopyWithImpl(
-      _$WeaponDataImpl _value, $Res Function(_$WeaponDataImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? subStats = null,
-    Object? types = null,
-    Object? items = null,
-  }) {
-    return _then(_$WeaponDataImpl(
-      subStats: null == subStats
-          ? _value._subStats
-          : subStats // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalizedText>,
-      types: null == types
-          ? _value._types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalizedText>,
-      items: null == items
-          ? _value._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<Weapon>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$WeaponDataImpl implements _WeaponData {
-  const _$WeaponDataImpl(
-      {required final Map<String, LocalizedText> subStats,
-      required final Map<String, LocalizedText> types,
-      required final List<Weapon> items})
-      : _subStats = subStats,
-        _types = types,
-        _items = items;
-
-  factory _$WeaponDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$WeaponDataImplFromJson(json);
-
-  final Map<String, LocalizedText> _subStats;
-  @override
-  Map<String, LocalizedText> get subStats {
-    if (_subStats is EqualUnmodifiableMapView) return _subStats;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_subStats);
-  }
-
-  final Map<String, LocalizedText> _types;
-  @override
-  Map<String, LocalizedText> get types {
-    if (_types is EqualUnmodifiableMapView) return _types;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_types);
-  }
-
-  final List<Weapon> _items;
-  @override
-  List<Weapon> get items {
-    if (_items is EqualUnmodifiableListView) return _items;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_items);
-  }
-
-  @override
-  String toString() {
-    return 'WeaponData(subStats: $subStats, types: $types, items: $items)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$WeaponDataImpl &&
-            const DeepCollectionEquality().equals(other._subStats, _subStats) &&
-            const DeepCollectionEquality().equals(other._types, _types) &&
-            const DeepCollectionEquality().equals(other._items, _items));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_subStats),
-      const DeepCollectionEquality().hash(_types),
-      const DeepCollectionEquality().hash(_items));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$WeaponDataImplCopyWith<_$WeaponDataImpl> get copyWith =>
-      __$$WeaponDataImplCopyWithImpl<_$WeaponDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$WeaponDataImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _WeaponData implements WeaponData {
-  const factory _WeaponData(
-      {required final Map<String, LocalizedText> subStats,
-      required final Map<String, LocalizedText> types,
-      required final List<Weapon> items}) = _$WeaponDataImpl;
-
-  factory _WeaponData.fromJson(Map<String, dynamic> json) =
-      _$WeaponDataImpl.fromJson;
-
-  @override
-  Map<String, LocalizedText> get subStats;
-  @override
-  Map<String, LocalizedText> get types;
-  @override
-  List<Weapon> get items;
-  @override
-  @JsonKey(ignore: true)
-  _$$WeaponDataImplCopyWith<_$WeaponDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
 Weapon _$WeaponFromJson(Map<String, dynamic> json) {
   return _Weapon.fromJson(json);
 }
@@ -562,5 +358,179 @@ abstract class _Weapon extends Weapon {
   @override
   @JsonKey(ignore: true)
   _$$WeaponImplCopyWith<_$WeaponImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+WeaponsMeta _$WeaponsMetaFromJson(Map<String, dynamic> json) {
+  return _WeaponsMeta.fromJson(json);
+}
+
+/// @nodoc
+mixin _$WeaponsMeta {
+  Map<String, LocalizedText> get subStats => throw _privateConstructorUsedError;
+  Map<String, LocalizedText> get types => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $WeaponsMetaCopyWith<WeaponsMeta> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $WeaponsMetaCopyWith<$Res> {
+  factory $WeaponsMetaCopyWith(
+          WeaponsMeta value, $Res Function(WeaponsMeta) then) =
+      _$WeaponsMetaCopyWithImpl<$Res, WeaponsMeta>;
+  @useResult
+  $Res call(
+      {Map<String, LocalizedText> subStats, Map<String, LocalizedText> types});
+}
+
+/// @nodoc
+class _$WeaponsMetaCopyWithImpl<$Res, $Val extends WeaponsMeta>
+    implements $WeaponsMetaCopyWith<$Res> {
+  _$WeaponsMetaCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? subStats = null,
+    Object? types = null,
+  }) {
+    return _then(_value.copyWith(
+      subStats: null == subStats
+          ? _value.subStats
+          : subStats // ignore: cast_nullable_to_non_nullable
+              as Map<String, LocalizedText>,
+      types: null == types
+          ? _value.types
+          : types // ignore: cast_nullable_to_non_nullable
+              as Map<String, LocalizedText>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$WeaponsMetaImplCopyWith<$Res>
+    implements $WeaponsMetaCopyWith<$Res> {
+  factory _$$WeaponsMetaImplCopyWith(
+          _$WeaponsMetaImpl value, $Res Function(_$WeaponsMetaImpl) then) =
+      __$$WeaponsMetaImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {Map<String, LocalizedText> subStats, Map<String, LocalizedText> types});
+}
+
+/// @nodoc
+class __$$WeaponsMetaImplCopyWithImpl<$Res>
+    extends _$WeaponsMetaCopyWithImpl<$Res, _$WeaponsMetaImpl>
+    implements _$$WeaponsMetaImplCopyWith<$Res> {
+  __$$WeaponsMetaImplCopyWithImpl(
+      _$WeaponsMetaImpl _value, $Res Function(_$WeaponsMetaImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? subStats = null,
+    Object? types = null,
+  }) {
+    return _then(_$WeaponsMetaImpl(
+      subStats: null == subStats
+          ? _value._subStats
+          : subStats // ignore: cast_nullable_to_non_nullable
+              as Map<String, LocalizedText>,
+      types: null == types
+          ? _value._types
+          : types // ignore: cast_nullable_to_non_nullable
+              as Map<String, LocalizedText>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$WeaponsMetaImpl implements _WeaponsMeta {
+  const _$WeaponsMetaImpl(
+      {required final Map<String, LocalizedText> subStats,
+      required final Map<String, LocalizedText> types})
+      : _subStats = subStats,
+        _types = types;
+
+  factory _$WeaponsMetaImpl.fromJson(Map<String, dynamic> json) =>
+      _$$WeaponsMetaImplFromJson(json);
+
+  final Map<String, LocalizedText> _subStats;
+  @override
+  Map<String, LocalizedText> get subStats {
+    if (_subStats is EqualUnmodifiableMapView) return _subStats;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_subStats);
+  }
+
+  final Map<String, LocalizedText> _types;
+  @override
+  Map<String, LocalizedText> get types {
+    if (_types is EqualUnmodifiableMapView) return _types;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_types);
+  }
+
+  @override
+  String toString() {
+    return 'WeaponsMeta(subStats: $subStats, types: $types)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WeaponsMetaImpl &&
+            const DeepCollectionEquality().equals(other._subStats, _subStats) &&
+            const DeepCollectionEquality().equals(other._types, _types));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_subStats),
+      const DeepCollectionEquality().hash(_types));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$WeaponsMetaImplCopyWith<_$WeaponsMetaImpl> get copyWith =>
+      __$$WeaponsMetaImplCopyWithImpl<_$WeaponsMetaImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WeaponsMetaImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _WeaponsMeta implements WeaponsMeta {
+  const factory _WeaponsMeta(
+      {required final Map<String, LocalizedText> subStats,
+      required final Map<String, LocalizedText> types}) = _$WeaponsMetaImpl;
+
+  factory _WeaponsMeta.fromJson(Map<String, dynamic> json) =
+      _$WeaponsMetaImpl.fromJson;
+
+  @override
+  Map<String, LocalizedText> get subStats;
+  @override
+  Map<String, LocalizedText> get types;
+  @override
+  @JsonKey(ignore: true)
+  _$$WeaponsMetaImplCopyWith<_$WeaponsMetaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -32,6 +32,7 @@ class AssetDataCache {
   List<Material>? materials;
   Map<MaterialCategoryType, LocalizedText>? materialCategories;
   Map<String, int>? materialSortOrder;
+  DailyMaterials? dailyMaterials;
 
   Future<void> init() async {
     assetDir ??= (await getLocalAssetDirectory()).path;
@@ -49,27 +50,30 @@ class AssetDataCache {
     characterIngredients = CharacterIngredients.fromJson(
       await loadDataAsset<Map<String, dynamic>>("character-ingredients.yaml"),
     );
-    final weaponData = WeaponData.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("weapons.yaml"),
-    );
-    weapons = weaponData.items;
+    weapons = (await loadDataAsset<List>("weapons.yaml"))
+        .map((e) => Weapon.fromJson(e)).toList();
     weaponIngredients = WeaponIngredients.fromJson(
       await loadDataAsset<Map<String, dynamic>>("weapon-ingredients.yaml"),
     );
-    weaponSubStats = weaponData.subStats;
-    weaponTypes = weaponData.types;
+    final weaponsMeta = WeaponsMeta.fromJson(
+      await loadDataAsset<Map<String, dynamic>>("weapons-meta.yaml"),
+    );
+    weaponSubStats = weaponsMeta.subStats;
+    weaponTypes = weaponsMeta.types;
     elements = (await loadDataAsset<Map<String, dynamic>>("elements.yaml")).map((key, value) {
       return MapEntry(
         key,
         Element.fromJson(value),
       );
     });
-    final materialData = MaterialData.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("materials.yaml"),
+    materials = (await loadDataAsset<List>("materials.yaml"))
+        .map((e) => Material.fromJson(e)).toList();
+    final materialsMeta = MaterialsMeta.fromJson(
+      await loadDataAsset<Map<String, dynamic>>("materials-meta.yaml"),
     );
-    materials = materialData.items;
-    materialCategories = materialData.categories;
-    materialSortOrder = materialData.sortOrder;
+    materialCategories = materialsMeta.categories;
+    materialSortOrder = materialsMeta.sortOrder;
+    dailyMaterials = materialsMeta.daily;
   }
 
   /// Reads data asset file and parses YAML into JSON.

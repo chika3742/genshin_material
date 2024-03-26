@@ -36,3 +36,26 @@ sealed class Material with _$Material, ImageGetter {
   factory Material.fromJson(Map<String, dynamic> json) =>
       _$MaterialFromJson(json);
 }
+
+@freezed
+class MaterialsMeta with _$MaterialsMeta {
+  const factory MaterialsMeta({
+    required Map<MaterialCategoryType, LocalizedText> categories,
+    required Map<String, int> sortOrder,
+    required DailyMaterials daily,
+  }) = _MaterialsMeta;
+
+  factory MaterialsMeta.fromJson(Map<String, dynamic> json) =>
+      _$MaterialsMetaFromJson(json);
+}
+
+@freezed
+class DailyMaterials with _$DailyMaterials {
+  const factory DailyMaterials({
+    required Map<String, List<String>> talent,
+    required Map<String, List<String>> weapon,
+  }) = _DailyMaterials;
+
+  factory DailyMaterials.fromJson(Map<String, dynamic> json) =>
+      _$DailyMaterialsFromJson(json);
+}

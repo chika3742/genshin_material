@@ -6,28 +6,6 @@ part of 'weapon.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$WeaponDataImpl _$$WeaponDataImplFromJson(Map<String, dynamic> json) =>
-    _$WeaponDataImpl(
-      subStats: (json['subStats'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
-      ),
-      types: (json['types'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
-      ),
-      items: (json['items'] as List<dynamic>)
-          .map((e) => Weapon.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$$WeaponDataImplToJson(_$WeaponDataImpl instance) =>
-    <String, dynamic>{
-      'subStats': instance.subStats,
-      'types': instance.types,
-      'items': instance.items,
-    };
-
 _$WeaponImpl _$$WeaponImplFromJson(Map<String, dynamic> json) => _$WeaponImpl(
       id: json['id'] as String,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
@@ -53,4 +31,22 @@ Map<String, dynamic> _$$WeaponImplToJson(_$WeaponImpl instance) =>
       'type': instance.type,
       'materials': instance.materials,
       'whereToGet': instance.whereToGet,
+    };
+
+_$WeaponsMetaImpl _$$WeaponsMetaImplFromJson(Map<String, dynamic> json) =>
+    _$WeaponsMetaImpl(
+      subStats: (json['subStats'] as Map<String, dynamic>).map(
+        (k, e) =>
+            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
+      ),
+      types: (json['types'] as Map<String, dynamic>).map(
+        (k, e) =>
+            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
+      ),
+    );
+
+Map<String, dynamic> _$$WeaponsMetaImplToJson(_$WeaponsMetaImpl instance) =>
+    <String, dynamic>{
+      'subStats': instance.subStats,
+      'types': instance.types,
     };
