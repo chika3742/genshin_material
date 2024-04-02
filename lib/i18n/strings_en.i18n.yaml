@@ -39,6 +39,12 @@ characterDetailsPage:
 materialDetailsPage:
   charactersUsing: Characters Using This Material
   weaponsUsing: Weapons Using This Material
+dailyPage:
+  mondayAndThursday: Mon/Thu
+  tuesdayAndFriday: Tue/Fri
+  wednesdayAndSaturday: Wed/Sat
+  talentMaterials: Talent Materials
+  weaponMaterials: Weapon Materials
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
 releaseNotesPage:

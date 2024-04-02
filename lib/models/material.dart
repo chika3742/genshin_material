@@ -31,6 +31,7 @@ sealed class Material with _$Material, ImageGetter {
     required String category,
     String? groupId,
     int? craftLevel,
+    List<DayOfWeek>? availableDays,
   }) = _Material;
 
   factory Material.fromJson(Map<String, dynamic> json) =>
@@ -52,10 +53,21 @@ class MaterialsMeta with _$MaterialsMeta {
 @freezed
 class DailyMaterials with _$DailyMaterials {
   const factory DailyMaterials({
-    required Map<String, List<String>> talent,
-    required Map<String, List<String>> weapon,
+    required Map<String, List<DailyMaterial>> talent,
+    required Map<String, List<DailyMaterial>> weapon,
   }) = _DailyMaterials;
 
   factory DailyMaterials.fromJson(Map<String, dynamic> json) =>
       _$DailyMaterialsFromJson(json);
+}
+
+@freezed
+class DailyMaterial with _$DailyMaterial {
+  const factory DailyMaterial({
+    required LocalizedText description,
+    required List<String> items,
+  }) = _DailyMaterial;
+
+  factory DailyMaterial.fromJson(Map<String, dynamic> json) =>
+      _$DailyMaterialFromJson(json);
 }
