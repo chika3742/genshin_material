@@ -74,6 +74,12 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
             GoRouteData.$route(
               path: '/tools',
               factory: $ToolsNavRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'resin-calc',
+                  factory: $ResinCalcRouteExtension._fromState,
+                ),
+              ],
             ),
           ],
         ),
@@ -279,6 +285,23 @@ extension $ToolsNavRouteExtension on ToolsNavRoute {
 
   String get location => GoRouteData.$location(
         '/tools',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ResinCalcRouteExtension on ResinCalcRoute {
+  static ResinCalcRoute _fromState(GoRouterState state) => ResinCalcRoute();
+
+  String get location => GoRouteData.$location(
+        '/tools/resin-calc',
       );
 
   void go(BuildContext context) => context.go(location);

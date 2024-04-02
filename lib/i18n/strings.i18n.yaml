@@ -32,6 +32,7 @@ pages:
   database: データベース
   daily: 日替わり素材
   tools: ツール
+  resinCalc: 樹脂回復時刻計算機
   more: その他
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: キャラクターLvアップ・突破素材

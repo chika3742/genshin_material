@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 90 (45 per locale)
+/// Strings: 91 (45 per locale)
 ///
-/// Built on 2024-04-02 at 06:55 UTC
+/// Built on 2024-04-02 at 07:17 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -226,6 +226,7 @@ class _StringsPagesJa {
 	String get database => 'データベース';
 	String get daily => '日替わり素材';
 	String get tools => 'ツール';
+	String get resinCalc => '樹脂回復時刻計算機';
 	String get more => 'その他';
 }
 
@@ -508,6 +509,7 @@ extension on Translations {
 			case 'pages.database': return 'データベース';
 			case 'pages.daily': return '日替わり素材';
 			case 'pages.tools': return 'ツール';
+			case 'pages.resinCalc': return '樹脂回復時刻計算機';
 			case 'pages.more': return 'その他';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
