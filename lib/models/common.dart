@@ -43,3 +43,13 @@ enum BookmarkState {
 mixin WithMaterialDefinitions {
   MaterialDefinitions get materials;
 }
+
+enum DayOfWeek {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday,
+}

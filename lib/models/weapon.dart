@@ -8,18 +8,6 @@ part "weapon.freezed.dart";
 part "weapon.g.dart";
 
 @freezed
-class WeaponData with _$WeaponData {
-  const factory WeaponData({
-    required Map<WeaponSubStat, LocalizedText> subStats,
-    required Map<WeaponType, LocalizedText> types,
-    required List<Weapon> items,
-  }) = _WeaponData;
-
-  factory WeaponData.fromJson(Map<String, dynamic> json) =>
-      _$WeaponDataFromJson(json);
-}
-
-@freezed
 class Weapon with _$Weapon, ImageGetter, WithMaterialDefinitions {
   const Weapon._();
 
@@ -37,4 +25,15 @@ class Weapon with _$Weapon, ImageGetter, WithMaterialDefinitions {
 
   factory Weapon.fromJson(Map<String, dynamic> json) =>
       _$WeaponFromJson(json);
+}
+
+@freezed
+class WeaponsMeta with _$WeaponsMeta {
+  const factory WeaponsMeta({
+    required Map<WeaponSubStat, LocalizedText> subStats,
+    required Map<WeaponType, LocalizedText> types,
+  }) = _WeaponsMeta;
+
+  factory WeaponsMeta.fromJson(Map<String, dynamic> json) =>
+      _$WeaponsMetaFromJson(json);
 }

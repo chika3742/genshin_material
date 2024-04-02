@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 80 (40 per locale)
+/// Strings: 90 (45 per locale)
 ///
-/// Built on 2024-03-26 at 10:25 UTC
+/// Built on 2024-04-02 at 06:55 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -160,6 +160,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsCharacterDetailsPageJa characterDetailsPage = _StringsCharacterDetailsPageJa._(_root);
 	late final _StringsMaterialDetailsPageJa materialDetailsPage = _StringsMaterialDetailsPageJa._(_root);
+	late final _StringsDailyPageJa dailyPage = _StringsDailyPageJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
 	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
 	late final _StringsSettingsPageJa settingsPage = _StringsSettingsPageJa._(_root);
@@ -250,6 +251,20 @@ class _StringsMaterialDetailsPageJa {
 	String get weaponsUsing => 'この素材を使用する武器';
 }
 
+// Path: dailyPage
+class _StringsDailyPageJa {
+	_StringsDailyPageJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get mondayAndThursday => '月/木';
+	String get tuesdayAndFriday => '火/金';
+	String get wednesdayAndSaturday => '水/土';
+	String get talentMaterials => '天賦素材';
+	String get weaponMaterials => '武器素材';
+}
+
 // Path: morePage
 class _StringsMorePageJa {
 	_StringsMorePageJa._(this._root);
@@ -320,6 +335,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsCharacterDetailsPageEn characterDetailsPage = _StringsCharacterDetailsPageEn._(_root);
 	@override late final _StringsMaterialDetailsPageEn materialDetailsPage = _StringsMaterialDetailsPageEn._(_root);
+	@override late final _StringsDailyPageEn dailyPage = _StringsDailyPageEn._(_root);
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
 	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
 	@override late final _StringsSettingsPageEn settingsPage = _StringsSettingsPageEn._(_root);
@@ -410,6 +426,20 @@ class _StringsMaterialDetailsPageEn extends _StringsMaterialDetailsPageJa {
 	@override String get weaponsUsing => 'Weapons Using This Material';
 }
 
+// Path: dailyPage
+class _StringsDailyPageEn extends _StringsDailyPageJa {
+	_StringsDailyPageEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get mondayAndThursday => 'Mon/Thu';
+	@override String get tuesdayAndFriday => 'Tue/Fri';
+	@override String get wednesdayAndSaturday => 'Wed/Sat';
+	@override String get talentMaterials => 'Talent Materials';
+	@override String get weaponMaterials => 'Weapon Materials';
+}
+
 // Path: morePage
 class _StringsMorePageEn extends _StringsMorePageJa {
 	_StringsMorePageEn._(_StringsEn root) : this._root = root, super._(root);
@@ -483,6 +513,11 @@ extension on Translations {
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
 			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
+			case 'dailyPage.mondayAndThursday': return '月/木';
+			case 'dailyPage.tuesdayAndFriday': return '火/金';
+			case 'dailyPage.wednesdayAndSaturday': return '水/土';
+			case 'dailyPage.talentMaterials': return '天賦素材';
+			case 'dailyPage.weaponMaterials': return '武器素材';
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
@@ -531,6 +566,11 @@ extension on _StringsEn {
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
 			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
 			case 'materialDetailsPage.weaponsUsing': return 'Weapons Using This Material';
+			case 'dailyPage.mondayAndThursday': return 'Mon/Thu';
+			case 'dailyPage.tuesdayAndFriday': return 'Tue/Fri';
+			case 'dailyPage.wednesdayAndSaturday': return 'Wed/Sat';
+			case 'dailyPage.talentMaterials': return 'Talent Materials';
+			case 'dailyPage.weaponMaterials': return 'Weapon Materials';
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';

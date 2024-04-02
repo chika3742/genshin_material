@@ -46,14 +46,18 @@ class GappedRow extends Flex {
 
 class SectionHeading extends StatelessWidget {
   final String text;
+  final double indent;
 
-  const SectionHeading(this.text, {super.key});
+  const SectionHeading(this.text, {super.key, this.indent = 0.0});
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: Theme.of(context).textTheme.titleMedium,
+    return Padding(
+      padding: EdgeInsets.only(left: indent),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
     );
   }
 }

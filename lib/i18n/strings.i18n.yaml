@@ -39,6 +39,12 @@ characterDetailsPage:
 materialDetailsPage:
   charactersUsing: この素材を使用するキャラクター
   weaponsUsing: この素材を使用する武器
+dailyPage:
+  mondayAndThursday: 月/木
+  tuesdayAndFriday: 火/金
+  wednesdayAndSaturday: 水/土
+  talentMaterials: 天賦素材
+  weaponMaterials: 武器素材
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
 releaseNotesPage:
