@@ -12,16 +12,15 @@ updates:
     commit-message:
       prefix: "deps(pub)"
     groups:
-      patch-updates:
-        update-types:
-          - patch
       slang:
         patterns:
-          - slang
-          - slang_flutter
+          - slang*
         update-types:
           - major
           - minor
+      patch-updates:
+        update-types:
+          - patch
   - package-ecosystem: github-actions
     directory: /
     schedule:
