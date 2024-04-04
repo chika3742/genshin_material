@@ -15,6 +15,13 @@ updates:
       patch-updates:
         update-types:
           - patch
+      slang:
+        patterns:
+          - slang
+          - slang_flutter
+        update-types:
+          - major
+          - minor
   - package-ecosystem: github-actions
     directory: /
     schedule:
