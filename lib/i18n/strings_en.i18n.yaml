@@ -32,6 +32,7 @@ pages:
   database: Database
   daily: Daily
   tools: Tools
+  resinCalc: Resin Replenish Calculator
   more: More
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: "Character Lv Up & Ascension Materials"
@@ -45,6 +46,18 @@ dailyPage:
   wednesdayAndSaturday: Wed/Sat
   talentMaterials: Talent Materials
   weaponMaterials: Weapon Materials
+resinCalcPage:
+  currentResin: Current Resin
+  baseTime: Base Time
+  fullyReplenishedBy: Fully Replenished By
+  untilFull: Until Full
+  wastedResin: Wasted Resin
+  hours:
+    one: $n hour
+    other: $n hours
+  minutes:
+    one: $n minute
+    other: $n minutes
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
 releaseNotesPage:

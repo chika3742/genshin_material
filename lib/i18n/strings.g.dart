@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 91 (45 per locale)
+/// Strings: 108 (54 per locale)
 ///
-/// Built on 2024-04-02 at 07:17 UTC
+/// Built on 2024-04-12 at 02:45 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -161,6 +161,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsCharacterDetailsPageJa characterDetailsPage = _StringsCharacterDetailsPageJa._(_root);
 	late final _StringsMaterialDetailsPageJa materialDetailsPage = _StringsMaterialDetailsPageJa._(_root);
 	late final _StringsDailyPageJa dailyPage = _StringsDailyPageJa._(_root);
+	late final _StringsResinCalcPageJa resinCalcPage = _StringsResinCalcPageJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
 	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
 	late final _StringsSettingsPageJa settingsPage = _StringsSettingsPageJa._(_root);
@@ -266,6 +267,26 @@ class _StringsDailyPageJa {
 	String get weaponMaterials => '武器素材';
 }
 
+// Path: resinCalcPage
+class _StringsResinCalcPageJa {
+	_StringsResinCalcPageJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get currentResin => '現在の樹脂数';
+	String get baseTime => '入力した時刻';
+	String get fullyReplenishedBy => '全回復する時刻';
+	String get untilFull => '全回復まであと';
+	String get wastedResin => '無駄にした樹脂';
+	String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+		other: '${n}時間',
+	);
+	String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+		other: '${n}分',
+	);
+}
+
 // Path: morePage
 class _StringsMorePageJa {
 	_StringsMorePageJa._(this._root);
@@ -337,6 +358,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsCharacterDetailsPageEn characterDetailsPage = _StringsCharacterDetailsPageEn._(_root);
 	@override late final _StringsMaterialDetailsPageEn materialDetailsPage = _StringsMaterialDetailsPageEn._(_root);
 	@override late final _StringsDailyPageEn dailyPage = _StringsDailyPageEn._(_root);
+	@override late final _StringsResinCalcPageEn resinCalcPage = _StringsResinCalcPageEn._(_root);
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
 	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
 	@override late final _StringsSettingsPageEn settingsPage = _StringsSettingsPageEn._(_root);
@@ -402,6 +424,7 @@ class _StringsPagesEn extends _StringsPagesJa {
 	@override String get database => 'Database';
 	@override String get daily => 'Daily';
 	@override String get tools => 'Tools';
+	@override String get resinCalc => 'Resin Replenish Calculator';
 	@override String get more => 'More';
 }
 
@@ -439,6 +462,28 @@ class _StringsDailyPageEn extends _StringsDailyPageJa {
 	@override String get wednesdayAndSaturday => 'Wed/Sat';
 	@override String get talentMaterials => 'Talent Materials';
 	@override String get weaponMaterials => 'Weapon Materials';
+}
+
+// Path: resinCalcPage
+class _StringsResinCalcPageEn extends _StringsResinCalcPageJa {
+	_StringsResinCalcPageEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get currentResin => 'Current Resin';
+	@override String get baseTime => 'Base Time';
+	@override String get fullyReplenishedBy => 'Fully Replenished By';
+	@override String get untilFull => 'Until Full';
+	@override String get wastedResin => 'Wasted Resin';
+	@override String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} hour',
+		other: '${n} hours',
+	);
+	@override String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		one: '${n} minute',
+		other: '${n} minutes',
+	);
 }
 
 // Path: morePage
@@ -520,6 +565,17 @@ extension on Translations {
 			case 'dailyPage.wednesdayAndSaturday': return '水/土';
 			case 'dailyPage.talentMaterials': return '天賦素材';
 			case 'dailyPage.weaponMaterials': return '武器素材';
+			case 'resinCalcPage.currentResin': return '現在の樹脂数';
+			case 'resinCalcPage.baseTime': return '入力した時刻';
+			case 'resinCalcPage.fullyReplenishedBy': return '全回復する時刻';
+			case 'resinCalcPage.untilFull': return '全回復まであと';
+			case 'resinCalcPage.wastedResin': return '無駄にした樹脂';
+			case 'resinCalcPage.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+				other: '${n}時間',
+			);
+			case 'resinCalcPage.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+				other: '${n}分',
+			);
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
@@ -563,6 +619,7 @@ extension on _StringsEn {
 			case 'pages.database': return 'Database';
 			case 'pages.daily': return 'Daily';
 			case 'pages.tools': return 'Tools';
+			case 'pages.resinCalc': return 'Resin Replenish Calculator';
 			case 'pages.more': return 'More';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'Character Lv Up & Ascension Materials';
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
@@ -573,6 +630,19 @@ extension on _StringsEn {
 			case 'dailyPage.wednesdayAndSaturday': return 'Wed/Sat';
 			case 'dailyPage.talentMaterials': return 'Talent Materials';
 			case 'dailyPage.weaponMaterials': return 'Weapon Materials';
+			case 'resinCalcPage.currentResin': return 'Current Resin';
+			case 'resinCalcPage.baseTime': return 'Base Time';
+			case 'resinCalcPage.fullyReplenishedBy': return 'Fully Replenished By';
+			case 'resinCalcPage.untilFull': return 'Until Full';
+			case 'resinCalcPage.wastedResin': return 'Wasted Resin';
+			case 'resinCalcPage.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+				one: '${n} hour',
+				other: '${n} hours',
+			);
+			case 'resinCalcPage.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+				one: '${n} minute',
+				other: '${n} minutes',
+			);
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
