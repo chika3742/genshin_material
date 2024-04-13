@@ -51,10 +51,13 @@ class MaterialListPage extends StatelessWidget {
 
                         final item = ListIndexItem(
                           title: categoryText,
-                          image: materialsGroupedByCategory[categoryId]!.first.getImageFile(assetData.assetDir!),
+                          image: materialsGroupedByCategory[categoryId]!
+                              .first.getImageFile(assetData.assetDir!),
                           scrollOffset: offset,
                         );
-                        offset += stickyListHeaderHeight + (listTileHeight * materialsGroupedByCategory[categoryId]!.length);
+                        offset += stickyListHeaderHeight +
+                            (listTileHeight *
+                                materialsGroupedByCategory[categoryId]!.length);
                         return item;
                   }).toList(),
                 );

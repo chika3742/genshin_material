@@ -18,7 +18,8 @@ import "pages/home.dart";
 import "pages/more.dart";
 import "pages/release_notes.dart";
 import "pages/settings.dart";
-import "pages/tools.dart";
+import "pages/tools/resin_calc.dart";
+import "pages/tools/tools.dart";
 
 part "routes.g.dart";
 
@@ -63,7 +64,12 @@ part "routes.g.dart";
     ),
     TypedStatefulShellBranch(
       routes: [
-        TypedGoRoute<ToolsNavRoute>(path: "/tools"),
+        TypedGoRoute<ToolsNavRoute>(
+          path: "/tools",
+          routes: [
+            TypedGoRoute<ResinCalcRoute>(path: "resin-calc"),
+          ],
+        ),
       ],
     ),
     TypedStatefulShellBranch(
@@ -211,6 +217,17 @@ class ToolsNavRoute extends GoRouteData {
     return _buildTransitionPage(
       context: context,
       child: const ToolsPage(),
+    );
+  }
+}
+
+@immutable
+class ResinCalcRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const ResinCalcPage(),
     );
   }
 }

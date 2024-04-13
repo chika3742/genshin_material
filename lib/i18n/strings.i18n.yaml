@@ -32,6 +32,7 @@ pages:
   database: データベース
   daily: 日替わり素材
   tools: ツール
+  resinCalc: 樹脂回復時刻計算機
   more: その他
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: キャラクターLvアップ・突破素材
@@ -45,6 +46,16 @@ dailyPage:
   wednesdayAndSaturday: 水/土
   talentMaterials: 天賦素材
   weaponMaterials: 武器素材
+resinCalcPage:
+  currentResin: 現在の樹脂数
+  baseTime: 入力した時刻
+  fullyReplenishedBy: 全回復する時刻
+  untilFull: 全回復まであと
+  wastedResin: 無駄にした樹脂
+  hours:
+    other: $n時間
+  minutes:
+    other: $n分
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
 releaseNotesPage:

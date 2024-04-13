@@ -1,15 +1,27 @@
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
+import "package:intl/date_symbol_data_local.dart";
+import "package:timeago/timeago.dart" as timeago;
 
 import "core/provider_error_observer.dart";
 import "core/theme.dart";
 import "i18n/strings.g.dart";
 import "routes.dart";
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   LocaleSettings.useDeviceLocale();
+  await initializeDateFormatting("ja_JP", null);
+  timeago.setLocaleMessages("ja", timeago.JaMessages());
+  timeago.setDefaultLocale(LocaleSettings.currentLocale.languageCode);
+  // avoid plural resolver not configured warning
+  // (Japanese doesn't have plural forms)
+  LocaleSettings.setPluralResolver(
+    locale: AppLocale.ja,
+    cardinalResolver: (n, {few, many, one, other, two, zero}) => other!,
+  );
   runApp(
     ProviderScope(
       observers: [ProviderErrorObserver()],
@@ -67,6 +79,11 @@ class MyApp extends StatelessWidget {
         ],
       ),
       routerConfig: _router,
+      localizationsDelegates: const [
+        DefaultMaterialLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
+      ],
     );
   }
 }
