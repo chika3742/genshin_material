@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 108 (54 per locale)
+/// Strings: 110 (55 per locale)
 ///
-/// Built on 2024-04-12 at 02:45 UTC
+/// Built on 2024-04-15 at 05:28 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -220,6 +220,8 @@ class _StringsPagesJa {
 	String weaponDetails({required Object weapon}) => '${weapon} - 武器';
 	String get materials => '素材一覧(逆引き)';
 	String materialDetails({required Object material}) => '${material} - 素材';
+	String get artifacts => '聖遺物';
+	String artifactDetails({required Object artifact}) => '${artifact} - 聖遺物';
 	String get settings => '設定';
 	String get account => 'アカウント';
 	String get releaseNotes => '更新履歴';
@@ -547,6 +549,8 @@ extension on Translations {
 			case 'pages.weaponDetails': return ({required Object weapon}) => '${weapon} - 武器';
 			case 'pages.materials': return '素材一覧(逆引き)';
 			case 'pages.materialDetails': return ({required Object material}) => '${material} - 素材';
+			case 'pages.artifacts': return '聖遺物';
+			case 'pages.artifactDetails': return ({required Object artifact}) => '${artifact} - 聖遺物';
 			case 'pages.settings': return '設定';
 			case 'pages.account': return 'アカウント';
 			case 'pages.releaseNotes': return '更新履歴';

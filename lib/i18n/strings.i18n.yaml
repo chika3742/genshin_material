@@ -25,6 +25,8 @@ pages:
   weaponDetails: $weapon - 武器
   materials: 素材一覧(逆引き)
   materialDetails: $material - 素材
+  artifacts: 聖遺物
+  artifactDetails: $artifact - 聖遺物
   settings: 設定
   account: アカウント
   releaseNotes: 更新履歴

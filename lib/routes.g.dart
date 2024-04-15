@@ -57,6 +57,16 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                     ),
                   ],
                 ),
+                GoRouteData.$route(
+                  path: 'artifacts',
+                  factory: $ArtifactListRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: ':id',
+                      factory: $ArtifactDetailsRouteExtension._fromState,
+                    ),
+                  ],
+                ),
               ],
             ),
           ],
@@ -251,6 +261,44 @@ extension $MaterialDetailsRouteExtension on MaterialDetailsRoute {
 
   String get location => GoRouteData.$location(
         '/database/materials/${Uri.encodeComponent(id)}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ArtifactListRouteExtension on ArtifactListRoute {
+  static ArtifactListRoute _fromState(GoRouterState state) =>
+      ArtifactListRoute();
+
+  String get location => GoRouteData.$location(
+        '/database/artifacts',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ArtifactDetailsRouteExtension on ArtifactDetailsRoute {
+  static ArtifactDetailsRoute _fromState(GoRouterState state) =>
+      ArtifactDetailsRoute(
+        id: state.pathParameters['id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/database/artifacts/${Uri.encodeComponent(id)}',
       );
 
   void go(BuildContext context) => context.go(location);

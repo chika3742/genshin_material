@@ -7,6 +7,8 @@ import "main.dart";
 import "pages/account.dart";
 import "pages/bookmarks.dart";
 import "pages/daily.dart";
+import "pages/database/artifacts/artifact_details.dart";
+import "pages/database/artifacts/artifact_list.dart";
 import "pages/database/characters/character_details.dart";
 import "pages/database/characters/character_list.dart";
 import "pages/database/database.dart";
@@ -51,6 +53,12 @@ part "routes.g.dart";
               path: "materials",
               routes: [
                 TypedGoRoute<MaterialDetailsRoute>(path: ":id"),
+              ],
+            ),
+            TypedGoRoute<ArtifactListRoute>(
+              path: "artifacts",
+              routes: [
+                TypedGoRoute<ArtifactDetailsRoute>(path: ":id"),
               ],
             ),
           ],
@@ -195,6 +203,32 @@ class MaterialDetailsRoute extends GoRouteData {
     return _buildTransitionPage(
       context: context,
       child: MaterialDetailsPage(id),
+    );
+  }
+}
+
+@immutable
+class ArtifactListRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const ArtifactListPage(),
+    );
+  }
+}
+
+@immutable
+class ArtifactDetailsRoute extends GoRouteData {
+  final String id;
+
+  const ArtifactDetailsRoute({required this.id});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const ArtifactDetailsPage(),
     );
   }
 }
