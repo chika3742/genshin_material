@@ -20,20 +20,21 @@ WhereToGet _$WhereToGetFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WhereToGet {
-  LocalizedText get text => throw _privateConstructorUsedError;
+  LocalizedText? get text => throw _privateConstructorUsedError;
+  String? get key => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(LocalizedText text) text,
+    required TResult Function(LocalizedText? text, String? key) text,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(LocalizedText text)? text,
+    TResult? Function(LocalizedText? text, String? key)? text,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(LocalizedText text)? text,
+    TResult Function(LocalizedText? text, String? key)? text,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -65,9 +66,9 @@ abstract class $WhereToGetCopyWith<$Res> {
           WhereToGet value, $Res Function(WhereToGet) then) =
       _$WhereToGetCopyWithImpl<$Res, WhereToGet>;
   @useResult
-  $Res call({LocalizedText text});
+  $Res call({LocalizedText? text, String? key});
 
-  $LocalizedTextCopyWith<$Res> get text;
+  $LocalizedTextCopyWith<$Res>? get text;
 }
 
 /// @nodoc
@@ -83,20 +84,29 @@ class _$WhereToGetCopyWithImpl<$Res, $Val extends WhereToGet>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? text = null,
+    Object? text = freezed,
+    Object? key = freezed,
   }) {
     return _then(_value.copyWith(
-      text: null == text
+      text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
+              as LocalizedText?,
+      key: freezed == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get text {
-    return $LocalizedTextCopyWith<$Res>(_value.text, (value) {
+  $LocalizedTextCopyWith<$Res>? get text {
+    if (_value.text == null) {
+      return null;
+    }
+
+    return $LocalizedTextCopyWith<$Res>(_value.text!, (value) {
       return _then(_value.copyWith(text: value) as $Val);
     });
   }
@@ -110,10 +120,10 @@ abstract class _$$WhereToGetTextImplCopyWith<$Res>
       __$$WhereToGetTextImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({LocalizedText text});
+  $Res call({LocalizedText? text, String? key});
 
   @override
-  $LocalizedTextCopyWith<$Res> get text;
+  $LocalizedTextCopyWith<$Res>? get text;
 }
 
 /// @nodoc
@@ -127,13 +137,18 @@ class __$$WhereToGetTextImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? text = null,
+    Object? text = freezed,
+    Object? key = freezed,
   }) {
     return _then(_$WhereToGetTextImpl(
-      text: null == text
+      text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
+              as LocalizedText?,
+      key: freezed == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -141,17 +156,19 @@ class __$$WhereToGetTextImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$WhereToGetTextImpl implements WhereToGetText {
-  const _$WhereToGetTextImpl({required this.text});
+  const _$WhereToGetTextImpl({this.text, this.key});
 
   factory _$WhereToGetTextImpl.fromJson(Map<String, dynamic> json) =>
       _$$WhereToGetTextImplFromJson(json);
 
   @override
-  final LocalizedText text;
+  final LocalizedText? text;
+  @override
+  final String? key;
 
   @override
   String toString() {
-    return 'WhereToGet.text(text: $text)';
+    return 'WhereToGet.text(text: $text, key: $key)';
   }
 
   @override
@@ -159,12 +176,13 @@ class _$WhereToGetTextImpl implements WhereToGetText {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WhereToGetTextImpl &&
-            (identical(other.text, text) || other.text == text));
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.key, key) || other.key == key));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, text);
+  int get hashCode => Object.hash(runtimeType, text, key);
 
   @JsonKey(ignore: true)
   @override
@@ -176,27 +194,27 @@ class _$WhereToGetTextImpl implements WhereToGetText {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(LocalizedText text) text,
+    required TResult Function(LocalizedText? text, String? key) text,
   }) {
-    return text(this.text);
+    return text(this.text, key);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(LocalizedText text)? text,
+    TResult? Function(LocalizedText? text, String? key)? text,
   }) {
-    return text?.call(this.text);
+    return text?.call(this.text, key);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(LocalizedText text)? text,
+    TResult Function(LocalizedText? text, String? key)? text,
     required TResult orElse(),
   }) {
     if (text != null) {
-      return text(this.text);
+      return text(this.text, key);
     }
     return orElse();
   }
@@ -238,14 +256,16 @@ class _$WhereToGetTextImpl implements WhereToGetText {
 }
 
 abstract class WhereToGetText implements WhereToGet {
-  const factory WhereToGetText({required final LocalizedText text}) =
+  const factory WhereToGetText({final LocalizedText? text, final String? key}) =
       _$WhereToGetTextImpl;
 
   factory WhereToGetText.fromJson(Map<String, dynamic> json) =
       _$WhereToGetTextImpl.fromJson;
 
   @override
-  LocalizedText get text;
+  LocalizedText? get text;
+  @override
+  String? get key;
   @override
   @JsonKey(ignore: true)
   _$$WhereToGetTextImplCopyWith<_$WhereToGetTextImpl> get copyWith =>

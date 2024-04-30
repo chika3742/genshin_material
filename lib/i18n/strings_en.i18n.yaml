@@ -5,19 +5,22 @@ common:
   goalLevel: Goal Level
   currentLevel: Current Level
   index: Index
+  expandAll: Expand all
+  collapseAll: Collapse all
 talentTypes(map):
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill
   elementalBurst: Elemental Burst
 updates:
   downloading: Downloading data updates...
-  failed: "Failed to load data. Try re-downloading from \"Settings\" -> \"Re-download Assets\"."
+  failed: "Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'."
   completed: Data update completed.
   installing: Installing...
   pleaseWaitUntilComplete: Please wait until data update is complete.
 errors:
   characterNotFound: Character not found
   materialNotFound: Material not found
+  artifactNotFound: Artifact not found
 pages:
   characters: Characters
   characterDetails: $character - Character
@@ -25,6 +28,8 @@ pages:
   weaponDetails: $weapon - Weapon
   materials: Materials
   materialDetails: $material - Material
+  artifacts: Artifacts
+  artifactDetails: $artifact - Artifact
   settings: Settings
   account: Account
   releaseNotes: Release Notes
@@ -40,6 +45,23 @@ characterDetailsPage:
 materialDetailsPage:
   charactersUsing: Characters Using This Material
   weaponsUsing: Weapons Using This Material
+artifactsPage:
+  bonusTypes(map):
+    1-pc: 1-Pc Set Bonus
+    2-pc: 2-Pc Set Bonus
+    4-pc: 4-Pc Set Bonus
+  pieceTypes(map):
+    flower: Flower of Life
+    plume: Plume of Death
+    sands: Sands of Eon
+    goblet: Goblet of Eonothem
+    circlet: Circlet of Logos
+artifactDetailsPage:
+  maxRarity: Max Rarity
+  bookmarkSet: Bookmark Set(s)
+  bookmarkPiece: Bookmark by Piece
+  bookmarkTwoAndTwoPcSet: Bookmark 2+2 Pc Set
+  bookmarkFourPcSet: Bookmark 4 Pc Set
 dailyPage:
   mondayAndThursday: Mon/Thu
   tuesdayAndFriday: Tue/Fri
@@ -53,11 +75,11 @@ resinCalcPage:
   untilFull: Until Full
   wastedResin: Wasted Resin
   hours:
-    one: $n hour
     other: $n hours
+    one: $n hour
   minutes:
-    one: $n minute
     other: $n minutes
+    one: $n minute
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
 releaseNotesPage:
@@ -66,4 +88,6 @@ releaseNotesPage:
 settingsPage:
   assetData: Assets
   reDownloadAssets: Re-download Assets
-  reDownloadAssetsDesc: "Please try this if the images, characters, etc. of the app are not loading properly."
+  reDownloadAssetsDesc: "Please try this if the assets of the app are not loading properly."
+whereToGet(map):
+  chests: "Chests, Quests"

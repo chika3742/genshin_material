@@ -8,11 +8,15 @@ part of 'where_to_get.dart';
 
 _$WhereToGetTextImpl _$$WhereToGetTextImplFromJson(Map<String, dynamic> json) =>
     _$WhereToGetTextImpl(
-      text: LocalizedText.fromJson(json['text'] as Map<String, dynamic>),
+      text: json['text'] == null
+          ? null
+          : LocalizedText.fromJson(json['text'] as Map<String, dynamic>),
+      key: json['key'] as String?,
     );
 
 Map<String, dynamic> _$$WhereToGetTextImplToJson(
         _$WhereToGetTextImpl instance) =>
     <String, dynamic>{
       'text': instance.text,
+      'key': instance.key,
     };

@@ -18,7 +18,7 @@ class DatabasePage extends StatelessWidget {
         children: [
           SimpleListTile(
             title: tr.pages.characters,
-            leadingIcon: Symbols.account_circle,
+            leadingIcon: Symbols.face,
             location: CharacterListRoute().location,
           ),
           SimpleListTile(
@@ -30,6 +30,11 @@ class DatabasePage extends StatelessWidget {
             title: tr.pages.materials,
             leadingIcon: Symbols.grass,
             location: MaterialListRoute().location,
+          ),
+          SimpleListTile(
+            title: tr.pages.artifacts,
+            leadingIcon: Symbols.person_play,
+            location: ArtifactListRoute().location,
           ),
         ],
       ),

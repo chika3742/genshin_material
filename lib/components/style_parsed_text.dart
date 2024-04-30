@@ -5,9 +5,14 @@ import "../utils/text_style_parser.dart";
 class StyleParsedText extends StatelessWidget {
   final String text;
   final TextStyle? defaultStyle;
+  final TextStyle strongStyle;
 
-  StyleParsedText(this.text, {super.key, this.defaultStyle})
-      : fragments = parseStyledText(text);
+  StyleParsedText(
+    this.text, {
+    super.key,
+    this.defaultStyle,
+    this.strongStyle = const TextStyle(fontWeight: FontWeight.bold),
+  }) : fragments = parseStyledText(text);
 
   final List<Fragment> fragments;
 
@@ -18,10 +23,7 @@ class StyleParsedText extends StatelessWidget {
         children: fragments.map((e) {
             return TextSpan(
               text: e.text,
-              style: TextStyle(
-                fontWeight:
-                    e.type == FragmentType.boldText ? FontWeight.bold : null,
-              ),
+              style: e.type == FragmentType.boldText ? strongStyle : null,
             );
           }).toList(),
       ),
