@@ -50,6 +50,18 @@ artifactsPage:
     1-pc: 1セット効果
     2-pc: 2セット効果
     4-pc: 4セット効果
+  pieceTypes(map):
+    flower: 生の花
+    plume: 死の羽
+    sands: 時の砂
+    goblet: 空の杯
+    circlet: 理の冠
+artifactDetailsPage:
+  maxRarity: 最高レアリティ
+  bookmarkSet: セットをブックマーク
+  bookmarkPiece: 部位ごとにブックマーク
+  bookmarkTwoAndTwoPcSet: 2 + 2 セットをブックマーク
+  bookmarkFourPcSet: 4 セットをブックマーク
 dailyPage:
   mondayAndThursday: 月/木
   tuesdayAndFriday: 火/金

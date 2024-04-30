@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 117 (58 per locale)
+/// Strings: 146 (73 per locale)
 ///
-/// Built on 2024-04-29 at 14:13 UTC
+/// Built on 2024-04-30 at 07:28 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -161,6 +161,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsCharacterDetailsPageJa characterDetailsPage = _StringsCharacterDetailsPageJa._(_root);
 	late final _StringsMaterialDetailsPageJa materialDetailsPage = _StringsMaterialDetailsPageJa._(_root);
 	late final _StringsArtifactsPageJa artifactsPage = _StringsArtifactsPageJa._(_root);
+	late final _StringsArtifactDetailsPageJa artifactDetailsPage = _StringsArtifactDetailsPageJa._(_root);
 	late final _StringsDailyPageJa dailyPage = _StringsDailyPageJa._(_root);
 	late final _StringsResinCalcPageJa resinCalcPage = _StringsResinCalcPageJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
@@ -274,6 +275,27 @@ class _StringsArtifactsPageJa {
 		'2-pc': '2セット効果',
 		'4-pc': '4セット効果',
 	};
+	Map<String, String> get pieceTypes => {
+		'flower': '生の花',
+		'plume': '死の羽',
+		'sands': '時の砂',
+		'goblet': '空の杯',
+		'circlet': '理の冠',
+	};
+}
+
+// Path: artifactDetailsPage
+class _StringsArtifactDetailsPageJa {
+	_StringsArtifactDetailsPageJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get maxRarity => '最高レアリティ';
+	String get bookmarkSet => 'セットをブックマーク';
+	String get bookmarkPiece => '部位ごとにブックマーク';
+	String get bookmarkTwoAndTwoPcSet => '2 + 2 セットをブックマーク';
+	String get bookmarkFourPcSet => '4 セットをブックマーク';
 }
 
 // Path: dailyPage
@@ -380,11 +402,16 @@ class _StringsEn extends Translations {
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsCharacterDetailsPageEn characterDetailsPage = _StringsCharacterDetailsPageEn._(_root);
 	@override late final _StringsMaterialDetailsPageEn materialDetailsPage = _StringsMaterialDetailsPageEn._(_root);
+	@override late final _StringsArtifactsPageEn artifactsPage = _StringsArtifactsPageEn._(_root);
+	@override late final _StringsArtifactDetailsPageEn artifactDetailsPage = _StringsArtifactDetailsPageEn._(_root);
 	@override late final _StringsDailyPageEn dailyPage = _StringsDailyPageEn._(_root);
 	@override late final _StringsResinCalcPageEn resinCalcPage = _StringsResinCalcPageEn._(_root);
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
 	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
 	@override late final _StringsSettingsPageEn settingsPage = _StringsSettingsPageEn._(_root);
+	@override Map<String, String> get whereToGet => {
+		'chests': 'Chests, Quests',
+	};
 }
 
 // Path: common
@@ -400,6 +427,8 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override String get goalLevel => 'Goal Level';
 	@override String get currentLevel => 'Current Level';
 	@override String get index => 'Index';
+	@override String get expandAll => 'Expand all';
+	@override String get collapseAll => 'Collapse all';
 }
 
 // Path: updates
@@ -425,6 +454,7 @@ class _StringsErrorsEn extends _StringsErrorsJa {
 	// Translations
 	@override String get characterNotFound => 'Character not found';
 	@override String get materialNotFound => 'Material not found';
+	@override String get artifactNotFound => 'Artifact not found';
 }
 
 // Path: pages
@@ -440,6 +470,8 @@ class _StringsPagesEn extends _StringsPagesJa {
 	@override String weaponDetails({required Object weapon}) => '${weapon} - Weapon';
 	@override String get materials => 'Materials';
 	@override String materialDetails({required Object material}) => '${material} - Material';
+	@override String get artifacts => 'Artifacts';
+	@override String artifactDetails({required Object artifact}) => '${artifact} - Artifact';
 	@override String get settings => 'Settings';
 	@override String get account => 'Account';
 	@override String get releaseNotes => 'Release Notes';
@@ -473,6 +505,41 @@ class _StringsMaterialDetailsPageEn extends _StringsMaterialDetailsPageJa {
 	@override String get weaponsUsing => 'Weapons Using This Material';
 }
 
+// Path: artifactsPage
+class _StringsArtifactsPageEn extends _StringsArtifactsPageJa {
+	_StringsArtifactsPageEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override Map<String, String> get bonusTypes => {
+		'1-pc': '1-Pc Set Bonus',
+		'2-pc': '2-Pc Set Bonus',
+		'4-pc': '4-Pc Set Bonus',
+	};
+	@override Map<String, String> get pieceTypes => {
+		'flower': 'Flower of Life',
+		'plume': 'Plume of Death',
+		'sands': 'Sands of Eon',
+		'goblet': 'Goblet of Eonothem',
+		'circlet': 'Circlet of Logos',
+	};
+}
+
+// Path: artifactDetailsPage
+class _StringsArtifactDetailsPageEn extends _StringsArtifactDetailsPageJa {
+	_StringsArtifactDetailsPageEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get maxRarity => 'Max Rarity';
+	@override String get bookmarkSet => 'Bookmark Set(s)';
+	@override String get bookmarkPiece => 'Bookmark by Piece';
+	@override String get bookmarkTwoAndTwoPcSet => 'Bookmark 2+2 Pc Set';
+	@override String get bookmarkFourPcSet => 'Bookmark 4 Pc Set';
+}
+
 // Path: dailyPage
 class _StringsDailyPageEn extends _StringsDailyPageJa {
 	_StringsDailyPageEn._(_StringsEn root) : this._root = root, super._(root);
@@ -500,12 +567,12 @@ class _StringsResinCalcPageEn extends _StringsResinCalcPageJa {
 	@override String get untilFull => 'Until Full';
 	@override String get wastedResin => 'Wasted Resin';
 	@override String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		one: '${n} hour',
 		other: '${n} hours',
+		one: '${n} hour',
 	);
 	@override String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		one: '${n} minute',
 		other: '${n} minutes',
+		one: '${n} minute',
 	);
 }
 
@@ -591,6 +658,16 @@ extension on Translations {
 			case 'artifactsPage.bonusTypes.1-pc': return '1セット効果';
 			case 'artifactsPage.bonusTypes.2-pc': return '2セット効果';
 			case 'artifactsPage.bonusTypes.4-pc': return '4セット効果';
+			case 'artifactsPage.pieceTypes.flower': return '生の花';
+			case 'artifactsPage.pieceTypes.plume': return '死の羽';
+			case 'artifactsPage.pieceTypes.sands': return '時の砂';
+			case 'artifactsPage.pieceTypes.goblet': return '空の杯';
+			case 'artifactsPage.pieceTypes.circlet': return '理の冠';
+			case 'artifactDetailsPage.maxRarity': return '最高レアリティ';
+			case 'artifactDetailsPage.bookmarkSet': return 'セットをブックマーク';
+			case 'artifactDetailsPage.bookmarkPiece': return '部位ごとにブックマーク';
+			case 'artifactDetailsPage.bookmarkTwoAndTwoPcSet': return '2 + 2 セットをブックマーク';
+			case 'artifactDetailsPage.bookmarkFourPcSet': return '4 セットをブックマーク';
 			case 'dailyPage.mondayAndThursday': return '月/木';
 			case 'dailyPage.tuesdayAndFriday': return '火/金';
 			case 'dailyPage.wednesdayAndSaturday': return '水/土';
@@ -628,6 +705,8 @@ extension on _StringsEn {
 			case 'common.goalLevel': return 'Goal Level';
 			case 'common.currentLevel': return 'Current Level';
 			case 'common.index': return 'Index';
+			case 'common.expandAll': return 'Expand all';
+			case 'common.collapseAll': return 'Collapse all';
 			case 'talentTypes.normalAttack': return 'Normal Attack';
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
@@ -638,12 +717,15 @@ extension on _StringsEn {
 			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
 			case 'errors.characterNotFound': return 'Character not found';
 			case 'errors.materialNotFound': return 'Material not found';
+			case 'errors.artifactNotFound': return 'Artifact not found';
 			case 'pages.characters': return 'Characters';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - Character';
 			case 'pages.weapons': return 'Weapons';
 			case 'pages.weaponDetails': return ({required Object weapon}) => '${weapon} - Weapon';
 			case 'pages.materials': return 'Materials';
 			case 'pages.materialDetails': return ({required Object material}) => '${material} - Material';
+			case 'pages.artifacts': return 'Artifacts';
+			case 'pages.artifactDetails': return ({required Object artifact}) => '${artifact} - Artifact';
 			case 'pages.settings': return 'Settings';
 			case 'pages.account': return 'Account';
 			case 'pages.releaseNotes': return 'Release Notes';
@@ -657,6 +739,19 @@ extension on _StringsEn {
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
 			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
 			case 'materialDetailsPage.weaponsUsing': return 'Weapons Using This Material';
+			case 'artifactsPage.bonusTypes.1-pc': return '1-Pc Set Bonus';
+			case 'artifactsPage.bonusTypes.2-pc': return '2-Pc Set Bonus';
+			case 'artifactsPage.bonusTypes.4-pc': return '4-Pc Set Bonus';
+			case 'artifactsPage.pieceTypes.flower': return 'Flower of Life';
+			case 'artifactsPage.pieceTypes.plume': return 'Plume of Death';
+			case 'artifactsPage.pieceTypes.sands': return 'Sands of Eon';
+			case 'artifactsPage.pieceTypes.goblet': return 'Goblet of Eonothem';
+			case 'artifactsPage.pieceTypes.circlet': return 'Circlet of Logos';
+			case 'artifactDetailsPage.maxRarity': return 'Max Rarity';
+			case 'artifactDetailsPage.bookmarkSet': return 'Bookmark Set(s)';
+			case 'artifactDetailsPage.bookmarkPiece': return 'Bookmark by Piece';
+			case 'artifactDetailsPage.bookmarkTwoAndTwoPcSet': return 'Bookmark 2+2 Pc Set';
+			case 'artifactDetailsPage.bookmarkFourPcSet': return 'Bookmark 4 Pc Set';
 			case 'dailyPage.mondayAndThursday': return 'Mon/Thu';
 			case 'dailyPage.tuesdayAndFriday': return 'Tue/Fri';
 			case 'dailyPage.wednesdayAndSaturday': return 'Wed/Sat';
@@ -668,12 +763,12 @@ extension on _StringsEn {
 			case 'resinCalcPage.untilFull': return 'Until Full';
 			case 'resinCalcPage.wastedResin': return 'Wasted Resin';
 			case 'resinCalcPage.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-				one: '${n} hour',
 				other: '${n} hours',
+				one: '${n} hour',
 			);
 			case 'resinCalcPage.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-				one: '${n} minute',
 				other: '${n} minutes',
+				one: '${n} minute',
 			);
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
@@ -681,6 +776,7 @@ extension on _StringsEn {
 			case 'settingsPage.assetData': return 'Assets';
 			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
 			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the images, characters, etc. of the app are not loading properly.';
+			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
 		}
 	}
