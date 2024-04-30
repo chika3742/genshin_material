@@ -228,7 +228,7 @@ class ArtifactDetailsRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return _buildTransitionPage(
       context: context,
-      child: const ArtifactDetailsPage(),
+      child: ArtifactDetailsPage(id: id),
     );
   }
 }

@@ -3,6 +3,7 @@ import "dart:io";
 import "package:path/path.dart" as path;
 import "package:yaml/yaml.dart";
 
+import "../models/artifact.dart";
 import "../models/asset_release_version.dart";
 import "../models/character.dart";
 import "../models/character_ingredients.dart";
@@ -33,6 +34,8 @@ class AssetDataCache {
   Map<MaterialCategoryType, LocalizedText>? materialCategories;
   Map<String, int>? materialSortOrder;
   DailyMaterials? dailyMaterials;
+  List<ArtifactSet>? artifactSets;
+  Map<ArtifactPieceType, LocalizedText>? artifactPieceTypes;
 
   Future<void> init() async {
     assetDir ??= (await getLocalAssetDirectory()).path;
@@ -74,6 +77,13 @@ class AssetDataCache {
     materialCategories = materialsMeta.categories;
     materialSortOrder = materialsMeta.sortOrder;
     dailyMaterials = materialsMeta.daily;
+
+    artifactSets = (await loadDataAsset<List>("artifact-sets.yaml"))
+        .map((e) => ArtifactSet.fromJson(e)).toList();
+    final artifactsMeta = ArtifactsMeta.fromJson(
+      await loadDataAsset<Map<String, dynamic>>("artifacts-meta.yaml"),
+    );
+    artifactPieceTypes = artifactsMeta.pieceTypes;
   }
 
   /// Reads data asset file and parses YAML into JSON.

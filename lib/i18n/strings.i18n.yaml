@@ -5,6 +5,8 @@ common:
   goalLevel: 目標レベル
   currentLevel: 現在レベル
   index: 目次
+  expandAll: 全て展開
+  collapseAll: 全て折りたたむ
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル
@@ -18,6 +20,7 @@ updates:
 errors:
   characterNotFound: キャラクターが見つかりません
   materialNotFound: 素材が見つかりません
+  artifactNotFound: 聖遺物が見つかりません
 pages:
   characters: キャラクター
   characterDetails: $character - キャラクター
@@ -42,6 +45,11 @@ characterDetailsPage:
 materialDetailsPage:
   charactersUsing: この素材を使用するキャラクター
   weaponsUsing: この素材を使用する武器
+artifactsPage:
+  bonusTypes(map):
+    1-pc: 1セット効果
+    2-pc: 2セット効果
+    4-pc: 4セット効果
 dailyPage:
   mondayAndThursday: 月/木
   tuesdayAndFriday: 火/金
@@ -67,3 +75,6 @@ settingsPage:
   assetData: アセットデータ
   reDownloadAssets: アセットデータを再ダウンロード
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
+whereToGet(map):
+  chests: 宝箱、任務報酬など
+

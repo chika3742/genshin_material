@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 110 (55 per locale)
+/// Strings: 117 (58 per locale)
 ///
-/// Built on 2024-04-15 at 05:28 UTC
+/// Built on 2024-04-29 at 14:13 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -160,11 +160,15 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsCharacterDetailsPageJa characterDetailsPage = _StringsCharacterDetailsPageJa._(_root);
 	late final _StringsMaterialDetailsPageJa materialDetailsPage = _StringsMaterialDetailsPageJa._(_root);
+	late final _StringsArtifactsPageJa artifactsPage = _StringsArtifactsPageJa._(_root);
 	late final _StringsDailyPageJa dailyPage = _StringsDailyPageJa._(_root);
 	late final _StringsResinCalcPageJa resinCalcPage = _StringsResinCalcPageJa._(_root);
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
 	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
 	late final _StringsSettingsPageJa settingsPage = _StringsSettingsPageJa._(_root);
+	Map<String, String> get whereToGet => {
+		'chests': '宝箱、任務報酬など',
+	};
 }
 
 // Path: common
@@ -180,6 +184,8 @@ class _StringsCommonJa {
 	String get goalLevel => '目標レベル';
 	String get currentLevel => '現在レベル';
 	String get index => '目次';
+	String get expandAll => '全て展開';
+	String get collapseAll => '全て折りたたむ';
 }
 
 // Path: updates
@@ -205,6 +211,7 @@ class _StringsErrorsJa {
 	// Translations
 	String get characterNotFound => 'キャラクターが見つかりません';
 	String get materialNotFound => '素材が見つかりません';
+	String get artifactNotFound => '聖遺物が見つかりません';
 }
 
 // Path: pages
@@ -253,6 +260,20 @@ class _StringsMaterialDetailsPageJa {
 	// Translations
 	String get charactersUsing => 'この素材を使用するキャラクター';
 	String get weaponsUsing => 'この素材を使用する武器';
+}
+
+// Path: artifactsPage
+class _StringsArtifactsPageJa {
+	_StringsArtifactsPageJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	Map<String, String> get bonusTypes => {
+		'1-pc': '1セット効果',
+		'2-pc': '2セット効果',
+		'4-pc': '4セット効果',
+	};
 }
 
 // Path: dailyPage
@@ -533,6 +554,8 @@ extension on Translations {
 			case 'common.goalLevel': return '目標レベル';
 			case 'common.currentLevel': return '現在レベル';
 			case 'common.index': return '目次';
+			case 'common.expandAll': return '全て展開';
+			case 'common.collapseAll': return '全て折りたたむ';
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';
@@ -543,6 +566,7 @@ extension on Translations {
 			case 'updates.pleaseWaitUntilComplete': return 'データ更新が完了するまでお待ちください。';
 			case 'errors.characterNotFound': return 'キャラクターが見つかりません';
 			case 'errors.materialNotFound': return '素材が見つかりません';
+			case 'errors.artifactNotFound': return '聖遺物が見つかりません';
 			case 'pages.characters': return 'キャラクター';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - キャラクター';
 			case 'pages.weapons': return '武器';
@@ -564,6 +588,9 @@ extension on Translations {
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
 			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
+			case 'artifactsPage.bonusTypes.1-pc': return '1セット効果';
+			case 'artifactsPage.bonusTypes.2-pc': return '2セット効果';
+			case 'artifactsPage.bonusTypes.4-pc': return '4セット効果';
 			case 'dailyPage.mondayAndThursday': return '月/木';
 			case 'dailyPage.tuesdayAndFriday': return '火/金';
 			case 'dailyPage.wednesdayAndSaturday': return '水/土';
@@ -586,6 +613,7 @@ extension on Translations {
 			case 'settingsPage.assetData': return 'アセットデータ';
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
+			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;
 		}
 	}

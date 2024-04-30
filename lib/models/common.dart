@@ -16,6 +16,8 @@ typedef TalentType = String;
 
 typedef MaterialCategoryType = String;
 
+typedef ArtifactPieceType = String;
+
 mixin ImageGetter {
   String get imageUrl;
 
