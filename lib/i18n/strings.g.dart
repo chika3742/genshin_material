@@ -6,7 +6,7 @@
 /// Locales: 2
 /// Strings: 146 (73 per locale)
 ///
-/// Built on 2024-04-30 at 07:28 UTC
+/// Built on 2024-04-30 at 08:00 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -439,7 +439,7 @@ class _StringsUpdatesEn extends _StringsUpdatesJa {
 
 	// Translations
 	@override String get downloading => 'Downloading data updates...';
-	@override String get failed => 'Failed to load data. Try re-downloading from "Settings" -> "Re-download Assets".';
+	@override String get failed => 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
 	@override String get completed => 'Data update completed.';
 	@override String get installing => 'Installing...';
 	@override String get pleaseWaitUntilComplete => 'Please wait until data update is complete.';
@@ -606,7 +606,7 @@ class _StringsSettingsPageEn extends _StringsSettingsPageJa {
 	// Translations
 	@override String get assetData => 'Assets';
 	@override String get reDownloadAssets => 'Re-download Assets';
-	@override String get reDownloadAssetsDesc => 'Please try this if the images, characters, etc. of the app are not loading properly.';
+	@override String get reDownloadAssetsDesc => 'Please try this if the assets of the app are not loading properly.';
 }
 
 /// Flat map(s) containing all translations.
@@ -711,7 +711,7 @@ extension on _StringsEn {
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
 			case 'updates.downloading': return 'Downloading data updates...';
-			case 'updates.failed': return 'Failed to load data. Try re-downloading from "Settings" -> "Re-download Assets".';
+			case 'updates.failed': return 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
 			case 'updates.completed': return 'Data update completed.';
 			case 'updates.installing': return 'Installing...';
 			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
@@ -775,7 +775,7 @@ extension on _StringsEn {
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
 			case 'settingsPage.assetData': return 'Assets';
 			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
-			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the images, characters, etc. of the app are not loading properly.';
+			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the assets of the app are not loading properly.';
 			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
 		}
