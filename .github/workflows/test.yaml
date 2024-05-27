@@ -22,6 +22,11 @@ jobs:
       - name: Install Flutter SDK
         run: fvm install
 
-      - run: fvm flutter analyze
+      - name: Install dependencies
+        run: fvm flutter pub get
 
-      - run: fvm flutter test
+      - name: Lint
+        run: fvm flutter analyze
+
+      - name: Test
+        run: fvm flutter test
