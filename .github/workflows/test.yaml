@@ -21,19 +21,26 @@ jobs:
         run: echo "FLUTTER_VERSION=`jq -r '.flutter' .fvmrc`" >> $GITHUB_OUTPUT
 
       - name: Cache Flutter SDK
-        uses: actions/cache@v4
+        uses: chika3742/cache@fix-post-if
         with:
           path: ~/fvm/versions/${{ steps.get_flutter_version.outputs.FLUTTER_VERSION }}
           key: ${{ runner.os }}-flutter-${{ steps.get_flutter_version.outputs.FLUTTER_VERSION }}
           save-always: true
 
       - name: Cache Pub cache
-        uses: actions/cache@v4
+        uses: chika3742/cache@fix-post-if
         with:
           path: ~/.pub-cache
           key: ${{ runner.os }}-pub-cache-${{ hashFiles('**/pubspec.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pub-cache-
+          save-always: true
+
+      - name: Cache FVM
+        uses: chika3742/cache@fix-post-if
+        with:
+          path: ~/.fvm_flutter
+          key: ${{ runner.os }}-fvm
           save-always: true
 
       - name: Install FVM
