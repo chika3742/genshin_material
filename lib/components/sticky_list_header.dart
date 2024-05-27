@@ -11,7 +11,7 @@ class StickyListHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: stickyListHeaderHeight,
-      color: Theme.of(context).colorScheme.surfaceContainerHigh,
+      color: Theme.of(context).colorScheme.surfaceVariant,
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       alignment: Alignment.centerLeft,
       child: Text(
