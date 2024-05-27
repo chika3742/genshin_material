@@ -63,7 +63,7 @@ class _ReleaseNotesTimelineState extends State<ReleaseNotesTimeline> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
