@@ -9,7 +9,7 @@ import "../providers/versions.dart";
 import "material_card.dart";
 
 /// Material item implementation.
-class MaterialItem extends StatefulWidget {
+class MaterialItem extends ConsumerStatefulWidget {
   final Material? material;
   final BookmarkableMaterial bookmarkableMaterial;
   final List<ExpItem>? expItems;
@@ -22,10 +22,10 @@ class MaterialItem extends StatefulWidget {
   });
 
   @override
-  State<MaterialItem> createState() => _MaterialItemState();
+  ConsumerState<MaterialItem> createState() => _MaterialItemState();
 }
 
-class _MaterialItemState extends State<MaterialItem> {
+class _MaterialItemState extends ConsumerState<MaterialItem> {
   int _currentExpItemIndex = 0;
 
   @override
