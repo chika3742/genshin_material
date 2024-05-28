@@ -64,16 +64,18 @@ class ArtifactListPage extends HookWidget {
                       ExpansionPanel(
                         isExpanded: expandedIndices.value.contains(i),
                         headerBuilder: (context, isExpanded) {
+                          final set = sets.values.elementAt(i);
+
                           return ListTile(
                             leading: Image.file(
-                              sets[i].consistsOf[0].getImageFile(assetDir),
+                              set.consistsOf[0].getImageFile(assetDir),
                               height: 40,
                               width: 40,
                             ),
-                            title: Text(sets[i].name.localized),
+                            title: Text(set.name.localized),
                             trailing: const Icon(Icons.loupe),
                             onTap: () {
-                              ArtifactDetailsRoute(id: sets[i].id).push(context);
+                              ArtifactDetailsRoute(id: set.id).push(context);
                             },
                           );
                         },
@@ -84,7 +86,7 @@ class ArtifactListPage extends HookWidget {
                             child: GappedColumn(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                for (final bonus in sets[i].bonuses) ...[
+                                for (final bonus in sets.values.elementAt(i).bonuses) ...[
                                   Text(
                                     tr.artifactsPage.bonusTypes[bonus.type]!,
                                     style: TextStyle(color: Theme.of(context).colorScheme.secondary),

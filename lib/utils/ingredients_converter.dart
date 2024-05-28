@@ -23,10 +23,9 @@ String getConcreteItemId(Ingredient ingredient, MaterialDefinitions definitions,
           return expr;
         }
         if (defType == "group") {
-          return assetData.materials
+          return assetData.materials.values
               .firstWhere(
-                (e) =>
-                    e.groupId == expr && e.craftLevel == ingredient.craftLevel,
+                (e) => e.groupId == expr && e.craftLevel == ingredient.craftLevel,
               )
               .id;
         }

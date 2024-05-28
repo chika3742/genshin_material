@@ -1,4 +1,3 @@
-import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 
 import "../../../components/center_text.dart";
@@ -19,8 +18,7 @@ class ArtifactDetailsPage extends StatelessWidget {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
       builder: (assetData, assetDir) {
-        final artifactSet = assetData.artifactSets
-            .firstWhereOrNull((element) => element.id == id);
+        final artifactSet = assetData.artifactSets[id];
         if (artifactSet == null) {
           return Scaffold(
             appBar: AppBar(),

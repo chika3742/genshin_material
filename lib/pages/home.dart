@@ -78,6 +78,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     ref.watch(assetDataProvider);
+    // ref.watch(appDatabaseProvider);
 
     return Scaffold(
       bottomNavigationBar: NavigationBar(

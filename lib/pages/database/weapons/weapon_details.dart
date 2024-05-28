@@ -1,4 +1,3 @@
-import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 
 import "../../../components/center_text.dart";
@@ -23,7 +22,7 @@ class WeaponDetailsPage extends StatelessWidget {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
       builder: (assetData, assetDir) {
-        final weapon = assetData.weapons.firstWhereOrNull((element) => element.id == id);
+        final weapon = assetData.weapons[id];
         if (weapon == null) {
           return Scaffold(
             appBar: AppBar(),
@@ -132,7 +131,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
                   assetData,
                 ))
                   MaterialItem(
-                    material: assetData.materials.firstWhereOrNull((e) => e.id == material.id),
+                    material: assetData.materials[material.id],
                     bookmarkableMaterial: material,
                     expItems: assetData.weaponIngredients.expItems,
                   ),

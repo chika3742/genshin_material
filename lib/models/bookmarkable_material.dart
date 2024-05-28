@@ -1,4 +1,3 @@
-import "package:collection/collection.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
@@ -41,7 +40,7 @@ class BookmarkableMaterial {
       return _material!;
     }
 
-    final result = assetData.materials.firstWhereOrNull((e) => e.id == id);
+    final result = assetData.materials[id];
     if (result == null) {
       throw "Material not found for id: $id";
     }
