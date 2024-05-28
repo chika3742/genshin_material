@@ -2,23 +2,19 @@ import "package:flutter/material.dart" hide Material;
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../models/bookmarkable_material.dart";
-import "../models/character_ingredients.dart";
 import "../models/common.dart";
 import "../models/material.dart";
+import "../providers/database_provider.dart";
 import "../providers/versions.dart";
 import "material_card.dart";
 
 /// Material item implementation.
 class MaterialItem extends ConsumerStatefulWidget {
-  final Material? material;
   final BookmarkableMaterial bookmarkableMaterial;
-  final List<ExpItem>? expItems;
 
   const MaterialItem({
     super.key,
     required this.bookmarkableMaterial,
-    this.material,
-    this.expItems,
   });
 
   @override
@@ -40,13 +36,13 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
 
     Material material;
     int quantity;
-    if (widget.material != null) {
-      material = widget.material!;
-      quantity = widget.bookmarkableMaterial.sum;
-    } else {
-      final expItem = widget.expItems![_currentExpItemIndex];
+    if (widget.bookmarkableMaterial.isExp) {
+      final expItem = assetData.characterIngredients.expItems[_currentExpItemIndex];
       material = assetData.materials[expItem.itemId]!;
       quantity = (widget.bookmarkableMaterial.sum / expItem.expPerItem).ceil();
+    } else {
+      material = widget.bookmarkableMaterial.material;
+      quantity = widget.bookmarkableMaterial.sum;
     }
 
     return MaterialCard(
@@ -57,7 +53,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       id: material.id,
       bookmarkState: BookmarkState.none,
       onBookmark: () {},
-      onSwap: widget.material == null ? () {
+      onSwapExpItem: widget.bookmarkableMaterial.isExp ? () {
         setState(() {
           _currentExpItemIndex = (_currentExpItemIndex + 1) %
               assetData.characterIngredients.expItems.length;

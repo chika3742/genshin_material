@@ -7,7 +7,6 @@ import "../core/theme.dart";
 import "../models/common.dart";
 import "../routes.dart";
 
-
 class MaterialCard extends StatelessWidget {
   /// Image file of the material.
   final File image;
@@ -28,7 +27,7 @@ class MaterialCard extends StatelessWidget {
   /// Callback for bookmarking the material.
   final void Function()? onBookmark;
 
-  final void Function()? onSwap;
+  final void Function()? onSwapExpItem;
 
   const MaterialCard({
     super.key,
@@ -39,7 +38,7 @@ class MaterialCard extends StatelessWidget {
     this.id,
     this.bookmarkState,
     this.onBookmark,
-    this.onSwap,
+    this.onSwapExpItem,
   });
 
   @override
@@ -50,9 +49,9 @@ class MaterialCard extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (onSwap != null) IconButton(
+              if (onSwapExpItem != null) IconButton(
                 icon: const Icon(Symbols.swap_horiz),
-                onPressed: onSwap,
+                onPressed: onSwapExpItem,
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(8.0),

@@ -131,9 +131,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
                   assetData,
                 ))
                   MaterialItem(
-                    material: assetData.materials[material.id],
                     bookmarkableMaterial: material,
-                    expItems: assetData.weaponIngredients.expItems,
                   ),
               ],
             ),

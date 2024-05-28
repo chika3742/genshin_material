@@ -165,9 +165,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                         assetData,
                       ))
                         MaterialItem(
-                          material: assetData.materials[material.id],
                           bookmarkableMaterial: material,
-                          expItems: assetData.characterIngredients.expItems,
                         ),
                     ],
                   ),
@@ -270,7 +268,6 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                           assetData,
                         ).map(
                               (bm) => MaterialItem(
-                                material: bm.isExp ? null : bm.material,
                                 bookmarkableMaterial: bm,
                               ),
                             ).toList(),
