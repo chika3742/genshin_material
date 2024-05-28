@@ -22,8 +22,8 @@ class WeaponDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
-      builder: (assetData) {
-        final weapon = assetData.weapons!.firstWhereOrNull((element) => element.id == id);
+      builder: (assetData, assetDir) {
+        final weapon = assetData.weapons.firstWhereOrNull((element) => element.id == id);
         if (weapon == null) {
           return Scaffold(
             appBar: AppBar(),
@@ -34,6 +34,7 @@ class WeaponDetailsPage extends StatelessWidget {
         return WeaponDetailsPageContents(
           weapon: weapon,
           assetData: assetData,
+          assetDir: assetDir,
         );
       },
     );
@@ -42,12 +43,14 @@ class WeaponDetailsPage extends StatelessWidget {
 
 class WeaponDetailsPageContents extends StatefulWidget {
   final Weapon weapon;
-  final AssetDataCache assetData;
+  final AssetData assetData;
+  final String assetDir;
 
   const WeaponDetailsPageContents({
     super.key,
     required this.weapon,
     required this.assetData,
+    required this.assetDir,
   });
 
   @override
@@ -62,7 +65,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
   void initState() {
     super.initState();
 
-    final levels = widget.assetData.weaponIngredients!
+    final levels = widget.assetData.weaponIngredients
         .rarities[widget.weapon.rarity]!.levels;
     _sliderTickLabels = [1, ...levels.keys];
     _rangeValues = LevelRangeValues(1, levels.keys.last);
@@ -72,7 +75,8 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
   Widget build(BuildContext context) {
     final weapon = widget.weapon;
     final assetData = widget.assetData;
-    final ingredients = widget.assetData.weaponIngredients!.rarities[weapon.rarity]!;
+    final assetDir = widget.assetDir;
+    final ingredients = widget.assetData.weaponIngredients.rarities[weapon.rarity]!;
 
     return Scaffold(
       appBar: AppBar(
@@ -86,14 +90,14 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
           children: [
             GameItemInfoBox(
               itemImage: Image.file(
-                weapon.getImageFile(assetData.assetDir!),
+                weapon.getImageFile(assetDir),
                 width: 50,
                 height: 50,
               ),
               children: [
                 RarityStars(count: weapon.rarity),
                 Text(
-                  assetData.weaponTypes![weapon.type]!.localized,
+                  assetData.weaponTypes[weapon.type]!.localized,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ],
@@ -125,11 +129,12 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
                 for (final material in toBookmarkableMaterials(
                   levelMapToList(narrowLevelMap(ingredients.levels, _rangeValues)),
                   weapon.materials,
+                  assetData,
                 ))
                   MaterialItem(
-                    material: assetData.materials!.firstWhereOrNull((e) => e.id == material.id),
+                    material: assetData.materials.firstWhereOrNull((e) => e.id == material.id),
                     bookmarkableMaterial: material,
-                    expItems: assetData.weaponIngredients!.expItems,
+                    expItems: assetData.weaponIngredients.expItems,
                   ),
               ],
             ),

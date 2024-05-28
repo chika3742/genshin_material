@@ -7,16 +7,24 @@ import "material.dart";
 
 part "bookmarkable_material.freezed.dart";
 
-@freezed
-class BookmarkableMaterial with _$BookmarkableMaterial {
-  const BookmarkableMaterial._();
+class BookmarkableMaterial {
+  final String? id;
+  final List<BookmarkableMaterialLevel> levels;
 
-  const factory BookmarkableMaterial({
-    String? id,
-    required List<BookmarkableMaterialLevel> levels,
-  }) = _BookmarkableMaterial;
+  final AssetData assetData;
 
-  int get sum => levels.fold(
+  BookmarkableMaterial({
+    this.id,
+    required this.levels,
+    required this.assetData,
+  });
+
+  int? _sum;
+  Material? _material;
+  int? _sortPriority;
+
+  /// Sum of all quantities (non-exp items) or exps.
+  int get sum => _sum ??= levels.fold<int>(
         0,
         (prev, level) =>
             prev +
@@ -29,21 +37,28 @@ class BookmarkableMaterial with _$BookmarkableMaterial {
   bool get isExp => levels.every((e) => e is BookmarkableMaterialLevelExp);
 
   Material get material {
-    final result = AssetDataCache.instance.materials!
-        .firstWhereOrNull((e) => e.id == id);
+    if (_material != null) {
+      return _material!;
+    }
+
+    final result = assetData.materials.firstWhereOrNull((e) => e.id == id);
     if (result == null) {
       throw "Material not found for id: $id";
     }
-    return result;
+    return _material = result;
   }
 
-  int get sortOrder {
+  int get sortPriority {
+    if (_sortPriority != null) {
+      return _sortPriority!;
+    }
+
     if (isExp) {
       return -1;
     }
 
-    final sortOrderMap = AssetDataCache.instance.materialSortOrder!;
-    return sortOrderMap["id:$id"] ?? sortOrderMap["category:${material.category}"] ?? 0;
+    final sortOrderMap = assetData.materialSortOrder;
+    return _sortPriority = sortOrderMap["id:$id"] ?? sortOrderMap["category:${material.category}"] ?? 0;
   }
 }
 

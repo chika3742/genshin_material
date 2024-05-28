@@ -10,7 +10,7 @@ List<IngredientsWithLevel> levelMapToList(Map<int, List<Ingredient>> map) {
   return map.entries.map((e) => IngredientsWithLevel(level: e.key, ingredients: e.value)).toList();
 }
 
-String getConcreteItemId(Ingredient ingredient, MaterialDefinitions definitions) {
+String getConcreteItemId(Ingredient ingredient, MaterialDefinitions definitions, AssetData assetData) {
   return switch (ingredient) {
     IngredientByType() => () {
         final definition = definitions[ingredient.type];
@@ -23,10 +23,10 @@ String getConcreteItemId(Ingredient ingredient, MaterialDefinitions definitions)
           return expr;
         }
         if (defType == "group") {
-          return AssetDataCache.instance.materials!
+          return assetData.materials
               .firstWhere(
-                (e) => e.groupId == expr &&
-                    e.craftLevel == ingredient.craftLevel,
+                (e) =>
+                    e.groupId == expr && e.craftLevel == ingredient.craftLevel,
               )
               .id;
         }
@@ -53,11 +53,12 @@ Map<int, List<Ingredient>> narrowLevelMap(
 List<BookmarkableMaterial> toBookmarkableMaterials(
   List<IngredientsWithLevel> ingredients,
   MaterialDefinitions definitions,
+  AssetData assetData,
 ) {
   final merged = <String, List<BookmarkableMaterialLevel>>{};
   for (final ingredient in ingredients) {
     for (final i in ingredient.ingredients) {
-      final itemId = getConcreteItemId(i, definitions);
+      final itemId = getConcreteItemId(i, definitions, assetData);
       merged[itemId] ??= [];
       merged[itemId]!.add(
         switch (i) {
@@ -83,6 +84,7 @@ List<BookmarkableMaterial> toBookmarkableMaterials(
     (e) => BookmarkableMaterial(
       id: e.key,
       levels: e.value,
+      assetData: assetData,
     ),
-  ).toList().sorted((a, b) => a.sortOrder.compareTo(b.sortOrder));
+  ).toList().sorted((a, b) => a.sortPriority.compareTo(b.sortPriority));
 }

@@ -4,11 +4,11 @@ import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 import "package:path_provider/path_provider.dart";
 
-import "../core/asset_cache.dart";
 import "../core/asset_updater.dart";
 import "../core/handle_error.dart";
 import "../i18n/strings.g.dart";
 import "../main.dart";
+import "../providers/versions.dart";
 import "../ui_core/install_latest_assets.dart";
 import "../ui_core/snack_bar.dart";
 
@@ -54,10 +54,9 @@ class _HomePageState extends ConsumerState<HomePage> {
       //   (await getLocalAssetDirectory()).delete(recursive: true);
       // } catch (_) {}
 
-      await AssetDataCache.instance.init();
-      final assetDir = AssetDataCache.instance.assetDir;
+      final assetDir = (await getLocalAssetDirectory()).path;
 
-      final updater = AssetUpdater(assetDir!, tempDir: (await getTemporaryDirectory()).path);
+      final updater = AssetUpdater(assetDir, tempDir: (await getTemporaryDirectory()).path);
       try {
         await updater.checkForUpdate();
       } catch (e, st) {
@@ -78,6 +77,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(assetDataProvider);
+
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         destinations: navDestinations,

@@ -55,7 +55,7 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
             color: Theme.of(context).colorScheme.primary,
           ),
           DataAssetScope(
-            builder: (_) {
+            builder: (_, __) {
               return _buildReleaseNotesTab(
                 provider: assetsReleaseNotesDataProvider,
                 versionPrefix: "D",
@@ -69,7 +69,7 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
   }
 
   Widget _buildReleaseNotesTab({
-    required FutureProvider<List<ReleaseNote>> provider,
+    required AutoDisposeFutureProvider<List<ReleaseNote>> provider,
     required String versionPrefix,
     required Color color,
   }) {
@@ -77,7 +77,7 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
       data: TimelineThemeData(
         color: color,
       ),
-      child: _ReleaseNotesTab(
+      child: _ReleaseNotesTabContent(
         provider: provider,
         versionPrefix: versionPrefix,
       ),
@@ -85,11 +85,11 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
   }
 }
 
-class _ReleaseNotesTab extends ConsumerWidget {
-  final FutureProvider<List<ReleaseNote>> provider;
+class _ReleaseNotesTabContent extends ConsumerWidget {
+  final AutoDisposeFutureProvider<List<ReleaseNote>> provider;
   final String versionPrefix;
 
-  const _ReleaseNotesTab({required this.provider, this.versionPrefix = "v"});
+  const _ReleaseNotesTabContent({required this.provider, this.versionPrefix = "v"});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

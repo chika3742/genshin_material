@@ -21,8 +21,8 @@ class MaterialDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
-      builder: (assetData) {
-        final material = assetData.materials!.firstWhereOrNull((m) => m.id == id);
+      builder: (assetData, assetDir) {
+        final material = assetData.materials.firstWhereOrNull((m) => m.id == id);
         if (material == null) {
           return Scaffold(
             appBar: AppBar(),
@@ -30,8 +30,8 @@ class MaterialDetailsPage extends StatelessWidget {
           );
         }
 
-        final charactersUsingMaterial = getCharactersUsingMaterial(material, assetData.characters!);
-        final weaponsUseMaterial = getWeaponsUsingMaterial(material, assetData.weapons!);
+        final charactersUsingMaterial = getCharactersUsingMaterial(material, assetData.characters);
+        final weaponsUseMaterial = getWeaponsUsingMaterial(material, assetData.weapons);
 
         return Scaffold(
           appBar: AppBar(
@@ -45,14 +45,14 @@ class MaterialDetailsPage extends StatelessWidget {
               children: [
                 GameItemInfoBox(
                   itemImage: Image.file(
-                    material.getImageFile(assetData.assetDir!),
+                    material.getImageFile(assetDir),
                     width: 50,
                     height: 50,
                   ),
                   children: [
                     RarityStars(count: material.rarity),
                     Text(
-                      assetData.materialCategories![material.category]!.localized,
+                      assetData.materialCategories[material.category]!.localized,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],
@@ -77,12 +77,12 @@ class MaterialDetailsPage extends StatelessWidget {
                     SectionHeading(tr.materialDetailsPage.weaponsUsing),
                     for (final weaponTypes in weaponsUseMaterial.groupListsBy((w) => w.type).entries)
                       ...[
-                        SectionInnerHeading(assetData.weaponTypes![weaponTypes.key]!.localized),
+                        SectionInnerHeading(assetData.weaponTypes[weaponTypes.key]!.localized),
                         Column(
                           children: [
                             for (final weapon in weaponTypes.value)
                               GameItemListTile(
-                                image: weapon.getImageFile(assetData.assetDir!),
+                                image: weapon.getImageFile(assetDir),
                                 name: weapon.name.localized,
                                 rarity: weapon.rarity,
                                 onTap: () {

@@ -31,9 +31,9 @@ class WeaponListPage extends StatelessWidget {
             isScrollControlled: true,
             showDragHandle: true,
             builder: (context) => DataAssetScope(
-              builder: (assetData) {
+              builder: (assetData, assetDir) {
                 var offset = 0.0;
-                final weaponsGroupedByType = assetData.weapons!
+                final weaponsGroupedByType = assetData.weapons
                     .groupListsBy((element) => element.type);
 
                 return ListIndexSheet(
@@ -49,8 +49,8 @@ class WeaponListPage extends StatelessWidget {
                     final items = e.value;
 
                     final item = ListIndexItem(
-                      title: assetData.weaponTypes![typeId]!.localized,
-                      image: items.first.getImageFile(assetData.assetDir!),
+                      title: assetData.weaponTypes[typeId]!.localized,
+                      image: items.first.getImageFile(assetDir),
                       scrollOffset: offset,
                     );
                     offset += stickyListHeaderHeight +
@@ -66,15 +66,15 @@ class WeaponListPage extends StatelessWidget {
         label: Text(tr.common.index),
       ),
       body: DataAssetScope(
-        builder: (assetData) {
-          final weaponsGroupedByType = assetData.weapons!
+        builder: (assetData, assetDir) {
+          final weaponsGroupedByType = assetData.weapons
               .groupListsBy((element) => element.type);
 
           return CustomScrollView(
             controller: _scrollController,
             slivers: weaponsGroupedByType.entries.map((e) {
               final categoryId = e.key;
-              final categoryText = assetData.weaponTypes![categoryId]!.localized;
+              final categoryText = assetData.weaponTypes[categoryId]!.localized;
 
               return SliverStickyHeader.builder(
                 builder: (_, __) => StickyListHeader(categoryText),
@@ -84,7 +84,7 @@ class WeaponListPage extends StatelessWidget {
                       final weapon = weaponsGroupedByType[categoryId]![index];
 
                       return GameItemListTile(
-                        image: weapon.getImageFile(assetData.assetDir!),
+                        image: weapon.getImageFile(assetDir),
                         name: weapon.name.localized,
                         rarity: weapon.rarity,
                         onTap: () {

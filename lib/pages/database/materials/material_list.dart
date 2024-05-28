@@ -31,9 +31,9 @@ class MaterialListPage extends StatelessWidget {
             isScrollControlled: true,
             showDragHandle: true,
             builder: (context) => DataAssetScope(
-              builder: (assetData) {
+              builder: (assetData, assetDir) {
                 var offset = 0.0;
-                final materialsGroupedByCategory = assetData.materials!
+                final materialsGroupedByCategory = assetData.materials
                     .groupListsBy((element) => element.category);
 
                 return ListIndexSheet(
@@ -44,7 +44,7 @@ class MaterialListPage extends StatelessWidget {
                       curve: Curves.easeInOutQuint,
                     );
                   },
-                  items: assetData.materialCategories!.entries
+                  items: assetData.materialCategories.entries
                       .map((e) {
                         final categoryId = e.key;
                         final categoryText = e.value.localized;
@@ -52,7 +52,7 @@ class MaterialListPage extends StatelessWidget {
                         final item = ListIndexItem(
                           title: categoryText,
                           image: materialsGroupedByCategory[categoryId]!
-                              .first.getImageFile(assetData.assetDir!),
+                              .first.getImageFile(assetDir),
                           scrollOffset: offset,
                         );
                         offset += stickyListHeaderHeight +
@@ -69,9 +69,9 @@ class MaterialListPage extends StatelessWidget {
         label: Text(tr.common.index),
       ),
       body: DataAssetScope(
-        builder: (assetData) {
-          final categories = assetData.materialCategories!;
-          final materialsGroupedByCategory = assetData.materials!
+        builder: (assetData, assetDir) {
+          final categories = assetData.materialCategories;
+          final materialsGroupedByCategory = assetData.materials
               .groupListsBy((element) => element.category);
           return CustomScrollView(
             controller: _scrollController,
@@ -87,7 +87,7 @@ class MaterialListPage extends StatelessWidget {
                       final material = materialsGroupedByCategory[categoryId]![index];
 
                       return GameItemListTile(
-                        image: material.getImageFile(assetData.assetDir!),
+                        image: material.getImageFile(assetDir),
                         name: material.name.localized,
                         rarity: material.rarity,
                         onTap: () {

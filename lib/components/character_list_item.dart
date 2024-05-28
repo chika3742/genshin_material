@@ -1,17 +1,22 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
-import "../core/asset_cache.dart";
 import "../models/character.dart";
+import "../providers/versions.dart";
 import "../routes.dart";
 
-class CharacterListItem extends StatelessWidget {
+class CharacterListItem extends ConsumerWidget {
   final CharacterWithLargeImage character;
 
   const CharacterListItem(this.character, {super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final assetPath = AssetDataCache.instance.assetDir!;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final assetDir = ref.watch(assetDataProvider).value?.assetDir;
+    if (assetDir == null) {
+      return const SizedBox();
+    }
+
     const containerBorderRadius = 8.0;
 
     return Card(
@@ -27,7 +32,7 @@ class CharacterListItem extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: FileImage(character.getImageFile(assetPath)),
+              image: FileImage(character.getImageFile(assetDir)),
             ),
             borderRadius: BorderRadius.circular(containerBorderRadius),
           ),
