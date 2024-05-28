@@ -1,16 +1,22 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
-import "../core/asset_cache.dart";
 import "../models/character.dart";
+import "../providers/versions.dart";
 import "../routes.dart";
 
-class CharacterSmallCard extends StatelessWidget {
+class CharacterSmallCard extends ConsumerWidget {
   final CharacterWithSmallImage character;
 
   const CharacterSmallCard(this.character, {super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final assetDir = ref.watch(assetDataProvider).value?.assetDir;
+    if (assetDir == null) {
+      return const SizedBox();
+    }
+
     return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(6),
@@ -20,7 +26,7 @@ class CharacterSmallCard extends StatelessWidget {
         child: Column(
           children: [
             Image.file(
-              character.getSmallImageFile(AssetDataCache.instance.assetDir!),
+              character.getSmallImageFile(assetDir),
               width: 75,
               height: 75,
             ),

@@ -25,8 +25,8 @@ class CharacterDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
-      builder: (assetData) {
-        final character = assetData.characters!
+      builder: (assetData, assetDir) {
+        final character = assetData.characters
             .firstWhereOrNull((e) => e.id == id);
         if (character == null || character is! CharacterWithSmallImage) {
           return Scaffold(
@@ -38,6 +38,7 @@ class CharacterDetailsPage extends StatelessWidget {
         return CharacterDetailsPageContents(
           character: character,
           assetData: assetData,
+          assetDir: assetDir,
         );
       },
     );
@@ -47,12 +48,14 @@ class CharacterDetailsPage extends StatelessWidget {
 /// Ensure that this widget is within a [DataAssetScope].
 class CharacterDetailsPageContents extends StatefulWidget {
   final CharacterWithSmallImage character;
-  final AssetDataCache assetData;
+  final AssetData assetData;
+  final String assetDir;
 
   const CharacterDetailsPageContents({
     super.key,
     required this.character,
     required this.assetData,
+    required this.assetDir,
   });
 
   @override
@@ -71,7 +74,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
     super.initState();
 
     // init the range values and checked talent types for each purpose
-    final ingredients = widget.assetData.characterIngredients!;
+    final ingredients = widget.assetData.characterIngredients;
     for (final purpose in ingredients.purposes.keys) {
       final levels = ingredients.purposes[purpose]!.levels;
       _sliderTickLabels[purpose] = [1, ...levels.keys];
@@ -83,8 +86,9 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
   @override
   Widget build(BuildContext context) {
     final assetData = widget.assetData;
+    final assetDir = widget.assetDir;
     final character = widget.character;
-    final ingredients = assetData.characterIngredients!;
+    final ingredients = assetData.characterIngredients;
 
     return Scaffold(
       appBar: AppBar(
@@ -104,7 +108,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
               // character information
               GameItemInfoBox(
                 itemImage: Image.file(
-                  character.getSmallImageFile(assetData.assetDir!),
+                  character.getSmallImageFile(assetDir),
                   width: 70,
                   height: 70,
                 ),
@@ -115,16 +119,16 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                   Row(
                     children: [
                       Image.file(
-                        assetData.elements![character.element]!.getImageFile(assetData.assetDir!),
+                        assetData.elements[character.element]!.getImageFile(assetDir),
                         width: 26,
                         height: 26,
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
-                      Text(assetData.elements![character.element]!.text.localized),
+                      Text(assetData.elements[character.element]!.text.localized),
                     ],
                   ),
                   // weapon type
-                  Text(assetData.weaponTypes![character.weaponType]!.localized),
+                  Text(assetData.weaponTypes[character.weaponType]!.localized),
                 ],
               ),
               GappedColumn(
@@ -159,11 +163,12 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                       for (final material in toBookmarkableMaterials(
                         levelMapToList(narrowLevelMap(ingredients.purposes[Purpose.ascension]!.levels, _rangeValues[Purpose.ascension]!)),
                         character.materials,
+                        assetData,
                       ))
                         MaterialItem(
-                          material: assetData.materials!.firstWhereOrNull((e) => e.id == material.id),
+                          material: assetData.materials.firstWhereOrNull((e) => e.id == material.id),
                           bookmarkableMaterial: material,
-                          expItems: assetData.characterIngredients!.expItems,
+                          expItems: assetData.characterIngredients.expItems,
                         ),
                     ],
                   ),
@@ -263,6 +268,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                         children: toBookmarkableMaterials(
                           _getTalentIngredients(),
                           character.materials,
+                          assetData,
                         ).map(
                               (bm) => MaterialItem(
                                 material: bm.isExp ? null : bm.material,
@@ -288,7 +294,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
         result.addAll(
           levelMapToList(
             narrowLevelMap(
-              widget.assetData.characterIngredients!.purposes[Purpose.fromTalentType(talentType)]!.levels,
+              widget.assetData.characterIngredients.purposes[Purpose.fromTalentType(talentType)]!.levels,
               _rangeValues[Purpose.fromTalentType(talentType)]!,
             ),
           ),

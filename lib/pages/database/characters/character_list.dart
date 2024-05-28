@@ -15,8 +15,8 @@ class CharacterListPage extends StatelessWidget {
         title: Text(tr.pages.characters),
       ),
       body: DataAssetScope(
-        builder: (assetData) {
-          final characters = assetData.characters!
+        builder: (assetData, _) {
+          final characters = assetData.characters
               .whereType<CharacterWithLargeImage>()
               .toList();
           return GridView.builder(

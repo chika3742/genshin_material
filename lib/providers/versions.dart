@@ -17,22 +17,21 @@ Future<PackageInfo> packageInfo(PackageInfoRef ref) async {
   return await PackageInfo.fromPlatform();
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<AssetDataCache> assetData(AssetDataRef ref) async {
-  final dataCache = AssetDataCache.instance;
-  await dataCache.init();
+  final dataCache = AssetDataCache((await getLocalAssetDirectory()).path);
   await dataCache.fetchIntoCache();
   return dataCache;
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<List<ReleaseNote>> featuresReleaseNotesData(FeaturesReleaseNotesDataRef ref) async {
   final yaml = await rootBundle.loadString("assets/release_notes.yaml");
   final items = loadYamlWithUnwrap<List>(yaml);
   return items.map((e) => ReleaseNote.fromJson(e)).toList();
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<List<ReleaseNote>> assetsReleaseNotesData(AssetsReleaseNotesDataRef ref) async {
   final assetVersion = await ref.watch(assetDataProvider.future);
   if (assetVersion.version == null) {

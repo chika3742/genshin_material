@@ -1,5 +1,6 @@
 import "dart:io";
 
+import "package:freezed_annotation/freezed_annotation.dart";
 import "package:path/path.dart" as path;
 import "package:yaml/yaml.dart";
 
@@ -17,29 +18,15 @@ import "../utils/unwrap_yaml_value.dart";
 import "asset_updater.dart";
 import "data_parsing_exception.dart";
 
-class AssetDataCache {
-  static final instance = AssetDataCache();
+part "asset_cache.freezed.dart";
 
-  String? assetDir;
+class AssetDataCache {
+  String assetDir;
+
+  AssetDataCache(this.assetDir);
 
   AssetReleaseVersion? version;
-  List<Character>? characters;
-  CharacterIngredients? characterIngredients;
-  List<Weapon>? weapons;
-  WeaponIngredients? weaponIngredients;
-  Map<WeaponSubStat, LocalizedText>? weaponSubStats;
-  Map<WeaponType, LocalizedText>? weaponTypes;
-  Map<TeyvatElement, Element>? elements;
-  List<Material>? materials;
-  Map<MaterialCategoryType, LocalizedText>? materialCategories;
-  Map<String, int>? materialSortOrder;
-  DailyMaterials? dailyMaterials;
-  List<ArtifactSet>? artifactSets;
-  Map<ArtifactPieceType, LocalizedText>? artifactPieceTypes;
-
-  Future<void> init() async {
-    assetDir ??= (await getLocalAssetDirectory()).path;
-  }
+  AssetData? data;
 
   Future<void> fetchIntoCache() async {
     version = await AssetUpdater((await getLocalAssetDirectory()).path).getCurrentVersion();
@@ -48,51 +35,49 @@ class AssetDataCache {
       return;
     }
 
-    characters = (await loadDataAsset<List>("characters.yaml"))
-        .map((e) => Character.fromJson(e)).toList();
-    characterIngredients = CharacterIngredients.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("character-ingredients.yaml"),
-    );
-    weapons = (await loadDataAsset<List>("weapons.yaml"))
-        .map((e) => Weapon.fromJson(e)).toList();
-    weaponIngredients = WeaponIngredients.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("weapon-ingredients.yaml"),
-    );
     final weaponsMeta = WeaponsMeta.fromJson(
       await loadDataAsset<Map<String, dynamic>>("weapons-meta.yaml"),
     );
-    weaponSubStats = weaponsMeta.subStats;
-    weaponTypes = weaponsMeta.types;
-    elements = (await loadDataAsset<Map<String, dynamic>>("elements.yaml")).map((key, value) {
-      return MapEntry(
-        key,
-        Element.fromJson(value),
-      );
-    });
-    materials = (await loadDataAsset<List>("materials.yaml"))
-        .map((e) => Material.fromJson(e)).toList();
     final materialsMeta = MaterialsMeta.fromJson(
       await loadDataAsset<Map<String, dynamic>>("materials-meta.yaml"),
     );
-    materialCategories = materialsMeta.categories;
-    materialSortOrder = materialsMeta.sortOrder;
-    dailyMaterials = materialsMeta.daily;
-
-    artifactSets = (await loadDataAsset<List>("artifact-sets.yaml"))
-        .map((e) => ArtifactSet.fromJson(e)).toList();
     final artifactsMeta = ArtifactsMeta.fromJson(
       await loadDataAsset<Map<String, dynamic>>("artifacts-meta.yaml"),
     );
-    artifactPieceTypes = artifactsMeta.pieceTypes;
+
+    data = AssetData(
+      characters: (await loadDataAsset<List>("characters.yaml"))
+          .map((e) => Character.fromJson(e)).toList(),
+      characterIngredients: CharacterIngredients.fromJson(
+        await loadDataAsset<Map<String, dynamic>>("character-ingredients.yaml"),
+      ),
+      weapons: (await loadDataAsset<List>("weapons.yaml"))
+          .map((e) => Weapon.fromJson(e)).toList(),
+      weaponIngredients: WeaponIngredients.fromJson(
+        await loadDataAsset<Map<String, dynamic>>("weapon-ingredients.yaml"),
+      ),
+      weaponSubStats: weaponsMeta.subStats,
+      weaponTypes: weaponsMeta.types,
+      elements: (await loadDataAsset<Map<String, dynamic>>("elements.yaml")).map((key, value) {
+        return MapEntry(
+          key,
+          Element.fromJson(value),
+        );
+      }),
+      materials: (await loadDataAsset<List>("materials.yaml"))
+          .map((e) => Material.fromJson(e)).toList(),
+      materialCategories: materialsMeta.categories,
+      materialSortOrder: materialsMeta.sortOrder,
+      dailyMaterials: materialsMeta.daily,
+      artifactSets: (await loadDataAsset<List>("artifact-sets.yaml"))
+          .map((e) => ArtifactSet.fromJson(e)).toList(),
+      artifactPieceTypes: artifactsMeta.pieceTypes,
+    );
   }
 
   /// Reads data asset file and parses YAML into JSON.
   Future<RootT> loadDataAsset<RootT>(String filename) async {
-    if (assetDir == null) {
-      throw "Call init() first.";
-    }
-
-    final filePath = path.join(assetDir!, "data/$filename");
+    final filePath = path.join(assetDir, "data/$filename");
     final yamlString = await File(filePath).readAsString();
     final unwrapped = unwrapYamlValue(loadYaml(yamlString));
     // assert root type
@@ -104,4 +89,23 @@ class AssetDataCache {
     }
     return unwrapped;
   }
+}
+
+@Freezed(copyWith: false)
+class AssetData with _$AssetData {
+  const factory AssetData({
+    required List<Character> characters,
+    required CharacterIngredients characterIngredients,
+    required List<Weapon> weapons,
+    required WeaponIngredients weaponIngredients,
+    required Map<WeaponSubStat, LocalizedText> weaponSubStats,
+    required Map<WeaponType, LocalizedText> weaponTypes,
+    required Map<TeyvatElement, Element> elements,
+    required List<Material> materials,
+    required Map<MaterialCategoryType, LocalizedText> materialCategories,
+    required Map<String, int> materialSortOrder,
+    required DailyMaterials dailyMaterials,
+    required List<ArtifactSet> artifactSets,
+    required Map<ArtifactPieceType, LocalizedText> artifactPieceTypes,
+  }) = _AssetData;
 }

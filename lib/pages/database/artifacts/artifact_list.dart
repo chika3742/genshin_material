@@ -20,8 +20,8 @@ class ArtifactListPage extends HookWidget {
         title: Text(tr.pages.artifacts),
       ),
       body: DataAssetScope(
-        builder: (assetData) {
-          final sets = assetData.artifactSets!;
+        builder: (assetData, assetDir) {
+          final sets = assetData.artifactSets;
 
           return SingleChildScrollView(
             child: Column(
@@ -66,7 +66,7 @@ class ArtifactListPage extends HookWidget {
                         headerBuilder: (context, isExpanded) {
                           return ListTile(
                             leading: Image.file(
-                              sets[i].consistsOf[0].getImageFile(assetData.assetDir!),
+                              sets[i].consistsOf[0].getImageFile(assetDir),
                               height: 40,
                               width: 40,
                             ),
