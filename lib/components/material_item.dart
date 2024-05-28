@@ -45,8 +45,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       quantity = widget.bookmarkableMaterial.sum;
     } else {
       final expItem = widget.expItems![_currentExpItemIndex];
-      material = assetData.materials
-          .firstWhere((e) => e.id == expItem.itemId);
+      material = assetData.materials[expItem.itemId]!;
       quantity = (widget.bookmarkableMaterial.sum / expItem.expPerItem).ceil();
     }
 

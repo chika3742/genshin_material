@@ -33,7 +33,7 @@ class WeaponListPage extends StatelessWidget {
             builder: (context) => DataAssetScope(
               builder: (assetData, assetDir) {
                 var offset = 0.0;
-                final weaponsGroupedByType = assetData.weapons
+                final weaponsGroupedByType = assetData.weapons.values
                     .groupListsBy((element) => element.type);
 
                 return ListIndexSheet(
@@ -67,7 +67,7 @@ class WeaponListPage extends StatelessWidget {
       ),
       body: DataAssetScope(
         builder: (assetData, assetDir) {
-          final weaponsGroupedByType = assetData.weapons
+          final weaponsGroupedByType = assetData.weapons.values
               .groupListsBy((element) => element.type);
 
           return CustomScrollView(

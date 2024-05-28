@@ -33,7 +33,7 @@ class MaterialListPage extends StatelessWidget {
             builder: (context) => DataAssetScope(
               builder: (assetData, assetDir) {
                 var offset = 0.0;
-                final materialsGroupedByCategory = assetData.materials
+                final materialsGroupedByCategory = assetData.materials.values
                     .groupListsBy((element) => element.category);
 
                 return ListIndexSheet(
@@ -71,7 +71,7 @@ class MaterialListPage extends StatelessWidget {
       body: DataAssetScope(
         builder: (assetData, assetDir) {
           final categories = assetData.materialCategories;
-          final materialsGroupedByCategory = assetData.materials
+          final materialsGroupedByCategory = assetData.materials.values
               .groupListsBy((element) => element.category);
           return CustomScrollView(
             controller: _scrollController,

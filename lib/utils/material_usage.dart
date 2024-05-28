@@ -23,9 +23,9 @@ bool materialUsagePredicate(
   });
 }
 
-List<CharacterWithSmallImage> getCharactersUsingMaterial(
+Iterable<CharacterWithSmallImage> getCharactersUsingMaterial(
   Material material,
-  List<Character> items,
+  Iterable<Character> items,
 ) {
   return items.where((c) {
     if (c is! CharacterWithSmallImage) {
@@ -33,14 +33,14 @@ List<CharacterWithSmallImage> getCharactersUsingMaterial(
     }
 
     return materialUsagePredicate(material, c as WithMaterialDefinitions);
-  }).toList().cast<CharacterWithSmallImage>();
+  }).cast<CharacterWithSmallImage>();
 }
 
-List<Weapon> getWeaponsUsingMaterial(
+Iterable<Weapon> getWeaponsUsingMaterial(
   Material material,
-  List<Weapon> items,
+  Iterable<Weapon> items,
 ) {
   return items.where((w) {
     return materialUsagePredicate(material, w);
-  }).toList();
+  });
 }

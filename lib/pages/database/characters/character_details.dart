@@ -26,8 +26,7 @@ class CharacterDetailsPage extends StatelessWidget {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
       builder: (assetData, assetDir) {
-        final character = assetData.characters
-            .firstWhereOrNull((e) => e.id == id);
+        final character = assetData.characters[id];
         if (character == null || character is! CharacterWithSmallImage) {
           return Scaffold(
             appBar: AppBar(),
@@ -166,7 +165,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                         assetData,
                       ))
                         MaterialItem(
-                          material: assetData.materials.firstWhereOrNull((e) => e.id == material.id),
+                          material: assetData.materials[material.id],
                           bookmarkableMaterial: material,
                           expItems: assetData.characterIngredients.expItems,
                         ),

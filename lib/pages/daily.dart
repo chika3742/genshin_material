@@ -79,8 +79,8 @@ class _DailyPageState extends State<DailyPage> with TickerProviderStateMixin {
                           Wrap(
                             children: [
                               for (final character in getCharactersUsingMaterial(
-                                assetData.materials.firstWhere((e) => e.id == dm.items.first),
-                                assetData.characters,
+                                assetData.materials[dm.items.first]!,
+                                assetData.characters.values,
                               ))
                                 CharacterSmallCard(character),
                             ],
@@ -94,9 +94,9 @@ class _DailyPageState extends State<DailyPage> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             for (final e in getWeaponsUsingMaterial(
-                              assetData.materials.firstWhere((e) => e.id == dm.items.first),
-                              assetData.weapons,
-                            ).sortedDescendingByRarity().groupByType().entries) ...[
+                              assetData.materials[dm.items.first]!,
+                              assetData.weapons.values,
+                            ).toList().sortedDescendingByRarity().groupByType().entries) ...[
                               SectionHeading(
                                 assetData.weaponTypes[e.key]!.localized,
                                 indent: 8,
@@ -150,8 +150,7 @@ class _DailyMaterialHeading extends ConsumerWidget {
                   MaterialDetailsRoute(id: dm).push(context);
                 },
                 child: Image.file(
-                  assetData.materials
-                      .firstWhere((e) => e.id == dm).getImageFile(assetDataCache!.assetDir),
+                  assetData.materials[dm]!.getImageFile(assetDataCache!.assetDir),
                   width: 35,
                   height: 35,
                 ),

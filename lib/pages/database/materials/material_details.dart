@@ -22,7 +22,7 @@ class MaterialDetailsPage extends StatelessWidget {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
       builder: (assetData, assetDir) {
-        final material = assetData.materials.firstWhereOrNull((m) => m.id == id);
+        final material = assetData.materials[id];
         if (material == null) {
           return Scaffold(
             appBar: AppBar(),
@@ -30,8 +30,8 @@ class MaterialDetailsPage extends StatelessWidget {
           );
         }
 
-        final charactersUsingMaterial = getCharactersUsingMaterial(material, assetData.characters);
-        final weaponsUseMaterial = getWeaponsUsingMaterial(material, assetData.weapons);
+        final charactersUsingMaterial = getCharactersUsingMaterial(material, assetData.characters.values);
+        final weaponsUseMaterial = getWeaponsUsingMaterial(material, assetData.weapons.values);
 
         return Scaffold(
           appBar: AppBar(

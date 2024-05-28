@@ -20,6 +20,11 @@ import "data_parsing_exception.dart";
 
 part "asset_cache.freezed.dart";
 
+typedef CharacterId = String;
+typedef WeaponId = String;
+typedef MaterialId = String;
+typedef ArtifactSetId = String;
+
 class AssetDataCache {
   String assetDir;
 
@@ -46,13 +51,17 @@ class AssetDataCache {
     );
 
     data = AssetData(
-      characters: (await loadDataAsset<List>("characters.yaml"))
-          .map((e) => Character.fromJson(e)).toList(),
+      characters: Map.fromEntries(
+        (await loadDataAsset<List>("characters.yaml"))
+            .map((e) => MapEntry(e["id"], Character.fromJson(e))),
+      ),
       characterIngredients: CharacterIngredients.fromJson(
         await loadDataAsset<Map<String, dynamic>>("character-ingredients.yaml"),
       ),
-      weapons: (await loadDataAsset<List>("weapons.yaml"))
-          .map((e) => Weapon.fromJson(e)).toList(),
+      weapons: Map.fromEntries(
+        (await loadDataAsset<List>("weapons.yaml"))
+            .map((e) => MapEntry(e["id"], Weapon.fromJson(e))),
+      ),
       weaponIngredients: WeaponIngredients.fromJson(
         await loadDataAsset<Map<String, dynamic>>("weapon-ingredients.yaml"),
       ),
@@ -64,13 +73,17 @@ class AssetDataCache {
           Element.fromJson(value),
         );
       }),
-      materials: (await loadDataAsset<List>("materials.yaml"))
-          .map((e) => Material.fromJson(e)).toList(),
+      materials: Map.fromEntries(
+        (await loadDataAsset<List>("materials.yaml"))
+            .map((e) => MapEntry(e["id"], Material.fromJson(e))),
+      ),
       materialCategories: materialsMeta.categories,
       materialSortOrder: materialsMeta.sortOrder,
       dailyMaterials: materialsMeta.daily,
-      artifactSets: (await loadDataAsset<List>("artifact-sets.yaml"))
-          .map((e) => ArtifactSet.fromJson(e)).toList(),
+      artifactSets: Map.fromEntries(
+        (await loadDataAsset<List>("artifact-sets.yaml"))
+            .map((e) => MapEntry(e["id"], ArtifactSet.fromJson(e))),
+      ),
       artifactPieceTypes: artifactsMeta.pieceTypes,
     );
   }
@@ -94,18 +107,18 @@ class AssetDataCache {
 @Freezed(copyWith: false)
 class AssetData with _$AssetData {
   const factory AssetData({
-    required List<Character> characters,
+    required Map<CharacterId, Character> characters,
     required CharacterIngredients characterIngredients,
-    required List<Weapon> weapons,
+    required Map<WeaponId, Weapon> weapons,
     required WeaponIngredients weaponIngredients,
     required Map<WeaponSubStat, LocalizedText> weaponSubStats,
     required Map<WeaponType, LocalizedText> weaponTypes,
     required Map<TeyvatElement, Element> elements,
-    required List<Material> materials,
+    required Map<MaterialId, Material> materials,
     required Map<MaterialCategoryType, LocalizedText> materialCategories,
     required Map<String, int> materialSortOrder,
     required DailyMaterials dailyMaterials,
-    required List<ArtifactSet> artifactSets,
+    required Map<ArtifactSetId, ArtifactSet> artifactSets,
     required Map<ArtifactPieceType, LocalizedText> artifactPieceTypes,
   }) = _AssetData;
 }
