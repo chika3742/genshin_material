@@ -6,8 +6,14 @@ import "../models/bookmarkable_material.dart";
 import "../models/common.dart";
 import "../models/ingredient.dart";
 
-List<IngredientsWithLevel> levelMapToList(Map<int, List<Ingredient>> map) {
-  return map.entries.map((e) => IngredientsWithLevel(level: e.key, ingredients: e.value)).toList();
+List<IngredientsWithLevelAndPurpose> ingredientsMapToList(Map<int, List<Ingredient>> map, Purpose purposeType) {
+  return map.entries.map(
+    (e) => IngredientsWithLevelAndPurpose(
+      level: e.key,
+      ingredients: e.value,
+      purposeType: purposeType,
+    ),
+  ).toList();
 }
 
 String getConcreteItemId(Ingredient ingredient, MaterialDefinitions definitions, AssetData assetData) {
@@ -50,30 +56,31 @@ Map<int, List<Ingredient>> narrowLevelMap(
 
 /// Merge the ingredients of the same id in the list.
 List<BookmarkableMaterial> toBookmarkableMaterials(
-  List<IngredientsWithLevel> ingredients,
+  List<IngredientsWithLevelAndPurpose> ingredientsList,
   MaterialDefinitions definitions,
   AssetData assetData,
 ) {
   final merged = <String, List<BookmarkableMaterialLevel>>{};
-  for (final ingredient in ingredients) {
-    for (final i in ingredient.ingredients) {
-      final itemId = getConcreteItemId(i, definitions, assetData);
-      merged[itemId] ??= [];
-      merged[itemId]!.add(
-        switch (i) {
+  for (final ingredients in ingredientsList) {
+    for (final ingredient in ingredients.ingredients) {
+      final itemId = getConcreteItemId(ingredient, definitions, assetData);
+      (merged[itemId] ??= []).add(
+        switch (ingredient) {
           IngredientExp(:final exp) => BookmarkableMaterialLevel.exp(
-            level: ingredient.level,
+            level: ingredients.level,
             exp: exp,
           ),
           IngredientWithFixedId(:final quantity) =>
               BookmarkableMaterialLevel(
-                level: ingredient.level,
+                level: ingredients.level,
                 quantity: quantity,
+                purposeType: ingredients.purposeType,
               ),
           IngredientByType(:final quantity) =>
               BookmarkableMaterialLevel(
-                level: ingredient.level,
+                level: ingredients.level,
                 quantity: quantity,
+                purposeType: ingredients.purposeType,
               ),
         },
       );

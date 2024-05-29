@@ -10,6 +10,7 @@ import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
+import "../../../database.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/bookmarkable_material.dart";
 import "../../../models/character.dart";
@@ -160,7 +161,10 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                   Wrap(
                     children: [
                       for (final material in toBookmarkableMaterials(
-                        levelMapToList(narrowLevelMap(ingredients.purposes[Purpose.ascension]!.levels, _rangeValues[Purpose.ascension]!)),
+                        ingredientsMapToList(
+                          narrowLevelMap(ingredients.purposes[Purpose.ascension]!.levels, _rangeValues[Purpose.ascension]!),
+                          Purpose.ascension,
+                        ),
                         character.materials,
                         assetData,
                       ))
@@ -283,16 +287,17 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
     );
   }
 
-  List<IngredientsWithLevel> _getTalentIngredients() {
-    final result = <IngredientsWithLevel>[];
+  List<IngredientsWithLevelAndPurpose> _getTalentIngredients() {
+    final result = <IngredientsWithLevelAndPurpose>[];
     for (final talentType in widget.character.talents.keys) {
       if (_checkedTalentTypes[Purpose.fromTalentType(talentType)]!) {
         result.addAll(
-          levelMapToList(
+          ingredientsMapToList(
             narrowLevelMap(
               widget.assetData.characterIngredients.purposes[Purpose.fromTalentType(talentType)]!.levels,
               _rangeValues[Purpose.fromTalentType(talentType)]!,
             ),
+            Purpose.fromTalentType(talentType),
           ),
         );
       }

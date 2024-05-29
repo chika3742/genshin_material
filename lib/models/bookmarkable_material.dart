@@ -1,6 +1,7 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
+import "common.dart";
 import "ingredient.dart";
 import "material.dart";
 
@@ -66,18 +67,21 @@ sealed class BookmarkableMaterialLevel with _$BookmarkableMaterialLevel {
   const factory BookmarkableMaterialLevel({
     required int level,
     required int quantity,
+    required Purpose purposeType,
   }) = _BookmarkableMaterialLevel;
 
   const factory BookmarkableMaterialLevel.exp({
     required int level,
     required int exp,
+    @Default(Purpose.ascension) Purpose purposeType,
   }) = BookmarkableMaterialLevelExp;
 }
 
 @freezed
-class IngredientsWithLevel with _$IngredientsWithLevel {
-  const factory IngredientsWithLevel({
+class IngredientsWithLevelAndPurpose with _$IngredientsWithLevelAndPurpose {
+  const factory IngredientsWithLevelAndPurpose({
     required int level,
+    required Purpose purposeType,
     required List<Ingredient> ingredients,
-  }) = _IngredientsWithLevel;
+  }) = _IngredientsWithLevelAndPurpose;
 }

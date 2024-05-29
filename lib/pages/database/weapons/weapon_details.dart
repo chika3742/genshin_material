@@ -8,7 +8,10 @@ import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
+import "../../../database.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/bookmarkable_material.dart";
+import "../../../models/common.dart";
 import "../../../models/weapon.dart";
 import "../../../utils/ingredients_converter.dart";
 
@@ -126,7 +129,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
             Wrap(
               children: [
                 for (final material in toBookmarkableMaterials(
-                  levelMapToList(narrowLevelMap(ingredients.levels, _rangeValues)),
+                  ingredientsMapToList(narrowLevelMap(ingredients.levels, _rangeValues), Purpose.ascension),
                   weapon.materials,
                   assetData,
                 ))
