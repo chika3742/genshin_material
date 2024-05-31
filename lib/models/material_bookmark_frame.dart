@@ -72,7 +72,7 @@ class MaterialCardMaterial {
     }).toList();
   }
 
-  List<MaterialBookmarkCompanion> toCompanion(MaterialUsage usage) {
+  List<MaterialBookmarkCompanion> toCompanions(MaterialUsage usage) {
     return levels.map((level) {
       final companion = MaterialBookmarkCompanion.insert(
         type: usage.type,

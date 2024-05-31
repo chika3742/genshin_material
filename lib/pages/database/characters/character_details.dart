@@ -286,6 +286,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
     return sortMaterials(items, widget.assetData).map(
       (item) => MaterialItem(
         item: item,
+        possiblePurposeTypes: const [Purpose.ascension],
         usage: MaterialUsage(
           characterId: widget.character.id,
           type: MaterialBookmarkType.character,
@@ -319,6 +320,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
     return sortMaterials(items, widget.assetData).map(
       (item) => MaterialItem(
         item: item,
+        possiblePurposeTypes: widget.character.talents.keys.map(Purpose.fromTalentType).toList(),
         usage: MaterialUsage(
           characterId: widget.character.id,
           type: MaterialBookmarkType.character,

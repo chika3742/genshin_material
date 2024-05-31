@@ -155,6 +155,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
     return sortMaterials(items, widget.assetData).map(
       (item) => MaterialItem(
         item: item,
+        possiblePurposeTypes: const [Purpose.ascension],
         usage: const MaterialUsage(
           characterId: "",
           type: MaterialBookmarkType.weapon,

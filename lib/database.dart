@@ -66,6 +66,12 @@ class AppDatabase extends _$AppDatabase {
       batch.insertAll(materialBookmark, companions);
     });
   }
+
+  Future<void> removeMaterialBookmarks(List<int> ids) {
+    return batch((batch) {
+      batch.deleteWhere(materialBookmark, (tbl) => tbl.id.isIn(ids));
+    });
+  }
 }
 
 LazyDatabase _openConnection() {

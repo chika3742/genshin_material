@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 147 (73 per locale)
+/// Strings: 151 (75 per locale)
 ///
-/// Built on 2024-05-24 at 02:09 UTC
+/// Built on 2024-05-31 at 03:32 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -160,6 +160,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsCharacterDetailsPageJa characterDetailsPage = _StringsCharacterDetailsPageJa._(_root);
 	late final _StringsMaterialDetailsPageJa materialDetailsPage = _StringsMaterialDetailsPageJa._(_root);
+	late final _StringsMaterialCardJa materialCard = _StringsMaterialCardJa._(_root);
 	late final _StringsArtifactsPageJa artifactsPage = _StringsArtifactsPageJa._(_root);
 	late final _StringsArtifactDetailsPageJa artifactDetailsPage = _StringsArtifactDetailsPageJa._(_root);
 	late final _StringsDailyPageJa dailyPage = _StringsDailyPageJa._(_root);
@@ -262,6 +263,19 @@ class _StringsMaterialDetailsPageJa {
 	// Translations
 	String get charactersUsing => 'この素材を使用するキャラクター';
 	String get weaponsUsing => 'この素材を使用する武器';
+}
+
+// Path: materialCard
+class _StringsMaterialCardJa {
+	_StringsMaterialCardJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get reBookmark => '現在の範囲で再ブックマーク';
+	String get reBookmarkDesc => '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします';
+	String get unBookmark => 'ブックマークを解除';
+	String get unBookmarkDesc => 'この素材のブックマークを解除します';
 }
 
 // Path: artifactsPage
@@ -657,6 +671,10 @@ extension on Translations {
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
 			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
+			case 'materialCard.reBookmark': return '現在の範囲で再ブックマーク';
+			case 'materialCard.reBookmarkDesc': return '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします';
+			case 'materialCard.unBookmark': return 'ブックマークを解除';
+			case 'materialCard.unBookmarkDesc': return 'この素材のブックマークを解除します';
 			case 'artifactsPage.bonusTypes.1-pc': return '1セット効果';
 			case 'artifactsPage.bonusTypes.2-pc': return '2セット効果';
 			case 'artifactsPage.bonusTypes.4-pc': return '4セット効果';
