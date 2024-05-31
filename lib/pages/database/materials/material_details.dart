@@ -89,6 +89,7 @@ class MaterialDetailsPage extends StatelessWidget {
                                 image: weapon.getImageFile(assetDir),
                                 name: weapon.name.localized,
                                 rarity: weapon.rarity,
+                                rounded: true,
                                 onTap: () {
                                   WeaponDetailsRoute(id: weapon.id).push(context);
                                 },
