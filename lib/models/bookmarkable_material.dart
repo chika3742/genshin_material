@@ -1,22 +1,21 @@
+import "package:drift/drift.dart" hide JsonKey;
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
+import "../database.dart";
+import "../utils/hash.dart";
 import "common.dart";
-import "ingredient.dart";
 import "material.dart";
 
 part "bookmarkable_material.freezed.dart";
 
-class BookmarkableMaterial {
+class MaterialCardMaterial {
   final String? id;
-  final List<BookmarkableMaterialLevel> levels;
+  final List<MaterialBookmarkFrame> levels;
 
-  final AssetData assetData;
-
-  BookmarkableMaterial({
+  MaterialCardMaterial({
     this.id,
     required this.levels,
-    required this.assetData,
   });
 
   int? _sum;
@@ -29,14 +28,14 @@ class BookmarkableMaterial {
         (prev, level) =>
             prev +
             switch (level) {
-              _BookmarkableMaterialLevel(:final quantity) => quantity,
-              BookmarkableMaterialLevelExp(:final exp) => exp,
+              _MaterialBookmarkFrame(:final quantity) => quantity,
+              MaterialBookmarkFrameExp(:final exp) => exp,
             },
       );
 
-  bool get isExp => levels.every((e) => e is BookmarkableMaterialLevelExp);
+  bool get isExp => levels.every((e) => e is MaterialBookmarkFrameExp);
 
-  Material get material {
+  Material getMaterial(AssetData assetData) {
     if (_material != null) {
       return _material!;
     }
@@ -48,7 +47,7 @@ class BookmarkableMaterial {
     return _material = result;
   }
 
-  int get sortPriority {
+  int getSortPriority(AssetData assetData) {
     if (_sortPriority != null) {
       return _sortPriority!;
     }
@@ -58,30 +57,68 @@ class BookmarkableMaterial {
     }
 
     final sortOrderMap = assetData.materialSortOrder;
-    return _sortPriority = sortOrderMap["id:$id"] ?? sortOrderMap["category:${material.category}"] ?? 0;
+    return _sortPriority = sortOrderMap["id:$id"] ?? sortOrderMap["category:${getMaterial(assetData).category}"] ?? 0;
+  }
+
+  List<String> getHashList(MaterialUsage usage) {
+    return levels.map((level) {
+      return combineMaterialBookmarkElements(
+        usage.characterId,
+        level.purposeType,
+        usage.type,
+        id,
+        level.level,
+      );
+    }).toList();
+  }
+
+  List<MaterialBookmarkCompanion> toCompanion(MaterialUsage usage) {
+    return levels.map((level) {
+      final companion = MaterialBookmarkCompanion.insert(
+        type: usage.type,
+        materialId: Value.absentIfNull(id),
+        characterId: usage.characterId,
+        purposeType: level.purposeType,
+        quantity: switch (level) {
+          _MaterialBookmarkFrame(:final quantity) => quantity,
+          MaterialBookmarkFrameExp(:final exp) => exp,
+        },
+        upperLevel: level.level,
+        hash: combineMaterialBookmarkElements(
+          usage.characterId,
+          level.purposeType,
+          usage.type,
+          id,
+          level.level,
+        ),
+      );
+
+      return companion;
+    }).toList();
   }
 }
 
 @freezed
-sealed class BookmarkableMaterialLevel with _$BookmarkableMaterialLevel {
-  const factory BookmarkableMaterialLevel({
+sealed class MaterialBookmarkFrame with _$MaterialBookmarkFrame {
+  const factory MaterialBookmarkFrame({
+    required String materialId,
     required int level,
     required int quantity,
     required Purpose purposeType,
-  }) = _BookmarkableMaterialLevel;
+  }) = _MaterialBookmarkFrame;
 
-  const factory BookmarkableMaterialLevel.exp({
+  const factory MaterialBookmarkFrame.exp({
+    @Default(null) String? materialId,
     required int level,
     required int exp,
     @Default(Purpose.ascension) Purpose purposeType,
-  }) = BookmarkableMaterialLevelExp;
+  }) = MaterialBookmarkFrameExp;
 }
 
 @freezed
-class IngredientsWithLevelAndPurpose with _$IngredientsWithLevelAndPurpose {
-  const factory IngredientsWithLevelAndPurpose({
-    required int level,
-    required Purpose purposeType,
-    required List<Ingredient> ingredients,
-  }) = _IngredientsWithLevelAndPurpose;
+sealed class Usage with _$Usage {
+  const factory Usage.material({
+    required String characterId,
+    required MaterialBookmarkType type,
+  }) = MaterialUsage;
 }

@@ -10,11 +10,13 @@ import "material_card.dart";
 
 /// Material item implementation.
 class MaterialItem extends ConsumerStatefulWidget {
-  final BookmarkableMaterial bookmarkableMaterial;
+  final MaterialCardMaterial item;
+  final MaterialUsage usage;
 
   const MaterialItem({
     super.key,
-    required this.bookmarkableMaterial,
+    required this.item,
+    required this.usage,
   });
 
   @override
@@ -36,13 +38,13 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
 
     Material material;
     int quantity;
-    if (widget.bookmarkableMaterial.isExp) {
+    if (widget.item.isExp) {
       final expItem = assetData.characterIngredients.expItems[_currentExpItemIndex];
       material = assetData.materials[expItem.itemId]!;
-      quantity = (widget.bookmarkableMaterial.sum / expItem.expPerItem).ceil();
+      quantity = (widget.item.sum / expItem.expPerItem).ceil();
     } else {
-      material = widget.bookmarkableMaterial.material;
-      quantity = widget.bookmarkableMaterial.sum;
+      material = widget.item.getMaterial(assetData);
+      quantity = widget.item.sum;
     }
 
     return MaterialCard(
@@ -53,7 +55,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       id: material.id,
       bookmarkState: BookmarkState.none,
       onBookmark: () {},
-      onSwapExpItem: widget.bookmarkableMaterial.isExp ? () {
+      onSwapExpItem: widget.item.isExp ? () {
         setState(() {
           _currentExpItemIndex = (_currentExpItemIndex + 1) %
               assetData.characterIngredients.expItems.length;

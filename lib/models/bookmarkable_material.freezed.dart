@@ -15,67 +15,80 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$BookmarkableMaterialLevel {
+mixin _$MaterialBookmarkFrame {
+  String? get materialId => throw _privateConstructorUsedError;
   int get level => throw _privateConstructorUsedError;
   Purpose get purposeType => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int level, int quantity, Purpose purposeType) $default, {
-    required TResult Function(int level, int exp, Purpose purposeType) exp,
+    TResult Function(
+            String materialId, int level, int quantity, Purpose purposeType)
+        $default, {
+    required TResult Function(
+            String? materialId, int level, int exp, Purpose purposeType)
+        exp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int level, int quantity, Purpose purposeType)? $default, {
-    TResult? Function(int level, int exp, Purpose purposeType)? exp,
+    TResult? Function(
+            String materialId, int level, int quantity, Purpose purposeType)?
+        $default, {
+    TResult? Function(
+            String? materialId, int level, int exp, Purpose purposeType)?
+        exp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int level, int quantity, Purpose purposeType)? $default, {
-    TResult Function(int level, int exp, Purpose purposeType)? exp,
+    TResult Function(
+            String materialId, int level, int quantity, Purpose purposeType)?
+        $default, {
+    TResult Function(
+            String? materialId, int level, int exp, Purpose purposeType)?
+        exp,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_BookmarkableMaterialLevel value) $default, {
-    required TResult Function(BookmarkableMaterialLevelExp value) exp,
+    TResult Function(_MaterialBookmarkFrame value) $default, {
+    required TResult Function(MaterialBookmarkFrameExp value) exp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_BookmarkableMaterialLevel value)? $default, {
-    TResult? Function(BookmarkableMaterialLevelExp value)? exp,
+    TResult? Function(_MaterialBookmarkFrame value)? $default, {
+    TResult? Function(MaterialBookmarkFrameExp value)? exp,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_BookmarkableMaterialLevel value)? $default, {
-    TResult Function(BookmarkableMaterialLevelExp value)? exp,
+    TResult Function(_MaterialBookmarkFrame value)? $default, {
+    TResult Function(MaterialBookmarkFrameExp value)? exp,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $BookmarkableMaterialLevelCopyWith<BookmarkableMaterialLevel> get copyWith =>
+  $MaterialBookmarkFrameCopyWith<MaterialBookmarkFrame> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $BookmarkableMaterialLevelCopyWith<$Res> {
-  factory $BookmarkableMaterialLevelCopyWith(BookmarkableMaterialLevel value,
-          $Res Function(BookmarkableMaterialLevel) then) =
-      _$BookmarkableMaterialLevelCopyWithImpl<$Res, BookmarkableMaterialLevel>;
+abstract class $MaterialBookmarkFrameCopyWith<$Res> {
+  factory $MaterialBookmarkFrameCopyWith(MaterialBookmarkFrame value,
+          $Res Function(MaterialBookmarkFrame) then) =
+      _$MaterialBookmarkFrameCopyWithImpl<$Res, MaterialBookmarkFrame>;
   @useResult
-  $Res call({int level, Purpose purposeType});
+  $Res call({String materialId, int level, Purpose purposeType});
 }
 
 /// @nodoc
-class _$BookmarkableMaterialLevelCopyWithImpl<$Res,
-        $Val extends BookmarkableMaterialLevel>
-    implements $BookmarkableMaterialLevelCopyWith<$Res> {
-  _$BookmarkableMaterialLevelCopyWithImpl(this._value, this._then);
+class _$MaterialBookmarkFrameCopyWithImpl<$Res,
+        $Val extends MaterialBookmarkFrame>
+    implements $MaterialBookmarkFrameCopyWith<$Res> {
+  _$MaterialBookmarkFrameCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -85,10 +98,15 @@ class _$BookmarkableMaterialLevelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? materialId = null,
     Object? level = null,
     Object? purposeType = null,
   }) {
     return _then(_value.copyWith(
+      materialId: null == materialId
+          ? _value.materialId!
+          : materialId // ignore: cast_nullable_to_non_nullable
+              as String,
       level: null == level
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
@@ -102,35 +120,39 @@ class _$BookmarkableMaterialLevelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$BookmarkableMaterialLevelImplCopyWith<$Res>
-    implements $BookmarkableMaterialLevelCopyWith<$Res> {
-  factory _$$BookmarkableMaterialLevelImplCopyWith(
-          _$BookmarkableMaterialLevelImpl value,
-          $Res Function(_$BookmarkableMaterialLevelImpl) then) =
-      __$$BookmarkableMaterialLevelImplCopyWithImpl<$Res>;
+abstract class _$$MaterialBookmarkFrameImplCopyWith<$Res>
+    implements $MaterialBookmarkFrameCopyWith<$Res> {
+  factory _$$MaterialBookmarkFrameImplCopyWith(
+          _$MaterialBookmarkFrameImpl value,
+          $Res Function(_$MaterialBookmarkFrameImpl) then) =
+      __$$MaterialBookmarkFrameImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int level, int quantity, Purpose purposeType});
+  $Res call({String materialId, int level, int quantity, Purpose purposeType});
 }
 
 /// @nodoc
-class __$$BookmarkableMaterialLevelImplCopyWithImpl<$Res>
-    extends _$BookmarkableMaterialLevelCopyWithImpl<$Res,
-        _$BookmarkableMaterialLevelImpl>
-    implements _$$BookmarkableMaterialLevelImplCopyWith<$Res> {
-  __$$BookmarkableMaterialLevelImplCopyWithImpl(
-      _$BookmarkableMaterialLevelImpl _value,
-      $Res Function(_$BookmarkableMaterialLevelImpl) _then)
+class __$$MaterialBookmarkFrameImplCopyWithImpl<$Res>
+    extends _$MaterialBookmarkFrameCopyWithImpl<$Res,
+        _$MaterialBookmarkFrameImpl>
+    implements _$$MaterialBookmarkFrameImplCopyWith<$Res> {
+  __$$MaterialBookmarkFrameImplCopyWithImpl(_$MaterialBookmarkFrameImpl _value,
+      $Res Function(_$MaterialBookmarkFrameImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? materialId = null,
     Object? level = null,
     Object? quantity = null,
     Object? purposeType = null,
   }) {
-    return _then(_$BookmarkableMaterialLevelImpl(
+    return _then(_$MaterialBookmarkFrameImpl(
+      materialId: null == materialId
+          ? _value.materialId
+          : materialId // ignore: cast_nullable_to_non_nullable
+              as String,
       level: null == level
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
@@ -149,10 +171,15 @@ class __$$BookmarkableMaterialLevelImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$BookmarkableMaterialLevelImpl implements _BookmarkableMaterialLevel {
-  const _$BookmarkableMaterialLevelImpl(
-      {required this.level, required this.quantity, required this.purposeType});
+class _$MaterialBookmarkFrameImpl implements _MaterialBookmarkFrame {
+  const _$MaterialBookmarkFrameImpl(
+      {required this.materialId,
+      required this.level,
+      required this.quantity,
+      required this.purposeType});
 
+  @override
+  final String materialId;
   @override
   final int level;
   @override
@@ -162,14 +189,16 @@ class _$BookmarkableMaterialLevelImpl implements _BookmarkableMaterialLevel {
 
   @override
   String toString() {
-    return 'BookmarkableMaterialLevel(level: $level, quantity: $quantity, purposeType: $purposeType)';
+    return 'MaterialBookmarkFrame(materialId: $materialId, level: $level, quantity: $quantity, purposeType: $purposeType)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BookmarkableMaterialLevelImpl &&
+            other is _$MaterialBookmarkFrameImpl &&
+            (identical(other.materialId, materialId) ||
+                other.materialId == materialId) &&
             (identical(other.level, level) || other.level == level) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity) &&
@@ -178,42 +207,55 @@ class _$BookmarkableMaterialLevelImpl implements _BookmarkableMaterialLevel {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, level, quantity, purposeType);
+  int get hashCode =>
+      Object.hash(runtimeType, materialId, level, quantity, purposeType);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$BookmarkableMaterialLevelImplCopyWith<_$BookmarkableMaterialLevelImpl>
-      get copyWith => __$$BookmarkableMaterialLevelImplCopyWithImpl<
-          _$BookmarkableMaterialLevelImpl>(this, _$identity);
+  _$$MaterialBookmarkFrameImplCopyWith<_$MaterialBookmarkFrameImpl>
+      get copyWith => __$$MaterialBookmarkFrameImplCopyWithImpl<
+          _$MaterialBookmarkFrameImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int level, int quantity, Purpose purposeType) $default, {
-    required TResult Function(int level, int exp, Purpose purposeType) exp,
+    TResult Function(
+            String materialId, int level, int quantity, Purpose purposeType)
+        $default, {
+    required TResult Function(
+            String? materialId, int level, int exp, Purpose purposeType)
+        exp,
   }) {
-    return $default(level, quantity, purposeType);
+    return $default(materialId, level, quantity, purposeType);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int level, int quantity, Purpose purposeType)? $default, {
-    TResult? Function(int level, int exp, Purpose purposeType)? exp,
+    TResult? Function(
+            String materialId, int level, int quantity, Purpose purposeType)?
+        $default, {
+    TResult? Function(
+            String? materialId, int level, int exp, Purpose purposeType)?
+        exp,
   }) {
-    return $default?.call(level, quantity, purposeType);
+    return $default?.call(materialId, level, quantity, purposeType);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int level, int quantity, Purpose purposeType)? $default, {
-    TResult Function(int level, int exp, Purpose purposeType)? exp,
+    TResult Function(
+            String materialId, int level, int quantity, Purpose purposeType)?
+        $default, {
+    TResult Function(
+            String? materialId, int level, int exp, Purpose purposeType)?
+        exp,
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(level, quantity, purposeType);
+      return $default(materialId, level, quantity, purposeType);
     }
     return orElse();
   }
@@ -221,8 +263,8 @@ class _$BookmarkableMaterialLevelImpl implements _BookmarkableMaterialLevel {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_BookmarkableMaterialLevel value) $default, {
-    required TResult Function(BookmarkableMaterialLevelExp value) exp,
+    TResult Function(_MaterialBookmarkFrame value) $default, {
+    required TResult Function(MaterialBookmarkFrameExp value) exp,
   }) {
     return $default(this);
   }
@@ -230,8 +272,8 @@ class _$BookmarkableMaterialLevelImpl implements _BookmarkableMaterialLevel {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_BookmarkableMaterialLevel value)? $default, {
-    TResult? Function(BookmarkableMaterialLevelExp value)? exp,
+    TResult? Function(_MaterialBookmarkFrame value)? $default, {
+    TResult? Function(MaterialBookmarkFrameExp value)? exp,
   }) {
     return $default?.call(this);
   }
@@ -239,8 +281,8 @@ class _$BookmarkableMaterialLevelImpl implements _BookmarkableMaterialLevel {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_BookmarkableMaterialLevel value)? $default, {
-    TResult Function(BookmarkableMaterialLevelExp value)? exp,
+    TResult Function(_MaterialBookmarkFrame value)? $default, {
+    TResult Function(MaterialBookmarkFrameExp value)? exp,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -250,12 +292,15 @@ class _$BookmarkableMaterialLevelImpl implements _BookmarkableMaterialLevel {
   }
 }
 
-abstract class _BookmarkableMaterialLevel implements BookmarkableMaterialLevel {
-  const factory _BookmarkableMaterialLevel(
-      {required final int level,
+abstract class _MaterialBookmarkFrame implements MaterialBookmarkFrame {
+  const factory _MaterialBookmarkFrame(
+      {required final String materialId,
+      required final int level,
       required final int quantity,
-      required final Purpose purposeType}) = _$BookmarkableMaterialLevelImpl;
+      required final Purpose purposeType}) = _$MaterialBookmarkFrameImpl;
 
+  @override
+  String get materialId;
   @override
   int get level;
   int get quantity;
@@ -263,40 +308,45 @@ abstract class _BookmarkableMaterialLevel implements BookmarkableMaterialLevel {
   Purpose get purposeType;
   @override
   @JsonKey(ignore: true)
-  _$$BookmarkableMaterialLevelImplCopyWith<_$BookmarkableMaterialLevelImpl>
+  _$$MaterialBookmarkFrameImplCopyWith<_$MaterialBookmarkFrameImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$BookmarkableMaterialLevelExpImplCopyWith<$Res>
-    implements $BookmarkableMaterialLevelCopyWith<$Res> {
-  factory _$$BookmarkableMaterialLevelExpImplCopyWith(
-          _$BookmarkableMaterialLevelExpImpl value,
-          $Res Function(_$BookmarkableMaterialLevelExpImpl) then) =
-      __$$BookmarkableMaterialLevelExpImplCopyWithImpl<$Res>;
+abstract class _$$MaterialBookmarkFrameExpImplCopyWith<$Res>
+    implements $MaterialBookmarkFrameCopyWith<$Res> {
+  factory _$$MaterialBookmarkFrameExpImplCopyWith(
+          _$MaterialBookmarkFrameExpImpl value,
+          $Res Function(_$MaterialBookmarkFrameExpImpl) then) =
+      __$$MaterialBookmarkFrameExpImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int level, int exp, Purpose purposeType});
+  $Res call({String? materialId, int level, int exp, Purpose purposeType});
 }
 
 /// @nodoc
-class __$$BookmarkableMaterialLevelExpImplCopyWithImpl<$Res>
-    extends _$BookmarkableMaterialLevelCopyWithImpl<$Res,
-        _$BookmarkableMaterialLevelExpImpl>
-    implements _$$BookmarkableMaterialLevelExpImplCopyWith<$Res> {
-  __$$BookmarkableMaterialLevelExpImplCopyWithImpl(
-      _$BookmarkableMaterialLevelExpImpl _value,
-      $Res Function(_$BookmarkableMaterialLevelExpImpl) _then)
+class __$$MaterialBookmarkFrameExpImplCopyWithImpl<$Res>
+    extends _$MaterialBookmarkFrameCopyWithImpl<$Res,
+        _$MaterialBookmarkFrameExpImpl>
+    implements _$$MaterialBookmarkFrameExpImplCopyWith<$Res> {
+  __$$MaterialBookmarkFrameExpImplCopyWithImpl(
+      _$MaterialBookmarkFrameExpImpl _value,
+      $Res Function(_$MaterialBookmarkFrameExpImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? materialId = freezed,
     Object? level = null,
     Object? exp = null,
     Object? purposeType = null,
   }) {
-    return _then(_$BookmarkableMaterialLevelExpImpl(
+    return _then(_$MaterialBookmarkFrameExpImpl(
+      materialId: freezed == materialId
+          ? _value.materialId
+          : materialId // ignore: cast_nullable_to_non_nullable
+              as String?,
       level: null == level
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
@@ -315,13 +365,16 @@ class __$$BookmarkableMaterialLevelExpImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$BookmarkableMaterialLevelExpImpl
-    implements BookmarkableMaterialLevelExp {
-  const _$BookmarkableMaterialLevelExpImpl(
-      {required this.level,
+class _$MaterialBookmarkFrameExpImpl implements MaterialBookmarkFrameExp {
+  const _$MaterialBookmarkFrameExpImpl(
+      {this.materialId = null,
+      required this.level,
       required this.exp,
       this.purposeType = Purpose.ascension});
 
+  @override
+  @JsonKey()
+  final String? materialId;
   @override
   final int level;
   @override
@@ -332,14 +385,16 @@ class _$BookmarkableMaterialLevelExpImpl
 
   @override
   String toString() {
-    return 'BookmarkableMaterialLevel.exp(level: $level, exp: $exp, purposeType: $purposeType)';
+    return 'MaterialBookmarkFrame.exp(materialId: $materialId, level: $level, exp: $exp, purposeType: $purposeType)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BookmarkableMaterialLevelExpImpl &&
+            other is _$MaterialBookmarkFrameExpImpl &&
+            (identical(other.materialId, materialId) ||
+                other.materialId == materialId) &&
             (identical(other.level, level) || other.level == level) &&
             (identical(other.exp, exp) || other.exp == exp) &&
             (identical(other.purposeType, purposeType) ||
@@ -347,43 +402,55 @@ class _$BookmarkableMaterialLevelExpImpl
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, level, exp, purposeType);
+  int get hashCode =>
+      Object.hash(runtimeType, materialId, level, exp, purposeType);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$BookmarkableMaterialLevelExpImplCopyWith<
-          _$BookmarkableMaterialLevelExpImpl>
-      get copyWith => __$$BookmarkableMaterialLevelExpImplCopyWithImpl<
-          _$BookmarkableMaterialLevelExpImpl>(this, _$identity);
+  _$$MaterialBookmarkFrameExpImplCopyWith<_$MaterialBookmarkFrameExpImpl>
+      get copyWith => __$$MaterialBookmarkFrameExpImplCopyWithImpl<
+          _$MaterialBookmarkFrameExpImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int level, int quantity, Purpose purposeType) $default, {
-    required TResult Function(int level, int exp, Purpose purposeType) exp,
+    TResult Function(
+            String materialId, int level, int quantity, Purpose purposeType)
+        $default, {
+    required TResult Function(
+            String? materialId, int level, int exp, Purpose purposeType)
+        exp,
   }) {
-    return exp(level, this.exp, purposeType);
+    return exp(materialId, level, this.exp, purposeType);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int level, int quantity, Purpose purposeType)? $default, {
-    TResult? Function(int level, int exp, Purpose purposeType)? exp,
+    TResult? Function(
+            String materialId, int level, int quantity, Purpose purposeType)?
+        $default, {
+    TResult? Function(
+            String? materialId, int level, int exp, Purpose purposeType)?
+        exp,
   }) {
-    return exp?.call(level, this.exp, purposeType);
+    return exp?.call(materialId, level, this.exp, purposeType);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int level, int quantity, Purpose purposeType)? $default, {
-    TResult Function(int level, int exp, Purpose purposeType)? exp,
+    TResult Function(
+            String materialId, int level, int quantity, Purpose purposeType)?
+        $default, {
+    TResult Function(
+            String? materialId, int level, int exp, Purpose purposeType)?
+        exp,
     required TResult orElse(),
   }) {
     if (exp != null) {
-      return exp(level, this.exp, purposeType);
+      return exp(materialId, level, this.exp, purposeType);
     }
     return orElse();
   }
@@ -391,8 +458,8 @@ class _$BookmarkableMaterialLevelExpImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_BookmarkableMaterialLevel value) $default, {
-    required TResult Function(BookmarkableMaterialLevelExp value) exp,
+    TResult Function(_MaterialBookmarkFrame value) $default, {
+    required TResult Function(MaterialBookmarkFrameExp value) exp,
   }) {
     return exp(this);
   }
@@ -400,8 +467,8 @@ class _$BookmarkableMaterialLevelExpImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_BookmarkableMaterialLevel value)? $default, {
-    TResult? Function(BookmarkableMaterialLevelExp value)? exp,
+    TResult? Function(_MaterialBookmarkFrame value)? $default, {
+    TResult? Function(MaterialBookmarkFrameExp value)? exp,
   }) {
     return exp?.call(this);
   }
@@ -409,8 +476,8 @@ class _$BookmarkableMaterialLevelExpImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_BookmarkableMaterialLevel value)? $default, {
-    TResult Function(BookmarkableMaterialLevelExp value)? exp,
+    TResult Function(_MaterialBookmarkFrame value)? $default, {
+    TResult Function(MaterialBookmarkFrameExp value)? exp,
     required TResult orElse(),
   }) {
     if (exp != null) {
@@ -420,13 +487,15 @@ class _$BookmarkableMaterialLevelExpImpl
   }
 }
 
-abstract class BookmarkableMaterialLevelExp
-    implements BookmarkableMaterialLevel {
-  const factory BookmarkableMaterialLevelExp(
-      {required final int level,
+abstract class MaterialBookmarkFrameExp implements MaterialBookmarkFrame {
+  const factory MaterialBookmarkFrameExp(
+      {final String? materialId,
+      required final int level,
       required final int exp,
-      final Purpose purposeType}) = _$BookmarkableMaterialLevelExpImpl;
+      final Purpose purposeType}) = _$MaterialBookmarkFrameExpImpl;
 
+  @override
+  String? get materialId;
   @override
   int get level;
   int get exp;
@@ -434,184 +503,7 @@ abstract class BookmarkableMaterialLevelExp
   Purpose get purposeType;
   @override
   @JsonKey(ignore: true)
-  _$$BookmarkableMaterialLevelExpImplCopyWith<
-          _$BookmarkableMaterialLevelExpImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-mixin _$IngredientsWithLevelAndPurpose {
-  int get level => throw _privateConstructorUsedError;
-  Purpose get purposeType => throw _privateConstructorUsedError;
-  List<Ingredient> get ingredients => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $IngredientsWithLevelAndPurposeCopyWith<IngredientsWithLevelAndPurpose>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $IngredientsWithLevelAndPurposeCopyWith<$Res> {
-  factory $IngredientsWithLevelAndPurposeCopyWith(
-          IngredientsWithLevelAndPurpose value,
-          $Res Function(IngredientsWithLevelAndPurpose) then) =
-      _$IngredientsWithLevelAndPurposeCopyWithImpl<$Res,
-          IngredientsWithLevelAndPurpose>;
-  @useResult
-  $Res call({int level, Purpose purposeType, List<Ingredient> ingredients});
-}
-
-/// @nodoc
-class _$IngredientsWithLevelAndPurposeCopyWithImpl<$Res,
-        $Val extends IngredientsWithLevelAndPurpose>
-    implements $IngredientsWithLevelAndPurposeCopyWith<$Res> {
-  _$IngredientsWithLevelAndPurposeCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? level = null,
-    Object? purposeType = null,
-    Object? ingredients = null,
-  }) {
-    return _then(_value.copyWith(
-      level: null == level
-          ? _value.level
-          : level // ignore: cast_nullable_to_non_nullable
-              as int,
-      purposeType: null == purposeType
-          ? _value.purposeType
-          : purposeType // ignore: cast_nullable_to_non_nullable
-              as Purpose,
-      ingredients: null == ingredients
-          ? _value.ingredients
-          : ingredients // ignore: cast_nullable_to_non_nullable
-              as List<Ingredient>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$IngredientsWithLevelAndPurposeImplCopyWith<$Res>
-    implements $IngredientsWithLevelAndPurposeCopyWith<$Res> {
-  factory _$$IngredientsWithLevelAndPurposeImplCopyWith(
-          _$IngredientsWithLevelAndPurposeImpl value,
-          $Res Function(_$IngredientsWithLevelAndPurposeImpl) then) =
-      __$$IngredientsWithLevelAndPurposeImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int level, Purpose purposeType, List<Ingredient> ingredients});
-}
-
-/// @nodoc
-class __$$IngredientsWithLevelAndPurposeImplCopyWithImpl<$Res>
-    extends _$IngredientsWithLevelAndPurposeCopyWithImpl<$Res,
-        _$IngredientsWithLevelAndPurposeImpl>
-    implements _$$IngredientsWithLevelAndPurposeImplCopyWith<$Res> {
-  __$$IngredientsWithLevelAndPurposeImplCopyWithImpl(
-      _$IngredientsWithLevelAndPurposeImpl _value,
-      $Res Function(_$IngredientsWithLevelAndPurposeImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? level = null,
-    Object? purposeType = null,
-    Object? ingredients = null,
-  }) {
-    return _then(_$IngredientsWithLevelAndPurposeImpl(
-      level: null == level
-          ? _value.level
-          : level // ignore: cast_nullable_to_non_nullable
-              as int,
-      purposeType: null == purposeType
-          ? _value.purposeType
-          : purposeType // ignore: cast_nullable_to_non_nullable
-              as Purpose,
-      ingredients: null == ingredients
-          ? _value._ingredients
-          : ingredients // ignore: cast_nullable_to_non_nullable
-              as List<Ingredient>,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$IngredientsWithLevelAndPurposeImpl
-    implements _IngredientsWithLevelAndPurpose {
-  const _$IngredientsWithLevelAndPurposeImpl(
-      {required this.level,
-      required this.purposeType,
-      required final List<Ingredient> ingredients})
-      : _ingredients = ingredients;
-
-  @override
-  final int level;
-  @override
-  final Purpose purposeType;
-  final List<Ingredient> _ingredients;
-  @override
-  List<Ingredient> get ingredients {
-    if (_ingredients is EqualUnmodifiableListView) return _ingredients;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_ingredients);
-  }
-
-  @override
-  String toString() {
-    return 'IngredientsWithLevelAndPurpose(level: $level, purposeType: $purposeType, ingredients: $ingredients)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$IngredientsWithLevelAndPurposeImpl &&
-            (identical(other.level, level) || other.level == level) &&
-            (identical(other.purposeType, purposeType) ||
-                other.purposeType == purposeType) &&
-            const DeepCollectionEquality()
-                .equals(other._ingredients, _ingredients));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, level, purposeType,
-      const DeepCollectionEquality().hash(_ingredients));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$IngredientsWithLevelAndPurposeImplCopyWith<
-          _$IngredientsWithLevelAndPurposeImpl>
-      get copyWith => __$$IngredientsWithLevelAndPurposeImplCopyWithImpl<
-          _$IngredientsWithLevelAndPurposeImpl>(this, _$identity);
-}
-
-abstract class _IngredientsWithLevelAndPurpose
-    implements IngredientsWithLevelAndPurpose {
-  const factory _IngredientsWithLevelAndPurpose(
-          {required final int level,
-          required final Purpose purposeType,
-          required final List<Ingredient> ingredients}) =
-      _$IngredientsWithLevelAndPurposeImpl;
-
-  @override
-  int get level;
-  @override
-  Purpose get purposeType;
-  @override
-  List<Ingredient> get ingredients;
-  @override
-  @JsonKey(ignore: true)
-  _$$IngredientsWithLevelAndPurposeImplCopyWith<
-          _$IngredientsWithLevelAndPurposeImpl>
+  _$$MaterialBookmarkFrameExpImplCopyWith<_$MaterialBookmarkFrameExpImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
