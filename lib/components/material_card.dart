@@ -1,13 +1,15 @@
 import "dart:io";
 
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
+import "package:intl/intl.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../core/theme.dart";
 import "../models/common.dart";
 import "../routes.dart";
 
-class MaterialCard extends StatelessWidget {
+class MaterialCard extends HookWidget {
   /// Image file of the material.
   final File image;
 
@@ -17,7 +19,7 @@ class MaterialCard extends StatelessWidget {
   /// Rarity of the material.
   final int? rarity;
 
-  final int? quantity;
+  final int quantity;
 
   /// Material ID for linking to the material details.
   final String? id;
@@ -34,7 +36,7 @@ class MaterialCard extends StatelessWidget {
     required this.image,
     required this.name,
     this.rarity,
-    this.quantity,
+    required this.quantity,
     this.id,
     this.bookmarkState,
     this.onBookmark,
@@ -43,6 +45,23 @@ class MaterialCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final animationController = useAnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: useSingleTickerProvider(),
+    );
+    final tween = useState(IntTween(begin: quantity, end: quantity));
+
+    final animatedQuantity = useAnimation(
+      tween.value.animate(animationController.drive(CurveTween(curve: Easing.emphasizedDecelerate))),
+    );
+
+    useValueChanged<int, int>(quantity, (prev, _) {
+      animationController.reset();
+      tween.value = IntTween(begin: prev, end: quantity);
+      animationController.forward();
+      return null;
+    });
+
     return Card(
       child: Stack(
         children: [
@@ -64,14 +83,19 @@ class MaterialCard extends StatelessWidget {
                     children: [
                       Image.file(image, width: 35, height: 35),
                       // Text(name),
-                      if (quantity != null) Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                          child: Text(
-                            "x$quantity",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20,),
-                          ),
+                      Padding(
+                      padding: const EdgeInsets.only(left: 4.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              "x${NumberFormat.decimalPattern().format(animatedQuantity)}",
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                          ],
                         ),
+                      ),
                     ],
                   ),
                 ),

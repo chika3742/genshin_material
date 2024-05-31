@@ -285,6 +285,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
 
     return sortMaterials(items, widget.assetData).map(
       (item) => MaterialItem(
+        key: ValueKey(item.id),
         item: item,
         possiblePurposeTypes: const [Purpose.ascension],
         usage: MaterialUsage(
@@ -319,6 +320,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
 
     return sortMaterials(items, widget.assetData).map(
       (item) => MaterialItem(
+        key: ValueKey(item.id),
         item: item,
         possiblePurposeTypes: widget.character.talents.keys.map(Purpose.fromTalentType).toList(),
         usage: MaterialUsage(
