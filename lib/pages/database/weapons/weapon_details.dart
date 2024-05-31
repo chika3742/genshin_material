@@ -1,3 +1,4 @@
+import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 
 import "../../../components/center_text.dart";
@@ -8,9 +9,13 @@ import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
+import "../../../database.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/common.dart";
+import "../../../models/material_bookmark_frame.dart";
 import "../../../models/weapon.dart";
 import "../../../utils/ingredients_converter.dart";
+import "../../../utils/lists.dart";
 
 class WeaponDetailsPage extends StatelessWidget {
   final String id;
@@ -75,7 +80,6 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
     final weapon = widget.weapon;
     final assetData = widget.assetData;
     final assetDir = widget.assetDir;
-    final ingredients = widget.assetData.weaponIngredients.rarities[weapon.rarity]!;
 
     return Scaffold(
       appBar: AppBar(
@@ -124,22 +128,39 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
             ),
 
             Wrap(
-              children: [
-                for (final material in toBookmarkableMaterials(
-                  levelMapToList(narrowLevelMap(ingredients.levels, _rangeValues)),
-                  weapon.materials,
-                  assetData,
-                ))
-                  MaterialItem(
-                    material: assetData.materials[material.id],
-                    bookmarkableMaterial: material,
-                    expItems: assetData.weaponIngredients.expItems,
-                  ),
-              ],
+              children: _buildMaterialCards(),
             ),
           ],
         ),
       ),
     );
+  }
+
+  List<Widget> _buildMaterialCards() {
+    final mbFrames = widget.assetData.weaponIngredients.rarities[widget.weapon.rarity]!.levels
+        .mapInLevelRange(
+          _rangeValues,
+          (key, value) {
+            return toMaterialBookmarkFrames(
+              level: key,
+              ingredients: value,
+              purposeType: Purpose.ascension,
+              definitions: widget.weapon.materials,
+              assetData: widget.assetData,
+            );
+          },
+        ).flattened.toList();
+    final items = mergeMaterialBookmarkFrames(mbFrames);
+
+    return sortMaterials(items, widget.assetData).map(
+      (item) => MaterialItem(
+        item: item,
+        possiblePurposeTypes: const [Purpose.ascension],
+        usage: const MaterialUsage(
+          characterId: "",
+          type: MaterialBookmarkType.weapon,
+        ),
+      ),
+    ).toList();
   }
 }

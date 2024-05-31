@@ -1,14 +1,11 @@
+
 import "package:collection/collection.dart";
 
 import "../components/level_slider.dart";
 import "../core/asset_cache.dart";
-import "../models/bookmarkable_material.dart";
 import "../models/common.dart";
 import "../models/ingredient.dart";
-
-List<IngredientsWithLevel> levelMapToList(Map<int, List<Ingredient>> map) {
-  return map.entries.map((e) => IngredientsWithLevel(level: e.key, ingredients: e.value)).toList();
-}
+import "../models/material_bookmark_frame.dart";
 
 String getConcreteItemId(Ingredient ingredient, MaterialDefinitions definitions, AssetData assetData) {
   return switch (ingredient) {
@@ -48,42 +45,71 @@ Map<int, List<Ingredient>> narrowLevelMap(
   );
 }
 
-/// Merge the ingredients of the same id in the list.
-List<BookmarkableMaterial> toBookmarkableMaterials(
-  List<IngredientsWithLevel> ingredients,
-  MaterialDefinitions definitions,
-  AssetData assetData,
+void runInMapKeyRange(
+  Map<int, List<Ingredient>> map,
+  LevelRangeValues levelRangeValues,
+  void Function(int, List<Ingredient>) callback,
 ) {
-  final merged = <String, List<BookmarkableMaterialLevel>>{};
-  for (final ingredient in ingredients) {
-    for (final i in ingredient.ingredients) {
-      final itemId = getConcreteItemId(i, definitions, assetData);
-      merged[itemId] ??= [];
-      merged[itemId]!.add(
-        switch (i) {
-          IngredientExp(:final exp) => BookmarkableMaterialLevel.exp(
-            level: ingredient.level,
-            exp: exp,
-          ),
-          IngredientWithFixedId(:final quantity) =>
-              BookmarkableMaterialLevel(
-                level: ingredient.level,
-                quantity: quantity,
-              ),
-          IngredientByType(:final quantity) =>
-              BookmarkableMaterialLevel(
-                level: ingredient.level,
-                quantity: quantity,
-              ),
-        },
-      );
+  for (final entry in map.entries) {
+    final level = entry.key;
+    if (level > levelRangeValues.start && level <= levelRangeValues.end) {
+      callback(level, entry.value);
     }
   }
+}
+
+/// Converts the ingredients to material bookmark frames.
+List<MaterialBookmarkFrame> toMaterialBookmarkFrames({
+  required int level,
+  required List<Ingredient> ingredients,
+  required Purpose purposeType,
+  required MaterialDefinitions definitions,
+  required AssetData assetData,
+}) {
+  final result = <MaterialBookmarkFrame>[];
+
+  for (final ingredient in ingredients) {
+    final materialId = getConcreteItemId(ingredient, definitions, assetData);
+
+    result.add(
+      switch (ingredient) {
+        IngredientExp(:final exp) => MaterialBookmarkFrame.exp(
+            level: level,
+            exp: exp,
+          ),
+        IngredientWithFixedId(:final quantity) ||
+        IngredientByType(:final quantity) =>
+          MaterialBookmarkFrame(
+            materialId: materialId,
+            level: level,
+            quantity: quantity,
+            purposeType: purposeType,
+          ),
+      },
+    );
+  }
+
+  return result;
+}
+
+/// Merges the ingredients of the same id in the list.
+List<MaterialCardMaterial> mergeMaterialBookmarkFrames(List<MaterialBookmarkFrame> frames) {
+  final merged = <String?, List<MaterialBookmarkFrame>>{};
+  for (final frame in frames) {
+    (merged[frame.materialId] ??= []).add(frame);
+  }
+
   return merged.entries.map(
-    (e) => BookmarkableMaterial(
+    (e) => MaterialCardMaterial(
       id: e.key,
       levels: e.value,
-      assetData: assetData,
     ),
-  ).toList().sorted((a, b) => a.sortPriority.compareTo(b.sortPriority));
+  ).toList();
+}
+
+List<MaterialCardMaterial> sortMaterials(
+  List<MaterialCardMaterial> materials,
+  AssetData assetData,
+) {
+  return materials.sorted((a, b) => a.getSortPriority(assetData).compareTo(b.getSortPriority(assetData)));
 }

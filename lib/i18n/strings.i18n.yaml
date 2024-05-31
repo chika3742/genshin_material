@@ -46,6 +46,11 @@ characterDetailsPage:
 materialDetailsPage:
   charactersUsing: この素材を使用するキャラクター
   weaponsUsing: この素材を使用する武器
+materialCard:
+  reBookmark: 現在の範囲で再ブックマーク
+  reBookmarkDesc: 一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします
+  unBookmark: ブックマークを解除
+  unBookmarkDesc: この素材のブックマークを解除します
 artifactsPage:
   bonusTypes(map):
     1-pc: 1セット効果

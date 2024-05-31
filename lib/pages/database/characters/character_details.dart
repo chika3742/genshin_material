@@ -10,11 +10,13 @@ import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
+import "../../../database.dart";
 import "../../../i18n/strings.g.dart";
-import "../../../models/bookmarkable_material.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
+import "../../../models/material_bookmark_frame.dart";
 import "../../../utils/ingredients_converter.dart";
+import "../../../utils/lists.dart";
 
 class CharacterDetailsPage extends StatelessWidget {
   final String id;
@@ -158,18 +160,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                     ),
                   ),
                   Wrap(
-                    children: [
-                      for (final material in toBookmarkableMaterials(
-                        levelMapToList(narrowLevelMap(ingredients.purposes[Purpose.ascension]!.levels, _rangeValues[Purpose.ascension]!)),
-                        character.materials,
-                        assetData,
-                      ))
-                        MaterialItem(
-                          material: assetData.materials[material.id],
-                          bookmarkableMaterial: material,
-                          expItems: assetData.characterIngredients.expItems,
-                        ),
-                    ],
+                    children: _buildAscensionMaterialCards(),
                   ),
                 ],
               ),
@@ -264,16 +255,7 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
                           ),
                         ),
                       Wrap(
-                        children: toBookmarkableMaterials(
-                          _getTalentIngredients(),
-                          character.materials,
-                          assetData,
-                        ).map(
-                              (bm) => MaterialItem(
-                                material: bm.isExp ? null : bm.material,
-                                bookmarkableMaterial: bm,
-                              ),
-                            ).toList(),
+                        children: _buildTalentMaterialCards(),
                       ),
                     ],
                   ),
@@ -286,20 +268,66 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
     );
   }
 
-  List<IngredientsWithLevel> _getTalentIngredients() {
-    final result = <IngredientsWithLevel>[];
+  List<Widget> _buildAscensionMaterialCards() {
+    final mbFrames = widget.assetData.characterIngredients.purposes[Purpose.ascension]!.levels.mapInLevelRange(
+      _rangeValues[Purpose.ascension]!,
+      (key, value) {
+        return toMaterialBookmarkFrames(
+          level: key,
+          ingredients: value,
+          purposeType: Purpose.ascension,
+          definitions: widget.character.materials,
+          assetData: widget.assetData,
+        );
+      },
+    ).flattened.toList();
+    final items = mergeMaterialBookmarkFrames(mbFrames);
+
+    return sortMaterials(items, widget.assetData).map(
+      (item) => MaterialItem(
+        key: ValueKey(item.id),
+        item: item,
+        possiblePurposeTypes: const [Purpose.ascension],
+        usage: MaterialUsage(
+          characterId: widget.character.id,
+          type: MaterialBookmarkType.character,
+        ),
+      ),
+    ).toList();
+  }
+
+  List<Widget> _buildTalentMaterialCards() {
+    final mbFrames = <MaterialBookmarkFrame>[];
     for (final talentType in widget.character.talents.keys) {
       if (_checkedTalentTypes[Purpose.fromTalentType(talentType)]!) {
-        result.addAll(
-          levelMapToList(
-            narrowLevelMap(
-              widget.assetData.characterIngredients.purposes[Purpose.fromTalentType(talentType)]!.levels,
-              _rangeValues[Purpose.fromTalentType(talentType)]!,
-            ),
-          ),
+        mbFrames.addAll(
+          widget.assetData.characterIngredients.purposes[Purpose.fromTalentType(talentType)]!.levels.mapInLevelRange(
+            _rangeValues[Purpose.fromTalentType(talentType)]!,
+            (key, value) {
+              return toMaterialBookmarkFrames(
+                level: key,
+                ingredients: value,
+                purposeType: Purpose.fromTalentType(talentType),
+                definitions: widget.character.materials,
+                assetData: widget.assetData,
+              );
+            },
+          ).flattened,
         );
       }
     }
-    return result;
+    final items = mergeMaterialBookmarkFrames(mbFrames);
+
+    return sortMaterials(items, widget.assetData).map(
+      (item) => MaterialItem(
+        key: ValueKey(item.id),
+        item: item,
+        possiblePurposeTypes: widget.character.talents.keys.map(Purpose.fromTalentType).toList(),
+        usage: MaterialUsage(
+          characterId: widget.character.id,
+          type: MaterialBookmarkType.character,
+        ),
+      ),
+    ).toList();
   }
 }
