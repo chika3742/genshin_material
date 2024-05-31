@@ -12,9 +12,9 @@ import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../database.dart";
 import "../../../i18n/strings.g.dart";
-import "../../../models/bookmarkable_material.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
+import "../../../models/material_bookmark_frame.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
 

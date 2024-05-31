@@ -3,9 +3,9 @@ import "package:collection/collection.dart";
 
 import "../components/level_slider.dart";
 import "../core/asset_cache.dart";
-import "../models/bookmarkable_material.dart";
 import "../models/common.dart";
 import "../models/ingredient.dart";
+import "../models/material_bookmark_frame.dart";
 
 String getConcreteItemId(Ingredient ingredient, MaterialDefinitions definitions, AssetData assetData) {
   return switch (ingredient) {

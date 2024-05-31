@@ -1,10 +1,9 @@
 import "package:flutter/material.dart" hide Material;
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../models/bookmarkable_material.dart";
 import "../models/common.dart";
 import "../models/material.dart";
-import "../providers/database_provider.dart";
+import "../models/material_bookmark_frame.dart";
 import "../providers/versions.dart";
 import "material_card.dart";
 

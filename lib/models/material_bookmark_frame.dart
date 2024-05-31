@@ -7,7 +7,7 @@ import "../utils/hash.dart";
 import "common.dart";
 import "material.dart";
 
-part "bookmarkable_material.freezed.dart";
+part "material_bookmark_frame.freezed.dart";
 
 class MaterialCardMaterial {
   final String? id;
