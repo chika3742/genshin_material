@@ -497,6 +497,8 @@ HyvUserInfo _$HyvUserInfoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HyvUserInfo {
+// workaround for https://github.com/rrousselGit/freezed/issues/488
+// ignore: invalid_annotation_target
   @JsonKey(name: "account_name")
   String get accountName => throw _privateConstructorUsedError;
 
@@ -581,6 +583,8 @@ class _$HyvUserInfoImpl implements _HyvUserInfo {
   factory _$HyvUserInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$HyvUserInfoImplFromJson(json);
 
+// workaround for https://github.com/rrousselGit/freezed/issues/488
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "account_name")
   final String accountName;
@@ -625,7 +629,8 @@ abstract class _HyvUserInfo implements HyvUserInfo {
   factory _HyvUserInfo.fromJson(Map<String, dynamic> json) =
       _$HyvUserInfoImpl.fromJson;
 
-  @override
+  @override // workaround for https://github.com/rrousselGit/freezed/issues/488
+// ignore: invalid_annotation_target
   @JsonKey(name: "account_name")
   String get accountName;
   @override
@@ -640,6 +645,8 @@ HyvUserGameRole _$HyvUserGameRoleFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HyvUserGameRole {
+// workaround for https://github.com/rrousselGit/freezed/issues/488
+// ignore: invalid_annotation_target
   @JsonKey(name: "game_uid")
   String get uid => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
@@ -750,6 +757,8 @@ class _$HyvUserGameRoleImpl implements _HyvUserGameRole {
   factory _$HyvUserGameRoleImpl.fromJson(Map<String, dynamic> json) =>
       _$$HyvUserGameRoleImplFromJson(json);
 
+// workaround for https://github.com/rrousselGit/freezed/issues/488
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "game_uid")
   final String uid;
@@ -802,7 +811,8 @@ abstract class _HyvUserGameRole implements HyvUserGameRole {
   factory _HyvUserGameRole.fromJson(Map<String, dynamic> json) =
       _$HyvUserGameRoleImpl.fromJson;
 
-  @override
+  @override // workaround for https://github.com/rrousselGit/freezed/issues/488
+// ignore: invalid_annotation_target
   @JsonKey(name: "game_uid")
   String get uid;
   @override

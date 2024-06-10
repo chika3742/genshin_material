@@ -47,8 +47,9 @@ class HyvServer with _$HyvServer {
 @freezed
 class HyvUserInfo with _$HyvUserInfo {
   const factory HyvUserInfo({
-    @JsonKey(name: "account_name")
-    required String accountName,
+    // workaround for https://github.com/rrousselGit/freezed/issues/488
+    // ignore: invalid_annotation_target
+    @JsonKey(name: "account_name") required String accountName,
   }) = _HyvUserInfo;
   
   factory HyvUserInfo.fromJson(Map<String, dynamic> json) =>
@@ -58,8 +59,9 @@ class HyvUserInfo with _$HyvUserInfo {
 @freezed
 class HyvUserGameRole with _$HyvUserGameRole {
   const factory HyvUserGameRole({
-    @JsonKey(name: "game_uid")
-    required String uid,
+    // workaround for https://github.com/rrousselGit/freezed/issues/488
+    // ignore: invalid_annotation_target
+    @JsonKey(name: "game_uid") required String uid,
     required String nickname,
     required int level,
   }) = _HyvUserGameRole;

@@ -254,4 +254,3 @@ class _UserGameRoleWidget extends StatelessWidget {
     );
   }
 }
-
