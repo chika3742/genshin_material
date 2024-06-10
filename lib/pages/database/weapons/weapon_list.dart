@@ -49,7 +49,7 @@ class WeaponListPage extends StatelessWidget {
                     final items = e.value;
 
                     final item = ListIndexItem(
-                      title: assetData.weaponTypes[typeId]!.localized,
+                      title: assetData.weaponTypes[typeId]!.name.localized,
                       image: items.first.getImageFile(assetDir),
                       scrollOffset: offset,
                     );
@@ -74,7 +74,7 @@ class WeaponListPage extends StatelessWidget {
             controller: _scrollController,
             slivers: weaponsGroupedByType.entries.map((e) {
               final categoryId = e.key;
-              final categoryText = assetData.weaponTypes[categoryId]!.localized;
+              final categoryText = assetData.weaponTypes[categoryId]!.name.localized;
 
               return SliverStickyHeader.builder(
                 builder: (_, __) => StickyListHeader(categoryText),

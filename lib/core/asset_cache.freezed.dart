@@ -23,7 +23,7 @@ mixin _$AssetData {
   WeaponIngredients get weaponIngredients => throw _privateConstructorUsedError;
   Map<String, LocalizedText> get weaponSubStats =>
       throw _privateConstructorUsedError;
-  Map<String, LocalizedText> get weaponTypes =>
+  Map<String, WeaponTypeInfo> get weaponTypes =>
       throw _privateConstructorUsedError;
   Map<String, Element> get elements => throw _privateConstructorUsedError;
   Map<String, Material> get materials => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ class _$AssetDataImpl implements _AssetData {
       required final Map<String, Weapon> weapons,
       required this.weaponIngredients,
       required final Map<String, LocalizedText> weaponSubStats,
-      required final Map<String, LocalizedText> weaponTypes,
+      required final Map<String, WeaponTypeInfo> weaponTypes,
       required final Map<String, Element> elements,
       required final Map<String, Material> materials,
       required final Map<String, LocalizedText> materialCategories,
@@ -93,9 +93,9 @@ class _$AssetDataImpl implements _AssetData {
     return EqualUnmodifiableMapView(_weaponSubStats);
   }
 
-  final Map<String, LocalizedText> _weaponTypes;
+  final Map<String, WeaponTypeInfo> _weaponTypes;
   @override
-  Map<String, LocalizedText> get weaponTypes {
+  Map<String, WeaponTypeInfo> get weaponTypes {
     if (_weaponTypes is EqualUnmodifiableMapView) return _weaponTypes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_weaponTypes);
@@ -215,7 +215,7 @@ abstract class _AssetData implements AssetData {
           required final Map<String, Weapon> weapons,
           required final WeaponIngredients weaponIngredients,
           required final Map<String, LocalizedText> weaponSubStats,
-          required final Map<String, LocalizedText> weaponTypes,
+          required final Map<String, WeaponTypeInfo> weaponTypes,
           required final Map<String, Element> elements,
           required final Map<String, Material> materials,
           required final Map<String, LocalizedText> materialCategories,
@@ -236,7 +236,7 @@ abstract class _AssetData implements AssetData {
   @override
   Map<String, LocalizedText> get weaponSubStats;
   @override
-  Map<String, LocalizedText> get weaponTypes;
+  Map<String, WeaponTypeInfo> get weaponTypes;
   @override
   Map<String, Element> get elements;
   @override

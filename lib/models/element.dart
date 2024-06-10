@@ -13,6 +13,7 @@ class Element with _$Element {
   const Element._();
 
   const factory Element({
+    required int hyvId,
     required String imageUrl,
     required LocalizedText text,
   }) = _Element;
