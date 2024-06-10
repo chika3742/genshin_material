@@ -91,3 +91,47 @@ Map<String, dynamic> _$$HyvUserGameRoleImplToJson(
       'nickname': instance.nickname,
       'level': instance.level,
     };
+
+_$AvatarListResultItemImpl _$$AvatarListResultItemImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AvatarListResultItemImpl(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      currentLevel: json['level_current'] as String,
+      maxLevel: json['max_level'] as int,
+    );
+
+Map<String, dynamic> _$$AvatarListResultItemImplToJson(
+        _$AvatarListResultItemImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'level_current': instance.currentLevel,
+      'max_level': instance.maxLevel,
+    };
+
+_$AvatarDetailImpl _$$AvatarDetailImplFromJson(Map<String, dynamic> json) =>
+    _$AvatarDetailImpl(
+      skills: (json['skill_list'] as List<dynamic>)
+          .map((e) => AvatarDetailSkill.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$AvatarDetailImplToJson(_$AvatarDetailImpl instance) =>
+    <String, dynamic>{
+      'skill_list': instance.skills,
+    };
+
+_$AvatarDetailSkillImpl _$$AvatarDetailSkillImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AvatarDetailSkillImpl(
+      maxLevel: json['max_level'] as int,
+      currentLevel: json['level_current'] as int,
+    );
+
+Map<String, dynamic> _$$AvatarDetailSkillImplToJson(
+        _$AvatarDetailSkillImpl instance) =>
+    <String, dynamic>{
+      'max_level': instance.maxLevel,
+      'level_current': instance.currentLevel,
+    };

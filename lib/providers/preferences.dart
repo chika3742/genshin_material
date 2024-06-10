@@ -104,6 +104,8 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
 
 @freezed
 class PreferencesState with _$PreferencesState {
+  const PreferencesState._();
+
   const factory PreferencesState({
     required int resin,
     required DateTime resinBaseTime,
@@ -113,4 +115,11 @@ class PreferencesState with _$PreferencesState {
     required String hyvUserName,
     required String hyvUid,
   }) = _PreferencesState;
+
+  bool get isLinkedWithHoyolab =>
+      cookie.isNotEmpty
+          && hyvServer.isNotEmpty
+          && hyvServerName.isNotEmpty
+          && hyvUserName.isNotEmpty
+          && hyvUid.isNotEmpty;
 }

@@ -1,3 +1,5 @@
+import "dart:developer";
+
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
@@ -145,14 +147,13 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
       final api = HoyolabApi(cookie: ref.read(preferencesStateNotifierProvider).value!.cookie, region: server.region);
       try {
         final result = await api.getUserGameRoles();
-        if (result.hasError) {
-          throw Exception("Failed to load game roles: ${result.message}");
-        }
 
-        gameRoles.value[server] = result.data!.list.firstOrNull;
+        gameRoles.value[server] = result.list.firstOrNull;
+      } on HoyolabApiException catch (e, st) {
+        log("Failed to load game role for server ${server.region}", error: e, stackTrace: st);
+        if (context.mounted) showSnackBar(context: context, message: e.getMessage(tr.hoyolab.failedToLoadGameRole), error: true);
       } catch (e, st) {
-        debugPrint(e.toString());
-        debugPrintStack(stackTrace: st);
+        log("Failed to load game role for server ${server.region}", error: e, stackTrace: st);
         if (context.mounted) showSnackBar(context: context, message: tr.hoyolab.failedToLoadGameRole, error: true);
       } finally {
         loadingGameRoleServers.value = [...loadingGameRoleServers.value..remove(server)];

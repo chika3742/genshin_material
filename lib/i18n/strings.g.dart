@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 186 (93 per locale)
+/// Strings: 188 (94 per locale)
 ///
-/// Built on 2024-06-10 at 11:34 UTC
+/// Built on 2024-06-10 at 15:01 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -391,7 +391,7 @@ class _StringsHoyolabJa {
 
 	// Translations
 	String get signIn => 'HoYoLABにサインイン';
-	String get signOut => 'HoYoLABからサインアウト';
+	String get signOut => 'HoYoLABとの連携を解除';
 	String get signInNote => '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
 	String get failedToSignIn => 'HoYoLABへのサインインに失敗しました。';
 	String get credentialVerificationFailed => 'ログイン情報の検証に失敗しました。再度ログインしてください。';
@@ -403,6 +403,8 @@ class _StringsHoyolabJa {
 	String get failedToLoadServerList => 'サーバーリストの読み込みに失敗しました。';
 	String get failedToLoadGameRole => 'ゲームデータの読み込みに失敗しました。';
 	String get noGameRoleFound => 'ゲームデータが見つかりません';
+	String get failedToSyncGameData => 'ゲームデータの同期に失敗しました。';
+	String get characterDataAccessNotAllowed => 'キャラクターデータへのアクセスが許可されていません。HoYoLABアプリの育成計算機より、キャラ選択画面→設定アイコン より許可してください。';
 }
 
 // Path: <root>
@@ -778,7 +780,7 @@ extension on Translations {
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
 			case 'hoyolab.signIn': return 'HoYoLABにサインイン';
-			case 'hoyolab.signOut': return 'HoYoLABからサインアウト';
+			case 'hoyolab.signOut': return 'HoYoLABとの連携を解除';
 			case 'hoyolab.signInNote': return '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
 			case 'hoyolab.failedToSignIn': return 'HoYoLABへのサインインに失敗しました。';
 			case 'hoyolab.credentialVerificationFailed': return 'ログイン情報の検証に失敗しました。再度ログインしてください。';
@@ -790,6 +792,8 @@ extension on Translations {
 			case 'hoyolab.failedToLoadServerList': return 'サーバーリストの読み込みに失敗しました。';
 			case 'hoyolab.failedToLoadGameRole': return 'ゲームデータの読み込みに失敗しました。';
 			case 'hoyolab.noGameRoleFound': return 'ゲームデータが見つかりません';
+			case 'hoyolab.failedToSyncGameData': return 'ゲームデータの同期に失敗しました。';
+			case 'hoyolab.characterDataAccessNotAllowed': return 'キャラクターデータへのアクセスが許可されていません。HoYoLABアプリの育成計算機より、キャラ選択画面→設定アイコン より許可してください。';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;
 		}

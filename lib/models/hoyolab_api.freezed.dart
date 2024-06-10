@@ -824,3 +824,552 @@ abstract class _HyvUserGameRole implements HyvUserGameRole {
   _$$HyvUserGameRoleImplCopyWith<_$HyvUserGameRoleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+AvatarListResultItem _$AvatarListResultItemFromJson(Map<String, dynamic> json) {
+  return _AvatarListResultItem.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AvatarListResultItem {
+  int get id => throw _privateConstructorUsedError;
+  String get name =>
+      throw _privateConstructorUsedError; // workaround for https://github.com/rrousselGit/freezed/issues/488
+// ignore: invalid_annotation_target
+  @JsonKey(name: "level_current")
+  String get currentLevel =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: "max_level")
+  int get maxLevel => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AvatarListResultItemCopyWith<AvatarListResultItem> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AvatarListResultItemCopyWith<$Res> {
+  factory $AvatarListResultItemCopyWith(AvatarListResultItem value,
+          $Res Function(AvatarListResultItem) then) =
+      _$AvatarListResultItemCopyWithImpl<$Res, AvatarListResultItem>;
+  @useResult
+  $Res call(
+      {int id,
+      String name,
+      @JsonKey(name: "level_current") String currentLevel,
+      @JsonKey(name: "max_level") int maxLevel});
+}
+
+/// @nodoc
+class _$AvatarListResultItemCopyWithImpl<$Res,
+        $Val extends AvatarListResultItem>
+    implements $AvatarListResultItemCopyWith<$Res> {
+  _$AvatarListResultItemCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? currentLevel = null,
+    Object? maxLevel = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      currentLevel: null == currentLevel
+          ? _value.currentLevel
+          : currentLevel // ignore: cast_nullable_to_non_nullable
+              as String,
+      maxLevel: null == maxLevel
+          ? _value.maxLevel
+          : maxLevel // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AvatarListResultItemImplCopyWith<$Res>
+    implements $AvatarListResultItemCopyWith<$Res> {
+  factory _$$AvatarListResultItemImplCopyWith(_$AvatarListResultItemImpl value,
+          $Res Function(_$AvatarListResultItemImpl) then) =
+      __$$AvatarListResultItemImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      String name,
+      @JsonKey(name: "level_current") String currentLevel,
+      @JsonKey(name: "max_level") int maxLevel});
+}
+
+/// @nodoc
+class __$$AvatarListResultItemImplCopyWithImpl<$Res>
+    extends _$AvatarListResultItemCopyWithImpl<$Res, _$AvatarListResultItemImpl>
+    implements _$$AvatarListResultItemImplCopyWith<$Res> {
+  __$$AvatarListResultItemImplCopyWithImpl(_$AvatarListResultItemImpl _value,
+      $Res Function(_$AvatarListResultItemImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? currentLevel = null,
+    Object? maxLevel = null,
+  }) {
+    return _then(_$AvatarListResultItemImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      currentLevel: null == currentLevel
+          ? _value.currentLevel
+          : currentLevel // ignore: cast_nullable_to_non_nullable
+              as String,
+      maxLevel: null == maxLevel
+          ? _value.maxLevel
+          : maxLevel // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AvatarListResultItemImpl extends _AvatarListResultItem {
+  const _$AvatarListResultItemImpl(
+      {required this.id,
+      required this.name,
+      @JsonKey(name: "level_current") required this.currentLevel,
+      @JsonKey(name: "max_level") required this.maxLevel})
+      : super._();
+
+  factory _$AvatarListResultItemImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AvatarListResultItemImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final String name;
+// workaround for https://github.com/rrousselGit/freezed/issues/488
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "level_current")
+  final String currentLevel;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "max_level")
+  final int maxLevel;
+
+  @override
+  String toString() {
+    return 'AvatarListResultItem(id: $id, name: $name, currentLevel: $currentLevel, maxLevel: $maxLevel)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AvatarListResultItemImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.currentLevel, currentLevel) ||
+                other.currentLevel == currentLevel) &&
+            (identical(other.maxLevel, maxLevel) ||
+                other.maxLevel == maxLevel));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, currentLevel, maxLevel);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AvatarListResultItemImplCopyWith<_$AvatarListResultItemImpl>
+      get copyWith =>
+          __$$AvatarListResultItemImplCopyWithImpl<_$AvatarListResultItemImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AvatarListResultItemImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AvatarListResultItem extends AvatarListResultItem {
+  const factory _AvatarListResultItem(
+          {required final int id,
+          required final String name,
+          @JsonKey(name: "level_current") required final String currentLevel,
+          @JsonKey(name: "max_level") required final int maxLevel}) =
+      _$AvatarListResultItemImpl;
+  const _AvatarListResultItem._() : super._();
+
+  factory _AvatarListResultItem.fromJson(Map<String, dynamic> json) =
+      _$AvatarListResultItemImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get name;
+  @override // workaround for https://github.com/rrousselGit/freezed/issues/488
+// ignore: invalid_annotation_target
+  @JsonKey(name: "level_current")
+  String get currentLevel;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "max_level")
+  int get maxLevel;
+  @override
+  @JsonKey(ignore: true)
+  _$$AvatarListResultItemImplCopyWith<_$AvatarListResultItemImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+AvatarDetail _$AvatarDetailFromJson(Map<String, dynamic> json) {
+  return _AvatarDetail.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AvatarDetail {
+// ignore: invalid_annotation_target
+  @JsonKey(name: "skill_list")
+  List<AvatarDetailSkill> get skills => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AvatarDetailCopyWith<AvatarDetail> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AvatarDetailCopyWith<$Res> {
+  factory $AvatarDetailCopyWith(
+          AvatarDetail value, $Res Function(AvatarDetail) then) =
+      _$AvatarDetailCopyWithImpl<$Res, AvatarDetail>;
+  @useResult
+  $Res call({@JsonKey(name: "skill_list") List<AvatarDetailSkill> skills});
+}
+
+/// @nodoc
+class _$AvatarDetailCopyWithImpl<$Res, $Val extends AvatarDetail>
+    implements $AvatarDetailCopyWith<$Res> {
+  _$AvatarDetailCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? skills = null,
+  }) {
+    return _then(_value.copyWith(
+      skills: null == skills
+          ? _value.skills
+          : skills // ignore: cast_nullable_to_non_nullable
+              as List<AvatarDetailSkill>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AvatarDetailImplCopyWith<$Res>
+    implements $AvatarDetailCopyWith<$Res> {
+  factory _$$AvatarDetailImplCopyWith(
+          _$AvatarDetailImpl value, $Res Function(_$AvatarDetailImpl) then) =
+      __$$AvatarDetailImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: "skill_list") List<AvatarDetailSkill> skills});
+}
+
+/// @nodoc
+class __$$AvatarDetailImplCopyWithImpl<$Res>
+    extends _$AvatarDetailCopyWithImpl<$Res, _$AvatarDetailImpl>
+    implements _$$AvatarDetailImplCopyWith<$Res> {
+  __$$AvatarDetailImplCopyWithImpl(
+      _$AvatarDetailImpl _value, $Res Function(_$AvatarDetailImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? skills = null,
+  }) {
+    return _then(_$AvatarDetailImpl(
+      skills: null == skills
+          ? _value._skills
+          : skills // ignore: cast_nullable_to_non_nullable
+              as List<AvatarDetailSkill>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AvatarDetailImpl implements _AvatarDetail {
+  const _$AvatarDetailImpl(
+      {@JsonKey(name: "skill_list")
+      required final List<AvatarDetailSkill> skills})
+      : _skills = skills;
+
+  factory _$AvatarDetailImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AvatarDetailImplFromJson(json);
+
+// ignore: invalid_annotation_target
+  final List<AvatarDetailSkill> _skills;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "skill_list")
+  List<AvatarDetailSkill> get skills {
+    if (_skills is EqualUnmodifiableListView) return _skills;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_skills);
+  }
+
+  @override
+  String toString() {
+    return 'AvatarDetail(skills: $skills)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AvatarDetailImpl &&
+            const DeepCollectionEquality().equals(other._skills, _skills));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_skills));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AvatarDetailImplCopyWith<_$AvatarDetailImpl> get copyWith =>
+      __$$AvatarDetailImplCopyWithImpl<_$AvatarDetailImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AvatarDetailImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AvatarDetail implements AvatarDetail {
+  const factory _AvatarDetail(
+      {@JsonKey(name: "skill_list")
+      required final List<AvatarDetailSkill> skills}) = _$AvatarDetailImpl;
+
+  factory _AvatarDetail.fromJson(Map<String, dynamic> json) =
+      _$AvatarDetailImpl.fromJson;
+
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "skill_list")
+  List<AvatarDetailSkill> get skills;
+  @override
+  @JsonKey(ignore: true)
+  _$$AvatarDetailImplCopyWith<_$AvatarDetailImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+AvatarDetailSkill _$AvatarDetailSkillFromJson(Map<String, dynamic> json) {
+  return _AvatarDetailSkill.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AvatarDetailSkill {
+// ignore: invalid_annotation_target
+  @JsonKey(name: "max_level")
+  int get maxLevel =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: "level_current")
+  int get currentLevel => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AvatarDetailSkillCopyWith<AvatarDetailSkill> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AvatarDetailSkillCopyWith<$Res> {
+  factory $AvatarDetailSkillCopyWith(
+          AvatarDetailSkill value, $Res Function(AvatarDetailSkill) then) =
+      _$AvatarDetailSkillCopyWithImpl<$Res, AvatarDetailSkill>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "max_level") int maxLevel,
+      @JsonKey(name: "level_current") int currentLevel});
+}
+
+/// @nodoc
+class _$AvatarDetailSkillCopyWithImpl<$Res, $Val extends AvatarDetailSkill>
+    implements $AvatarDetailSkillCopyWith<$Res> {
+  _$AvatarDetailSkillCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxLevel = null,
+    Object? currentLevel = null,
+  }) {
+    return _then(_value.copyWith(
+      maxLevel: null == maxLevel
+          ? _value.maxLevel
+          : maxLevel // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentLevel: null == currentLevel
+          ? _value.currentLevel
+          : currentLevel // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AvatarDetailSkillImplCopyWith<$Res>
+    implements $AvatarDetailSkillCopyWith<$Res> {
+  factory _$$AvatarDetailSkillImplCopyWith(_$AvatarDetailSkillImpl value,
+          $Res Function(_$AvatarDetailSkillImpl) then) =
+      __$$AvatarDetailSkillImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "max_level") int maxLevel,
+      @JsonKey(name: "level_current") int currentLevel});
+}
+
+/// @nodoc
+class __$$AvatarDetailSkillImplCopyWithImpl<$Res>
+    extends _$AvatarDetailSkillCopyWithImpl<$Res, _$AvatarDetailSkillImpl>
+    implements _$$AvatarDetailSkillImplCopyWith<$Res> {
+  __$$AvatarDetailSkillImplCopyWithImpl(_$AvatarDetailSkillImpl _value,
+      $Res Function(_$AvatarDetailSkillImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? maxLevel = null,
+    Object? currentLevel = null,
+  }) {
+    return _then(_$AvatarDetailSkillImpl(
+      maxLevel: null == maxLevel
+          ? _value.maxLevel
+          : maxLevel // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentLevel: null == currentLevel
+          ? _value.currentLevel
+          : currentLevel // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AvatarDetailSkillImpl implements _AvatarDetailSkill {
+  const _$AvatarDetailSkillImpl(
+      {@JsonKey(name: "max_level") required this.maxLevel,
+      @JsonKey(name: "level_current") required this.currentLevel});
+
+  factory _$AvatarDetailSkillImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AvatarDetailSkillImplFromJson(json);
+
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "max_level")
+  final int maxLevel;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "level_current")
+  final int currentLevel;
+
+  @override
+  String toString() {
+    return 'AvatarDetailSkill(maxLevel: $maxLevel, currentLevel: $currentLevel)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AvatarDetailSkillImpl &&
+            (identical(other.maxLevel, maxLevel) ||
+                other.maxLevel == maxLevel) &&
+            (identical(other.currentLevel, currentLevel) ||
+                other.currentLevel == currentLevel));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, maxLevel, currentLevel);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AvatarDetailSkillImplCopyWith<_$AvatarDetailSkillImpl> get copyWith =>
+      __$$AvatarDetailSkillImplCopyWithImpl<_$AvatarDetailSkillImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AvatarDetailSkillImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AvatarDetailSkill implements AvatarDetailSkill {
+  const factory _AvatarDetailSkill(
+          {@JsonKey(name: "max_level") required final int maxLevel,
+          @JsonKey(name: "level_current") required final int currentLevel}) =
+      _$AvatarDetailSkillImpl;
+
+  factory _AvatarDetailSkill.fromJson(Map<String, dynamic> json) =
+      _$AvatarDetailSkillImpl.fromJson;
+
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "max_level")
+  int get maxLevel;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "level_current")
+  int get currentLevel;
+  @override
+  @JsonKey(ignore: true)
+  _$$AvatarDetailSkillImplCopyWith<_$AvatarDetailSkillImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

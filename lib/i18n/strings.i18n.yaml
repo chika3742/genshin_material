@@ -97,7 +97,7 @@ settingsPage:
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
 hoyolab:
   signIn: HoYoLABにサインイン
-  signOut: HoYoLABからサインアウト
+  signOut: HoYoLABとの連携を解除
   signInNote: ※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。
   failedToSignIn: HoYoLABへのサインインに失敗しました。
   credentialVerificationFailed: ログイン情報の検証に失敗しました。再度ログインしてください。
@@ -109,5 +109,7 @@ hoyolab:
   failedToLoadServerList: サーバーリストの読み込みに失敗しました。
   failedToLoadGameRole: ゲームデータの読み込みに失敗しました。
   noGameRoleFound: ゲームデータが見つかりません
+  failedToSyncGameData: ゲームデータの同期に失敗しました。
+  characterDataAccessNotAllowed: キャラクターデータへのアクセスが許可されていません。HoYoLABアプリの育成計算機より、キャラ選択画面→設定アイコン より許可してください。
 whereToGet(map):
   chests: 宝箱、任務報酬など

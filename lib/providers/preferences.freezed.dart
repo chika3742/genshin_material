@@ -171,7 +171,7 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PreferencesStateImpl implements _PreferencesState {
+class _$PreferencesStateImpl extends _PreferencesState {
   const _$PreferencesStateImpl(
       {required this.resin,
       required this.resinBaseTime,
@@ -179,7 +179,8 @@ class _$PreferencesStateImpl implements _PreferencesState {
       required this.hyvServer,
       required this.hyvServerName,
       required this.hyvUserName,
-      required this.hyvUid});
+      required this.hyvUid})
+      : super._();
 
   @override
   final int resin;
@@ -231,7 +232,7 @@ class _$PreferencesStateImpl implements _PreferencesState {
           this, _$identity);
 }
 
-abstract class _PreferencesState implements PreferencesState {
+abstract class _PreferencesState extends PreferencesState {
   const factory _PreferencesState(
       {required final int resin,
       required final DateTime resinBaseTime,
@@ -240,6 +241,7 @@ abstract class _PreferencesState implements PreferencesState {
       required final String hyvServerName,
       required final String hyvUserName,
       required final String hyvUid}) = _$PreferencesStateImpl;
+  const _PreferencesState._() : super._();
 
   @override
   int get resin;
