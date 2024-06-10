@@ -18,6 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PreferencesState {
   int get resin => throw _privateConstructorUsedError;
   DateTime get resinBaseTime => throw _privateConstructorUsedError;
+  String get cookie => throw _privateConstructorUsedError;
+  String get hyvServer => throw _privateConstructorUsedError;
+  String get hyvServerName => throw _privateConstructorUsedError;
+  String get hyvUserName => throw _privateConstructorUsedError;
+  String get uid => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PreferencesStateCopyWith<PreferencesState> get copyWith =>
@@ -30,7 +35,14 @@ abstract class $PreferencesStateCopyWith<$Res> {
           PreferencesState value, $Res Function(PreferencesState) then) =
       _$PreferencesStateCopyWithImpl<$Res, PreferencesState>;
   @useResult
-  $Res call({int resin, DateTime resinBaseTime});
+  $Res call(
+      {int resin,
+      DateTime resinBaseTime,
+      String cookie,
+      String hyvServer,
+      String hyvServerName,
+      String hyvUserName,
+      String uid});
 }
 
 /// @nodoc
@@ -48,6 +60,11 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
   $Res call({
     Object? resin = null,
     Object? resinBaseTime = null,
+    Object? cookie = null,
+    Object? hyvServer = null,
+    Object? hyvServerName = null,
+    Object? hyvUserName = null,
+    Object? uid = null,
   }) {
     return _then(_value.copyWith(
       resin: null == resin
@@ -58,6 +75,26 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
           ? _value.resinBaseTime
           : resinBaseTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      cookie: null == cookie
+          ? _value.cookie
+          : cookie // ignore: cast_nullable_to_non_nullable
+              as String,
+      hyvServer: null == hyvServer
+          ? _value.hyvServer
+          : hyvServer // ignore: cast_nullable_to_non_nullable
+              as String,
+      hyvServerName: null == hyvServerName
+          ? _value.hyvServerName
+          : hyvServerName // ignore: cast_nullable_to_non_nullable
+              as String,
+      hyvUserName: null == hyvUserName
+          ? _value.hyvUserName
+          : hyvUserName // ignore: cast_nullable_to_non_nullable
+              as String,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -70,7 +107,14 @@ abstract class _$$PreferencesStateImplCopyWith<$Res>
       __$$PreferencesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int resin, DateTime resinBaseTime});
+  $Res call(
+      {int resin,
+      DateTime resinBaseTime,
+      String cookie,
+      String hyvServer,
+      String hyvServerName,
+      String hyvUserName,
+      String uid});
 }
 
 /// @nodoc
@@ -86,6 +130,11 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
   $Res call({
     Object? resin = null,
     Object? resinBaseTime = null,
+    Object? cookie = null,
+    Object? hyvServer = null,
+    Object? hyvServerName = null,
+    Object? hyvUserName = null,
+    Object? uid = null,
   }) {
     return _then(_$PreferencesStateImpl(
       resin: null == resin
@@ -96,6 +145,26 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
           ? _value.resinBaseTime
           : resinBaseTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      cookie: null == cookie
+          ? _value.cookie
+          : cookie // ignore: cast_nullable_to_non_nullable
+              as String,
+      hyvServer: null == hyvServer
+          ? _value.hyvServer
+          : hyvServer // ignore: cast_nullable_to_non_nullable
+              as String,
+      hyvServerName: null == hyvServerName
+          ? _value.hyvServerName
+          : hyvServerName // ignore: cast_nullable_to_non_nullable
+              as String,
+      hyvUserName: null == hyvUserName
+          ? _value.hyvUserName
+          : hyvUserName // ignore: cast_nullable_to_non_nullable
+              as String,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -104,16 +173,32 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
 
 class _$PreferencesStateImpl implements _PreferencesState {
   const _$PreferencesStateImpl(
-      {required this.resin, required this.resinBaseTime});
+      {required this.resin,
+      required this.resinBaseTime,
+      required this.cookie,
+      required this.hyvServer,
+      required this.hyvServerName,
+      required this.hyvUserName,
+      required this.uid});
 
   @override
   final int resin;
   @override
   final DateTime resinBaseTime;
+  @override
+  final String cookie;
+  @override
+  final String hyvServer;
+  @override
+  final String hyvServerName;
+  @override
+  final String hyvUserName;
+  @override
+  final String uid;
 
   @override
   String toString() {
-    return 'PreferencesState(resin: $resin, resinBaseTime: $resinBaseTime)';
+    return 'PreferencesState(resin: $resin, resinBaseTime: $resinBaseTime, cookie: $cookie, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, uid: $uid)';
   }
 
   @override
@@ -123,11 +208,20 @@ class _$PreferencesStateImpl implements _PreferencesState {
             other is _$PreferencesStateImpl &&
             (identical(other.resin, resin) || other.resin == resin) &&
             (identical(other.resinBaseTime, resinBaseTime) ||
-                other.resinBaseTime == resinBaseTime));
+                other.resinBaseTime == resinBaseTime) &&
+            (identical(other.cookie, cookie) || other.cookie == cookie) &&
+            (identical(other.hyvServer, hyvServer) ||
+                other.hyvServer == hyvServer) &&
+            (identical(other.hyvServerName, hyvServerName) ||
+                other.hyvServerName == hyvServerName) &&
+            (identical(other.hyvUserName, hyvUserName) ||
+                other.hyvUserName == hyvUserName) &&
+            (identical(other.uid, uid) || other.uid == uid));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, resin, resinBaseTime);
+  int get hashCode => Object.hash(runtimeType, resin, resinBaseTime, cookie,
+      hyvServer, hyvServerName, hyvUserName, uid);
 
   @JsonKey(ignore: true)
   @override
@@ -140,12 +234,27 @@ class _$PreferencesStateImpl implements _PreferencesState {
 abstract class _PreferencesState implements PreferencesState {
   const factory _PreferencesState(
       {required final int resin,
-      required final DateTime resinBaseTime}) = _$PreferencesStateImpl;
+      required final DateTime resinBaseTime,
+      required final String cookie,
+      required final String hyvServer,
+      required final String hyvServerName,
+      required final String hyvUserName,
+      required final String uid}) = _$PreferencesStateImpl;
 
   @override
   int get resin;
   @override
   DateTime get resinBaseTime;
+  @override
+  String get cookie;
+  @override
+  String get hyvServer;
+  @override
+  String get hyvServerName;
+  @override
+  String get hyvUserName;
+  @override
+  String get uid;
   @override
   @JsonKey(ignore: true)
   _$$PreferencesStateImplCopyWith<_$PreferencesStateImpl> get copyWith =>

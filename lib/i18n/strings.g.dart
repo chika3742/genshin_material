@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 151 (75 per locale)
+/// Strings: 167 (83 per locale)
 ///
-/// Built on 2024-05-31 at 03:32 UTC
+/// Built on 2024-06-10 at 05:20 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -168,6 +168,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
 	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
 	late final _StringsSettingsPageJa settingsPage = _StringsSettingsPageJa._(_root);
+	late final _StringsHoyolabJa hoyolab = _StringsHoyolabJa._(_root);
 	Map<String, String> get whereToGet => {
 		'chests': '宝箱、任務報酬など',
 	};
@@ -241,6 +242,7 @@ class _StringsPagesJa {
 	String get resinCalc => '樹脂回復時刻計算機';
 	String get wishes => '祈願天井カウンター';
 	String get more => 'その他';
+	String get hoyolabIntegrationSettings => 'HoYoLAB連携設定';
 }
 
 // Path: characterDetailsPage
@@ -355,6 +357,7 @@ class _StringsMorePageJa {
 
 	// Translations
 	String get accountDesc => 'ブックマーク等をデバイス間で同期できます。';
+	String get hoyolabIntegrationSettingsDesc => 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
 }
 
 // Path: releaseNotesPage
@@ -378,6 +381,29 @@ class _StringsSettingsPageJa {
 	String get assetData => 'アセットデータ';
 	String get reDownloadAssets => 'アセットデータを再ダウンロード';
 	String get reDownloadAssetsDesc => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
+}
+
+// Path: hoyolab
+class _StringsHoyolabJa {
+	_StringsHoyolabJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get signIn => 'HoYoLABにサインイン';
+	String get signOut => 'HoYoLABからサインアウト';
+	String get signInNote => '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
+	String get failedToSignIn => 'HoYoLABへのサインインに失敗しました。';
+	String get credentialVerificationFailed => 'ログイン情報の検証に失敗しました。再度ログインしてください。';
+	String get changeServer => 'サーバーの変更';
+	String get serverSelect => 'サーバー選択';
+	String current({required Object server}) => '現在の設定: ${server}';
+	String get noServerSelected => 'サーバーが選択されていません';
+	String get unknownServer => '不明なサーバー';
+	String get userInfo => 'ユーザー情報';
+	String get failedToLoadServerList => 'サーバーリストの読み込みに失敗しました。';
+	String get failedToLoadGameRole => 'ゲームデータの読み込みに失敗しました。';
+	String get noGameRoleFound => 'ゲームデータが見つかりません';
 }
 
 // Path: <root>
@@ -667,6 +693,7 @@ extension on Translations {
 			case 'pages.resinCalc': return '樹脂回復時刻計算機';
 			case 'pages.wishes': return '祈願天井カウンター';
 			case 'pages.more': return 'その他';
+			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB連携設定';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
@@ -705,11 +732,26 @@ extension on Translations {
 				other: '${n}分',
 			);
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
+			case 'morePage.hoyolabIntegrationSettingsDesc': return 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
 			case 'settingsPage.assetData': return 'アセットデータ';
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
+			case 'hoyolab.signIn': return 'HoYoLABにサインイン';
+			case 'hoyolab.signOut': return 'HoYoLABからサインアウト';
+			case 'hoyolab.signInNote': return '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
+			case 'hoyolab.failedToSignIn': return 'HoYoLABへのサインインに失敗しました。';
+			case 'hoyolab.credentialVerificationFailed': return 'ログイン情報の検証に失敗しました。再度ログインしてください。';
+			case 'hoyolab.changeServer': return 'サーバーの変更';
+			case 'hoyolab.serverSelect': return 'サーバー選択';
+			case 'hoyolab.current': return ({required Object server}) => '現在の設定: ${server}';
+			case 'hoyolab.noServerSelected': return 'サーバーが選択されていません';
+			case 'hoyolab.unknownServer': return '不明なサーバー';
+			case 'hoyolab.userInfo': return 'ユーザー情報';
+			case 'hoyolab.failedToLoadServerList': return 'サーバーリストの読み込みに失敗しました。';
+			case 'hoyolab.failedToLoadGameRole': return 'ゲームデータの読み込みに失敗しました。';
+			case 'hoyolab.noGameRoleFound': return 'ゲームデータが見つかりません';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;
 		}

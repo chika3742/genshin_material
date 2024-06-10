@@ -40,6 +40,7 @@ pages:
   resinCalc: 樹脂回復時刻計算機
   wishes: 祈願天井カウンター
   more: その他
+  hoyolabIntegrationSettings: HoYoLAB連携設定
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: キャラクターLvアップ・突破素材
   talentLevelUpMaterials: 天賦Lvアップ素材
@@ -86,6 +87,7 @@ resinCalcPage:
     other: $n分
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
+  hoyolabIntegrationSettingsDesc: HoYoLABと連携し、ゲーム内のデータと同期できます。
 releaseNotesPage:
   featureUpdates: 機能更新
   assetUpdates: データ更新
@@ -93,6 +95,19 @@ settingsPage:
   assetData: アセットデータ
   reDownloadAssets: アセットデータを再ダウンロード
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
+hoyolab:
+  signIn: HoYoLABにサインイン
+  signOut: HoYoLABからサインアウト
+  signInNote: ※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。
+  failedToSignIn: HoYoLABへのサインインに失敗しました。
+  credentialVerificationFailed: ログイン情報の検証に失敗しました。再度ログインしてください。
+  changeServer: サーバーの変更
+  serverSelect: サーバー選択
+  current: "現在の設定: $server"
+  noServerSelected: サーバーが選択されていません
+  userInfo: ユーザー情報
+  failedToLoadServerList: サーバーリストの読み込みに失敗しました。
+  failedToLoadGameRole: ゲームデータの読み込みに失敗しました。
+  noGameRoleFound: ゲームデータが見つかりません
 whereToGet(map):
   chests: 宝箱、任務報酬など
-

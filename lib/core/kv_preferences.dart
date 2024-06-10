@@ -20,4 +20,39 @@ class KvPreferences {
       SharedPreferences.getInstance().then(
         (prefs) => prefs.setString("resinBaseTime", resinBaseTime.toIso8601String()),
       );
+
+  String get cookie => instance.getString("cookie") ?? "";
+
+  static Future<void> setCookie(String cookie) =>
+      SharedPreferences.getInstance().then(
+        (prefs) => prefs.setString("cookie", cookie),
+      );
+
+  String get hyvServer => instance.getString("hyvServer") ?? "";
+
+  static Future<void> setHyvServer(String hyvServer) =>
+      SharedPreferences.getInstance().then(
+        (prefs) => prefs.setString("hyvServer", hyvServer),
+      );
+
+  String get hyvServerName => instance.getString("hyvServerName") ?? "";
+
+  static Future<void> setHyvServerName(String hyvServerName) =>
+      SharedPreferences.getInstance().then(
+        (prefs) => prefs.setString("hyvServerName", hyvServerName),
+      );
+
+  String get hyvUserName => instance.getString("hyvUserName") ?? "";
+
+  static Future<void> setHyvUserName(String hyvUserName) =>
+    SharedPreferences.getInstance().then(
+      (prefs) => prefs.setString("hyvUserName", hyvUserName),
+    );
+
+  String get uid => instance.getString("uid") ?? "";
+
+  static Future<void> setUid(String uid) =>
+      SharedPreferences.getInstance().then(
+        (prefs) => prefs.setString("uid", uid),
+      );
 }

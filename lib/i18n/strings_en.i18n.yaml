@@ -38,13 +38,20 @@ pages:
   daily: Daily
   tools: Tools
   resinCalc: Resin Replenish Calculator
+  wishes: Wish Pity Counter
   more: More
+  hoyolabIntegrationSettings: HoYoLAB Integration Settings
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: "Character Lv Up & Ascension Materials"
   talentLevelUpMaterials: Talent Lv Up Materials
 materialDetailsPage:
   charactersUsing: Characters Using This Material
   weaponsUsing: Weapons Using This Material
+materialCard:
+  reBookmark: Re-bookmark in current range
+  reBookmarkDesc: "Remove the bookmark of this material once, then bookmark it again in the current slider range"
+  unBookmark: Remove bookmark
+  unBookmarkDesc: Remove the bookmark of this material
 artifactsPage:
   bonusTypes(map):
     1-pc: 1-Pc Set Bonus
@@ -82,6 +89,7 @@ resinCalcPage:
     one: $n minute
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
+  hoyolabIntegrationSettingsDesc: Link with HoYoLAB to sync in-game data
 releaseNotesPage:
   featureUpdates: Feature Updates
   assetUpdates: Asset Updates
@@ -89,5 +97,19 @@ settingsPage:
   assetData: Assets
   reDownloadAssets: Re-download Assets
   reDownloadAssetsDesc: Please try this if the assets of the app are not loading properly.
+hoyolab:
+  signIn: Sign in to HoYoLAB
+  signOut: Sign out from HoYoLAB
+  signInNote: "* Social login is not supported. You need to sign in with your email/username and password."
+  failedToSignIn: Failed to sign in to HoYoLAB
+  credentialVerificationFailed: Failed to verify login information. Please sign in again.
+  changeServer: Change server
+  serverSelect: Server select
+  current: "Current: $server"
+  noServerSelected: No server selected
+  userInfo: User Info
+  failedToLoadServerList: Failed to load server list.
+  failedToLoadGameRole: Failed to load game user info.
+  noGameRoleFound: No game user found.
 whereToGet(map):
   chests: "Chests, Quests"

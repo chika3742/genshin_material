@@ -16,6 +16,8 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		C7205ECE2B6BE7AA00D35478 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C7205ECD2B6BE7AA00D35478 /* InfoPlist.xcstrings */; };
+		C752E1CD2C14967900461512 /* Messages.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = C752E1CC2C14967900461512 /* Messages.g.swift */; };
+		C752E1CF2C14969500461512 /* PigeonImpls.swift in Sources */ = {isa = PBXBuildFile; fileRef = C752E1CE2C14969500461512 /* PigeonImpls.swift */; };
 		EDBD98120B18E9E0AB74D91F /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C40FBB759F82C7551501269A /* Pods_RunnerTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +68,8 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C40FBB759F82C7551501269A /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7205ECD2B6BE7AA00D35478 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		C752E1CC2C14967900461512 /* Messages.g.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.g.swift; sourceTree = "<group>"; };
+		C752E1CE2C14969500461512 /* PigeonImpls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PigeonImpls.swift; sourceTree = "<group>"; };
 		EAC015003F004A51D796B0B9 /* Pods-RunnerTests.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.profile.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.profile.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +149,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				C752E1CC2C14967900461512 /* Messages.g.swift */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -154,6 +159,7 @@
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 				C7205ECD2B6BE7AA00D35478 /* InfoPlist.xcstrings */,
+				C752E1CE2C14969500461512 /* PigeonImpls.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -381,8 +387,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C752E1CD2C14967900461512 /* Messages.g.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				C752E1CF2C14969500461512 /* PigeonImpls.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
