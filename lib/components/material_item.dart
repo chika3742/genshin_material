@@ -35,12 +35,16 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
 
   @override
   Widget build(BuildContext context) {
-    final bookmarkedMaterials = useStream(ref.watch(appDatabaseProvider).watchMaterialBookmarkByPartial(
-      characterId: widget.usage.characterId,
-      materialId: widget.item.id,
-      purposeTypes: widget.possiblePurposeTypes,
-      bookmarkType: widget.usage.type,
-    ),);
+    final bookmarkedMaterials = useStream(
+      useMemoized(
+        () => ref.watch(appDatabaseProvider).watchMaterialBookmarkByPartial(
+              characterId: widget.usage.characterId,
+              materialId: widget.item.id,
+              purposeTypes: widget.possiblePurposeTypes,
+              bookmarkType: widget.usage.type,
+            ),
+      ),
+    );
 
     final assetCache = ref.watch(assetDataProvider).value;
     if (assetCache == null) {
