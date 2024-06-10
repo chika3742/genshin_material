@@ -21,7 +21,7 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
       hyvServer: pref.hyvServer,
       hyvServerName: pref.hyvServerName,
       hyvUserName: pref.hyvUserName,
-      uid: pref.uid,
+      hyvUid: pref.hyvUid,
     );
   }
 
@@ -70,12 +70,12 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
   }
 
   Future<void> setUid(String uid) async {
-    KvPreferences.setUid(uid);
+    KvPreferences.setHyvUid(uid);
 
     if (state is AsyncData) {
       state = AsyncData(
         state.value!.copyWith(
-          uid: uid,
+          hyvUid: uid,
         ),
       );
     }
@@ -86,7 +86,7 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     KvPreferences.setHyvServer("");
     KvPreferences.setHyvServerName("");
     KvPreferences.setHyvUserName("");
-    KvPreferences.setUid("");
+    KvPreferences.setHyvUid("");
 
     if (state is AsyncData) {
       state = AsyncData(
@@ -95,7 +95,7 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
           hyvServer: "",
           hyvServerName: "",
           hyvUserName: "",
-          uid: "",
+          hyvUid: "",
         ),
       );
     }
@@ -111,6 +111,6 @@ class PreferencesState with _$PreferencesState {
     required String hyvServer,
     required String hyvServerName,
     required String hyvUserName,
-    required String uid,
+    required String hyvUid,
   }) = _PreferencesState;
 }

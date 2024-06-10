@@ -22,7 +22,7 @@ mixin _$PreferencesState {
   String get hyvServer => throw _privateConstructorUsedError;
   String get hyvServerName => throw _privateConstructorUsedError;
   String get hyvUserName => throw _privateConstructorUsedError;
-  String get uid => throw _privateConstructorUsedError;
+  String get hyvUid => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PreferencesStateCopyWith<PreferencesState> get copyWith =>
@@ -42,7 +42,7 @@ abstract class $PreferencesStateCopyWith<$Res> {
       String hyvServer,
       String hyvServerName,
       String hyvUserName,
-      String uid});
+      String hyvUid});
 }
 
 /// @nodoc
@@ -64,7 +64,7 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
     Object? hyvServer = null,
     Object? hyvServerName = null,
     Object? hyvUserName = null,
-    Object? uid = null,
+    Object? hyvUid = null,
   }) {
     return _then(_value.copyWith(
       resin: null == resin
@@ -91,9 +91,9 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
           ? _value.hyvUserName
           : hyvUserName // ignore: cast_nullable_to_non_nullable
               as String,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
+      hyvUid: null == hyvUid
+          ? _value.hyvUid
+          : hyvUid // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -114,7 +114,7 @@ abstract class _$$PreferencesStateImplCopyWith<$Res>
       String hyvServer,
       String hyvServerName,
       String hyvUserName,
-      String uid});
+      String hyvUid});
 }
 
 /// @nodoc
@@ -134,7 +134,7 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
     Object? hyvServer = null,
     Object? hyvServerName = null,
     Object? hyvUserName = null,
-    Object? uid = null,
+    Object? hyvUid = null,
   }) {
     return _then(_$PreferencesStateImpl(
       resin: null == resin
@@ -161,9 +161,9 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
           ? _value.hyvUserName
           : hyvUserName // ignore: cast_nullable_to_non_nullable
               as String,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
+      hyvUid: null == hyvUid
+          ? _value.hyvUid
+          : hyvUid // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -179,7 +179,7 @@ class _$PreferencesStateImpl implements _PreferencesState {
       required this.hyvServer,
       required this.hyvServerName,
       required this.hyvUserName,
-      required this.uid});
+      required this.hyvUid});
 
   @override
   final int resin;
@@ -194,11 +194,11 @@ class _$PreferencesStateImpl implements _PreferencesState {
   @override
   final String hyvUserName;
   @override
-  final String uid;
+  final String hyvUid;
 
   @override
   String toString() {
-    return 'PreferencesState(resin: $resin, resinBaseTime: $resinBaseTime, cookie: $cookie, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, uid: $uid)';
+    return 'PreferencesState(resin: $resin, resinBaseTime: $resinBaseTime, cookie: $cookie, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid)';
   }
 
   @override
@@ -216,12 +216,12 @@ class _$PreferencesStateImpl implements _PreferencesState {
                 other.hyvServerName == hyvServerName) &&
             (identical(other.hyvUserName, hyvUserName) ||
                 other.hyvUserName == hyvUserName) &&
-            (identical(other.uid, uid) || other.uid == uid));
+            (identical(other.hyvUid, hyvUid) || other.hyvUid == hyvUid));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, resin, resinBaseTime, cookie,
-      hyvServer, hyvServerName, hyvUserName, uid);
+      hyvServer, hyvServerName, hyvUserName, hyvUid);
 
   @JsonKey(ignore: true)
   @override
@@ -239,7 +239,7 @@ abstract class _PreferencesState implements PreferencesState {
       required final String hyvServer,
       required final String hyvServerName,
       required final String hyvUserName,
-      required final String uid}) = _$PreferencesStateImpl;
+      required final String hyvUid}) = _$PreferencesStateImpl;
 
   @override
   int get resin;
@@ -254,7 +254,7 @@ abstract class _PreferencesState implements PreferencesState {
   @override
   String get hyvUserName;
   @override
-  String get uid;
+  String get hyvUid;
   @override
   @JsonKey(ignore: true)
   _$$PreferencesStateImplCopyWith<_$PreferencesStateImpl> get copyWith =>

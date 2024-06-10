@@ -71,7 +71,7 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
           ListSubheader(tr.hoyolab.userInfo),
           if (prefs.value!.hyvServer.isNotEmpty) ListTile(
             title: Text(prefs.value!.hyvUserName),
-            subtitle: Text("UID: ${prefs.value!.uid}"),
+            subtitle: Text("UID: ${prefs.value!.hyvUid}"),
           ) else ListTile(
             title: Text(tr.hoyolab.noServerSelected),
           ),

@@ -49,10 +49,10 @@ class KvPreferences {
       (prefs) => prefs.setString("hyvUserName", hyvUserName),
     );
 
-  String get uid => instance.getString("uid") ?? "";
+  String get hyvUid => instance.getString("hyvUid") ?? "";
 
-  static Future<void> setUid(String uid) =>
-      SharedPreferences.getInstance().then(
-        (prefs) => prefs.setString("uid", uid),
-      );
+  static Future<void> setHyvUid(String hyvUid) =>
+    SharedPreferences.getInstance().then(
+      (prefs) => prefs.setString("hyvUid", hyvUid),
+    );
 }
