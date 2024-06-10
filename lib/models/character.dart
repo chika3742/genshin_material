@@ -37,6 +37,7 @@ sealed class Character with _$Character {
   const factory Character({
     required String id,
     required String rid,
+    required int hyvId,
     required LocalizedText name,
     required String jaPronunciation,
     required String imageUrl,
@@ -65,6 +66,7 @@ sealed class Character with _$Character {
   const factory Character.unlisted({
     required String id,
     required String rid,
+    required int hyvId,
     required String parentId,
     required LocalizedText name,
     required String jaPronunciation,

@@ -13,6 +13,7 @@ class Weapon with _$Weapon, ImageGetter, WithMaterialDefinitions {
 
   const factory Weapon({
     required String id,
+    required int hyvId,
     required LocalizedText name,
     required String jaPronunciation,
     required String imageUrl,

@@ -21,6 +21,7 @@ Weapon _$WeaponFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Weapon {
   String get id => throw _privateConstructorUsedError;
+  int get hyvId => throw _privateConstructorUsedError;
   LocalizedText get name => throw _privateConstructorUsedError;
   String get jaPronunciation => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
@@ -42,6 +43,7 @@ abstract class $WeaponCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      int hyvId,
       LocalizedText name,
       String jaPronunciation,
       String imageUrl,
@@ -69,6 +71,7 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
   @override
   $Res call({
     Object? id = null,
+    Object? hyvId = null,
     Object? name = null,
     Object? jaPronunciation = null,
     Object? imageUrl = null,
@@ -83,6 +86,10 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      hyvId: null == hyvId
+          ? _value.hyvId
+          : hyvId // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -148,6 +155,7 @@ abstract class _$$WeaponImplCopyWith<$Res> implements $WeaponCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      int hyvId,
       LocalizedText name,
       String jaPronunciation,
       String imageUrl,
@@ -175,6 +183,7 @@ class __$$WeaponImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? hyvId = null,
     Object? name = null,
     Object? jaPronunciation = null,
     Object? imageUrl = null,
@@ -189,6 +198,10 @@ class __$$WeaponImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      hyvId: null == hyvId
+          ? _value.hyvId
+          : hyvId // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -230,6 +243,7 @@ class __$$WeaponImplCopyWithImpl<$Res>
 class _$WeaponImpl extends _Weapon {
   const _$WeaponImpl(
       {required this.id,
+      required this.hyvId,
       required this.name,
       required this.jaPronunciation,
       required this.imageUrl,
@@ -246,6 +260,8 @@ class _$WeaponImpl extends _Weapon {
 
   @override
   final String id;
+  @override
+  final int hyvId;
   @override
   final LocalizedText name;
   @override
@@ -271,7 +287,7 @@ class _$WeaponImpl extends _Weapon {
 
   @override
   String toString() {
-    return 'Weapon(id: $id, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, type: $type, materials: $materials, whereToGet: $whereToGet)';
+    return 'Weapon(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, type: $type, materials: $materials, whereToGet: $whereToGet)';
   }
 
   @override
@@ -280,6 +296,7 @@ class _$WeaponImpl extends _Weapon {
         (other.runtimeType == runtimeType &&
             other is _$WeaponImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
                 other.jaPronunciation == jaPronunciation) &&
@@ -299,6 +316,7 @@ class _$WeaponImpl extends _Weapon {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      hyvId,
       name,
       jaPronunciation,
       imageUrl,
@@ -325,6 +343,7 @@ class _$WeaponImpl extends _Weapon {
 abstract class _Weapon extends Weapon {
   const factory _Weapon(
       {required final String id,
+      required final int hyvId,
       required final LocalizedText name,
       required final String jaPronunciation,
       required final String imageUrl,
@@ -339,6 +358,8 @@ abstract class _Weapon extends Weapon {
 
   @override
   String get id;
+  @override
+  int get hyvId;
   @override
   LocalizedText get name;
   @override

@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 167 (83 per locale)
+/// Strings: 186 (93 per locale)
 ///
-/// Built on 2024-06-10 at 05:20 UTC
+/// Built on 2024-06-10 at 11:34 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -399,7 +399,6 @@ class _StringsHoyolabJa {
 	String get serverSelect => 'サーバー選択';
 	String current({required Object server}) => '現在の設定: ${server}';
 	String get noServerSelected => 'サーバーが選択されていません';
-	String get unknownServer => '不明なサーバー';
 	String get userInfo => 'ユーザー情報';
 	String get failedToLoadServerList => 'サーバーリストの読み込みに失敗しました。';
 	String get failedToLoadGameRole => 'ゲームデータの読み込みに失敗しました。';
@@ -443,6 +442,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsCharacterDetailsPageEn characterDetailsPage = _StringsCharacterDetailsPageEn._(_root);
 	@override late final _StringsMaterialDetailsPageEn materialDetailsPage = _StringsMaterialDetailsPageEn._(_root);
+	@override late final _StringsMaterialCardEn materialCard = _StringsMaterialCardEn._(_root);
 	@override late final _StringsArtifactsPageEn artifactsPage = _StringsArtifactsPageEn._(_root);
 	@override late final _StringsArtifactDetailsPageEn artifactDetailsPage = _StringsArtifactDetailsPageEn._(_root);
 	@override late final _StringsDailyPageEn dailyPage = _StringsDailyPageEn._(_root);
@@ -450,6 +450,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
 	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
 	@override late final _StringsSettingsPageEn settingsPage = _StringsSettingsPageEn._(_root);
+	@override late final _StringsHoyolabEn hoyolab = _StringsHoyolabEn._(_root);
 	@override Map<String, String> get whereToGet => {
 		'chests': 'Chests, Quests',
 	};
@@ -521,7 +522,9 @@ class _StringsPagesEn extends _StringsPagesJa {
 	@override String get daily => 'Daily';
 	@override String get tools => 'Tools';
 	@override String get resinCalc => 'Resin Replenish Calculator';
+	@override String get wishes => 'Wish Pity Counter';
 	@override String get more => 'More';
+	@override String get hoyolabIntegrationSettings => 'HoYoLAB Integration Settings';
 }
 
 // Path: characterDetailsPage
@@ -544,6 +547,19 @@ class _StringsMaterialDetailsPageEn extends _StringsMaterialDetailsPageJa {
 	// Translations
 	@override String get charactersUsing => 'Characters Using This Material';
 	@override String get weaponsUsing => 'Weapons Using This Material';
+}
+
+// Path: materialCard
+class _StringsMaterialCardEn extends _StringsMaterialCardJa {
+	_StringsMaterialCardEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get reBookmark => 'Re-bookmark in current range';
+	@override String get reBookmarkDesc => 'Remove the bookmark of this material once, then bookmark it again in the current slider range';
+	@override String get unBookmark => 'Remove bookmark';
+	@override String get unBookmarkDesc => 'Remove the bookmark of this material';
 }
 
 // Path: artifactsPage
@@ -625,6 +641,7 @@ class _StringsMorePageEn extends _StringsMorePageJa {
 
 	// Translations
 	@override String get accountDesc => 'You can sync bookmarks etc. between devices.';
+	@override String get hoyolabIntegrationSettingsDesc => 'Link with HoYoLAB to sync in-game data';
 }
 
 // Path: releaseNotesPage
@@ -648,6 +665,28 @@ class _StringsSettingsPageEn extends _StringsSettingsPageJa {
 	@override String get assetData => 'Assets';
 	@override String get reDownloadAssets => 'Re-download Assets';
 	@override String get reDownloadAssetsDesc => 'Please try this if the assets of the app are not loading properly.';
+}
+
+// Path: hoyolab
+class _StringsHoyolabEn extends _StringsHoyolabJa {
+	_StringsHoyolabEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get signIn => 'Sign in to HoYoLAB';
+	@override String get signOut => 'Sign out from HoYoLAB';
+	@override String get signInNote => '* Social login is not supported. You need to sign in with your email/username and password.';
+	@override String get failedToSignIn => 'Failed to sign in to HoYoLAB';
+	@override String get credentialVerificationFailed => 'Failed to verify login information. Please sign in again.';
+	@override String get changeServer => 'Change server';
+	@override String get serverSelect => 'Server select';
+	@override String current({required Object server}) => 'Current: ${server}';
+	@override String get noServerSelected => 'No server selected';
+	@override String get userInfo => 'User Info';
+	@override String get failedToLoadServerList => 'Failed to load server list.';
+	@override String get failedToLoadGameRole => 'Failed to load game user info.';
+	@override String get noGameRoleFound => 'No game user found.';
 }
 
 /// Flat map(s) containing all translations.
@@ -747,7 +786,6 @@ extension on Translations {
 			case 'hoyolab.serverSelect': return 'サーバー選択';
 			case 'hoyolab.current': return ({required Object server}) => '現在の設定: ${server}';
 			case 'hoyolab.noServerSelected': return 'サーバーが選択されていません';
-			case 'hoyolab.unknownServer': return '不明なサーバー';
 			case 'hoyolab.userInfo': return 'ユーザー情報';
 			case 'hoyolab.failedToLoadServerList': return 'サーバーリストの読み込みに失敗しました。';
 			case 'hoyolab.failedToLoadGameRole': return 'ゲームデータの読み込みに失敗しました。';
@@ -796,11 +834,17 @@ extension on _StringsEn {
 			case 'pages.daily': return 'Daily';
 			case 'pages.tools': return 'Tools';
 			case 'pages.resinCalc': return 'Resin Replenish Calculator';
+			case 'pages.wishes': return 'Wish Pity Counter';
 			case 'pages.more': return 'More';
+			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB Integration Settings';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'Character Lv Up & Ascension Materials';
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
 			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
 			case 'materialDetailsPage.weaponsUsing': return 'Weapons Using This Material';
+			case 'materialCard.reBookmark': return 'Re-bookmark in current range';
+			case 'materialCard.reBookmarkDesc': return 'Remove the bookmark of this material once, then bookmark it again in the current slider range';
+			case 'materialCard.unBookmark': return 'Remove bookmark';
+			case 'materialCard.unBookmarkDesc': return 'Remove the bookmark of this material';
 			case 'artifactsPage.bonusTypes.1-pc': return '1-Pc Set Bonus';
 			case 'artifactsPage.bonusTypes.2-pc': return '2-Pc Set Bonus';
 			case 'artifactsPage.bonusTypes.4-pc': return '4-Pc Set Bonus';
@@ -833,11 +877,25 @@ extension on _StringsEn {
 				one: '${n} minute',
 			);
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
+			case 'morePage.hoyolabIntegrationSettingsDesc': return 'Link with HoYoLAB to sync in-game data';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
 			case 'settingsPage.assetData': return 'Assets';
 			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
 			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the assets of the app are not loading properly.';
+			case 'hoyolab.signIn': return 'Sign in to HoYoLAB';
+			case 'hoyolab.signOut': return 'Sign out from HoYoLAB';
+			case 'hoyolab.signInNote': return '* Social login is not supported. You need to sign in with your email/username and password.';
+			case 'hoyolab.failedToSignIn': return 'Failed to sign in to HoYoLAB';
+			case 'hoyolab.credentialVerificationFailed': return 'Failed to verify login information. Please sign in again.';
+			case 'hoyolab.changeServer': return 'Change server';
+			case 'hoyolab.serverSelect': return 'Server select';
+			case 'hoyolab.current': return ({required Object server}) => 'Current: ${server}';
+			case 'hoyolab.noServerSelected': return 'No server selected';
+			case 'hoyolab.userInfo': return 'User Info';
+			case 'hoyolab.failedToLoadServerList': return 'Failed to load server list.';
+			case 'hoyolab.failedToLoadGameRole': return 'Failed to load game user info.';
+			case 'hoyolab.noGameRoleFound': return 'No game user found.';
 			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
 		}

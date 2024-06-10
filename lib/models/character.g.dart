@@ -11,6 +11,7 @@ _$ListedCharacterImpl _$$ListedCharacterImplFromJson(
     _$ListedCharacterImpl(
       id: json['id'] as String,
       rid: json['rid'] as String,
+      hyvId: json['hyvId'] as int,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
@@ -31,6 +32,7 @@ Map<String, dynamic> _$$ListedCharacterImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'rid': instance.rid,
+      'hyvId': instance.hyvId,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,
       'imageUrl': instance.imageUrl,
@@ -77,6 +79,7 @@ _$UnlistedCharacterImpl _$$UnlistedCharacterImplFromJson(
     _$UnlistedCharacterImpl(
       id: json['id'] as String,
       rid: json['rid'] as String,
+      hyvId: json['hyvId'] as int,
       parentId: json['parentId'] as String,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
@@ -97,6 +100,7 @@ Map<String, dynamic> _$$UnlistedCharacterImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'rid': instance.rid,
+      'hyvId': instance.hyvId,
       'parentId': instance.parentId,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,

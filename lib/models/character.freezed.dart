@@ -39,6 +39,7 @@ mixin _$Character {
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -62,6 +63,7 @@ mixin _$Character {
     required TResult Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -79,6 +81,7 @@ mixin _$Character {
     TResult? Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -102,6 +105,7 @@ mixin _$Character {
     TResult? Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -119,6 +123,7 @@ mixin _$Character {
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -142,6 +147,7 @@ mixin _$Character {
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -267,6 +273,7 @@ abstract class _$$ListedCharacterImplCopyWith<$Res>
   $Res call(
       {String id,
       String rid,
+      int hyvId,
       LocalizedText name,
       String jaPronunciation,
       String imageUrl,
@@ -294,6 +301,7 @@ class __$$ListedCharacterImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? rid = null,
+    Object? hyvId = null,
     Object? name = null,
     Object? jaPronunciation = null,
     Object? imageUrl = null,
@@ -313,6 +321,10 @@ class __$$ListedCharacterImplCopyWithImpl<$Res>
           ? _value.rid
           : rid // ignore: cast_nullable_to_non_nullable
               as String,
+      hyvId: null == hyvId
+          ? _value.hyvId
+          : hyvId // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -363,6 +375,7 @@ class _$ListedCharacterImpl extends ListedCharacter
   const _$ListedCharacterImpl(
       {required this.id,
       required this.rid,
+      required this.hyvId,
       required this.name,
       required this.jaPronunciation,
       required this.imageUrl,
@@ -385,6 +398,8 @@ class _$ListedCharacterImpl extends ListedCharacter
   final String id;
   @override
   final String rid;
+  @override
+  final int hyvId;
   @override
   final LocalizedText name;
   @override
@@ -420,7 +435,7 @@ class _$ListedCharacterImpl extends ListedCharacter
 
   @override
   String toString() {
-    return 'Character(id: $id, rid: $rid, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
+    return 'Character(id: $id, rid: $rid, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
   }
 
   @override
@@ -430,6 +445,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             other is _$ListedCharacterImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.rid, rid) || other.rid == rid) &&
+            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
                 other.jaPronunciation == jaPronunciation) &&
@@ -452,6 +468,7 @@ class _$ListedCharacterImpl extends ListedCharacter
       runtimeType,
       id,
       rid,
+      hyvId,
       name,
       jaPronunciation,
       imageUrl,
@@ -475,6 +492,7 @@ class _$ListedCharacterImpl extends ListedCharacter
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -498,6 +516,7 @@ class _$ListedCharacterImpl extends ListedCharacter
     required TResult Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -509,8 +528,8 @@ class _$ListedCharacterImpl extends ListedCharacter
             Map<String, String> materials)
         unlisted,
   }) {
-    return $default(id, rid, name, jaPronunciation, imageUrl, smallImageUrl,
-        rarity, weaponType, element, talents, materials);
+    return $default(id, rid, hyvId, name, jaPronunciation, imageUrl,
+        smallImageUrl, rarity, weaponType, element, talents, materials);
   }
 
   @override
@@ -519,6 +538,7 @@ class _$ListedCharacterImpl extends ListedCharacter
     TResult? Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -542,6 +562,7 @@ class _$ListedCharacterImpl extends ListedCharacter
     TResult? Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -553,7 +574,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             Map<String, String> materials)?
         unlisted,
   }) {
-    return $default?.call(id, rid, name, jaPronunciation, imageUrl,
+    return $default?.call(id, rid, hyvId, name, jaPronunciation, imageUrl,
         smallImageUrl, rarity, weaponType, element, talents, materials);
   }
 
@@ -563,6 +584,7 @@ class _$ListedCharacterImpl extends ListedCharacter
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -586,6 +608,7 @@ class _$ListedCharacterImpl extends ListedCharacter
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -599,8 +622,8 @@ class _$ListedCharacterImpl extends ListedCharacter
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(id, rid, name, jaPronunciation, imageUrl, smallImageUrl,
-          rarity, weaponType, element, talents, materials);
+      return $default(id, rid, hyvId, name, jaPronunciation, imageUrl,
+          smallImageUrl, rarity, weaponType, element, talents, materials);
     }
     return orElse();
   }
@@ -655,6 +678,7 @@ abstract class ListedCharacter extends Character
   const factory ListedCharacter(
       {required final String id,
       required final String rid,
+      required final int hyvId,
       required final LocalizedText name,
       required final String jaPronunciation,
       required final String imageUrl,
@@ -672,6 +696,7 @@ abstract class ListedCharacter extends Character
   @override
   String get id;
   String get rid;
+  int get hyvId;
   @override
   LocalizedText get name;
   @override
@@ -874,6 +899,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -897,6 +923,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
     required TResult Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -918,6 +945,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
     TResult? Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -941,6 +969,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
     TResult? Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -962,6 +991,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -985,6 +1015,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -1093,6 +1124,7 @@ abstract class _$$UnlistedCharacterImplCopyWith<$Res>
   $Res call(
       {String id,
       String rid,
+      int hyvId,
       String parentId,
       LocalizedText name,
       String jaPronunciation,
@@ -1120,6 +1152,7 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? rid = null,
+    Object? hyvId = null,
     Object? parentId = null,
     Object? name = null,
     Object? jaPronunciation = null,
@@ -1139,6 +1172,10 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
           ? _value.rid
           : rid // ignore: cast_nullable_to_non_nullable
               as String,
+      hyvId: null == hyvId
+          ? _value.hyvId
+          : hyvId // ignore: cast_nullable_to_non_nullable
+              as int,
       parentId: null == parentId
           ? _value.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
@@ -1186,6 +1223,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
   const _$UnlistedCharacterImpl(
       {required this.id,
       required this.rid,
+      required this.hyvId,
       required this.parentId,
       required this.name,
       required this.jaPronunciation,
@@ -1208,6 +1246,8 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
   final String id;
   @override
   final String rid;
+  @override
+  final int hyvId;
   @override
   final String parentId;
   @override
@@ -1243,7 +1283,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
 
   @override
   String toString() {
-    return 'Character.unlisted(id: $id, rid: $rid, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
+    return 'Character.unlisted(id: $id, rid: $rid, hyvId: $hyvId, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
   }
 
   @override
@@ -1253,6 +1293,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             other is _$UnlistedCharacterImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.rid, rid) || other.rid == rid) &&
+            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
             (identical(other.parentId, parentId) ||
                 other.parentId == parentId) &&
             (identical(other.name, name) || other.name == name) &&
@@ -1275,6 +1316,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
       runtimeType,
       id,
       rid,
+      hyvId,
       parentId,
       name,
       jaPronunciation,
@@ -1298,6 +1340,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -1321,6 +1364,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
     required TResult Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -1332,8 +1376,8 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             Map<String, String> materials)
         unlisted,
   }) {
-    return unlisted(id, rid, parentId, name, jaPronunciation, smallImageUrl,
-        rarity, weaponType, element, talents, materials);
+    return unlisted(id, rid, hyvId, parentId, name, jaPronunciation,
+        smallImageUrl, rarity, weaponType, element, talents, materials);
   }
 
   @override
@@ -1342,6 +1386,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
     TResult? Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -1365,6 +1410,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
     TResult? Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -1376,7 +1422,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
             Map<String, String> materials)?
         unlisted,
   }) {
-    return unlisted?.call(id, rid, parentId, name, jaPronunciation,
+    return unlisted?.call(id, rid, hyvId, parentId, name, jaPronunciation,
         smallImageUrl, rarity, weaponType, element, talents, materials);
   }
 
@@ -1386,6 +1432,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -1409,6 +1456,7 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
     TResult Function(
             String id,
             String rid,
+            int hyvId,
             String parentId,
             LocalizedText name,
             String jaPronunciation,
@@ -1422,8 +1470,8 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
     required TResult orElse(),
   }) {
     if (unlisted != null) {
-      return unlisted(id, rid, parentId, name, jaPronunciation, smallImageUrl,
-          rarity, weaponType, element, talents, materials);
+      return unlisted(id, rid, hyvId, parentId, name, jaPronunciation,
+          smallImageUrl, rarity, weaponType, element, talents, materials);
     }
     return orElse();
   }
@@ -1475,6 +1523,7 @@ abstract class UnlistedCharacter extends Character
   const factory UnlistedCharacter(
       {required final String id,
       required final String rid,
+      required final int hyvId,
       required final String parentId,
       required final LocalizedText name,
       required final String jaPronunciation,
@@ -1492,6 +1541,7 @@ abstract class UnlistedCharacter extends Character
   @override
   String get id;
   String get rid;
+  int get hyvId;
   String get parentId;
   @override
   LocalizedText get name;
