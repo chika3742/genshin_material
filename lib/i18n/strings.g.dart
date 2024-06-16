@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 188 (94 per locale)
+/// Strings: 200 (100 per locale)
 ///
-/// Built on 2024-06-10 at 15:01 UTC
+/// Built on 2024-06-16 at 14:31 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -181,6 +181,9 @@ class _StringsCommonJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	String get ok => 'OK';
+	String get cancel => 'キャンセル';
+	String get signOut => 'サインアウト';
 	String get tos => '利用規約';
 	String get privacyPolicy => 'プライバシーポリシー';
 	String get error => 'エラーが発生しました。';
@@ -394,6 +397,7 @@ class _StringsHoyolabJa {
 	String get signOut => 'HoYoLABとの連携を解除';
 	String get signInNote => '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
 	String get failedToSignIn => 'HoYoLABへのサインインに失敗しました。';
+	String get signOutConfirm => 'HoYoLABとの連携を解除しますか？';
 	String get credentialVerificationFailed => 'ログイン情報の検証に失敗しました。再度ログインしてください。';
 	String get changeServer => 'サーバーの変更';
 	String get serverSelect => 'サーバー選択';
@@ -402,6 +406,7 @@ class _StringsHoyolabJa {
 	String get userInfo => 'ユーザー情報';
 	String get failedToLoadServerList => 'サーバーリストの読み込みに失敗しました。';
 	String get failedToLoadGameRole => 'ゲームデータの読み込みに失敗しました。';
+	String get syncingCharaData => 'ゲームデータと同期しています...';
 	String get noGameRoleFound => 'ゲームデータが見つかりません';
 	String get failedToSyncGameData => 'ゲームデータの同期に失敗しました。';
 	String get characterDataAccessNotAllowed => 'キャラクターデータへのアクセスが許可されていません。HoYoLABアプリの育成計算機より、キャラ選択画面→設定アイコン より許可してください。';
@@ -465,6 +470,9 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override final _StringsEn _root; // ignore: unused_field
 
 	// Translations
+	@override String get ok => 'OK';
+	@override String get cancel => 'Cancel';
+	@override String get signOut => 'Sign Out';
 	@override String get tos => 'Terms of Use';
 	@override String get privacyPolicy => 'Privacy Policy';
 	@override String get error => 'An error occurred.';
@@ -680,6 +688,7 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get signOut => 'Sign out from HoYoLAB';
 	@override String get signInNote => '* Social login is not supported. You need to sign in with your email/username and password.';
 	@override String get failedToSignIn => 'Failed to sign in to HoYoLAB';
+	@override String get signOutConfirm => 'Unlink HoYoLAB?';
 	@override String get credentialVerificationFailed => 'Failed to verify login information. Please sign in again.';
 	@override String get changeServer => 'Change server';
 	@override String get serverSelect => 'Server select';
@@ -688,7 +697,10 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get userInfo => 'User Info';
 	@override String get failedToLoadServerList => 'Failed to load server list.';
 	@override String get failedToLoadGameRole => 'Failed to load game user info.';
+	@override String get syncingCharaData => 'Game data sync in progress...';
 	@override String get noGameRoleFound => 'No game user found.';
+	@override String get failedToSyncGameData => 'Failed to sync game data.';
+	@override String get characterDataAccessNotAllowed => 'Character data access is not allowed.';
 }
 
 /// Flat map(s) containing all translations.
@@ -697,6 +709,9 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'common.ok': return 'OK';
+			case 'common.cancel': return 'キャンセル';
+			case 'common.signOut': return 'サインアウト';
 			case 'common.tos': return '利用規約';
 			case 'common.privacyPolicy': return 'プライバシーポリシー';
 			case 'common.error': return 'エラーが発生しました。';
@@ -783,6 +798,7 @@ extension on Translations {
 			case 'hoyolab.signOut': return 'HoYoLABとの連携を解除';
 			case 'hoyolab.signInNote': return '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
 			case 'hoyolab.failedToSignIn': return 'HoYoLABへのサインインに失敗しました。';
+			case 'hoyolab.signOutConfirm': return 'HoYoLABとの連携を解除しますか？';
 			case 'hoyolab.credentialVerificationFailed': return 'ログイン情報の検証に失敗しました。再度ログインしてください。';
 			case 'hoyolab.changeServer': return 'サーバーの変更';
 			case 'hoyolab.serverSelect': return 'サーバー選択';
@@ -791,6 +807,7 @@ extension on Translations {
 			case 'hoyolab.userInfo': return 'ユーザー情報';
 			case 'hoyolab.failedToLoadServerList': return 'サーバーリストの読み込みに失敗しました。';
 			case 'hoyolab.failedToLoadGameRole': return 'ゲームデータの読み込みに失敗しました。';
+			case 'hoyolab.syncingCharaData': return 'ゲームデータと同期しています...';
 			case 'hoyolab.noGameRoleFound': return 'ゲームデータが見つかりません';
 			case 'hoyolab.failedToSyncGameData': return 'ゲームデータの同期に失敗しました。';
 			case 'hoyolab.characterDataAccessNotAllowed': return 'キャラクターデータへのアクセスが許可されていません。HoYoLABアプリの育成計算機より、キャラ選択画面→設定アイコン より許可してください。';
@@ -803,6 +820,9 @@ extension on Translations {
 extension on _StringsEn {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'common.ok': return 'OK';
+			case 'common.cancel': return 'Cancel';
+			case 'common.signOut': return 'Sign Out';
 			case 'common.tos': return 'Terms of Use';
 			case 'common.privacyPolicy': return 'Privacy Policy';
 			case 'common.error': return 'An error occurred.';
@@ -891,6 +911,7 @@ extension on _StringsEn {
 			case 'hoyolab.signOut': return 'Sign out from HoYoLAB';
 			case 'hoyolab.signInNote': return '* Social login is not supported. You need to sign in with your email/username and password.';
 			case 'hoyolab.failedToSignIn': return 'Failed to sign in to HoYoLAB';
+			case 'hoyolab.signOutConfirm': return 'Unlink HoYoLAB?';
 			case 'hoyolab.credentialVerificationFailed': return 'Failed to verify login information. Please sign in again.';
 			case 'hoyolab.changeServer': return 'Change server';
 			case 'hoyolab.serverSelect': return 'Server select';
@@ -899,7 +920,10 @@ extension on _StringsEn {
 			case 'hoyolab.userInfo': return 'User Info';
 			case 'hoyolab.failedToLoadServerList': return 'Failed to load server list.';
 			case 'hoyolab.failedToLoadGameRole': return 'Failed to load game user info.';
+			case 'hoyolab.syncingCharaData': return 'Game data sync in progress...';
 			case 'hoyolab.noGameRoleFound': return 'No game user found.';
+			case 'hoyolab.failedToSyncGameData': return 'Failed to sync game data.';
+			case 'hoyolab.characterDataAccessNotAllowed': return 'Character data access is not allowed.';
 			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
 		}

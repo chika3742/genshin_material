@@ -14,6 +14,7 @@ import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
 import "../../providers/preferences.dart";
 import "../../routes.dart";
+import "../../ui_core/dialog.dart";
 import "../../ui_core/snack_bar.dart";
 import "../../utils/show_loading_modal.dart";
 
@@ -49,7 +50,17 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
             leading: const Icon(Symbols.logout),
             title: Text(tr.hoyolab.signOut),
             onTap: () async {
-              ref.read(preferencesStateNotifierProvider.notifier).clearHoyolabCredential();
+              showSimpleDialog(
+                context: context,
+                title: tr.common.signOut,
+                content: tr.hoyolab.signOutConfirm,
+                showCancel: true,
+                onOkPressed: () {
+                  if (ref.context.mounted) {
+                    ref.read(preferencesStateNotifierProvider.notifier).clearHoyolabCredential();
+                  }
+                },
+              );
             },
           ),
           ListTile(
@@ -162,6 +173,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
     return SizedBox.expand(
       child: SafeArea(
+        minimum: const EdgeInsets.only(bottom: 16),
         child: GappedColumn(
           children: [
             Text(tr.hoyolab.serverSelect, style: Theme.of(context).textTheme.titleMedium),

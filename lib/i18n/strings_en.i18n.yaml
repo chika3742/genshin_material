@@ -1,4 +1,7 @@
 common:
+  ok: OK
+  cancel: Cancel
+  signOut: Sign Out
   tos: Terms of Use
   privacyPolicy: Privacy Policy
   error: An error occurred.
@@ -102,6 +105,7 @@ hoyolab:
   signOut: Sign out from HoYoLAB
   signInNote: "* Social login is not supported. You need to sign in with your email/username and password."
   failedToSignIn: Failed to sign in to HoYoLAB
+  signOutConfirm: "Unlink HoYoLAB?"
   credentialVerificationFailed: Failed to verify login information. Please sign in again.
   changeServer: Change server
   serverSelect: Server select
@@ -110,6 +114,9 @@ hoyolab:
   userInfo: User Info
   failedToLoadServerList: Failed to load server list.
   failedToLoadGameRole: Failed to load game user info.
+  syncingCharaData: Game data sync in progress...
   noGameRoleFound: No game user found.
+  failedToSyncGameData: Failed to sync game data.
+  characterDataAccessNotAllowed: Character data access is not allowed.
 whereToGet(map):
   chests: "Chests, Quests"

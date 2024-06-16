@@ -1,4 +1,7 @@
 common:
+  ok: OK
+  cancel: キャンセル
+  signOut: サインアウト
   tos: 利用規約
   privacyPolicy: プライバシーポリシー
   error: エラーが発生しました。
@@ -100,6 +103,7 @@ hoyolab:
   signOut: HoYoLABとの連携を解除
   signInNote: ※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。
   failedToSignIn: HoYoLABへのサインインに失敗しました。
+  signOutConfirm: HoYoLABとの連携を解除しますか？
   credentialVerificationFailed: ログイン情報の検証に失敗しました。再度ログインしてください。
   changeServer: サーバーの変更
   serverSelect: サーバー選択
