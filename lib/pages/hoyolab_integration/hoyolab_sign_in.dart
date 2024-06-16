@@ -16,6 +16,8 @@ class HoyolabSignInPage extends StatefulWidget {
 class _HoyolabSignInPageState extends State<HoyolabSignInPage> {
   final _controller = WebViewController();
 
+  bool _isLoadingPage = true;
+
   @override
   void initState() {
     super.initState();
@@ -62,7 +64,16 @@ class _HoyolabSignInPageState extends State<HoyolabSignInPage> {
         })
         ..setNavigationDelegate(
           NavigationDelegate(
+            onPageStarted: (_) {
+              setState(() {
+                _isLoadingPage = true;
+              });
+            },
             onPageFinished: (url) {
+              setState(() {
+                _isLoadingPage = false;
+              });
+
               if (Uri.parse(url).host == "m.hoyolab.com") {
                 _controller.runJavaScript(skipGameSelectScript);
               }
@@ -111,8 +122,23 @@ class _HoyolabSignInPageState extends State<HoyolabSignInPage> {
             child: Text(tr.hoyolab.signInNote),
           ),
           Expanded(
-            child: WebViewWidget(
-              controller: _controller,
+            child: Stack(
+              children: [
+                WebViewWidget(
+                  controller: _controller,
+                ),
+                TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0, end: _isLoadingPage ? 4 : 0),
+                  curve: Easing.emphasizedDecelerate,
+                  duration: Durations.medium3,
+                  builder: (_, double height, __) {
+                    return SizedBox(
+                      height: height,
+                      child: const LinearProgressIndicator(),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ],
