@@ -16,6 +16,7 @@ import "../../providers/miscellaneous.dart";
 import "../../providers/preferences.dart";
 import "../../routes.dart";
 import "../../ui_core/dialog.dart";
+import "../../ui_core/progress_indicator.dart";
 import "../../ui_core/snack_bar.dart";
 import "../../utils/show_loading_modal.dart";
 
@@ -85,6 +86,7 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
             },
           ),
           const ListSubheader("アクセス許可"),
+          // error tile
           if (isCharaAccessAllowed.hasError) ListTile(
             textColor: Theme.of(context).colorScheme.error,
             subtitle: () {
@@ -222,28 +224,35 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
         child: GappedColumn(
           children: [
             Text(tr.hoyolab.serverSelect, style: Theme.of(context).textTheme.titleMedium),
-            switch (serversSnapshot.connectionState) {
-              ConnectionState.done => _buildServerList(context, selectedServer, serversSnapshot),
-              _ => const CircularProgressIndicator(),
-            },
+            Stack(
+              children: [
+                AnimatedLinearProgressIndicator(show: serversSnapshot.connectionState != ConnectionState.done),
+                if (serversSnapshot.connectionState == ConnectionState.done)
+                  _buildServerList(context, selectedServer, serversSnapshot),
+              ],
+            ),
             const SizedBox(), // Spacer
             if (selectedServer.value != null)
-              loadingGameRoleServers.value.isEmpty
-                  ? Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: errorText.value == null
-                            ? _UserGameRoleWidget(gameRoles.value[selectedServer.value!])
-                            : Text(errorText.value!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
-                      ),
-                    )
-                  : const CircularProgressIndicator(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: () {
+                    if (loadingGameRoleServers.value.isEmpty) {
+                      return errorText.value == null
+                          ? _UserGameRoleWidget(gameRoles.value[selectedServer.value!])
+                          : Text(errorText.value!, style: TextStyle(color: Theme.of(context).colorScheme.error));
+                    } else {
+                      return const SmallCircularProgressIndicator();
+                    }
+                  }(),
+                ),
+              ),
             const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Align(
-                alignment: Alignment.bottomRight,
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16.0),
                 child: IconButton(
                   icon: const Icon(Icons.check),
                   iconSize: 28,
