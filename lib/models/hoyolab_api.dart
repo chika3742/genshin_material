@@ -116,6 +116,17 @@ class AvatarDetailSkill with _$AvatarDetailSkill {
       _$AvatarDetailSkillFromJson(json);
 }
 
+@freezed
+class AvatarAuth with _$AvatarAuth {
+  const factory AvatarAuth({
+    // ignore: invalid_annotation_target
+    @JsonKey(name: "avatar_auth") required int avatarAuth,
+  }) = _AvatarAuth;
+
+  factory AvatarAuth.fromJson(Map<String, dynamic> json) =>
+      _$AvatarAuthFromJson(json);
+}
+
 mixin WithId {
   int get id;
 }
@@ -124,3 +135,4 @@ typedef LookupServersResult = HoyolabApiResult<HoyolabListData<HyvServer>>;
 typedef VerifyLTokenResult = HoyolabApiResult<HyvUserInfo>;
 typedef GetUserGameRolesResult = HoyolabListData<HyvUserGameRole>;
 typedef AvatarListResult = HoyolabListData<AvatarListResultItem>;
+typedef AvatarAuthInfoResult = HoyolabApiResult<AvatarAuth>;

@@ -135,3 +135,13 @@ Map<String, dynamic> _$$AvatarDetailSkillImplToJson(
       'max_level': instance.maxLevel,
       'level_current': instance.currentLevel,
     };
+
+_$AvatarAuthImpl _$$AvatarAuthImplFromJson(Map<String, dynamic> json) =>
+    _$AvatarAuthImpl(
+      avatarAuth: json['avatar_auth'] as int,
+    );
+
+Map<String, dynamic> _$$AvatarAuthImplToJson(_$AvatarAuthImpl instance) =>
+    <String, dynamic>{
+      'avatar_auth': instance.avatarAuth,
+    };

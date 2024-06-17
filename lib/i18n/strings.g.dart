@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 200 (100 per locale)
+/// Strings: 208 (104 per locale)
 ///
-/// Built on 2024-06-16 at 14:31 UTC
+/// Built on 2024-06-17 at 14:55 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -14,7 +14,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:slang/builder/model/node.dart';
 import 'package:slang_flutter/slang_flutter.dart';
-
 export 'package:slang_flutter/slang_flutter.dart';
 
 const AppLocale _baseLocale = AppLocale.ja;
@@ -406,10 +405,14 @@ class _StringsHoyolabJa {
 	String get userInfo => 'ユーザー情報';
 	String get failedToLoadServerList => 'サーバーリストの読み込みに失敗しました。';
 	String get failedToLoadGameRole => 'ゲームデータの読み込みに失敗しました。';
-	String get syncingCharaData => 'ゲームデータと同期しています...';
+	String get charaDataSyncInProgress => 'ゲームデータと同期しています...';
 	String get noGameRoleFound => 'ゲームデータが見つかりません';
 	String get failedToSyncGameData => 'ゲームデータの同期に失敗しました。';
-	String get characterDataAccessNotAllowed => 'キャラクターデータへのアクセスが許可されていません。HoYoLABアプリの育成計算機より、キャラ選択画面→設定アイコン より許可してください。';
+	String get failedToLoadPermissionState => 'アクセス許可状態の取得に失敗しました。';
+	String get characterDataAccessNotAllowed => 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。';
+	String get loginExpired => '一度連携を解除し、再度ログインしてください。';
+	String get doYouWantToAllowCharaDataAccess => 'キャラクターデータへのアクセスを本アプリに許可しますか？';
+	String get charaDataAccessDesc => 'ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。';
 }
 
 // Path: <root>
@@ -697,10 +700,14 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get userInfo => 'User Info';
 	@override String get failedToLoadServerList => 'Failed to load server list.';
 	@override String get failedToLoadGameRole => 'Failed to load game user info.';
-	@override String get syncingCharaData => 'Game data sync in progress...';
+	@override String get charaDataSyncInProgress => 'Game data sync in progress...';
 	@override String get noGameRoleFound => 'No game user found.';
 	@override String get failedToSyncGameData => 'Failed to sync game data.';
-	@override String get characterDataAccessNotAllowed => 'Character data access is not allowed.';
+	@override String get failedToLoadPermissionState => 'Failed to load permission state.';
+	@override String get characterDataAccessNotAllowed => 'Character data access is not allowed. Please allow access from HoYoLAB integration settings.';
+	@override String get loginExpired => 'Please sign out and sign in again.';
+	@override String get doYouWantToAllowCharaDataAccess => 'Do you want to allow access to character data?';
+	@override String get charaDataAccessDesc => 'You will be able to sync character levels and talent levels in the game.';
 }
 
 /// Flat map(s) containing all translations.
@@ -807,10 +814,14 @@ extension on Translations {
 			case 'hoyolab.userInfo': return 'ユーザー情報';
 			case 'hoyolab.failedToLoadServerList': return 'サーバーリストの読み込みに失敗しました。';
 			case 'hoyolab.failedToLoadGameRole': return 'ゲームデータの読み込みに失敗しました。';
-			case 'hoyolab.syncingCharaData': return 'ゲームデータと同期しています...';
+			case 'hoyolab.charaDataSyncInProgress': return 'ゲームデータと同期しています...';
 			case 'hoyolab.noGameRoleFound': return 'ゲームデータが見つかりません';
 			case 'hoyolab.failedToSyncGameData': return 'ゲームデータの同期に失敗しました。';
-			case 'hoyolab.characterDataAccessNotAllowed': return 'キャラクターデータへのアクセスが許可されていません。HoYoLABアプリの育成計算機より、キャラ選択画面→設定アイコン より許可してください。';
+			case 'hoyolab.failedToLoadPermissionState': return 'アクセス許可状態の取得に失敗しました。';
+			case 'hoyolab.characterDataAccessNotAllowed': return 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。';
+			case 'hoyolab.loginExpired': return '一度連携を解除し、再度ログインしてください。';
+			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'キャラクターデータへのアクセスを本アプリに許可しますか？';
+			case 'hoyolab.charaDataAccessDesc': return 'ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;
 		}
@@ -920,10 +931,14 @@ extension on _StringsEn {
 			case 'hoyolab.userInfo': return 'User Info';
 			case 'hoyolab.failedToLoadServerList': return 'Failed to load server list.';
 			case 'hoyolab.failedToLoadGameRole': return 'Failed to load game user info.';
-			case 'hoyolab.syncingCharaData': return 'Game data sync in progress...';
+			case 'hoyolab.charaDataSyncInProgress': return 'Game data sync in progress...';
 			case 'hoyolab.noGameRoleFound': return 'No game user found.';
 			case 'hoyolab.failedToSyncGameData': return 'Failed to sync game data.';
-			case 'hoyolab.characterDataAccessNotAllowed': return 'Character data access is not allowed.';
+			case 'hoyolab.failedToLoadPermissionState': return 'Failed to load permission state.';
+			case 'hoyolab.characterDataAccessNotAllowed': return 'Character data access is not allowed. Please allow access from HoYoLAB integration settings.';
+			case 'hoyolab.loginExpired': return 'Please sign out and sign in again.';
+			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'Do you want to allow access to character data?';
+			case 'hoyolab.charaDataAccessDesc': return 'You will be able to sync character levels and talent levels in the game.';
 			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
 		}

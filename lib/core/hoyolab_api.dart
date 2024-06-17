@@ -21,7 +21,7 @@ class HoyolabApi {
 
   Map<String, String> get headers => {
     "Cookie": cookie!,
-    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)",
+    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) miHoYoBBSOversea/2.56.1",
   };
 
   Future<LookupServersResult> lookupServers() async {
@@ -41,6 +41,35 @@ class HoyolabApi {
     );
 
     return HoyolabApiResult.fromJson(const JsonCodec().decode(result.body), (obj) => HyvUserInfo.fromJson((obj as Map<String, dynamic>)["user_info"]));
+  }
+
+  Future<AvatarAuth> getAvatarAuthInfo() async {
+    const url = "https://sg-public-api.hoyolab.com/event/calculateos/avatar/auth/info?lang=ja-jp";
+
+    _ensureRequiredParams(params: [HoyolabApiParams.cookie]);
+
+    return _errorHandledThen(
+      client.get(Uri.parse(url), headers: headers),
+      (obj) => AvatarAuth.fromJson(obj as Map<String, dynamic>),
+    );
+  }
+
+  Future<Map> setAvatarAuth(int value) async {
+    const url = "https://sg-public-api.hoyolab.com/event/calculateos/avatar/auth";
+
+    _ensureRequiredParams(params: [HoyolabApiParams.cookie]);
+
+    return _errorHandledThen(
+      client.post(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonEncode({
+          "lang": "ja-jp",
+          "avatar_auth": value,
+        }),
+      ),
+      (_) => {},
+    );
   }
 
   Future<AvatarListResult> avatarList(int page, {List<int> elementIds = const [], List<int> weaponCatIds = const []}) {
@@ -96,24 +125,24 @@ class HoyolabApi {
   }
 
   void _ensureRequiredParams({List<HoyolabApiParams> params = HoyolabApiParams.values}) {
-    if (params.contains(HoyolabApiParams.cookie) && cookie == null) {
+    if (params.contains(HoyolabApiParams.cookie) && (cookie == null || cookie!.isEmpty)) {
       throw ArgumentError("Missing cookie");
     }
-    if (params.contains(HoyolabApiParams.region) && region == null) {
+    if (params.contains(HoyolabApiParams.region) && (region == null || region!.isEmpty)) {
       throw ArgumentError("Missing region");
     }
-    if (params.contains(HoyolabApiParams.uid) && uid == null) {
+    if (params.contains(HoyolabApiParams.uid) && (uid == null || uid!.isEmpty)) {
       throw ArgumentError("Missing uid");
     }
   }
 
-  static dynamic _toJson(Uint8List bytes) {
+  static dynamic _parseJson(Uint8List bytes) {
     return const JsonCodec().decode(utf8.decode(bytes));
   }
 
   static Future<T> _errorHandledThen<T>(Future<http.Response> response, T Function(Object?) fromJsonT) {
     return response.then((value) {
-      final result = HoyolabApiResult.fromJson(_toJson(value.bodyBytes), fromJsonT);
+      final result = HoyolabApiResult.fromJson(_parseJson(value.bodyBytes), fromJsonT);
       if (result.hasError) {
         throw HoyolabApiException(result.retcode, result.message);
       }
@@ -130,6 +159,7 @@ class HoyolabApiException implements Exception {
 
   String getMessage(String prepend) => "$prepend\n${switch (retcode) {
     -502002 => tr.hoyolab.characterDataAccessNotAllowed,
+    -100 => tr.hoyolab.loginExpired,
     _ => "($retcode)",
   }}";
 

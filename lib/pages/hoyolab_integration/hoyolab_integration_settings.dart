@@ -12,6 +12,7 @@ import "../../components/list_subheader.dart";
 import "../../core/hoyolab_api.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
+import "../../providers/miscellaneous.dart";
 import "../../providers/preferences.dart";
 import "../../routes.dart";
 import "../../ui_core/dialog.dart";
@@ -25,6 +26,8 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.watch(preferencesStateNotifierProvider);
     final isSignedIn = prefs.hasValue && prefs.value!.cookie.isNotEmpty;
+
+    final isCharaAccessAllowed = ref.watch(charaAccessPermissionStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -81,6 +84,24 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
               );
             },
           ),
+          const ListSubheader("アクセス許可"),
+          if (isCharaAccessAllowed.hasError) ListTile(
+            textColor: Theme.of(context).colorScheme.error,
+            subtitle: () {
+              final error = isCharaAccessAllowed.error;
+              if (error is HoyolabApiException) {
+                return Text(error.getMessage(tr.hoyolab.failedToLoadPermissionState));
+              }
+              return Text(tr.hoyolab.failedToLoadPermissionState);
+            }(),
+          ),
+          SwitchListTile(
+            title: const Text("キャラクターデータへのアクセス"),
+            value: isCharaAccessAllowed is! AsyncError && (isCharaAccessAllowed.value ?? false),
+            onChanged: !isCharaAccessAllowed.isLoading && !isCharaAccessAllowed.hasError ? (value) {
+              ref.read(charaAccessPermissionStateProvider.notifier).updateValue(value);
+            } : null,
+          ),
           ListSubheader(tr.hoyolab.userInfo),
           if (prefs.value!.hyvServer.isNotEmpty) ListTile(
             title: Text(prefs.value!.hyvUserName),
@@ -96,8 +117,10 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
   Future<void> _signInToHoyolab(String cookie, BuildContext context, WidgetRef ref) async {
     // verify whether the credential is valid
     showLoadingModal(context);
+
+    final api = HoyolabApi(cookie: cookie);
     try {
-      final verificationResult = await HoyolabApi(cookie: cookie).verifyLToken();
+      final verificationResult = await api.verifyLToken();
       if (verificationResult.hasError) {
         throw Exception("Credential verification failed: ${verificationResult.message}");
       }
@@ -112,6 +135,25 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
 
     ref.read(preferencesStateNotifierProvider.notifier)
         .setHoyolabCookie(cookie);
+
+    try {
+      final isCharaAccessGranted = await ref.read(charaAccessPermissionStateProvider.future);
+      if (!isCharaAccessGranted && context.mounted) {
+        await showSimpleDialog(
+          context: context,
+          title: tr.hoyolab.doYouWantToAllowCharaDataAccess,
+          content: tr.hoyolab.charaDataAccessDesc,
+          showCancel: true,
+          onOkPressed: () async {
+            await ref
+                .read(charaAccessPermissionStateProvider.notifier)
+                .updateValue(true);
+          },
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
 
     // show server select dialog
     if (context.mounted) {
@@ -135,6 +177,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
     final selectedServer = useState<HyvServer?>(null);
     final gameRoles = useState<Map<HyvServer, HyvUserGameRole?>>({});
     final loadingGameRoleServers = useState<List<HyvServer>>([]);
+    final errorText = useState<String?>(null);
 
     // set initial selected server
     useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, __) {
@@ -157,15 +200,17 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
       final api = HoyolabApi(cookie: ref.read(preferencesStateNotifierProvider).value!.cookie, region: server.region);
       try {
+        errorText.value = null;
+
         final result = await api.getUserGameRoles();
 
         gameRoles.value[server] = result.list.firstOrNull;
       } on HoyolabApiException catch (e, st) {
         log("Failed to load game role for server ${server.region}", error: e, stackTrace: st);
-        if (context.mounted) showSnackBar(context: context, message: e.getMessage(tr.hoyolab.failedToLoadGameRole), error: true);
+        errorText.value = e.getMessage(tr.hoyolab.failedToLoadGameRole);
       } catch (e, st) {
         log("Failed to load game role for server ${server.region}", error: e, stackTrace: st);
-        if (context.mounted) showSnackBar(context: context, message: tr.hoyolab.failedToLoadGameRole, error: true);
+        errorText.value = tr.hoyolab.failedToLoadGameRole;
       } finally {
         loadingGameRoleServers.value = [...loadingGameRoleServers.value..remove(server)];
       }
@@ -188,7 +233,9 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0),
-                        child: _UserGameRoleWidget(gameRoles.value[selectedServer.value!]),
+                        child: errorText.value == null
+                            ? _UserGameRoleWidget(gameRoles.value[selectedServer.value!])
+                            : Text(errorText.value!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
                       ),
                     )
                   : const CircularProgressIndicator(),

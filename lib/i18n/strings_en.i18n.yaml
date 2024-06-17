@@ -114,9 +114,13 @@ hoyolab:
   userInfo: User Info
   failedToLoadServerList: Failed to load server list.
   failedToLoadGameRole: Failed to load game user info.
-  syncingCharaData: Game data sync in progress...
+  charaDataSyncInProgress: Game data sync in progress...
   noGameRoleFound: No game user found.
   failedToSyncGameData: Failed to sync game data.
-  characterDataAccessNotAllowed: Character data access is not allowed.
+  failedToLoadPermissionState: Failed to load permission state.
+  characterDataAccessNotAllowed: Character data access is not allowed. Please allow access from HoYoLAB integration settings.
+  loginExpired: Please sign out and sign in again.
+  doYouWantToAllowCharaDataAccess: "Do you want to allow access to character data?"
+  charaDataAccessDesc: You will be able to sync character levels and talent levels in the game.
 whereToGet(map):
   chests: "Chests, Quests"

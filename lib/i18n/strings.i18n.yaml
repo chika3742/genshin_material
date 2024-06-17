@@ -112,8 +112,13 @@ hoyolab:
   userInfo: ユーザー情報
   failedToLoadServerList: サーバーリストの読み込みに失敗しました。
   failedToLoadGameRole: ゲームデータの読み込みに失敗しました。
+  charaDataSyncInProgress: ゲームデータと同期しています...
   noGameRoleFound: ゲームデータが見つかりません
   failedToSyncGameData: ゲームデータの同期に失敗しました。
-  characterDataAccessNotAllowed: キャラクターデータへのアクセスが許可されていません。HoYoLABアプリの育成計算機より、キャラ選択画面→設定アイコン より許可してください。
+  failedToLoadPermissionState: アクセス許可状態の取得に失敗しました。
+  characterDataAccessNotAllowed: キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。
+  loginExpired: 一度連携を解除し、再度ログインしてください。
+  doYouWantToAllowCharaDataAccess: キャラクターデータへのアクセスを本アプリに許可しますか？
+  charaDataAccessDesc: ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。
 whereToGet(map):
   chests: 宝箱、任務報酬など

@@ -174,14 +174,14 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
           AnimatedCrossFade(
             crossFadeState: isHoyolabSyncInProgress.value ? CrossFadeState.showSecond : CrossFadeState.showFirst,
             duration: Durations.medium3,
-            sizeCurve: Easing.legacyDecelerate,
+            sizeCurve: Easing.emphasizedDecelerate,
             firstChild: const SizedBox.shrink(),
-            secondChild: const Column(
+            secondChild: Column(
               children: [
-                LinearProgressIndicator(),
+                const LinearProgressIndicator(),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 4.0),
-                  child: Text("HoYoLABからデータを取得しています…"),
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Text(tr.hoyolab.charaDataSyncInProgress),
                 ),
               ],
             ),

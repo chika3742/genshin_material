@@ -1373,3 +1373,148 @@ abstract class _AvatarDetailSkill implements AvatarDetailSkill {
   _$$AvatarDetailSkillImplCopyWith<_$AvatarDetailSkillImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+AvatarAuth _$AvatarAuthFromJson(Map<String, dynamic> json) {
+  return _AvatarAuth.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AvatarAuth {
+// ignore: invalid_annotation_target
+  @JsonKey(name: "avatar_auth")
+  int get avatarAuth => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AvatarAuthCopyWith<AvatarAuth> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AvatarAuthCopyWith<$Res> {
+  factory $AvatarAuthCopyWith(
+          AvatarAuth value, $Res Function(AvatarAuth) then) =
+      _$AvatarAuthCopyWithImpl<$Res, AvatarAuth>;
+  @useResult
+  $Res call({@JsonKey(name: "avatar_auth") int avatarAuth});
+}
+
+/// @nodoc
+class _$AvatarAuthCopyWithImpl<$Res, $Val extends AvatarAuth>
+    implements $AvatarAuthCopyWith<$Res> {
+  _$AvatarAuthCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? avatarAuth = null,
+  }) {
+    return _then(_value.copyWith(
+      avatarAuth: null == avatarAuth
+          ? _value.avatarAuth
+          : avatarAuth // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AvatarAuthImplCopyWith<$Res>
+    implements $AvatarAuthCopyWith<$Res> {
+  factory _$$AvatarAuthImplCopyWith(
+          _$AvatarAuthImpl value, $Res Function(_$AvatarAuthImpl) then) =
+      __$$AvatarAuthImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: "avatar_auth") int avatarAuth});
+}
+
+/// @nodoc
+class __$$AvatarAuthImplCopyWithImpl<$Res>
+    extends _$AvatarAuthCopyWithImpl<$Res, _$AvatarAuthImpl>
+    implements _$$AvatarAuthImplCopyWith<$Res> {
+  __$$AvatarAuthImplCopyWithImpl(
+      _$AvatarAuthImpl _value, $Res Function(_$AvatarAuthImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? avatarAuth = null,
+  }) {
+    return _then(_$AvatarAuthImpl(
+      avatarAuth: null == avatarAuth
+          ? _value.avatarAuth
+          : avatarAuth // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AvatarAuthImpl implements _AvatarAuth {
+  const _$AvatarAuthImpl(
+      {@JsonKey(name: "avatar_auth") required this.avatarAuth});
+
+  factory _$AvatarAuthImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AvatarAuthImplFromJson(json);
+
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "avatar_auth")
+  final int avatarAuth;
+
+  @override
+  String toString() {
+    return 'AvatarAuth(avatarAuth: $avatarAuth)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AvatarAuthImpl &&
+            (identical(other.avatarAuth, avatarAuth) ||
+                other.avatarAuth == avatarAuth));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, avatarAuth);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AvatarAuthImplCopyWith<_$AvatarAuthImpl> get copyWith =>
+      __$$AvatarAuthImplCopyWithImpl<_$AvatarAuthImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AvatarAuthImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AvatarAuth implements AvatarAuth {
+  const factory _AvatarAuth(
+          {@JsonKey(name: "avatar_auth") required final int avatarAuth}) =
+      _$AvatarAuthImpl;
+
+  factory _AvatarAuth.fromJson(Map<String, dynamic> json) =
+      _$AvatarAuthImpl.fromJson;
+
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "avatar_auth")
+  int get avatarAuth;
+  @override
+  @JsonKey(ignore: true)
+  _$$AvatarAuthImplCopyWith<_$AvatarAuthImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
