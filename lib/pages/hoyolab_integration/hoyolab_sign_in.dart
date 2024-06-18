@@ -18,20 +18,20 @@ class _HoyolabSignInPageState extends State<HoyolabSignInPage> {
 
   bool _isLoadingPage = true;
 
+  static const _hoyolabHosts = [
+    "m.hoyolab.com",
+    "www.hoyolab.com",
+  ];
+
   @override
   void initState() {
     super.initState();
 
-    const skipGameSelectScript = """
+    const loginObserverScript = """
       let signInFormShown = false;
     
       (() => {
         const observer = new MutationObserver((mutations) => {
-          const gameButton = document.querySelector("div.game-select-game__item:nth-child(1)")
-          if (gameButton) {
-            gameButton.click();
-          }
-          
           const signInForm = document.querySelector("#hyv-account-frame");
           if (signInForm !== null && !signInFormShown) {
             signInFormShown = true;
@@ -52,6 +52,16 @@ class _HoyolabSignInPageState extends State<HoyolabSignInPage> {
       })();
     """;
 
+    final skipDialogScript = """
+      if (location.href.startsWith("https://m.hoyolab.com/") || location.href.startsWith("https://www.hoyolab.com/")) {
+        localStorage.setItem("bbs_interest_saved", '{"timestamp":${DateTime.now().millisecondsSinceEpoch},"value":"1632380230"}')
+        localStorage.setItem("guide_download_app_dialog", '{"timestamp":${DateTime.now().millisecondsSinceEpoch},"value":${DateTime.now().millisecondsSinceEpoch}}')
+        true
+      } else {
+        false
+      }
+    """;
+
     WebViewCookieManager().clearCookies().then((_) {
       _controller
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -64,23 +74,34 @@ class _HoyolabSignInPageState extends State<HoyolabSignInPage> {
         })
         ..setNavigationDelegate(
           NavigationDelegate(
-            onPageStarted: (_) {
+            onPageStarted: (url) {
               setState(() {
                 _isLoadingPage = true;
               });
+
+              () async {
+                while (true) {
+                  final result = await _controller.runJavaScriptReturningResult(skipDialogScript);
+                  if (result == "true") {
+                    break;
+                  }
+                  await Future.delayed(const Duration(milliseconds: 100));
+                }
+              }();
             },
             onPageFinished: (url) {
               setState(() {
                 _isLoadingPage = false;
               });
 
-              if (Uri.parse(url).host == "m.hoyolab.com") {
-                _controller.runJavaScript(skipGameSelectScript);
+              if (_hoyolabHosts.contains(Uri.parse(url).host)) {
+                _controller.runJavaScript(loginObserverScript);
               }
             },
             onNavigationRequest: (request) {
               final uri = Uri.parse(request.url);
-              if (uri.host == "m.hoyolab.com" || (uri.host == "account.hoyolab.com" && uri.path != "/single-page/cross-login.html")) {
+              if (_hoyolabHosts.contains(uri.host)
+                  || (uri.host == "account.hoyolab.com" && uri.path != "/single-page/cross-login.html")) {
                 return NavigationDecision.navigate;
               }
 
@@ -105,7 +126,7 @@ class _HoyolabSignInPageState extends State<HoyolabSignInPage> {
             }
           },
         )
-        ..loadRequest(Uri.parse("https://m.hoyolab.com/#/"));
+        ..loadRequest(Uri.parse("https://m.hoyolab.com/#/circles/2/30/feed?page_type=feed"));
     });
   }
 
