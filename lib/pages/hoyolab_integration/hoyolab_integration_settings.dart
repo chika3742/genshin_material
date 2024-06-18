@@ -151,46 +151,54 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
     ref.read(preferencesStateNotifierProvider.notifier)
         .setHoyolabCookie(cookie);
 
+    bool? isCharaAccessGranted;
     try {
-      final isCharaAccessGranted = await ref.read(charaAccessPermissionStateProvider.future);
-      if (!isCharaAccessGranted && context.mounted) {
-        await showSimpleDialog(
-          context: context,
-          title: tr.hoyolab.doYouWantToAllowCharaDataAccess,
-          content: tr.hoyolab.charaDataAccessDesc,
-          showCancel: true,
-          onOkPressed: () async {
-            await ref
-                .read(charaAccessPermissionStateProvider.notifier)
-                .updateValue(true);
-          },
-        );
-      }
+      if (context.mounted) showLoadingModal(context);
+      isCharaAccessGranted = await ref.read(charaAccessPermissionStateProvider.future);
     } catch (e, st) {
       log("Failed to check chara access permission", error: e, stackTrace: st);
       // do nothing
+    } finally {
+      // close the loading modal
+      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
+    }
+    if (isCharaAccessGranted != null && !isCharaAccessGranted && context.mounted) {
+      await showSimpleDialog(
+        context: context,
+        title: tr.hoyolab.doYouWantToAllowCharaDataAccess,
+        content: tr.hoyolab.charaDataAccessDesc,
+        showCancel: true,
+        onOkPressed: () async {
+          await ref
+              .read(charaAccessPermissionStateProvider.notifier)
+              .updateValue(true);
+        },
+      );
     }
 
+    bool? isRealtimeNotesEnabled;
     try {
-      final isRealtimeNotesEnabled = await ref.read(realtimeNotesActivationStateProvider.future);
-      if (!isRealtimeNotesEnabled && context.mounted) {
-        await showSimpleDialog(
-          context: context,
-          title: tr.hoyolab.doYouWantToEnableRealtimeNotes,
-          content: tr.hoyolab.enableRealtimeNotesDesc,
-          showCancel: true,
-          onOkPressed: () async {
-            await ref
-                .read(realtimeNotesActivationStateProvider.notifier)
-                .updateValue(true);
-          },
-        );
-      }
-    } catch (e, st) {
-      log("Failed to check realtime notes activation state", error: e, stackTrace: st);
+      if (context.mounted) showLoadingModal(context);
+      isRealtimeNotesEnabled = await ref.read(realtimeNotesActivationStateProvider.future);
+    } catch (e) {
       // do nothing
+    } finally {
+      // close the loading modal
+      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
     }
-
+    if (isRealtimeNotesEnabled != null && !isRealtimeNotesEnabled && context.mounted) {
+      await showSimpleDialog(
+        context: context,
+        title: tr.hoyolab.doYouWantToEnableRealtimeNotes,
+        content: tr.hoyolab.enableRealtimeNotesDesc,
+        showCancel: true,
+        onOkPressed: () async {
+          await ref
+              .read(realtimeNotesActivationStateProvider.notifier)
+              .updateValue(true);
+        },
+      );
+    }
 
     // show server select dialog
     if (context.mounted) {
