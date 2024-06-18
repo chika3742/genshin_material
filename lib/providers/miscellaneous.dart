@@ -24,6 +24,6 @@ class CharaAccessPermissionState extends _$CharaAccessPermissionState {
     final cookie = ref.read(preferencesStateNotifierProvider).value?.cookie;
     await HoyolabApi(cookie: cookie).setAvatarAuth(value ? 1 : 0);
 
-    ref.invalidateSelf();
+    state = AsyncData(value);
   }
 }
