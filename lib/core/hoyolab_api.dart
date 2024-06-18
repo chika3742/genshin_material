@@ -1,6 +1,8 @@
 import "dart:convert";
+import "dart:math";
 import "dart:typed_data";
 
+import "package:crypto/crypto.dart";
 import "package:http/http.dart" as http;
 
 import "../i18n/strings.g.dart";
@@ -122,6 +124,63 @@ class HoyolabApi {
         headers: headers,
       ), (obj) => HoyolabListData.fromJsonT(obj, HyvUserGameRole.fromJson),
     );
+  }
+
+  Future<GameRecordCardList> getGameRecordCards() {
+    const url = "https://bbs-api-os.hoyolab.com/game_record/app/card/wapi/getGameRecordCard";
+    final queryParameters = {
+      "uid": _getLtUid(),
+    };
+    return _errorHandledThen(
+      client.get(
+        Uri.parse(url).replace(queryParameters: queryParameters),
+        headers: {
+          ...headers,
+          "DS": _getDsToken(queryParameters: queryParameters),
+          "x-rpc-client_type": "2",
+          "x-rpc-app_version": "2.56.1",
+          "x-rpc-language": lang,
+        },
+      ), (obj) => HoyolabListData.fromJsonT(obj, GameRecordCard.fromJson),
+    );
+  }
+
+  Future<void> changeDataSwitch(DataSwitchType switchType, bool value) {
+    const url = "https://bbs-api-os.hoyolab.com/game_record/app/card/wapi/changeDataSwitch";
+    final sw = DataSwitchMetadata(switchId: switchType, isPublic: value);
+    final body = jsonEncode({
+      "game_id": 2,
+      ...sw.toJson(),
+    });
+    return _errorHandledThen(
+      client.post(
+        Uri.parse(url),
+        headers: {
+          ...headers,
+          "DS": _getDsToken(body: body),
+          "x-rpc-client_type": "2",
+          "x-rpc-app_version": "2.56.1",
+          "x-rpc-language": lang,
+        },
+        body: body,
+      ), (_) => {},
+    );
+  }
+
+  String _getDsToken({String body = "", Map<String, String> queryParameters = const {}}) {
+    const salt = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w"; // global region (NOT APPLICABLE FOR MAINLAND CHINA)
+
+    final t = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
+    final r = 100000 + Random().nextInt(100000);
+    final q = queryParameters.entries.map((e) => "${e.key}=${Uri.encodeQueryComponent(e.value)}").join("&");
+    final c = md5.convert(utf8.encode("salt=$salt&t=$t&r=$r&b=$body&q=$q"));
+
+    return "$t,$r,${c.toString()}";
+  }
+
+  String _getLtUid() {
+    _ensureRequiredParams(params: [HoyolabApiParams.cookie]);
+    return RegExp("; ltuid_v2=(\\d+);").firstMatch(cookie!)!.group(1)!;
   }
 
   void _ensureRequiredParams({List<HoyolabApiParams> params = HoyolabApiParams.values}) {

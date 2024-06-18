@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 208 (104 per locale)
+/// Strings: 216 (108 per locale)
 ///
-/// Built on 2024-06-17 at 14:55 UTC
+/// Built on 2024-06-18 at 11:14 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -14,6 +14,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:slang/builder/model/node.dart';
 import 'package:slang_flutter/slang_flutter.dart';
+
 export 'package:slang_flutter/slang_flutter.dart';
 
 const AppLocale _baseLocale = AppLocale.ja;
@@ -412,7 +413,11 @@ class _StringsHoyolabJa {
 	String get characterDataAccessNotAllowed => 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。';
 	String get loginExpired => '一度連携を解除し、再度ログインしてください。';
 	String get doYouWantToAllowCharaDataAccess => 'キャラクターデータへのアクセスを本アプリに許可しますか？';
+	String get doYouWantToEnableRealtimeNotes => 'リアルタイムノートを有効化しますか？';
 	String get charaDataAccessDesc => 'ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。';
+	String get characterDataAccess => 'キャラクターデータへのアクセス';
+	String get enableRealtimeNotes => 'リアルタイムノートの有効化';
+	String get enableRealtimeNotesDesc => '現在の天然樹脂の数を同期できるようになります。';
 }
 
 // Path: <root>
@@ -707,7 +712,11 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get characterDataAccessNotAllowed => 'Character data access is not allowed. Please allow access from HoYoLAB integration settings.';
 	@override String get loginExpired => 'Please sign out and sign in again.';
 	@override String get doYouWantToAllowCharaDataAccess => 'Do you want to allow access to character data?';
+	@override String get doYouWantToEnableRealtimeNotes => 'Enable Real-Time Notes?';
 	@override String get charaDataAccessDesc => 'You will be able to sync character levels and talent levels in the game.';
+	@override String get characterDataAccess => 'Character Data Access';
+	@override String get enableRealtimeNotes => 'Enable Real-Time Notes';
+	@override String get enableRealtimeNotesDesc => 'You will be able to sync your current Original Resin count.';
 }
 
 /// Flat map(s) containing all translations.
@@ -821,7 +830,11 @@ extension on Translations {
 			case 'hoyolab.characterDataAccessNotAllowed': return 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。';
 			case 'hoyolab.loginExpired': return '一度連携を解除し、再度ログインしてください。';
 			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'キャラクターデータへのアクセスを本アプリに許可しますか？';
+			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'リアルタイムノートを有効化しますか？';
 			case 'hoyolab.charaDataAccessDesc': return 'ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。';
+			case 'hoyolab.characterDataAccess': return 'キャラクターデータへのアクセス';
+			case 'hoyolab.enableRealtimeNotes': return 'リアルタイムノートの有効化';
+			case 'hoyolab.enableRealtimeNotesDesc': return '現在の天然樹脂の数を同期できるようになります。';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;
 		}
@@ -938,7 +951,11 @@ extension on _StringsEn {
 			case 'hoyolab.characterDataAccessNotAllowed': return 'Character data access is not allowed. Please allow access from HoYoLAB integration settings.';
 			case 'hoyolab.loginExpired': return 'Please sign out and sign in again.';
 			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'Do you want to allow access to character data?';
+			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'Enable Real-Time Notes?';
 			case 'hoyolab.charaDataAccessDesc': return 'You will be able to sync character levels and talent levels in the game.';
+			case 'hoyolab.characterDataAccess': return 'Character Data Access';
+			case 'hoyolab.enableRealtimeNotes': return 'Enable Real-Time Notes';
+			case 'hoyolab.enableRealtimeNotesDesc': return 'You will be able to sync your current Original Resin count.';
 			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
 		}

@@ -29,6 +29,7 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
     final isSignedIn = prefs.hasValue && prefs.value!.cookie.isNotEmpty;
 
     final isCharaAccessAllowed = ref.watch(charaAccessPermissionStateProvider);
+    final isRealtimeNotesEnabled = ref.watch(realtimeNotesActivationStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -87,21 +88,33 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
           ),
           const ListSubheader("アクセス許可"),
           // error tile
-          if (isCharaAccessAllowed.hasError) ListTile(
-            textColor: Theme.of(context).colorScheme.error,
-            subtitle: () {
-              final error = isCharaAccessAllowed.error;
-              if (error is HoyolabApiException) {
-                return Text(error.getMessage(tr.hoyolab.failedToLoadPermissionState));
-              }
-              return Text(tr.hoyolab.failedToLoadPermissionState);
-            }(),
+          if (isCharaAccessAllowed.hasError) Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: DefaultTextStyle(
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+              child: () {
+                final error = isCharaAccessAllowed.error;
+                if (error is HoyolabApiException) {
+                  return Text(error.getMessage(tr.hoyolab.failedToLoadPermissionState));
+                }
+                return Text(tr.hoyolab.failedToLoadPermissionState);
+              }(),
+            ),
           ),
           SwitchListTile(
-            title: const Text("キャラクターデータへのアクセス"),
+            title: Text(tr.hoyolab.characterDataAccess),
+            subtitle: Text(tr.hoyolab.charaDataAccessDesc),
             value: isCharaAccessAllowed is! AsyncError && (isCharaAccessAllowed.value ?? false),
             onChanged: !isCharaAccessAllowed.isLoading && !isCharaAccessAllowed.hasError ? (value) {
               ref.read(charaAccessPermissionStateProvider.notifier).updateValue(value);
+            } : null,
+          ),
+          SwitchListTile(
+            title: Text(tr.hoyolab.enableRealtimeNotes),
+            subtitle: Text(tr.hoyolab.enableRealtimeNotesDesc),
+            value: isRealtimeNotesEnabled is! AsyncError && (isRealtimeNotesEnabled.value ?? false),
+            onChanged: !isRealtimeNotesEnabled.isLoading && !isRealtimeNotesEnabled.hasError ? (value) {
+              ref.read(realtimeNotesActivationStateProvider.notifier).updateValue(value);
             } : null,
           ),
           ListSubheader(tr.hoyolab.userInfo),
@@ -153,9 +166,31 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
           },
         );
       }
-    } catch (e) {
-      print(e);
+    } catch (e, st) {
+      log("Failed to check chara access permission", error: e, stackTrace: st);
+      // do nothing
     }
+
+    try {
+      final isRealtimeNotesEnabled = await ref.read(realtimeNotesActivationStateProvider.future);
+      if (!isRealtimeNotesEnabled && context.mounted) {
+        await showSimpleDialog(
+          context: context,
+          title: tr.hoyolab.doYouWantToEnableRealtimeNotes,
+          content: tr.hoyolab.enableRealtimeNotesDesc,
+          showCancel: true,
+          onOkPressed: () async {
+            await ref
+                .read(realtimeNotesActivationStateProvider.notifier)
+                .updateValue(true);
+          },
+        );
+      }
+    } catch (e, st) {
+      log("Failed to check realtime notes activation state", error: e, stackTrace: st);
+      // do nothing
+    }
+
 
     // show server select dialog
     if (context.mounted) {

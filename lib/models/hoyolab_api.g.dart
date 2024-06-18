@@ -145,3 +145,47 @@ Map<String, dynamic> _$$AvatarAuthImplToJson(_$AvatarAuthImpl instance) =>
     <String, dynamic>{
       'avatar_auth': instance.avatarAuth,
     };
+
+_$GameRecordCardImpl _$$GameRecordCardImplFromJson(Map<String, dynamic> json) =>
+    _$GameRecordCardImpl(
+      gameType: $enumDecode(_$GameTypeEnumMap, json['game_id'],
+          unknownValue: GameType.starrail),
+      dataSwitches: (json['data_switches'] as List<dynamic>)
+          .map((e) => DataSwitchMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$GameRecordCardImplToJson(
+        _$GameRecordCardImpl instance) =>
+    <String, dynamic>{
+      'game_id': _$GameTypeEnumMap[instance.gameType]!,
+      'data_switches': instance.dataSwitches,
+    };
+
+const _$GameTypeEnumMap = {
+  GameType.genshin: 2,
+  GameType.starrail: 6,
+  GameType.houkai3rd: 1,
+};
+
+_$DataSwitchMetadataImpl _$$DataSwitchMetadataImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DataSwitchMetadataImpl(
+      switchId: $enumDecode(_$DataSwitchTypeEnumMap, json['switch_id'],
+          unknownValue: DataSwitchType.enableBattleChronicle),
+      isPublic: json['is_public'] as bool,
+    );
+
+Map<String, dynamic> _$$DataSwitchMetadataImplToJson(
+        _$DataSwitchMetadataImpl instance) =>
+    <String, dynamic>{
+      'switch_id': _$DataSwitchTypeEnumMap[instance.switchId]!,
+      'is_public': instance.isPublic,
+    };
+
+const _$DataSwitchTypeEnumMap = {
+  DataSwitchType.enableBattleChronicle: 1,
+  DataSwitchType.publicCharacterDetails: 2,
+  DataSwitchType.publicCharacterDetailsStarrail: 4,
+  DataSwitchType.enableRealtimeNotes: 3,
+};

@@ -121,6 +121,10 @@ hoyolab:
   characterDataAccessNotAllowed: Character data access is not allowed. Please allow access from HoYoLAB integration settings.
   loginExpired: Please sign out and sign in again.
   doYouWantToAllowCharaDataAccess: "Do you want to allow access to character data?"
+  doYouWantToEnableRealtimeNotes: "Enable Real-Time Notes?"
   charaDataAccessDesc: You will be able to sync character levels and talent levels in the game.
+  characterDataAccess: Character Data Access
+  enableRealtimeNotes: Enable Real-Time Notes
+  enableRealtimeNotesDesc: You will be able to sync your current Original Resin count.
 whereToGet(map):
   chests: "Chests, Quests"

@@ -127,6 +127,54 @@ class AvatarAuth with _$AvatarAuth {
       _$AvatarAuthFromJson(json);
 }
 
+@freezed
+class GameRecordCard with _$GameRecordCard {
+  const factory GameRecordCard({
+    // ignore: invalid_annotation_target
+    @JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
+    required GameType gameType,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: "data_switches") required List<DataSwitchMetadata> dataSwitches,
+  }) = _GameRecordCard;
+
+  factory GameRecordCard.fromJson(Map<String, dynamic> json) =>
+      _$GameRecordCardFromJson(json);
+}
+
+@freezed
+class DataSwitchMetadata with _$DataSwitchMetadata {
+  const factory DataSwitchMetadata({
+    // ignore: invalid_annotation_target
+    @JsonKey(name: "switch_id", unknownEnumValue: DataSwitchType.enableBattleChronicle)
+    required DataSwitchType switchId,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: "is_public") required bool isPublic,
+  }) = _DataSwitchMetadata;
+
+  factory DataSwitchMetadata.fromJson(Map<String, dynamic> json) =>
+      _$DataSwitchMetadataFromJson(json);
+}
+
+enum DataSwitchType {
+  @JsonValue(1)
+  enableBattleChronicle,
+  @JsonValue(2)
+  publicCharacterDetails,
+  @JsonValue(4)
+  publicCharacterDetailsStarrail,
+  @JsonValue(3)
+  enableRealtimeNotes,
+}
+
+enum GameType {
+  @JsonValue(2)
+  genshin,
+  @JsonValue(6)
+  starrail,
+  @JsonValue(1)
+  houkai3rd,
+}
+
 mixin WithId {
   int get id;
 }
@@ -135,4 +183,4 @@ typedef LookupServersResult = HoyolabApiResult<HoyolabListData<HyvServer>>;
 typedef VerifyLTokenResult = HoyolabApiResult<HyvUserInfo>;
 typedef GetUserGameRolesResult = HoyolabListData<HyvUserGameRole>;
 typedef AvatarListResult = HoyolabListData<AvatarListResultItem>;
-typedef AvatarAuthInfoResult = HoyolabApiResult<AvatarAuth>;
+typedef GameRecordCardList = HoyolabListData<GameRecordCard>;

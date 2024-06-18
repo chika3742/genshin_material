@@ -1518,3 +1518,381 @@ abstract class _AvatarAuth implements AvatarAuth {
   _$$AvatarAuthImplCopyWith<_$AvatarAuthImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+GameRecordCard _$GameRecordCardFromJson(Map<String, dynamic> json) {
+  return _GameRecordCard.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GameRecordCard {
+// ignore: invalid_annotation_target
+  @JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
+  GameType get gameType =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: "data_switches")
+  List<DataSwitchMetadata> get dataSwitches =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GameRecordCardCopyWith<GameRecordCard> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GameRecordCardCopyWith<$Res> {
+  factory $GameRecordCardCopyWith(
+          GameRecordCard value, $Res Function(GameRecordCard) then) =
+      _$GameRecordCardCopyWithImpl<$Res, GameRecordCard>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
+      GameType gameType,
+      @JsonKey(name: "data_switches") List<DataSwitchMetadata> dataSwitches});
+}
+
+/// @nodoc
+class _$GameRecordCardCopyWithImpl<$Res, $Val extends GameRecordCard>
+    implements $GameRecordCardCopyWith<$Res> {
+  _$GameRecordCardCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? gameType = null,
+    Object? dataSwitches = null,
+  }) {
+    return _then(_value.copyWith(
+      gameType: null == gameType
+          ? _value.gameType
+          : gameType // ignore: cast_nullable_to_non_nullable
+              as GameType,
+      dataSwitches: null == dataSwitches
+          ? _value.dataSwitches
+          : dataSwitches // ignore: cast_nullable_to_non_nullable
+              as List<DataSwitchMetadata>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$GameRecordCardImplCopyWith<$Res>
+    implements $GameRecordCardCopyWith<$Res> {
+  factory _$$GameRecordCardImplCopyWith(_$GameRecordCardImpl value,
+          $Res Function(_$GameRecordCardImpl) then) =
+      __$$GameRecordCardImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
+      GameType gameType,
+      @JsonKey(name: "data_switches") List<DataSwitchMetadata> dataSwitches});
+}
+
+/// @nodoc
+class __$$GameRecordCardImplCopyWithImpl<$Res>
+    extends _$GameRecordCardCopyWithImpl<$Res, _$GameRecordCardImpl>
+    implements _$$GameRecordCardImplCopyWith<$Res> {
+  __$$GameRecordCardImplCopyWithImpl(
+      _$GameRecordCardImpl _value, $Res Function(_$GameRecordCardImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? gameType = null,
+    Object? dataSwitches = null,
+  }) {
+    return _then(_$GameRecordCardImpl(
+      gameType: null == gameType
+          ? _value.gameType
+          : gameType // ignore: cast_nullable_to_non_nullable
+              as GameType,
+      dataSwitches: null == dataSwitches
+          ? _value._dataSwitches
+          : dataSwitches // ignore: cast_nullable_to_non_nullable
+              as List<DataSwitchMetadata>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GameRecordCardImpl implements _GameRecordCard {
+  const _$GameRecordCardImpl(
+      {@JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
+      required this.gameType,
+      @JsonKey(name: "data_switches")
+      required final List<DataSwitchMetadata> dataSwitches})
+      : _dataSwitches = dataSwitches;
+
+  factory _$GameRecordCardImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GameRecordCardImplFromJson(json);
+
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
+  final GameType gameType;
+// ignore: invalid_annotation_target
+  final List<DataSwitchMetadata> _dataSwitches;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "data_switches")
+  List<DataSwitchMetadata> get dataSwitches {
+    if (_dataSwitches is EqualUnmodifiableListView) return _dataSwitches;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_dataSwitches);
+  }
+
+  @override
+  String toString() {
+    return 'GameRecordCard(gameType: $gameType, dataSwitches: $dataSwitches)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GameRecordCardImpl &&
+            (identical(other.gameType, gameType) ||
+                other.gameType == gameType) &&
+            const DeepCollectionEquality()
+                .equals(other._dataSwitches, _dataSwitches));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, gameType,
+      const DeepCollectionEquality().hash(_dataSwitches));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GameRecordCardImplCopyWith<_$GameRecordCardImpl> get copyWith =>
+      __$$GameRecordCardImplCopyWithImpl<_$GameRecordCardImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GameRecordCardImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GameRecordCard implements GameRecordCard {
+  const factory _GameRecordCard(
+          {@JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
+          required final GameType gameType,
+          @JsonKey(name: "data_switches")
+          required final List<DataSwitchMetadata> dataSwitches}) =
+      _$GameRecordCardImpl;
+
+  factory _GameRecordCard.fromJson(Map<String, dynamic> json) =
+      _$GameRecordCardImpl.fromJson;
+
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
+  GameType get gameType;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "data_switches")
+  List<DataSwitchMetadata> get dataSwitches;
+  @override
+  @JsonKey(ignore: true)
+  _$$GameRecordCardImplCopyWith<_$GameRecordCardImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+DataSwitchMetadata _$DataSwitchMetadataFromJson(Map<String, dynamic> json) {
+  return _DataSwitchMetadata.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DataSwitchMetadata {
+// ignore: invalid_annotation_target
+  @JsonKey(
+      name: "switch_id", unknownEnumValue: DataSwitchType.enableBattleChronicle)
+  DataSwitchType get switchId =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: "is_public")
+  bool get isPublic => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DataSwitchMetadataCopyWith<DataSwitchMetadata> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DataSwitchMetadataCopyWith<$Res> {
+  factory $DataSwitchMetadataCopyWith(
+          DataSwitchMetadata value, $Res Function(DataSwitchMetadata) then) =
+      _$DataSwitchMetadataCopyWithImpl<$Res, DataSwitchMetadata>;
+  @useResult
+  $Res call(
+      {@JsonKey(
+          name: "switch_id",
+          unknownEnumValue: DataSwitchType.enableBattleChronicle)
+      DataSwitchType switchId,
+      @JsonKey(name: "is_public") bool isPublic});
+}
+
+/// @nodoc
+class _$DataSwitchMetadataCopyWithImpl<$Res, $Val extends DataSwitchMetadata>
+    implements $DataSwitchMetadataCopyWith<$Res> {
+  _$DataSwitchMetadataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? switchId = null,
+    Object? isPublic = null,
+  }) {
+    return _then(_value.copyWith(
+      switchId: null == switchId
+          ? _value.switchId
+          : switchId // ignore: cast_nullable_to_non_nullable
+              as DataSwitchType,
+      isPublic: null == isPublic
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DataSwitchMetadataImplCopyWith<$Res>
+    implements $DataSwitchMetadataCopyWith<$Res> {
+  factory _$$DataSwitchMetadataImplCopyWith(_$DataSwitchMetadataImpl value,
+          $Res Function(_$DataSwitchMetadataImpl) then) =
+      __$$DataSwitchMetadataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(
+          name: "switch_id",
+          unknownEnumValue: DataSwitchType.enableBattleChronicle)
+      DataSwitchType switchId,
+      @JsonKey(name: "is_public") bool isPublic});
+}
+
+/// @nodoc
+class __$$DataSwitchMetadataImplCopyWithImpl<$Res>
+    extends _$DataSwitchMetadataCopyWithImpl<$Res, _$DataSwitchMetadataImpl>
+    implements _$$DataSwitchMetadataImplCopyWith<$Res> {
+  __$$DataSwitchMetadataImplCopyWithImpl(_$DataSwitchMetadataImpl _value,
+      $Res Function(_$DataSwitchMetadataImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? switchId = null,
+    Object? isPublic = null,
+  }) {
+    return _then(_$DataSwitchMetadataImpl(
+      switchId: null == switchId
+          ? _value.switchId
+          : switchId // ignore: cast_nullable_to_non_nullable
+              as DataSwitchType,
+      isPublic: null == isPublic
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DataSwitchMetadataImpl implements _DataSwitchMetadata {
+  const _$DataSwitchMetadataImpl(
+      {@JsonKey(
+          name: "switch_id",
+          unknownEnumValue: DataSwitchType.enableBattleChronicle)
+      required this.switchId,
+      @JsonKey(name: "is_public") required this.isPublic});
+
+  factory _$DataSwitchMetadataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DataSwitchMetadataImplFromJson(json);
+
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(
+      name: "switch_id", unknownEnumValue: DataSwitchType.enableBattleChronicle)
+  final DataSwitchType switchId;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "is_public")
+  final bool isPublic;
+
+  @override
+  String toString() {
+    return 'DataSwitchMetadata(switchId: $switchId, isPublic: $isPublic)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DataSwitchMetadataImpl &&
+            (identical(other.switchId, switchId) ||
+                other.switchId == switchId) &&
+            (identical(other.isPublic, isPublic) ||
+                other.isPublic == isPublic));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, switchId, isPublic);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DataSwitchMetadataImplCopyWith<_$DataSwitchMetadataImpl> get copyWith =>
+      __$$DataSwitchMetadataImplCopyWithImpl<_$DataSwitchMetadataImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DataSwitchMetadataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DataSwitchMetadata implements DataSwitchMetadata {
+  const factory _DataSwitchMetadata(
+          {@JsonKey(
+              name: "switch_id",
+              unknownEnumValue: DataSwitchType.enableBattleChronicle)
+          required final DataSwitchType switchId,
+          @JsonKey(name: "is_public") required final bool isPublic}) =
+      _$DataSwitchMetadataImpl;
+
+  factory _DataSwitchMetadata.fromJson(Map<String, dynamic> json) =
+      _$DataSwitchMetadataImpl.fromJson;
+
+  @override // ignore: invalid_annotation_target
+  @JsonKey(
+      name: "switch_id", unknownEnumValue: DataSwitchType.enableBattleChronicle)
+  DataSwitchType get switchId;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "is_public")
+  bool get isPublic;
+  @override
+  @JsonKey(ignore: true)
+  _$$DataSwitchMetadataImplCopyWith<_$DataSwitchMetadataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

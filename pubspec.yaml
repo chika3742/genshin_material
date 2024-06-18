@@ -54,6 +54,7 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.22
   sqlite3: any
   webview_flutter: ^4.8.0
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:
