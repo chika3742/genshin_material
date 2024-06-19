@@ -7,6 +7,7 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../../../components/center_text.dart";
 import "../../../components/data_asset_scope.dart";
+import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/labeled_check_box.dart";
 import "../../../components/layout.dart";
@@ -101,7 +102,8 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
     final isHoyolabSyncInProgress = useState(false);
 
     final prefsAsync = ref.watch(preferencesStateNotifierProvider);
-    useValueChanged<PreferencesState?, void>(prefsAsync.value, (_, __) async {
+
+    Future<void> syncGameData() async {
       if (prefsAsync.value == null) {
         return;
       }
@@ -120,7 +122,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
 
         final charaInfo = await HoyolabApiUtils.loopUntilCharacter(
           (character as ListedCharacter).hyvId, // TODO: Traveler
-          (page) {
+              (page) {
             return api.avatarList(
               page,
               elementIds: [elements[character.element]!.hyvId],
@@ -158,7 +160,15 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
       } finally {
         isHoyolabSyncInProgress.value = false;
       }
-    });
+    }
+
+    useEffect(
+      () {
+        syncGameData();
+        return null;
+      },
+      [prefsAsync.hasValue],
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -171,21 +181,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AnimatedCrossFade(
-            crossFadeState: isHoyolabSyncInProgress.value ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-            duration: Durations.medium3,
-            sizeCurve: Easing.emphasizedDecelerate,
-            firstChild: const SizedBox.shrink(),
-            secondChild: Column(
-              children: [
-                const LinearProgressIndicator(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: Text(tr.hoyolab.charaDataSyncInProgress),
-                ),
-              ],
-            ),
-          ),
+          GameDataSyncIndicator(show: isHoyolabSyncInProgress.value),
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
