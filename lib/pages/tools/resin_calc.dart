@@ -73,7 +73,6 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
         if (context.mounted) showSnackBar(context: context, message: e.getMessage(tr.hoyolab.failedToSyncGameData), error: true);
       } catch (e) {
         if (context.mounted) showSnackBar(context: context, message: tr.hoyolab.failedToSyncGameData, error: true);
-        print(e);
       } finally {
         gameDataSyncInProgress.value = false;
       }

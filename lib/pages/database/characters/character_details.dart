@@ -21,6 +21,7 @@ import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
 import "../../../models/material_bookmark_frame.dart";
+import "../../../providers/database_provider.dart";
 import "../../../providers/preferences.dart";
 import "../../../ui_core/snack_bar.dart";
 import "../../../utils/ingredients_converter.dart";
@@ -100,6 +101,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
     final ingredients = assetData.characterIngredients;
 
     final isHoyolabSyncInProgress = useState(false);
+    final sliderRangeInitialized = useState(false);
     final progressIndicatorMessage = useState<String?>(null);
 
     final prefsAsync = ref.watch(preferencesStateNotifierProvider);
@@ -156,6 +158,12 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
             _checkedTalentTypes[purpose] = element.currentLevel != element.maxLevel;
           });
         });
+
+        final db = ref.read(appDatabaseProvider);
+        await db.setCharacterLevels(
+          character.id,
+          _rangeValues.map((key, value) => MapEntry(key, value.start)),
+        );
       } on HoyolabApiException catch (e, st) {
         if (e.retcode == Retcode.characterDoesNotExist) {
           progressIndicatorMessage.value = tr.hoyolab.characterDoesNotExist;
@@ -185,6 +193,32 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
       [prefsAsync.hasValue],
     );
 
+    Future<void> setDefaultSliderValues() async {
+      try {
+        final db = ref.read(appDatabaseProvider);
+        final levels = await db.getCharacterLevels(character.id);
+        if (levels != null) {
+          _rangeValues.addAll(levels.map((key, value) =>
+              MapEntry(key, LevelRangeValues(value, _rangeValues[key]!.end)),),);
+          _checkedTalentTypes.addAll(levels.map((key, value) =>
+              MapEntry(key, value != _rangeValues[key]!.end),),);
+          setState(() {});
+        }
+      } catch (e, st) {
+        log("Failed to load character level cache", error: e, stackTrace: st);
+      } finally {
+        sliderRangeInitialized.value = true;
+      }
+    }
+
+    useEffect(
+      () {
+        setDefaultSliderValues();
+        return null;
+      },
+      [],
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -193,7 +227,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
           ),
         ),
       ),
-      body: Stack(
+      body: sliderRangeInitialized.value ? Stack(
         children: [
           SingleChildScrollView(
             child: Padding(
@@ -375,7 +409,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
             ),
           ),
         ],
-      ),
+      ) : const SizedBox(),
     );
   }
 
