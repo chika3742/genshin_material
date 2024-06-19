@@ -189,3 +189,17 @@ const _$DataSwitchTypeEnumMap = {
   DataSwitchType.publicCharacterDetailsStarrail: 4,
   DataSwitchType.enableRealtimeNotes: 3,
 };
+
+_$DailyNoteImpl _$$DailyNoteImplFromJson(Map<String, dynamic> json) =>
+    _$DailyNoteImpl(
+      currentResin: json['current_resin'] as int,
+      resinRecoveryTime: json['resin_recovery_time'] as String,
+      currentHomeCoin: json['current_home_coin'] as int,
+    );
+
+Map<String, dynamic> _$$DailyNoteImplToJson(_$DailyNoteImpl instance) =>
+    <String, dynamic>{
+      'current_resin': instance.currentResin,
+      'resin_recovery_time': instance.resinRecoveryTime,
+      'current_home_coin': instance.currentHomeCoin,
+    };

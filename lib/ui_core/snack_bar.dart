@@ -14,6 +14,7 @@ void showSnackBar({
       message: message,
       duration: duration,
       backgroundColor: error ? Theme.of(context).colorScheme.error : null,
+      messageFontWeight: error ? FontWeight.bold : FontWeight.normal,
     ),
   );
 }
@@ -23,9 +24,10 @@ SnackBar createSnackBar({
   SnackBarAction? action,
   Duration duration = const Duration(seconds: 4),
   Color? backgroundColor,
+  FontWeight messageFontWeight = FontWeight.normal,
 }) {
   return SnackBar(
-    content: Text(message),
+    content: Text(message, style: TextStyle(fontWeight: messageFontWeight)),
     action: action,
     duration: duration,
     behavior: SnackBarBehavior.floating,

@@ -4,6 +4,7 @@ import "package:shared_preferences/shared_preferences.dart";
 
 import "../core/kv_preferences.dart";
 import "../models/hoyolab_api.dart";
+import "../pages/tools/resin_calc.dart";
 
 part "preferences.freezed.dart";
 part "preferences.g.dart";
@@ -27,6 +28,23 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
 
   Future<void> setResin(int resin) async {
     final baseTime = DateTime.now();
+
+    await KvPreferences.setResin(resin);
+    await KvPreferences.setResinBaseTime(baseTime);
+
+    if (state is AsyncData) {
+      state = AsyncData(
+        state.value!.copyWith(
+          resin: resin,
+          resinBaseTime: baseTime,
+        ),
+      );
+    }
+  }
+
+  Future<void> setResinWithRecoveryTime(int resin, int recoveryTime) async {
+    final offset = (maxResin - resin) * resinRechargeRate * 60 - recoveryTime;
+    final baseTime = DateTime.now().subtract(Duration(seconds: offset));
 
     await KvPreferences.setResin(resin);
     await KvPreferences.setResinBaseTime(baseTime);

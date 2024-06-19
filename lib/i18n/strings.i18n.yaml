@@ -117,6 +117,7 @@ hoyolab:
   failedToSyncGameData: ゲームデータの同期に失敗しました。
   failedToLoadPermissionState: アクセス許可状態の取得に失敗しました。
   characterDataAccessNotAllowed: キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。
+  realtimeNotesNotEnabled: リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。
   loginExpired: 一度連携を解除し、再度ログインしてください。
   doYouWantToAllowCharaDataAccess: キャラクターデータへのアクセスを本アプリに許可しますか？
   doYouWantToEnableRealtimeNotes: リアルタイムノートを有効化しますか？

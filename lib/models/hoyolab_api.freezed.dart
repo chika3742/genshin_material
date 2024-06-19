@@ -1896,3 +1896,203 @@ abstract class _DataSwitchMetadata implements DataSwitchMetadata {
   _$$DataSwitchMetadataImplCopyWith<_$DataSwitchMetadataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+DailyNote _$DailyNoteFromJson(Map<String, dynamic> json) {
+  return _DailyNote.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DailyNote {
+// ignore: invalid_annotation_target
+  @JsonKey(name: "current_resin")
+  int get currentResin =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: "resin_recovery_time")
+  String get resinRecoveryTime =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: "current_home_coin")
+  int get currentHomeCoin => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DailyNoteCopyWith<DailyNote> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DailyNoteCopyWith<$Res> {
+  factory $DailyNoteCopyWith(DailyNote value, $Res Function(DailyNote) then) =
+      _$DailyNoteCopyWithImpl<$Res, DailyNote>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "current_resin") int currentResin,
+      @JsonKey(name: "resin_recovery_time") String resinRecoveryTime,
+      @JsonKey(name: "current_home_coin") int currentHomeCoin});
+}
+
+/// @nodoc
+class _$DailyNoteCopyWithImpl<$Res, $Val extends DailyNote>
+    implements $DailyNoteCopyWith<$Res> {
+  _$DailyNoteCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currentResin = null,
+    Object? resinRecoveryTime = null,
+    Object? currentHomeCoin = null,
+  }) {
+    return _then(_value.copyWith(
+      currentResin: null == currentResin
+          ? _value.currentResin
+          : currentResin // ignore: cast_nullable_to_non_nullable
+              as int,
+      resinRecoveryTime: null == resinRecoveryTime
+          ? _value.resinRecoveryTime
+          : resinRecoveryTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      currentHomeCoin: null == currentHomeCoin
+          ? _value.currentHomeCoin
+          : currentHomeCoin // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DailyNoteImplCopyWith<$Res>
+    implements $DailyNoteCopyWith<$Res> {
+  factory _$$DailyNoteImplCopyWith(
+          _$DailyNoteImpl value, $Res Function(_$DailyNoteImpl) then) =
+      __$$DailyNoteImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "current_resin") int currentResin,
+      @JsonKey(name: "resin_recovery_time") String resinRecoveryTime,
+      @JsonKey(name: "current_home_coin") int currentHomeCoin});
+}
+
+/// @nodoc
+class __$$DailyNoteImplCopyWithImpl<$Res>
+    extends _$DailyNoteCopyWithImpl<$Res, _$DailyNoteImpl>
+    implements _$$DailyNoteImplCopyWith<$Res> {
+  __$$DailyNoteImplCopyWithImpl(
+      _$DailyNoteImpl _value, $Res Function(_$DailyNoteImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currentResin = null,
+    Object? resinRecoveryTime = null,
+    Object? currentHomeCoin = null,
+  }) {
+    return _then(_$DailyNoteImpl(
+      currentResin: null == currentResin
+          ? _value.currentResin
+          : currentResin // ignore: cast_nullable_to_non_nullable
+              as int,
+      resinRecoveryTime: null == resinRecoveryTime
+          ? _value.resinRecoveryTime
+          : resinRecoveryTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      currentHomeCoin: null == currentHomeCoin
+          ? _value.currentHomeCoin
+          : currentHomeCoin // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DailyNoteImpl implements _DailyNote {
+  const _$DailyNoteImpl(
+      {@JsonKey(name: "current_resin") required this.currentResin,
+      @JsonKey(name: "resin_recovery_time") required this.resinRecoveryTime,
+      @JsonKey(name: "current_home_coin") required this.currentHomeCoin});
+
+  factory _$DailyNoteImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DailyNoteImplFromJson(json);
+
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "current_resin")
+  final int currentResin;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "resin_recovery_time")
+  final String resinRecoveryTime;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "current_home_coin")
+  final int currentHomeCoin;
+
+  @override
+  String toString() {
+    return 'DailyNote(currentResin: $currentResin, resinRecoveryTime: $resinRecoveryTime, currentHomeCoin: $currentHomeCoin)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DailyNoteImpl &&
+            (identical(other.currentResin, currentResin) ||
+                other.currentResin == currentResin) &&
+            (identical(other.resinRecoveryTime, resinRecoveryTime) ||
+                other.resinRecoveryTime == resinRecoveryTime) &&
+            (identical(other.currentHomeCoin, currentHomeCoin) ||
+                other.currentHomeCoin == currentHomeCoin));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, currentResin, resinRecoveryTime, currentHomeCoin);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DailyNoteImplCopyWith<_$DailyNoteImpl> get copyWith =>
+      __$$DailyNoteImplCopyWithImpl<_$DailyNoteImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DailyNoteImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DailyNote implements DailyNote {
+  const factory _DailyNote(
+      {@JsonKey(name: "current_resin") required final int currentResin,
+      @JsonKey(name: "resin_recovery_time")
+      required final String resinRecoveryTime,
+      @JsonKey(name: "current_home_coin")
+      required final int currentHomeCoin}) = _$DailyNoteImpl;
+
+  factory _DailyNote.fromJson(Map<String, dynamic> json) =
+      _$DailyNoteImpl.fromJson;
+
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "current_resin")
+  int get currentResin;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "resin_recovery_time")
+  String get resinRecoveryTime;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: "current_home_coin")
+  int get currentHomeCoin;
+  @override
+  @JsonKey(ignore: true)
+  _$$DailyNoteImplCopyWith<_$DailyNoteImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

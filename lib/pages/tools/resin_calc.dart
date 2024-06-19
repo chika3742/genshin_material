@@ -8,12 +8,15 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:intl/intl.dart";
 import "package:timeago/timeago.dart" as timeago;
 
+import "../../components/game_data_sync_indicator.dart";
 import "../../components/layout.dart";
 import "../../composables/use_periodic_timer.dart";
+import "../../core/hoyolab_api.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/preferences.dart";
+import "../../ui_core/snack_bar.dart";
 
-const maxResin = 160;
+const maxResin = 200;
 const resinRechargeRate = 8;
 
 class ResinCalcPage extends StatefulHookConsumerWidget {
@@ -51,6 +54,36 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
       ref.read(preferencesStateNotifierProvider.notifier).setResin(resin);
     });
 
+    final gameDataSyncInProgress = useState(false);
+    final prefsAsync = ref.watch(preferencesStateNotifierProvider);
+    Future<void> syncResin() async {
+      if (!prefsAsync.hasValue) {
+        return;
+      }
+      final prefs = prefsAsync.value!;
+
+      gameDataSyncInProgress.value = true;
+
+      final api = HoyolabApi(cookie: prefs.cookie, region: prefs.hyvServer, uid: prefs.hyvUid);
+      try {
+        final dailyNote = await api.getDailyNote();
+        ref.read(preferencesStateNotifierProvider.notifier).setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
+        resinController.text = dailyNote.currentResin.toString();
+      } on HoyolabApiException catch (e) {
+        if (context.mounted) showSnackBar(context: context, message: e.getMessage(tr.hoyolab.failedToSyncGameData), error: true);
+      } catch (e) {
+        if (context.mounted) showSnackBar(context: context, message: tr.hoyolab.failedToSyncGameData, error: true);
+        print(e);
+      } finally {
+        gameDataSyncInProgress.value = false;
+      }
+    }
+
+    useEffect(() {
+      syncResin();
+      return null;
+    }, [prefsAsync.hasValue],);
+
     final rows = _buildRows(state);
 
     return GestureDetector(
@@ -59,63 +92,78 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
         appBar: AppBar(
           title: Text(tr.pages.resinCalc),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: GappedColumn(
-            children: [
-              TextFormField(
-                controller: resinController,
-                decoration: InputDecoration(
-                  labelText: tr.resinCalcPage.currentResin,
-                  border: const OutlineInputBorder(),
-                  suffixText: "/ 160",
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      resinController.clear();
-                    },
-                  ),
-                ),
-                inputFormatters: [
-                  TextInputFormatter.withFunction((oldValue, newValue) {
-                    if ((int.tryParse(newValue.text) ?? 0) >= maxResin) {
-                      return TextEditingValue(text: (maxResin - 1).toString());
-                    }
-                    return newValue;
-                  }),
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-              ),
-
-              Table(
-                children: [
-                  for (final row in rows)
-                    TableRow(
-                      decoration: row.decoration,
-                      children: [
-                        TableCell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(row.label),
-                          ),
+        body: Column(
+          children: [
+            GameDataSyncIndicator(show: gameDataSyncInProgress.value),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: GappedColumn(
+                  children: [
+                    TextFormField(
+                      controller: resinController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: tr.resinCalcPage.currentResin,
+                        border: const OutlineInputBorder(),
+                        suffixText: "/ $maxResin",
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            resinController.clear();
+                          },
                         ),
-                        TableCell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              row.value,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
+                      ),
+                      inputFormatters: [
+                        TextInputFormatter.withFunction((oldValue, newValue) {
+                          if ((int.tryParse(newValue.text) ?? 0) >= maxResin) {
+                            return TextEditingValue(text: maxResin.toString());
+                          }
+                          return newValue;
+                        }),
+                        FilteringTextInputFormatter.digitsOnly,
                       ],
                     ),
-                ],
+
+                    Table(
+                      children: [
+                        for (final row in rows)
+                          TableRow(
+                            decoration: row.decoration,
+                            children: [
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(row.label),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    row.value,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
+                    if (state.value?.resin == maxResin) Text(
+                      "すでに全回復しています",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -26,6 +26,12 @@ class HoyolabApi {
     "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) miHoYoBBSOversea/2.56.1",
   };
 
+  Map<String, String> get additionalHeaders => {
+    "x-rpc-client_type": "2",
+    "x-rpc-app_version": "2.56.1",
+    "x-rpc-language": lang,
+  };
+
   Future<LookupServersResult> lookupServers() async {
     const url = "https://api-account-os.hoyolab.com/account/binding/api/getAllRegions?game_biz=hk4e_global";
     final result = await client.get(Uri.parse(url));
@@ -137,9 +143,7 @@ class HoyolabApi {
         headers: {
           ...headers,
           "DS": _getDsToken(queryParameters: queryParameters),
-          "x-rpc-client_type": "2",
-          "x-rpc-app_version": "2.56.1",
-          "x-rpc-language": lang,
+          ...additionalHeaders,
         },
       ), (obj) => HoyolabListData.fromJsonT(obj, GameRecordCard.fromJson),
     );
@@ -158,12 +162,34 @@ class HoyolabApi {
         headers: {
           ...headers,
           "DS": _getDsToken(body: body),
-          "x-rpc-client_type": "2",
-          "x-rpc-app_version": "2.56.1",
-          "x-rpc-language": lang,
+          ...additionalHeaders,
         },
         body: body,
       ), (_) => {},
+    );
+  }
+
+  Future<DailyNote> getDailyNote() {
+    _ensureRequiredParams();
+
+    const url = "https://bbs-api-os.hoyolab.com/game_record/app/genshin/api/dailyNote";
+
+    final queryParameters = {
+      "role_id": uid!,
+      "server": region!,
+    };
+    return _errorHandledThen(
+      client.get(
+        Uri.parse(url).replace(
+          queryParameters: queryParameters,
+        ),
+        headers: {
+          ...headers,
+          ...additionalHeaders,
+          "DS": _getDsToken(queryParameters: queryParameters),
+        },
+      ),
+      (obj) => DailyNote.fromJson(obj as Map<String, dynamic>),
     );
   }
 
@@ -219,6 +245,7 @@ class HoyolabApiException implements Exception {
   String getMessage(String prepend) => "$prepend\n${switch (retcode) {
     -502002 => tr.hoyolab.characterDataAccessNotAllowed,
     -100 => tr.hoyolab.loginExpired,
+    10102 => tr.hoyolab.realtimeNotesNotEnabled,
     _ => "($retcode)",
   }}";
 

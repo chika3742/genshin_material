@@ -175,6 +175,21 @@ enum GameType {
   houkai3rd,
 }
 
+@freezed
+class DailyNote with _$DailyNote {
+  const factory DailyNote({
+    // ignore: invalid_annotation_target
+    @JsonKey(name: "current_resin") required int currentResin,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: "resin_recovery_time") required String resinRecoveryTime,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: "current_home_coin") required int currentHomeCoin,
+  }) = _DailyNote;
+
+  factory DailyNote.fromJson(Map<String, dynamic> json) =>
+      _$DailyNoteFromJson(json);
+}
+
 mixin WithId {
   int get id;
 }

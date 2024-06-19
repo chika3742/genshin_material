@@ -119,6 +119,7 @@ hoyolab:
   failedToSyncGameData: Failed to sync game data.
   failedToLoadPermissionState: Failed to load permission state.
   characterDataAccessNotAllowed: Character data access is not allowed. Please allow access from HoYoLAB integration settings.
+  realtimeNotesNotEnabled: Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.
   loginExpired: Please sign out and sign in again.
   doYouWantToAllowCharaDataAccess: "Do you want to allow access to character data?"
   doYouWantToEnableRealtimeNotes: "Enable Real-Time Notes?"
