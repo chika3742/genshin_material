@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 218 (109 per locale)
+/// Strings: 220 (110 per locale)
 ///
-/// Built on 2024-06-19 at 04:45 UTC
+/// Built on 2024-06-19 at 06:54 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -411,6 +411,7 @@ class _StringsHoyolabJa {
 	String get failedToSyncGameData => 'ゲームデータの同期に失敗しました。';
 	String get failedToLoadPermissionState => 'アクセス許可状態の取得に失敗しました。';
 	String get characterDataAccessNotAllowed => 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。';
+	String get characterDoesNotExist => 'キャラクターを所持していません。';
 	String get realtimeNotesNotEnabled => 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。';
 	String get loginExpired => '一度連携を解除し、再度ログインしてください。';
 	String get doYouWantToAllowCharaDataAccess => 'キャラクターデータへのアクセスを本アプリに許可しますか？';
@@ -711,6 +712,7 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get failedToSyncGameData => 'Failed to sync game data.';
 	@override String get failedToLoadPermissionState => 'Failed to load permission state.';
 	@override String get characterDataAccessNotAllowed => 'Character data access is not allowed. Please allow access from HoYoLAB integration settings.';
+	@override String get characterDoesNotExist => 'You do not own this character.';
 	@override String get realtimeNotesNotEnabled => 'Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.';
 	@override String get loginExpired => 'Please sign out and sign in again.';
 	@override String get doYouWantToAllowCharaDataAccess => 'Do you want to allow access to character data?';
@@ -830,6 +832,7 @@ extension on Translations {
 			case 'hoyolab.failedToSyncGameData': return 'ゲームデータの同期に失敗しました。';
 			case 'hoyolab.failedToLoadPermissionState': return 'アクセス許可状態の取得に失敗しました。';
 			case 'hoyolab.characterDataAccessNotAllowed': return 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。';
+			case 'hoyolab.characterDoesNotExist': return 'キャラクターを所持していません。';
 			case 'hoyolab.realtimeNotesNotEnabled': return 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。';
 			case 'hoyolab.loginExpired': return '一度連携を解除し、再度ログインしてください。';
 			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'キャラクターデータへのアクセスを本アプリに許可しますか？';
@@ -952,6 +955,7 @@ extension on _StringsEn {
 			case 'hoyolab.failedToSyncGameData': return 'Failed to sync game data.';
 			case 'hoyolab.failedToLoadPermissionState': return 'Failed to load permission state.';
 			case 'hoyolab.characterDataAccessNotAllowed': return 'Character data access is not allowed. Please allow access from HoYoLAB integration settings.';
+			case 'hoyolab.characterDoesNotExist': return 'You do not own this character.';
 			case 'hoyolab.realtimeNotesNotEnabled': return 'Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.';
 			case 'hoyolab.loginExpired': return 'Please sign out and sign in again.';
 			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'Do you want to allow access to character data?';

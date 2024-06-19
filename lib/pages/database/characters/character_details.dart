@@ -100,6 +100,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
     final ingredients = assetData.characterIngredients;
 
     final isHoyolabSyncInProgress = useState(false);
+    final progressIndicatorMessage = useState<String?>(null);
 
     final prefsAsync = ref.watch(preferencesStateNotifierProvider);
 
@@ -114,6 +115,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
       }
 
       isHoyolabSyncInProgress.value = true;
+      progressIndicatorMessage.value = null;
       try {
         final api = HoyolabApi(cookie: prefs.cookie, uid: prefs.hyvUid, region: prefs.hyvServer);
 
@@ -155,8 +157,18 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
           });
         });
       } on HoyolabApiException catch (e, st) {
-        log("Failed to fetch character detail", error: e, stackTrace: st);
-        if (context.mounted) showSnackBar(context: context, message: e.getMessage(tr.hoyolab.failedToSyncGameData), error: true);
+        if (e.retcode == Retcode.characterDoesNotExist) {
+          progressIndicatorMessage.value = tr.hoyolab.characterDoesNotExist;
+        } else {
+          log("Failed to fetch character detail", error: e, stackTrace: st);
+          if (context.mounted) {
+            showSnackBar(
+              context: context,
+              message: e.getMessage(tr.hoyolab.failedToSyncGameData),
+              error: true,
+            );
+          }
+        }
       } catch (e, st) {
         log("Failed to fetch character detail", error: e, stackTrace: st);
         if (context.mounted) showSnackBar(context: context, message: tr.hoyolab.failedToSyncGameData, error: true);
@@ -181,175 +193,184 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
           ),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Stack(
         children: [
-          GameDataSyncIndicator(show: isHoyolabSyncInProgress.value),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: GappedColumn(
-                  gap: 16,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // character information
-                    GameItemInfoBox(
-                      itemImage: Image.file(
-                        character.getSmallImageFile(assetDir),
-                        width: 70,
-                        height: 70,
-                      ),
-                      children: [
-                        // rarity
-                        RarityStars(count: character.rarity),
-                        // element
-                        Row(
-                          children: [
-                            Image.file(
-                              assetData.elements[character.element]!.getImageFile(assetDir),
-                              width: 26,
-                              height: 26,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                            Text(assetData.elements[character.element]!.text.localized),
-                          ],
-                        ),
-                        // weapon type
-                        Text(assetData.weaponTypes[character.weaponType]!.name.localized),
-                      ],
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GappedColumn(
+                gap: 16,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // character information
+                  GameItemInfoBox(
+                    itemImage: Image.file(
+                      character.getSmallImageFile(assetDir),
+                      width: 70,
+                      height: 70,
                     ),
-                    GappedColumn(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          tr.characterDetailsPage.charaLevelUpAndAscensionMaterials,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Card(
-                          margin: EdgeInsets.zero,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: LevelSlider(
-                              levels: _sliderTickLabels[Purpose.ascension]!,
-                              values: _rangeValues[Purpose.ascension]!,
-                              onChanged: (values) {
-                                // avoid overlapping slider handles
-                                if (values.start == values.end) {
-                                  return;
-                                }
+                    children: [
+                      // rarity
+                      RarityStars(count: character.rarity),
+                      // element
+                      Row(
+                        children: [
+                          Image.file(
+                            assetData.elements[character.element]!.getImageFile(assetDir),
+                            width: 26,
+                            height: 26,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          Text(assetData.elements[character.element]!.text.localized),
+                        ],
+                      ),
+                      // weapon type
+                      Text(assetData.weaponTypes[character.weaponType]!.name.localized),
+                    ],
+                  ),
+                  GappedColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tr.characterDetailsPage.charaLevelUpAndAscensionMaterials,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Card(
+                        margin: EdgeInsets.zero,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: LevelSlider(
+                            levels: _sliderTickLabels[Purpose.ascension]!,
+                            values: _rangeValues[Purpose.ascension]!,
+                            onChanged: (values) {
+                              // avoid overlapping slider handles
+                              if (values.start == values.end) {
+                                return;
+                              }
 
-                                setState(() {
-                                  _rangeValues[Purpose.ascension] = values;
-                                });
-                              },
-                            ),
+                              setState(() {
+                                _rangeValues[Purpose.ascension] = values;
+                              });
+                            },
                           ),
                         ),
-                        Wrap(
-                          children: _buildAscensionMaterialCards(),
-                        ),
-                      ],
-                    ),
-                    GappedColumn(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          tr.characterDetailsPage.talentLevelUpMaterials,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            for (final purpose in ingredients.purposes.keys
-                                .whereNot((e) => e == Purpose.ascension))
-                              Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      LabeledCheckBox(
-                                        value: _checkedTalentTypes[purpose]!,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _checkedTalentTypes[purpose] = value!;
+                      ),
+                      Wrap(
+                        children: _buildAscensionMaterialCards(),
+                      ),
+                    ],
+                  ),
+                  GappedColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tr.characterDetailsPage.talentLevelUpMaterials,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (final purpose in ingredients.purposes.keys
+                              .whereNot((e) => e == Purpose.ascension))
+                            Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    LabeledCheckBox(
+                                      value: _checkedTalentTypes[purpose]!,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _checkedTalentTypes[purpose] = value!;
+                                        });
+
+                                        // scroll to the talent materials section on checkbox checked
+                                        if (value == true) {
+                                          Future.delayed(const Duration(milliseconds: 200), () {
+                                            Scrollable.ensureVisible(
+                                              _talentSectionKeys[purpose]!.currentContext!,
+                                              duration: const Duration(milliseconds: 300),
+                                              curve: Curves.easeOutQuint,
+                                              alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+                                            );
                                           });
-
-                                          // scroll to the talent materials section on checkbox checked
-                                          if (value == true) {
-                                            Future.delayed(const Duration(milliseconds: 200), () {
-                                              Scrollable.ensureVisible(
-                                                _talentSectionKeys[purpose]!.currentContext!,
-                                                duration: const Duration(milliseconds: 300),
-                                                curve: Curves.easeOutQuint,
-                                                alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
-                                              );
-                                            });
-                                          }
-                                        },
-                                        child: Text.rich( // checkbox label
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: tr.talentTypes[purpose.name]!,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                ),
-                                              ),
-                                              const TextSpan(text: "  "),
-                                              TextSpan(
-                                                text: character
-                                                    .talents[purpose.name]!
-                                                    .localized,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      AnimatedCrossFade( // talent level slider with size animation
-                                        duration: const Duration(milliseconds: 300),
-                                        crossFadeState: _checkedTalentTypes[purpose]!
-                                            ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                                        firstCurve: Curves.easeOutQuint,
-                                        secondCurve: Curves.easeOutQuint,
-                                        sizeCurve: Curves.easeOutQuint,
-                                        firstChild: Container(),
-                                        secondChild: Column(
+                                        }
+                                      },
+                                      child: Text.rich( // checkbox label
+                                        TextSpan(
                                           children: [
-                                            const SizedBox(height: 8),
-                                            LevelSlider(
-                                              key: _talentSectionKeys[purpose] ??= GlobalKey(),
-                                              levels: _sliderTickLabels[purpose]!,
-                                              values: _rangeValues[purpose]!,
-                                              onChanged: (values) {
-                                                if (values.start == values.end) {
-                                                  return;
-                                                }
-
-                                                setState(() {
-                                                  _rangeValues[purpose] = values;
-                                                });
-                                              },
+                                            TextSpan(
+                                              text: tr.talentTypes[purpose.name]!,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                            ),
+                                            const TextSpan(text: "  "),
+                                            TextSpan(
+                                              text: character
+                                                  .talents[purpose.name]!
+                                                  .localized,
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    AnimatedCrossFade( // talent level slider with size animation
+                                      duration: const Duration(milliseconds: 300),
+                                      crossFadeState: _checkedTalentTypes[purpose]!
+                                          ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                                      firstCurve: Curves.easeOutQuint,
+                                      secondCurve: Curves.easeOutQuint,
+                                      sizeCurve: Curves.easeOutQuint,
+                                      firstChild: Container(),
+                                      secondChild: Column(
+                                        children: [
+                                          const SizedBox(height: 8),
+                                          LevelSlider(
+                                            key: _talentSectionKeys[purpose] ??= GlobalKey(),
+                                            levels: _sliderTickLabels[purpose]!,
+                                            values: _rangeValues[purpose]!,
+                                            onChanged: (values) {
+                                              if (values.start == values.end) {
+                                                return;
+                                              }
+
+                                              setState(() {
+                                                _rangeValues[purpose] = values;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            Wrap(
-                              children: _buildTalentMaterialCards(),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                          Wrap(
+                            children: _buildTalentMaterialCards(),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.7),
+              ),
+              child: GameDataSyncIndicator(
+                show: isHoyolabSyncInProgress.value,
+                message: progressIndicatorMessage.value,
               ),
             ),
           ),

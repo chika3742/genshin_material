@@ -244,6 +244,7 @@ class HoyolabApiException implements Exception {
 
   String getMessage(String prepend) => "$prepend\n${switch (retcode) {
     -502002 => tr.hoyolab.characterDataAccessNotAllowed,
+    Retcode.characterDoesNotExist => tr.hoyolab.characterDoesNotExist,
     -100 => tr.hoyolab.loginExpired,
     10102 => tr.hoyolab.realtimeNotesNotEnabled,
     _ => "($retcode)",
@@ -253,6 +254,10 @@ class HoyolabApiException implements Exception {
   String toString() {
     return "HoyolabApiException: $originalMessage, retcode: $retcode";
   }
+}
+
+class Retcode {
+  static const characterDoesNotExist = -502001;
 }
 
 class HoyolabApiUtils {
