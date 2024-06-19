@@ -132,7 +132,10 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
         );
         if (charaInfo != null) {
           setState(() {
-            _rangeValues[Purpose.ascension] = LevelRangeValues(int.parse(charaInfo.currentLevel), charaInfo.maxLevel);
+            _rangeValues[Purpose.ascension] = LevelRangeValues(
+              _sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
+              charaInfo.maxLevel,
+            );
           });
         }
 
