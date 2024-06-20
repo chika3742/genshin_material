@@ -36,22 +36,8 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
     }
 
     final resinController = useTextEditingController(text: state.value!.resin.toString());
-    final currentResin = useValueListenable(resinController);
     usePeriodicTimer(const Duration(seconds: 1), (_) {
       setState(() {});
-    });
-
-    useValueChanged<String, void>(currentResin.text, (_, __) {
-      if (currentResin.text.isEmpty) {
-        return;
-      }
-
-      final resin = int.tryParse(currentResin.text);
-      if (resin == null) {
-        return;
-      }
-
-      ref.read(preferencesStateNotifierProvider.notifier).setResin(resin);
     });
 
     final gameDataSyncInProgress = useState(false);
@@ -67,8 +53,11 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
       final api = HoyolabApi(cookie: prefs.cookie, region: prefs.hyvServer, uid: prefs.hyvUid);
       try {
         final dailyNote = await api.getDailyNote();
-        ref.read(preferencesStateNotifierProvider.notifier).setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
-        resinController.text = dailyNote.currentResin.toString();
+        if (dailyNote.currentResin != maxResin || state.value?.resin != maxResin) {
+          resinController.text = dailyNote.currentResin.toString();
+          ref.read(preferencesStateNotifierProvider.notifier)
+              .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
+        }
       } on HoyolabApiException catch (e) {
         if (context.mounted) showSnackBar(context: context, message: e.getMessage(tr.hoyolab.failedToSyncGameData), error: true);
       } catch (e) {
@@ -122,6 +111,18 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
                         }),
                         FilteringTextInputFormatter.digitsOnly,
                       ],
+                      onChanged: (value) {
+                        if (value.isEmpty) {
+                          return;
+                        }
+
+                        final resin = int.tryParse(value);
+                        if (resin == null) {
+                          return;
+                        }
+
+                        ref.read(preferencesStateNotifierProvider.notifier).setResin(resin);
+                      },
                     ),
 
                     Table(
