@@ -206,7 +206,7 @@ class HoyolabApi {
 
   String _getLtUid() {
     _ensureRequiredParams(params: [HoyolabApiParams.cookie]);
-    return RegExp("; ltuid_v2=(\\d+);").firstMatch(cookie!)!.group(1)!;
+    return RegExp("; (?:ltuid_v2|account_id_v2)=(\\d+);").firstMatch(cookie!)!.group(1)!;
   }
 
   void _ensureRequiredParams({List<HoyolabApiParams> params = HoyolabApiParams.values}) {
