@@ -7,11 +7,14 @@ class GameDataSyncIndicator extends HookWidget {
   final bool show;
   final String? message;
 
+  final _height = 32.0;
+
   const GameDataSyncIndicator({super.key, required this.show, this.message});
 
   @override
   Widget build(BuildContext context) {
     final showIndicator = useState(show);
+    final visibleIndicator = useState(show);
 
     useValueChanged<bool, void>(show, (oldValue, _) {
       if (oldValue && message != null) {
@@ -21,24 +24,45 @@ class GameDataSyncIndicator extends HookWidget {
       } else {
         showIndicator.value = show;
       }
+
+      if (show) {
+        visibleIndicator.value = true;
+      }
     });
 
-    return AnimatedCrossFade(
-      crossFadeState: showIndicator.value ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+    return TweenAnimationBuilder(
+      tween: Tween(end: showIndicator.value ? 1.0 : 0.0),
       duration: Durations.medium3,
-      sizeCurve: Easing.emphasizedDecelerate,
-      firstChild: const SizedBox.shrink(),
-      secondChild: Column(
-        children: [
-          Opacity(
-            opacity: show ? 1.0 : 0.0,
-            child: const LinearProgressIndicator(),
+      curve: Easing.standardDecelerate,
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: SizedBox(
+            height: value * _height,
+            child: ClipRect(
+              child: OverflowBox(
+                alignment: Alignment.topCenter,
+                maxHeight: _height,
+                child: child,
+              ),
+            ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Text(show || message == null ? tr.hoyolab.charaDataSyncInProgress : message!),
-          ),
-        ],
+        );
+      },
+      onEnd: () {
+        visibleIndicator.value = showIndicator.value;
+      },
+      child: Visibility(
+        visible: visibleIndicator.value,
+        child: Column(
+          children: [
+            const LinearProgressIndicator(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Text(show || message == null ? tr.hoyolab.charaDataSyncInProgress : message!),
+            ),
+          ],
+        ),
       ),
     );
   }
