@@ -8,6 +8,7 @@ import "package:timeago/timeago.dart" as timeago;
 import "core/provider_error_observer.dart";
 import "core/theme.dart";
 import "i18n/strings.g.dart";
+import "providers/database_provider.dart";
 import "routes.dart";
 
 void main() async {
@@ -90,7 +91,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Restartable extends StatefulWidget {
+class Restartable extends ConsumerStatefulWidget {
   final Widget child;
 
   const Restartable({super.key, required this.child});
@@ -100,13 +101,15 @@ class Restartable extends StatefulWidget {
   }
 
   @override
-  State<Restartable> createState() => _RestartableState();
+  ConsumerState<Restartable> createState() => _RestartableState();
 }
 
-class _RestartableState extends State<Restartable> {
+class _RestartableState extends ConsumerState<Restartable> {
   Widget currentChild = Container();
 
-  void restartApp() {
+  Future<void> restartApp() async {
+    await ref.read(appDatabaseProvider).close();
+
     setState(() {
       currentChild = const SizedBox();
     });
