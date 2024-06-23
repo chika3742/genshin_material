@@ -114,6 +114,20 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                   parentNavigatorKey: ReleaseNotesRoute.$parentNavigatorKey,
                   factory: $ReleaseNotesRouteExtension._fromState,
                 ),
+                GoRouteData.$route(
+                  path: 'debug',
+                  parentNavigatorKey: DebugMenuRoute.$parentNavigatorKey,
+                  factory: $DebugMenuRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: 'sp-editor',
+                      parentNavigatorKey:
+                          DebugSharedPreferencesEditorRoute.$parentNavigatorKey,
+                      factory: $DebugSharedPreferencesEditorRouteExtension
+                          ._fromState,
+                    ),
+                  ],
+                ),
               ],
             ),
           ],
@@ -425,6 +439,42 @@ extension $ReleaseNotesRouteExtension on ReleaseNotesRoute {
         queryParams: {
           if (tabIndex != 0) 'tab-index': tabIndex.toString(),
         },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DebugMenuRouteExtension on DebugMenuRoute {
+  static DebugMenuRoute _fromState(GoRouterState state) => DebugMenuRoute();
+
+  String get location => GoRouteData.$location(
+        '/more/debug',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DebugSharedPreferencesEditorRouteExtension
+    on DebugSharedPreferencesEditorRoute {
+  static DebugSharedPreferencesEditorRoute _fromState(GoRouterState state) =>
+      DebugSharedPreferencesEditorRoute();
+
+  String get location => GoRouteData.$location(
+        '/more/debug/sp-editor',
       );
 
   void go(BuildContext context) => context.go(location);

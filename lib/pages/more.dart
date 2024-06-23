@@ -1,3 +1,4 @@
+import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
@@ -61,6 +62,10 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
             onTap: () {
               launchCustomTab(privacyPolicyUrl);
             },
+          ),
+          if (kDebugMode) SimpleListTile(
+            title: "Debug Menu",
+            location: DebugMenuRoute().location,
           ),
           InkWell(
             child: Padding(
