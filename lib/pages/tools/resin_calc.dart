@@ -1,6 +1,3 @@
-import "dart:math";
-
-import "package:clock/clock.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
@@ -15,45 +12,35 @@ import "../../core/hoyolab_api.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/preferences.dart";
 import "../../ui_core/snack_bar.dart";
+import "../../utils/resin_calculator.dart";
 
 const maxResin = 200;
-const resinRechargeRate = 8;
+const resinRecoveryRateInMinutes = 8;
 
-class ResinCalcPage extends StatefulHookConsumerWidget {
+class ResinCalcPage extends HookConsumerWidget {
   const ResinCalcPage({super.key});
 
   @override
-  ConsumerState<ResinCalcPage> createState() => _ResinCalcPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prefs = ref.watch(preferencesStateNotifierProvider);
 
-class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
-  @override
-  Widget build(BuildContext context) {
-    final state = ref.watch(preferencesStateNotifierProvider);
+    final resinController = useTextEditingController(text: prefs.resin?.toString() ?? "");
+    final resinInput = useValueListenable(resinController);
 
-    if (state is! AsyncData) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    final resinController = useTextEditingController(text: state.value!.resin.toString());
+    // For rebuilding results every second
+    final currentTime = useState(DateTime.now());
     usePeriodicTimer(const Duration(seconds: 1), (_) {
-      setState(() {});
+      currentTime.value = DateTime.now();
     });
 
     final gameDataSyncInProgress = useState(false);
-    final prefsAsync = ref.watch(preferencesStateNotifierProvider);
     Future<void> syncResin() async {
-      if (!prefsAsync.hasValue) {
-        return;
-      }
-      final prefs = prefsAsync.value!;
-
       gameDataSyncInProgress.value = true;
 
-      final api = HoyolabApi(cookie: prefs.cookie, region: prefs.hyvServer, uid: prefs.hyvUid);
+      final api = HoyolabApi(cookie: prefs.hyvCookie, region: prefs.hyvServer, uid: prefs.hyvUid);
       try {
         final dailyNote = await api.getDailyNote();
-        if (dailyNote.currentResin != maxResin || state.value?.resin != maxResin) {
+        if (dailyNote.currentResin != maxResin || prefs.resin != maxResin) {
           resinController.text = dailyNote.currentResin.toString();
           ref.read(preferencesStateNotifierProvider.notifier)
               .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
@@ -70,9 +57,9 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
     useEffect(() {
       syncResin();
       return null;
-    }, [prefsAsync.hasValue],);
+    }, [],);
 
-    final rows = _buildRows(state);
+    final rows = _buildRows(prefs);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -95,12 +82,13 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
                         labelText: tr.resinCalcPage.currentResin,
                         border: const OutlineInputBorder(),
                         suffixText: "/ $maxResin",
-                        suffixIcon: IconButton(
+                        suffixIcon: resinInput.text.isNotEmpty ? IconButton(
                           icon: const Icon(Icons.clear),
                           onPressed: () {
                             resinController.clear();
+                            ref.read(preferencesStateNotifierProvider.notifier).setResin(null);
                           },
-                        ),
+                        ) : null,
                       ),
                       inputFormatters: [
                         TextInputFormatter.withFunction((oldValue, newValue) {
@@ -112,16 +100,16 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
                         FilteringTextInputFormatter.digitsOnly,
                       ],
                       onChanged: (value) {
-                        if (value.isEmpty) {
-                          return;
+                        final prefNotifier = ref.read(preferencesStateNotifierProvider.notifier);
+                        if (value.isNotEmpty) {
+                          final resin = int.tryParse(value);
+                          if (resin == null) {
+                            return;
+                          }
+                          prefNotifier.setResin(resin);
+                        } else {
+                          prefNotifier.setResin(null);
                         }
-
-                        final resin = int.tryParse(value);
-                        if (resin == null) {
-                          return;
-                        }
-
-                        ref.read(preferencesStateNotifierProvider.notifier).setResin(resin);
                       },
                     ),
 
@@ -152,7 +140,7 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
                           ),
                       ],
                     ),
-                    if (state.value?.resin == maxResin) Text(
+                    if (prefs.resin == maxResin) Text(
                       "すでに全回復しています",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.error,
@@ -169,54 +157,50 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
     );
   }
 
-  List<_ResultItem> _buildRows(AsyncValue<PreferencesState> state) {
-    final fullyReplenishedBy = Clock.fixed(state.value!.resinBaseTime).fromNowBy(
-      _calculateTimeToFullResin(state.value!.resin),
-    );
-    final untilFull = fullyReplenishedBy.difference(const Clock().now());
-
-    final resinDelta = const Clock().now()
-        .difference(state.value!.resinBaseTime).inMinutes ~/ resinRechargeRate;
-
-    final wastedResin = state.value!.resin + resinDelta - maxResin;
+  List<_ResultItem> _buildRows(PreferencesState prefs) {
+    ResinCalculationResult? result;
+    if (prefs.resin != null && prefs.resinBaseTime != null) {
+      result = calculateResinRecovery(
+        currentResin: prefs.resin!,
+        baseTime: prefs.resinBaseTime!,
+        maxResin: maxResin,
+        minutesPerResin: resinRecoveryRateInMinutes,
+      );
+    }
 
     final rows = <_ResultItem>[
       _ResultItem(
         tr.resinCalcPage.baseTime,
-        "${_formatDateTime(state.value!.resinBaseTime)}"
-            " (${timeago.format(state.value!.resinBaseTime)})",
+        () {
+          if (prefs.resinBaseTime == null) return "-";
+          return "${_formatDateTime(prefs.resinBaseTime!)} (${timeago.format(prefs.resinBaseTime!)})";
+        }(),
         decoration: const BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey)),
         ),
       ),
       _ResultItem(
         tr.resinCalcPage.fullyReplenishedBy,
-        _formatDateTime(fullyReplenishedBy),
+        result != null ? _formatDateTime(result.fullyReplenishedBy) : "-",
       ),
       _ResultItem(
         tr.resinCalcPage.untilFull,
-        untilFull.isNegative
-            ? "-"
-            : "${tr.resinCalcPage.hours(n: untilFull.inHours)}"
-                " ${tr.resinCalcPage.minutes(n: untilFull.inMinutes.remainder(60))}",
+        result != null && !result.timeToFull.isNegative
+            ? "${tr.common.hours(n: result.timeToFull.inHours)}"
+              " ${tr.common.minutes(n: result.timeToFull.inMinutes.remainder(60))}"
+            : "-",
       ),
       _ResultItem(
         tr.resinCalcPage.currentResin,
-        "${min(state.value!.resin + resinDelta, maxResin)} / $maxResin",
+        result != null ? "${result.currentResin} / $maxResin" : "-",
       ),
       _ResultItem(
         tr.resinCalcPage.wastedResin,
-        wastedResin >= 0 ? wastedResin.toString() : "-",
+        result != null && result.wastedResin >= 0 ? result.wastedResin.toString() : "-",
       ),
     ];
 
     return rows;
-  }
-
-  Duration _calculateTimeToFullResin(int resin) {
-    final diff = maxResin - resin;
-    final minutes = diff * resinRechargeRate;
-    return Duration(minutes: minutes);
   }
 
   String _formatDateTime(DateTime dateTime) {

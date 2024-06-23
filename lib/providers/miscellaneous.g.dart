@@ -7,7 +7,7 @@ part of 'miscellaneous.dart';
 // **************************************************************************
 
 String _$charaAccessPermissionStateHash() =>
-    r'06a94c6c300b6d4c5f4c8369bc1e639d413d671b';
+    r'8cafe666d5475694cbb4816334bf568721cc40a6';
 
 /// See also [CharaAccessPermissionState].
 @ProviderFor(CharaAccessPermissionState)
@@ -24,7 +24,7 @@ final charaAccessPermissionStateProvider =
 
 typedef _$CharaAccessPermissionState = AutoDisposeAsyncNotifier<bool>;
 String _$realtimeNotesActivationStateHash() =>
-    r'f1275a6f3bacf496f782d943978f9183ab6f3f32';
+    r'98ad860b6d448ec86dca85b7d1c9783e8c109b8b';
 
 /// See also [RealtimeNotesActivationState].
 @ProviderFor(RealtimeNotesActivationState)

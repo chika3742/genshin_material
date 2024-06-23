@@ -26,7 +26,7 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.watch(preferencesStateNotifierProvider);
-    final isSignedIn = prefs.hasValue && prefs.value!.cookie.isNotEmpty;
+    final isSignedIn = prefs.hyvCookie != null;
 
     final isCharaAccessAllowed = ref.watch(charaAccessPermissionStateProvider);
     final isRealtimeNotesEnabled = ref.watch(realtimeNotesActivationStateProvider);
@@ -72,10 +72,10 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
             leading: const Icon(Symbols.dns),
             title: Text(tr.hoyolab.changeServer),
             subtitle: () {
-              if (prefs.value == null || prefs.value!.hyvServer.isEmpty) {
+              if (prefs.hyvServer == null || prefs.hyvServerName == null) {
                 return Text(tr.hoyolab.noServerSelected);
               }
-              return Text(tr.hoyolab.current(server: prefs.value!.hyvServerName));
+              return Text(tr.hoyolab.current(server: prefs.hyvServerName!));
             }(),
             onTap: () {
               showModalBottomSheet(
@@ -118,9 +118,9 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
             } : null,
           ),
           ListSubheader(tr.hoyolab.userInfo),
-          if (prefs.value!.hyvServer.isNotEmpty) ListTile(
-            title: Text(prefs.value!.hyvUserName),
-            subtitle: Text("UID: ${prefs.value!.hyvUid}"),
+          if (prefs.hyvServer != null && prefs.hyvUserName != null && prefs.hyvUid != null) ListTile(
+            title: Text(prefs.hyvUserName!),
+            subtitle: Text("UID: ${prefs.hyvUid!}"),
           ) else ListTile(
             title: Text(tr.hoyolab.noServerSelected),
           ),
@@ -226,9 +226,9 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
     // set initial selected server
     useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, __) {
-      final prefs = ref.read(preferencesStateNotifierProvider).value;
+      final prefs = ref.read(preferencesStateNotifierProvider);
       final servers = serversSnapshot.data?.data?.list;
-      if (prefs != null && servers != null) {
+      if (servers != null) {
         selectedServer.value = servers.firstWhereOrNull((e) => e.region == prefs.hyvServer);
       }
     });
@@ -243,7 +243,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
       loadingGameRoleServers.value = [...loadingGameRoleServers.value..add(server)];
 
-      final api = HoyolabApi(cookie: ref.read(preferencesStateNotifierProvider).value!.cookie, region: server.region);
+      final api = HoyolabApi(cookie: ref.read(preferencesStateNotifierProvider).hyvCookie, region: server.region);
       try {
         errorText.value = null;
 

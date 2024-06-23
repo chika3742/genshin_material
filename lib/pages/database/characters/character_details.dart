@@ -104,14 +104,9 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
     final sliderRangeInitialized = useState(false);
     final progressIndicatorMessage = useState<String?>(null);
 
-    final prefsAsync = ref.watch(preferencesStateNotifierProvider);
+    final prefs = ref.watch(preferencesStateNotifierProvider);
 
     Future<void> syncGameData() async {
-      if (prefsAsync.value == null) {
-        return;
-      }
-      final prefs = prefsAsync.value!;
-
       if (!prefs.isLinkedWithHoyolab) {
         return;
       }
@@ -119,7 +114,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
       isHoyolabSyncInProgress.value = true;
       progressIndicatorMessage.value = null;
       try {
-        final api = HoyolabApi(cookie: prefs.cookie, uid: prefs.hyvUid, region: prefs.hyvServer);
+        final api = HoyolabApi(cookie: prefs.hyvCookie, uid: prefs.hyvUid, region: prefs.hyvServer);
 
         final elements = assetData.elements;
         final weaponTypes = assetData.weaponTypes;
@@ -185,14 +180,6 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
       }
     }
 
-    useEffect(
-      () {
-        syncGameData();
-        return null;
-      },
-      [prefsAsync.hasValue],
-    );
-
     Future<void> setDefaultSliderValues() async {
       try {
         final db = ref.read(appDatabaseProvider);
@@ -213,6 +200,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
 
     useEffect(
       () {
+        syncGameData();
         setDefaultSliderValues();
         return null;
       },

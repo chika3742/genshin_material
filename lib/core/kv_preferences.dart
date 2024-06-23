@@ -1,58 +1,45 @@
 import "package:shared_preferences/shared_preferences.dart";
 
 class KvPreferences {
-  final SharedPreferences instance;
+  final SharedPreferences sp;
 
-  KvPreferences(this.instance);
+  KvPreferences(this.sp);
 
-  int get resin => instance.getInt("resin") ?? 0;
+  int? get resin => sp.getInt("resin");
+  Future<void> setResin(int? value) => value != null
+      ? sp.setInt("resin", value)
+      : sp.remove("resin");
 
-  static Future<void> setResin(int resin) => SharedPreferences.getInstance()
-      .then((prefs) => prefs.setInt("resin", resin));
+  DateTime? get resinBaseTime {
+    final value = sp.getString("resinBaseTime");
+    return value != null ? DateTime.tryParse(value) : null;
+  }
+  Future<void> setResinBaseTime(DateTime? value) => value != null
+      ? sp.setString("resinBaseTime", value.toIso8601String())
+      : sp.remove("resinBaseTime");
 
+  String? get hyvCookie => sp.getString("hyvCookie");
+  Future<void> setHyvCookie(String? value) => value != null
+      ? sp.setString("hyvCookie", value)
+      : sp.remove("hyvCookie");
 
-  DateTime get resinBaseTime =>
-      DateTime.parse(
-        instance.getString("resinBaseTime") ?? DateTime.now().toIso8601String(),
-      );
+  String? get hyvServer => sp.getString("hyvServer");
+  Future<void> setHyvServer(String? value) => value != null
+      ? sp.setString("hyvServer", value)
+      : sp.remove("hyvServer");
 
-  static Future<void> setResinBaseTime(DateTime resinBaseTime) =>
-      SharedPreferences.getInstance().then(
-        (prefs) => prefs.setString("resinBaseTime", resinBaseTime.toIso8601String()),
-      );
+  String? get hyvServerName => sp.getString("hyvServerName");
+  Future<void> setHyvServerName(String? value) => value != null
+      ? sp.setString("hyvServerName", value)
+      : sp.remove("hyvServerName");
 
-  String get cookie => instance.getString("cookie") ?? "";
+  String? get hyvUserName => sp.getString("hyvUserName");
+  Future<void> setHyvUserName(String? value) => value != null
+      ? sp.setString("hyvUserName", value)
+      : sp.remove("hyvUserName");
 
-  static Future<void> setCookie(String cookie) =>
-      SharedPreferences.getInstance().then(
-        (prefs) => prefs.setString("cookie", cookie),
-      );
-
-  String get hyvServer => instance.getString("hyvServer") ?? "";
-
-  static Future<void> setHyvServer(String hyvServer) =>
-      SharedPreferences.getInstance().then(
-        (prefs) => prefs.setString("hyvServer", hyvServer),
-      );
-
-  String get hyvServerName => instance.getString("hyvServerName") ?? "";
-
-  static Future<void> setHyvServerName(String hyvServerName) =>
-      SharedPreferences.getInstance().then(
-        (prefs) => prefs.setString("hyvServerName", hyvServerName),
-      );
-
-  String get hyvUserName => instance.getString("hyvUserName") ?? "";
-
-  static Future<void> setHyvUserName(String hyvUserName) =>
-    SharedPreferences.getInstance().then(
-      (prefs) => prefs.setString("hyvUserName", hyvUserName),
-    );
-
-  String get hyvUid => instance.getString("hyvUid") ?? "";
-
-  static Future<void> setHyvUid(String hyvUid) =>
-    SharedPreferences.getInstance().then(
-      (prefs) => prefs.setString("hyvUid", hyvUid),
-    );
+  String? get hyvUid => sp.getString("hyvUid");
+  Future<void> setHyvUid(String? value) => value != null
+      ? sp.setString("hyvUid", value)
+      : sp.remove("hyvUid");
 }

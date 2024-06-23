@@ -10,8 +10,8 @@ part "miscellaneous.g.dart";
 class CharaAccessPermissionState extends _$CharaAccessPermissionState {
   @override
   Future<bool> build() async {
-    final cookie = ref.watch(preferencesStateNotifierProvider.select((it) => it.value?.cookie));
-    if (cookie == null || cookie.isEmpty) {
+    final cookie = ref.watch(preferencesStateNotifierProvider.select((it) => it.hyvCookie));
+    if (cookie == null) {
       return false;
     }
 
@@ -21,8 +21,11 @@ class CharaAccessPermissionState extends _$CharaAccessPermissionState {
   }
 
   Future<void> updateValue(bool value) async {
+    final cookie = ref.read(preferencesStateNotifierProvider).hyvCookie;
+    if (cookie == null) {
+      throw StateError("cookie is null");
+    }
     state = const AsyncLoading();
-    final cookie = ref.read(preferencesStateNotifierProvider).value?.cookie;
     await HoyolabApi(cookie: cookie).setAvatarAuth(value ? 1 : 0);
 
     state = AsyncData(value);
@@ -33,8 +36,8 @@ class CharaAccessPermissionState extends _$CharaAccessPermissionState {
 class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
   @override
   Future<bool> build() async {
-    final cookie = ref.watch(preferencesStateNotifierProvider.select((it) => it.value?.cookie));
-    if (cookie == null || cookie.isEmpty) {
+    final cookie = ref.watch(preferencesStateNotifierProvider.select((it) => it.hyvCookie));
+    if (cookie == null) {
       return false;
     }
 
@@ -48,8 +51,12 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
   }
 
   Future<void> updateValue(bool value) async {
+    final cookie = ref.read(preferencesStateNotifierProvider).hyvCookie;
+    if (cookie == null) {
+      throw StateError("cookie is null");
+    }
+
     state = const AsyncLoading();
-    final cookie = ref.read(preferencesStateNotifierProvider).value?.cookie;
     await HoyolabApi(cookie: cookie).changeDataSwitch(DataSwitchType.enableRealtimeNotes, value);
 
     state = AsyncData(value);

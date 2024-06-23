@@ -6,7 +6,7 @@
 /// Locales: 2
 /// Strings: 220 (110 per locale)
 ///
-/// Built on 2024-06-19 at 06:54 UTC
+/// Built on 2024-06-23 at 08:41 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -192,6 +192,12 @@ class _StringsCommonJa {
 	String get index => '目次';
 	String get expandAll => '全て展開';
 	String get collapseAll => '全て折りたたむ';
+	String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+		other: '${n}分',
+	);
+	String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+		other: '${n}時間',
+	);
 }
 
 // Path: updates
@@ -344,12 +350,6 @@ class _StringsResinCalcPageJa {
 	String get fullyReplenishedBy => '全回復する時刻';
 	String get untilFull => '全回復まであと';
 	String get wastedResin => '無駄にした樹脂';
-	String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-		other: '${n}時間',
-	);
-	String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-		other: '${n}分',
-	);
 }
 
 // Path: morePage
@@ -491,6 +491,14 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override String get index => 'Index';
 	@override String get expandAll => 'Expand all';
 	@override String get collapseAll => 'Collapse all';
+	@override String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		other: '${n} minutes',
+		one: '${n} minute',
+	);
+	@override String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		other: '${n} hours',
+		one: '${n} hour',
+	);
 }
 
 // Path: updates
@@ -643,14 +651,6 @@ class _StringsResinCalcPageEn extends _StringsResinCalcPageJa {
 	@override String get fullyReplenishedBy => 'Fully Replenished By';
 	@override String get untilFull => 'Until Full';
 	@override String get wastedResin => 'Wasted Resin';
-	@override String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		other: '${n} hours',
-		one: '${n} hour',
-	);
-	@override String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		other: '${n} minutes',
-		one: '${n} minute',
-	);
 }
 
 // Path: morePage
@@ -740,6 +740,12 @@ extension on Translations {
 			case 'common.index': return '目次';
 			case 'common.expandAll': return '全て展開';
 			case 'common.collapseAll': return '全て折りたたむ';
+			case 'common.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+				other: '${n}分',
+			);
+			case 'common.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+				other: '${n}時間',
+			);
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';
@@ -801,12 +807,6 @@ extension on Translations {
 			case 'resinCalcPage.fullyReplenishedBy': return '全回復する時刻';
 			case 'resinCalcPage.untilFull': return '全回復まであと';
 			case 'resinCalcPage.wastedResin': return '無駄にした樹脂';
-			case 'resinCalcPage.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-				other: '${n}時間',
-			);
-			case 'resinCalcPage.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-				other: '${n}分',
-			);
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
@@ -861,6 +861,14 @@ extension on _StringsEn {
 			case 'common.index': return 'Index';
 			case 'common.expandAll': return 'Expand all';
 			case 'common.collapseAll': return 'Collapse all';
+			case 'common.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+				other: '${n} minutes',
+				one: '${n} minute',
+			);
+			case 'common.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+				other: '${n} hours',
+				one: '${n} hour',
+			);
 			case 'talentTypes.normalAttack': return 'Normal Attack';
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
@@ -922,14 +930,6 @@ extension on _StringsEn {
 			case 'resinCalcPage.fullyReplenishedBy': return 'Fully Replenished By';
 			case 'resinCalcPage.untilFull': return 'Until Full';
 			case 'resinCalcPage.wastedResin': return 'Wasted Resin';
-			case 'resinCalcPage.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-				other: '${n} hours',
-				one: '${n} hour',
-			);
-			case 'resinCalcPage.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-				other: '${n} minutes',
-				one: '${n} minute',
-			);
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'Link with HoYoLAB to sync in-game data';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';

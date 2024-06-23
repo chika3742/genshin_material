@@ -1,8 +1,8 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
-import "package:shared_preferences/shared_preferences.dart";
 
 import "../core/kv_preferences.dart";
+import "../main.dart";
 import "../models/hoyolab_api.dart";
 import "../pages/tools/resin_calc.dart";
 
@@ -12,111 +12,59 @@ part "preferences.g.dart";
 @riverpod
 class PreferencesStateNotifier extends _$PreferencesStateNotifier {
   @override
-  Future<PreferencesState> build() async {
-    final pref = KvPreferences(await SharedPreferences.getInstance());
+  PreferencesState build() {
+    final pref = KvPreferences(spInstance);
 
-    return PreferencesState(
-      resin: pref.resin,
-      resinBaseTime: pref.resinBaseTime,
-      cookie: pref.cookie,
-      hyvServer: pref.hyvServer,
-      hyvServerName: pref.hyvServerName,
-      hyvUserName: pref.hyvUserName,
-      hyvUid: pref.hyvUid,
-    );
+    return PreferencesState.fromSharedPreferences(pref);
   }
 
-  Future<void> setResin(int resin) async {
+  Future<void> setResin(int? resin) async {
     final baseTime = DateTime.now();
 
-    await KvPreferences.setResin(resin);
-    await KvPreferences.setResinBaseTime(baseTime);
+    await state.pref.setResin(resin);
+    await state.pref.setResinBaseTime(resin != null ? baseTime : null);
 
-    if (state is AsyncData) {
-      state = AsyncData(
-        state.value!.copyWith(
-          resin: resin,
-          resinBaseTime: baseTime,
-        ),
-      );
-    }
+    state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setResinWithRecoveryTime(int resin, int recoveryTime) async {
-    final offset = (maxResin - resin) * resinRechargeRate * 60 - recoveryTime;
+    final offset = (maxResin - resin) * resinRecoveryRateInMinutes * 60 - recoveryTime;
     final baseTime = DateTime.now().subtract(Duration(seconds: offset));
 
-    await KvPreferences.setResin(resin);
-    await KvPreferences.setResinBaseTime(baseTime);
+    await state.pref.setResin(resin);
+    await state.pref.setResinBaseTime(baseTime);
 
-    if (state is AsyncData) {
-      state = AsyncData(
-        state.value!.copyWith(
-          resin: resin,
-          resinBaseTime: baseTime,
-        ),
-      );
-    }
+    state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setHoyolabCookie(String cookie) async {
-    KvPreferences.setCookie(cookie);
+    state.pref.setHyvCookie(cookie);
 
-    if (state is AsyncData) {
-      state = AsyncData(
-        state.value!.copyWith(
-          cookie: cookie,
-        ),
-      );
-    }
+    state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setHoyolabServer(HyvServer server, String username) async {
-    KvPreferences.setHyvServer(server.region);
-    KvPreferences.setHyvServerName(server.name);
-    KvPreferences.setHyvUserName(username);
+    state.pref.setHyvServer(server.region);
+    state.pref.setHyvServerName(server.name);
+    state.pref.setHyvUserName(username);
 
-    if (state is AsyncData) {
-      state = AsyncData(
-        state.value!.copyWith(
-          hyvServer: server.region,
-          hyvServerName: server.name,
-          hyvUserName: username,
-        ),
-      );
-    }
+    state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setUid(String uid) async {
-    KvPreferences.setHyvUid(uid);
+    state.pref.setHyvUid(uid);
 
-    if (state is AsyncData) {
-      state = AsyncData(
-        state.value!.copyWith(
-          hyvUid: uid,
-        ),
-      );
-    }
+    state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> clearHoyolabCredential() async {
-    KvPreferences.setCookie("");
-    KvPreferences.setHyvServer("");
-    KvPreferences.setHyvServerName("");
-    KvPreferences.setHyvUserName("");
-    KvPreferences.setHyvUid("");
+    state.pref.setHyvCookie(null);
+    state.pref.setHyvServer(null);
+    state.pref.setHyvServerName(null);
+    state.pref.setHyvUserName(null);
+    state.pref.setHyvUid(null);
 
-    if (state is AsyncData) {
-      state = AsyncData(
-        state.value!.copyWith(
-          cookie: "",
-          hyvServer: "",
-          hyvServerName: "",
-          hyvUserName: "",
-          hyvUid: "",
-        ),
-      );
-    }
+    state = PreferencesState.fromSharedPreferences(state.pref);
   }
 }
 
@@ -125,19 +73,33 @@ class PreferencesState with _$PreferencesState {
   const PreferencesState._();
 
   const factory PreferencesState({
-    required int resin,
-    required DateTime resinBaseTime,
-    required String cookie,
-    required String hyvServer,
-    required String hyvServerName,
-    required String hyvUserName,
-    required String hyvUid,
+    required KvPreferences pref,
+    required int? resin,
+    required DateTime? resinBaseTime,
+    required String? hyvCookie,
+    required String? hyvServer,
+    required String? hyvServerName,
+    required String? hyvUserName,
+    required String? hyvUid,
   }) = _PreferencesState;
 
+  factory PreferencesState.fromSharedPreferences(KvPreferences pref) {
+    return PreferencesState(
+      pref: pref,
+      resin: pref.resin,
+      resinBaseTime: pref.resinBaseTime,
+      hyvCookie: pref.hyvCookie,
+      hyvServer: pref.hyvServer,
+      hyvServerName: pref.hyvServerName,
+      hyvUserName: pref.hyvUserName,
+      hyvUid: pref.hyvUid,
+    );
+  }
+
   bool get isLinkedWithHoyolab =>
-      cookie.isNotEmpty
-          && hyvServer.isNotEmpty
-          && hyvServerName.isNotEmpty
-          && hyvUserName.isNotEmpty
-          && hyvUid.isNotEmpty;
+      hyvCookie != null
+          && hyvServer != null
+          && hyvServerName != null
+          && hyvUserName != null
+          && hyvUid != null;
 }
