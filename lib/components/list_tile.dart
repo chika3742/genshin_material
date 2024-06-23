@@ -1,6 +1,7 @@
 import "dart:io";
 
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
 import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
@@ -97,6 +98,47 @@ class GameItemListTile extends StatelessWidget {
         ),
       ),
       onTap: onTap,
+    );
+  }
+}
+
+class PopupMenuListTile extends HookWidget {
+  final Widget? title;
+  final Widget? subtitle;
+  final Widget? leading;
+  final Widget? trailing;
+  final List<PopupMenuEntry> items;
+
+  const PopupMenuListTile({
+    super.key,
+    this.title,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+    required this.items,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final listTileKey = useMemoized(() => GlobalKey());
+
+    return ListTile(
+      key: listTileKey,
+      title: title,
+      subtitle: subtitle,
+      leading: leading,
+      trailing: trailing,
+      onTap: () {
+        final renderBox = listTileKey.currentContext!.findRenderObject() as RenderBox;
+        final size = renderBox.size;
+        final offset = renderBox.localToGlobal(Offset.zero);
+        final position = RelativeRect.fromLTRB(16, offset.dy + size.height, 16, offset.dy + size.height);
+        showMenu(
+          context: context,
+          position: position,
+          items: items,
+        );
+      },
     );
   }
 }

@@ -25,7 +25,9 @@ void main() async {
   runApp(
     ProviderScope(
       observers: [ProviderErrorObserver()],
-      child: const MyApp(),
+      child: const Restartable(
+        child: MyApp(),
+      ),
     ),
   );
 }
@@ -87,3 +89,43 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class Restartable extends StatefulWidget {
+  final Widget child;
+
+  const Restartable({super.key, required this.child});
+
+  static void restartApp(BuildContext context) {
+    context.findAncestorStateOfType<_RestartableState>()?.restartApp();
+  }
+
+  @override
+  State<Restartable> createState() => _RestartableState();
+}
+
+class _RestartableState extends State<Restartable> {
+  Widget currentChild = Container();
+
+  void restartApp() {
+    setState(() {
+      currentChild = const SizedBox();
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        currentChild = widget.child;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    currentChild = widget.child;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return currentChild;
+  }
+}
+
