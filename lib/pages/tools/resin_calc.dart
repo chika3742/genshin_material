@@ -128,11 +128,11 @@ class ResinCalcPage extends HookConsumerWidget {
                               TableCell(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    row.value,
-                                    style: const TextStyle(
+                                  child: DefaultTextStyle(
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
+                                    child: row.content,
                                   ),
                                 ),
                               ),
@@ -172,31 +172,45 @@ class ResinCalcPage extends HookConsumerWidget {
       _ResultItem(
         tr.resinCalcPage.baseTime,
         () {
-          if (prefs.resinBaseTime == null) return "-";
-          return "${_formatDateTime(prefs.resinBaseTime!)} (${timeago.format(prefs.resinBaseTime!)})";
+          if (prefs.resinBaseTime == null) return const Text("-");
+          return Wrap(
+            children: [
+              Text(_formatDateTime(prefs.resinBaseTime!)),
+              const SizedBox(width: 8),
+              Text(
+                "(${timeago.format(prefs.resinBaseTime!, locale: LocaleSettings.currentLocale.languageCode)})",
+                style: const TextStyle(
+                  color: Colors.black54,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          );
         }(),
         decoration: const BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey)),
         ),
       ),
       _ResultItem(
-        tr.resinCalcPage.fullyReplenishedBy,
-        result != null ? _formatDateTime(result.fullyReplenishedBy) : "-",
+        result != null && result.timeToFull.isNegative
+            ? tr.resinCalcPage.recoveredTime
+            : tr.resinCalcPage.fullRecoveryTime,
+        Text(result != null ? _formatDateTime(result.fullyReplenishedBy) : "-"),
       ),
       _ResultItem(
-        tr.resinCalcPage.untilFull,
-        result != null && !result.timeToFull.isNegative
+        tr.resinCalcPage.untilFullRecovery,
+        Text(result != null && !result.timeToFull.isNegative
             ? "${tr.common.hours(n: result.timeToFull.inHours)}"
               " ${tr.common.minutes(n: result.timeToFull.inMinutes.remainder(60))}"
-            : "-",
+            : "-",),
       ),
       _ResultItem(
         tr.resinCalcPage.currentResin,
-        result != null ? "${result.currentResin} / $maxResin" : "-",
+        Text(result != null ? "${result.currentResin} / $maxResin" : "-"),
       ),
       _ResultItem(
         tr.resinCalcPage.wastedResin,
-        result != null && result.wastedResin >= 0 ? result.wastedResin.toString() : "-",
+        Text(result != null && result.wastedResin >= 0 ? result.wastedResin.toString() : "-"),
       ),
     ];
 
@@ -204,17 +218,26 @@ class ResinCalcPage extends HookConsumerWidget {
   }
 
   String _formatDateTime(DateTime dateTime) {
-    return "${DateFormat("MMMd", LocaleSettings.currentLocale.languageCode)
-        .format(dateTime)} "
-        "${DateFormat("jm", LocaleSettings.currentLocale.languageCode)
-        .format(dateTime)}";
+    final isToday = dateTime.day == DateTime.now().day;
+    final isTomorrow = dateTime.day == DateTime.now().add(const Duration(days: 1)).day;
+    final dateDisplay = () {
+      if (isToday) {
+        return "";
+      }
+      if (isTomorrow) {
+        return "${tr.resinCalcPage.tomorrow} ";
+      }
+      return "${DateFormat("MMMd", LocaleSettings.currentLocale.languageCode).format(dateTime)} ";
+    }();
+
+    return "$dateDisplay${DateFormat("jm", LocaleSettings.currentLocale.languageCode).format(dateTime)}";
   }
 }
 
 class _ResultItem {
   final String label;
-  final String value;
+  final Widget content;
   final Decoration? decoration;
 
-  const _ResultItem(this.label, this.value, {this.decoration});
+  const _ResultItem(this.label, this.content, {this.decoration});
 }

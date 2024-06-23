@@ -87,9 +87,11 @@ dailyPage:
 resinCalcPage:
   currentResin: Current Resin
   baseTime: Base Time
-  fullyReplenishedBy: Fully Replenished By
-  untilFull: Until Full
+  fullRecoveryTime: Full Recovery Time
+  recoveredTime: Recovered Time
+  untilFullRecovery: Until Full Recovery
   wastedResin: Wasted Resin
+  tomorrow: Tomorrow
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
   hoyolabIntegrationSettingsDesc: Link with HoYoLAB to sync in-game data

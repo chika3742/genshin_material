@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 220 (110 per locale)
+/// Strings: 224 (112 per locale)
 ///
-/// Built on 2024-06-23 at 08:41 UTC
+/// Built on 2024-06-23 at 10:15 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -347,9 +347,11 @@ class _StringsResinCalcPageJa {
 	// Translations
 	String get currentResin => '現在の樹脂数';
 	String get baseTime => '入力した時刻';
-	String get fullyReplenishedBy => '全回復する時刻';
-	String get untilFull => '全回復まであと';
+	String get fullRecoveryTime => '全回復する時刻';
+	String get recoveredTime => '全回復した時刻';
+	String get untilFullRecovery => '全回復まであと';
 	String get wastedResin => '無駄にした樹脂';
+	String get tomorrow => '明日';
 }
 
 // Path: morePage
@@ -648,9 +650,11 @@ class _StringsResinCalcPageEn extends _StringsResinCalcPageJa {
 	// Translations
 	@override String get currentResin => 'Current Resin';
 	@override String get baseTime => 'Base Time';
-	@override String get fullyReplenishedBy => 'Fully Replenished By';
-	@override String get untilFull => 'Until Full';
+	@override String get fullRecoveryTime => 'Full Recovery Time';
+	@override String get recoveredTime => 'Recovered Time';
+	@override String get untilFullRecovery => 'Until Full Recovery';
 	@override String get wastedResin => 'Wasted Resin';
+	@override String get tomorrow => 'Tomorrow';
 }
 
 // Path: morePage
@@ -804,9 +808,11 @@ extension on Translations {
 			case 'dailyPage.weaponMaterials': return '武器素材';
 			case 'resinCalcPage.currentResin': return '現在の樹脂数';
 			case 'resinCalcPage.baseTime': return '入力した時刻';
-			case 'resinCalcPage.fullyReplenishedBy': return '全回復する時刻';
-			case 'resinCalcPage.untilFull': return '全回復まであと';
+			case 'resinCalcPage.fullRecoveryTime': return '全回復する時刻';
+			case 'resinCalcPage.recoveredTime': return '全回復した時刻';
+			case 'resinCalcPage.untilFullRecovery': return '全回復まであと';
 			case 'resinCalcPage.wastedResin': return '無駄にした樹脂';
+			case 'resinCalcPage.tomorrow': return '明日';
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
@@ -927,9 +933,11 @@ extension on _StringsEn {
 			case 'dailyPage.weaponMaterials': return 'Weapon Materials';
 			case 'resinCalcPage.currentResin': return 'Current Resin';
 			case 'resinCalcPage.baseTime': return 'Base Time';
-			case 'resinCalcPage.fullyReplenishedBy': return 'Fully Replenished By';
-			case 'resinCalcPage.untilFull': return 'Until Full';
+			case 'resinCalcPage.fullRecoveryTime': return 'Full Recovery Time';
+			case 'resinCalcPage.recoveredTime': return 'Recovered Time';
+			case 'resinCalcPage.untilFullRecovery': return 'Until Full Recovery';
 			case 'resinCalcPage.wastedResin': return 'Wasted Resin';
+			case 'resinCalcPage.tomorrow': return 'Tomorrow';
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'Link with HoYoLAB to sync in-game data';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';

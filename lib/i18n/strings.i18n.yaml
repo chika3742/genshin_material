@@ -85,9 +85,11 @@ dailyPage:
 resinCalcPage:
   currentResin: 現在の樹脂数
   baseTime: 入力した時刻
-  fullyReplenishedBy: 全回復する時刻
-  untilFull: 全回復まであと
+  fullRecoveryTime: 全回復する時刻
+  recoveredTime: 全回復した時刻
+  untilFullRecovery: 全回復まであと
   wastedResin: 無駄にした樹脂
+  tomorrow: 明日
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
   hoyolabIntegrationSettingsDesc: HoYoLABと連携し、ゲーム内のデータと同期できます。
