@@ -26,7 +26,7 @@ class LabeledCheckBox extends StatelessWidget {
               onChanged: onChanged,
             ),
           ),
-          child,
+          Expanded(child: child),
         ],
       ),
     );
