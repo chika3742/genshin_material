@@ -7,6 +7,7 @@ import "package:timeago/timeago.dart" as timeago;
 
 import "../../components/game_data_sync_indicator.dart";
 import "../../components/layout.dart";
+import "../../components/list_subheader.dart";
 import "../../composables/use_periodic_timer.dart";
 import "../../core/hoyolab_api.dart";
 import "../../i18n/strings.g.dart";
@@ -55,7 +56,9 @@ class ResinCalcPage extends HookConsumerWidget {
     }
 
     useEffect(() {
-      syncResin();
+      if (prefs.syncResin) {
+        syncResin();
+      }
       return null;
     }, [],);
 
@@ -74,6 +77,7 @@ class ResinCalcPage extends HookConsumerWidget {
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: GappedColumn(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
                       controller: resinController,
@@ -140,11 +144,39 @@ class ResinCalcPage extends HookConsumerWidget {
                           ),
                       ],
                     ),
-                    if (prefs.resin == maxResin) Text(
-                      "すでに全回復しています",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
-                        fontWeight: FontWeight.bold,
+                    if (prefs.resin == maxResin) Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        tr.resinCalcPage.alreadyFull,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8), // 24px spacing (GappedColumn)
+                    ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
+                    GestureDetector(
+                      onTap: () {
+                        ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(!prefs.syncResin);
+                        if (!prefs.syncResin) {
+                          syncResin();
+                        }
+                      },
+                      child: GappedRow(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(tr.hoyolab.syncResin),
+                          Switch(
+                            value: prefs.syncResin,
+                            onChanged: (value) {
+                              ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
+                              if (value) {
+                                syncResin();
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -158,6 +190,8 @@ class ResinCalcPage extends HookConsumerWidget {
   }
 
   List<_ResultItem> _buildRows(PreferencesState prefs) {
+    final context = useContext();
+
     ResinCalculationResult? result;
     if (prefs.resin != null && prefs.resinBaseTime != null) {
       result = calculateResinRecovery(
@@ -179,8 +213,8 @@ class ResinCalcPage extends HookConsumerWidget {
               const SizedBox(width: 8),
               Text(
                 "(${timeago.format(prefs.resinBaseTime!, locale: LocaleSettings.currentLocale.languageCode)})",
-                style: const TextStyle(
-                  color: Colors.black54,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   fontSize: 14,
                 ),
               ),

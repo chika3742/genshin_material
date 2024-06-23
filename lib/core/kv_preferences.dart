@@ -42,4 +42,10 @@ class KvPreferences {
   Future<void> setHyvUid(String? value) => value != null
       ? sp.setString("hyvUid", value)
       : sp.remove("hyvUid");
+
+  bool get syncResin => sp.getBool("syncResin") ?? true;
+  Future<void> setSyncResin(bool value) => sp.setBool("syncResin", value);
+
+  bool get syncCharaState => sp.getBool("syncCharaState") ?? true;
+  Future<void> setSyncCharaState(bool value) => sp.setBool("syncCharaState", value);
 }

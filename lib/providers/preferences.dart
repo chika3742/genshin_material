@@ -66,6 +66,16 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
 
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
+
+  Future<void> setSyncResin(bool value) async {
+    state.pref.setSyncResin(value);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
+
+  Future<void> setSyncCharaState(bool value) async {
+    state.pref.setSyncCharaState(value);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
 }
 
 @freezed
@@ -81,6 +91,8 @@ class PreferencesState with _$PreferencesState {
     required String? hyvServerName,
     required String? hyvUserName,
     required String? hyvUid,
+    required bool syncResin,
+    required bool syncCharaState,
   }) = _PreferencesState;
 
   factory PreferencesState.fromSharedPreferences(KvPreferences pref) {
@@ -93,6 +105,8 @@ class PreferencesState with _$PreferencesState {
       hyvServerName: pref.hyvServerName,
       hyvUserName: pref.hyvUserName,
       hyvUid: pref.hyvUid,
+      syncResin: pref.syncResin,
+      syncCharaState: pref.syncCharaState,
     );
   }
 

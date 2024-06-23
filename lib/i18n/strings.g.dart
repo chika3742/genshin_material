@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 224 (112 per locale)
+/// Strings: 234 (117 per locale)
 ///
-/// Built on 2024-06-23 at 10:15 UTC
+/// Built on 2024-06-23 at 16:11 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -352,6 +352,7 @@ class _StringsResinCalcPageJa {
 	String get untilFullRecovery => '全回復まであと';
 	String get wastedResin => '無駄にした樹脂';
 	String get tomorrow => '明日';
+	String get alreadyFull => 'すでに全回復しました';
 }
 
 // Path: morePage
@@ -416,12 +417,16 @@ class _StringsHoyolabJa {
 	String get characterDoesNotExist => 'キャラクターを所持していません。';
 	String get realtimeNotesNotEnabled => 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。';
 	String get loginExpired => '一度連携を解除し、再度ログインしてください。';
+	String get accessPermission => 'アクセス許可';
 	String get doYouWantToAllowCharaDataAccess => 'キャラクターデータへのアクセスを本アプリに許可しますか？';
 	String get doYouWantToEnableRealtimeNotes => 'リアルタイムノートを有効化しますか？';
 	String get charaDataAccessDesc => 'ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。';
 	String get characterDataAccess => 'キャラクターデータへのアクセス';
 	String get enableRealtimeNotes => 'リアルタイムノートの有効化';
 	String get enableRealtimeNotesDesc => '現在の天然樹脂の数を同期できるようになります。';
+	String get syncSettings => '同期設定';
+	String get syncResin => 'ゲーム内の樹脂数と同期する';
+	String get syncCharaState => 'ゲーム内のキャラのレベルと同期する';
 }
 
 // Path: <root>
@@ -655,6 +660,7 @@ class _StringsResinCalcPageEn extends _StringsResinCalcPageJa {
 	@override String get untilFullRecovery => 'Until Full Recovery';
 	@override String get wastedResin => 'Wasted Resin';
 	@override String get tomorrow => 'Tomorrow';
+	@override String get alreadyFull => 'Already fully recovered';
 }
 
 // Path: morePage
@@ -719,12 +725,16 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get characterDoesNotExist => 'You do not own this character.';
 	@override String get realtimeNotesNotEnabled => 'Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.';
 	@override String get loginExpired => 'Please sign out and sign in again.';
+	@override String get accessPermission => 'Access Permission';
 	@override String get doYouWantToAllowCharaDataAccess => 'Do you want to allow access to character data?';
 	@override String get doYouWantToEnableRealtimeNotes => 'Enable Real-Time Notes?';
 	@override String get charaDataAccessDesc => 'You will be able to sync character levels and talent levels in the game.';
 	@override String get characterDataAccess => 'Character Data Access';
 	@override String get enableRealtimeNotes => 'Enable Real-Time Notes';
 	@override String get enableRealtimeNotesDesc => 'You will be able to sync your current Original Resin count.';
+	@override String get syncSettings => 'Sync Settings';
+	@override String get syncResin => 'Sync In-Game Resin Count';
+	@override String get syncCharaState => 'Sync In-Game Character Levels';
 }
 
 /// Flat map(s) containing all translations.
@@ -813,6 +823,7 @@ extension on Translations {
 			case 'resinCalcPage.untilFullRecovery': return '全回復まであと';
 			case 'resinCalcPage.wastedResin': return '無駄にした樹脂';
 			case 'resinCalcPage.tomorrow': return '明日';
+			case 'resinCalcPage.alreadyFull': return 'すでに全回復しました';
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
@@ -841,12 +852,16 @@ extension on Translations {
 			case 'hoyolab.characterDoesNotExist': return 'キャラクターを所持していません。';
 			case 'hoyolab.realtimeNotesNotEnabled': return 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。';
 			case 'hoyolab.loginExpired': return '一度連携を解除し、再度ログインしてください。';
+			case 'hoyolab.accessPermission': return 'アクセス許可';
 			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'キャラクターデータへのアクセスを本アプリに許可しますか？';
 			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'リアルタイムノートを有効化しますか？';
 			case 'hoyolab.charaDataAccessDesc': return 'ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。';
 			case 'hoyolab.characterDataAccess': return 'キャラクターデータへのアクセス';
 			case 'hoyolab.enableRealtimeNotes': return 'リアルタイムノートの有効化';
 			case 'hoyolab.enableRealtimeNotesDesc': return '現在の天然樹脂の数を同期できるようになります。';
+			case 'hoyolab.syncSettings': return '同期設定';
+			case 'hoyolab.syncResin': return 'ゲーム内の樹脂数と同期する';
+			case 'hoyolab.syncCharaState': return 'ゲーム内のキャラのレベルと同期する';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;
 		}
@@ -938,6 +953,7 @@ extension on _StringsEn {
 			case 'resinCalcPage.untilFullRecovery': return 'Until Full Recovery';
 			case 'resinCalcPage.wastedResin': return 'Wasted Resin';
 			case 'resinCalcPage.tomorrow': return 'Tomorrow';
+			case 'resinCalcPage.alreadyFull': return 'Already fully recovered';
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'Link with HoYoLAB to sync in-game data';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
@@ -966,12 +982,16 @@ extension on _StringsEn {
 			case 'hoyolab.characterDoesNotExist': return 'You do not own this character.';
 			case 'hoyolab.realtimeNotesNotEnabled': return 'Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.';
 			case 'hoyolab.loginExpired': return 'Please sign out and sign in again.';
+			case 'hoyolab.accessPermission': return 'Access Permission';
 			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'Do you want to allow access to character data?';
 			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'Enable Real-Time Notes?';
 			case 'hoyolab.charaDataAccessDesc': return 'You will be able to sync character levels and talent levels in the game.';
 			case 'hoyolab.characterDataAccess': return 'Character Data Access';
 			case 'hoyolab.enableRealtimeNotes': return 'Enable Real-Time Notes';
 			case 'hoyolab.enableRealtimeNotesDesc': return 'You will be able to sync your current Original Resin count.';
+			case 'hoyolab.syncSettings': return 'Sync Settings';
+			case 'hoyolab.syncResin': return 'Sync In-Game Resin Count';
+			case 'hoyolab.syncCharaState': return 'Sync In-Game Character Levels';
 			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
 		}

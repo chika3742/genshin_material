@@ -24,6 +24,8 @@ mixin _$PreferencesState {
   String? get hyvServerName => throw _privateConstructorUsedError;
   String? get hyvUserName => throw _privateConstructorUsedError;
   String? get hyvUid => throw _privateConstructorUsedError;
+  bool get syncResin => throw _privateConstructorUsedError;
+  bool get syncCharaState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PreferencesStateCopyWith<PreferencesState> get copyWith =>
@@ -44,7 +46,9 @@ abstract class $PreferencesStateCopyWith<$Res> {
       String? hyvServer,
       String? hyvServerName,
       String? hyvUserName,
-      String? hyvUid});
+      String? hyvUid,
+      bool syncResin,
+      bool syncCharaState});
 }
 
 /// @nodoc
@@ -68,6 +72,8 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
     Object? hyvServerName = freezed,
     Object? hyvUserName = freezed,
     Object? hyvUid = freezed,
+    Object? syncResin = null,
+    Object? syncCharaState = null,
   }) {
     return _then(_value.copyWith(
       pref: null == pref
@@ -102,6 +108,14 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
           ? _value.hyvUid
           : hyvUid // ignore: cast_nullable_to_non_nullable
               as String?,
+      syncResin: null == syncResin
+          ? _value.syncResin
+          : syncResin // ignore: cast_nullable_to_non_nullable
+              as bool,
+      syncCharaState: null == syncCharaState
+          ? _value.syncCharaState
+          : syncCharaState // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -122,7 +136,9 @@ abstract class _$$PreferencesStateImplCopyWith<$Res>
       String? hyvServer,
       String? hyvServerName,
       String? hyvUserName,
-      String? hyvUid});
+      String? hyvUid,
+      bool syncResin,
+      bool syncCharaState});
 }
 
 /// @nodoc
@@ -144,6 +160,8 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
     Object? hyvServerName = freezed,
     Object? hyvUserName = freezed,
     Object? hyvUid = freezed,
+    Object? syncResin = null,
+    Object? syncCharaState = null,
   }) {
     return _then(_$PreferencesStateImpl(
       pref: null == pref
@@ -178,6 +196,14 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
           ? _value.hyvUid
           : hyvUid // ignore: cast_nullable_to_non_nullable
               as String?,
+      syncResin: null == syncResin
+          ? _value.syncResin
+          : syncResin // ignore: cast_nullable_to_non_nullable
+              as bool,
+      syncCharaState: null == syncCharaState
+          ? _value.syncCharaState
+          : syncCharaState // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -193,7 +219,9 @@ class _$PreferencesStateImpl extends _PreferencesState {
       required this.hyvServer,
       required this.hyvServerName,
       required this.hyvUserName,
-      required this.hyvUid})
+      required this.hyvUid,
+      required this.syncResin,
+      required this.syncCharaState})
       : super._();
 
   @override
@@ -212,10 +240,14 @@ class _$PreferencesStateImpl extends _PreferencesState {
   final String? hyvUserName;
   @override
   final String? hyvUid;
+  @override
+  final bool syncResin;
+  @override
+  final bool syncCharaState;
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvCookie: $hyvCookie, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvCookie: $hyvCookie, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState)';
   }
 
   @override
@@ -235,12 +267,26 @@ class _$PreferencesStateImpl extends _PreferencesState {
                 other.hyvServerName == hyvServerName) &&
             (identical(other.hyvUserName, hyvUserName) ||
                 other.hyvUserName == hyvUserName) &&
-            (identical(other.hyvUid, hyvUid) || other.hyvUid == hyvUid));
+            (identical(other.hyvUid, hyvUid) || other.hyvUid == hyvUid) &&
+            (identical(other.syncResin, syncResin) ||
+                other.syncResin == syncResin) &&
+            (identical(other.syncCharaState, syncCharaState) ||
+                other.syncCharaState == syncCharaState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, pref, resin, resinBaseTime,
-      hyvCookie, hyvServer, hyvServerName, hyvUserName, hyvUid);
+  int get hashCode => Object.hash(
+      runtimeType,
+      pref,
+      resin,
+      resinBaseTime,
+      hyvCookie,
+      hyvServer,
+      hyvServerName,
+      hyvUserName,
+      hyvUid,
+      syncResin,
+      syncCharaState);
 
   @JsonKey(ignore: true)
   @override
@@ -259,7 +305,9 @@ abstract class _PreferencesState extends PreferencesState {
       required final String? hyvServer,
       required final String? hyvServerName,
       required final String? hyvUserName,
-      required final String? hyvUid}) = _$PreferencesStateImpl;
+      required final String? hyvUid,
+      required final bool syncResin,
+      required final bool syncCharaState}) = _$PreferencesStateImpl;
   const _PreferencesState._() : super._();
 
   @override
@@ -278,6 +326,10 @@ abstract class _PreferencesState extends PreferencesState {
   String? get hyvUserName;
   @override
   String? get hyvUid;
+  @override
+  bool get syncResin;
+  @override
+  bool get syncCharaState;
   @override
   @JsonKey(ignore: true)
   _$$PreferencesStateImplCopyWith<_$PreferencesStateImpl> get copyWith =>

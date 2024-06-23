@@ -86,7 +86,26 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
               );
             },
           ),
-          const ListSubheader("アクセス許可"),
+
+          ListSubheader(tr.hoyolab.syncSettings),
+          SwitchListTile(
+            title: Text(tr.hoyolab.syncCharaState),
+            value: prefs.syncCharaState,
+            onChanged: (value) {
+              ref.read(preferencesStateNotifierProvider.notifier)
+                  .setSyncCharaState(value);
+            },
+          ),
+          SwitchListTile(
+            title: Text(tr.hoyolab.syncResin),
+            value: prefs.syncResin,
+            onChanged: (value) {
+              ref.read(preferencesStateNotifierProvider.notifier)
+                  .setSyncResin(value);
+            },
+          ),
+
+          ListSubheader(tr.hoyolab.accessPermission),
           // error tile
           if (isCharaAccessAllowed.hasError) Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
