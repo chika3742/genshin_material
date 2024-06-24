@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
 import "package:intl/date_symbol_data_local.dart";
+import "package:shared_preferences/shared_preferences.dart";
 import "package:timeago/timeago.dart" as timeago;
 
 import "core/provider_error_observer.dart";
@@ -10,6 +11,8 @@ import "core/theme.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
 import "routes.dart";
+
+late final SharedPreferences spInstance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +26,7 @@ void main() async {
     locale: AppLocale.ja,
     cardinalResolver: (n, {few, many, one, other, two, zero}) => other!,
   );
+  spInstance = await SharedPreferences.getInstance();
   runApp(
     ProviderScope(
       observers: [ProviderErrorObserver()],
@@ -131,4 +135,3 @@ class _RestartableState extends ConsumerState<Restartable> {
     return currentChild;
   }
 }
-
