@@ -1,4 +1,3 @@
-import "package:animations/animations.dart";
 import "package:drift_db_viewer/drift_db_viewer.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -29,6 +28,7 @@ import "pages/settings.dart";
 import "pages/tools/resin_calc.dart";
 import "pages/tools/tools.dart";
 import "providers/database_provider.dart";
+import "ui_core/page_transition.dart";
 
 part "routes.g.dart";
 
@@ -101,6 +101,7 @@ part "routes.g.dart";
             TypedGoRoute<DebugMenuRoute>(path: "debug", routes: [
               TypedGoRoute<DebugSharedPreferencesEditorRoute>(path: "sp-editor"),
               TypedGoRoute<DebugDriftDbViewerRoute>(path: "drift-db-viewer"),
+              TypedGoRoute<DebugComponentGalleryRoute>(path: "component-gallery"),
             ],),
           ],
         ),
@@ -114,7 +115,7 @@ class HomeRoute extends StatefulShellRouteData {
 
   @override
   Page<void> pageBuilder(BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: HomePage(navigationShell: navigationShell),
     );
@@ -125,7 +126,7 @@ class HomeRoute extends StatefulShellRouteData {
 class BookmarksNavRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const BookmarksPage(),
     );
@@ -136,7 +137,7 @@ class BookmarksNavRoute extends GoRouteData {
 class DatabaseNavRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const DatabasePage(),
     );
@@ -147,7 +148,7 @@ class DatabaseNavRoute extends GoRouteData {
 class CharacterListRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const CharacterListPage(),
     );
@@ -162,7 +163,7 @@ class CharacterDetailsRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: CharacterDetailsPage(id),
     );
@@ -173,7 +174,7 @@ class CharacterDetailsRoute extends GoRouteData {
 class WeaponListRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: WeaponListPage(),
     );
@@ -188,7 +189,7 @@ class WeaponDetailsRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: WeaponDetailsPage(id),
     );
@@ -199,7 +200,7 @@ class WeaponDetailsRoute extends GoRouteData {
 class MaterialListRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: MaterialListPage(),
     );
@@ -214,7 +215,7 @@ class MaterialDetailsRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: MaterialDetailsPage(id),
     );
@@ -225,7 +226,7 @@ class MaterialDetailsRoute extends GoRouteData {
 class ArtifactListRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const ArtifactListPage(),
     );
@@ -240,7 +241,7 @@ class ArtifactDetailsRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: ArtifactDetailsPage(id: id),
     );
@@ -251,7 +252,7 @@ class ArtifactDetailsRoute extends GoRouteData {
 class DailyNavRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const DailyPage(),
     );
@@ -262,7 +263,7 @@ class DailyNavRoute extends GoRouteData {
 class ToolsNavRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const ToolsPage(),
     );
@@ -273,7 +274,7 @@ class ToolsNavRoute extends GoRouteData {
 class ResinCalcRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const ResinCalcPage(),
     );
@@ -284,7 +285,7 @@ class ResinCalcRoute extends GoRouteData {
 class MoreNavRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const MorePage(),
     );
@@ -297,7 +298,7 @@ class SettingsRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const SettingsPage(),
     );
@@ -310,7 +311,7 @@ class AccountRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const AccountPage(),
     );
@@ -327,7 +328,7 @@ class ReleaseNotesRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: ReleaseNotesPage(initialTabIndex: tabIndex),
     );
@@ -340,7 +341,7 @@ class HoyolabIntegrationSettingsRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const HoyolabIntegrationSettingsPage(),
     );
@@ -353,7 +354,7 @@ class HoyolabSignInRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const HoyolabSignInPage(),
     );
@@ -366,7 +367,7 @@ class DebugMenuRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const DebugMenuPage(),
     );
@@ -379,7 +380,7 @@ class DebugSharedPreferencesEditorRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: const SharedPreferencesEditorPage(),
     );
@@ -392,7 +393,7 @@ class DebugDriftDbViewerRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _buildTransitionPage(
+    return buildTransitionedPage(
       context: context,
       child: Consumer(
         builder: (context, ref, _) {
@@ -403,25 +404,4 @@ class DebugDriftDbViewerRoute extends GoRouteData {
       ),
     );
   }
-}
-
-Page _buildTransitionPage({
-  required BuildContext context,
-  required Widget child,
-}) {
-  return switch (Theme.of(context).platform) {
-    TargetPlatform.iOS || TargetPlatform.macOS => CupertinoPage(child: child),
-    _ => CustomTransitionPage(
-        child: child,
-        barrierColor: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return SharedAxisTransition(
-            transitionType: SharedAxisTransitionType.horizontal,
-            animation: animation,
-            secondaryAnimation: secondaryAnimation,
-            child: child,
-          );
-        },
-      )
-  };
 }
