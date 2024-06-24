@@ -17,6 +17,7 @@ import "pages/database/materials/material_details.dart";
 import "pages/database/materials/material_list.dart";
 import "pages/database/weapons/weapon_details.dart";
 import "pages/database/weapons/weapon_list.dart";
+import "pages/debug/component_gallery.dart";
 import "pages/debug/debug.dart";
 import "pages/debug/sp_editor.dart";
 import "pages/home.dart";
@@ -402,6 +403,19 @@ class DebugDriftDbViewerRoute extends GoRouteData {
           );
         },
       ),
+    );
+  }
+}
+
+@immutable
+class DebugComponentGalleryRoute extends GoRouteData {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: const ComponentGalleryPage(),
     );
   }
 }
