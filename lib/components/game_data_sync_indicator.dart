@@ -7,7 +7,7 @@ class GameDataSyncIndicator extends HookWidget {
   final bool show;
   final String? message;
 
-  final _height = 32.0;
+  final _height = 40.0;
 
   const GameDataSyncIndicator({super.key, required this.show, this.message});
 
@@ -18,6 +18,7 @@ class GameDataSyncIndicator extends HookWidget {
 
     useValueChanged<bool, void>(show, (oldValue, _) {
       if (oldValue && message != null) {
+        visibleIndicator.value = false;
         Future.delayed(const Duration(milliseconds: 1500), () {
           showIndicator.value = false;
         });
@@ -39,29 +40,37 @@ class GameDataSyncIndicator extends HookWidget {
           opacity: value,
           child: SizedBox(
             height: value * _height,
-            child: ClipRect(
-              child: OverflowBox(
-                alignment: Alignment.topCenter,
-                maxHeight: _height,
-                child: child,
-              ),
-            ),
+            child: child,
           ),
         );
       },
       onEnd: () {
         visibleIndicator.value = showIndicator.value;
       },
-      child: Visibility(
-        visible: visibleIndicator.value,
-        child: Column(
-          children: [
-            const LinearProgressIndicator(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text(show || message == null ? tr.hoyolab.charaDataSyncInProgress : message!),
-            ),
-          ],
+      child: ClipRect(
+        child: OverflowBox(
+          alignment: Alignment.topCenter,
+          maxHeight: _height,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 4,
+                child: Visibility(
+                  visible: visibleIndicator.value,
+                  child: const LinearProgressIndicator(),
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    child: Text(show || message == null ? tr.hoyolab.charaDataSyncInProgress : message!),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
