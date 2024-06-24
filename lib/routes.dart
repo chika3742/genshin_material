@@ -1,7 +1,9 @@
 import "package:animations/animations.dart";
+import "package:drift_db_viewer/drift_db_viewer.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "main.dart";
 import "pages/account.dart";
@@ -26,6 +28,7 @@ import "pages/release_notes.dart";
 import "pages/settings.dart";
 import "pages/tools/resin_calc.dart";
 import "pages/tools/tools.dart";
+import "providers/database_provider.dart";
 
 part "routes.g.dart";
 
@@ -97,6 +100,7 @@ part "routes.g.dart";
             ],),
             TypedGoRoute<DebugMenuRoute>(path: "debug", routes: [
               TypedGoRoute<DebugSharedPreferencesEditorRoute>(path: "sp-editor"),
+              TypedGoRoute<DebugDriftDbViewerRoute>(path: "drift-db-viewer"),
             ],),
           ],
         ),
@@ -378,6 +382,25 @@ class DebugSharedPreferencesEditorRoute extends GoRouteData {
     return _buildTransitionPage(
       context: context,
       child: const SharedPreferencesEditorPage(),
+    );
+  }
+}
+
+@immutable
+class DebugDriftDbViewerRoute extends GoRouteData {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: Consumer(
+        builder: (context, ref, _) {
+          return DriftDbViewer(
+            ref.watch(appDatabaseProvider),
+          );
+        },
+      ),
     );
   }
 }

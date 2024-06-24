@@ -55,6 +55,7 @@ dependencies:
   sqlite3: any
   webview_flutter: ^4.8.0
   crypto: ^3.0.3
+  drift_db_viewer: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -140,6 +140,12 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                       factory: $DebugSharedPreferencesEditorRouteExtension
                           ._fromState,
                     ),
+                    GoRouteData.$route(
+                      path: 'drift-db-viewer',
+                      parentNavigatorKey:
+                          DebugDriftDbViewerRoute.$parentNavigatorKey,
+                      factory: $DebugDriftDbViewerRouteExtension._fromState,
+                    ),
                   ],
                 ),
               ],
@@ -526,6 +532,24 @@ extension $DebugSharedPreferencesEditorRouteExtension
 
   String get location => GoRouteData.$location(
         '/more/debug/sp-editor',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DebugDriftDbViewerRouteExtension on DebugDriftDbViewerRoute {
+  static DebugDriftDbViewerRoute _fromState(GoRouterState state) =>
+      DebugDriftDbViewerRoute();
+
+  String get location => GoRouteData.$location(
+        '/more/debug/drift-db-viewer',
       );
 
   void go(BuildContext context) => context.go(location);
