@@ -207,10 +207,13 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
 
     useEffect(
       () {
-        if (prefs.syncCharaState) {
-          syncGameData();
-        }
-        setDefaultSliderValues();
+        () async {
+          await setDefaultSliderValues();
+
+          if (prefs.syncCharaState && _rangeValues.values.any((e) => e.start != e.end)) {
+            syncGameData();
+          }
+        }();
         return null;
       },
       [],
