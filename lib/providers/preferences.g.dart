@@ -7,11 +7,11 @@ part of 'preferences.dart';
 // **************************************************************************
 
 String _$preferencesStateNotifierHash() =>
-    r'e235e627d735ac40a10eb80a46317de6c093562f';
+    r'c5e72d21ffa75a9e8a722fb0584e0c90aba249cb';
 
 /// See also [PreferencesStateNotifier].
 @ProviderFor(PreferencesStateNotifier)
-final preferencesStateNotifierProvider = AutoDisposeAsyncNotifierProvider<
+final preferencesStateNotifierProvider = AutoDisposeNotifierProvider<
     PreferencesStateNotifier, PreferencesState>.internal(
   PreferencesStateNotifier.new,
   name: r'preferencesStateNotifierProvider',
@@ -22,6 +22,6 @@ final preferencesStateNotifierProvider = AutoDisposeAsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$PreferencesStateNotifier = AutoDisposeAsyncNotifier<PreferencesState>;
+typedef _$PreferencesStateNotifier = AutoDisposeNotifier<PreferencesState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

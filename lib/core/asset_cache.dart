@@ -112,7 +112,7 @@ class AssetData with _$AssetData {
     required Map<WeaponId, Weapon> weapons,
     required WeaponIngredients weaponIngredients,
     required Map<WeaponSubStat, LocalizedText> weaponSubStats,
-    required Map<WeaponType, LocalizedText> weaponTypes,
+    required Map<WeaponType, WeaponTypeInfo> weaponTypes,
     required Map<TeyvatElement, Element> elements,
     required Map<MaterialId, Material> materials,
     required Map<MaterialCategoryType, LocalizedText> materialCategories,

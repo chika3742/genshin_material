@@ -472,16 +472,219 @@ class MaterialBookmarkCompanion extends UpdateCompanion<MaterialBookmarkData> {
   }
 }
 
+class $CharacterLevelInfoTable extends CharacterLevelInfo
+    with TableInfo<$CharacterLevelInfoTable, CharacterLevelInfoData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CharacterLevelInfoTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _characterIdMeta =
+      const VerificationMeta('characterId');
+  @override
+  late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
+      'character_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _purposesMeta =
+      const VerificationMeta('purposes');
+  @override
+  late final GeneratedColumnWithTypeConverter<Map<Purpose, int>, String>
+      purposes = GeneratedColumn<String>('purposes', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<Map<Purpose, int>>(
+              $CharacterLevelInfoTable.$converterpurposes);
+  @override
+  List<GeneratedColumn> get $columns => [characterId, purposes];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'character_level_info';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<CharacterLevelInfoData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('character_id')) {
+      context.handle(
+          _characterIdMeta,
+          characterId.isAcceptableOrUnknown(
+              data['character_id']!, _characterIdMeta));
+    } else if (isInserting) {
+      context.missing(_characterIdMeta);
+    }
+    context.handle(_purposesMeta, const VerificationResult.success());
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {characterId};
+  @override
+  CharacterLevelInfoData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CharacterLevelInfoData(
+      characterId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}character_id'])!,
+      purposes: $CharacterLevelInfoTable.$converterpurposes.fromSql(
+          attachedDatabase.typeMapping
+              .read(DriftSqlType.string, data['${effectivePrefix}purposes'])!),
+    );
+  }
+
+  @override
+  $CharacterLevelInfoTable createAlias(String alias) {
+    return $CharacterLevelInfoTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<Map<Purpose, int>, String> $converterpurposes =
+      const PurposeMapConverter();
+}
+
+class CharacterLevelInfoData extends DataClass
+    implements Insertable<CharacterLevelInfoData> {
+  final String characterId;
+  final Map<Purpose, int> purposes;
+  const CharacterLevelInfoData(
+      {required this.characterId, required this.purposes});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['character_id'] = Variable<String>(characterId);
+    {
+      map['purposes'] = Variable<String>(
+          $CharacterLevelInfoTable.$converterpurposes.toSql(purposes));
+    }
+    return map;
+  }
+
+  CharacterLevelInfoCompanion toCompanion(bool nullToAbsent) {
+    return CharacterLevelInfoCompanion(
+      characterId: Value(characterId),
+      purposes: Value(purposes),
+    );
+  }
+
+  factory CharacterLevelInfoData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CharacterLevelInfoData(
+      characterId: serializer.fromJson<String>(json['characterId']),
+      purposes: serializer.fromJson<Map<Purpose, int>>(json['purposes']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'characterId': serializer.toJson<String>(characterId),
+      'purposes': serializer.toJson<Map<Purpose, int>>(purposes),
+    };
+  }
+
+  CharacterLevelInfoData copyWith(
+          {String? characterId, Map<Purpose, int>? purposes}) =>
+      CharacterLevelInfoData(
+        characterId: characterId ?? this.characterId,
+        purposes: purposes ?? this.purposes,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('CharacterLevelInfoData(')
+          ..write('characterId: $characterId, ')
+          ..write('purposes: $purposes')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(characterId, purposes);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CharacterLevelInfoData &&
+          other.characterId == this.characterId &&
+          other.purposes == this.purposes);
+}
+
+class CharacterLevelInfoCompanion
+    extends UpdateCompanion<CharacterLevelInfoData> {
+  final Value<String> characterId;
+  final Value<Map<Purpose, int>> purposes;
+  final Value<int> rowid;
+  const CharacterLevelInfoCompanion({
+    this.characterId = const Value.absent(),
+    this.purposes = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CharacterLevelInfoCompanion.insert({
+    required String characterId,
+    required Map<Purpose, int> purposes,
+    this.rowid = const Value.absent(),
+  })  : characterId = Value(characterId),
+        purposes = Value(purposes);
+  static Insertable<CharacterLevelInfoData> custom({
+    Expression<String>? characterId,
+    Expression<String>? purposes,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (characterId != null) 'character_id': characterId,
+      if (purposes != null) 'purposes': purposes,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CharacterLevelInfoCompanion copyWith(
+      {Value<String>? characterId,
+      Value<Map<Purpose, int>>? purposes,
+      Value<int>? rowid}) {
+    return CharacterLevelInfoCompanion(
+      characterId: characterId ?? this.characterId,
+      purposes: purposes ?? this.purposes,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (characterId.present) {
+      map['character_id'] = Variable<String>(characterId.value);
+    }
+    if (purposes.present) {
+      map['purposes'] = Variable<String>(
+          $CharacterLevelInfoTable.$converterpurposes.toSql(purposes.value));
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CharacterLevelInfoCompanion(')
+          ..write('characterId: $characterId, ')
+          ..write('purposes: $purposes, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   _$AppDatabaseManager get managers => _$AppDatabaseManager(this);
   late final $MaterialBookmarkTable materialBookmark =
       $MaterialBookmarkTable(this);
+  late final $CharacterLevelInfoTable characterLevelInfo =
+      $CharacterLevelInfoTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [materialBookmark];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [materialBookmark, characterLevelInfo];
 }
 
 typedef $$MaterialBookmarkTableInsertCompanionBuilder
@@ -692,9 +895,110 @@ class $$MaterialBookmarkTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
+typedef $$CharacterLevelInfoTableInsertCompanionBuilder
+    = CharacterLevelInfoCompanion Function({
+  required String characterId,
+  required Map<Purpose, int> purposes,
+  Value<int> rowid,
+});
+typedef $$CharacterLevelInfoTableUpdateCompanionBuilder
+    = CharacterLevelInfoCompanion Function({
+  Value<String> characterId,
+  Value<Map<Purpose, int>> purposes,
+  Value<int> rowid,
+});
+
+class $$CharacterLevelInfoTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $CharacterLevelInfoTable,
+    CharacterLevelInfoData,
+    $$CharacterLevelInfoTableFilterComposer,
+    $$CharacterLevelInfoTableOrderingComposer,
+    $$CharacterLevelInfoTableProcessedTableManager,
+    $$CharacterLevelInfoTableInsertCompanionBuilder,
+    $$CharacterLevelInfoTableUpdateCompanionBuilder> {
+  $$CharacterLevelInfoTableTableManager(
+      _$AppDatabase db, $CharacterLevelInfoTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$CharacterLevelInfoTableFilterComposer(ComposerState(db, table)),
+          orderingComposer: $$CharacterLevelInfoTableOrderingComposer(
+              ComposerState(db, table)),
+          getChildManagerBuilder: (p) =>
+              $$CharacterLevelInfoTableProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<String> characterId = const Value.absent(),
+            Value<Map<Purpose, int>> purposes = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CharacterLevelInfoCompanion(
+            characterId: characterId,
+            purposes: purposes,
+            rowid: rowid,
+          ),
+          getInsertCompanionBuilder: ({
+            required String characterId,
+            required Map<Purpose, int> purposes,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CharacterLevelInfoCompanion.insert(
+            characterId: characterId,
+            purposes: purposes,
+            rowid: rowid,
+          ),
+        ));
+}
+
+class $$CharacterLevelInfoTableProcessedTableManager
+    extends ProcessedTableManager<
+        _$AppDatabase,
+        $CharacterLevelInfoTable,
+        CharacterLevelInfoData,
+        $$CharacterLevelInfoTableFilterComposer,
+        $$CharacterLevelInfoTableOrderingComposer,
+        $$CharacterLevelInfoTableProcessedTableManager,
+        $$CharacterLevelInfoTableInsertCompanionBuilder,
+        $$CharacterLevelInfoTableUpdateCompanionBuilder> {
+  $$CharacterLevelInfoTableProcessedTableManager(super.$state);
+}
+
+class $$CharacterLevelInfoTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $CharacterLevelInfoTable> {
+  $$CharacterLevelInfoTableFilterComposer(super.$state);
+  ColumnFilters<String> get characterId => $state.composableBuilder(
+      column: $state.table.characterId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnWithTypeConverterFilters<Map<Purpose, int>, Map<Purpose, int>, String>
+      get purposes => $state.composableBuilder(
+          column: $state.table.purposes,
+          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
+              column,
+              joinBuilders: joinBuilders));
+}
+
+class $$CharacterLevelInfoTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $CharacterLevelInfoTable> {
+  $$CharacterLevelInfoTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get characterId => $state.composableBuilder(
+      column: $state.table.characterId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get purposes => $state.composableBuilder(
+      column: $state.table.purposes,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
 class _$AppDatabaseManager {
   final _$AppDatabase _db;
   _$AppDatabaseManager(this._db);
   $$MaterialBookmarkTableTableManager get materialBookmark =>
       $$MaterialBookmarkTableTableManager(_db, _db.materialBookmark);
+  $$CharacterLevelInfoTableTableManager get characterLevelInfo =>
+      $$CharacterLevelInfoTableTableManager(_db, _db.characterLevelInfo);
 }

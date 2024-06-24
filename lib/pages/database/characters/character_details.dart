@@ -1,8 +1,13 @@
+import "dart:developer";
+
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../../../components/center_text.dart";
 import "../../../components/data_asset_scope.dart";
+import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/labeled_check_box.dart";
 import "../../../components/layout.dart";
@@ -10,11 +15,15 @@ import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
+import "../../../core/hoyolab_api.dart";
 import "../../../database.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
 import "../../../models/material_bookmark_frame.dart";
+import "../../../providers/database_provider.dart";
+import "../../../providers/preferences.dart";
+import "../../../ui_core/snack_bar.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
 
@@ -47,7 +56,7 @@ class CharacterDetailsPage extends StatelessWidget {
 }
 
 /// Ensure that this widget is within a [DataAssetScope].
-class CharacterDetailsPageContents extends StatefulWidget {
+class CharacterDetailsPageContents extends StatefulHookConsumerWidget {
   final CharacterWithSmallImage character;
   final AssetData assetData;
   final String assetDir;
@@ -60,10 +69,10 @@ class CharacterDetailsPageContents extends StatefulWidget {
   });
 
   @override
-  State<CharacterDetailsPageContents> createState() => _CharacterDetailsPageContentsState();
+  ConsumerState<CharacterDetailsPageContents> createState() => _CharacterDetailsPageContentsState();
 }
 
-class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageContents> {
+class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsPageContents> {
   final Map<Purpose, LevelRangeValues> _rangeValues = {};
   final Map<Purpose, List<int>> _sliderTickLabels = {};
   final Map<Purpose, bool> _checkedTalentTypes = {};
@@ -91,6 +100,115 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
     final character = widget.character;
     final ingredients = assetData.characterIngredients;
 
+    final isHoyolabSyncInProgress = useState(false);
+    final sliderRangeInitialized = useState(false);
+    final progressIndicatorMessage = useState<String?>(null);
+
+    final prefs = ref.watch(preferencesStateNotifierProvider);
+
+    Future<void> syncGameData() async {
+      if (!prefs.isLinkedWithHoyolab) {
+        return;
+      }
+
+      isHoyolabSyncInProgress.value = true;
+      progressIndicatorMessage.value = null;
+      try {
+        final api = HoyolabApi(cookie: prefs.hyvCookie, uid: prefs.hyvUid, region: prefs.hyvServer);
+
+        final elements = assetData.elements;
+        final weaponTypes = assetData.weaponTypes;
+
+        final charaInfo = await HoyolabApiUtils.loopUntilCharacter(
+          (character as ListedCharacter).hyvId, // TODO: Traveler
+              (page) {
+            return api.avatarList(
+              page,
+              elementIds: [elements[character.element]!.hyvId],
+              weaponCatIds: [weaponTypes[character.weaponType]!.hyvId],
+            );
+          },
+        );
+        if (charaInfo != null) {
+          setState(() {
+            _rangeValues[Purpose.ascension] = LevelRangeValues(
+              _sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
+              charaInfo.maxLevel,
+            );
+          });
+        }
+
+        final charaDetail = await api.avatarDetail(character.hyvId);
+
+        final skills = charaDetail.skills.where((element) => element.maxLevel != 1);
+        skills.forEachIndexed((index, element) {
+          final purpose = switch (index) {
+            0 => Purpose.normalAttack,
+            1 => Purpose.elementalSkill,
+            2 => Purpose.elementalBurst,
+            _ => throw "Invalid talent index",
+          };
+          setState(() {
+            _rangeValues[purpose] = LevelRangeValues(element.currentLevel, element.maxLevel);
+            _checkedTalentTypes[purpose] = element.currentLevel != element.maxLevel;
+          });
+        });
+
+        final db = ref.read(appDatabaseProvider);
+        await db.setCharacterLevels(
+          character.id,
+          _rangeValues.map((key, value) => MapEntry(key, value.start)),
+        );
+      } on HoyolabApiException catch (e, st) {
+        if (e.retcode == Retcode.characterDoesNotExist) {
+          progressIndicatorMessage.value = tr.hoyolab.characterDoesNotExist;
+        } else {
+          log("Failed to fetch character detail", error: e, stackTrace: st);
+          if (context.mounted) {
+            showSnackBar(
+              context: context,
+              message: e.getMessage(tr.hoyolab.failedToSyncGameData),
+              error: true,
+            );
+          }
+        }
+      } catch (e, st) {
+        log("Failed to fetch character detail", error: e, stackTrace: st);
+        if (context.mounted) showSnackBar(context: context, message: tr.hoyolab.failedToSyncGameData, error: true);
+      } finally {
+        isHoyolabSyncInProgress.value = false;
+      }
+    }
+
+    Future<void> setDefaultSliderValues() async {
+      try {
+        final db = ref.read(appDatabaseProvider);
+        final levels = await db.getCharacterLevels(character.id);
+        if (levels != null) {
+          _rangeValues.addAll(levels.map((key, value) =>
+              MapEntry(key, LevelRangeValues(value, _rangeValues[key]!.end)),),);
+          _checkedTalentTypes.addAll(levels.map((key, value) =>
+              MapEntry(key, value != _rangeValues[key]!.end),),);
+          setState(() {});
+        }
+      } catch (e, st) {
+        log("Failed to load character level cache", error: e, stackTrace: st);
+      } finally {
+        sliderRangeInitialized.value = true;
+      }
+    }
+
+    useEffect(
+      () {
+        if (prefs.syncCharaState) {
+          syncGameData();
+        }
+        setDefaultSliderValues();
+        return null;
+      },
+      [],
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -99,172 +217,189 @@ class _CharacterDetailsPageContentsState extends State<CharacterDetailsPageConte
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: GappedColumn(
-            gap: 16,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // character information
-              GameItemInfoBox(
-                itemImage: Image.file(
-                  character.getSmallImageFile(assetDir),
-                  width: 70,
-                  height: 70,
-                ),
+      body: sliderRangeInitialized.value ? Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GappedColumn(
+                gap: 16,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // rarity
-                  RarityStars(count: character.rarity),
-                  // element
-                  Row(
+                  // character information
+                  GameItemInfoBox(
+                    itemImage: Image.file(
+                      character.getSmallImageFile(assetDir),
+                      width: 70,
+                      height: 70,
+                    ),
                     children: [
-                      Image.file(
-                        assetData.elements[character.element]!.getImageFile(assetDir),
-                        width: 26,
-                        height: 26,
-                        color: Theme.of(context).colorScheme.onSurface,
+                      // rarity
+                      RarityStars(count: character.rarity),
+                      // element
+                      Row(
+                        children: [
+                          Image.file(
+                            assetData.elements[character.element]!.getImageFile(assetDir),
+                            width: 26,
+                            height: 26,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          Text(assetData.elements[character.element]!.text.localized),
+                        ],
                       ),
-                      Text(assetData.elements[character.element]!.text.localized),
+                      // weapon type
+                      Text(assetData.weaponTypes[character.weaponType]!.name.localized),
                     ],
                   ),
-                  // weapon type
-                  Text(assetData.weaponTypes[character.weaponType]!.localized),
-                ],
-              ),
-              GappedColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    tr.characterDetailsPage.charaLevelUpAndAscensionMaterials,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Card(
-                    margin: EdgeInsets.zero,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: LevelSlider(
-                        levels: _sliderTickLabels[Purpose.ascension]!,
-                        values: _rangeValues[Purpose.ascension]!,
-                        onChanged: (values) {
-                          // avoid overlapping slider handles
-                          if (values.start == values.end) {
-                            return;
-                          }
-
-                          setState(() {
-                            _rangeValues[Purpose.ascension] = values;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  Wrap(
-                    children: _buildAscensionMaterialCards(),
-                  ),
-                ],
-              ),
-              GappedColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    tr.characterDetailsPage.talentLevelUpMaterials,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Column(
+                  GappedColumn(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      for (final purpose in ingredients.purposes.keys
-                          .whereNot((e) => e == Purpose.ascension))
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                LabeledCheckBox(
-                                  value: _checkedTalentTypes[purpose]!,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _checkedTalentTypes[purpose] = value!;
-                                    });
+                      Text(
+                        tr.characterDetailsPage.charaLevelUpAndAscensionMaterials,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Card(
+                        margin: EdgeInsets.zero,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: LevelSlider(
+                            levels: _sliderTickLabels[Purpose.ascension]!,
+                            values: _rangeValues[Purpose.ascension]!,
+                            onChanged: (values) {
+                              // avoid overlapping slider handles
+                              if (values.start == values.end) {
+                                return;
+                              }
 
-                                    // scroll to the talent materials section on checkbox checked
-                                    if (value == true) {
-                                      Future.delayed(const Duration(milliseconds: 200), () {
-                                        Scrollable.ensureVisible(
-                                          _talentSectionKeys[purpose]!.currentContext!,
-                                          duration: const Duration(milliseconds: 300),
-                                          curve: Curves.easeOutQuint,
-                                          alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
-                                        );
-                                      });
-                                    }
-                                  },
-                                  child: Text.rich( // checkbox label
-                                    TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: tr.talentTypes[purpose.name]!,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                          ),
-                                        ),
-                                        const TextSpan(text: "  "),
-                                        TextSpan(
-                                          text: character
-                                              .talents[purpose.name]!
-                                              .localized,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                AnimatedCrossFade( // talent level slider with size animation
-                                  duration: const Duration(milliseconds: 300),
-                                  crossFadeState: _checkedTalentTypes[purpose]!
-                                      ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                                  firstCurve: Curves.easeOutQuint,
-                                  secondCurve: Curves.easeOutQuint,
-                                  sizeCurve: Curves.easeOutQuint,
-                                  firstChild: Container(),
-                                  secondChild: Column(
-                                    children: [
-                                      const SizedBox(height: 8),
-                                      LevelSlider(
-                                        key: _talentSectionKeys[purpose] ??= GlobalKey(),
-                                        levels: _sliderTickLabels[purpose]!,
-                                        values: _rangeValues[purpose]!,
-                                        onChanged: (values) {
-                                          if (values.start == values.end) {
-                                            return;
-                                          }
-
-                                          setState(() {
-                                            _rangeValues[purpose] = values;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                              setState(() {
+                                _rangeValues[Purpose.ascension] = values;
+                              });
+                            },
                           ),
                         ),
+                      ),
                       Wrap(
-                        children: _buildTalentMaterialCards(),
+                        children: _buildAscensionMaterialCards(),
+                      ),
+                    ],
+                  ),
+                  GappedColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tr.characterDetailsPage.talentLevelUpMaterials,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (final purpose in ingredients.purposes.keys
+                              .whereNot((e) => e == Purpose.ascension))
+                            Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    LabeledCheckBox(
+                                      value: _checkedTalentTypes[purpose]!,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _checkedTalentTypes[purpose] = value!;
+                                        });
+
+                                        // scroll to the talent materials section on checkbox checked
+                                        if (value == true) {
+                                          Future.delayed(const Duration(milliseconds: 200), () {
+                                            Scrollable.ensureVisible(
+                                              _talentSectionKeys[purpose]!.currentContext!,
+                                              duration: const Duration(milliseconds: 300),
+                                              curve: Curves.easeOutQuint,
+                                              alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+                                            );
+                                          });
+                                        }
+                                      },
+                                      child: Text.rich( // checkbox label
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: tr.talentTypes[purpose.name]!,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                            ),
+                                            const TextSpan(text: "  "),
+                                            TextSpan(
+                                              text: character
+                                                  .talents[purpose.name]!
+                                                  .localized,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    AnimatedCrossFade( // talent level slider with size animation
+                                      duration: const Duration(milliseconds: 300),
+                                      crossFadeState: _checkedTalentTypes[purpose]!
+                                          ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                                      firstCurve: Curves.easeOutQuint,
+                                      secondCurve: Curves.easeOutQuint,
+                                      sizeCurve: Curves.easeOutQuint,
+                                      firstChild: Container(),
+                                      secondChild: Column(
+                                        children: [
+                                          const SizedBox(height: 8),
+                                          LevelSlider(
+                                            key: _talentSectionKeys[purpose] ??= GlobalKey(),
+                                            levels: _sliderTickLabels[purpose]!,
+                                            values: _rangeValues[purpose]!,
+                                            onChanged: (values) {
+                                              if (values.start == values.end) {
+                                                return;
+                                              }
+
+                                              setState(() {
+                                                _rangeValues[purpose] = values;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          Wrap(
+                            children: _buildTalentMaterialCards(),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+          Positioned(
+            left: 0,
+            right: 0,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.7),
+              ),
+              child: GameDataSyncIndicator(
+                show: isHoyolabSyncInProgress.value,
+                message: progressIndicatorMessage.value,
+              ),
+            ),
+          ),
+        ],
+      ) : const SizedBox(),
     );
   }
 

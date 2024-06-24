@@ -1,23 +1,51 @@
 import "package:shared_preferences/shared_preferences.dart";
 
 class KvPreferences {
-  final SharedPreferences instance;
+  final SharedPreferences sp;
 
-  KvPreferences(this.instance);
+  KvPreferences(this.sp);
 
-  int get resin => instance.getInt("resin") ?? 0;
+  int? get resin => sp.getInt("resin");
+  Future<void> setResin(int? value) => value != null
+      ? sp.setInt("resin", value)
+      : sp.remove("resin");
 
-  static Future<void> setResin(int resin) => SharedPreferences.getInstance()
-      .then((prefs) => prefs.setInt("resin", resin));
+  DateTime? get resinBaseTime {
+    final value = sp.getString("resinBaseTime");
+    return value != null ? DateTime.tryParse(value) : null;
+  }
+  Future<void> setResinBaseTime(DateTime? value) => value != null
+      ? sp.setString("resinBaseTime", value.toIso8601String())
+      : sp.remove("resinBaseTime");
 
+  String? get hyvCookie => sp.getString("hyvCookie");
+  Future<void> setHyvCookie(String? value) => value != null
+      ? sp.setString("hyvCookie", value)
+      : sp.remove("hyvCookie");
 
-  DateTime get resinBaseTime =>
-      DateTime.parse(
-        instance.getString("resinBaseTime") ?? DateTime.now().toIso8601String(),
-      );
+  String? get hyvServer => sp.getString("hyvServer");
+  Future<void> setHyvServer(String? value) => value != null
+      ? sp.setString("hyvServer", value)
+      : sp.remove("hyvServer");
 
-  static Future<void> setResinBaseTime(DateTime resinBaseTime) =>
-      SharedPreferences.getInstance().then(
-        (prefs) => prefs.setString("resinBaseTime", resinBaseTime.toIso8601String()),
-      );
+  String? get hyvServerName => sp.getString("hyvServerName");
+  Future<void> setHyvServerName(String? value) => value != null
+      ? sp.setString("hyvServerName", value)
+      : sp.remove("hyvServerName");
+
+  String? get hyvUserName => sp.getString("hyvUserName");
+  Future<void> setHyvUserName(String? value) => value != null
+      ? sp.setString("hyvUserName", value)
+      : sp.remove("hyvUserName");
+
+  String? get hyvUid => sp.getString("hyvUid");
+  Future<void> setHyvUid(String? value) => value != null
+      ? sp.setString("hyvUid", value)
+      : sp.remove("hyvUid");
+
+  bool get syncResin => sp.getBool("syncResin") ?? true;
+  Future<void> setSyncResin(bool value) => sp.setBool("syncResin", value);
+
+  bool get syncCharaState => sp.getBool("syncCharaState") ?? true;
+  Future<void> setSyncCharaState(bool value) => sp.setBool("syncCharaState", value);
 }

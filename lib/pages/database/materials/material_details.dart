@@ -77,7 +77,7 @@ class MaterialDetailsPage extends StatelessWidget {
                     SectionHeading(tr.materialDetailsPage.weaponsUsing),
                     for (final weaponTypes in weaponsUseMaterial.groupListsBy((w) => w.type).entries)
                       ...[
-                        SectionInnerHeading(assetData.weaponTypes[weaponTypes.key]!.localized),
+                        SectionInnerHeading(assetData.weaponTypes[weaponTypes.key]!.name.localized),
                         Column(
                           children: [
                             for (final weapon in weaponTypes.value)

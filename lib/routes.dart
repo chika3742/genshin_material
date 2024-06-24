@@ -19,6 +19,8 @@ import "pages/database/weapons/weapon_list.dart";
 import "pages/debug/debug.dart";
 import "pages/debug/sp_editor.dart";
 import "pages/home.dart";
+import "pages/hoyolab_integration/hoyolab_integration_settings.dart";
+import "pages/hoyolab_integration/hoyolab_sign_in.dart";
 import "pages/more.dart";
 import "pages/release_notes.dart";
 import "pages/settings.dart";
@@ -90,6 +92,9 @@ part "routes.g.dart";
             TypedGoRoute<SettingsRoute>(path: "settings"),
             TypedGoRoute<AccountRoute>(path: "account"),
             TypedGoRoute<ReleaseNotesRoute>(path: "release-notes"),
+            TypedGoRoute<HoyolabIntegrationSettingsRoute>(path: "hoyolab-integration", routes: [
+              TypedGoRoute<HoyolabSignInRoute>(path: "sign-in"),
+            ],),
             TypedGoRoute<DebugMenuRoute>(path: "debug", routes: [
               TypedGoRoute<DebugSharedPreferencesEditorRoute>(path: "sp-editor"),
             ],),
@@ -321,6 +326,32 @@ class ReleaseNotesRoute extends GoRouteData {
     return _buildTransitionPage(
       context: context,
       child: ReleaseNotesPage(initialTabIndex: tabIndex),
+    );
+  }
+}
+
+@immutable
+class HoyolabIntegrationSettingsRoute extends GoRouteData {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const HoyolabIntegrationSettingsPage(),
+    );
+  }
+}
+
+@immutable
+class HoyolabSignInRoute extends GoRouteData {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _buildTransitionPage(
+      context: context,
+      child: const HoyolabSignInPage(),
     );
   }
 }

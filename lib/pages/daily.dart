@@ -98,7 +98,7 @@ class _DailyPageState extends State<DailyPage> with TickerProviderStateMixin {
                               assetData.weapons.values,
                             ).toList().sortedDescendingByRarity().groupByType().entries) ...[
                               SectionHeading(
-                                assetData.weaponTypes[e.key]!.localized,
+                                assetData.weaponTypes[e.key]!.name.localized,
                                 indent: 8,
                               ),
                               for (final weapon in e.value)

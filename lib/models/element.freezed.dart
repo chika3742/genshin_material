@@ -20,6 +20,7 @@ Element _$ElementFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Element {
+  int get hyvId => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   LocalizedText get text => throw _privateConstructorUsedError;
 
@@ -33,7 +34,7 @@ abstract class $ElementCopyWith<$Res> {
   factory $ElementCopyWith(Element value, $Res Function(Element) then) =
       _$ElementCopyWithImpl<$Res, Element>;
   @useResult
-  $Res call({String imageUrl, LocalizedText text});
+  $Res call({int hyvId, String imageUrl, LocalizedText text});
 
   $LocalizedTextCopyWith<$Res> get text;
 }
@@ -51,10 +52,15 @@ class _$ElementCopyWithImpl<$Res, $Val extends Element>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? hyvId = null,
     Object? imageUrl = null,
     Object? text = null,
   }) {
     return _then(_value.copyWith(
+      hyvId: null == hyvId
+          ? _value.hyvId
+          : hyvId // ignore: cast_nullable_to_non_nullable
+              as int,
       imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -82,7 +88,7 @@ abstract class _$$ElementImplCopyWith<$Res> implements $ElementCopyWith<$Res> {
       __$$ElementImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String imageUrl, LocalizedText text});
+  $Res call({int hyvId, String imageUrl, LocalizedText text});
 
   @override
   $LocalizedTextCopyWith<$Res> get text;
@@ -99,10 +105,15 @@ class __$$ElementImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? hyvId = null,
     Object? imageUrl = null,
     Object? text = null,
   }) {
     return _then(_$ElementImpl(
+      hyvId: null == hyvId
+          ? _value.hyvId
+          : hyvId // ignore: cast_nullable_to_non_nullable
+              as int,
       imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -118,11 +129,15 @@ class __$$ElementImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ElementImpl extends _Element {
-  const _$ElementImpl({required this.imageUrl, required this.text}) : super._();
+  const _$ElementImpl(
+      {required this.hyvId, required this.imageUrl, required this.text})
+      : super._();
 
   factory _$ElementImpl.fromJson(Map<String, dynamic> json) =>
       _$$ElementImplFromJson(json);
 
+  @override
+  final int hyvId;
   @override
   final String imageUrl;
   @override
@@ -130,7 +145,7 @@ class _$ElementImpl extends _Element {
 
   @override
   String toString() {
-    return 'Element(imageUrl: $imageUrl, text: $text)';
+    return 'Element(hyvId: $hyvId, imageUrl: $imageUrl, text: $text)';
   }
 
   @override
@@ -138,6 +153,7 @@ class _$ElementImpl extends _Element {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ElementImpl &&
+            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.text, text) || other.text == text));
@@ -145,7 +161,7 @@ class _$ElementImpl extends _Element {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, imageUrl, text);
+  int get hashCode => Object.hash(runtimeType, hyvId, imageUrl, text);
 
   @JsonKey(ignore: true)
   @override
@@ -163,12 +179,15 @@ class _$ElementImpl extends _Element {
 
 abstract class _Element extends Element {
   const factory _Element(
-      {required final String imageUrl,
+      {required final int hyvId,
+      required final String imageUrl,
       required final LocalizedText text}) = _$ElementImpl;
   const _Element._() : super._();
 
   factory _Element.fromJson(Map<String, dynamic> json) = _$ElementImpl.fromJson;
 
+  @override
+  int get hyvId;
   @override
   String get imageUrl;
   @override

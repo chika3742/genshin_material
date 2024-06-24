@@ -115,6 +115,20 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                   factory: $ReleaseNotesRouteExtension._fromState,
                 ),
                 GoRouteData.$route(
+                  path: 'hoyolab-integration',
+                  parentNavigatorKey:
+                      HoyolabIntegrationSettingsRoute.$parentNavigatorKey,
+                  factory: $HoyolabIntegrationSettingsRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: 'sign-in',
+                      parentNavigatorKey:
+                          HoyolabSignInRoute.$parentNavigatorKey,
+                      factory: $HoyolabSignInRouteExtension._fromState,
+                    ),
+                  ],
+                ),
+                GoRouteData.$route(
                   path: 'debug',
                   parentNavigatorKey: DebugMenuRoute.$parentNavigatorKey,
                   factory: $DebugMenuRouteExtension._fromState,
@@ -439,6 +453,43 @@ extension $ReleaseNotesRouteExtension on ReleaseNotesRoute {
         queryParams: {
           if (tabIndex != 0) 'tab-index': tabIndex.toString(),
         },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $HoyolabIntegrationSettingsRouteExtension
+    on HoyolabIntegrationSettingsRoute {
+  static HoyolabIntegrationSettingsRoute _fromState(GoRouterState state) =>
+      HoyolabIntegrationSettingsRoute();
+
+  String get location => GoRouteData.$location(
+        '/more/hoyolab-integration',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $HoyolabSignInRouteExtension on HoyolabSignInRoute {
+  static HoyolabSignInRoute _fromState(GoRouterState state) =>
+      HoyolabSignInRoute();
+
+  String get location => GoRouteData.$location(
+        '/more/hoyolab-integration/sign-in',
       );
 
   void go(BuildContext context) => context.go(location);

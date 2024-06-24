@@ -1,3 +1,4 @@
+import "dart:convert";
 import "dart:io";
 
 import "package:drift/drift.dart";
@@ -33,7 +34,30 @@ enum MaterialBookmarkType {
   weapon,
 }
 
-@DriftDatabase(tables: [MaterialBookmark])
+class CharacterLevelInfo extends Table {
+  TextColumn get characterId => text()();
+  TextColumn get purposes => text().map(const PurposeMapConverter())();
+
+  @override
+  Set<Column> get primaryKey => {characterId};
+}
+
+class PurposeMapConverter extends TypeConverter<Map<Purpose, int>, String> {
+  const PurposeMapConverter();
+
+  @override
+  Map<Purpose, int> fromSql(String fromDb) {
+    final decoded = jsonDecode(fromDb) as Map<String, dynamic>;
+    return decoded.map((key, value) => MapEntry(Purpose.values.firstWhere((e) => e.name == key), value));
+  }
+
+  @override
+  String toSql(Map<Purpose, int> value) {
+    return jsonEncode(value.map((key, value) => MapEntry(key.name, value)));
+  }
+}
+
+@DriftDatabase(tables: [MaterialBookmark, CharacterLevelInfo])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
@@ -71,6 +95,20 @@ class AppDatabase extends _$AppDatabase {
     return batch((batch) {
       batch.deleteWhere(materialBookmark, (tbl) => tbl.id.isIn(ids));
     });
+  }
+
+  Future<int> setCharacterLevels(String characterId, Map<Purpose, int> purposes) async {
+    return await into(characterLevelInfo).insertOnConflictUpdate(
+      CharacterLevelInfoCompanion.insert(
+        characterId: characterId,
+        purposes: purposes,
+      ),
+    );
+  }
+
+  Future<Map<Purpose, int>?> getCharacterLevels(String characterId) async {
+    final info = await (select(characterLevelInfo)..where((tbl) => tbl.characterId.equals(characterId))).getSingleOrNull();
+    return info?.purposes;
   }
 }
 

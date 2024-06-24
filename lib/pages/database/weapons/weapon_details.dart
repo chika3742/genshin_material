@@ -100,7 +100,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
               children: [
                 RarityStars(count: weapon.rarity),
                 Text(
-                  assetData.weaponTypes[weapon.type]!.localized,
+                  assetData.weaponTypes[weapon.type]!.name.localized,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ],

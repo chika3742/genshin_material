@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 151 (75 per locale)
+/// Strings: 234 (117 per locale)
 ///
-/// Built on 2024-05-31 at 03:32 UTC
+/// Built on 2024-06-23 at 16:11 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -168,6 +168,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsMorePageJa morePage = _StringsMorePageJa._(_root);
 	late final _StringsReleaseNotesPageJa releaseNotesPage = _StringsReleaseNotesPageJa._(_root);
 	late final _StringsSettingsPageJa settingsPage = _StringsSettingsPageJa._(_root);
+	late final _StringsHoyolabJa hoyolab = _StringsHoyolabJa._(_root);
 	Map<String, String> get whereToGet => {
 		'chests': '宝箱、任務報酬など',
 	};
@@ -180,6 +181,9 @@ class _StringsCommonJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	String get ok => 'OK';
+	String get cancel => 'キャンセル';
+	String get signOut => 'サインアウト';
 	String get tos => '利用規約';
 	String get privacyPolicy => 'プライバシーポリシー';
 	String get error => 'エラーが発生しました。';
@@ -188,6 +192,12 @@ class _StringsCommonJa {
 	String get index => '目次';
 	String get expandAll => '全て展開';
 	String get collapseAll => '全て折りたたむ';
+	String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+		other: '${n}分',
+	);
+	String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+		other: '${n}時間',
+	);
 }
 
 // Path: updates
@@ -241,6 +251,7 @@ class _StringsPagesJa {
 	String get resinCalc => '樹脂回復時刻計算機';
 	String get wishes => '祈願天井カウンター';
 	String get more => 'その他';
+	String get hoyolabIntegrationSettings => 'HoYoLAB連携設定';
 }
 
 // Path: characterDetailsPage
@@ -336,15 +347,12 @@ class _StringsResinCalcPageJa {
 	// Translations
 	String get currentResin => '現在の樹脂数';
 	String get baseTime => '入力した時刻';
-	String get fullyReplenishedBy => '全回復する時刻';
-	String get untilFull => '全回復まであと';
+	String get fullRecoveryTime => '全回復する時刻';
+	String get recoveredTime => '全回復した時刻';
+	String get untilFullRecovery => '全回復まであと';
 	String get wastedResin => '無駄にした樹脂';
-	String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-		other: '${n}時間',
-	);
-	String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-		other: '${n}分',
-	);
+	String get tomorrow => '明日';
+	String get alreadyFull => 'すでに全回復しました';
 }
 
 // Path: morePage
@@ -355,6 +363,7 @@ class _StringsMorePageJa {
 
 	// Translations
 	String get accountDesc => 'ブックマーク等をデバイス間で同期できます。';
+	String get hoyolabIntegrationSettingsDesc => 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
 }
 
 // Path: releaseNotesPage
@@ -378,6 +387,46 @@ class _StringsSettingsPageJa {
 	String get assetData => 'アセットデータ';
 	String get reDownloadAssets => 'アセットデータを再ダウンロード';
 	String get reDownloadAssetsDesc => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
+}
+
+// Path: hoyolab
+class _StringsHoyolabJa {
+	_StringsHoyolabJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get signIn => 'HoYoLABにサインイン';
+	String get signOut => 'HoYoLABとの連携を解除';
+	String get signInNote => '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
+	String get failedToSignIn => 'HoYoLABへのサインインに失敗しました。';
+	String get signOutConfirm => 'HoYoLABとの連携を解除しますか？';
+	String get credentialVerificationFailed => 'ログイン情報の検証に失敗しました。再度ログインしてください。';
+	String get changeServer => 'サーバーの変更';
+	String get serverSelect => 'サーバー選択';
+	String current({required Object server}) => '現在の設定: ${server}';
+	String get noServerSelected => 'サーバーが選択されていません';
+	String get userInfo => 'ユーザー情報';
+	String get failedToLoadServerList => 'サーバーリストの読み込みに失敗しました。';
+	String get failedToLoadGameRole => 'ゲームデータの読み込みに失敗しました。';
+	String get charaDataSyncInProgress => 'ゲームデータと同期しています...';
+	String get noGameRoleFound => 'ゲームデータが見つかりません';
+	String get failedToSyncGameData => 'ゲームデータの同期に失敗しました。';
+	String get failedToLoadPermissionState => 'アクセス許可状態の取得に失敗しました。';
+	String get characterDataAccessNotAllowed => 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。';
+	String get characterDoesNotExist => 'キャラクターを所持していません。';
+	String get realtimeNotesNotEnabled => 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。';
+	String get loginExpired => '一度連携を解除し、再度ログインしてください。';
+	String get accessPermission => 'アクセス許可';
+	String get doYouWantToAllowCharaDataAccess => 'キャラクターデータへのアクセスを本アプリに許可しますか？';
+	String get doYouWantToEnableRealtimeNotes => 'リアルタイムノートを有効化しますか？';
+	String get charaDataAccessDesc => 'ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。';
+	String get characterDataAccess => 'キャラクターデータへのアクセス';
+	String get enableRealtimeNotes => 'リアルタイムノートの有効化';
+	String get enableRealtimeNotesDesc => '現在の天然樹脂の数を同期できるようになります。';
+	String get syncSettings => '同期設定';
+	String get syncResin => 'ゲーム内の樹脂数と同期する';
+	String get syncCharaState => 'ゲーム内のキャラのレベルと同期する';
 }
 
 // Path: <root>
@@ -417,6 +466,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsCharacterDetailsPageEn characterDetailsPage = _StringsCharacterDetailsPageEn._(_root);
 	@override late final _StringsMaterialDetailsPageEn materialDetailsPage = _StringsMaterialDetailsPageEn._(_root);
+	@override late final _StringsMaterialCardEn materialCard = _StringsMaterialCardEn._(_root);
 	@override late final _StringsArtifactsPageEn artifactsPage = _StringsArtifactsPageEn._(_root);
 	@override late final _StringsArtifactDetailsPageEn artifactDetailsPage = _StringsArtifactDetailsPageEn._(_root);
 	@override late final _StringsDailyPageEn dailyPage = _StringsDailyPageEn._(_root);
@@ -424,6 +474,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsMorePageEn morePage = _StringsMorePageEn._(_root);
 	@override late final _StringsReleaseNotesPageEn releaseNotesPage = _StringsReleaseNotesPageEn._(_root);
 	@override late final _StringsSettingsPageEn settingsPage = _StringsSettingsPageEn._(_root);
+	@override late final _StringsHoyolabEn hoyolab = _StringsHoyolabEn._(_root);
 	@override Map<String, String> get whereToGet => {
 		'chests': 'Chests, Quests',
 	};
@@ -436,6 +487,9 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override final _StringsEn _root; // ignore: unused_field
 
 	// Translations
+	@override String get ok => 'OK';
+	@override String get cancel => 'Cancel';
+	@override String get signOut => 'Sign Out';
 	@override String get tos => 'Terms of Use';
 	@override String get privacyPolicy => 'Privacy Policy';
 	@override String get error => 'An error occurred.';
@@ -444,6 +498,14 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override String get index => 'Index';
 	@override String get expandAll => 'Expand all';
 	@override String get collapseAll => 'Collapse all';
+	@override String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		other: '${n} minutes',
+		one: '${n} minute',
+	);
+	@override String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+		other: '${n} hours',
+		one: '${n} hour',
+	);
 }
 
 // Path: updates
@@ -495,7 +557,9 @@ class _StringsPagesEn extends _StringsPagesJa {
 	@override String get daily => 'Daily';
 	@override String get tools => 'Tools';
 	@override String get resinCalc => 'Resin Replenish Calculator';
+	@override String get wishes => 'Wish Pity Counter';
 	@override String get more => 'More';
+	@override String get hoyolabIntegrationSettings => 'HoYoLAB Integration Settings';
 }
 
 // Path: characterDetailsPage
@@ -518,6 +582,19 @@ class _StringsMaterialDetailsPageEn extends _StringsMaterialDetailsPageJa {
 	// Translations
 	@override String get charactersUsing => 'Characters Using This Material';
 	@override String get weaponsUsing => 'Weapons Using This Material';
+}
+
+// Path: materialCard
+class _StringsMaterialCardEn extends _StringsMaterialCardJa {
+	_StringsMaterialCardEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get reBookmark => 'Re-bookmark in current range';
+	@override String get reBookmarkDesc => 'Remove the bookmark of this material once, then bookmark it again in the current slider range';
+	@override String get unBookmark => 'Remove bookmark';
+	@override String get unBookmarkDesc => 'Remove the bookmark of this material';
 }
 
 // Path: artifactsPage
@@ -578,17 +655,12 @@ class _StringsResinCalcPageEn extends _StringsResinCalcPageJa {
 	// Translations
 	@override String get currentResin => 'Current Resin';
 	@override String get baseTime => 'Base Time';
-	@override String get fullyReplenishedBy => 'Fully Replenished By';
-	@override String get untilFull => 'Until Full';
+	@override String get fullRecoveryTime => 'Full Recovery Time';
+	@override String get recoveredTime => 'Recovered Time';
+	@override String get untilFullRecovery => 'Until Full Recovery';
 	@override String get wastedResin => 'Wasted Resin';
-	@override String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		other: '${n} hours',
-		one: '${n} hour',
-	);
-	@override String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		other: '${n} minutes',
-		one: '${n} minute',
-	);
+	@override String get tomorrow => 'Tomorrow';
+	@override String get alreadyFull => 'Already fully recovered';
 }
 
 // Path: morePage
@@ -599,6 +671,7 @@ class _StringsMorePageEn extends _StringsMorePageJa {
 
 	// Translations
 	@override String get accountDesc => 'You can sync bookmarks etc. between devices.';
+	@override String get hoyolabIntegrationSettingsDesc => 'Link with HoYoLAB to sync in-game data';
 }
 
 // Path: releaseNotesPage
@@ -624,12 +697,55 @@ class _StringsSettingsPageEn extends _StringsSettingsPageJa {
 	@override String get reDownloadAssetsDesc => 'Please try this if the assets of the app are not loading properly.';
 }
 
+// Path: hoyolab
+class _StringsHoyolabEn extends _StringsHoyolabJa {
+	_StringsHoyolabEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get signIn => 'Sign in to HoYoLAB';
+	@override String get signOut => 'Sign out from HoYoLAB';
+	@override String get signInNote => '* Social login is not supported. You need to sign in with your email/username and password.';
+	@override String get failedToSignIn => 'Failed to sign in to HoYoLAB';
+	@override String get signOutConfirm => 'Unlink HoYoLAB?';
+	@override String get credentialVerificationFailed => 'Failed to verify login information. Please sign in again.';
+	@override String get changeServer => 'Change server';
+	@override String get serverSelect => 'Server select';
+	@override String current({required Object server}) => 'Current: ${server}';
+	@override String get noServerSelected => 'No server selected';
+	@override String get userInfo => 'User Info';
+	@override String get failedToLoadServerList => 'Failed to load server list.';
+	@override String get failedToLoadGameRole => 'Failed to load game user info.';
+	@override String get charaDataSyncInProgress => 'Game data sync in progress...';
+	@override String get noGameRoleFound => 'No game user found.';
+	@override String get failedToSyncGameData => 'Failed to sync game data.';
+	@override String get failedToLoadPermissionState => 'Failed to load permission state.';
+	@override String get characterDataAccessNotAllowed => 'Character data access is not allowed. Please allow access from HoYoLAB integration settings.';
+	@override String get characterDoesNotExist => 'You do not own this character.';
+	@override String get realtimeNotesNotEnabled => 'Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.';
+	@override String get loginExpired => 'Please sign out and sign in again.';
+	@override String get accessPermission => 'Access Permission';
+	@override String get doYouWantToAllowCharaDataAccess => 'Do you want to allow access to character data?';
+	@override String get doYouWantToEnableRealtimeNotes => 'Enable Real-Time Notes?';
+	@override String get charaDataAccessDesc => 'You will be able to sync character levels and talent levels in the game.';
+	@override String get characterDataAccess => 'Character Data Access';
+	@override String get enableRealtimeNotes => 'Enable Real-Time Notes';
+	@override String get enableRealtimeNotesDesc => 'You will be able to sync your current Original Resin count.';
+	@override String get syncSettings => 'Sync Settings';
+	@override String get syncResin => 'Sync In-Game Resin Count';
+	@override String get syncCharaState => 'Sync In-Game Character Levels';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'common.ok': return 'OK';
+			case 'common.cancel': return 'キャンセル';
+			case 'common.signOut': return 'サインアウト';
 			case 'common.tos': return '利用規約';
 			case 'common.privacyPolicy': return 'プライバシーポリシー';
 			case 'common.error': return 'エラーが発生しました。';
@@ -638,6 +754,12 @@ extension on Translations {
 			case 'common.index': return '目次';
 			case 'common.expandAll': return '全て展開';
 			case 'common.collapseAll': return '全て折りたたむ';
+			case 'common.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+				other: '${n}分',
+			);
+			case 'common.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
+				other: '${n}時間',
+			);
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';
@@ -667,6 +789,7 @@ extension on Translations {
 			case 'pages.resinCalc': return '樹脂回復時刻計算機';
 			case 'pages.wishes': return '祈願天井カウンター';
 			case 'pages.more': return 'その他';
+			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB連携設定';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
@@ -695,21 +818,50 @@ extension on Translations {
 			case 'dailyPage.weaponMaterials': return '武器素材';
 			case 'resinCalcPage.currentResin': return '現在の樹脂数';
 			case 'resinCalcPage.baseTime': return '入力した時刻';
-			case 'resinCalcPage.fullyReplenishedBy': return '全回復する時刻';
-			case 'resinCalcPage.untilFull': return '全回復まであと';
+			case 'resinCalcPage.fullRecoveryTime': return '全回復する時刻';
+			case 'resinCalcPage.recoveredTime': return '全回復した時刻';
+			case 'resinCalcPage.untilFullRecovery': return '全回復まであと';
 			case 'resinCalcPage.wastedResin': return '無駄にした樹脂';
-			case 'resinCalcPage.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-				other: '${n}時間',
-			);
-			case 'resinCalcPage.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-				other: '${n}分',
-			);
+			case 'resinCalcPage.tomorrow': return '明日';
+			case 'resinCalcPage.alreadyFull': return 'すでに全回復しました';
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
+			case 'morePage.hoyolabIntegrationSettingsDesc': return 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
 			case 'settingsPage.assetData': return 'アセットデータ';
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
+			case 'hoyolab.signIn': return 'HoYoLABにサインイン';
+			case 'hoyolab.signOut': return 'HoYoLABとの連携を解除';
+			case 'hoyolab.signInNote': return '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
+			case 'hoyolab.failedToSignIn': return 'HoYoLABへのサインインに失敗しました。';
+			case 'hoyolab.signOutConfirm': return 'HoYoLABとの連携を解除しますか？';
+			case 'hoyolab.credentialVerificationFailed': return 'ログイン情報の検証に失敗しました。再度ログインしてください。';
+			case 'hoyolab.changeServer': return 'サーバーの変更';
+			case 'hoyolab.serverSelect': return 'サーバー選択';
+			case 'hoyolab.current': return ({required Object server}) => '現在の設定: ${server}';
+			case 'hoyolab.noServerSelected': return 'サーバーが選択されていません';
+			case 'hoyolab.userInfo': return 'ユーザー情報';
+			case 'hoyolab.failedToLoadServerList': return 'サーバーリストの読み込みに失敗しました。';
+			case 'hoyolab.failedToLoadGameRole': return 'ゲームデータの読み込みに失敗しました。';
+			case 'hoyolab.charaDataSyncInProgress': return 'ゲームデータと同期しています...';
+			case 'hoyolab.noGameRoleFound': return 'ゲームデータが見つかりません';
+			case 'hoyolab.failedToSyncGameData': return 'ゲームデータの同期に失敗しました。';
+			case 'hoyolab.failedToLoadPermissionState': return 'アクセス許可状態の取得に失敗しました。';
+			case 'hoyolab.characterDataAccessNotAllowed': return 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。';
+			case 'hoyolab.characterDoesNotExist': return 'キャラクターを所持していません。';
+			case 'hoyolab.realtimeNotesNotEnabled': return 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。';
+			case 'hoyolab.loginExpired': return '一度連携を解除し、再度ログインしてください。';
+			case 'hoyolab.accessPermission': return 'アクセス許可';
+			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'キャラクターデータへのアクセスを本アプリに許可しますか？';
+			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'リアルタイムノートを有効化しますか？';
+			case 'hoyolab.charaDataAccessDesc': return 'ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。';
+			case 'hoyolab.characterDataAccess': return 'キャラクターデータへのアクセス';
+			case 'hoyolab.enableRealtimeNotes': return 'リアルタイムノートの有効化';
+			case 'hoyolab.enableRealtimeNotesDesc': return '現在の天然樹脂の数を同期できるようになります。';
+			case 'hoyolab.syncSettings': return '同期設定';
+			case 'hoyolab.syncResin': return 'ゲーム内の樹脂数と同期する';
+			case 'hoyolab.syncCharaState': return 'ゲーム内のキャラのレベルと同期する';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;
 		}
@@ -719,6 +871,9 @@ extension on Translations {
 extension on _StringsEn {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'common.ok': return 'OK';
+			case 'common.cancel': return 'Cancel';
+			case 'common.signOut': return 'Sign Out';
 			case 'common.tos': return 'Terms of Use';
 			case 'common.privacyPolicy': return 'Privacy Policy';
 			case 'common.error': return 'An error occurred.';
@@ -727,6 +882,14 @@ extension on _StringsEn {
 			case 'common.index': return 'Index';
 			case 'common.expandAll': return 'Expand all';
 			case 'common.collapseAll': return 'Collapse all';
+			case 'common.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+				other: '${n} minutes',
+				one: '${n} minute',
+			);
+			case 'common.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
+				other: '${n} hours',
+				one: '${n} hour',
+			);
 			case 'talentTypes.normalAttack': return 'Normal Attack';
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
@@ -754,11 +917,17 @@ extension on _StringsEn {
 			case 'pages.daily': return 'Daily';
 			case 'pages.tools': return 'Tools';
 			case 'pages.resinCalc': return 'Resin Replenish Calculator';
+			case 'pages.wishes': return 'Wish Pity Counter';
 			case 'pages.more': return 'More';
+			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB Integration Settings';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'Character Lv Up & Ascension Materials';
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
 			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
 			case 'materialDetailsPage.weaponsUsing': return 'Weapons Using This Material';
+			case 'materialCard.reBookmark': return 'Re-bookmark in current range';
+			case 'materialCard.reBookmarkDesc': return 'Remove the bookmark of this material once, then bookmark it again in the current slider range';
+			case 'materialCard.unBookmark': return 'Remove bookmark';
+			case 'materialCard.unBookmarkDesc': return 'Remove the bookmark of this material';
 			case 'artifactsPage.bonusTypes.1-pc': return '1-Pc Set Bonus';
 			case 'artifactsPage.bonusTypes.2-pc': return '2-Pc Set Bonus';
 			case 'artifactsPage.bonusTypes.4-pc': return '4-Pc Set Bonus';
@@ -779,23 +948,50 @@ extension on _StringsEn {
 			case 'dailyPage.weaponMaterials': return 'Weapon Materials';
 			case 'resinCalcPage.currentResin': return 'Current Resin';
 			case 'resinCalcPage.baseTime': return 'Base Time';
-			case 'resinCalcPage.fullyReplenishedBy': return 'Fully Replenished By';
-			case 'resinCalcPage.untilFull': return 'Until Full';
+			case 'resinCalcPage.fullRecoveryTime': return 'Full Recovery Time';
+			case 'resinCalcPage.recoveredTime': return 'Recovered Time';
+			case 'resinCalcPage.untilFullRecovery': return 'Until Full Recovery';
 			case 'resinCalcPage.wastedResin': return 'Wasted Resin';
-			case 'resinCalcPage.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-				other: '${n} hours',
-				one: '${n} hour',
-			);
-			case 'resinCalcPage.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-				other: '${n} minutes',
-				one: '${n} minute',
-			);
+			case 'resinCalcPage.tomorrow': return 'Tomorrow';
+			case 'resinCalcPage.alreadyFull': return 'Already fully recovered';
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
+			case 'morePage.hoyolabIntegrationSettingsDesc': return 'Link with HoYoLAB to sync in-game data';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
 			case 'settingsPage.assetData': return 'Assets';
 			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
 			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the assets of the app are not loading properly.';
+			case 'hoyolab.signIn': return 'Sign in to HoYoLAB';
+			case 'hoyolab.signOut': return 'Sign out from HoYoLAB';
+			case 'hoyolab.signInNote': return '* Social login is not supported. You need to sign in with your email/username and password.';
+			case 'hoyolab.failedToSignIn': return 'Failed to sign in to HoYoLAB';
+			case 'hoyolab.signOutConfirm': return 'Unlink HoYoLAB?';
+			case 'hoyolab.credentialVerificationFailed': return 'Failed to verify login information. Please sign in again.';
+			case 'hoyolab.changeServer': return 'Change server';
+			case 'hoyolab.serverSelect': return 'Server select';
+			case 'hoyolab.current': return ({required Object server}) => 'Current: ${server}';
+			case 'hoyolab.noServerSelected': return 'No server selected';
+			case 'hoyolab.userInfo': return 'User Info';
+			case 'hoyolab.failedToLoadServerList': return 'Failed to load server list.';
+			case 'hoyolab.failedToLoadGameRole': return 'Failed to load game user info.';
+			case 'hoyolab.charaDataSyncInProgress': return 'Game data sync in progress...';
+			case 'hoyolab.noGameRoleFound': return 'No game user found.';
+			case 'hoyolab.failedToSyncGameData': return 'Failed to sync game data.';
+			case 'hoyolab.failedToLoadPermissionState': return 'Failed to load permission state.';
+			case 'hoyolab.characterDataAccessNotAllowed': return 'Character data access is not allowed. Please allow access from HoYoLAB integration settings.';
+			case 'hoyolab.characterDoesNotExist': return 'You do not own this character.';
+			case 'hoyolab.realtimeNotesNotEnabled': return 'Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.';
+			case 'hoyolab.loginExpired': return 'Please sign out and sign in again.';
+			case 'hoyolab.accessPermission': return 'Access Permission';
+			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'Do you want to allow access to character data?';
+			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'Enable Real-Time Notes?';
+			case 'hoyolab.charaDataAccessDesc': return 'You will be able to sync character levels and talent levels in the game.';
+			case 'hoyolab.characterDataAccess': return 'Character Data Access';
+			case 'hoyolab.enableRealtimeNotes': return 'Enable Real-Time Notes';
+			case 'hoyolab.enableRealtimeNotesDesc': return 'You will be able to sync your current Original Resin count.';
+			case 'hoyolab.syncSettings': return 'Sync Settings';
+			case 'hoyolab.syncResin': return 'Sync In-Game Resin Count';
+			case 'hoyolab.syncCharaState': return 'Sync In-Game Character Levels';
 			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
 		}

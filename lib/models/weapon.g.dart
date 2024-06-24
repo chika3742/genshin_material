@@ -8,6 +8,7 @@ part of 'weapon.dart';
 
 _$WeaponImpl _$$WeaponImplFromJson(Map<String, dynamic> json) => _$WeaponImpl(
       id: json['id'] as String,
+      hyvId: json['hyvId'] as int,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
@@ -23,6 +24,7 @@ _$WeaponImpl _$$WeaponImplFromJson(Map<String, dynamic> json) => _$WeaponImpl(
 Map<String, dynamic> _$$WeaponImplToJson(_$WeaponImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'hyvId': instance.hyvId,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,
       'imageUrl': instance.imageUrl,
@@ -41,7 +43,7 @@ _$WeaponsMetaImpl _$$WeaponsMetaImplFromJson(Map<String, dynamic> json) =>
       ),
       types: (json['types'] as Map<String, dynamic>).map(
         (k, e) =>
-            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
+            MapEntry(k, WeaponTypeInfo.fromJson(e as Map<String, dynamic>)),
       ),
     );
 
@@ -49,4 +51,17 @@ Map<String, dynamic> _$$WeaponsMetaImplToJson(_$WeaponsMetaImpl instance) =>
     <String, dynamic>{
       'subStats': instance.subStats,
       'types': instance.types,
+    };
+
+_$WeaponTypeInfoImpl _$$WeaponTypeInfoImplFromJson(Map<String, dynamic> json) =>
+    _$WeaponTypeInfoImpl(
+      hyvId: json['hyvId'] as int,
+      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$WeaponTypeInfoImplToJson(
+        _$WeaponTypeInfoImpl instance) =>
+    <String, dynamic>{
+      'hyvId': instance.hyvId,
+      'name': instance.name,
     };

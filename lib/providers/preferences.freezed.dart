@@ -16,8 +16,16 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PreferencesState {
-  int get resin => throw _privateConstructorUsedError;
-  DateTime get resinBaseTime => throw _privateConstructorUsedError;
+  KvPreferences get pref => throw _privateConstructorUsedError;
+  int? get resin => throw _privateConstructorUsedError;
+  DateTime? get resinBaseTime => throw _privateConstructorUsedError;
+  String? get hyvCookie => throw _privateConstructorUsedError;
+  String? get hyvServer => throw _privateConstructorUsedError;
+  String? get hyvServerName => throw _privateConstructorUsedError;
+  String? get hyvUserName => throw _privateConstructorUsedError;
+  String? get hyvUid => throw _privateConstructorUsedError;
+  bool get syncResin => throw _privateConstructorUsedError;
+  bool get syncCharaState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PreferencesStateCopyWith<PreferencesState> get copyWith =>
@@ -30,7 +38,17 @@ abstract class $PreferencesStateCopyWith<$Res> {
           PreferencesState value, $Res Function(PreferencesState) then) =
       _$PreferencesStateCopyWithImpl<$Res, PreferencesState>;
   @useResult
-  $Res call({int resin, DateTime resinBaseTime});
+  $Res call(
+      {KvPreferences pref,
+      int? resin,
+      DateTime? resinBaseTime,
+      String? hyvCookie,
+      String? hyvServer,
+      String? hyvServerName,
+      String? hyvUserName,
+      String? hyvUid,
+      bool syncResin,
+      bool syncCharaState});
 }
 
 /// @nodoc
@@ -46,18 +64,58 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? resin = null,
-    Object? resinBaseTime = null,
+    Object? pref = null,
+    Object? resin = freezed,
+    Object? resinBaseTime = freezed,
+    Object? hyvCookie = freezed,
+    Object? hyvServer = freezed,
+    Object? hyvServerName = freezed,
+    Object? hyvUserName = freezed,
+    Object? hyvUid = freezed,
+    Object? syncResin = null,
+    Object? syncCharaState = null,
   }) {
     return _then(_value.copyWith(
-      resin: null == resin
+      pref: null == pref
+          ? _value.pref
+          : pref // ignore: cast_nullable_to_non_nullable
+              as KvPreferences,
+      resin: freezed == resin
           ? _value.resin
           : resin // ignore: cast_nullable_to_non_nullable
-              as int,
-      resinBaseTime: null == resinBaseTime
+              as int?,
+      resinBaseTime: freezed == resinBaseTime
           ? _value.resinBaseTime
           : resinBaseTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
+      hyvCookie: freezed == hyvCookie
+          ? _value.hyvCookie
+          : hyvCookie // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hyvServer: freezed == hyvServer
+          ? _value.hyvServer
+          : hyvServer // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hyvServerName: freezed == hyvServerName
+          ? _value.hyvServerName
+          : hyvServerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hyvUserName: freezed == hyvUserName
+          ? _value.hyvUserName
+          : hyvUserName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hyvUid: freezed == hyvUid
+          ? _value.hyvUid
+          : hyvUid // ignore: cast_nullable_to_non_nullable
+              as String?,
+      syncResin: null == syncResin
+          ? _value.syncResin
+          : syncResin // ignore: cast_nullable_to_non_nullable
+              as bool,
+      syncCharaState: null == syncCharaState
+          ? _value.syncCharaState
+          : syncCharaState // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -70,7 +128,17 @@ abstract class _$$PreferencesStateImplCopyWith<$Res>
       __$$PreferencesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int resin, DateTime resinBaseTime});
+  $Res call(
+      {KvPreferences pref,
+      int? resin,
+      DateTime? resinBaseTime,
+      String? hyvCookie,
+      String? hyvServer,
+      String? hyvServerName,
+      String? hyvUserName,
+      String? hyvUid,
+      bool syncResin,
+      bool syncCharaState});
 }
 
 /// @nodoc
@@ -84,36 +152,102 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? resin = null,
-    Object? resinBaseTime = null,
+    Object? pref = null,
+    Object? resin = freezed,
+    Object? resinBaseTime = freezed,
+    Object? hyvCookie = freezed,
+    Object? hyvServer = freezed,
+    Object? hyvServerName = freezed,
+    Object? hyvUserName = freezed,
+    Object? hyvUid = freezed,
+    Object? syncResin = null,
+    Object? syncCharaState = null,
   }) {
     return _then(_$PreferencesStateImpl(
-      resin: null == resin
+      pref: null == pref
+          ? _value.pref
+          : pref // ignore: cast_nullable_to_non_nullable
+              as KvPreferences,
+      resin: freezed == resin
           ? _value.resin
           : resin // ignore: cast_nullable_to_non_nullable
-              as int,
-      resinBaseTime: null == resinBaseTime
+              as int?,
+      resinBaseTime: freezed == resinBaseTime
           ? _value.resinBaseTime
           : resinBaseTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
+      hyvCookie: freezed == hyvCookie
+          ? _value.hyvCookie
+          : hyvCookie // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hyvServer: freezed == hyvServer
+          ? _value.hyvServer
+          : hyvServer // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hyvServerName: freezed == hyvServerName
+          ? _value.hyvServerName
+          : hyvServerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hyvUserName: freezed == hyvUserName
+          ? _value.hyvUserName
+          : hyvUserName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hyvUid: freezed == hyvUid
+          ? _value.hyvUid
+          : hyvUid // ignore: cast_nullable_to_non_nullable
+              as String?,
+      syncResin: null == syncResin
+          ? _value.syncResin
+          : syncResin // ignore: cast_nullable_to_non_nullable
+              as bool,
+      syncCharaState: null == syncCharaState
+          ? _value.syncCharaState
+          : syncCharaState // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 
-class _$PreferencesStateImpl implements _PreferencesState {
+class _$PreferencesStateImpl extends _PreferencesState {
   const _$PreferencesStateImpl(
-      {required this.resin, required this.resinBaseTime});
+      {required this.pref,
+      required this.resin,
+      required this.resinBaseTime,
+      required this.hyvCookie,
+      required this.hyvServer,
+      required this.hyvServerName,
+      required this.hyvUserName,
+      required this.hyvUid,
+      required this.syncResin,
+      required this.syncCharaState})
+      : super._();
 
   @override
-  final int resin;
+  final KvPreferences pref;
   @override
-  final DateTime resinBaseTime;
+  final int? resin;
+  @override
+  final DateTime? resinBaseTime;
+  @override
+  final String? hyvCookie;
+  @override
+  final String? hyvServer;
+  @override
+  final String? hyvServerName;
+  @override
+  final String? hyvUserName;
+  @override
+  final String? hyvUid;
+  @override
+  final bool syncResin;
+  @override
+  final bool syncCharaState;
 
   @override
   String toString() {
-    return 'PreferencesState(resin: $resin, resinBaseTime: $resinBaseTime)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvCookie: $hyvCookie, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState)';
   }
 
   @override
@@ -121,13 +255,38 @@ class _$PreferencesStateImpl implements _PreferencesState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PreferencesStateImpl &&
+            (identical(other.pref, pref) || other.pref == pref) &&
             (identical(other.resin, resin) || other.resin == resin) &&
             (identical(other.resinBaseTime, resinBaseTime) ||
-                other.resinBaseTime == resinBaseTime));
+                other.resinBaseTime == resinBaseTime) &&
+            (identical(other.hyvCookie, hyvCookie) ||
+                other.hyvCookie == hyvCookie) &&
+            (identical(other.hyvServer, hyvServer) ||
+                other.hyvServer == hyvServer) &&
+            (identical(other.hyvServerName, hyvServerName) ||
+                other.hyvServerName == hyvServerName) &&
+            (identical(other.hyvUserName, hyvUserName) ||
+                other.hyvUserName == hyvUserName) &&
+            (identical(other.hyvUid, hyvUid) || other.hyvUid == hyvUid) &&
+            (identical(other.syncResin, syncResin) ||
+                other.syncResin == syncResin) &&
+            (identical(other.syncCharaState, syncCharaState) ||
+                other.syncCharaState == syncCharaState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, resin, resinBaseTime);
+  int get hashCode => Object.hash(
+      runtimeType,
+      pref,
+      resin,
+      resinBaseTime,
+      hyvCookie,
+      hyvServer,
+      hyvServerName,
+      hyvUserName,
+      hyvUid,
+      syncResin,
+      syncCharaState);
 
   @JsonKey(ignore: true)
   @override
@@ -137,15 +296,40 @@ class _$PreferencesStateImpl implements _PreferencesState {
           this, _$identity);
 }
 
-abstract class _PreferencesState implements PreferencesState {
+abstract class _PreferencesState extends PreferencesState {
   const factory _PreferencesState(
-      {required final int resin,
-      required final DateTime resinBaseTime}) = _$PreferencesStateImpl;
+      {required final KvPreferences pref,
+      required final int? resin,
+      required final DateTime? resinBaseTime,
+      required final String? hyvCookie,
+      required final String? hyvServer,
+      required final String? hyvServerName,
+      required final String? hyvUserName,
+      required final String? hyvUid,
+      required final bool syncResin,
+      required final bool syncCharaState}) = _$PreferencesStateImpl;
+  const _PreferencesState._() : super._();
 
   @override
-  int get resin;
+  KvPreferences get pref;
   @override
-  DateTime get resinBaseTime;
+  int? get resin;
+  @override
+  DateTime? get resinBaseTime;
+  @override
+  String? get hyvCookie;
+  @override
+  String? get hyvServer;
+  @override
+  String? get hyvServerName;
+  @override
+  String? get hyvUserName;
+  @override
+  String? get hyvUid;
+  @override
+  bool get syncResin;
+  @override
+  bool get syncCharaState;
   @override
   @JsonKey(ignore: true)
   _$$PreferencesStateImplCopyWith<_$PreferencesStateImpl> get copyWith =>

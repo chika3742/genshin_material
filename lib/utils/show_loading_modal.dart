@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 void showLoadingModal(BuildContext context) {
   showModal(
     context: context,
+    useRootNavigator: true,
     builder: (context) {
       return PopScope(
         canPop: false,

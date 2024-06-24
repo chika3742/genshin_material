@@ -40,6 +40,12 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
             leadingIcon: Symbols.account_box,
             location: AccountRoute().location,
           ),
+          SimpleListTile(
+            title: tr.pages.hoyolabIntegrationSettings,
+            subtitle: tr.morePage.hoyolabIntegrationSettingsDesc,
+            leadingIcon: Symbols.sync,
+            location: HoyolabIntegrationSettingsRoute().location,
+          ),
           const Divider(),
           SimpleListTile(
             title: tr.pages.releaseNotes,

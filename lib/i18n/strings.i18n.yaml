@@ -1,4 +1,7 @@
 common:
+  ok: OK
+  cancel: キャンセル
+  signOut: サインアウト
   tos: 利用規約
   privacyPolicy: プライバシーポリシー
   error: エラーが発生しました。
@@ -7,6 +10,10 @@ common:
   index: 目次
   expandAll: 全て展開
   collapseAll: 全て折りたたむ
+  minutes:
+    other: $n分
+  hours:
+    other: $n時間
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル
@@ -40,6 +47,7 @@ pages:
   resinCalc: 樹脂回復時刻計算機
   wishes: 祈願天井カウンター
   more: その他
+  hoyolabIntegrationSettings: HoYoLAB連携設定
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: キャラクターLvアップ・突破素材
   talentLevelUpMaterials: 天賦Lvアップ素材
@@ -77,15 +85,15 @@ dailyPage:
 resinCalcPage:
   currentResin: 現在の樹脂数
   baseTime: 入力した時刻
-  fullyReplenishedBy: 全回復する時刻
-  untilFull: 全回復まであと
+  fullRecoveryTime: 全回復する時刻
+  recoveredTime: 全回復した時刻
+  untilFullRecovery: 全回復まであと
   wastedResin: 無駄にした樹脂
-  hours:
-    other: $n時間
-  minutes:
-    other: $n分
+  tomorrow: 明日
+  alreadyFull: すでに全回復しました
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
+  hoyolabIntegrationSettingsDesc: HoYoLABと連携し、ゲーム内のデータと同期できます。
 releaseNotesPage:
   featureUpdates: 機能更新
   assetUpdates: データ更新
@@ -93,6 +101,37 @@ settingsPage:
   assetData: アセットデータ
   reDownloadAssets: アセットデータを再ダウンロード
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
+hoyolab:
+  signIn: HoYoLABにサインイン
+  signOut: HoYoLABとの連携を解除
+  signInNote: ※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。
+  failedToSignIn: HoYoLABへのサインインに失敗しました。
+  signOutConfirm: HoYoLABとの連携を解除しますか？
+  credentialVerificationFailed: ログイン情報の検証に失敗しました。再度ログインしてください。
+  changeServer: サーバーの変更
+  serverSelect: サーバー選択
+  current: "現在の設定: $server"
+  noServerSelected: サーバーが選択されていません
+  userInfo: ユーザー情報
+  failedToLoadServerList: サーバーリストの読み込みに失敗しました。
+  failedToLoadGameRole: ゲームデータの読み込みに失敗しました。
+  charaDataSyncInProgress: ゲームデータと同期しています...
+  noGameRoleFound: ゲームデータが見つかりません
+  failedToSyncGameData: ゲームデータの同期に失敗しました。
+  failedToLoadPermissionState: アクセス許可状態の取得に失敗しました。
+  characterDataAccessNotAllowed: キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。
+  characterDoesNotExist: キャラクターを所持していません。
+  realtimeNotesNotEnabled: リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。
+  loginExpired: 一度連携を解除し、再度ログインしてください。
+  accessPermission: アクセス許可
+  doYouWantToAllowCharaDataAccess: キャラクターデータへのアクセスを本アプリに許可しますか？
+  doYouWantToEnableRealtimeNotes: リアルタイムノートを有効化しますか？
+  charaDataAccessDesc: ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。
+  characterDataAccess: キャラクターデータへのアクセス
+  enableRealtimeNotes: リアルタイムノートの有効化
+  enableRealtimeNotesDesc: 現在の天然樹脂の数を同期できるようになります。
+  syncSettings: 同期設定
+  syncResin: ゲーム内の樹脂数と同期する
+  syncCharaState: ゲーム内のキャラのレベルと同期する
 whereToGet(map):
   chests: 宝箱、任務報酬など
-

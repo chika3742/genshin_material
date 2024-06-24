@@ -1,6 +1,3 @@
-import "dart:math";
-
-import "package:clock/clock.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
@@ -8,50 +5,64 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:intl/intl.dart";
 import "package:timeago/timeago.dart" as timeago;
 
+import "../../components/game_data_sync_indicator.dart";
 import "../../components/layout.dart";
+import "../../components/list_subheader.dart";
 import "../../composables/use_periodic_timer.dart";
+import "../../core/hoyolab_api.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/preferences.dart";
+import "../../ui_core/snack_bar.dart";
+import "../../utils/resin_calculator.dart";
 
-const maxResin = 160;
-const resinRechargeRate = 8;
+const maxResin = 200;
+const resinRecoveryRateInMinutes = 8;
 
-class ResinCalcPage extends StatefulHookConsumerWidget {
+class ResinCalcPage extends HookConsumerWidget {
   const ResinCalcPage({super.key});
 
   @override
-  ConsumerState<ResinCalcPage> createState() => _ResinCalcPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prefs = ref.watch(preferencesStateNotifierProvider);
 
-class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
-  @override
-  Widget build(BuildContext context) {
-    final state = ref.watch(preferencesStateNotifierProvider);
+    final resinController = useTextEditingController(text: prefs.resin?.toString() ?? "");
+    final resinInput = useValueListenable(resinController);
 
-    if (state is! AsyncData) {
-      return const Center(child: CircularProgressIndicator());
+    // For rebuilding results every second
+    final currentTime = useState(DateTime.now());
+    usePeriodicTimer(const Duration(seconds: 1), (_) {
+      currentTime.value = DateTime.now();
+    });
+
+    final gameDataSyncInProgress = useState(false);
+    Future<void> syncResin() async {
+      gameDataSyncInProgress.value = true;
+
+      final api = HoyolabApi(cookie: prefs.hyvCookie, region: prefs.hyvServer, uid: prefs.hyvUid);
+      try {
+        final dailyNote = await api.getDailyNote();
+        if (dailyNote.currentResin != maxResin || prefs.resin != maxResin) {
+          resinController.text = dailyNote.currentResin.toString();
+          ref.read(preferencesStateNotifierProvider.notifier)
+              .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
+        }
+      } on HoyolabApiException catch (e) {
+        if (context.mounted) showSnackBar(context: context, message: e.getMessage(tr.hoyolab.failedToSyncGameData), error: true);
+      } catch (e) {
+        if (context.mounted) showSnackBar(context: context, message: tr.hoyolab.failedToSyncGameData, error: true);
+      } finally {
+        gameDataSyncInProgress.value = false;
+      }
     }
 
-    final resinController = useTextEditingController(text: state.value!.resin.toString());
-    final currentResin = useValueListenable(resinController);
-    usePeriodicTimer(const Duration(seconds: 1), (_) {
-      setState(() {});
-    });
-
-    useValueChanged<String, void>(currentResin.text, (_, __) {
-      if (currentResin.text.isEmpty) {
-        return;
+    useEffect(() {
+      if (prefs.syncResin) {
+        syncResin();
       }
+      return null;
+    }, [],);
 
-      final resin = int.tryParse(currentResin.text);
-      if (resin == null) {
-        return;
-      }
-
-      ref.read(preferencesStateNotifierProvider.notifier).setResin(resin);
-    });
-
-    final rows = _buildRows(state);
+    final rows = _buildRows(prefs);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -59,130 +70,208 @@ class _ResinCalcPageState extends ConsumerState<ResinCalcPage> {
         appBar: AppBar(
           title: Text(tr.pages.resinCalc),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: GappedColumn(
-            children: [
-              TextFormField(
-                controller: resinController,
-                decoration: InputDecoration(
-                  labelText: tr.resinCalcPage.currentResin,
-                  border: const OutlineInputBorder(),
-                  suffixText: "/ 160",
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      resinController.clear();
-                    },
-                  ),
-                ),
-                inputFormatters: [
-                  TextInputFormatter.withFunction((oldValue, newValue) {
-                    if ((int.tryParse(newValue.text) ?? 0) >= maxResin) {
-                      return TextEditingValue(text: (maxResin - 1).toString());
-                    }
-                    return newValue;
-                  }),
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-              ),
+        body: Column(
+          children: [
+            GameDataSyncIndicator(show: gameDataSyncInProgress.value),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: GappedColumn(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      controller: resinController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: tr.resinCalcPage.currentResin,
+                        border: const OutlineInputBorder(),
+                        suffixText: "/ $maxResin",
+                        suffixIcon: resinInput.text.isNotEmpty ? IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            resinController.clear();
+                            ref.read(preferencesStateNotifierProvider.notifier).setResin(null);
+                          },
+                        ) : null,
+                      ),
+                      inputFormatters: [
+                        TextInputFormatter.withFunction((oldValue, newValue) {
+                          if ((int.tryParse(newValue.text) ?? 0) >= maxResin) {
+                            return TextEditingValue(text: maxResin.toString());
+                          }
+                          return newValue;
+                        }),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      onChanged: (value) {
+                        final prefNotifier = ref.read(preferencesStateNotifierProvider.notifier);
+                        if (value.isNotEmpty) {
+                          final resin = int.tryParse(value);
+                          if (resin == null) {
+                            return;
+                          }
+                          prefNotifier.setResin(resin);
+                        } else {
+                          prefNotifier.setResin(null);
+                        }
+                      },
+                    ),
 
-              Table(
-                children: [
-                  for (final row in rows)
-                    TableRow(
-                      decoration: row.decoration,
+                    Table(
                       children: [
-                        TableCell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(row.label),
-                          ),
-                        ),
-                        TableCell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              row.value,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
+                        for (final row in rows)
+                          TableRow(
+                            decoration: row.decoration,
+                            children: [
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(row.label),
+                                ),
                               ),
-                            ),
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: DefaultTextStyle(
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    child: row.content,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
                       ],
                     ),
-                ],
+                    if (prefs.resin == maxResin) Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        tr.resinCalcPage.alreadyFull,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8), // 24px spacing (GappedColumn)
+                    ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
+                    GestureDetector(
+                      onTap: () {
+                        ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(!prefs.syncResin);
+                        if (!prefs.syncResin) {
+                          syncResin();
+                        }
+                      },
+                      child: GappedRow(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(tr.hoyolab.syncResin),
+                          Switch(
+                            value: prefs.syncResin,
+                            onChanged: (value) {
+                              ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
+                              if (value) {
+                                syncResin();
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  List<_ResultItem> _buildRows(AsyncValue<PreferencesState> state) {
-    final fullyReplenishedBy = Clock.fixed(state.value!.resinBaseTime).fromNowBy(
-      _calculateTimeToFullResin(state.value!.resin),
-    );
-    final untilFull = fullyReplenishedBy.difference(const Clock().now());
+  List<_ResultItem> _buildRows(PreferencesState prefs) {
+    final context = useContext();
 
-    final resinDelta = const Clock().now()
-        .difference(state.value!.resinBaseTime).inMinutes ~/ resinRechargeRate;
-
-    final wastedResin = state.value!.resin + resinDelta - maxResin;
+    ResinCalculationResult? result;
+    if (prefs.resin != null && prefs.resinBaseTime != null) {
+      result = calculateResinRecovery(
+        currentResin: prefs.resin!,
+        baseTime: prefs.resinBaseTime!,
+        maxResin: maxResin,
+        minutesPerResin: resinRecoveryRateInMinutes,
+      );
+    }
 
     final rows = <_ResultItem>[
       _ResultItem(
         tr.resinCalcPage.baseTime,
-        "${_formatDateTime(state.value!.resinBaseTime)}"
-            " (${timeago.format(state.value!.resinBaseTime)})",
+        () {
+          if (prefs.resinBaseTime == null) return const Text("-");
+          return Wrap(
+            children: [
+              Text(_formatDateTime(prefs.resinBaseTime!)),
+              const SizedBox(width: 8),
+              Text(
+                "(${timeago.format(prefs.resinBaseTime!, locale: LocaleSettings.currentLocale.languageCode)})",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          );
+        }(),
         decoration: const BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey)),
         ),
       ),
       _ResultItem(
-        tr.resinCalcPage.fullyReplenishedBy,
-        _formatDateTime(fullyReplenishedBy),
+        result != null && result.timeToFull.isNegative
+            ? tr.resinCalcPage.recoveredTime
+            : tr.resinCalcPage.fullRecoveryTime,
+        Text(result != null ? _formatDateTime(result.fullyReplenishedBy) : "-"),
       ),
       _ResultItem(
-        tr.resinCalcPage.untilFull,
-        untilFull.isNegative
-            ? "-"
-            : "${tr.resinCalcPage.hours(n: untilFull.inHours)}"
-                " ${tr.resinCalcPage.minutes(n: untilFull.inMinutes.remainder(60))}",
+        tr.resinCalcPage.untilFullRecovery,
+        Text(result != null && !result.timeToFull.isNegative
+            ? "${tr.common.hours(n: result.timeToFull.inHours)}"
+              " ${tr.common.minutes(n: result.timeToFull.inMinutes.remainder(60))}"
+            : "-",),
       ),
       _ResultItem(
         tr.resinCalcPage.currentResin,
-        "${min(state.value!.resin + resinDelta, maxResin)} / $maxResin",
+        Text(result != null ? "${result.currentResin} / $maxResin" : "-"),
       ),
       _ResultItem(
         tr.resinCalcPage.wastedResin,
-        wastedResin >= 0 ? wastedResin.toString() : "-",
+        Text(result != null && result.wastedResin >= 0 ? result.wastedResin.toString() : "-"),
       ),
     ];
 
     return rows;
   }
 
-  Duration _calculateTimeToFullResin(int resin) {
-    final diff = maxResin - resin;
-    final minutes = diff * resinRechargeRate;
-    return Duration(minutes: minutes);
-  }
-
   String _formatDateTime(DateTime dateTime) {
-    return "${DateFormat("MMMd", LocaleSettings.currentLocale.languageCode)
-        .format(dateTime)} "
-        "${DateFormat("jm", LocaleSettings.currentLocale.languageCode)
-        .format(dateTime)}";
+    final isToday = dateTime.day == DateTime.now().day;
+    final isTomorrow = dateTime.day == DateTime.now().add(const Duration(days: 1)).day;
+    final dateDisplay = () {
+      if (isToday) {
+        return "";
+      }
+      if (isTomorrow) {
+        return "${tr.resinCalcPage.tomorrow} ";
+      }
+      return "${DateFormat("MMMd", LocaleSettings.currentLocale.languageCode).format(dateTime)} ";
+    }();
+
+    return "$dateDisplay${DateFormat("jm", LocaleSettings.currentLocale.languageCode).format(dateTime)}";
   }
 }
 
 class _ResultItem {
   final String label;
-  final String value;
+  final Widget content;
   final Decoration? decoration;
 
-  const _ResultItem(this.label, this.value, {this.decoration});
+  const _ResultItem(this.label, this.content, {this.decoration});
 }

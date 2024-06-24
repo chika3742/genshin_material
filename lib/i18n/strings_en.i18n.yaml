@@ -1,4 +1,7 @@
 common:
+  ok: OK
+  cancel: Cancel
+  signOut: Sign Out
   tos: Terms of Use
   privacyPolicy: Privacy Policy
   error: An error occurred.
@@ -7,6 +10,12 @@ common:
   index: Index
   expandAll: Expand all
   collapseAll: Collapse all
+  minutes:
+    other: $n minutes
+    one: $n minute
+  hours:
+    other: $n hours
+    one: $n hour
 talentTypes(map):
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill
@@ -38,13 +47,20 @@ pages:
   daily: Daily
   tools: Tools
   resinCalc: Resin Replenish Calculator
+  wishes: Wish Pity Counter
   more: More
+  hoyolabIntegrationSettings: HoYoLAB Integration Settings
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: "Character Lv Up & Ascension Materials"
   talentLevelUpMaterials: Talent Lv Up Materials
 materialDetailsPage:
   charactersUsing: Characters Using This Material
   weaponsUsing: Weapons Using This Material
+materialCard:
+  reBookmark: Re-bookmark in current range
+  reBookmarkDesc: "Remove the bookmark of this material once, then bookmark it again in the current slider range"
+  unBookmark: Remove bookmark
+  unBookmarkDesc: Remove the bookmark of this material
 artifactsPage:
   bonusTypes(map):
     1-pc: 1-Pc Set Bonus
@@ -71,17 +87,15 @@ dailyPage:
 resinCalcPage:
   currentResin: Current Resin
   baseTime: Base Time
-  fullyReplenishedBy: Fully Replenished By
-  untilFull: Until Full
+  fullRecoveryTime: Full Recovery Time
+  recoveredTime: Recovered Time
+  untilFullRecovery: Until Full Recovery
   wastedResin: Wasted Resin
-  hours:
-    other: $n hours
-    one: $n hour
-  minutes:
-    other: $n minutes
-    one: $n minute
+  tomorrow: Tomorrow
+  alreadyFull: Already fully recovered
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
+  hoyolabIntegrationSettingsDesc: Link with HoYoLAB to sync in-game data
 releaseNotesPage:
   featureUpdates: Feature Updates
   assetUpdates: Asset Updates
@@ -89,5 +103,37 @@ settingsPage:
   assetData: Assets
   reDownloadAssets: Re-download Assets
   reDownloadAssetsDesc: Please try this if the assets of the app are not loading properly.
+hoyolab:
+  signIn: Sign in to HoYoLAB
+  signOut: Sign out from HoYoLAB
+  signInNote: "* Social login is not supported. You need to sign in with your email/username and password."
+  failedToSignIn: Failed to sign in to HoYoLAB
+  signOutConfirm: "Unlink HoYoLAB?"
+  credentialVerificationFailed: Failed to verify login information. Please sign in again.
+  changeServer: Change server
+  serverSelect: Server select
+  current: "Current: $server"
+  noServerSelected: No server selected
+  userInfo: User Info
+  failedToLoadServerList: Failed to load server list.
+  failedToLoadGameRole: Failed to load game user info.
+  charaDataSyncInProgress: Game data sync in progress...
+  noGameRoleFound: No game user found.
+  failedToSyncGameData: Failed to sync game data.
+  failedToLoadPermissionState: Failed to load permission state.
+  characterDataAccessNotAllowed: Character data access is not allowed. Please allow access from HoYoLAB integration settings.
+  characterDoesNotExist: You do not own this character.
+  realtimeNotesNotEnabled: Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.
+  loginExpired: Please sign out and sign in again.
+  accessPermission: Access Permission
+  doYouWantToAllowCharaDataAccess: "Do you want to allow access to character data?"
+  doYouWantToEnableRealtimeNotes: "Enable Real-Time Notes?"
+  charaDataAccessDesc: You will be able to sync character levels and talent levels in the game.
+  characterDataAccess: Character Data Access
+  enableRealtimeNotes: Enable Real-Time Notes
+  enableRealtimeNotesDesc: You will be able to sync your current Original Resin count.
+  syncSettings: Sync Settings
+  syncResin: Sync In-Game Resin Count
+  syncCharaState: Sync In-Game Character Levels
 whereToGet(map):
   chests: "Chests, Quests"
