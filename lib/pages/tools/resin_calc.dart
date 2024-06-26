@@ -173,14 +173,22 @@ class _CalcResultTable extends HookConsumerWidget {
           content: () {
             if (prefs.resinBaseTime == null) return const Text("-");
             return Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Text(_formatDateTime(prefs.resinBaseTime!)),
+                Text(
+                  _formatDateTime(prefs.resinBaseTime!),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
                 const SizedBox(width: 8),
                 Text(
                   "(${timeago.format(prefs.resinBaseTime!, locale: LocaleSettings.currentLocale.languageCode)})",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontSize: 14,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ],
@@ -243,6 +251,7 @@ class _CalcResultTable extends HookConsumerWidget {
             child: DefaultTextStyle(
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
               child: content,
             ),
