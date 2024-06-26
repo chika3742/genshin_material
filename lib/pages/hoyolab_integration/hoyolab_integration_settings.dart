@@ -87,22 +87,30 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
             },
           ),
 
+          ListSubheader(tr.hoyolab.userInfo),
+          if (prefs.hyvServer != null && prefs.hyvUserName != null && prefs.hyvUid != null) ListTile(
+            title: Text(prefs.hyvUserName!),
+            subtitle: Text("UID: ${prefs.hyvUid!}"),
+          ) else ListTile(
+            title: Text(tr.hoyolab.noServerSelected),
+          ),
+
           ListSubheader(tr.hoyolab.syncSettings),
           SwitchListTile(
             title: Text(tr.hoyolab.syncCharaState),
             value: prefs.syncCharaState,
-            onChanged: (value) {
+            onChanged: prefs.isLinkedWithHoyolab ? (value) {
               ref.read(preferencesStateNotifierProvider.notifier)
                   .setSyncCharaState(value);
-            },
+            } : null,
           ),
           SwitchListTile(
             title: Text(tr.hoyolab.syncResin),
             value: prefs.syncResin,
-            onChanged: (value) {
+            onChanged: prefs.isLinkedWithHoyolab ? (value) {
               ref.read(preferencesStateNotifierProvider.notifier)
                   .setSyncResin(value);
-            },
+            } : null,
           ),
 
           ListSubheader(tr.hoyolab.accessPermission),
@@ -135,13 +143,6 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
             onChanged: !isRealtimeNotesEnabled.isLoading && !isRealtimeNotesEnabled.hasError ? (value) {
               ref.read(realtimeNotesActivationStateProvider.notifier).updateValue(value);
             } : null,
-          ),
-          ListSubheader(tr.hoyolab.userInfo),
-          if (prefs.hyvServer != null && prefs.hyvUserName != null && prefs.hyvUid != null) ListTile(
-            title: Text(prefs.hyvUserName!),
-            subtitle: Text("UID: ${prefs.hyvUid!}"),
-          ) else ListTile(
-            title: Text(tr.hoyolab.noServerSelected),
           ),
         ],
       ),

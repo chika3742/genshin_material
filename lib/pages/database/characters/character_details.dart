@@ -114,7 +114,8 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
       isHoyolabSyncInProgress.value = true;
       progressIndicatorMessage.value = null;
       try {
-        final api = HoyolabApi(cookie: prefs.hyvCookie, uid: prefs.hyvUid, region: prefs.hyvServer);
+        final uid = prefs.hyvUid!;
+        final api = HoyolabApi(cookie: prefs.hyvCookie, uid: uid, region: prefs.hyvServer);
 
         final elements = assetData.elements;
         final weaponTypes = assetData.weaponTypes;
@@ -156,6 +157,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
 
         final db = ref.read(appDatabaseProvider);
         await db.setCharacterLevels(
+          uid,
           character.id,
           _rangeValues.map((key, value) => MapEntry(key, value.start)),
         );
@@ -181,9 +183,14 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
     }
 
     Future<void> setDefaultSliderValues() async {
+      final uid = ref.read(preferencesStateNotifierProvider).hyvUid;
+      if (uid == null) {
+        return;
+      }
+
       try {
         final db = ref.read(appDatabaseProvider);
-        final levels = await db.getCharacterLevels(character.id);
+        final levels = await db.getCharacterLevels(uid, character.id);
         if (levels != null) {
           _rangeValues.addAll(levels.map((key, value) =>
               MapEntry(key, LevelRangeValues(value, _rangeValues[key]!.end)),),);
@@ -200,10 +207,13 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
 
     useEffect(
       () {
-        if (prefs.syncCharaState) {
-          syncGameData();
-        }
-        setDefaultSliderValues();
+        () async {
+          await setDefaultSliderValues();
+
+          if (prefs.syncCharaState && _rangeValues.values.any((e) => e.start != e.end)) {
+            syncGameData();
+          }
+        }();
         return null;
       },
       [],

@@ -21,7 +21,7 @@ ResinCalculationResult calculateResinRecovery({
     fullyReplenishedBy: fullyReplenishedBy,
     timeToFull: timeToFull,
     currentResin: math.min(currentResin + resinDelta, maxResin),
-    wastedResin: currentResin + resinDelta - maxResin,
+    wastedResin: math.min(currentResin, maxResin) + resinDelta - maxResin,
   );
 }
 

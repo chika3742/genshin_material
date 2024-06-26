@@ -35,11 +35,12 @@ enum MaterialBookmarkType {
 }
 
 class CharacterLevelInfo extends Table {
+  TextColumn get uid => text()();
   TextColumn get characterId => text()();
   TextColumn get purposes => text().map(const PurposeMapConverter())();
 
   @override
-  Set<Column> get primaryKey => {characterId};
+  Set<Column> get primaryKey => {uid, characterId};
 }
 
 class PurposeMapConverter extends TypeConverter<Map<Purpose, int>, String> {
@@ -97,17 +98,20 @@ class AppDatabase extends _$AppDatabase {
     });
   }
 
-  Future<int> setCharacterLevels(String characterId, Map<Purpose, int> purposes) async {
+  Future<int> setCharacterLevels(String uid, String characterId, Map<Purpose, int> purposes) async {
     return await into(characterLevelInfo).insertOnConflictUpdate(
       CharacterLevelInfoCompanion.insert(
+        uid: uid,
         characterId: characterId,
         purposes: purposes,
       ),
     );
   }
 
-  Future<Map<Purpose, int>?> getCharacterLevels(String characterId) async {
-    final info = await (select(characterLevelInfo)..where((tbl) => tbl.characterId.equals(characterId))).getSingleOrNull();
+  Future<Map<Purpose, int>?> getCharacterLevels(String uid, String characterId) async {
+    final query = select(characterLevelInfo)
+      ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId));
+    final info = await query.getSingleOrNull();
     return info?.purposes;
   }
 }

@@ -146,6 +146,12 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                           DebugDriftDbViewerRoute.$parentNavigatorKey,
                       factory: $DebugDriftDbViewerRouteExtension._fromState,
                     ),
+                    GoRouteData.$route(
+                      path: 'component-gallery',
+                      parentNavigatorKey:
+                          DebugComponentGalleryRoute.$parentNavigatorKey,
+                      factory: $DebugComponentGalleryRouteExtension._fromState,
+                    ),
                   ],
                 ),
               ],
@@ -550,6 +556,24 @@ extension $DebugDriftDbViewerRouteExtension on DebugDriftDbViewerRoute {
 
   String get location => GoRouteData.$location(
         '/more/debug/drift-db-viewer',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DebugComponentGalleryRouteExtension on DebugComponentGalleryRoute {
+  static DebugComponentGalleryRoute _fromState(GoRouterState state) =>
+      DebugComponentGalleryRoute();
+
+  String get location => GoRouteData.$location(
+        '/more/debug/component-gallery',
       );
 
   void go(BuildContext context) => context.go(location);

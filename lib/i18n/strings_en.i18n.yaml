@@ -10,12 +10,15 @@ common:
   index: Index
   expandAll: Expand all
   collapseAll: Collapse all
-  minutes:
-    other: $n minutes
-    one: $n minute
-  hours:
-    other: $n hours
-    one: $n hour
+  seconds(rich):
+    other: $n ${unit(seconds)}
+    one: $n ${unit(second)}
+  minutes(rich):
+    other: $n ${unit(minutes)}
+    one: $n ${unit(minute)}
+  hours(rich):
+    other: $n ${unit(hours)}
+    one: $n ${unit(hour)}
 talentTypes(map):
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill
@@ -93,6 +96,10 @@ resinCalcPage:
   wastedResin: Wasted Resin
   tomorrow: Tomorrow
   alreadyFull: Already fully recovered
+  howToUse: How to Use
+  howToUseContent: |
+    Enter your current resin count to calculate the time when your resin will be fully recovered and the time remaining until full recovery based on the time you entered.
+    By linking with @:pages.hoyolabIntegrationSettings, you can synchronize your current resin count. If you use this feature, please note that "@:resinCalcPage.recoveredTime" and "@:resinCalcPage.wastedResin" will not be accurately calculated if you have not synchronized after using resin for the last time or recovering it with items, etc.
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
   hoyolabIntegrationSettingsDesc: Link with HoYoLAB to sync in-game data

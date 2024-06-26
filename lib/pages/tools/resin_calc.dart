@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
 import "package:flutter/services.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
@@ -28,12 +29,6 @@ class ResinCalcPage extends HookConsumerWidget {
     final resinController = useTextEditingController(text: prefs.resin?.toString() ?? "");
     final resinInput = useValueListenable(resinController);
 
-    // For rebuilding results every second
-    final currentTime = useState(DateTime.now());
-    usePeriodicTimer(const Duration(seconds: 1), (_) {
-      currentTime.value = DateTime.now();
-    });
-
     final gameDataSyncInProgress = useState(false);
     Future<void> syncResin() async {
       gameDataSyncInProgress.value = true;
@@ -41,7 +36,7 @@ class ResinCalcPage extends HookConsumerWidget {
       final api = HoyolabApi(cookie: prefs.hyvCookie, region: prefs.hyvServer, uid: prefs.hyvUid);
       try {
         final dailyNote = await api.getDailyNote();
-        if (dailyNote.currentResin != maxResin || prefs.resin != maxResin) {
+        if (dailyNote.currentResin < maxResin || prefs.resin == null || prefs.resin! < maxResin) {
           resinController.text = dailyNote.currentResin.toString();
           ref.read(preferencesStateNotifierProvider.notifier)
               .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
@@ -62,8 +57,6 @@ class ResinCalcPage extends HookConsumerWidget {
       return null;
     }, [],);
 
-    final rows = _buildRows(prefs);
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -82,6 +75,7 @@ class ResinCalcPage extends HookConsumerWidget {
                     TextFormField(
                       controller: resinController,
                       keyboardType: TextInputType.number,
+                      enabled: !prefs.isLinkedWithHoyolab || !prefs.syncResin,
                       decoration: InputDecoration(
                         labelText: tr.resinCalcPage.currentResin,
                         border: const OutlineInputBorder(),
@@ -117,66 +111,25 @@ class ResinCalcPage extends HookConsumerWidget {
                       },
                     ),
 
-                    Table(
-                      children: [
-                        for (final row in rows)
-                          TableRow(
-                            decoration: row.decoration,
-                            children: [
-                              TableCell(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(row.label),
-                                ),
-                              ),
-                              TableCell(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: DefaultTextStyle(
-                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    child: row.content,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                      ],
-                    ),
-                    if (prefs.resin == maxResin) Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        tr.resinCalcPage.alreadyFull,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    const _CalcResultTable(),
+
                     const SizedBox(height: 8), // 24px spacing (GappedColumn)
+                    ListSubheader(tr.resinCalcPage.howToUse, padding: EdgeInsets.zero),
+                    Text(tr.resinCalcPage.howToUseContent),
+
                     ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
-                    GestureDetector(
-                      onTap: () {
-                        ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(!prefs.syncResin);
-                        if (!prefs.syncResin) {
-                          syncResin();
-                        }
-                      },
-                      child: GappedRow(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(tr.hoyolab.syncResin),
-                          Switch(
-                            value: prefs.syncResin,
-                            onChanged: (value) {
-                              ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
-                              if (value) {
-                                syncResin();
-                              }
-                            },
-                          ),
-                        ],
+                    OverflowBox(
+                      fit: OverflowBoxFit.deferToChild,
+                      maxWidth: MediaQuery.of(context).size.width,
+                      child: SwitchListTile(
+                        title: Text(tr.hoyolab.syncResin),
+                        value: prefs.syncResin,
+                        onChanged: prefs.isLinkedWithHoyolab ? (value) {
+                          ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
+                          if (value) {
+                            syncResin();
+                          }
+                        } : null,
                       ),
                     ),
                   ],
@@ -188,13 +141,24 @@ class ResinCalcPage extends HookConsumerWidget {
       ),
     );
   }
+}
 
-  List<_ResultItem> _buildRows(PreferencesState prefs) {
-    final context = useContext();
+class _CalcResultTable extends HookConsumerWidget {
+  const _CalcResultTable();
 
-    ResinCalculationResult? result;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // For rebuilding results every second
+    final currentTime = useState(DateTime.now());
+    usePeriodicTimer(const Duration(seconds: 1), (_) {
+      currentTime.value = DateTime.now();
+    });
+
+    final prefs = ref.watch(preferencesStateNotifierProvider);
+
+    ResinCalculationResult? calcResult;
     if (prefs.resin != null && prefs.resinBaseTime != null) {
-      result = calculateResinRecovery(
+      calcResult = calculateResinRecovery(
         currentResin: prefs.resin!,
         baseTime: prefs.resinBaseTime!,
         maxResin: maxResin,
@@ -202,53 +166,98 @@ class ResinCalcPage extends HookConsumerWidget {
       );
     }
 
-    final rows = <_ResultItem>[
-      _ResultItem(
-        tr.resinCalcPage.baseTime,
-        () {
-          if (prefs.resinBaseTime == null) return const Text("-");
-          return Wrap(
-            children: [
-              Text(_formatDateTime(prefs.resinBaseTime!)),
-              const SizedBox(width: 8),
-              Text(
-                "(${timeago.format(prefs.resinBaseTime!, locale: LocaleSettings.currentLocale.languageCode)})",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  fontSize: 14,
+    return Column(
+      children: [
+        _buildRow(
+          label: tr.resinCalcPage.baseTime,
+          content: () {
+            if (prefs.resinBaseTime == null) return const Text("-");
+            return Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(
+                  _formatDateTime(prefs.resinBaseTime!),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
-              ),
-            ],
-          );
-        }(),
-        decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey)),
+                const SizedBox(width: 8),
+                Text(
+                  "(${timeago.format(prefs.resinBaseTime!, locale: LocaleSettings.currentLocale.languageCode)})",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            );
+          }(),
         ),
-      ),
-      _ResultItem(
-        result != null && result.timeToFull.isNegative
-            ? tr.resinCalcPage.recoveredTime
-            : tr.resinCalcPage.fullRecoveryTime,
-        Text(result != null ? _formatDateTime(result.fullyReplenishedBy) : "-"),
-      ),
-      _ResultItem(
-        tr.resinCalcPage.untilFullRecovery,
-        Text(result != null && !result.timeToFull.isNegative
-            ? "${tr.common.hours(n: result.timeToFull.inHours)}"
-              " ${tr.common.minutes(n: result.timeToFull.inMinutes.remainder(60))}"
-            : "-",),
-      ),
-      _ResultItem(
-        tr.resinCalcPage.currentResin,
-        Text(result != null ? "${result.currentResin} / $maxResin" : "-"),
-      ),
-      _ResultItem(
-        tr.resinCalcPage.wastedResin,
-        Text(result != null && result.wastedResin >= 0 ? result.wastedResin.toString() : "-"),
-      ),
-    ];
+        const Divider(),
+        _buildRow(
+          label: calcResult != null && calcResult.timeToFull.isNegative
+              ? tr.resinCalcPage.recoveredTime
+              : tr.resinCalcPage.fullRecoveryTime,
+          content: Text(calcResult != null ? _formatDateTime(calcResult.fullyReplenishedBy) : "-"),
+        ),
+        const SizedBox(height: 4),
+        _buildRow(
+          label: tr.resinCalcPage.untilFullRecovery,
+          content: Text.rich(
+            calcResult != null && !calcResult.timeToFull.isNegative
+                ? _formatDuration(calcResult.timeToFull)
+                : const TextSpan(text: "-"),
+          ),
+        ),
+        const SizedBox(height: 4),
+        _buildRow(
+          label: tr.resinCalcPage.currentResin,
+          content: Text(calcResult != null ? "${calcResult.currentResin} / $maxResin" : "-"),
+        ),
+        const SizedBox(height: 4),
+        _buildRow(
+          label: tr.resinCalcPage.wastedResin,
+          content: Text(calcResult != null && calcResult.wastedResin >= 0 ? calcResult.wastedResin.toString() : "-"),
+        ),
 
-    return rows;
+        if (calcResult != null && calcResult.currentResin == maxResin) Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            tr.resinCalcPage.alreadyFull,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.error,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRow({required String label, required Widget content}) {
+    final context = useContext();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(label),
+          ),
+          Expanded(
+            child: DefaultTextStyle(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+              child: content,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   String _formatDateTime(DateTime dateTime) {
@@ -266,12 +275,43 @@ class ResinCalcPage extends HookConsumerWidget {
 
     return "$dateDisplay${DateFormat("jm", LocaleSettings.currentLocale.languageCode).format(dateTime)}";
   }
-}
 
-class _ResultItem {
-  final String label;
-  final Widget content;
-  final Decoration? decoration;
+  InlineSpan _formatDuration(Duration duration) {
+    final parts = <InlineSpan>[];
 
-  const _ResultItem(this.label, this.content, {this.decoration});
+    if (duration.inHours > 0) {
+      parts.add(
+        tr.common.hours(
+          n: duration.inHours,
+          nBuilder: (n) => TextSpan(text: n.toString()),
+          unit: (unit) => TextSpan(text: unit, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal)),
+        ),
+      );
+    }
+    if (duration.inMinutes > 0) {
+      parts.add(
+        tr.common.minutes(
+          n: duration.inMinutes.remainder(60),
+          nBuilder: (n) => TextSpan(text: n.toString()),
+          unit: (unit) => TextSpan(text: unit, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal)),
+        ),
+      );
+    }
+    parts.add(
+      tr.common.seconds(
+        n: duration.inSeconds.remainder(60),
+        nBuilder: (n) => TextSpan(text: n.toString()),
+        unit: (unit) => TextSpan(text: unit, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal)),
+      ),
+    );
+
+    return TextSpan(
+      children: List.generate(parts.length * 2 - 1, (index) {
+        if (index.isEven) {
+          return parts[index ~/ 2];
+        }
+        return const TextSpan(text: " ");
+      }),
+    );
+  }
 }

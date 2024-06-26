@@ -24,6 +24,10 @@ class DebugMenuPage extends StatelessWidget {
             title: "Drift DB Editor",
             location: DebugDriftDbViewerRoute().location,
           ),
+          SimpleListTile(
+            title: "Component Gallery",
+            location: DebugComponentGalleryRoute().location,
+          ),
           PopupMenuListTile(
             title: const Text("Change App Language"),
             subtitle: Text("Current: ${LocaleSettings.currentLocale.languageCode}"),

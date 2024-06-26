@@ -1,3 +1,5 @@
+import "dart:math";
+
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
@@ -28,7 +30,7 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
   }
 
   Future<void> setResinWithRecoveryTime(int resin, int recoveryTime) async {
-    final offset = (maxResin - resin) * resinRecoveryRateInMinutes * 60 - recoveryTime;
+    final offset = (maxResin - min<int>(resin, maxResin)) * resinRecoveryRateInMinutes * 60 - recoveryTime;
     final baseTime = DateTime.now().subtract(Duration(seconds: offset));
 
     await state.pref.setResin(resin);
