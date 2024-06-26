@@ -36,7 +36,7 @@ class ResinCalcPage extends HookConsumerWidget {
       final api = HoyolabApi(cookie: prefs.hyvCookie, region: prefs.hyvServer, uid: prefs.hyvUid);
       try {
         final dailyNote = await api.getDailyNote();
-        if (dailyNote.currentResin != maxResin || prefs.resin != maxResin) {
+        if (dailyNote.currentResin < maxResin || prefs.resin == null || prefs.resin! < maxResin) {
           resinController.text = dailyNote.currentResin.toString();
           ref.read(preferencesStateNotifierProvider.notifier)
               .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
