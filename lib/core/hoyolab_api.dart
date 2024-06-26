@@ -247,7 +247,7 @@ class HoyolabApiException implements Exception {
     Retcode.characterDoesNotExist => tr.hoyolab.characterDoesNotExist,
     -100 => tr.hoyolab.loginExpired,
     10102 => tr.hoyolab.realtimeNotesNotEnabled,
-    _ => "($retcode)",
+    _ => "($retcode: $originalMessage)",
   }}";
 
   @override
