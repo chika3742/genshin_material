@@ -91,6 +91,10 @@ resinCalcPage:
   wastedResin: 無駄にした樹脂
   tomorrow: 明日
   alreadyFull: すでに全回復しました
+  howToUse: 使い方
+  howToUseContent: |
+    現在の樹脂数を入力すると、入力した地点での時間を基準に、樹脂が全回復する時刻と、全回復するまでの時間を計算します。
+    @:pages.hoyolabIntegrationSettingsで連携すると、現在の樹脂数を同期できるようになります。この機能を利用する場合「@:resinCalcPage.recoveredTime」「@:resinCalcPage.wastedResin」は、最後に樹脂を使用もしくはアイテム等で回復してから一度も同期していなかった場合には、正確に算出されませんのでご了承ください。
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
   hoyolabIntegrationSettingsDesc: HoYoLABと連携し、ゲーム内のデータと同期できます。

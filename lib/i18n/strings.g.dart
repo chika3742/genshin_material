@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 234 (117 per locale)
+/// Strings: 238 (119 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -350,6 +350,8 @@ class _StringsResinCalcPageJa {
 	String get wastedResin => '無駄にした樹脂';
 	String get tomorrow => '明日';
 	String get alreadyFull => 'すでに全回復しました';
+	String get howToUse => '使い方';
+	String get howToUseContent => '現在の樹脂数を入力すると、入力した地点での時間を基準に、樹脂が全回復する時刻と、全回復するまでの時間を計算します。\n${_root.pages.hoyolabIntegrationSettings}で連携すると、現在の樹脂数を同期できるようになります。この機能を利用する場合「${_root.resinCalcPage.recoveredTime}」「${_root.resinCalcPage.wastedResin}」は、最後に樹脂を使用もしくはアイテム等で回復してから一度も同期していなかった場合には、正確に算出されませんのでご了承ください。\n';
 }
 
 // Path: morePage
@@ -658,6 +660,8 @@ class _StringsResinCalcPageEn extends _StringsResinCalcPageJa {
 	@override String get wastedResin => 'Wasted Resin';
 	@override String get tomorrow => 'Tomorrow';
 	@override String get alreadyFull => 'Already fully recovered';
+	@override String get howToUse => 'How to Use';
+	@override String get howToUseContent => 'Enter your current resin count to calculate the time when your resin will be fully recovered and the time remaining until full recovery based on the time you entered.\nBy linking with ${_root.pages.hoyolabIntegrationSettings}, you can synchronize your current resin count. If you use this feature, please note that "${_root.resinCalcPage.recoveredTime}" and "${_root.resinCalcPage.wastedResin}" will not be accurately calculated if you have not synchronized after using resin for the last time or recovering it with items, etc.\n';
 }
 
 // Path: morePage
@@ -821,6 +825,8 @@ extension on Translations {
 			case 'resinCalcPage.wastedResin': return '無駄にした樹脂';
 			case 'resinCalcPage.tomorrow': return '明日';
 			case 'resinCalcPage.alreadyFull': return 'すでに全回復しました';
+			case 'resinCalcPage.howToUse': return '使い方';
+			case 'resinCalcPage.howToUseContent': return '現在の樹脂数を入力すると、入力した地点での時間を基準に、樹脂が全回復する時刻と、全回復するまでの時間を計算します。\n${_root.pages.hoyolabIntegrationSettings}で連携すると、現在の樹脂数を同期できるようになります。この機能を利用する場合「${_root.resinCalcPage.recoveredTime}」「${_root.resinCalcPage.wastedResin}」は、最後に樹脂を使用もしくはアイテム等で回復してから一度も同期していなかった場合には、正確に算出されませんのでご了承ください。\n';
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
@@ -951,6 +957,8 @@ extension on _StringsEn {
 			case 'resinCalcPage.wastedResin': return 'Wasted Resin';
 			case 'resinCalcPage.tomorrow': return 'Tomorrow';
 			case 'resinCalcPage.alreadyFull': return 'Already fully recovered';
+			case 'resinCalcPage.howToUse': return 'How to Use';
+			case 'resinCalcPage.howToUseContent': return 'Enter your current resin count to calculate the time when your resin will be fully recovered and the time remaining until full recovery based on the time you entered.\nBy linking with ${_root.pages.hoyolabIntegrationSettings}, you can synchronize your current resin count. If you use this feature, please note that "${_root.resinCalcPage.recoveredTime}" and "${_root.resinCalcPage.wastedResin}" will not be accurately calculated if you have not synchronized after using resin for the last time or recovering it with items, etc.\n';
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'Link with HoYoLAB to sync in-game data';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';

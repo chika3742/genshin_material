@@ -83,6 +83,7 @@ class ResinCalcPage extends HookConsumerWidget {
                     TextFormField(
                       controller: resinController,
                       keyboardType: TextInputType.number,
+                      enabled: !prefs.isLinkedWithHoyolab || !prefs.syncResin,
                       decoration: InputDecoration(
                         labelText: tr.resinCalcPage.currentResin,
                         border: const OutlineInputBorder(),
@@ -156,6 +157,9 @@ class ResinCalcPage extends HookConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 8), // 24px spacing (GappedColumn)
+                    ListSubheader(tr.resinCalcPage.howToUse, padding: EdgeInsets.zero),
+                    Text(tr.resinCalcPage.howToUseContent),
+
                     ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
                     OverflowBox(
                       fit: OverflowBoxFit.deferToChild,
