@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
 import "package:flutter/services.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
@@ -156,27 +157,18 @@ class ResinCalcPage extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 8), // 24px spacing (GappedColumn)
                     ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
-                    GestureDetector(
-                      onTap: () {
-                        ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(!prefs.syncResin);
-                        if (!prefs.syncResin) {
-                          syncResin();
-                        }
-                      },
-                      child: GappedRow(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(tr.hoyolab.syncResin),
-                          Switch(
-                            value: prefs.syncResin,
-                            onChanged: (value) {
-                              ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
-                              if (value) {
-                                syncResin();
-                              }
-                            },
-                          ),
-                        ],
+                    OverflowBox(
+                      fit: OverflowBoxFit.deferToChild,
+                      maxWidth: MediaQuery.of(context).size.width,
+                      child: SwitchListTile(
+                        title: Text(tr.hoyolab.syncResin),
+                        value: prefs.syncResin,
+                        onChanged: (value) {
+                          ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
+                          if (value) {
+                            syncResin();
+                          }
+                        },
                       ),
                     ),
                   ],
