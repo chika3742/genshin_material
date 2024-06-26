@@ -5,8 +5,6 @@
 ///
 /// Locales: 2
 /// Strings: 234 (117 per locale)
-///
-/// Built on 2024-06-23 at 16:11 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -14,7 +12,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:slang/builder/model/node.dart';
 import 'package:slang_flutter/slang_flutter.dart';
-
 export 'package:slang_flutter/slang_flutter.dart';
 
 const AppLocale _baseLocale = AppLocale.ja;
