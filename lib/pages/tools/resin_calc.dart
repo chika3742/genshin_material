@@ -205,11 +205,10 @@ class _CalcResultTable extends HookConsumerWidget {
         const SizedBox(height: 4),
         _buildRow(
           label: tr.resinCalcPage.untilFullRecovery,
-          content: Text(
+          content: Text.rich(
             calcResult != null && !calcResult.timeToFull.isNegative
-                ? "${tr.common.hours(n: calcResult.timeToFull.inHours)}"
-                    " ${tr.common.minutes(n: calcResult.timeToFull.inMinutes.remainder(60))}"
-                : "-",
+                ? _formatDuration(calcResult.timeToFull)
+                : const TextSpan(text: "-"),
           ),
         ),
         const SizedBox(height: 4),
@@ -276,5 +275,43 @@ class _CalcResultTable extends HookConsumerWidget {
 
     return "$dateDisplay${DateFormat("jm", LocaleSettings.currentLocale.languageCode).format(dateTime)}";
   }
-}
 
+  InlineSpan _formatDuration(Duration duration) {
+    final parts = <InlineSpan>[];
+
+    if (duration.inHours > 0) {
+      parts.add(
+        tr.common.hours(
+          n: duration.inHours,
+          nBuilder: (n) => TextSpan(text: n.toString()),
+          unit: (unit) => TextSpan(text: unit, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal)),
+        ),
+      );
+    }
+    if (duration.inMinutes > 0) {
+      parts.add(
+        tr.common.minutes(
+          n: duration.inMinutes.remainder(60),
+          nBuilder: (n) => TextSpan(text: n.toString()),
+          unit: (unit) => TextSpan(text: unit, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal)),
+        ),
+      );
+    }
+    parts.add(
+      tr.common.seconds(
+        n: duration.inSeconds.remainder(60),
+        nBuilder: (n) => TextSpan(text: n.toString()),
+        unit: (unit) => TextSpan(text: unit, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal)),
+      ),
+    );
+
+    return TextSpan(
+      children: List.generate(parts.length * 2 - 1, (index) {
+        if (index.isEven) {
+          return parts[index ~/ 2];
+        }
+        return const TextSpan(text: " ");
+      }),
+    );
+  }
+}

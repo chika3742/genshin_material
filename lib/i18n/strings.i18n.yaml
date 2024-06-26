@@ -10,10 +10,12 @@ common:
   index: 目次
   expandAll: 全て展開
   collapseAll: 全て折りたたむ
-  minutes:
-    other: $n分
-  hours:
-    other: $n時間
+  seconds(rich):
+    other: $n${unit(秒)}
+  minutes(rich):
+    other: $n${unit(分)}
+  hours(rich):
+    other: $n${unit(時間)}
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル

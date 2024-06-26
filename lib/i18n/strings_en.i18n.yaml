@@ -10,12 +10,15 @@ common:
   index: Index
   expandAll: Expand all
   collapseAll: Collapse all
-  minutes:
-    other: $n minutes
-    one: $n minute
-  hours:
-    other: $n hours
-    one: $n hour
+  seconds(rich):
+    other: $n ${unit(seconds)}
+    one: $n ${unit(second)}
+  minutes(rich):
+    other: $n ${unit(minutes)}
+    one: $n ${unit(minute)}
+  hours(rich):
+    other: $n ${unit(hours)}
+    one: $n ${unit(hour)}
 talentTypes(map):
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill

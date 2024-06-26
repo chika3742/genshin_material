@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 238 (119 per locale)
+/// Strings: 241 (120 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -189,11 +189,29 @@ class _StringsCommonJa {
 	String get index => '目次';
 	String get expandAll => '全て展開';
 	String get collapseAll => '全て折りたたむ';
-	String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-		other: '${n}分',
+	TextSpan seconds({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+		n: n,
+		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
+		other: () => TextSpan(children: [
+			nBuilder(n),
+			unit('秒'),
+		]),
 	);
-	String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-		other: '${n}時間',
+	TextSpan minutes({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+		n: n,
+		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
+		other: () => TextSpan(children: [
+			nBuilder(n),
+			unit('分'),
+		]),
+	);
+	TextSpan hours({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+		n: n,
+		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
+		other: () => TextSpan(children: [
+			nBuilder(n),
+			unit('時間'),
+		]),
 	);
 }
 
@@ -497,13 +515,47 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override String get index => 'Index';
 	@override String get expandAll => 'Expand all';
 	@override String get collapseAll => 'Collapse all';
-	@override String minutes({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		other: '${n} minutes',
-		one: '${n} minute',
+	@override TextSpan seconds({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+		n: n,
+		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
+		other: () => TextSpan(children: [
+			nBuilder(n),
+			const TextSpan(text: ' '),
+			unit('seconds'),
+		]),
+		one: () => TextSpan(children: [
+			nBuilder(n),
+			const TextSpan(text: ' '),
+			unit('second'),
+		]),
 	);
-	@override String hours({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		other: '${n} hours',
-		one: '${n} hour',
+	@override TextSpan minutes({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+		n: n,
+		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
+		other: () => TextSpan(children: [
+			nBuilder(n),
+			const TextSpan(text: ' '),
+			unit('minutes'),
+		]),
+		one: () => TextSpan(children: [
+			nBuilder(n),
+			const TextSpan(text: ' '),
+			unit('minute'),
+		]),
+	);
+	@override TextSpan hours({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+		n: n,
+		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
+		other: () => TextSpan(children: [
+			nBuilder(n),
+			const TextSpan(text: ' '),
+			unit('hours'),
+		]),
+		one: () => TextSpan(children: [
+			nBuilder(n),
+			const TextSpan(text: ' '),
+			unit('hour'),
+		]),
 	);
 }
 
@@ -755,11 +807,29 @@ extension on Translations {
 			case 'common.index': return '目次';
 			case 'common.expandAll': return '全て展開';
 			case 'common.collapseAll': return '全て折りたたむ';
-			case 'common.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-				other: '${n}分',
+			case 'common.seconds': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+				n: n,
+				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
+				other: () => TextSpan(children: [
+					nBuilder(n),
+					unit('秒'),
+				]),
 			);
-			case 'common.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(n,
-				other: '${n}時間',
+			case 'common.minutes': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+				n: n,
+				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
+				other: () => TextSpan(children: [
+					nBuilder(n),
+					unit('分'),
+				]),
+			);
+			case 'common.hours': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+				n: n,
+				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
+				other: () => TextSpan(children: [
+					nBuilder(n),
+					unit('時間'),
+				]),
 			);
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
@@ -885,13 +955,47 @@ extension on _StringsEn {
 			case 'common.index': return 'Index';
 			case 'common.expandAll': return 'Expand all';
 			case 'common.collapseAll': return 'Collapse all';
-			case 'common.minutes': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-				other: '${n} minutes',
-				one: '${n} minute',
+			case 'common.seconds': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+				n: n,
+				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
+				other: () => TextSpan(children: [
+					nBuilder(n),
+					const TextSpan(text: ' '),
+					unit('seconds'),
+				]),
+				one: () => TextSpan(children: [
+					nBuilder(n),
+					const TextSpan(text: ' '),
+					unit('second'),
+				]),
 			);
-			case 'common.hours': return ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-				other: '${n} hours',
-				one: '${n} hour',
+			case 'common.minutes': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+				n: n,
+				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
+				other: () => TextSpan(children: [
+					nBuilder(n),
+					const TextSpan(text: ' '),
+					unit('minutes'),
+				]),
+				one: () => TextSpan(children: [
+					nBuilder(n),
+					const TextSpan(text: ' '),
+					unit('minute'),
+				]),
+			);
+			case 'common.hours': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
+				n: n,
+				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
+				other: () => TextSpan(children: [
+					nBuilder(n),
+					const TextSpan(text: ' '),
+					unit('hours'),
+				]),
+				one: () => TextSpan(children: [
+					nBuilder(n),
+					const TextSpan(text: ' '),
+					unit('hour'),
+				]),
 			);
 			case 'talentTypes.normalAttack': return 'Normal Attack';
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
