@@ -112,16 +112,7 @@ class ResinCalcPage extends HookConsumerWidget {
                     ),
 
                     const _CalcResultTable(),
-                    if (prefs.resin == maxResin) Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        tr.resinCalcPage.alreadyFull,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+
                     const SizedBox(height: 8), // 24px spacing (GappedColumn)
                     ListSubheader(tr.resinCalcPage.howToUse, padding: EdgeInsets.zero),
                     Text(tr.resinCalcPage.howToUseContent),
@@ -222,6 +213,17 @@ class _CalcResultTable extends HookConsumerWidget {
         _buildRow(
           label: tr.resinCalcPage.wastedResin,
           content: Text(calcResult != null && calcResult.wastedResin >= 0 ? calcResult.wastedResin.toString() : "-"),
+        ),
+
+        if (calcResult != null && calcResult.currentResin == maxResin) Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            tr.resinCalcPage.alreadyFull,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.error,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ],
     );
