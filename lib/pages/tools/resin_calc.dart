@@ -163,12 +163,12 @@ class ResinCalcPage extends HookConsumerWidget {
                       child: SwitchListTile(
                         title: Text(tr.hoyolab.syncResin),
                         value: prefs.syncResin,
-                        onChanged: (value) {
+                        onChanged: prefs.isLinkedWithHoyolab ? (value) {
                           ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
                           if (value) {
                             syncResin();
                           }
-                        },
+                        } : null,
                       ),
                     ),
                   ],
