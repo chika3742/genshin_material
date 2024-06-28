@@ -103,6 +103,13 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                   path: 'settings',
                   parentNavigatorKey: SettingsRoute.$parentNavigatorKey,
                   factory: $SettingsRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: 'licenses',
+                      parentNavigatorKey: LicensesRoute.$parentNavigatorKey,
+                      factory: $LicensesRouteExtension._fromState,
+                    ),
+                  ],
                 ),
                 GoRouteData.$route(
                   path: 'account',
@@ -424,6 +431,23 @@ extension $SettingsRouteExtension on SettingsRoute {
 
   String get location => GoRouteData.$location(
         '/more/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $LicensesRouteExtension on LicensesRoute {
+  static LicensesRoute _fromState(GoRouterState state) => LicensesRoute();
+
+  String get location => GoRouteData.$location(
+        '/more/settings/licenses',
       );
 
   void go(BuildContext context) => context.go(location);

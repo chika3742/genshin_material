@@ -1,9 +1,9 @@
 import "package:drift_db_viewer/drift_db_viewer.dart";
-import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
+import "i18n/strings.g.dart";
 import "main.dart";
 import "pages/account.dart";
 import "pages/bookmarks.dart";
@@ -29,6 +29,7 @@ import "pages/settings.dart";
 import "pages/tools/resin_calc.dart";
 import "pages/tools/tools.dart";
 import "providers/database_provider.dart";
+import "providers/versions.dart";
 import "ui_core/page_transition.dart";
 
 part "routes.g.dart";
@@ -93,7 +94,9 @@ part "routes.g.dart";
         TypedGoRoute<MoreNavRoute>(
           path: "/more",
           routes: [
-            TypedGoRoute<SettingsRoute>(path: "settings"),
+            TypedGoRoute<SettingsRoute>(path: "settings", routes: [
+              TypedGoRoute<LicensesRoute>(path: "licenses"),
+            ],),
             TypedGoRoute<AccountRoute>(path: "account"),
             TypedGoRoute<ReleaseNotesRoute>(path: "release-notes"),
             TypedGoRoute<HoyolabIntegrationSettingsRoute>(path: "hoyolab-integration", routes: [
@@ -358,6 +361,27 @@ class HoyolabSignInRoute extends GoRouteData {
     return buildTransitionedPage(
       context: context,
       child: const HoyolabSignInPage(),
+    );
+  }
+}
+
+@immutable
+class LicensesRoute extends GoRouteData {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: Consumer(
+        builder: (context, ref, _) {
+          return LicensePage(
+            applicationLegalese: "©2024 cq / Images & data ©COGNOSPHERE",
+            applicationName: tr.appName,
+            applicationVersion: ref.watch(packageInfoProvider).value?.version,
+          );
+        },
+      ),
     );
   }
 }

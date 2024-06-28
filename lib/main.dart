@@ -1,7 +1,10 @@
 import "package:flutter/cupertino.dart";
+import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
+import "package:google_fonts/google_fonts.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:timeago/timeago.dart" as timeago;
@@ -27,6 +30,17 @@ void main() async {
     cardinalResolver: (n, {few, many, one, other, two, zero}) => other!,
   );
   spInstance = await SharedPreferences.getInstance();
+  LicenseRegistry.addLicense(() async* {
+    final licenses = [
+      "assets/google_fonts/OFL_MPLUS2.txt",
+      "assets/google_fonts/OFL_TitilliumWeb.txt",
+    ];
+
+    for (var path in licenses) {
+      final license = await rootBundle.loadString(path);
+      yield LicenseEntryWithLineBreaks(["google_fonts"], license);
+    }
+  });
   runApp(
     ProviderScope(
       observers: [ProviderErrorObserver()],
@@ -68,6 +82,7 @@ class MyApp extends StatelessWidget {
             rarity5Color: Colors.orange.shade700,
           ),
         ],
+        textTheme: GoogleFonts.mPlus2TextTheme(),
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -84,6 +99,7 @@ class MyApp extends StatelessWidget {
             rarity5Color: Colors.orange,
           ),
         ],
+        textTheme: GoogleFonts.mPlus2TextTheme(ThemeData.dark().textTheme),
       ),
       routerConfig: _router,
       localizationsDelegates: const [

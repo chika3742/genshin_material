@@ -272,7 +272,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                       Card(
                         margin: EdgeInsets.zero,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: LevelSlider(
                             levels: _sliderTickLabels[Purpose.ascension]!,
                             values: _rangeValues[Purpose.ascension]!,
@@ -321,12 +321,15 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                                         // scroll to the talent materials section on checkbox checked
                                         if (value == true) {
                                           Future.delayed(const Duration(milliseconds: 200), () {
-                                            Scrollable.ensureVisible(
-                                              _talentSectionKeys[purpose]!.currentContext!,
-                                              duration: const Duration(milliseconds: 300),
-                                              curve: Curves.easeOutQuint,
-                                              alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
-                                            );
+                                            final context = _talentSectionKeys[purpose]!.currentContext;
+                                            if (context?.mounted == true) {
+                                              Scrollable.ensureVisible(
+                                                context!,
+                                                duration: const Duration(milliseconds: 300),
+                                                curve: Curves.easeOutQuint,
+                                                alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+                                              );
+                                            }
                                           });
                                         }
                                       },

@@ -2,6 +2,7 @@ import "dart:io";
 
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:google_fonts/google_fonts.dart";
 import "package:intl/intl.dart";
 import "package:material_symbols_icons/symbols.dart";
 
@@ -91,7 +92,10 @@ class MaterialCard extends HookWidget {
                           children: [
                             Text(
                               "x${NumberFormat.decimalPattern().format(animatedQuantity)}",
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                              style: GoogleFonts.titilliumWeb(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),

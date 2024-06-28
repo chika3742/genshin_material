@@ -11,6 +11,7 @@ import "../i18n/strings.g.dart";
 import "../main.dart";
 import "../providers/asset_updating_state.dart";
 import "../providers/versions.dart";
+import "../routes.dart";
 import "../ui_core/install_latest_assets.dart";
 import "../ui_core/snack_bar.dart";
 import "../utils/show_loading_modal.dart";
@@ -69,6 +70,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 ref: ref,
                 updater: updater,
               );
+            },
+          ),
+          ListSubheader(tr.settingsPage.others),
+          SimpleListTile(
+            title: tr.settingsPage.openSourceLicenses,
+            onTap: () {
+              LicensesRoute().go(context);
             },
           ),
         ],

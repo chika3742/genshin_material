@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 241 (120 per locale)
+/// Strings: 244 (122 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -146,6 +146,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final Translations _root = this; // ignore: unused_field
 
 	// Translations
+	String get appName => '原神素材ノート';
 	late final _StringsCommonJa common = _StringsCommonJa._(_root);
 	Map<String, String> get talentTypes => {
 		'normalAttack': '通常攻撃',
@@ -404,6 +405,8 @@ class _StringsSettingsPageJa {
 	String get assetData => 'アセットデータ';
 	String get reDownloadAssets => 'アセットデータを再ダウンロード';
 	String get reDownloadAssetsDesc => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
+	String get others => 'その他';
+	String get openSourceLicenses => 'オープンソースライセンス';
 }
 
 // Path: hoyolab
@@ -796,6 +799,7 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'appName': return '原神素材ノート';
 			case 'common.ok': return 'OK';
 			case 'common.cancel': return 'キャンセル';
 			case 'common.signOut': return 'サインアウト';
@@ -904,6 +908,8 @@ extension on Translations {
 			case 'settingsPage.assetData': return 'アセットデータ';
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
+			case 'settingsPage.others': return 'その他';
+			case 'settingsPage.openSourceLicenses': return 'オープンソースライセンス';
 			case 'hoyolab.signIn': return 'HoYoLABにサインイン';
 			case 'hoyolab.signOut': return 'HoYoLABとの連携を解除';
 			case 'hoyolab.signInNote': return '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';

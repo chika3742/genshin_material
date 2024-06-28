@@ -8,5 +8,5 @@ String combineMaterialBookmarkElements(
   String? materialId,
   int level,
 ) {
-  return "${materialId ?? ""}:$characterId:$purposeType:$bookmarkType:$level}";
+  return "${materialId ?? ""}:$characterId:$purposeType:$bookmarkType:$level";
 }

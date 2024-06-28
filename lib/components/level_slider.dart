@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:google_fonts/google_fonts.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../i18n/strings.g.dart";
@@ -79,7 +80,8 @@ class LevelSlider extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: GappedRow(
           gap: 4,
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
           children: [
             Text.rich(
               TextSpan(
@@ -90,14 +92,17 @@ class LevelSlider extends StatelessWidget {
                   ),
                   TextSpan(
                     text: values.start.toString(),
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: GoogleFonts.titilliumWeb(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 6.0),
-              child: Icon(Symbols.double_arrow),
+            Transform.translate(
+              offset: const Offset(0, 4),
+              child: const Icon(Symbols.double_arrow),
             ),
             Text.rich(
               TextSpan(
@@ -108,7 +113,10 @@ class LevelSlider extends StatelessWidget {
                   ),
                   TextSpan(
                     text: values.end.toString(),
-                    style: Theme.of(context).textTheme.headlineLarge,
+                    style: GoogleFonts.titilliumWeb(
+                      fontSize: 34,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),

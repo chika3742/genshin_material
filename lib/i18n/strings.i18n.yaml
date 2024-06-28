@@ -1,3 +1,4 @@
+appName: 原神素材ノート
 common:
   ok: OK
   cancel: キャンセル
@@ -107,6 +108,8 @@ settingsPage:
   assetData: アセットデータ
   reDownloadAssets: アセットデータを再ダウンロード
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
+  others: その他
+  openSourceLicenses: オープンソースライセンス
 hoyolab:
   signIn: HoYoLABにサインイン
   signOut: HoYoLABとの連携を解除

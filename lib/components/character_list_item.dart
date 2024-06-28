@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:google_fonts/google_fonts.dart";
 
 import "../models/character.dart";
 import "../providers/versions.dart";
@@ -59,7 +60,10 @@ class CharacterListItem extends ConsumerWidget {
                 ),
                 child: Text(
                   character.name.localized,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: GoogleFonts.kaiseiOpti(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
