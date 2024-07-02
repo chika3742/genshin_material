@@ -42,10 +42,6 @@ enum BookmarkState {
   bookmarked,
 }
 
-mixin WithMaterialDefinitions {
-  MaterialDefinitions get materials;
-}
-
 enum DayOfWeek {
   monday,
   tuesday,

@@ -33,7 +33,6 @@ sealed class Character with _$Character {
 
   @With<CharacterWithLargeImage>()
   @With<CharacterWithSmallImage>()
-  @With<WithMaterialDefinitions>()
   const factory Character({
     required String id,
     required String rid,
@@ -62,21 +61,18 @@ sealed class Character with _$Character {
   }) = CharacterGroup;
 
   @With<CharacterWithSmallImage>()
-  @With<WithMaterialDefinitions>()
-  const factory Character.unlisted({
+  const factory Character.variant({
     required String id,
-    required String rid,
     required int hyvId,
     required String parentId,
     required LocalizedText name,
+    required LocalizedText variantName,
     required String jaPronunciation,
     required String smallImageUrl,
-    required int rarity,
-    required WeaponType weaponType,
     required TeyvatElement element,
     required Map<TalentType, LocalizedText> talents,
     required MaterialDefinitions materials,
-  }) = UnlistedCharacter;
+  }) = CharacterVariant;
 
   factory Character.fromJson(Map<String, dynamic> json) =>
       _$CharacterFromJson(json);

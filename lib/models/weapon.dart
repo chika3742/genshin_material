@@ -8,7 +8,7 @@ part "weapon.freezed.dart";
 part "weapon.g.dart";
 
 @freezed
-class Weapon with _$Weapon, ImageGetter, WithMaterialDefinitions {
+class Weapon with _$Weapon, ImageGetter {
   const Weapon._();
 
   const factory Weapon({

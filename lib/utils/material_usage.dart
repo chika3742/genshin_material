@@ -5,9 +5,9 @@ import "../models/weapon.dart";
 
 bool materialUsagePredicate(
   Material material,
-  WithMaterialDefinitions item,
+  MaterialDefinitions definitions,
 ) {
-  return item.materials.entries.any((entry) {
+  return definitions.entries.any((entry) {
     if (entry.key == "runtimeType") {
       return false;
     }
@@ -32,7 +32,7 @@ Iterable<CharacterWithSmallImage> getCharactersUsingMaterial(
       return false;
     }
 
-    return materialUsagePredicate(material, c as WithMaterialDefinitions);
+    return materialUsagePredicate(material, c.materials);
   }).cast<CharacterWithSmallImage>();
 }
 
@@ -41,6 +41,6 @@ Iterable<Weapon> getWeaponsUsingMaterial(
   Iterable<Weapon> items,
 ) {
   return items.where((w) {
-    return materialUsagePredicate(material, w);
+    return materialUsagePredicate(material, w.materials);
   });
 }

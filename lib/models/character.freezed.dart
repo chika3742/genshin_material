@@ -18,8 +18,8 @@ Character _$CharacterFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'group':
       return CharacterGroup.fromJson(json);
-    case 'unlisted':
-      return UnlistedCharacter.fromJson(json);
+    case 'variant':
+      return CharacterVariant.fromJson(json);
 
     default:
       return ListedCharacter.fromJson(json);
@@ -31,8 +31,6 @@ mixin _$Character {
   String get id => throw _privateConstructorUsedError;
   LocalizedText get name => throw _privateConstructorUsedError;
   String get jaPronunciation => throw _privateConstructorUsedError;
-  int get rarity => throw _privateConstructorUsedError;
-  String get weaponType => throw _privateConstructorUsedError;
   Map<String, String> get materials => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
@@ -62,18 +60,16 @@ mixin _$Character {
         group,
     required TResult Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)
-        unlisted,
+        variant,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -104,18 +100,16 @@ mixin _$Character {
         group,
     TResult? Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
-        unlisted,
+        variant,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -146,18 +140,16 @@ mixin _$Character {
         group,
     TResult Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
-        unlisted,
+        variant,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -165,21 +157,21 @@ mixin _$Character {
   TResult map<TResult extends Object?>(
     TResult Function(ListedCharacter value) $default, {
     required TResult Function(CharacterGroup value) group,
-    required TResult Function(UnlistedCharacter value) unlisted,
+    required TResult Function(CharacterVariant value) variant,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult? Function(ListedCharacter value)? $default, {
     TResult? Function(CharacterGroup value)? group,
-    TResult? Function(UnlistedCharacter value)? unlisted,
+    TResult? Function(CharacterVariant value)? variant,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(ListedCharacter value)? $default, {
     TResult Function(CharacterGroup value)? group,
-    TResult Function(UnlistedCharacter value)? unlisted,
+    TResult Function(CharacterVariant value)? variant,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -198,8 +190,6 @@ abstract class $CharacterCopyWith<$Res> {
       {String id,
       LocalizedText name,
       String jaPronunciation,
-      int rarity,
-      String weaponType,
       Map<String, String> materials});
 
   $LocalizedTextCopyWith<$Res> get name;
@@ -221,8 +211,6 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
     Object? id = null,
     Object? name = null,
     Object? jaPronunciation = null,
-    Object? rarity = null,
-    Object? weaponType = null,
     Object? materials = null,
   }) {
     return _then(_value.copyWith(
@@ -237,14 +225,6 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
       jaPronunciation: null == jaPronunciation
           ? _value.jaPronunciation
           : jaPronunciation // ignore: cast_nullable_to_non_nullable
-              as String,
-      rarity: null == rarity
-          ? _value.rarity
-          : rarity // ignore: cast_nullable_to_non_nullable
-              as int,
-      weaponType: null == weaponType
-          ? _value.weaponType
-          : weaponType // ignore: cast_nullable_to_non_nullable
               as String,
       materials: null == materials
           ? _value.materials
@@ -515,18 +495,16 @@ class _$ListedCharacterImpl extends ListedCharacter
         group,
     required TResult Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)
-        unlisted,
+        variant,
   }) {
     return $default(id, rid, hyvId, name, jaPronunciation, imageUrl,
         smallImageUrl, rarity, weaponType, element, talents, materials);
@@ -561,18 +539,16 @@ class _$ListedCharacterImpl extends ListedCharacter
         group,
     TResult? Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
-        unlisted,
+        variant,
   }) {
     return $default?.call(id, rid, hyvId, name, jaPronunciation, imageUrl,
         smallImageUrl, rarity, weaponType, element, talents, materials);
@@ -607,18 +583,16 @@ class _$ListedCharacterImpl extends ListedCharacter
         group,
     TResult Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
-        unlisted,
+        variant,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -633,7 +607,7 @@ class _$ListedCharacterImpl extends ListedCharacter
   TResult map<TResult extends Object?>(
     TResult Function(ListedCharacter value) $default, {
     required TResult Function(CharacterGroup value) group,
-    required TResult Function(UnlistedCharacter value) unlisted,
+    required TResult Function(CharacterVariant value) variant,
   }) {
     return $default(this);
   }
@@ -643,7 +617,7 @@ class _$ListedCharacterImpl extends ListedCharacter
   TResult? mapOrNull<TResult extends Object?>(
     TResult? Function(ListedCharacter value)? $default, {
     TResult? Function(CharacterGroup value)? group,
-    TResult? Function(UnlistedCharacter value)? unlisted,
+    TResult? Function(CharacterVariant value)? variant,
   }) {
     return $default?.call(this);
   }
@@ -653,7 +627,7 @@ class _$ListedCharacterImpl extends ListedCharacter
   TResult maybeMap<TResult extends Object?>(
     TResult Function(ListedCharacter value)? $default, {
     TResult Function(CharacterGroup value)? group,
-    TResult Function(UnlistedCharacter value)? unlisted,
+    TResult Function(CharacterVariant value)? variant,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -703,9 +677,7 @@ abstract class ListedCharacter extends Character
   String get jaPronunciation;
   String get imageUrl;
   String get smallImageUrl;
-  @override
   int get rarity;
-  @override
   String get weaponType;
   String get element;
   Map<String, LocalizedText> get talents;
@@ -922,18 +894,16 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
         group,
     required TResult Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)
-        unlisted,
+        variant,
   }) {
     return group(id, name, jaPronunciation, imageUrl, rarity, weaponType,
         variantIds, materials);
@@ -968,18 +938,16 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
         group,
     TResult? Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
-        unlisted,
+        variant,
   }) {
     return group?.call(id, name, jaPronunciation, imageUrl, rarity, weaponType,
         variantIds, materials);
@@ -1014,18 +982,16 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
         group,
     TResult Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
-        unlisted,
+        variant,
     required TResult orElse(),
   }) {
     if (group != null) {
@@ -1040,7 +1006,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
   TResult map<TResult extends Object?>(
     TResult Function(ListedCharacter value) $default, {
     required TResult Function(CharacterGroup value) group,
-    required TResult Function(UnlistedCharacter value) unlisted,
+    required TResult Function(CharacterVariant value) variant,
   }) {
     return group(this);
   }
@@ -1050,7 +1016,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
   TResult? mapOrNull<TResult extends Object?>(
     TResult? Function(ListedCharacter value)? $default, {
     TResult? Function(CharacterGroup value)? group,
-    TResult? Function(UnlistedCharacter value)? unlisted,
+    TResult? Function(CharacterVariant value)? variant,
   }) {
     return group?.call(this);
   }
@@ -1060,7 +1026,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
   TResult maybeMap<TResult extends Object?>(
     TResult Function(ListedCharacter value)? $default, {
     TResult Function(CharacterGroup value)? group,
-    TResult Function(UnlistedCharacter value)? unlisted,
+    TResult Function(CharacterVariant value)? variant,
     required TResult orElse(),
   }) {
     if (group != null) {
@@ -1100,9 +1066,7 @@ abstract class CharacterGroup extends Character
   @override
   String get jaPronunciation;
   String get imageUrl;
-  @override
   int get rarity;
-  @override
   String get weaponType;
   List<String> get variantIds;
   @override
@@ -1114,63 +1078,56 @@ abstract class CharacterGroup extends Character
 }
 
 /// @nodoc
-abstract class _$$UnlistedCharacterImplCopyWith<$Res>
+abstract class _$$CharacterVariantImplCopyWith<$Res>
     implements $CharacterCopyWith<$Res> {
-  factory _$$UnlistedCharacterImplCopyWith(_$UnlistedCharacterImpl value,
-          $Res Function(_$UnlistedCharacterImpl) then) =
-      __$$UnlistedCharacterImplCopyWithImpl<$Res>;
+  factory _$$CharacterVariantImplCopyWith(_$CharacterVariantImpl value,
+          $Res Function(_$CharacterVariantImpl) then) =
+      __$$CharacterVariantImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
-      String rid,
       int hyvId,
       String parentId,
       LocalizedText name,
+      LocalizedText variantName,
       String jaPronunciation,
       String smallImageUrl,
-      int rarity,
-      String weaponType,
       String element,
       Map<String, LocalizedText> talents,
       Map<String, String> materials});
 
   @override
   $LocalizedTextCopyWith<$Res> get name;
+  $LocalizedTextCopyWith<$Res> get variantName;
 }
 
 /// @nodoc
-class __$$UnlistedCharacterImplCopyWithImpl<$Res>
-    extends _$CharacterCopyWithImpl<$Res, _$UnlistedCharacterImpl>
-    implements _$$UnlistedCharacterImplCopyWith<$Res> {
-  __$$UnlistedCharacterImplCopyWithImpl(_$UnlistedCharacterImpl _value,
-      $Res Function(_$UnlistedCharacterImpl) _then)
+class __$$CharacterVariantImplCopyWithImpl<$Res>
+    extends _$CharacterCopyWithImpl<$Res, _$CharacterVariantImpl>
+    implements _$$CharacterVariantImplCopyWith<$Res> {
+  __$$CharacterVariantImplCopyWithImpl(_$CharacterVariantImpl _value,
+      $Res Function(_$CharacterVariantImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
-    Object? rid = null,
     Object? hyvId = null,
     Object? parentId = null,
     Object? name = null,
+    Object? variantName = null,
     Object? jaPronunciation = null,
     Object? smallImageUrl = null,
-    Object? rarity = null,
-    Object? weaponType = null,
     Object? element = null,
     Object? talents = null,
     Object? materials = null,
   }) {
-    return _then(_$UnlistedCharacterImpl(
+    return _then(_$CharacterVariantImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      rid: null == rid
-          ? _value.rid
-          : rid // ignore: cast_nullable_to_non_nullable
               as String,
       hyvId: null == hyvId
           ? _value.hyvId
@@ -1184,6 +1141,10 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as LocalizedText,
+      variantName: null == variantName
+          ? _value.variantName
+          : variantName // ignore: cast_nullable_to_non_nullable
+              as LocalizedText,
       jaPronunciation: null == jaPronunciation
           ? _value.jaPronunciation
           : jaPronunciation // ignore: cast_nullable_to_non_nullable
@@ -1191,14 +1152,6 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
       smallImageUrl: null == smallImageUrl
           ? _value.smallImageUrl
           : smallImageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      rarity: null == rarity
-          ? _value.rarity
-          : rarity // ignore: cast_nullable_to_non_nullable
-              as int,
-      weaponType: null == weaponType
-          ? _value.weaponType
-          : weaponType // ignore: cast_nullable_to_non_nullable
               as String,
       element: null == element
           ? _value.element
@@ -1214,38 +1167,42 @@ class __$$UnlistedCharacterImplCopyWithImpl<$Res>
               as Map<String, String>,
     ));
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocalizedTextCopyWith<$Res> get variantName {
+    return $LocalizedTextCopyWith<$Res>(_value.variantName, (value) {
+      return _then(_value.copyWith(variantName: value));
+    });
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$UnlistedCharacterImpl extends UnlistedCharacter
+class _$CharacterVariantImpl extends CharacterVariant
     with CharacterWithSmallImage, WithMaterialDefinitions {
-  const _$UnlistedCharacterImpl(
+  const _$CharacterVariantImpl(
       {required this.id,
-      required this.rid,
       required this.hyvId,
       required this.parentId,
       required this.name,
+      required this.variantName,
       required this.jaPronunciation,
       required this.smallImageUrl,
-      required this.rarity,
-      required this.weaponType,
       required this.element,
       required final Map<String, LocalizedText> talents,
       required final Map<String, String> materials,
       final String? $type})
       : _talents = talents,
         _materials = materials,
-        $type = $type ?? 'unlisted',
+        $type = $type ?? 'variant',
         super._();
 
-  factory _$UnlistedCharacterImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UnlistedCharacterImplFromJson(json);
+  factory _$CharacterVariantImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CharacterVariantImplFromJson(json);
 
   @override
   final String id;
-  @override
-  final String rid;
   @override
   final int hyvId;
   @override
@@ -1253,13 +1210,11 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
   @override
   final LocalizedText name;
   @override
+  final LocalizedText variantName;
+  @override
   final String jaPronunciation;
   @override
   final String smallImageUrl;
-  @override
-  final int rarity;
-  @override
-  final String weaponType;
   @override
   final String element;
   final Map<String, LocalizedText> _talents;
@@ -1283,27 +1238,25 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
 
   @override
   String toString() {
-    return 'Character.unlisted(id: $id, rid: $rid, hyvId: $hyvId, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
+    return 'Character.variant(id: $id, hyvId: $hyvId, parentId: $parentId, name: $name, variantName: $variantName, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, element: $element, talents: $talents, materials: $materials)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnlistedCharacterImpl &&
+            other is _$CharacterVariantImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.rid, rid) || other.rid == rid) &&
             (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
             (identical(other.parentId, parentId) ||
                 other.parentId == parentId) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.variantName, variantName) ||
+                other.variantName == variantName) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
                 other.jaPronunciation == jaPronunciation) &&
             (identical(other.smallImageUrl, smallImageUrl) ||
                 other.smallImageUrl == smallImageUrl) &&
-            (identical(other.rarity, rarity) || other.rarity == rarity) &&
-            (identical(other.weaponType, weaponType) ||
-                other.weaponType == weaponType) &&
             (identical(other.element, element) || other.element == element) &&
             const DeepCollectionEquality().equals(other._talents, _talents) &&
             const DeepCollectionEquality()
@@ -1315,14 +1268,12 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      rid,
       hyvId,
       parentId,
       name,
+      variantName,
       jaPronunciation,
       smallImageUrl,
-      rarity,
-      weaponType,
       element,
       const DeepCollectionEquality().hash(_talents),
       const DeepCollectionEquality().hash(_materials));
@@ -1330,8 +1281,8 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnlistedCharacterImplCopyWith<_$UnlistedCharacterImpl> get copyWith =>
-      __$$UnlistedCharacterImplCopyWithImpl<_$UnlistedCharacterImpl>(
+  _$$CharacterVariantImplCopyWith<_$CharacterVariantImpl> get copyWith =>
+      __$$CharacterVariantImplCopyWithImpl<_$CharacterVariantImpl>(
           this, _$identity);
 
   @override
@@ -1363,21 +1314,19 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
         group,
     required TResult Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)
-        unlisted,
+        variant,
   }) {
-    return unlisted(id, rid, hyvId, parentId, name, jaPronunciation,
-        smallImageUrl, rarity, weaponType, element, talents, materials);
+    return variant(id, hyvId, parentId, name, variantName, jaPronunciation,
+        smallImageUrl, element, talents, materials);
   }
 
   @override
@@ -1409,21 +1358,19 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
         group,
     TResult? Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
-        unlisted,
+        variant,
   }) {
-    return unlisted?.call(id, rid, hyvId, parentId, name, jaPronunciation,
-        smallImageUrl, rarity, weaponType, element, talents, materials);
+    return variant?.call(id, hyvId, parentId, name, variantName,
+        jaPronunciation, smallImageUrl, element, talents, materials);
   }
 
   @override
@@ -1455,23 +1402,21 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
         group,
     TResult Function(
             String id,
-            String rid,
             int hyvId,
             String parentId,
             LocalizedText name,
+            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
-            int rarity,
-            String weaponType,
             String element,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
-        unlisted,
+        variant,
     required TResult orElse(),
   }) {
-    if (unlisted != null) {
-      return unlisted(id, rid, hyvId, parentId, name, jaPronunciation,
-          smallImageUrl, rarity, weaponType, element, talents, materials);
+    if (variant != null) {
+      return variant(id, hyvId, parentId, name, variantName, jaPronunciation,
+          smallImageUrl, element, talents, materials);
     }
     return orElse();
   }
@@ -1481,9 +1426,9 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
   TResult map<TResult extends Object?>(
     TResult Function(ListedCharacter value) $default, {
     required TResult Function(CharacterGroup value) group,
-    required TResult Function(UnlistedCharacter value) unlisted,
+    required TResult Function(CharacterVariant value) variant,
   }) {
-    return unlisted(this);
+    return variant(this);
   }
 
   @override
@@ -1491,9 +1436,9 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
   TResult? mapOrNull<TResult extends Object?>(
     TResult? Function(ListedCharacter value)? $default, {
     TResult? Function(CharacterGroup value)? group,
-    TResult? Function(UnlistedCharacter value)? unlisted,
+    TResult? Function(CharacterVariant value)? variant,
   }) {
-    return unlisted?.call(this);
+    return variant?.call(this);
   }
 
   @override
@@ -1501,63 +1446,57 @@ class _$UnlistedCharacterImpl extends UnlistedCharacter
   TResult maybeMap<TResult extends Object?>(
     TResult Function(ListedCharacter value)? $default, {
     TResult Function(CharacterGroup value)? group,
-    TResult Function(UnlistedCharacter value)? unlisted,
+    TResult Function(CharacterVariant value)? variant,
     required TResult orElse(),
   }) {
-    if (unlisted != null) {
-      return unlisted(this);
+    if (variant != null) {
+      return variant(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnlistedCharacterImplToJson(
+    return _$$CharacterVariantImplToJson(
       this,
     );
   }
 }
 
-abstract class UnlistedCharacter extends Character
+abstract class CharacterVariant extends Character
     implements CharacterWithSmallImage, WithMaterialDefinitions {
-  const factory UnlistedCharacter(
+  const factory CharacterVariant(
       {required final String id,
-      required final String rid,
       required final int hyvId,
       required final String parentId,
       required final LocalizedText name,
+      required final LocalizedText variantName,
       required final String jaPronunciation,
       required final String smallImageUrl,
-      required final int rarity,
-      required final String weaponType,
       required final String element,
       required final Map<String, LocalizedText> talents,
-      required final Map<String, String> materials}) = _$UnlistedCharacterImpl;
-  const UnlistedCharacter._() : super._();
+      required final Map<String, String> materials}) = _$CharacterVariantImpl;
+  const CharacterVariant._() : super._();
 
-  factory UnlistedCharacter.fromJson(Map<String, dynamic> json) =
-      _$UnlistedCharacterImpl.fromJson;
+  factory CharacterVariant.fromJson(Map<String, dynamic> json) =
+      _$CharacterVariantImpl.fromJson;
 
   @override
   String get id;
-  String get rid;
   int get hyvId;
   String get parentId;
   @override
   LocalizedText get name;
+  LocalizedText get variantName;
   @override
   String get jaPronunciation;
   String get smallImageUrl;
-  @override
-  int get rarity;
-  @override
-  String get weaponType;
   String get element;
   Map<String, LocalizedText> get talents;
   @override
   Map<String, String> get materials;
   @override
   @JsonKey(ignore: true)
-  _$$UnlistedCharacterImplCopyWith<_$UnlistedCharacterImpl> get copyWith =>
+  _$$CharacterVariantImplCopyWith<_$CharacterVariantImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
