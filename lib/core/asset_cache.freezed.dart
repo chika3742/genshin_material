@@ -35,6 +35,8 @@ mixin _$AssetData {
       throw _privateConstructorUsedError;
   Map<String, LocalizedText> get artifactPieceTypes =>
       throw _privateConstructorUsedError;
+  Map<String, List<String>> get specialCharactersUsingMaterials =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -53,7 +55,8 @@ class _$AssetDataImpl implements _AssetData {
       required final Map<String, int> materialSortOrder,
       required this.dailyMaterials,
       required final Map<String, ArtifactSet> artifactSets,
-      required final Map<String, LocalizedText> artifactPieceTypes})
+      required final Map<String, LocalizedText> artifactPieceTypes,
+      required final Map<String, List<String>> specialCharactersUsingMaterials})
       : _characters = characters,
         _weapons = weapons,
         _weaponSubStats = weaponSubStats,
@@ -63,7 +66,8 @@ class _$AssetDataImpl implements _AssetData {
         _materialCategories = materialCategories,
         _materialSortOrder = materialSortOrder,
         _artifactSets = artifactSets,
-        _artifactPieceTypes = artifactPieceTypes;
+        _artifactPieceTypes = artifactPieceTypes,
+        _specialCharactersUsingMaterials = specialCharactersUsingMaterials;
 
   final Map<String, Character> _characters;
   @override
@@ -154,9 +158,18 @@ class _$AssetDataImpl implements _AssetData {
     return EqualUnmodifiableMapView(_artifactPieceTypes);
   }
 
+  final Map<String, List<String>> _specialCharactersUsingMaterials;
+  @override
+  Map<String, List<String>> get specialCharactersUsingMaterials {
+    if (_specialCharactersUsingMaterials is EqualUnmodifiableMapView)
+      return _specialCharactersUsingMaterials;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_specialCharactersUsingMaterials);
+  }
+
   @override
   String toString() {
-    return 'AssetData(characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes)';
+    return 'AssetData(characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials)';
   }
 
   @override
@@ -187,7 +200,10 @@ class _$AssetDataImpl implements _AssetData {
             const DeepCollectionEquality()
                 .equals(other._artifactSets, _artifactSets) &&
             const DeepCollectionEquality()
-                .equals(other._artifactPieceTypes, _artifactPieceTypes));
+                .equals(other._artifactPieceTypes, _artifactPieceTypes) &&
+            const DeepCollectionEquality().equals(
+                other._specialCharactersUsingMaterials,
+                _specialCharactersUsingMaterials));
   }
 
   @override
@@ -205,25 +221,27 @@ class _$AssetDataImpl implements _AssetData {
       const DeepCollectionEquality().hash(_materialSortOrder),
       dailyMaterials,
       const DeepCollectionEquality().hash(_artifactSets),
-      const DeepCollectionEquality().hash(_artifactPieceTypes));
+      const DeepCollectionEquality().hash(_artifactPieceTypes),
+      const DeepCollectionEquality().hash(_specialCharactersUsingMaterials));
 }
 
 abstract class _AssetData implements AssetData {
   const factory _AssetData(
-          {required final Map<String, Character> characters,
-          required final CharacterIngredients characterIngredients,
-          required final Map<String, Weapon> weapons,
-          required final WeaponIngredients weaponIngredients,
-          required final Map<String, LocalizedText> weaponSubStats,
-          required final Map<String, WeaponTypeInfo> weaponTypes,
-          required final Map<String, Element> elements,
-          required final Map<String, Material> materials,
-          required final Map<String, LocalizedText> materialCategories,
-          required final Map<String, int> materialSortOrder,
-          required final DailyMaterials dailyMaterials,
-          required final Map<String, ArtifactSet> artifactSets,
-          required final Map<String, LocalizedText> artifactPieceTypes}) =
-      _$AssetDataImpl;
+      {required final Map<String, Character> characters,
+      required final CharacterIngredients characterIngredients,
+      required final Map<String, Weapon> weapons,
+      required final WeaponIngredients weaponIngredients,
+      required final Map<String, LocalizedText> weaponSubStats,
+      required final Map<String, WeaponTypeInfo> weaponTypes,
+      required final Map<String, Element> elements,
+      required final Map<String, Material> materials,
+      required final Map<String, LocalizedText> materialCategories,
+      required final Map<String, int> materialSortOrder,
+      required final DailyMaterials dailyMaterials,
+      required final Map<String, ArtifactSet> artifactSets,
+      required final Map<String, LocalizedText> artifactPieceTypes,
+      required final Map<String, List<String>>
+          specialCharactersUsingMaterials}) = _$AssetDataImpl;
 
   @override
   Map<String, Character> get characters;
@@ -251,4 +269,6 @@ abstract class _AssetData implements AssetData {
   Map<String, ArtifactSet> get artifactSets;
   @override
   Map<String, LocalizedText> get artifactPieceTypes;
+  @override
+  Map<String, List<String>> get specialCharactersUsingMaterials;
 }

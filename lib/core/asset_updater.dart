@@ -38,7 +38,7 @@ class AssetUpdater {
 
     final currentVersion = await getCurrentVersion();
 
-    if (currentVersion == null || latestRelease.releasedAt.isAfter(currentVersion.releasedAt)) {
+    if (currentVersion == null || latestRelease.createdAt.isAfter(currentVersion.createdAt)) {
       // No local assets exist or a new version found
       foundUpdate = latestRelease;
     } else {

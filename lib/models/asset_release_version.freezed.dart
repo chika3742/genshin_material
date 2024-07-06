@@ -20,7 +20,7 @@ AssetReleaseVersion _$AssetReleaseVersionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AssetReleaseVersion {
-  DateTime get releasedAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   String get dataVersion => throw _privateConstructorUsedError;
   AssetChannel get channel => throw _privateConstructorUsedError;
   String get distUrl => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $AssetReleaseVersionCopyWith<$Res> {
       _$AssetReleaseVersionCopyWithImpl<$Res, AssetReleaseVersion>;
   @useResult
   $Res call(
-      {DateTime releasedAt,
+      {DateTime createdAt,
       String dataVersion,
       AssetChannel channel,
       String distUrl});
@@ -57,15 +57,15 @@ class _$AssetReleaseVersionCopyWithImpl<$Res, $Val extends AssetReleaseVersion>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? releasedAt = null,
+    Object? createdAt = null,
     Object? dataVersion = null,
     Object? channel = null,
     Object? distUrl = null,
   }) {
     return _then(_value.copyWith(
-      releasedAt: null == releasedAt
-          ? _value.releasedAt
-          : releasedAt // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
       dataVersion: null == dataVersion
           ? _value.dataVersion
@@ -92,7 +92,7 @@ abstract class _$$AssetReleaseVersionImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DateTime releasedAt,
+      {DateTime createdAt,
       String dataVersion,
       AssetChannel channel,
       String distUrl});
@@ -109,15 +109,15 @@ class __$$AssetReleaseVersionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? releasedAt = null,
+    Object? createdAt = null,
     Object? dataVersion = null,
     Object? channel = null,
     Object? distUrl = null,
   }) {
     return _then(_$AssetReleaseVersionImpl(
-      releasedAt: null == releasedAt
-          ? _value.releasedAt
-          : releasedAt // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
       dataVersion: null == dataVersion
           ? _value.dataVersion
@@ -139,7 +139,7 @@ class __$$AssetReleaseVersionImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
   const _$AssetReleaseVersionImpl(
-      {required this.releasedAt,
+      {required this.createdAt,
       required this.dataVersion,
       required this.channel,
       required this.distUrl});
@@ -148,7 +148,7 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
       _$$AssetReleaseVersionImplFromJson(json);
 
   @override
-  final DateTime releasedAt;
+  final DateTime createdAt;
   @override
   final String dataVersion;
   @override
@@ -158,7 +158,7 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
 
   @override
   String toString() {
-    return 'AssetReleaseVersion(releasedAt: $releasedAt, dataVersion: $dataVersion, channel: $channel, distUrl: $distUrl)';
+    return 'AssetReleaseVersion(createdAt: $createdAt, dataVersion: $dataVersion, channel: $channel, distUrl: $distUrl)';
   }
 
   @override
@@ -166,8 +166,8 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AssetReleaseVersionImpl &&
-            (identical(other.releasedAt, releasedAt) ||
-                other.releasedAt == releasedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.dataVersion, dataVersion) ||
                 other.dataVersion == dataVersion) &&
             (identical(other.channel, channel) || other.channel == channel) &&
@@ -177,7 +177,7 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, releasedAt, dataVersion, channel, distUrl);
+      Object.hash(runtimeType, createdAt, dataVersion, channel, distUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -196,7 +196,7 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
 
 abstract class _AssetReleaseVersion implements AssetReleaseVersion {
   const factory _AssetReleaseVersion(
-      {required final DateTime releasedAt,
+      {required final DateTime createdAt,
       required final String dataVersion,
       required final AssetChannel channel,
       required final String distUrl}) = _$AssetReleaseVersionImpl;
@@ -205,7 +205,7 @@ abstract class _AssetReleaseVersion implements AssetReleaseVersion {
       _$AssetReleaseVersionImpl.fromJson;
 
   @override
-  DateTime get releasedAt;
+  DateTime get createdAt;
   @override
   String get dataVersion;
   @override

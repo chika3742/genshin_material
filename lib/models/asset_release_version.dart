@@ -7,7 +7,7 @@ part "asset_release_version.g.dart";
 @freezed
 class AssetReleaseVersion with _$AssetReleaseVersion {
   const factory AssetReleaseVersion({
-    required DateTime releasedAt,
+    required DateTime createdAt,
     required String dataVersion,
     required AssetChannel channel,
     required String distUrl,

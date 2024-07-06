@@ -1,8 +1,8 @@
+import "dart:convert";
 import "dart:io";
 
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:path/path.dart" as path;
-import "package:yaml/yaml.dart";
 
 import "../models/artifact.dart";
 import "../models/asset_release_version.dart";
@@ -14,7 +14,6 @@ import "../models/localized_text.dart";
 import "../models/material.dart";
 import "../models/weapon.dart";
 import "../models/weapon_ingredients.dart";
-import "../utils/unwrap_yaml_value.dart";
 import "asset_updater.dart";
 import "data_parsing_exception.dart";
 
@@ -41,47 +40,48 @@ class AssetDataCache {
     }
 
     final weaponsMeta = WeaponsMeta.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("weapons-meta.yaml"),
+      await loadDataAsset<Map<String, dynamic>>("weapons-meta.json"),
     );
     final materialsMeta = MaterialsMeta.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("materials-meta.yaml"),
+      await loadDataAsset<Map<String, dynamic>>("materials-meta.json"),
     );
     final artifactsMeta = ArtifactsMeta.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("artifacts-meta.yaml"),
+      await loadDataAsset<Map<String, dynamic>>("artifacts-meta.json"),
     );
 
     data = AssetData(
       characters: Map.fromEntries(
-        (await loadDataAsset<List>("characters.yaml"))
+        (await loadDataAsset<List>("characters.json"))
             .map((e) => MapEntry(e["id"], Character.fromJson(e))),
       ),
       characterIngredients: CharacterIngredients.fromJson(
-        await loadDataAsset<Map<String, dynamic>>("character-ingredients.yaml"),
+        await loadDataAsset<Map<String, dynamic>>("character-ingredients.json"),
       ),
       weapons: Map.fromEntries(
-        (await loadDataAsset<List>("weapons.yaml"))
+        (await loadDataAsset<List>("weapons.json"))
             .map((e) => MapEntry(e["id"], Weapon.fromJson(e))),
       ),
       weaponIngredients: WeaponIngredients.fromJson(
-        await loadDataAsset<Map<String, dynamic>>("weapon-ingredients.yaml"),
+        await loadDataAsset<Map<String, dynamic>>("weapon-ingredients.json"),
       ),
       weaponSubStats: weaponsMeta.subStats,
       weaponTypes: weaponsMeta.types,
-      elements: (await loadDataAsset<Map<String, dynamic>>("elements.yaml")).map((key, value) {
+      elements: (await loadDataAsset<Map<String, dynamic>>("elements.json")).map((key, value) {
         return MapEntry(
           key,
           Element.fromJson(value),
         );
       }),
       materials: Map.fromEntries(
-        (await loadDataAsset<List>("materials.yaml"))
+        (await loadDataAsset<List>("materials.json"))
             .map((e) => MapEntry(e["id"], Material.fromJson(e))),
       ),
       materialCategories: materialsMeta.categories,
       materialSortOrder: materialsMeta.sortOrder,
       dailyMaterials: materialsMeta.daily,
+      specialCharactersUsingMaterials: materialsMeta.specialCharactersUsingMaterials,
       artifactSets: Map.fromEntries(
-        (await loadDataAsset<List>("artifact-sets.yaml"))
+        (await loadDataAsset<List>("artifact-sets.json"))
             .map((e) => MapEntry(e["id"], ArtifactSet.fromJson(e))),
       ),
       artifactPieceTypes: artifactsMeta.pieceTypes,
@@ -91,16 +91,16 @@ class AssetDataCache {
   /// Reads data asset file and parses YAML into JSON.
   Future<RootT> loadDataAsset<RootT>(String filename) async {
     final filePath = path.join(assetDir, "data/$filename");
-    final yamlString = await File(filePath).readAsString();
-    final unwrapped = unwrapYamlValue(loadYaml(yamlString));
+    final jsonString = await File(filePath).readAsString();
+    final parsed = jsonDecode(jsonString);
     // assert root type
-    if (unwrapped is! RootT) {
+    if (parsed is! RootT) {
       throw DataParsingException(
         assetName: filename,
         message: "Root type is not $RootT.",
       );
     }
-    return unwrapped;
+    return parsed;
   }
 }
 
@@ -120,5 +120,6 @@ class AssetData with _$AssetData {
     required DailyMaterials dailyMaterials,
     required Map<ArtifactSetId, ArtifactSet> artifactSets,
     required Map<ArtifactPieceType, LocalizedText> artifactPieceTypes,
+    required Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials,
   }) = _AssetData;
 }

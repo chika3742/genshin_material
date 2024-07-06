@@ -9,7 +9,7 @@ part of 'asset_release_version.dart';
 _$AssetReleaseVersionImpl _$$AssetReleaseVersionImplFromJson(
         Map<String, dynamic> json) =>
     _$AssetReleaseVersionImpl(
-      releasedAt: DateTime.parse(json['releasedAt'] as String),
+      createdAt: DateTime.parse(json['createdAt'] as String),
       dataVersion: json['dataVersion'] as String,
       channel: $enumDecode(_$AssetChannelEnumMap, json['channel']),
       distUrl: json['distUrl'] as String,
@@ -18,7 +18,7 @@ _$AssetReleaseVersionImpl _$$AssetReleaseVersionImplFromJson(
 Map<String, dynamic> _$$AssetReleaseVersionImplToJson(
         _$AssetReleaseVersionImpl instance) =>
     <String, dynamic>{
-      'releasedAt': instance.releasedAt.toIso8601String(),
+      'createdAt': instance.createdAt.toIso8601String(),
       'dataVersion': instance.dataVersion,
       'channel': _$AssetChannelEnumMap[instance.channel]!,
       'distUrl': instance.distUrl,
