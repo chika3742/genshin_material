@@ -59,10 +59,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
                 showSnackBar(context: routerContext!, message: tr.updates.failed);
                 return;
-              }
-
-              if (context.mounted) {
-                Navigator.of(context, rootNavigator: true).pop();
+              } finally {
+                if (context.mounted) {
+                  Navigator.of(context, rootNavigator: true).pop();
+                }
               }
 
               await installLatestAssets(
