@@ -6,25 +6,6 @@ part of 'material.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MaterialDataImpl _$$MaterialDataImplFromJson(Map<String, dynamic> json) =>
-    _$MaterialDataImpl(
-      items: (json['items'] as List<dynamic>)
-          .map((e) => Material.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      categories: (json['categories'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
-      ),
-      sortOrder: Map<String, int>.from(json['sortOrder'] as Map),
-    );
-
-Map<String, dynamic> _$$MaterialDataImplToJson(_$MaterialDataImpl instance) =>
-    <String, dynamic>{
-      'items': instance.items,
-      'categories': instance.categories,
-      'sortOrder': instance.sortOrder,
-    };
-
 _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
     _$MaterialImpl(
       id: json['id'] as String,
@@ -72,6 +53,11 @@ _$MaterialsMetaImpl _$$MaterialsMetaImplFromJson(Map<String, dynamic> json) =>
       ),
       sortOrder: Map<String, int>.from(json['sortOrder'] as Map),
       daily: DailyMaterials.fromJson(json['daily'] as Map<String, dynamic>),
+      specialCharactersUsingMaterials:
+          (json['specialCharactersUsingMaterials'] as Map<String, dynamic>).map(
+        (k, e) =>
+            MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
+      ),
     );
 
 Map<String, dynamic> _$$MaterialsMetaImplToJson(_$MaterialsMetaImpl instance) =>
@@ -79,6 +65,8 @@ Map<String, dynamic> _$$MaterialsMetaImplToJson(_$MaterialsMetaImpl instance) =>
       'categories': instance.categories,
       'sortOrder': instance.sortOrder,
       'daily': instance.daily,
+      'specialCharactersUsingMaterials':
+          instance.specialCharactersUsingMaterials,
     };
 
 _$DailyMaterialsImpl _$$DailyMaterialsImplFromJson(Map<String, dynamic> json) =>
