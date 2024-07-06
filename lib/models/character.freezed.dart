@@ -31,13 +31,14 @@ mixin _$Character {
   String get id => throw _privateConstructorUsedError;
   LocalizedText get name => throw _privateConstructorUsedError;
   String get jaPronunciation => throw _privateConstructorUsedError;
+  String get smallImageUrl => throw _privateConstructorUsedError;
   Map<String, String> get materials => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -50,9 +51,11 @@ mixin _$Character {
         $default, {
     required TResult Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -60,10 +63,8 @@ mixin _$Character {
         group,
     required TResult Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -77,7 +78,7 @@ mixin _$Character {
     TResult? Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -90,9 +91,11 @@ mixin _$Character {
         $default, {
     TResult? Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -100,10 +103,8 @@ mixin _$Character {
         group,
     TResult? Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -117,7 +118,7 @@ mixin _$Character {
     TResult Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -130,9 +131,11 @@ mixin _$Character {
         $default, {
     TResult Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -140,10 +143,8 @@ mixin _$Character {
         group,
     TResult Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -190,6 +191,7 @@ abstract class $CharacterCopyWith<$Res> {
       {String id,
       LocalizedText name,
       String jaPronunciation,
+      String smallImageUrl,
       Map<String, String> materials});
 
   $LocalizedTextCopyWith<$Res> get name;
@@ -211,6 +213,7 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
     Object? id = null,
     Object? name = null,
     Object? jaPronunciation = null,
+    Object? smallImageUrl = null,
     Object? materials = null,
   }) {
     return _then(_value.copyWith(
@@ -225,6 +228,10 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
       jaPronunciation: null == jaPronunciation
           ? _value.jaPronunciation
           : jaPronunciation // ignore: cast_nullable_to_non_nullable
+              as String,
+      smallImageUrl: null == smallImageUrl
+          ? _value.smallImageUrl
+          : smallImageUrl // ignore: cast_nullable_to_non_nullable
               as String,
       materials: null == materials
           ? _value.materials
@@ -253,7 +260,7 @@ abstract class _$$ListedCharacterImplCopyWith<$Res>
   $Res call(
       {String id,
       String rid,
-      int hyvId,
+      List<int> hyvIds,
       LocalizedText name,
       String jaPronunciation,
       String imageUrl,
@@ -281,7 +288,7 @@ class __$$ListedCharacterImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? rid = null,
-    Object? hyvId = null,
+    Object? hyvIds = null,
     Object? name = null,
     Object? jaPronunciation = null,
     Object? imageUrl = null,
@@ -301,10 +308,10 @@ class __$$ListedCharacterImplCopyWithImpl<$Res>
           ? _value.rid
           : rid // ignore: cast_nullable_to_non_nullable
               as String,
-      hyvId: null == hyvId
-          ? _value.hyvId
-          : hyvId // ignore: cast_nullable_to_non_nullable
-              as int,
+      hyvIds: null == hyvIds
+          ? _value._hyvIds
+          : hyvIds // ignore: cast_nullable_to_non_nullable
+              as List<int>,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -348,14 +355,11 @@ class __$$ListedCharacterImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ListedCharacterImpl extends ListedCharacter
-    with
-        CharacterWithLargeImage,
-        CharacterWithSmallImage,
-        WithMaterialDefinitions {
+    with CharacterWithLargeImage, CharacterOrVariant {
   const _$ListedCharacterImpl(
       {required this.id,
       required this.rid,
-      required this.hyvId,
+      required final List<int> hyvIds,
       required this.name,
       required this.jaPronunciation,
       required this.imageUrl,
@@ -366,7 +370,8 @@ class _$ListedCharacterImpl extends ListedCharacter
       required final Map<String, LocalizedText> talents,
       required final Map<String, String> materials,
       final String? $type})
-      : _talents = talents,
+      : _hyvIds = hyvIds,
+        _talents = talents,
         _materials = materials,
         $type = $type ?? 'default',
         super._();
@@ -378,8 +383,14 @@ class _$ListedCharacterImpl extends ListedCharacter
   final String id;
   @override
   final String rid;
+  final List<int> _hyvIds;
   @override
-  final int hyvId;
+  List<int> get hyvIds {
+    if (_hyvIds is EqualUnmodifiableListView) return _hyvIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_hyvIds);
+  }
+
   @override
   final LocalizedText name;
   @override
@@ -415,7 +426,7 @@ class _$ListedCharacterImpl extends ListedCharacter
 
   @override
   String toString() {
-    return 'Character(id: $id, rid: $rid, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
+    return 'Character(id: $id, rid: $rid, hyvIds: $hyvIds, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
   }
 
   @override
@@ -425,7 +436,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             other is _$ListedCharacterImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.rid, rid) || other.rid == rid) &&
-            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
+            const DeepCollectionEquality().equals(other._hyvIds, _hyvIds) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
                 other.jaPronunciation == jaPronunciation) &&
@@ -448,7 +459,7 @@ class _$ListedCharacterImpl extends ListedCharacter
       runtimeType,
       id,
       rid,
-      hyvId,
+      const DeepCollectionEquality().hash(_hyvIds),
       name,
       jaPronunciation,
       imageUrl,
@@ -472,7 +483,7 @@ class _$ListedCharacterImpl extends ListedCharacter
     TResult Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -485,9 +496,11 @@ class _$ListedCharacterImpl extends ListedCharacter
         $default, {
     required TResult Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -495,10 +508,8 @@ class _$ListedCharacterImpl extends ListedCharacter
         group,
     required TResult Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -506,7 +517,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             Map<String, String> materials)
         variant,
   }) {
-    return $default(id, rid, hyvId, name, jaPronunciation, imageUrl,
+    return $default(id, rid, hyvIds, name, jaPronunciation, imageUrl,
         smallImageUrl, rarity, weaponType, element, talents, materials);
   }
 
@@ -516,7 +527,7 @@ class _$ListedCharacterImpl extends ListedCharacter
     TResult? Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -529,9 +540,11 @@ class _$ListedCharacterImpl extends ListedCharacter
         $default, {
     TResult? Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -539,10 +552,8 @@ class _$ListedCharacterImpl extends ListedCharacter
         group,
     TResult? Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -550,7 +561,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             Map<String, String> materials)?
         variant,
   }) {
-    return $default?.call(id, rid, hyvId, name, jaPronunciation, imageUrl,
+    return $default?.call(id, rid, hyvIds, name, jaPronunciation, imageUrl,
         smallImageUrl, rarity, weaponType, element, talents, materials);
   }
 
@@ -560,7 +571,7 @@ class _$ListedCharacterImpl extends ListedCharacter
     TResult Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -573,9 +584,11 @@ class _$ListedCharacterImpl extends ListedCharacter
         $default, {
     TResult Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -583,10 +596,8 @@ class _$ListedCharacterImpl extends ListedCharacter
         group,
     TResult Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -596,7 +607,7 @@ class _$ListedCharacterImpl extends ListedCharacter
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(id, rid, hyvId, name, jaPronunciation, imageUrl,
+      return $default(id, rid, hyvIds, name, jaPronunciation, imageUrl,
           smallImageUrl, rarity, weaponType, element, talents, materials);
     }
     return orElse();
@@ -645,14 +656,11 @@ class _$ListedCharacterImpl extends ListedCharacter
 }
 
 abstract class ListedCharacter extends Character
-    implements
-        CharacterWithLargeImage,
-        CharacterWithSmallImage,
-        WithMaterialDefinitions {
+    implements CharacterWithLargeImage, CharacterOrVariant {
   const factory ListedCharacter(
       {required final String id,
       required final String rid,
-      required final int hyvId,
+      required final List<int> hyvIds,
       required final LocalizedText name,
       required final String jaPronunciation,
       required final String imageUrl,
@@ -670,12 +678,13 @@ abstract class ListedCharacter extends Character
   @override
   String get id;
   String get rid;
-  int get hyvId;
+  List<int> get hyvIds;
   @override
   LocalizedText get name;
   @override
   String get jaPronunciation;
   String get imageUrl;
+  @override
   String get smallImageUrl;
   int get rarity;
   String get weaponType;
@@ -699,9 +708,11 @@ abstract class _$$CharacterGroupImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
+      List<int> hyvIds,
       LocalizedText name,
       String jaPronunciation,
       String imageUrl,
+      String smallImageUrl,
       int rarity,
       String weaponType,
       List<String> variantIds,
@@ -723,9 +734,11 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? hyvIds = null,
     Object? name = null,
     Object? jaPronunciation = null,
     Object? imageUrl = null,
+    Object? smallImageUrl = null,
     Object? rarity = null,
     Object? weaponType = null,
     Object? variantIds = null,
@@ -736,6 +749,10 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      hyvIds: null == hyvIds
+          ? _value._hyvIds
+          : hyvIds // ignore: cast_nullable_to_non_nullable
+              as List<int>,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -747,6 +764,10 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
       imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      smallImageUrl: null == smallImageUrl
+          ? _value.smallImageUrl
+          : smallImageUrl // ignore: cast_nullable_to_non_nullable
               as String,
       rarity: null == rarity
           ? _value.rarity
@@ -773,15 +794,18 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
 class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
   const _$CharacterGroupImpl(
       {required this.id,
+      required final List<int> hyvIds,
       required this.name,
       required this.jaPronunciation,
       required this.imageUrl,
+      required this.smallImageUrl,
       required this.rarity,
       required this.weaponType,
       required final List<String> variantIds,
       required final Map<String, String> materials,
       final String? $type})
-      : _variantIds = variantIds,
+      : _hyvIds = hyvIds,
+        _variantIds = variantIds,
         _materials = materials,
         $type = $type ?? 'group',
         super._();
@@ -791,12 +815,22 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
 
   @override
   final String id;
+  final List<int> _hyvIds;
+  @override
+  List<int> get hyvIds {
+    if (_hyvIds is EqualUnmodifiableListView) return _hyvIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_hyvIds);
+  }
+
   @override
   final LocalizedText name;
   @override
   final String jaPronunciation;
   @override
   final String imageUrl;
+  @override
+  final String smallImageUrl;
   @override
   final int rarity;
   @override
@@ -822,7 +856,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
 
   @override
   String toString() {
-    return 'Character.group(id: $id, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, weaponType: $weaponType, variantIds: $variantIds, materials: $materials)';
+    return 'Character.group(id: $id, hyvIds: $hyvIds, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, variantIds: $variantIds, materials: $materials)';
   }
 
   @override
@@ -831,11 +865,14 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
         (other.runtimeType == runtimeType &&
             other is _$CharacterGroupImpl &&
             (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality().equals(other._hyvIds, _hyvIds) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
                 other.jaPronunciation == jaPronunciation) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            (identical(other.smallImageUrl, smallImageUrl) ||
+                other.smallImageUrl == smallImageUrl) &&
             (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.weaponType, weaponType) ||
                 other.weaponType == weaponType) &&
@@ -850,9 +887,11 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      const DeepCollectionEquality().hash(_hyvIds),
       name,
       jaPronunciation,
       imageUrl,
+      smallImageUrl,
       rarity,
       weaponType,
       const DeepCollectionEquality().hash(_variantIds),
@@ -871,7 +910,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
     TResult Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -884,9 +923,11 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
         $default, {
     required TResult Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -894,10 +935,8 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
         group,
     required TResult Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -905,8 +944,8 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             Map<String, String> materials)
         variant,
   }) {
-    return group(id, name, jaPronunciation, imageUrl, rarity, weaponType,
-        variantIds, materials);
+    return group(id, hyvIds, name, jaPronunciation, imageUrl, smallImageUrl,
+        rarity, weaponType, variantIds, materials);
   }
 
   @override
@@ -915,7 +954,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
     TResult? Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -928,9 +967,11 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
         $default, {
     TResult? Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -938,10 +979,8 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
         group,
     TResult? Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -949,8 +988,8 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             Map<String, String> materials)?
         variant,
   }) {
-    return group?.call(id, name, jaPronunciation, imageUrl, rarity, weaponType,
-        variantIds, materials);
+    return group?.call(id, hyvIds, name, jaPronunciation, imageUrl,
+        smallImageUrl, rarity, weaponType, variantIds, materials);
   }
 
   @override
@@ -959,7 +998,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
     TResult Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -972,9 +1011,11 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
         $default, {
     TResult Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -982,10 +1023,8 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
         group,
     TResult Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -995,8 +1034,8 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
     required TResult orElse(),
   }) {
     if (group != null) {
-      return group(id, name, jaPronunciation, imageUrl, rarity, weaponType,
-          variantIds, materials);
+      return group(id, hyvIds, name, jaPronunciation, imageUrl, smallImageUrl,
+          rarity, weaponType, variantIds, materials);
     }
     return orElse();
   }
@@ -1047,9 +1086,11 @@ abstract class CharacterGroup extends Character
     implements CharacterWithLargeImage {
   const factory CharacterGroup(
       {required final String id,
+      required final List<int> hyvIds,
       required final LocalizedText name,
       required final String jaPronunciation,
       required final String imageUrl,
+      required final String smallImageUrl,
       required final int rarity,
       required final String weaponType,
       required final List<String> variantIds,
@@ -1061,11 +1102,14 @@ abstract class CharacterGroup extends Character
 
   @override
   String get id;
+  List<int> get hyvIds;
   @override
   LocalizedText get name;
   @override
   String get jaPronunciation;
   String get imageUrl;
+  @override
+  String get smallImageUrl;
   int get rarity;
   String get weaponType;
   List<String> get variantIds;
@@ -1087,10 +1131,8 @@ abstract class _$$CharacterVariantImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      int hyvId,
       String parentId,
       LocalizedText name,
-      LocalizedText variantName,
       String jaPronunciation,
       String smallImageUrl,
       String element,
@@ -1099,7 +1141,6 @@ abstract class _$$CharacterVariantImplCopyWith<$Res>
 
   @override
   $LocalizedTextCopyWith<$Res> get name;
-  $LocalizedTextCopyWith<$Res> get variantName;
 }
 
 /// @nodoc
@@ -1114,10 +1155,8 @@ class __$$CharacterVariantImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? hyvId = null,
     Object? parentId = null,
     Object? name = null,
-    Object? variantName = null,
     Object? jaPronunciation = null,
     Object? smallImageUrl = null,
     Object? element = null,
@@ -1129,10 +1168,6 @@ class __$$CharacterVariantImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      hyvId: null == hyvId
-          ? _value.hyvId
-          : hyvId // ignore: cast_nullable_to_non_nullable
-              as int,
       parentId: null == parentId
           ? _value.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
@@ -1140,10 +1175,6 @@ class __$$CharacterVariantImplCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-      variantName: null == variantName
-          ? _value.variantName
-          : variantName // ignore: cast_nullable_to_non_nullable
               as LocalizedText,
       jaPronunciation: null == jaPronunciation
           ? _value.jaPronunciation
@@ -1167,26 +1198,15 @@ class __$$CharacterVariantImplCopyWithImpl<$Res>
               as Map<String, String>,
     ));
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get variantName {
-    return $LocalizedTextCopyWith<$Res>(_value.variantName, (value) {
-      return _then(_value.copyWith(variantName: value));
-    });
-  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$CharacterVariantImpl extends CharacterVariant
-    with CharacterWithSmallImage, WithMaterialDefinitions {
+class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
   const _$CharacterVariantImpl(
       {required this.id,
-      required this.hyvId,
       required this.parentId,
       required this.name,
-      required this.variantName,
       required this.jaPronunciation,
       required this.smallImageUrl,
       required this.element,
@@ -1204,13 +1224,9 @@ class _$CharacterVariantImpl extends CharacterVariant
   @override
   final String id;
   @override
-  final int hyvId;
-  @override
   final String parentId;
   @override
   final LocalizedText name;
-  @override
-  final LocalizedText variantName;
   @override
   final String jaPronunciation;
   @override
@@ -1238,7 +1254,7 @@ class _$CharacterVariantImpl extends CharacterVariant
 
   @override
   String toString() {
-    return 'Character.variant(id: $id, hyvId: $hyvId, parentId: $parentId, name: $name, variantName: $variantName, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, element: $element, talents: $talents, materials: $materials)';
+    return 'Character.variant(id: $id, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, element: $element, talents: $talents, materials: $materials)';
   }
 
   @override
@@ -1247,12 +1263,9 @@ class _$CharacterVariantImpl extends CharacterVariant
         (other.runtimeType == runtimeType &&
             other is _$CharacterVariantImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
             (identical(other.parentId, parentId) ||
                 other.parentId == parentId) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.variantName, variantName) ||
-                other.variantName == variantName) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
                 other.jaPronunciation == jaPronunciation) &&
             (identical(other.smallImageUrl, smallImageUrl) ||
@@ -1268,10 +1281,8 @@ class _$CharacterVariantImpl extends CharacterVariant
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      hyvId,
       parentId,
       name,
-      variantName,
       jaPronunciation,
       smallImageUrl,
       element,
@@ -1291,7 +1302,7 @@ class _$CharacterVariantImpl extends CharacterVariant
     TResult Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -1304,9 +1315,11 @@ class _$CharacterVariantImpl extends CharacterVariant
         $default, {
     required TResult Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -1314,10 +1327,8 @@ class _$CharacterVariantImpl extends CharacterVariant
         group,
     required TResult Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -1325,8 +1336,8 @@ class _$CharacterVariantImpl extends CharacterVariant
             Map<String, String> materials)
         variant,
   }) {
-    return variant(id, hyvId, parentId, name, variantName, jaPronunciation,
-        smallImageUrl, element, talents, materials);
+    return variant(id, parentId, name, jaPronunciation, smallImageUrl, element,
+        talents, materials);
   }
 
   @override
@@ -1335,7 +1346,7 @@ class _$CharacterVariantImpl extends CharacterVariant
     TResult? Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -1348,9 +1359,11 @@ class _$CharacterVariantImpl extends CharacterVariant
         $default, {
     TResult? Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -1358,10 +1371,8 @@ class _$CharacterVariantImpl extends CharacterVariant
         group,
     TResult? Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -1369,8 +1380,8 @@ class _$CharacterVariantImpl extends CharacterVariant
             Map<String, String> materials)?
         variant,
   }) {
-    return variant?.call(id, hyvId, parentId, name, variantName,
-        jaPronunciation, smallImageUrl, element, talents, materials);
+    return variant?.call(id, parentId, name, jaPronunciation, smallImageUrl,
+        element, talents, materials);
   }
 
   @override
@@ -1379,7 +1390,7 @@ class _$CharacterVariantImpl extends CharacterVariant
     TResult Function(
             String id,
             String rid,
-            int hyvId,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
@@ -1392,9 +1403,11 @@ class _$CharacterVariantImpl extends CharacterVariant
         $default, {
     TResult Function(
             String id,
+            List<int> hyvIds,
             LocalizedText name,
             String jaPronunciation,
             String imageUrl,
+            String smallImageUrl,
             int rarity,
             String weaponType,
             List<String> variantIds,
@@ -1402,10 +1415,8 @@ class _$CharacterVariantImpl extends CharacterVariant
         group,
     TResult Function(
             String id,
-            int hyvId,
             String parentId,
             LocalizedText name,
-            LocalizedText variantName,
             String jaPronunciation,
             String smallImageUrl,
             String element,
@@ -1415,8 +1426,8 @@ class _$CharacterVariantImpl extends CharacterVariant
     required TResult orElse(),
   }) {
     if (variant != null) {
-      return variant(id, hyvId, parentId, name, variantName, jaPronunciation,
-          smallImageUrl, element, talents, materials);
+      return variant(id, parentId, name, jaPronunciation, smallImageUrl,
+          element, talents, materials);
     }
     return orElse();
   }
@@ -1464,13 +1475,11 @@ class _$CharacterVariantImpl extends CharacterVariant
 }
 
 abstract class CharacterVariant extends Character
-    implements CharacterWithSmallImage, WithMaterialDefinitions {
+    implements CharacterOrVariant {
   const factory CharacterVariant(
       {required final String id,
-      required final int hyvId,
       required final String parentId,
       required final LocalizedText name,
-      required final LocalizedText variantName,
       required final String jaPronunciation,
       required final String smallImageUrl,
       required final String element,
@@ -1483,13 +1492,12 @@ abstract class CharacterVariant extends Character
 
   @override
   String get id;
-  int get hyvId;
   String get parentId;
   @override
   LocalizedText get name;
-  LocalizedText get variantName;
   @override
   String get jaPronunciation;
+  @override
   String get smallImageUrl;
   String get element;
   Map<String, LocalizedText> get talents;

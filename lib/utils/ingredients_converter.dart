@@ -1,4 +1,3 @@
-
 import "package:collection/collection.dart";
 
 import "../components/level_slider.dart";
@@ -7,10 +6,14 @@ import "../models/common.dart";
 import "../models/ingredient.dart";
 import "../models/material_bookmark_frame.dart";
 
-String getConcreteItemId(Ingredient ingredient, MaterialDefinitions definitions, AssetData assetData) {
+String? getConcreteItemId(Ingredient ingredient, CharacterOrWeapon characterOrWeapon, AssetData assetData) {
   return switch (ingredient) {
     IngredientByType() => () {
-        final definition = definitions[ingredient.type];
+        if (ingredient.specificCharacters?.containsKey(characterOrWeapon.id) == true) {
+          return ingredient.specificCharacters?[characterOrWeapon.id];
+        }
+
+        final definition = characterOrWeapon.materials[ingredient.type];
         if (definition == null) {
           throw "Unknown type: ${ingredient.type}";
         }
@@ -63,13 +66,17 @@ List<MaterialBookmarkFrame> toMaterialBookmarkFrames({
   required int level,
   required List<Ingredient> ingredients,
   required Purpose purposeType,
-  required MaterialDefinitions definitions,
+  required CharacterOrWeapon characterOrWeapon,
   required AssetData assetData,
 }) {
   final result = <MaterialBookmarkFrame>[];
 
   for (final ingredient in ingredients) {
-    final materialId = getConcreteItemId(ingredient, definitions, assetData);
+    final materialId = getConcreteItemId(ingredient, characterOrWeapon, assetData);
+
+    if (materialId == null) {
+      continue;
+    }
 
     result.add(
       switch (ingredient) {

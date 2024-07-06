@@ -1,3 +1,5 @@
+
+import "../core/asset_cache.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../models/material.dart";
@@ -23,17 +25,17 @@ bool materialUsagePredicate(
   });
 }
 
-Iterable<CharacterWithSmallImage> getCharactersUsingMaterial(
-  Material material,
-  Iterable<Character> items,
+Iterable<Character> getCharactersUsingMaterial(
+    Material material,
+    Iterable<Character> characters,
+    Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials,
 ) {
-  return items.where((c) {
-    if (c is! CharacterWithSmallImage) {
-      return false;
+  return characters.where((c) {
+    if (specialCharactersUsingMaterials[material.id]?.contains(c.id) == true) {
+      return true;
     }
-
     return materialUsagePredicate(material, c.materials);
-  }).cast<CharacterWithSmallImage>();
+  });
 }
 
 Iterable<Weapon> getWeaponsUsingMaterial(

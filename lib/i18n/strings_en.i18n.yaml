@@ -1,3 +1,4 @@
+appName: Genshin Material Notebook
 common:
   ok: OK
   cancel: Cancel
@@ -11,14 +12,15 @@ common:
   expandAll: Expand all
   collapseAll: Collapse all
   seconds(rich):
-    other: $n ${unit(seconds)}
-    one: $n ${unit(second)}
+    other: "$n ${unit(seconds)}"
+    one: "$n ${unit(second)}"
   minutes(rich):
-    other: $n ${unit(minutes)}
-    one: $n ${unit(minute)}
+    other: "$n ${unit(minutes)}"
+    one: "$n ${unit(minute)}"
   hours(rich):
-    other: $n ${unit(hours)}
-    one: $n ${unit(hour)}
+    other: "$n ${unit(hours)}"
+    one: "$n ${unit(hour)}"
+  element: Element
 talentTypes(map):
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill
@@ -110,6 +112,8 @@ settingsPage:
   assetData: Assets
   reDownloadAssets: Re-download Assets
   reDownloadAssetsDesc: Please try this if the assets of the app are not loading properly.
+  others: Others
+  openSourceLicenses: Open Source Licenses
 hoyolab:
   signIn: Sign in to HoYoLAB
   signOut: Sign out from HoYoLAB

@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 244 (122 per locale)
+/// Strings: 249 (124 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -214,6 +214,7 @@ class _StringsCommonJa {
 			unit('時間'),
 		]),
 	);
+	String get element => '元素';
 }
 
 // Path: updates
@@ -475,6 +476,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsEn _root = this; // ignore: unused_field
 
 	// Translations
+	@override String get appName => 'Genshin Material Notebook';
 	@override late final _StringsCommonEn common = _StringsCommonEn._(_root);
 	@override Map<String, String> get talentTypes => {
 		'normalAttack': 'Normal Attack',
@@ -560,6 +562,7 @@ class _StringsCommonEn extends _StringsCommonJa {
 			unit('hour'),
 		]),
 	);
+	@override String get element => 'Element';
 }
 
 // Path: updates
@@ -751,6 +754,8 @@ class _StringsSettingsPageEn extends _StringsSettingsPageJa {
 	@override String get assetData => 'Assets';
 	@override String get reDownloadAssets => 'Re-download Assets';
 	@override String get reDownloadAssetsDesc => 'Please try this if the assets of the app are not loading properly.';
+	@override String get others => 'Others';
+	@override String get openSourceLicenses => 'Open Source Licenses';
 }
 
 // Path: hoyolab
@@ -835,6 +840,7 @@ extension on Translations {
 					unit('時間'),
 				]),
 			);
+			case 'common.element': return '元素';
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';
@@ -950,6 +956,7 @@ extension on Translations {
 extension on _StringsEn {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'appName': return 'Genshin Material Notebook';
 			case 'common.ok': return 'OK';
 			case 'common.cancel': return 'Cancel';
 			case 'common.signOut': return 'Sign Out';
@@ -1003,6 +1010,7 @@ extension on _StringsEn {
 					unit('hour'),
 				]),
 			);
+			case 'common.element': return 'Element';
 			case 'talentTypes.normalAttack': return 'Normal Attack';
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
@@ -1076,6 +1084,8 @@ extension on _StringsEn {
 			case 'settingsPage.assetData': return 'Assets';
 			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
 			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the assets of the app are not loading properly.';
+			case 'settingsPage.others': return 'Others';
+			case 'settingsPage.openSourceLicenses': return 'Open Source Licenses';
 			case 'hoyolab.signIn': return 'Sign in to HoYoLAB';
 			case 'hoyolab.signOut': return 'Sign out from HoYoLAB';
 			case 'hoyolab.signInNote': return '* Social login is not supported. You need to sign in with your email/username and password.';

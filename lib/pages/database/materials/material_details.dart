@@ -30,7 +30,11 @@ class MaterialDetailsPage extends StatelessWidget {
           );
         }
 
-        final charactersUsingMaterial = getCharactersUsingMaterial(material, assetData.characters.values);
+        final charactersUsingMaterial = getCharactersUsingMaterial(
+          material,
+          assetData.characters.values,
+          assetData.specialCharactersUsingMaterials,
+        );
         final weaponsUseMaterial = getWeaponsUsingMaterial(material, assetData.weapons.values);
 
         return Scaffold(

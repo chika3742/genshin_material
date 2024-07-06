@@ -1,22 +1,11 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
+import "../core/asset_cache.dart";
 import "common.dart";
 import "localized_text.dart";
 
 part "material.freezed.dart";
 part "material.g.dart";
-
-@freezed
-class MaterialData with _$MaterialData {
-  const factory MaterialData({
-    required List<Material> items,
-    required Map<MaterialCategoryType, LocalizedText> categories,
-    required Map<String, int> sortOrder,
-  }) = _MaterialData;
-
-  factory MaterialData.fromJson(Map<String, dynamic> json) =>
-      _$MaterialDataFromJson(json);
-}
 
 @freezed
 sealed class Material with _$Material, ImageGetter {
@@ -44,6 +33,7 @@ class MaterialsMeta with _$MaterialsMeta {
     required Map<MaterialCategoryType, LocalizedText> categories,
     required Map<String, int> sortOrder,
     required DailyMaterials daily,
+    required Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials,
   }) = _MaterialsMeta;
 
   factory MaterialsMeta.fromJson(Map<String, dynamic> json) =>
