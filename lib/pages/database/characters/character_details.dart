@@ -322,12 +322,12 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                         tr.characterDetailsPage.charaLevelUpAndAscensionMaterials,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
-                      Card(
-                        margin: EdgeInsets.zero,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Visibility(
-                            visible: sliderRangeInitialized.value,
+                      Visibility(
+                        visible: sliderRangeInitialized.value,
+                        child: Card(
+                          margin: EdgeInsets.zero,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: LevelSlider(
                               levels: _sliderTickLabels[Purpose.ascension]!,
                               values: _rangeValues[Purpose.ascension]!,
@@ -357,74 +357,75 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                         tr.characterDetailsPage.talentLevelUpMaterials,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          for (final purpose in ingredients.purposes.keys
-                              .whereNot((e) => e == Purpose.ascension))
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    LabeledCheckBox(
-                                      value: _checkedTalentTypes[purpose]!,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _checkedTalentTypes[purpose] = value!;
-                                        });
-
-                                        // scroll to the talent materials section on checkbox checked
-                                        if (value == true) {
-                                          Future.delayed(const Duration(milliseconds: 200), () {
-                                            final context = _talentSectionKeys[purpose]!.currentContext;
-                                            if (context?.mounted == true) {
-                                              Scrollable.ensureVisible(
-                                                context!,
-                                                duration: const Duration(milliseconds: 300),
-                                                curve: Curves.easeOutQuint,
-                                                alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
-                                              );
-                                            }
+                      Visibility(
+                        visible: sliderRangeInitialized.value,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            for (final purpose in ingredients.purposes.keys
+                                .whereNot((e) => e == Purpose.ascension))
+                              Card(
+                                margin: const EdgeInsets.symmetric(vertical: 4),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      LabeledCheckBox(
+                                        value: _checkedTalentTypes[purpose]!,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _checkedTalentTypes[purpose] = value!;
                                           });
-                                        }
-                                      },
-                                      child: Text.rich( // checkbox label
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: tr.talentTypes[purpose.name]!,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
+
+                                          // scroll to the talent materials section on checkbox checked
+                                          if (value == true) {
+                                            Future.delayed(const Duration(milliseconds: 200), () {
+                                              final context = _talentSectionKeys[purpose]!.currentContext;
+                                              if (context?.mounted == true) {
+                                                Scrollable.ensureVisible(
+                                                  context!,
+                                                  duration: const Duration(milliseconds: 300),
+                                                  curve: Curves.easeOutQuint,
+                                                  alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+                                                );
+                                              }
+                                            });
+                                          }
+                                        },
+                                        child: Text.rich( // checkbox label
+                                          TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: tr.talentTypes[purpose.name]!,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                ),
                                               ),
-                                            ),
-                                            const TextSpan(text: "  "),
-                                            TextSpan(
-                                              text: variant.value
-                                                  .talents[purpose.name]!
-                                                  .localized,
-                                            ),
-                                          ],
+                                              const TextSpan(text: "  "),
+                                              TextSpan(
+                                                text: variant.value
+                                                    .talents[purpose.name]!
+                                                    .localized,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    AnimatedCrossFade( // talent level slider with size animation
-                                      duration: const Duration(milliseconds: 300),
-                                      crossFadeState: _checkedTalentTypes[purpose]!
-                                          ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                                      firstCurve: Curves.easeOutQuint,
-                                      secondCurve: Curves.easeOutQuint,
-                                      sizeCurve: Curves.easeOutQuint,
-                                      firstChild: Container(),
-                                      secondChild: Column(
-                                        children: [
-                                          const SizedBox(height: 8),
-                                          Visibility(
-                                            visible: sliderRangeInitialized.value,
-                                            child: LevelSlider(
+                                      AnimatedCrossFade( // talent level slider with size animation
+                                        duration: const Duration(milliseconds: 300),
+                                        crossFadeState: _checkedTalentTypes[purpose]!
+                                            ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                                        firstCurve: Curves.easeOutQuint,
+                                        secondCurve: Curves.easeOutQuint,
+                                        sizeCurve: Curves.easeOutQuint,
+                                        firstChild: Container(),
+                                        secondChild: Column(
+                                          children: [
+                                            const SizedBox(height: 8),
+                                            LevelSlider(
                                               key: _talentSectionKeys[purpose] ??= GlobalKey(),
                                               levels: _sliderTickLabels[purpose]!,
                                               values: _rangeValues[purpose]!,
@@ -438,18 +439,18 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                                                 });
                                               },
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
+                            Wrap(
+                              children: _buildTalentMaterialCards(variant.value.talents, variant.value),
                             ),
-                          Wrap(
-                            children: _buildTalentMaterialCards(variant.value.talents, variant.value),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
