@@ -109,7 +109,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
             Card(
               margin: EdgeInsets.zero,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: LevelSlider(
                   levels: _sliderTickLabels,
                   values: _rangeValues,
