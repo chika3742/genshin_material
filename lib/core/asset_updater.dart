@@ -36,7 +36,12 @@ class AssetUpdater {
       throw "No releases found.";
     }
 
-    final currentVersion = await getCurrentVersion();
+    AssetReleaseVersion? currentVersion;
+    try {
+      currentVersion = await getCurrentVersion();
+    } catch (e) {
+      debugPrint("Failed to get current version: $e");
+    }
 
     if (currentVersion == null || latestRelease.createdAt.isAfter(currentVersion.createdAt)) {
       // No local assets exist or a new version found
