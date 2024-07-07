@@ -1,3 +1,5 @@
+
+import "../core/asset_cache.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../models/material.dart";
@@ -5,9 +7,9 @@ import "../models/weapon.dart";
 
 bool materialUsagePredicate(
   Material material,
-  WithMaterialDefinitions item,
+  MaterialDefinitions definitions,
 ) {
-  return item.materials.entries.any((entry) {
+  return definitions.entries.any((entry) {
     if (entry.key == "runtimeType") {
       return false;
     }
@@ -23,17 +25,17 @@ bool materialUsagePredicate(
   });
 }
 
-Iterable<CharacterWithSmallImage> getCharactersUsingMaterial(
-  Material material,
-  Iterable<Character> items,
+Iterable<Character> getCharactersUsingMaterial(
+    Material material,
+    Iterable<Character> characters,
+    Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials,
 ) {
-  return items.where((c) {
-    if (c is! CharacterWithSmallImage) {
-      return false;
+  return characters.where((c) {
+    if (specialCharactersUsingMaterials[material.id]?.contains(c.id) == true) {
+      return true;
     }
-
-    return materialUsagePredicate(material, c as WithMaterialDefinitions);
-  }).cast<CharacterWithSmallImage>();
+    return materialUsagePredicate(material, c.materials);
+  });
 }
 
 Iterable<Weapon> getWeaponsUsingMaterial(
@@ -41,6 +43,6 @@ Iterable<Weapon> getWeaponsUsingMaterial(
   Iterable<Weapon> items,
 ) {
   return items.where((w) {
-    return materialUsagePredicate(material, w);
+    return materialUsagePredicate(material, w.materials);
   });
 }

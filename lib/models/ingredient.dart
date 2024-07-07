@@ -1,5 +1,7 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
+import "../core/asset_cache.dart";
+
 part "ingredient.freezed.dart";
 part "ingredient.g.dart";
 
@@ -9,6 +11,7 @@ sealed class Ingredient with _$Ingredient {
     required String type,
     required int quantity,
     int? craftLevel,
+    Map<CharacterId, MaterialId?>? specificCharacters,
   }) = IngredientByType;
 
   const factory Ingredient.exp({

@@ -25,6 +25,11 @@ mixin ImageGetter {
       File(path.join(localAssetPath, imageUrl));
 }
 
+mixin CharacterOrWeapon {
+  String get id;
+  MaterialDefinitions get materials;
+}
+
 enum Purpose {
   ascension,
   normalAttack,
@@ -40,10 +45,6 @@ enum BookmarkState {
   none,
   partial,
   bookmarked,
-}
-
-mixin WithMaterialDefinitions {
-  MaterialDefinitions get materials;
 }
 
 enum DayOfWeek {

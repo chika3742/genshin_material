@@ -11,33 +11,39 @@ part "character.g.dart";
 
 typedef CharacterList = List<Character>;
 
+typedef Talents = Map<TalentType, LocalizedText>;
+
 mixin CharacterWithLargeImage on Character {
+  @override
+  String get id;
+  List<int> get hyvIds;
+  @override
+  LocalizedText get name;
   String get imageUrl;
+  int get rarity;
+  WeaponType get weaponType;
+  @override
+  MaterialDefinitions get materials;
 
   File getImageFile(String localAssetPath) =>
       File(path.join(localAssetPath, imageUrl));
 }
 
-mixin CharacterWithSmallImage on Character {
-  String get smallImageUrl;
+mixin CharacterOrVariant on Character {
   TeyvatElement get element;
-  Map<TalentType, LocalizedText> get talents;
-
-  File getSmallImageFile(String localAssetPath) =>
-      File(path.join(localAssetPath, smallImageUrl));
+  Talents get talents;
 }
 
 @Freezed(fallbackUnion: "default")
-sealed class Character with _$Character {
+sealed class Character with _$Character, CharacterOrWeapon {
   const Character._();
 
   @With<CharacterWithLargeImage>()
-  @With<CharacterWithSmallImage>()
-  @With<WithMaterialDefinitions>()
+  @With<CharacterOrVariant>()
   const factory Character({
     required String id,
     required String rid,
-    required int hyvId,
+    required List<int> hyvIds,
     required LocalizedText name,
     required String jaPronunciation,
     required String imageUrl,
@@ -45,39 +51,39 @@ sealed class Character with _$Character {
     required int rarity,
     required WeaponType weaponType,
     required TeyvatElement element,
-    required Map<TalentType, LocalizedText> talents,
+    required Talents talents,
     required MaterialDefinitions materials,
   }) = ListedCharacter;
 
   @With<CharacterWithLargeImage>()
   const factory Character.group({
     required String id,
+    required List<int> hyvIds,
     required LocalizedText name,
     required String jaPronunciation,
     required String imageUrl,
+    required String smallImageUrl,
     required int rarity,
     required WeaponType weaponType,
     required List<String> variantIds,
     required MaterialDefinitions materials,
   }) = CharacterGroup;
 
-  @With<CharacterWithSmallImage>()
-  @With<WithMaterialDefinitions>()
-  const factory Character.unlisted({
+  @With<CharacterOrVariant>()
+  const factory Character.variant({
     required String id,
-    required String rid,
-    required int hyvId,
     required String parentId,
     required LocalizedText name,
     required String jaPronunciation,
     required String smallImageUrl,
-    required int rarity,
-    required WeaponType weaponType,
     required TeyvatElement element,
-    required Map<TalentType, LocalizedText> talents,
+    required Talents talents,
     required MaterialDefinitions materials,
-  }) = UnlistedCharacter;
+  }) = CharacterVariant;
 
   factory Character.fromJson(Map<String, dynamic> json) =>
       _$CharacterFromJson(json);
+
+  File getSmallImageFile(String localAssetPath) =>
+      File(path.join(localAssetPath, smallImageUrl));
 }

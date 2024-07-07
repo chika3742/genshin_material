@@ -229,10 +229,14 @@ extension $CharacterDetailsRouteExtension on CharacterDetailsRoute {
   static CharacterDetailsRoute _fromState(GoRouterState state) =>
       CharacterDetailsRoute(
         id: state.pathParameters['id']!,
+        variant: state.uri.queryParameters['variant'],
       );
 
   String get location => GoRouteData.$location(
         '/database/characters/${Uri.encodeComponent(id)}',
+        queryParams: {
+          if (variant != null) 'variant': variant,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

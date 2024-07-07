@@ -17,6 +17,7 @@ common:
     other: $n${unit(分)}
   hours(rich):
     other: $n${unit(時間)}
+  element: 元素
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル

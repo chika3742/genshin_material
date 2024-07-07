@@ -29,7 +29,7 @@ import "../../../utils/lists.dart";
 
 class CharacterDetailsPage extends StatelessWidget {
   final String id;
-  
+
   const CharacterDetailsPage(this.id, {super.key});
 
   @override
@@ -37,18 +37,25 @@ class CharacterDetailsPage extends StatelessWidget {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
       builder: (assetData, assetDir) {
-        final character = assetData.characters[id];
-        if (character == null || character is! CharacterWithSmallImage) {
+        final characterOrVariant = assetData.characters[id];
+        if (characterOrVariant == null) {
           return Scaffold(
             appBar: AppBar(),
             body: CenterText(tr.errors.characterNotFound),
           );
         }
+
+        final character = switch (characterOrVariant) {
+          ListedCharacter() || CharacterGroup() => characterOrVariant,
+          CharacterVariant(:final parentId) => assetData.characters[parentId]! as CharacterGroup,
+          _ => throw UnsupportedError("Unsupported character type: $characterOrVariant"),
+        } as CharacterWithLargeImage;
         
         return CharacterDetailsPageContents(
           character: character,
           assetData: assetData,
           assetDir: assetDir,
+          initialVariant: characterOrVariant is CharacterVariant ? characterOrVariant.element : null,
         );
       },
     );
@@ -57,15 +64,17 @@ class CharacterDetailsPage extends StatelessWidget {
 
 /// Ensure that this widget is within a [DataAssetScope].
 class CharacterDetailsPageContents extends StatefulHookConsumerWidget {
-  final CharacterWithSmallImage character;
+  final CharacterWithLargeImage character;
   final AssetData assetData;
   final String assetDir;
+  final String? initialVariant;
 
   const CharacterDetailsPageContents({
     super.key,
     required this.character,
     required this.assetData,
     required this.assetDir,
+    this.initialVariant,
   });
 
   @override
@@ -99,12 +108,26 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
     final assetDir = widget.assetDir;
     final character = widget.character;
     final ingredients = assetData.characterIngredients;
-
-    final isHoyolabSyncInProgress = useState(false);
-    final sliderRangeInitialized = useState(false);
-    final progressIndicatorMessage = useState<String?>(null);
+    final variants = useMemoized<Map<String, CharacterOrVariant>>(() {
+      if (character is CharacterGroup) {
+        return Map.fromEntries(
+          character.variantIds.map((e) {
+            final variant = (assetData.characters[e] as CharacterVariant);
+            return MapEntry(variant.element, variant);
+          }),
+        );
+      }
+      return {(character as ListedCharacter).element: character};
+    });
 
     final prefs = ref.watch(preferencesStateNotifierProvider);
+
+    final isHoyolabSyncInProgress = useState(false);
+    final sliderRangeInitialized = useState(!prefs.isLinkedWithHoyolab);
+    final progressIndicatorMessage = useState<String?>(null);
+    final variant = useState(
+      variants[widget.initialVariant] ?? variants.values.first,
+    );
 
     Future<void> syncGameData() async {
       if (!prefs.isLinkedWithHoyolab) {
@@ -121,11 +144,11 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
         final weaponTypes = assetData.weaponTypes;
 
         final charaInfo = await HoyolabApiUtils.loopUntilCharacter(
-          (character as ListedCharacter).hyvId, // TODO: Traveler
+          character.hyvIds,
               (page) {
             return api.avatarList(
               page,
-              elementIds: [elements[character.element]!.hyvId],
+              elementIds: [elements[variant.value.element]!.hyvId],
               weaponCatIds: [weaponTypes[character.weaponType]!.hyvId],
             );
           },
@@ -137,30 +160,31 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
               charaInfo.maxLevel,
             );
           });
+
+          final charaDetail = await api.avatarDetail(charaInfo.id);
+
+          final skills = charaDetail.skills.where((element) => element.maxLevel != 1);
+          skills.forEachIndexed((index, element) {
+            final purpose = switch (index) {
+              0 => Purpose.normalAttack,
+              1 => Purpose.elementalSkill,
+              2 => Purpose.elementalBurst,
+              _ => throw "Invalid talent index",
+            };
+            setState(() {
+              _rangeValues[purpose] = LevelRangeValues(element.currentLevel, element.maxLevel);
+              _checkedTalentTypes[purpose] = element.currentLevel != element.maxLevel;
+            });
+          });
+
+          final db = ref.read(appDatabaseProvider);
+          await db.setCharacterLevels(
+            uid,
+            character.id,
+            _rangeValues.map((key, value) => MapEntry(key, value.start)),
+          );
         }
 
-        final charaDetail = await api.avatarDetail(character.hyvId);
-
-        final skills = charaDetail.skills.where((element) => element.maxLevel != 1);
-        skills.forEachIndexed((index, element) {
-          final purpose = switch (index) {
-            0 => Purpose.normalAttack,
-            1 => Purpose.elementalSkill,
-            2 => Purpose.elementalBurst,
-            _ => throw "Invalid talent index",
-          };
-          setState(() {
-            _rangeValues[purpose] = LevelRangeValues(element.currentLevel, element.maxLevel);
-            _checkedTalentTypes[purpose] = element.currentLevel != element.maxLevel;
-          });
-        });
-
-        final db = ref.read(appDatabaseProvider);
-        await db.setCharacterLevels(
-          uid,
-          character.id,
-          _rangeValues.map((key, value) => MapEntry(key, value.start)),
-        );
       } on HoyolabApiException catch (e, st) {
         if (e.retcode == Retcode.characterDoesNotExist) {
           progressIndicatorMessage.value = tr.hoyolab.characterDoesNotExist;
@@ -190,7 +214,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
 
       try {
         final db = ref.read(appDatabaseProvider);
-        final levels = await db.getCharacterLevels(uid, character.id);
+        final levels = await db.getCharacterLevels(uid, variant.value.id);
         if (levels != null) {
           _rangeValues.addAll(levels.map((key, value) =>
               MapEntry(key, LevelRangeValues(value, _rangeValues[key]!.end)),),);
@@ -216,7 +240,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
         }();
         return null;
       },
-      [],
+      [variant.value],
     );
 
     return Scaffold(
@@ -227,7 +251,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
           ),
         ),
       ),
-      body: sliderRangeInitialized.value ? Stack(
+      body: Stack(
         children: [
           SingleChildScrollView(
             child: Padding(
@@ -239,7 +263,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                   // character information
                   GameItemInfoBox(
                     itemImage: Image.file(
-                      character.getSmallImageFile(assetDir),
+                      variant.value.getSmallImageFile(assetDir),
                       width: 70,
                       height: 70,
                     ),
@@ -250,17 +274,46 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                       Row(
                         children: [
                           Image.file(
-                            assetData.elements[character.element]!.getImageFile(assetDir),
+                            assetData.elements[variant.value.element]!.getImageFile(assetDir),
                             width: 26,
                             height: 26,
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
-                          Text(assetData.elements[character.element]!.text.localized),
+                          const SizedBox(width: 4),
+                          Text(assetData.elements[variant.value.element]!.text.localized),
                         ],
                       ),
                       // weapon type
                       Text(assetData.weaponTypes[character.weaponType]!.name.localized),
                     ],
+                  ),
+                  if (variants.length > 1) DropdownButtonFormField(
+                    value: variant.value.element,
+                    items: variants.entries.map((e) {
+                        return DropdownMenuItem(
+                          value: e.key,
+                          child: Row(
+                            children: [
+                              Image.file(
+                                assetData.elements[e.value.element]!
+                                    .getImageFile(assetDir),
+                                width: 25,
+                                height: 25,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(assetData.elements[e.value.element]!.text.localized),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                      decoration: InputDecoration(
+                      label: Text(tr.common.element),
+                      border: const OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      variant.value = variants[value]!;
+                    },
                   ),
                   GappedColumn(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,24 +326,27 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                         margin: EdgeInsets.zero,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: LevelSlider(
-                            levels: _sliderTickLabels[Purpose.ascension]!,
-                            values: _rangeValues[Purpose.ascension]!,
-                            onChanged: (values) {
-                              // avoid overlapping slider handles
-                              if (values.start == values.end) {
-                                return;
-                              }
+                          child: Visibility(
+                            visible: sliderRangeInitialized.value,
+                            child: LevelSlider(
+                              levels: _sliderTickLabels[Purpose.ascension]!,
+                              values: _rangeValues[Purpose.ascension]!,
+                              onChanged: (values) {
+                                // avoid overlapping slider handles
+                                if (values.start == values.end) {
+                                  return;
+                                }
 
-                              setState(() {
-                                _rangeValues[Purpose.ascension] = values;
-                              });
-                            },
+                                setState(() {
+                                  _rangeValues[Purpose.ascension] = values;
+                                });
+                              },
+                            ),
                           ),
                         ),
                       ),
                       Wrap(
-                        children: _buildAscensionMaterialCards(),
+                        children: _buildAscensionMaterialCards(character),
                       ),
                     ],
                   ),
@@ -347,7 +403,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                                             ),
                                             const TextSpan(text: "  "),
                                             TextSpan(
-                                              text: character
+                                              text: variant.value
                                                   .talents[purpose.name]!
                                                   .localized,
                                             ),
@@ -366,19 +422,22 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                                       secondChild: Column(
                                         children: [
                                           const SizedBox(height: 8),
-                                          LevelSlider(
-                                            key: _talentSectionKeys[purpose] ??= GlobalKey(),
-                                            levels: _sliderTickLabels[purpose]!,
-                                            values: _rangeValues[purpose]!,
-                                            onChanged: (values) {
-                                              if (values.start == values.end) {
-                                                return;
-                                              }
+                                          Visibility(
+                                            visible: sliderRangeInitialized.value,
+                                            child: LevelSlider(
+                                              key: _talentSectionKeys[purpose] ??= GlobalKey(),
+                                              levels: _sliderTickLabels[purpose]!,
+                                              values: _rangeValues[purpose]!,
+                                              onChanged: (values) {
+                                                if (values.start == values.end) {
+                                                  return;
+                                                }
 
-                                              setState(() {
-                                                _rangeValues[purpose] = values;
-                                              });
-                                            },
+                                                setState(() {
+                                                  _rangeValues[purpose] = values;
+                                                });
+                                              },
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -388,7 +447,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                               ),
                             ),
                           Wrap(
-                            children: _buildTalentMaterialCards(),
+                            children: _buildTalentMaterialCards(variant.value.talents, variant.value),
                           ),
                         ],
                       ),
@@ -412,11 +471,11 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
             ),
           ),
         ],
-      ) : const SizedBox(),
+      ),
     );
   }
 
-  List<Widget> _buildAscensionMaterialCards() {
+  List<Widget> _buildAscensionMaterialCards(Character character) {
     final mbFrames = widget.assetData.characterIngredients.purposes[Purpose.ascension]!.levels.mapInLevelRange(
       _rangeValues[Purpose.ascension]!,
       (key, value) {
@@ -424,7 +483,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
           level: key,
           ingredients: value,
           purposeType: Purpose.ascension,
-          definitions: widget.character.materials,
+          characterOrWeapon: character,
           assetData: widget.assetData,
         );
       },
@@ -444,9 +503,9 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
     ).toList();
   }
 
-  List<Widget> _buildTalentMaterialCards() {
+  List<Widget> _buildTalentMaterialCards(Talents talents, CharacterOrVariant variant) {
     final mbFrames = <MaterialBookmarkFrame>[];
-    for (final talentType in widget.character.talents.keys) {
+    for (final talentType in talents.keys) {
       if (_checkedTalentTypes[Purpose.fromTalentType(talentType)]!) {
         mbFrames.addAll(
           widget.assetData.characterIngredients.purposes[Purpose.fromTalentType(talentType)]!.levels.mapInLevelRange(
@@ -456,7 +515,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                 level: key,
                 ingredients: value,
                 purposeType: Purpose.fromTalentType(talentType),
-                definitions: widget.character.materials,
+                characterOrWeapon: variant,
                 assetData: widget.assetData,
               );
             },
@@ -470,9 +529,9 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
       (item) => MaterialItem(
         key: ValueKey(item.id),
         item: item,
-        possiblePurposeTypes: widget.character.talents.keys.map(Purpose.fromTalentType).toList(),
+        possiblePurposeTypes: talents.keys.map(Purpose.fromTalentType).toList(),
         usage: MaterialUsage(
-          characterId: widget.character.id,
+          characterId: variant.id,
           type: MaterialBookmarkType.character,
         ),
       ),

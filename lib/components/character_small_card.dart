@@ -6,7 +6,7 @@ import "../providers/versions.dart";
 import "../routes.dart";
 
 class CharacterSmallCard extends ConsumerWidget {
-  final CharacterWithSmallImage character;
+  final Character character;
 
   const CharacterSmallCard(this.character, {super.key});
 

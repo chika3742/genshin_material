@@ -81,6 +81,7 @@ class _DailyPageState extends State<DailyPage> with TickerProviderStateMixin {
                               for (final character in getCharactersUsingMaterial(
                                 assetData.materials[dm.items.first]!,
                                 assetData.characters.values,
+                                assetData.specialCharactersUsingMaterials,
                               ))
                                 CharacterSmallCard(character),
                             ],

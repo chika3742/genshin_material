@@ -162,8 +162,9 @@ class CharacterListRoute extends GoRouteData {
 @immutable
 class CharacterDetailsRoute extends GoRouteData {
   final String id;
+  final String? variant;
 
-  const CharacterDetailsRoute({required this.id});
+  const CharacterDetailsRoute({required this.id, this.variant});
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {

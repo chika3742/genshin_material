@@ -145,7 +145,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
               level: key,
               ingredients: value,
               purposeType: Purpose.ascension,
-              definitions: widget.weapon.materials,
+              characterOrWeapon: widget.weapon,
               assetData: widget.assetData,
             );
           },

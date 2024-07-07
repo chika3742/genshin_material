@@ -43,6 +43,7 @@ class AssetUpdater {
       foundUpdate = latestRelease;
     } else {
       // No update available
+      foundUpdate = null;
     }
 
     isUpdateChecked = true;

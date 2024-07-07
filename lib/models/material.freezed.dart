@@ -14,213 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-MaterialData _$MaterialDataFromJson(Map<String, dynamic> json) {
-  return _MaterialData.fromJson(json);
-}
-
-/// @nodoc
-mixin _$MaterialData {
-  List<Material> get items => throw _privateConstructorUsedError;
-  Map<String, LocalizedText> get categories =>
-      throw _privateConstructorUsedError;
-  Map<String, int> get sortOrder => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $MaterialDataCopyWith<MaterialData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MaterialDataCopyWith<$Res> {
-  factory $MaterialDataCopyWith(
-          MaterialData value, $Res Function(MaterialData) then) =
-      _$MaterialDataCopyWithImpl<$Res, MaterialData>;
-  @useResult
-  $Res call(
-      {List<Material> items,
-      Map<String, LocalizedText> categories,
-      Map<String, int> sortOrder});
-}
-
-/// @nodoc
-class _$MaterialDataCopyWithImpl<$Res, $Val extends MaterialData>
-    implements $MaterialDataCopyWith<$Res> {
-  _$MaterialDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? items = null,
-    Object? categories = null,
-    Object? sortOrder = null,
-  }) {
-    return _then(_value.copyWith(
-      items: null == items
-          ? _value.items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<Material>,
-      categories: null == categories
-          ? _value.categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalizedText>,
-      sortOrder: null == sortOrder
-          ? _value.sortOrder
-          : sortOrder // ignore: cast_nullable_to_non_nullable
-              as Map<String, int>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$MaterialDataImplCopyWith<$Res>
-    implements $MaterialDataCopyWith<$Res> {
-  factory _$$MaterialDataImplCopyWith(
-          _$MaterialDataImpl value, $Res Function(_$MaterialDataImpl) then) =
-      __$$MaterialDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {List<Material> items,
-      Map<String, LocalizedText> categories,
-      Map<String, int> sortOrder});
-}
-
-/// @nodoc
-class __$$MaterialDataImplCopyWithImpl<$Res>
-    extends _$MaterialDataCopyWithImpl<$Res, _$MaterialDataImpl>
-    implements _$$MaterialDataImplCopyWith<$Res> {
-  __$$MaterialDataImplCopyWithImpl(
-      _$MaterialDataImpl _value, $Res Function(_$MaterialDataImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? items = null,
-    Object? categories = null,
-    Object? sortOrder = null,
-  }) {
-    return _then(_$MaterialDataImpl(
-      items: null == items
-          ? _value._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<Material>,
-      categories: null == categories
-          ? _value._categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalizedText>,
-      sortOrder: null == sortOrder
-          ? _value._sortOrder
-          : sortOrder // ignore: cast_nullable_to_non_nullable
-              as Map<String, int>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MaterialDataImpl implements _MaterialData {
-  const _$MaterialDataImpl(
-      {required final List<Material> items,
-      required final Map<String, LocalizedText> categories,
-      required final Map<String, int> sortOrder})
-      : _items = items,
-        _categories = categories,
-        _sortOrder = sortOrder;
-
-  factory _$MaterialDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaterialDataImplFromJson(json);
-
-  final List<Material> _items;
-  @override
-  List<Material> get items {
-    if (_items is EqualUnmodifiableListView) return _items;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_items);
-  }
-
-  final Map<String, LocalizedText> _categories;
-  @override
-  Map<String, LocalizedText> get categories {
-    if (_categories is EqualUnmodifiableMapView) return _categories;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_categories);
-  }
-
-  final Map<String, int> _sortOrder;
-  @override
-  Map<String, int> get sortOrder {
-    if (_sortOrder is EqualUnmodifiableMapView) return _sortOrder;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_sortOrder);
-  }
-
-  @override
-  String toString() {
-    return 'MaterialData(items: $items, categories: $categories, sortOrder: $sortOrder)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MaterialDataImpl &&
-            const DeepCollectionEquality().equals(other._items, _items) &&
-            const DeepCollectionEquality()
-                .equals(other._categories, _categories) &&
-            const DeepCollectionEquality()
-                .equals(other._sortOrder, _sortOrder));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_items),
-      const DeepCollectionEquality().hash(_categories),
-      const DeepCollectionEquality().hash(_sortOrder));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaterialDataImplCopyWith<_$MaterialDataImpl> get copyWith =>
-      __$$MaterialDataImplCopyWithImpl<_$MaterialDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MaterialDataImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _MaterialData implements MaterialData {
-  const factory _MaterialData(
-      {required final List<Material> items,
-      required final Map<String, LocalizedText> categories,
-      required final Map<String, int> sortOrder}) = _$MaterialDataImpl;
-
-  factory _MaterialData.fromJson(Map<String, dynamic> json) =
-      _$MaterialDataImpl.fromJson;
-
-  @override
-  List<Material> get items;
-  @override
-  Map<String, LocalizedText> get categories;
-  @override
-  Map<String, int> get sortOrder;
-  @override
-  @JsonKey(ignore: true)
-  _$$MaterialDataImplCopyWith<_$MaterialDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
 Material _$MaterialFromJson(Map<String, dynamic> json) {
   return _Material.fromJson(json);
 }
@@ -568,6 +361,8 @@ mixin _$MaterialsMeta {
       throw _privateConstructorUsedError;
   Map<String, int> get sortOrder => throw _privateConstructorUsedError;
   DailyMaterials get daily => throw _privateConstructorUsedError;
+  Map<String, List<String>> get specialCharactersUsingMaterials =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -584,7 +379,8 @@ abstract class $MaterialsMetaCopyWith<$Res> {
   $Res call(
       {Map<String, LocalizedText> categories,
       Map<String, int> sortOrder,
-      DailyMaterials daily});
+      DailyMaterials daily,
+      Map<String, List<String>> specialCharactersUsingMaterials});
 
   $DailyMaterialsCopyWith<$Res> get daily;
 }
@@ -605,6 +401,7 @@ class _$MaterialsMetaCopyWithImpl<$Res, $Val extends MaterialsMeta>
     Object? categories = null,
     Object? sortOrder = null,
     Object? daily = null,
+    Object? specialCharactersUsingMaterials = null,
   }) {
     return _then(_value.copyWith(
       categories: null == categories
@@ -619,6 +416,10 @@ class _$MaterialsMetaCopyWithImpl<$Res, $Val extends MaterialsMeta>
           ? _value.daily
           : daily // ignore: cast_nullable_to_non_nullable
               as DailyMaterials,
+      specialCharactersUsingMaterials: null == specialCharactersUsingMaterials
+          ? _value.specialCharactersUsingMaterials
+          : specialCharactersUsingMaterials // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>,
     ) as $Val);
   }
 
@@ -642,7 +443,8 @@ abstract class _$$MaterialsMetaImplCopyWith<$Res>
   $Res call(
       {Map<String, LocalizedText> categories,
       Map<String, int> sortOrder,
-      DailyMaterials daily});
+      DailyMaterials daily,
+      Map<String, List<String>> specialCharactersUsingMaterials});
 
   @override
   $DailyMaterialsCopyWith<$Res> get daily;
@@ -662,6 +464,7 @@ class __$$MaterialsMetaImplCopyWithImpl<$Res>
     Object? categories = null,
     Object? sortOrder = null,
     Object? daily = null,
+    Object? specialCharactersUsingMaterials = null,
   }) {
     return _then(_$MaterialsMetaImpl(
       categories: null == categories
@@ -676,6 +479,10 @@ class __$$MaterialsMetaImplCopyWithImpl<$Res>
           ? _value.daily
           : daily // ignore: cast_nullable_to_non_nullable
               as DailyMaterials,
+      specialCharactersUsingMaterials: null == specialCharactersUsingMaterials
+          ? _value._specialCharactersUsingMaterials
+          : specialCharactersUsingMaterials // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>,
     ));
   }
 }
@@ -686,9 +493,11 @@ class _$MaterialsMetaImpl implements _MaterialsMeta {
   const _$MaterialsMetaImpl(
       {required final Map<String, LocalizedText> categories,
       required final Map<String, int> sortOrder,
-      required this.daily})
+      required this.daily,
+      required final Map<String, List<String>> specialCharactersUsingMaterials})
       : _categories = categories,
-        _sortOrder = sortOrder;
+        _sortOrder = sortOrder,
+        _specialCharactersUsingMaterials = specialCharactersUsingMaterials;
 
   factory _$MaterialsMetaImpl.fromJson(Map<String, dynamic> json) =>
       _$$MaterialsMetaImplFromJson(json);
@@ -711,10 +520,18 @@ class _$MaterialsMetaImpl implements _MaterialsMeta {
 
   @override
   final DailyMaterials daily;
+  final Map<String, List<String>> _specialCharactersUsingMaterials;
+  @override
+  Map<String, List<String>> get specialCharactersUsingMaterials {
+    if (_specialCharactersUsingMaterials is EqualUnmodifiableMapView)
+      return _specialCharactersUsingMaterials;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_specialCharactersUsingMaterials);
+  }
 
   @override
   String toString() {
-    return 'MaterialsMeta(categories: $categories, sortOrder: $sortOrder, daily: $daily)';
+    return 'MaterialsMeta(categories: $categories, sortOrder: $sortOrder, daily: $daily, specialCharactersUsingMaterials: $specialCharactersUsingMaterials)';
   }
 
   @override
@@ -726,7 +543,10 @@ class _$MaterialsMetaImpl implements _MaterialsMeta {
                 .equals(other._categories, _categories) &&
             const DeepCollectionEquality()
                 .equals(other._sortOrder, _sortOrder) &&
-            (identical(other.daily, daily) || other.daily == daily));
+            (identical(other.daily, daily) || other.daily == daily) &&
+            const DeepCollectionEquality().equals(
+                other._specialCharactersUsingMaterials,
+                _specialCharactersUsingMaterials));
   }
 
   @JsonKey(ignore: true)
@@ -735,7 +555,8 @@ class _$MaterialsMetaImpl implements _MaterialsMeta {
       runtimeType,
       const DeepCollectionEquality().hash(_categories),
       const DeepCollectionEquality().hash(_sortOrder),
-      daily);
+      daily,
+      const DeepCollectionEquality().hash(_specialCharactersUsingMaterials));
 
   @JsonKey(ignore: true)
   @override
@@ -755,7 +576,9 @@ abstract class _MaterialsMeta implements MaterialsMeta {
   const factory _MaterialsMeta(
       {required final Map<String, LocalizedText> categories,
       required final Map<String, int> sortOrder,
-      required final DailyMaterials daily}) = _$MaterialsMetaImpl;
+      required final DailyMaterials daily,
+      required final Map<String, List<String>>
+          specialCharactersUsingMaterials}) = _$MaterialsMetaImpl;
 
   factory _MaterialsMeta.fromJson(Map<String, dynamic> json) =
       _$MaterialsMetaImpl.fromJson;
@@ -766,6 +589,8 @@ abstract class _MaterialsMeta implements MaterialsMeta {
   Map<String, int> get sortOrder;
   @override
   DailyMaterials get daily;
+  @override
+  Map<String, List<String>> get specialCharactersUsingMaterials;
   @override
   @JsonKey(ignore: true)
   _$$MaterialsMetaImplCopyWith<_$MaterialsMetaImpl> get copyWith =>

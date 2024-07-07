@@ -12,6 +12,10 @@ _$IngredientByTypeImpl _$$IngredientByTypeImplFromJson(
       type: json['type'] as String,
       quantity: json['quantity'] as int,
       craftLevel: json['craftLevel'] as int?,
+      specificCharacters:
+          (json['specificCharacters'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String?),
+      ),
       $type: json['runtimeType'] as String?,
     );
 
@@ -21,6 +25,7 @@ Map<String, dynamic> _$$IngredientByTypeImplToJson(
       'type': instance.type,
       'quantity': instance.quantity,
       'craftLevel': instance.craftLevel,
+      'specificCharacters': instance.specificCharacters,
       'runtimeType': instance.$type,
     };
 

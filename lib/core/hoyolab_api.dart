@@ -261,7 +261,7 @@ class Retcode {
 }
 
 class HoyolabApiUtils {
-  static Future<T?> loopUntilCharacter<T extends WithId>(int characterId, Future<HoyolabListData<T>> Function(int page) apiCall) async {
+  static Future<T?> loopUntilCharacter<T extends WithId>(List<int> characterIds, Future<HoyolabListData<T>> Function(int page) apiCall) async {
     var page = 1;
     while (true) {
       final result = await apiCall(page);
@@ -271,7 +271,7 @@ class HoyolabApiUtils {
       }
 
       for (final item in result.list) {
-        if (item.id == characterId) {
+        if (characterIds.contains(item.id)) {
           return item;
         }
       }
