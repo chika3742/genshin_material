@@ -21,6 +21,7 @@ mixin CharacterWithLargeImage on Character {
   LocalizedText get name;
   String get imageUrl;
   int get rarity;
+  @override
   WeaponType get weaponType;
   @override
   MaterialDefinitions get materials;
@@ -77,6 +78,7 @@ sealed class Character with _$Character, CharacterOrWeapon {
     required String jaPronunciation,
     required String smallImageUrl,
     required TeyvatElement element,
+    required WeaponType weaponType,
     required Talents talents,
     required MaterialDefinitions materials,
   }) = CharacterVariant;

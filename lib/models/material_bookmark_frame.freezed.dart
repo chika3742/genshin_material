@@ -508,59 +508,28 @@ abstract class MaterialBookmarkFrameExp implements MaterialBookmarkFrame {
 }
 
 /// @nodoc
-mixin _$Usage {
+mixin _$MaterialUsage {
   String get characterId => throw _privateConstructorUsedError;
-  MaterialBookmarkType get type => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String characterId, MaterialBookmarkType type)
-        material,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String characterId, MaterialBookmarkType type)? material,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String characterId, MaterialBookmarkType type)? material,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MaterialUsage value) material,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MaterialUsage value)? material,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MaterialUsage value)? material,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  String? get weaponId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $UsageCopyWith<Usage> get copyWith => throw _privateConstructorUsedError;
+  $MaterialUsageCopyWith<MaterialUsage> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UsageCopyWith<$Res> {
-  factory $UsageCopyWith(Usage value, $Res Function(Usage) then) =
-      _$UsageCopyWithImpl<$Res, Usage>;
+abstract class $MaterialUsageCopyWith<$Res> {
+  factory $MaterialUsageCopyWith(
+          MaterialUsage value, $Res Function(MaterialUsage) then) =
+      _$MaterialUsageCopyWithImpl<$Res, MaterialUsage>;
   @useResult
-  $Res call({String characterId, MaterialBookmarkType type});
+  $Res call({String characterId, String? weaponId});
 }
 
 /// @nodoc
-class _$UsageCopyWithImpl<$Res, $Val extends Usage>
-    implements $UsageCopyWith<$Res> {
-  _$UsageCopyWithImpl(this._value, this._then);
+class _$MaterialUsageCopyWithImpl<$Res, $Val extends MaterialUsage>
+    implements $MaterialUsageCopyWith<$Res> {
+  _$MaterialUsageCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -571,35 +540,35 @@ class _$UsageCopyWithImpl<$Res, $Val extends Usage>
   @override
   $Res call({
     Object? characterId = null,
-    Object? type = null,
+    Object? weaponId = freezed,
   }) {
     return _then(_value.copyWith(
       characterId: null == characterId
           ? _value.characterId
           : characterId // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as MaterialBookmarkType,
+      weaponId: freezed == weaponId
+          ? _value.weaponId
+          : weaponId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$MaterialUsageImplCopyWith<$Res>
-    implements $UsageCopyWith<$Res> {
+    implements $MaterialUsageCopyWith<$Res> {
   factory _$$MaterialUsageImplCopyWith(
           _$MaterialUsageImpl value, $Res Function(_$MaterialUsageImpl) then) =
       __$$MaterialUsageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String characterId, MaterialBookmarkType type});
+  $Res call({String characterId, String? weaponId});
 }
 
 /// @nodoc
 class __$$MaterialUsageImplCopyWithImpl<$Res>
-    extends _$UsageCopyWithImpl<$Res, _$MaterialUsageImpl>
+    extends _$MaterialUsageCopyWithImpl<$Res, _$MaterialUsageImpl>
     implements _$$MaterialUsageImplCopyWith<$Res> {
   __$$MaterialUsageImplCopyWithImpl(
       _$MaterialUsageImpl _value, $Res Function(_$MaterialUsageImpl) _then)
@@ -609,34 +578,34 @@ class __$$MaterialUsageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? characterId = null,
-    Object? type = null,
+    Object? weaponId = freezed,
   }) {
     return _then(_$MaterialUsageImpl(
       characterId: null == characterId
           ? _value.characterId
           : characterId // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as MaterialBookmarkType,
+      weaponId: freezed == weaponId
+          ? _value.weaponId
+          : weaponId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$MaterialUsageImpl implements MaterialUsage {
-  const _$MaterialUsageImpl({required this.characterId, required this.type});
+class _$MaterialUsageImpl implements _MaterialUsage {
+  const _$MaterialUsageImpl({required this.characterId, this.weaponId});
 
   @override
   final String characterId;
   @override
-  final MaterialBookmarkType type;
+  final String? weaponId;
 
   @override
   String toString() {
-    return 'Usage.material(characterId: $characterId, type: $type)';
+    return 'MaterialUsage(characterId: $characterId, weaponId: $weaponId)';
   }
 
   @override
@@ -646,85 +615,29 @@ class _$MaterialUsageImpl implements MaterialUsage {
             other is _$MaterialUsageImpl &&
             (identical(other.characterId, characterId) ||
                 other.characterId == characterId) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.weaponId, weaponId) ||
+                other.weaponId == weaponId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, characterId, type);
+  int get hashCode => Object.hash(runtimeType, characterId, weaponId);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MaterialUsageImplCopyWith<_$MaterialUsageImpl> get copyWith =>
       __$$MaterialUsageImplCopyWithImpl<_$MaterialUsageImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String characterId, MaterialBookmarkType type)
-        material,
-  }) {
-    return material(characterId, type);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String characterId, MaterialBookmarkType type)? material,
-  }) {
-    return material?.call(characterId, type);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String characterId, MaterialBookmarkType type)? material,
-    required TResult orElse(),
-  }) {
-    if (material != null) {
-      return material(characterId, type);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MaterialUsage value) material,
-  }) {
-    return material(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MaterialUsage value)? material,
-  }) {
-    return material?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MaterialUsage value)? material,
-    required TResult orElse(),
-  }) {
-    if (material != null) {
-      return material(this);
-    }
-    return orElse();
-  }
 }
 
-abstract class MaterialUsage implements Usage {
-  const factory MaterialUsage(
+abstract class _MaterialUsage implements MaterialUsage {
+  const factory _MaterialUsage(
       {required final String characterId,
-      required final MaterialBookmarkType type}) = _$MaterialUsageImpl;
+      final String? weaponId}) = _$MaterialUsageImpl;
 
   @override
   String get characterId;
   @override
-  MaterialBookmarkType get type;
+  String? get weaponId;
   @override
   @JsonKey(ignore: true)
   _$$MaterialUsageImplCopyWith<_$MaterialUsageImpl> get copyWith =>

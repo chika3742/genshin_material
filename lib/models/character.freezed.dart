@@ -32,6 +32,7 @@ mixin _$Character {
   LocalizedText get name => throw _privateConstructorUsedError;
   String get jaPronunciation => throw _privateConstructorUsedError;
   String get smallImageUrl => throw _privateConstructorUsedError;
+  String get weaponType => throw _privateConstructorUsedError;
   Map<String, String> get materials => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
@@ -68,6 +69,7 @@ mixin _$Character {
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)
         variant,
@@ -108,6 +110,7 @@ mixin _$Character {
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         variant,
@@ -148,6 +151,7 @@ mixin _$Character {
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         variant,
@@ -192,6 +196,7 @@ abstract class $CharacterCopyWith<$Res> {
       LocalizedText name,
       String jaPronunciation,
       String smallImageUrl,
+      String weaponType,
       Map<String, String> materials});
 
   $LocalizedTextCopyWith<$Res> get name;
@@ -214,6 +219,7 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
     Object? name = null,
     Object? jaPronunciation = null,
     Object? smallImageUrl = null,
+    Object? weaponType = null,
     Object? materials = null,
   }) {
     return _then(_value.copyWith(
@@ -232,6 +238,10 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
       smallImageUrl: null == smallImageUrl
           ? _value.smallImageUrl
           : smallImageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      weaponType: null == weaponType
+          ? _value.weaponType
+          : weaponType // ignore: cast_nullable_to_non_nullable
               as String,
       materials: null == materials
           ? _value.materials
@@ -513,6 +523,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)
         variant,
@@ -557,6 +568,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         variant,
@@ -601,6 +613,7 @@ class _$ListedCharacterImpl extends ListedCharacter
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         variant,
@@ -687,6 +700,7 @@ abstract class ListedCharacter extends Character
   @override
   String get smallImageUrl;
   int get rarity;
+  @override
   String get weaponType;
   String get element;
   Map<String, LocalizedText> get talents;
@@ -940,6 +954,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)
         variant,
@@ -984,6 +999,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         variant,
@@ -1028,6 +1044,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         variant,
@@ -1111,6 +1128,7 @@ abstract class CharacterGroup extends Character
   @override
   String get smallImageUrl;
   int get rarity;
+  @override
   String get weaponType;
   List<String> get variantIds;
   @override
@@ -1136,6 +1154,7 @@ abstract class _$$CharacterVariantImplCopyWith<$Res>
       String jaPronunciation,
       String smallImageUrl,
       String element,
+      String weaponType,
       Map<String, LocalizedText> talents,
       Map<String, String> materials});
 
@@ -1160,6 +1179,7 @@ class __$$CharacterVariantImplCopyWithImpl<$Res>
     Object? jaPronunciation = null,
     Object? smallImageUrl = null,
     Object? element = null,
+    Object? weaponType = null,
     Object? talents = null,
     Object? materials = null,
   }) {
@@ -1188,6 +1208,10 @@ class __$$CharacterVariantImplCopyWithImpl<$Res>
           ? _value.element
           : element // ignore: cast_nullable_to_non_nullable
               as String,
+      weaponType: null == weaponType
+          ? _value.weaponType
+          : weaponType // ignore: cast_nullable_to_non_nullable
+              as String,
       talents: null == talents
           ? _value._talents
           : talents // ignore: cast_nullable_to_non_nullable
@@ -1210,6 +1234,7 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
       required this.jaPronunciation,
       required this.smallImageUrl,
       required this.element,
+      required this.weaponType,
       required final Map<String, LocalizedText> talents,
       required final Map<String, String> materials,
       final String? $type})
@@ -1233,6 +1258,8 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
   final String smallImageUrl;
   @override
   final String element;
+  @override
+  final String weaponType;
   final Map<String, LocalizedText> _talents;
   @override
   Map<String, LocalizedText> get talents {
@@ -1254,7 +1281,7 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
 
   @override
   String toString() {
-    return 'Character.variant(id: $id, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, element: $element, talents: $talents, materials: $materials)';
+    return 'Character.variant(id: $id, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, element: $element, weaponType: $weaponType, talents: $talents, materials: $materials)';
   }
 
   @override
@@ -1271,6 +1298,8 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
             (identical(other.smallImageUrl, smallImageUrl) ||
                 other.smallImageUrl == smallImageUrl) &&
             (identical(other.element, element) || other.element == element) &&
+            (identical(other.weaponType, weaponType) ||
+                other.weaponType == weaponType) &&
             const DeepCollectionEquality().equals(other._talents, _talents) &&
             const DeepCollectionEquality()
                 .equals(other._materials, _materials));
@@ -1286,6 +1315,7 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
       jaPronunciation,
       smallImageUrl,
       element,
+      weaponType,
       const DeepCollectionEquality().hash(_talents),
       const DeepCollectionEquality().hash(_materials));
 
@@ -1332,12 +1362,13 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)
         variant,
   }) {
     return variant(id, parentId, name, jaPronunciation, smallImageUrl, element,
-        talents, materials);
+        weaponType, talents, materials);
   }
 
   @override
@@ -1376,12 +1407,13 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         variant,
   }) {
     return variant?.call(id, parentId, name, jaPronunciation, smallImageUrl,
-        element, talents, materials);
+        element, weaponType, talents, materials);
   }
 
   @override
@@ -1420,6 +1452,7 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
             String jaPronunciation,
             String smallImageUrl,
             String element,
+            String weaponType,
             Map<String, LocalizedText> talents,
             Map<String, String> materials)?
         variant,
@@ -1427,7 +1460,7 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
   }) {
     if (variant != null) {
       return variant(id, parentId, name, jaPronunciation, smallImageUrl,
-          element, talents, materials);
+          element, weaponType, talents, materials);
     }
     return orElse();
   }
@@ -1483,6 +1516,7 @@ abstract class CharacterVariant extends Character
       required final String jaPronunciation,
       required final String smallImageUrl,
       required final String element,
+      required final String weaponType,
       required final Map<String, LocalizedText> talents,
       required final Map<String, String> materials}) = _$CharacterVariantImpl;
   const CharacterVariant._() : super._();
@@ -1500,6 +1534,8 @@ abstract class CharacterVariant extends Character
   @override
   String get smallImageUrl;
   String get element;
+  @override
+  String get weaponType;
   Map<String, LocalizedText> get talents;
   @override
   Map<String, String> get materials;

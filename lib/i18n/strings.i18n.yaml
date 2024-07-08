@@ -53,8 +53,10 @@ pages:
   more: その他
   hoyolabIntegrationSettings: HoYoLAB連携設定
 characterDetailsPage:
-  charaLevelUpAndAscensionMaterials: キャラクターLvアップ・突破素材
+  charaLevelUpAndAscensionMaterials: キャラクターLvップ・突破素材
   talentLevelUpMaterials: 天賦Lvアップ素材
+weaponDetailsPage:
+  characterToEquip: この武器を装備させるキャラクター
 materialDetailsPage:
   charactersUsing: この素材を使用するキャラクター
   weaponsUsing: この素材を使用する武器

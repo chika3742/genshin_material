@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
+import "core/asset_cache.dart";
 import "i18n/strings.g.dart";
 import "main.dart";
 import "pages/account.dart";
@@ -189,14 +190,18 @@ class WeaponListRoute extends GoRouteData {
 @immutable
 class WeaponDetailsRoute extends GoRouteData {
   final String id;
+  final CharacterId? initialSelectedCharacter;
 
-  const WeaponDetailsRoute({required this.id});
+  const WeaponDetailsRoute({required this.id, this.initialSelectedCharacter});
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: WeaponDetailsPage(id),
+      child: WeaponDetailsPage(
+        id,
+        initialSelectedCharacter: initialSelectedCharacter,
+      ),
     );
   }
 }

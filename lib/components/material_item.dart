@@ -40,15 +40,15 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       useMemoized(
         () => ref.watch(appDatabaseProvider).watchMaterialBookmarkByPartial(
               characterId: widget.usage.characterId,
+              weaponId: widget.usage.weaponId,
               materialId: widget.item.id,
               purposeTypes: widget.possiblePurposeTypes,
-              bookmarkType: widget.usage.type,
             ),
         [
           widget.usage.characterId,
           widget.item.id,
           const ListEquality().hash(widget.possiblePurposeTypes),
-          widget.usage.type,
+          widget.usage.weaponId,
         ],
       ),
     );

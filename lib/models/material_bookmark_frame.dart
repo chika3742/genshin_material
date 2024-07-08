@@ -65,7 +65,7 @@ class MaterialCardMaterial {
       return combineMaterialBookmarkElements(
         usage.characterId,
         level.purposeType,
-        usage.type,
+        usage.weaponId,
         id,
         level.level,
       );
@@ -75,9 +75,9 @@ class MaterialCardMaterial {
   List<MaterialBookmarkCompanion> toCompanions(MaterialUsage usage) {
     return levels.map((level) {
       final companion = MaterialBookmarkCompanion.insert(
-        type: usage.type,
         materialId: Value.absentIfNull(id),
         characterId: usage.characterId,
+        weaponId: Value(usage.weaponId),
         purposeType: level.purposeType,
         quantity: switch (level) {
           _MaterialBookmarkFrame(:final quantity) => quantity,
@@ -87,7 +87,7 @@ class MaterialCardMaterial {
         hash: combineMaterialBookmarkElements(
           usage.characterId,
           level.purposeType,
-          usage.type,
+          usage.weaponId,
           id,
           level.level,
         ),
@@ -116,9 +116,9 @@ sealed class MaterialBookmarkFrame with _$MaterialBookmarkFrame {
 }
 
 @freezed
-sealed class Usage with _$Usage {
-  const factory Usage.material({
+class MaterialUsage with _$MaterialUsage {
+  const factory MaterialUsage({
     required String characterId,
-    required MaterialBookmarkType type,
-  }) = MaterialUsage;
+    String? weaponId,
+  }) = _MaterialUsage;
 }

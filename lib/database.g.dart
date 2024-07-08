@@ -18,13 +18,6 @@ class $MaterialBookmarkTable extends MaterialBookmark
       requiredDuringInsert: false,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
-  @override
-  late final GeneratedColumnWithTypeConverter<MaterialBookmarkType, String>
-      type = GeneratedColumn<String>('type', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<MaterialBookmarkType>(
-              $MaterialBookmarkTable.$convertertype);
   static const VerificationMeta _materialIdMeta =
       const VerificationMeta('materialId');
   @override
@@ -37,6 +30,12 @@ class $MaterialBookmarkTable extends MaterialBookmark
   late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
       'character_id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _weaponIdMeta =
+      const VerificationMeta('weaponId');
+  @override
+  late final GeneratedColumn<String> weaponId = GeneratedColumn<String>(
+      'weapon_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _quantityMeta =
       const VerificationMeta('quantity');
   @override
@@ -72,9 +71,9 @@ class $MaterialBookmarkTable extends MaterialBookmark
   @override
   List<GeneratedColumn> get $columns => [
         id,
-        type,
         materialId,
         characterId,
+        weaponId,
         quantity,
         createdAt,
         upperLevel,
@@ -95,7 +94,6 @@ class $MaterialBookmarkTable extends MaterialBookmark
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    context.handle(_typeMeta, const VerificationResult.success());
     if (data.containsKey('material_id')) {
       context.handle(
           _materialIdMeta,
@@ -109,6 +107,10 @@ class $MaterialBookmarkTable extends MaterialBookmark
               data['character_id']!, _characterIdMeta));
     } else if (isInserting) {
       context.missing(_characterIdMeta);
+    }
+    if (data.containsKey('weapon_id')) {
+      context.handle(_weaponIdMeta,
+          weaponId.isAcceptableOrUnknown(data['weapon_id']!, _weaponIdMeta));
     }
     if (data.containsKey('quantity')) {
       context.handle(_quantityMeta,
@@ -146,13 +148,12 @@ class $MaterialBookmarkTable extends MaterialBookmark
     return MaterialBookmarkData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      type: $MaterialBookmarkTable.$convertertype.fromSql(attachedDatabase
-          .typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!),
       materialId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}material_id']),
       characterId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}character_id'])!,
+      weaponId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}weapon_id']),
       quantity: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}quantity'])!,
       createdAt: attachedDatabase.typeMapping
@@ -172,9 +173,6 @@ class $MaterialBookmarkTable extends MaterialBookmark
     return $MaterialBookmarkTable(attachedDatabase, alias);
   }
 
-  static JsonTypeConverter2<MaterialBookmarkType, String, String>
-      $convertertype = const EnumNameConverter<MaterialBookmarkType>(
-          MaterialBookmarkType.values);
   static JsonTypeConverter2<Purpose, String, String> $converterpurposeType =
       const EnumNameConverter<Purpose>(Purpose.values);
 }
@@ -182,11 +180,11 @@ class $MaterialBookmarkTable extends MaterialBookmark
 class MaterialBookmarkData extends DataClass
     implements Insertable<MaterialBookmarkData> {
   final int id;
-  final MaterialBookmarkType type;
 
   /// If null, this bookmark will be regarded as EXP items.
   final String? materialId;
   final String characterId;
+  final String? weaponId;
 
   /// If [materialId] is null, this represents the amount of EXP.
   final int quantity;
@@ -198,9 +196,9 @@ class MaterialBookmarkData extends DataClass
   final String hash;
   const MaterialBookmarkData(
       {required this.id,
-      required this.type,
       this.materialId,
       required this.characterId,
+      this.weaponId,
       required this.quantity,
       required this.createdAt,
       required this.upperLevel,
@@ -210,14 +208,13 @@ class MaterialBookmarkData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    {
-      map['type'] =
-          Variable<String>($MaterialBookmarkTable.$convertertype.toSql(type));
-    }
     if (!nullToAbsent || materialId != null) {
       map['material_id'] = Variable<String>(materialId);
     }
     map['character_id'] = Variable<String>(characterId);
+    if (!nullToAbsent || weaponId != null) {
+      map['weapon_id'] = Variable<String>(weaponId);
+    }
     map['quantity'] = Variable<int>(quantity);
     map['created_at'] = Variable<DateTime>(createdAt);
     map['upper_level'] = Variable<int>(upperLevel);
@@ -232,11 +229,13 @@ class MaterialBookmarkData extends DataClass
   MaterialBookmarkCompanion toCompanion(bool nullToAbsent) {
     return MaterialBookmarkCompanion(
       id: Value(id),
-      type: Value(type),
       materialId: materialId == null && nullToAbsent
           ? const Value.absent()
           : Value(materialId),
       characterId: Value(characterId),
+      weaponId: weaponId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(weaponId),
       quantity: Value(quantity),
       createdAt: Value(createdAt),
       upperLevel: Value(upperLevel),
@@ -250,10 +249,9 @@ class MaterialBookmarkData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return MaterialBookmarkData(
       id: serializer.fromJson<int>(json['id']),
-      type: $MaterialBookmarkTable.$convertertype
-          .fromJson(serializer.fromJson<String>(json['type'])),
       materialId: serializer.fromJson<String?>(json['materialId']),
       characterId: serializer.fromJson<String>(json['characterId']),
+      weaponId: serializer.fromJson<String?>(json['weaponId']),
       quantity: serializer.fromJson<int>(json['quantity']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       upperLevel: serializer.fromJson<int>(json['upperLevel']),
@@ -267,10 +265,9 @@ class MaterialBookmarkData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'type': serializer
-          .toJson<String>($MaterialBookmarkTable.$convertertype.toJson(type)),
       'materialId': serializer.toJson<String?>(materialId),
       'characterId': serializer.toJson<String>(characterId),
+      'weaponId': serializer.toJson<String?>(weaponId),
       'quantity': serializer.toJson<int>(quantity),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'upperLevel': serializer.toJson<int>(upperLevel),
@@ -282,9 +279,9 @@ class MaterialBookmarkData extends DataClass
 
   MaterialBookmarkData copyWith(
           {int? id,
-          MaterialBookmarkType? type,
           Value<String?> materialId = const Value.absent(),
           String? characterId,
+          Value<String?> weaponId = const Value.absent(),
           int? quantity,
           DateTime? createdAt,
           int? upperLevel,
@@ -292,9 +289,9 @@ class MaterialBookmarkData extends DataClass
           String? hash}) =>
       MaterialBookmarkData(
         id: id ?? this.id,
-        type: type ?? this.type,
         materialId: materialId.present ? materialId.value : this.materialId,
         characterId: characterId ?? this.characterId,
+        weaponId: weaponId.present ? weaponId.value : this.weaponId,
         quantity: quantity ?? this.quantity,
         createdAt: createdAt ?? this.createdAt,
         upperLevel: upperLevel ?? this.upperLevel,
@@ -305,9 +302,9 @@ class MaterialBookmarkData extends DataClass
   String toString() {
     return (StringBuffer('MaterialBookmarkData(')
           ..write('id: $id, ')
-          ..write('type: $type, ')
           ..write('materialId: $materialId, ')
           ..write('characterId: $characterId, ')
+          ..write('weaponId: $weaponId, ')
           ..write('quantity: $quantity, ')
           ..write('createdAt: $createdAt, ')
           ..write('upperLevel: $upperLevel, ')
@@ -318,16 +315,16 @@ class MaterialBookmarkData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, type, materialId, characterId, quantity,
-      createdAt, upperLevel, purposeType, hash);
+  int get hashCode => Object.hash(id, materialId, characterId, weaponId,
+      quantity, createdAt, upperLevel, purposeType, hash);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is MaterialBookmarkData &&
           other.id == this.id &&
-          other.type == this.type &&
           other.materialId == this.materialId &&
           other.characterId == this.characterId &&
+          other.weaponId == this.weaponId &&
           other.quantity == this.quantity &&
           other.createdAt == this.createdAt &&
           other.upperLevel == this.upperLevel &&
@@ -337,9 +334,9 @@ class MaterialBookmarkData extends DataClass
 
 class MaterialBookmarkCompanion extends UpdateCompanion<MaterialBookmarkData> {
   final Value<int> id;
-  final Value<MaterialBookmarkType> type;
   final Value<String?> materialId;
   final Value<String> characterId;
+  final Value<String?> weaponId;
   final Value<int> quantity;
   final Value<DateTime> createdAt;
   final Value<int> upperLevel;
@@ -347,9 +344,9 @@ class MaterialBookmarkCompanion extends UpdateCompanion<MaterialBookmarkData> {
   final Value<String> hash;
   const MaterialBookmarkCompanion({
     this.id = const Value.absent(),
-    this.type = const Value.absent(),
     this.materialId = const Value.absent(),
     this.characterId = const Value.absent(),
+    this.weaponId = const Value.absent(),
     this.quantity = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.upperLevel = const Value.absent(),
@@ -358,25 +355,24 @@ class MaterialBookmarkCompanion extends UpdateCompanion<MaterialBookmarkData> {
   });
   MaterialBookmarkCompanion.insert({
     this.id = const Value.absent(),
-    required MaterialBookmarkType type,
     this.materialId = const Value.absent(),
     required String characterId,
+    this.weaponId = const Value.absent(),
     required int quantity,
     this.createdAt = const Value.absent(),
     required int upperLevel,
     required Purpose purposeType,
     required String hash,
-  })  : type = Value(type),
-        characterId = Value(characterId),
+  })  : characterId = Value(characterId),
         quantity = Value(quantity),
         upperLevel = Value(upperLevel),
         purposeType = Value(purposeType),
         hash = Value(hash);
   static Insertable<MaterialBookmarkData> custom({
     Expression<int>? id,
-    Expression<String>? type,
     Expression<String>? materialId,
     Expression<String>? characterId,
+    Expression<String>? weaponId,
     Expression<int>? quantity,
     Expression<DateTime>? createdAt,
     Expression<int>? upperLevel,
@@ -385,9 +381,9 @@ class MaterialBookmarkCompanion extends UpdateCompanion<MaterialBookmarkData> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (type != null) 'type': type,
       if (materialId != null) 'material_id': materialId,
       if (characterId != null) 'character_id': characterId,
+      if (weaponId != null) 'weapon_id': weaponId,
       if (quantity != null) 'quantity': quantity,
       if (createdAt != null) 'created_at': createdAt,
       if (upperLevel != null) 'upper_level': upperLevel,
@@ -398,9 +394,9 @@ class MaterialBookmarkCompanion extends UpdateCompanion<MaterialBookmarkData> {
 
   MaterialBookmarkCompanion copyWith(
       {Value<int>? id,
-      Value<MaterialBookmarkType>? type,
       Value<String?>? materialId,
       Value<String>? characterId,
+      Value<String?>? weaponId,
       Value<int>? quantity,
       Value<DateTime>? createdAt,
       Value<int>? upperLevel,
@@ -408,9 +404,9 @@ class MaterialBookmarkCompanion extends UpdateCompanion<MaterialBookmarkData> {
       Value<String>? hash}) {
     return MaterialBookmarkCompanion(
       id: id ?? this.id,
-      type: type ?? this.type,
       materialId: materialId ?? this.materialId,
       characterId: characterId ?? this.characterId,
+      weaponId: weaponId ?? this.weaponId,
       quantity: quantity ?? this.quantity,
       createdAt: createdAt ?? this.createdAt,
       upperLevel: upperLevel ?? this.upperLevel,
@@ -425,15 +421,14 @@ class MaterialBookmarkCompanion extends UpdateCompanion<MaterialBookmarkData> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (type.present) {
-      map['type'] = Variable<String>(
-          $MaterialBookmarkTable.$convertertype.toSql(type.value));
-    }
     if (materialId.present) {
       map['material_id'] = Variable<String>(materialId.value);
     }
     if (characterId.present) {
       map['character_id'] = Variable<String>(characterId.value);
+    }
+    if (weaponId.present) {
+      map['weapon_id'] = Variable<String>(weaponId.value);
     }
     if (quantity.present) {
       map['quantity'] = Variable<int>(quantity.value);
@@ -459,9 +454,9 @@ class MaterialBookmarkCompanion extends UpdateCompanion<MaterialBookmarkData> {
   String toString() {
     return (StringBuffer('MaterialBookmarkCompanion(')
           ..write('id: $id, ')
-          ..write('type: $type, ')
           ..write('materialId: $materialId, ')
           ..write('characterId: $characterId, ')
+          ..write('weaponId: $weaponId, ')
           ..write('quantity: $quantity, ')
           ..write('createdAt: $createdAt, ')
           ..write('upperLevel: $upperLevel, ')
@@ -723,9 +718,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 typedef $$MaterialBookmarkTableInsertCompanionBuilder
     = MaterialBookmarkCompanion Function({
   Value<int> id,
-  required MaterialBookmarkType type,
   Value<String?> materialId,
   required String characterId,
+  Value<String?> weaponId,
   required int quantity,
   Value<DateTime> createdAt,
   required int upperLevel,
@@ -735,9 +730,9 @@ typedef $$MaterialBookmarkTableInsertCompanionBuilder
 typedef $$MaterialBookmarkTableUpdateCompanionBuilder
     = MaterialBookmarkCompanion Function({
   Value<int> id,
-  Value<MaterialBookmarkType> type,
   Value<String?> materialId,
   Value<String> characterId,
+  Value<String?> weaponId,
   Value<int> quantity,
   Value<DateTime> createdAt,
   Value<int> upperLevel,
@@ -767,9 +762,9 @@ class $$MaterialBookmarkTableTableManager extends RootTableManager<
               $$MaterialBookmarkTableProcessedTableManager(p),
           getUpdateCompanionBuilder: ({
             Value<int> id = const Value.absent(),
-            Value<MaterialBookmarkType> type = const Value.absent(),
             Value<String?> materialId = const Value.absent(),
             Value<String> characterId = const Value.absent(),
+            Value<String?> weaponId = const Value.absent(),
             Value<int> quantity = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<int> upperLevel = const Value.absent(),
@@ -778,9 +773,9 @@ class $$MaterialBookmarkTableTableManager extends RootTableManager<
           }) =>
               MaterialBookmarkCompanion(
             id: id,
-            type: type,
             materialId: materialId,
             characterId: characterId,
+            weaponId: weaponId,
             quantity: quantity,
             createdAt: createdAt,
             upperLevel: upperLevel,
@@ -789,9 +784,9 @@ class $$MaterialBookmarkTableTableManager extends RootTableManager<
           ),
           getInsertCompanionBuilder: ({
             Value<int> id = const Value.absent(),
-            required MaterialBookmarkType type,
             Value<String?> materialId = const Value.absent(),
             required String characterId,
+            Value<String?> weaponId = const Value.absent(),
             required int quantity,
             Value<DateTime> createdAt = const Value.absent(),
             required int upperLevel,
@@ -800,9 +795,9 @@ class $$MaterialBookmarkTableTableManager extends RootTableManager<
           }) =>
               MaterialBookmarkCompanion.insert(
             id: id,
-            type: type,
             materialId: materialId,
             characterId: characterId,
+            weaponId: weaponId,
             quantity: quantity,
             createdAt: createdAt,
             upperLevel: upperLevel,
@@ -833,14 +828,6 @@ class $$MaterialBookmarkTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnWithTypeConverterFilters<MaterialBookmarkType, MaterialBookmarkType,
-          String>
-      get type => $state.composableBuilder(
-          column: $state.table.type,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
-
   ColumnFilters<String> get materialId => $state.composableBuilder(
       column: $state.table.materialId,
       builder: (column, joinBuilders) =>
@@ -848,6 +835,11 @@ class $$MaterialBookmarkTableFilterComposer
 
   ColumnFilters<String> get characterId => $state.composableBuilder(
       column: $state.table.characterId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get weaponId => $state.composableBuilder(
+      column: $state.table.weaponId,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -887,11 +879,6 @@ class $$MaterialBookmarkTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
   ColumnOrderings<String> get materialId => $state.composableBuilder(
       column: $state.table.materialId,
       builder: (column, joinBuilders) =>
@@ -899,6 +886,11 @@ class $$MaterialBookmarkTableOrderingComposer
 
   ColumnOrderings<String> get characterId => $state.composableBuilder(
       column: $state.table.characterId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get weaponId => $state.composableBuilder(
+      column: $state.table.weaponId,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 

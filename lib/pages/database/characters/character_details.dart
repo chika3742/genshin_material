@@ -16,7 +16,6 @@ import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/hoyolab_api.dart";
-import "../../../database.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
@@ -498,7 +497,6 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
         possiblePurposeTypes: const [Purpose.ascension],
         usage: MaterialUsage(
           characterId: widget.character.id,
-          type: MaterialBookmarkType.character,
         ),
       ),
     ).toList();
@@ -533,7 +531,6 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
         possiblePurposeTypes: talents.keys.map(Purpose.fromTalentType).toList(),
         usage: MaterialUsage(
           characterId: variant.id,
-          type: MaterialBookmarkType.character,
         ),
       ),
     ).toList();

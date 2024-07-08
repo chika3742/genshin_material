@@ -56,6 +56,7 @@ class GameItemListTile extends StatelessWidget {
   final File image;
   final String name;
   final int rarity;
+  final bool rounded;
   final void Function()? onTap;
 
   const GameItemListTile({
@@ -63,6 +64,7 @@ class GameItemListTile extends StatelessWidget {
     required this.image,
     required this.name,
     required this.rarity,
+    this.rounded = false,
     this.onTap,
   });
 
@@ -97,6 +99,9 @@ class GameItemListTile extends StatelessWidget {
           ),
         ),
       ),
+      shape: rounded ? RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ) : null,
       onTap: onTap,
     );
   }

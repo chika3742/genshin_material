@@ -1,7 +1,9 @@
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
 
 import "../../../components/center_text.dart";
+import "../../../components/character_select_dropdown.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/layout.dart";
@@ -9,18 +11,19 @@ import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
-import "../../../database.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/material_bookmark_frame.dart";
 import "../../../models/weapon.dart";
+import "../../../utils/filtering.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
 
 class WeaponDetailsPage extends StatelessWidget {
   final String id;
+  final CharacterId? initialSelectedCharacter;
 
-  const WeaponDetailsPage(this.id, {super.key});
+  const WeaponDetailsPage(this.id, {super.key, this.initialSelectedCharacter});
 
   @override
   Widget build(BuildContext context) {
@@ -39,22 +42,25 @@ class WeaponDetailsPage extends StatelessWidget {
           weapon: weapon,
           assetData: assetData,
           assetDir: assetDir,
+          initialSelectedCharacter: initialSelectedCharacter,
         );
       },
     );
   }
 }
 
-class WeaponDetailsPageContents extends StatefulWidget {
+class WeaponDetailsPageContents extends StatefulHookWidget {
   final Weapon weapon;
   final AssetData assetData;
   final String assetDir;
+  final CharacterId? initialSelectedCharacter;
 
   const WeaponDetailsPageContents({
     super.key,
     required this.weapon,
     required this.assetData,
     required this.assetDir,
+    this.initialSelectedCharacter,
   });
 
   @override
@@ -81,6 +87,15 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
     final assetData = widget.assetData;
     final assetDir = widget.assetDir;
 
+    final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
+    final selectedCharacterIdInit = useMemoized(
+      () => widget.initialSelectedCharacter != null &&
+              characters.any((e) => e.id == widget.initialSelectedCharacter)
+          ? widget.initialSelectedCharacter!
+          : characters.first.id,
+    );
+    final selectedCharacterId = useState(selectedCharacterIdInit);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.weaponDetails(weapon: weapon.name.localized)),
@@ -106,10 +121,21 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
               ],
             ),
 
+            CharacterSelectDropdown(
+              label: tr.weaponDetailsPage.characterToEquip,
+              characters: characters,
+              value: selectedCharacterId.value,
+              onChanged: (value) {
+                setState(() {
+                  selectedCharacterId.value = value!;
+                });
+              },
+            ),
+
             Card(
               margin: EdgeInsets.zero,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: LevelSlider(
                   levels: _sliderTickLabels,
                   values: _rangeValues,
@@ -128,7 +154,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
             ),
 
             Wrap(
-              children: _buildMaterialCards(),
+              children: _buildMaterialCards(selectedCharacterId.value),
             ),
           ],
         ),
@@ -136,7 +162,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
     );
   }
 
-  List<Widget> _buildMaterialCards() {
+  List<Widget> _buildMaterialCards(String characterId) {
     final mbFrames = widget.assetData.weaponIngredients.rarities[widget.weapon.rarity]!.levels
         .mapInLevelRange(
           _rangeValues,
@@ -156,9 +182,9 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
       (item) => MaterialItem(
         item: item,
         possiblePurposeTypes: const [Purpose.ascension],
-        usage: const MaterialUsage(
-          characterId: "",
-          type: MaterialBookmarkType.weapon,
+        usage: MaterialUsage(
+          characterId: characterId,
+          weaponId: widget.weapon.id,
         ),
       ),
     ).toList();

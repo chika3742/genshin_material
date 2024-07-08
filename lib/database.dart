@@ -16,10 +16,10 @@ part "database.g.dart";
 
 class MaterialBookmark extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get type => textEnum<MaterialBookmarkType>()();
   /// If null, this bookmark will be regarded as EXP items.
   TextColumn get materialId => text().nullable()();
   TextColumn get characterId => text()();
+  TextColumn get weaponId => text().nullable()();
   /// If [materialId] is null, this represents the amount of EXP.
   IntColumn get quantity => integer()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
@@ -27,11 +27,6 @@ class MaterialBookmark extends Table {
   TextColumn get purposeType => textEnum<Purpose>()();
   /// Can be generated with [combineMaterialBookmarkElements].
   TextColumn get hash => text()();
-}
-
-enum MaterialBookmarkType {
-  character,
-  weapon,
 }
 
 class CharacterLevelInfo extends Table {
@@ -71,9 +66,9 @@ class AppDatabase extends _$AppDatabase {
 
   Stream<List<MaterialBookmarkData>> watchMaterialBookmarkByPartial({
     required String characterId,
+    required String? weaponId,
     required String? materialId,
     required List<Purpose> purposeTypes,
-    required MaterialBookmarkType bookmarkType,
   }) {
     return (select(materialBookmark)
           ..where(
@@ -81,7 +76,7 @@ class AppDatabase extends _$AppDatabase {
                 tbl.characterId.equals(characterId) &
                 tbl.materialId.equalsNullable(materialId) &
                 tbl.purposeType.isInValues(purposeTypes) &
-                tbl.type.equalsValue(bookmarkType),
+                tbl.weaponId.equalsNullable(weaponId),
           ))
         .watch();
   }
