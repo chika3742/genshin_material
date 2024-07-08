@@ -87,6 +87,7 @@ _$CharacterVariantImpl _$$CharacterVariantImplFromJson(
       jaPronunciation: json['jaPronunciation'] as String,
       smallImageUrl: json['smallImageUrl'] as String,
       element: json['element'] as String,
+      weaponType: json['weaponType'] as String,
       talents: (json['talents'] as Map<String, dynamic>).map(
         (k, e) =>
             MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
@@ -104,6 +105,7 @@ Map<String, dynamic> _$$CharacterVariantImplToJson(
       'jaPronunciation': instance.jaPronunciation,
       'smallImageUrl': instance.smallImageUrl,
       'element': instance.element,
+      'weaponType': instance.weaponType,
       'talents': instance.talents,
       'materials': instance.materials,
       'runtimeType': instance.$type,

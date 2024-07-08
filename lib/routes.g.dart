@@ -270,10 +270,16 @@ extension $WeaponDetailsRouteExtension on WeaponDetailsRoute {
   static WeaponDetailsRoute _fromState(GoRouterState state) =>
       WeaponDetailsRoute(
         id: state.pathParameters['id']!,
+        initialSelectedCharacter:
+            state.uri.queryParameters['initial-selected-character'],
       );
 
   String get location => GoRouteData.$location(
         '/database/weapons/${Uri.encodeComponent(id)}',
+        queryParams: {
+          if (initialSelectedCharacter != null)
+            'initial-selected-character': initialSelectedCharacter,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

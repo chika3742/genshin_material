@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 249 (124 per locale)
+/// Strings: 250 (125 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -157,6 +157,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsErrorsJa errors = _StringsErrorsJa._(_root);
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
 	late final _StringsCharacterDetailsPageJa characterDetailsPage = _StringsCharacterDetailsPageJa._(_root);
+	late final _StringsWeaponDetailsPageJa weaponDetailsPage = _StringsWeaponDetailsPageJa._(_root);
 	late final _StringsMaterialDetailsPageJa materialDetailsPage = _StringsMaterialDetailsPageJa._(_root);
 	late final _StringsMaterialCardJa materialCard = _StringsMaterialCardJa._(_root);
 	late final _StringsArtifactsPageJa artifactsPage = _StringsArtifactsPageJa._(_root);
@@ -278,8 +279,18 @@ class _StringsCharacterDetailsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get charaLevelUpAndAscensionMaterials => 'キャラクターLvアップ・突破素材';
+	String get charaLevelUpAndAscensionMaterials => 'キャラクターLvップ・突破素材';
 	String get talentLevelUpMaterials => '天賦Lvアップ素材';
+}
+
+// Path: weaponDetailsPage
+class _StringsWeaponDetailsPageJa {
+	_StringsWeaponDetailsPageJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get characterToEquip => 'この武器を装備させるキャラクター';
 }
 
 // Path: materialDetailsPage
@@ -871,8 +882,9 @@ extension on Translations {
 			case 'pages.wishes': return '祈願天井カウンター';
 			case 'pages.more': return 'その他';
 			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB連携設定';
-			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
+			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
+			case 'weaponDetailsPage.characterToEquip': return 'この武器を装備させるキャラクター';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
 			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
 			case 'materialCard.reBookmark': return '現在の範囲で再ブックマーク';
