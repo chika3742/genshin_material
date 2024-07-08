@@ -1,5 +1,0 @@
-#!/usr/bin/env zx
-
-$.verbose = true
-
-$`fvm dart run build_runner watch --delete-conflicting-outputs`
