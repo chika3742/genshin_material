@@ -11,7 +11,6 @@ import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
-import "../../../database.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/material_bookmark_frame.dart";
@@ -185,7 +184,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
         possiblePurposeTypes: const [Purpose.ascension],
         usage: MaterialUsage(
           characterId: characterId,
-          type: MaterialBookmarkType.weapon,
+          weaponId: widget.weapon.id,
         ),
       ),
     ).toList();
