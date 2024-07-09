@@ -25,6 +25,20 @@ ResinCalculationResult calculateResinRecovery({
   );
 }
 
+int? calculateCurrentResin({
+  required int? currentResin,
+  required DateTime? baseTime,
+  required int maxResin,
+  required int minutesPerResin,
+}) {
+  if (currentResin == null || baseTime == null) {
+    return null;
+  }
+
+  final resinDelta = const Clock().now().difference(baseTime).inMinutes ~/ minutesPerResin;
+  return math.min(currentResin + resinDelta, maxResin);
+}
+
 Duration _timeToFullFromResinCount(int currentResin, int maxResin, int minutesPerResin) {
   final diff = maxResin - currentResin;
   final minutes = diff * minutesPerResin;
