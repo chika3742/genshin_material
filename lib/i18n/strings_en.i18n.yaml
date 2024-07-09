@@ -58,6 +58,8 @@ pages:
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: "Character Lv Up & Ascension Materials"
   talentLevelUpMaterials: Talent Lv Up Materials
+weaponDetailsPage:
+  characterToEquip: Character to Equip this Weapon
 materialDetailsPage:
   charactersUsing: Characters Using This Material
   weaponsUsing: Weapons Using This Material
@@ -128,7 +130,6 @@ hoyolab:
   userInfo: User Info
   failedToLoadServerList: Failed to load server list.
   failedToLoadGameRole: Failed to load game user info.
-  charaDataSyncInProgress: Game data sync in progress...
   noGameRoleFound: No game user found.
   failedToSyncGameData: Failed to sync game data.
   failedToLoadPermissionState: Failed to load permission state.
@@ -146,5 +147,7 @@ hoyolab:
   syncSettings: Sync Settings
   syncResin: Sync In-Game Resin Count
   syncCharaState: Sync In-Game Character Levels
+  mustBeResonatedWithStatue: This character must be resonated with the Statue of The Seven to be able to sync game data.
+  charaSyncSuccess: Successfully synced game data
 whereToGet(map):
   chests: "Chests, Quests"
