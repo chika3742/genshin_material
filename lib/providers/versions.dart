@@ -38,7 +38,7 @@ Future<List<ReleaseNote>> assetsReleaseNotesData(AssetsReleaseNotesDataRef ref) 
     throw "Must be used wrapped in DataAssetScope.";
   }
 
-  final assetPath = path.join((await getLocalAssetDirectory()).path, "asset-release-notes.yaml");
+  final assetPath = path.join((await getLocalAssetDirectory()).path, "asset-release-notes.json");
   final yaml = await File(assetPath).readAsString();
   final items = loadYamlWithUnwrap<List>(yaml);
   return items.map((e) => ReleaseNote.fromJson(e)).toList();

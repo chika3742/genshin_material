@@ -53,7 +53,7 @@ final featuresReleaseNotesDataProvider =
 typedef FeaturesReleaseNotesDataRef
     = AutoDisposeFutureProviderRef<List<ReleaseNote>>;
 String _$assetsReleaseNotesDataHash() =>
-    r'99fba19000c63aa8b7fadba439a87937b431f5ee';
+    r'e6d965fe94dc251bf63f4377a139c6541dd8d22f';
 
 /// See also [assetsReleaseNotesData].
 @ProviderFor(assetsReleaseNotesData)
