@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 250 (125 per locale)
+/// Strings: 253 (126 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -279,7 +279,7 @@ class _StringsCharacterDetailsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get charaLevelUpAndAscensionMaterials => 'キャラクターLvップ・突破素材';
+	String get charaLevelUpAndAscensionMaterials => 'キャラクターLvアップ・突破素材';
 	String get talentLevelUpMaterials => '天賦Lvアップ素材';
 }
 
@@ -441,7 +441,6 @@ class _StringsHoyolabJa {
 	String get userInfo => 'ユーザー情報';
 	String get failedToLoadServerList => 'サーバーリストの読み込みに失敗しました。';
 	String get failedToLoadGameRole => 'ゲームデータの読み込みに失敗しました。';
-	String get charaDataSyncInProgress => 'ゲームデータと同期しています...';
 	String get noGameRoleFound => 'ゲームデータが見つかりません';
 	String get failedToSyncGameData => 'ゲームデータの同期に失敗しました。';
 	String get failedToLoadPermissionState => 'アクセス許可状態の取得に失敗しました。';
@@ -459,6 +458,8 @@ class _StringsHoyolabJa {
 	String get syncSettings => '同期設定';
 	String get syncResin => 'ゲーム内の樹脂数と同期する';
 	String get syncCharaState => 'ゲーム内のキャラのレベルと同期する';
+	String get mustBeResonatedWithStatue => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
+	String get charaSyncSuccess => 'ゲームデータと同期しました';
 }
 
 // Path: <root>
@@ -498,6 +499,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsErrorsEn errors = _StringsErrorsEn._(_root);
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
 	@override late final _StringsCharacterDetailsPageEn characterDetailsPage = _StringsCharacterDetailsPageEn._(_root);
+	@override late final _StringsWeaponDetailsPageEn weaponDetailsPage = _StringsWeaponDetailsPageEn._(_root);
 	@override late final _StringsMaterialDetailsPageEn materialDetailsPage = _StringsMaterialDetailsPageEn._(_root);
 	@override late final _StringsMaterialCardEn materialCard = _StringsMaterialCardEn._(_root);
 	@override late final _StringsArtifactsPageEn artifactsPage = _StringsArtifactsPageEn._(_root);
@@ -639,6 +641,16 @@ class _StringsCharacterDetailsPageEn extends _StringsCharacterDetailsPageJa {
 	// Translations
 	@override String get charaLevelUpAndAscensionMaterials => 'Character Lv Up & Ascension Materials';
 	@override String get talentLevelUpMaterials => 'Talent Lv Up Materials';
+}
+
+// Path: weaponDetailsPage
+class _StringsWeaponDetailsPageEn extends _StringsWeaponDetailsPageJa {
+	_StringsWeaponDetailsPageEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get characterToEquip => 'Character to Equip this Weapon';
 }
 
 // Path: materialDetailsPage
@@ -789,7 +801,6 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get userInfo => 'User Info';
 	@override String get failedToLoadServerList => 'Failed to load server list.';
 	@override String get failedToLoadGameRole => 'Failed to load game user info.';
-	@override String get charaDataSyncInProgress => 'Game data sync in progress...';
 	@override String get noGameRoleFound => 'No game user found.';
 	@override String get failedToSyncGameData => 'Failed to sync game data.';
 	@override String get failedToLoadPermissionState => 'Failed to load permission state.';
@@ -807,6 +818,8 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get syncSettings => 'Sync Settings';
 	@override String get syncResin => 'Sync In-Game Resin Count';
 	@override String get syncCharaState => 'Sync In-Game Character Levels';
+	@override String get mustBeResonatedWithStatue => 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
+	@override String get charaSyncSuccess => 'Successfully synced game data';
 }
 
 /// Flat map(s) containing all translations.
@@ -882,7 +895,7 @@ extension on Translations {
 			case 'pages.wishes': return '祈願天井カウンター';
 			case 'pages.more': return 'その他';
 			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB連携設定';
-			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvップ・突破素材';
+			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'weaponDetailsPage.characterToEquip': return 'この武器を装備させるキャラクター';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
@@ -941,7 +954,6 @@ extension on Translations {
 			case 'hoyolab.userInfo': return 'ユーザー情報';
 			case 'hoyolab.failedToLoadServerList': return 'サーバーリストの読み込みに失敗しました。';
 			case 'hoyolab.failedToLoadGameRole': return 'ゲームデータの読み込みに失敗しました。';
-			case 'hoyolab.charaDataSyncInProgress': return 'ゲームデータと同期しています...';
 			case 'hoyolab.noGameRoleFound': return 'ゲームデータが見つかりません';
 			case 'hoyolab.failedToSyncGameData': return 'ゲームデータの同期に失敗しました。';
 			case 'hoyolab.failedToLoadPermissionState': return 'アクセス許可状態の取得に失敗しました。';
@@ -959,6 +971,8 @@ extension on Translations {
 			case 'hoyolab.syncSettings': return '同期設定';
 			case 'hoyolab.syncResin': return 'ゲーム内の樹脂数と同期する';
 			case 'hoyolab.syncCharaState': return 'ゲーム内のキャラのレベルと同期する';
+			case 'hoyolab.mustBeResonatedWithStatue': return '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
+			case 'hoyolab.charaSyncSuccess': return 'ゲームデータと同期しました';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;
 		}
@@ -1055,6 +1069,7 @@ extension on _StringsEn {
 			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB Integration Settings';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'Character Lv Up & Ascension Materials';
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
+			case 'weaponDetailsPage.characterToEquip': return 'Character to Equip this Weapon';
 			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
 			case 'materialDetailsPage.weaponsUsing': return 'Weapons Using This Material';
 			case 'materialCard.reBookmark': return 'Re-bookmark in current range';
@@ -1111,7 +1126,6 @@ extension on _StringsEn {
 			case 'hoyolab.userInfo': return 'User Info';
 			case 'hoyolab.failedToLoadServerList': return 'Failed to load server list.';
 			case 'hoyolab.failedToLoadGameRole': return 'Failed to load game user info.';
-			case 'hoyolab.charaDataSyncInProgress': return 'Game data sync in progress...';
 			case 'hoyolab.noGameRoleFound': return 'No game user found.';
 			case 'hoyolab.failedToSyncGameData': return 'Failed to sync game data.';
 			case 'hoyolab.failedToLoadPermissionState': return 'Failed to load permission state.';
@@ -1129,6 +1143,8 @@ extension on _StringsEn {
 			case 'hoyolab.syncSettings': return 'Sync Settings';
 			case 'hoyolab.syncResin': return 'Sync In-Game Resin Count';
 			case 'hoyolab.syncCharaState': return 'Sync In-Game Character Levels';
+			case 'hoyolab.mustBeResonatedWithStatue': return 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
+			case 'hoyolab.charaSyncSuccess': return 'Successfully synced game data';
 			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
 		}

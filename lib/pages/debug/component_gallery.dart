@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
 
 import "../../components/game_data_sync_indicator.dart";
 import "../../components/list_tile.dart";
@@ -22,8 +23,21 @@ class ComponentGalleryPage extends StatelessWidget {
               _pushComponentDetail(
                 context: context,
                 title: "GameDataSyncIndicator",
-                child: const GameDataSyncIndicator(
-                  show: true,
+                child: HookBuilder(
+                  builder: (context) {
+                    final status = useState(GameDataSyncStatus.syncing);
+                    useEffect(() {
+                      Future.delayed(const Duration(seconds: 2), () {
+                        status.value = GameDataSyncStatus.characterNotExists;
+                      });
+                      return null;
+                    }, const [],);
+
+                    return GameDataSyncIndicator(
+                      status: status.value,
+                      // show: true,
+                    );
+                  },
                 ),
               );
             },
@@ -39,9 +53,7 @@ class ComponentGalleryPage extends StatelessWidget {
         context: context,
         child: ComponentDetailPage(
           title: title,
-          child: const GameDataSyncIndicator(
-            show: true,
-          ),
+          child: child,
         ),
       ).createRoute(context),
     );

@@ -29,9 +29,9 @@ class ResinCalcPage extends HookConsumerWidget {
     final resinController = useTextEditingController(text: prefs.resin?.toString() ?? "");
     final resinInput = useValueListenable(resinController);
 
-    final gameDataSyncInProgress = useState(false);
+    final syncStatus = useState(GameDataSyncStatus.synced);
     Future<void> syncResin() async {
-      gameDataSyncInProgress.value = true;
+      syncStatus.value = GameDataSyncStatus.syncing;
 
       final api = HoyolabApi(cookie: prefs.hyvCookie, region: prefs.hyvServer, uid: prefs.hyvUid);
       try {
@@ -41,12 +41,14 @@ class ResinCalcPage extends HookConsumerWidget {
           ref.read(preferencesStateNotifierProvider.notifier)
               .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
         }
+
+        syncStatus.value = GameDataSyncStatus.synced;
       } on HoyolabApiException catch (e) {
+        syncStatus.value = GameDataSyncStatus.error;
         if (context.mounted) showSnackBar(context: context, message: e.getMessage(tr.hoyolab.failedToSyncGameData), error: true);
       } catch (e) {
+        syncStatus.value = GameDataSyncStatus.error;
         if (context.mounted) showSnackBar(context: context, message: tr.hoyolab.failedToSyncGameData, error: true);
-      } finally {
-        gameDataSyncInProgress.value = false;
       }
     }
 
@@ -65,50 +67,61 @@ class ResinCalcPage extends HookConsumerWidget {
         ),
         body: Column(
           children: [
-            GameDataSyncIndicator(show: gameDataSyncInProgress.value),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: GappedColumn(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFormField(
-                      controller: resinController,
-                      keyboardType: TextInputType.number,
-                      enabled: !prefs.isLinkedWithHoyolab || !prefs.syncResin,
-                      decoration: InputDecoration(
-                        labelText: tr.resinCalcPage.currentResin,
-                        border: const OutlineInputBorder(),
-                        suffixText: "/ $maxResin",
-                        suffixIcon: resinInput.text.isNotEmpty ? IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            resinController.clear();
-                            ref.read(preferencesStateNotifierProvider.notifier).setResin(null);
-                          },
-                        ) : null,
-                      ),
-                      inputFormatters: [
-                        TextInputFormatter.withFunction((oldValue, newValue) {
-                          if ((int.tryParse(newValue.text) ?? 0) >= maxResin) {
-                            return TextEditingValue(text: maxResin.toString());
-                          }
-                          return newValue;
-                        }),
-                        FilteringTextInputFormatter.digitsOnly,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: resinController,
+                            keyboardType: TextInputType.number,
+                            enabled: !prefs.isLinkedWithHoyolab || !prefs.syncResin,
+                            decoration: InputDecoration(
+                              labelText: tr.resinCalcPage.currentResin,
+                              border: const OutlineInputBorder(),
+                              suffixText: "/ $maxResin",
+                              suffixIcon: resinInput.text.isNotEmpty ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  resinController.clear();
+                                  ref.read(preferencesStateNotifierProvider.notifier).setResin(null);
+                                },
+                              ) : null,
+                            ),
+                            inputFormatters: [
+                              TextInputFormatter.withFunction((oldValue, newValue) {
+                                if ((int.tryParse(newValue.text) ?? 0) >= maxResin) {
+                                  return TextEditingValue(text: maxResin.toString());
+                                }
+                                return newValue;
+                              }),
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            onChanged: (value) {
+                              final prefNotifier = ref.read(preferencesStateNotifierProvider.notifier);
+                              if (value.isNotEmpty) {
+                                final resin = int.tryParse(value);
+                                if (resin == null) {
+                                  return;
+                                }
+                                prefNotifier.setResin(resin);
+                              } else {
+                                prefNotifier.setResin(null);
+                              }
+                            },
+                          ),
+                        ),
+                        if (prefs.syncResin && prefs.isLinkedWithHoyolab) Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: GameDataSyncIndicator(
+                            status: syncStatus.value,
+                          ),
+                        ),
                       ],
-                      onChanged: (value) {
-                        final prefNotifier = ref.read(preferencesStateNotifierProvider.notifier);
-                        if (value.isNotEmpty) {
-                          final resin = int.tryParse(value);
-                          if (resin == null) {
-                            return;
-                          }
-                          prefNotifier.setResin(resin);
-                        } else {
-                          prefNotifier.setResin(null);
-                        }
-                      },
                     ),
 
                     const _CalcResultTable(),
