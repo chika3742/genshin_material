@@ -39,8 +39,8 @@ class CharacterSelectDropdown extends HookConsumerWidget {
               children: [
                 Image.file(
                   character.getSmallImageFile(ac.value!.assetDir),
-                  width: 24,
-                  height: 24,
+                  width: 40,
+                  height: 40,
                 ),
                 const SizedBox(width: 8),
                 Text(character.name.localized),
