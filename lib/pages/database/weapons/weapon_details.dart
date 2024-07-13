@@ -100,63 +100,65 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
       appBar: AppBar(
         title: Text(tr.pages.weaponDetails(weapon: weapon.name.localized)),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: GappedColumn(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          gap: 16,
-          children: [
-            GameItemInfoBox(
-              itemImage: Image.file(
-                weapon.getImageFile(assetDir),
-                width: 50,
-                height: 50,
-              ),
-              children: [
-                RarityStars(count: weapon.rarity),
-                Text(
-                  assetData.weaponTypes[weapon.type]!.name.localized,
-                  style: Theme.of(context).textTheme.titleSmall,
+      body: Scrollbar(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: GappedColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            gap: 16,
+            children: [
+              GameItemInfoBox(
+                itemImage: Image.file(
+                  weapon.getImageFile(assetDir),
+                  width: 50,
+                  height: 50,
                 ),
-              ],
-            ),
+                children: [
+                  RarityStars(count: weapon.rarity),
+                  Text(
+                    assetData.weaponTypes[weapon.type]!.name.localized,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ],
+              ),
 
-            CharacterSelectDropdown(
-              label: tr.weaponDetailsPage.characterToEquip,
-              characters: characters,
-              value: selectedCharacterId.value,
-              onChanged: (value) {
-                setState(() {
-                  selectedCharacterId.value = value!;
-                });
-              },
-            ),
+              CharacterSelectDropdown(
+                label: tr.weaponDetailsPage.characterToEquip,
+                characters: characters,
+                value: selectedCharacterId.value,
+                onChanged: (value) {
+                  setState(() {
+                    selectedCharacterId.value = value!;
+                  });
+                },
+              ),
 
-            Card(
-              margin: EdgeInsets.zero,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: LevelSlider(
-                  levels: _sliderTickLabels,
-                  values: _rangeValues,
-                  onChanged: (values) {
-                    // avoid overlapping slider handles
-                    if (values.start == values.end) {
-                      return;
-                    }
+              Card(
+                margin: EdgeInsets.zero,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: LevelSlider(
+                    levels: _sliderTickLabels,
+                    values: _rangeValues,
+                    onChanged: (values) {
+                      // avoid overlapping slider handles
+                      if (values.start == values.end) {
+                        return;
+                      }
 
-                    setState(() {
-                      _rangeValues = values;
-                    });
-                  },
+                      setState(() {
+                        _rangeValues = values;
+                      });
+                    },
+                  ),
                 ),
               ),
-            ),
 
-            Wrap(
-              children: _buildMaterialCards(selectedCharacterId.value),
-            ),
-          ],
+              Wrap(
+                children: _buildMaterialCards(selectedCharacterId.value),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -70,33 +70,38 @@ class WeaponListPage extends StatelessWidget {
           final weaponsGroupedByType = assetData.weapons.values
               .groupListsBy((element) => element.type);
 
-          return CustomScrollView(
+          return PrimaryScrollController(
             controller: _scrollController,
-            slivers: weaponsGroupedByType.entries.map((e) {
-              final categoryId = e.key;
-              final categoryText = assetData.weaponTypes[categoryId]!.name.localized;
+            child: Scrollbar(
+              child: CustomScrollView(
+                controller: _scrollController,
+                slivers: weaponsGroupedByType.entries.map((e) {
+                  final categoryId = e.key;
+                  final categoryText = assetData.weaponTypes[categoryId]!.name.localized;
 
-              return SliverStickyHeader.builder(
-                builder: (_, __) => StickyListHeader(categoryText),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                      final weapon = weaponsGroupedByType[categoryId]![index];
+                  return SliverStickyHeader.builder(
+                    builder: (_, __) => StickyListHeader(categoryText),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                          final weapon = weaponsGroupedByType[categoryId]![index];
 
-                      return GameItemListTile(
-                        image: weapon.getImageFile(assetDir),
-                        name: weapon.name.localized,
-                        rarity: weapon.rarity,
-                        onTap: () {
-                          WeaponDetailsRoute(id: weapon.id).go(context);
+                          return GameItemListTile(
+                            image: weapon.getImageFile(assetDir),
+                            name: weapon.name.localized,
+                            rarity: weapon.rarity,
+                            onTap: () {
+                              WeaponDetailsRoute(id: weapon.id).go(context);
+                            },
+                          );
                         },
-                      );
-                    },
-                    childCount: weaponsGroupedByType[categoryId]!.length,
-                  ),
-                ),
-              );
-            }).toList(),
+                        childCount: weaponsGroupedByType[categoryId]!.length,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
           );
         },
       ),

@@ -1,6 +1,7 @@
 import "dart:math";
 
 import "package:collection/collection.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_sticky_header/flutter_sticky_header.dart";
 import "package:material_symbols_icons/symbols.dart";
@@ -73,33 +74,38 @@ class MaterialListPage extends StatelessWidget {
           final categories = assetData.materialCategories;
           final materialsGroupedByCategory = assetData.materials.values
               .groupListsBy((element) => element.category);
-          return CustomScrollView(
+          return PrimaryScrollController(
             controller: _scrollController,
-            slivers: categories.entries.map((e) {
-              final categoryId = e.key;
-              final categoryText = e.value.localized;
+            child: CupertinoScrollbar(
+              child: CustomScrollView(
+                controller: _scrollController,
+                slivers: categories.entries.map((e) {
+                  final categoryId = e.key;
+                  final categoryText = e.value.localized;
 
-              return SliverStickyHeader.builder(
-                builder: (_, __) => StickyListHeader(categoryText),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                      final material = materialsGroupedByCategory[categoryId]![index];
+                  return SliverStickyHeader.builder(
+                    builder: (_, __) => StickyListHeader(categoryText),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                          final material = materialsGroupedByCategory[categoryId]![index];
 
-                      return GameItemListTile(
-                        image: material.getImageFile(assetDir),
-                        name: material.name.localized,
-                        rarity: material.rarity,
-                        onTap: () {
-                          MaterialDetailsRoute(id: material.id).go(context);
+                          return GameItemListTile(
+                            image: material.getImageFile(assetDir),
+                            name: material.name.localized,
+                            rarity: material.rarity,
+                            onTap: () {
+                              MaterialDetailsRoute(id: material.id).go(context);
+                            },
+                          );
                         },
-                      );
-                    },
-                    childCount: materialsGroupedByCategory[categoryId]!.length,
-                  ),
-                ),
-              );
-            }).toList(),
+                        childCount: materialsGroupedByCategory[categoryId]!.length,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
           );
         },
       ),

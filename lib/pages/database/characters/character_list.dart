@@ -19,18 +19,20 @@ class CharacterListPage extends StatelessWidget {
           final characters = assetData.characters.values
               .whereType<CharacterWithLargeImage>()
               .toList();
-          return GridView.builder(
-            padding: const EdgeInsets.all(16.0),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              mainAxisSpacing: 8.0,
-              crossAxisSpacing: 8.0,
-              childAspectRatio: 2,
+          return Scrollbar(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(16.0),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8.0,
+                childAspectRatio: 2,
+              ),
+              itemCount: characters.length,
+              itemBuilder: (context, index) {
+                return CharacterListItem(characters[index]);
+              },
             ),
-            itemCount: characters.length,
-            itemBuilder: (context, index) {
-              return CharacterListItem(characters[index]);
-            },
           );
         },
       ),

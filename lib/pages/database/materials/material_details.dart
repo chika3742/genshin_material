@@ -41,65 +41,67 @@ class MaterialDetailsPage extends StatelessWidget {
           appBar: AppBar(
             title: Text(tr.pages.materialDetails(material: material.name.localized)),
           ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: GappedColumn(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              gap: 16,
-              children: [
-                GameItemInfoBox(
-                  itemImage: Image.file(
-                    material.getImageFile(assetDir),
-                    width: 50,
-                    height: 50,
+          body: Scrollbar(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: GappedColumn(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                gap: 16,
+                children: [
+                  GameItemInfoBox(
+                    itemImage: Image.file(
+                      material.getImageFile(assetDir),
+                      width: 50,
+                      height: 50,
+                    ),
+                    children: [
+                      RarityStars(count: material.rarity),
+                      Text(
+                        assetData.materialCategories[material.category]!.localized,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ],
                   ),
-                  children: [
-                    RarityStars(count: material.rarity),
-                    Text(
-                      assetData.materialCategories[material.category]!.localized,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ],
-                ),
 
-                if (charactersUsingMaterial.isNotEmpty) GappedColumn(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SectionHeading(tr.materialDetailsPage.charactersUsing),
-                    Wrap(
-                      children: [
-                        for (final character in charactersUsingMaterial)
-                          CharacterSmallCard(character),
-                      ],
-                    ),
-                  ],
-                ),
+                  if (charactersUsingMaterial.isNotEmpty) GappedColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SectionHeading(tr.materialDetailsPage.charactersUsing),
+                      Wrap(
+                        children: [
+                          for (final character in charactersUsingMaterial)
+                            CharacterSmallCard(character),
+                        ],
+                      ),
+                    ],
+                  ),
 
-                if (weaponsUseMaterial.isNotEmpty) GappedColumn(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SectionHeading(tr.materialDetailsPage.weaponsUsing),
-                    for (final weaponTypes in weaponsUseMaterial.groupListsBy((w) => w.type).entries)
-                      ...[
-                        SectionInnerHeading(assetData.weaponTypes[weaponTypes.key]!.name.localized),
-                        Column(
-                          children: [
-                            for (final weapon in weaponTypes.value)
-                              GameItemListTile(
-                                image: weapon.getImageFile(assetDir),
-                                name: weapon.name.localized,
-                                rarity: weapon.rarity,
-                                rounded: true,
-                                onTap: () {
-                                  WeaponDetailsRoute(id: weapon.id).push(context);
-                                },
-                              ),
-                          ],
-                        ),
-                      ],
-                  ],
-                ),
-              ],
+                  if (weaponsUseMaterial.isNotEmpty) GappedColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SectionHeading(tr.materialDetailsPage.weaponsUsing),
+                      for (final weaponTypes in weaponsUseMaterial.groupListsBy((w) => w.type).entries)
+                        ...[
+                          SectionInnerHeading(assetData.weaponTypes[weaponTypes.key]!.name.localized),
+                          Column(
+                            children: [
+                              for (final weapon in weaponTypes.value)
+                                GameItemListTile(
+                                  image: weapon.getImageFile(assetDir),
+                                  name: weapon.name.localized,
+                                  rarity: weapon.rarity,
+                                  rounded: true,
+                                  onTap: () {
+                                    WeaponDetailsRoute(id: weapon.id).push(context);
+                                  },
+                                ),
+                            ],
+                          ),
+                        ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );
