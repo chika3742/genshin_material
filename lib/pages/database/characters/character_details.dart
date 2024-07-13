@@ -22,6 +22,7 @@ import "../../../models/common.dart";
 import "../../../models/material_bookmark_frame.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/preferences.dart";
+import "../../../routes.dart";
 import "../../../ui_core/snack_bar.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
@@ -252,6 +253,20 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
             character: character.name.localized,
           ),
         ),
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  child: Text(tr.pages.hoyolabIntegrationSettings),
+                  onTap: () {
+                    HoyolabIntegrationSettingsRoute().push(context);
+                  },
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
