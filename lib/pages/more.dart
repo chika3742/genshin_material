@@ -69,7 +69,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
               launchCustomTab(privacyPolicyUrl);
             },
           ),
-          if (kDebugMode) SimpleListTile(
+          if (!kReleaseMode) SimpleListTile(
             title: "Debug Menu",
             location: DebugMenuRoute().location,
           ),
