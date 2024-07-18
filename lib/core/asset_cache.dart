@@ -50,17 +50,21 @@ class AssetDataCache {
     );
 
     data = AssetData(
-      characters: Map.fromEntries(
-        (await loadDataAsset<List>("characters.json"))
-            .map((e) => MapEntry(e["id"], Character.fromJson(e))),
-      ),
+      characters: (await loadDataAsset<Map<String, dynamic>>("characters.json")).map((key, value) {
+        return MapEntry(
+          key,
+          Character.fromJson(value),
+        );
+      }),
       characterIngredients: CharacterIngredients.fromJson(
         await loadDataAsset<Map<String, dynamic>>("character-ingredients.json"),
       ),
-      weapons: Map.fromEntries(
-        (await loadDataAsset<List>("weapons.json"))
-            .map((e) => MapEntry(e["id"], Weapon.fromJson(e))),
-      ),
+      weapons: (await loadDataAsset<Map<String, dynamic>>("weapons.json")).map((key, value) {
+        return MapEntry(
+          key,
+          Weapon.fromJson(value),
+        );
+      }),
       weaponIngredients: WeaponIngredients.fromJson(
         await loadDataAsset<Map<String, dynamic>>("weapon-ingredients.json"),
       ),
@@ -72,23 +76,27 @@ class AssetDataCache {
           Element.fromJson(value),
         );
       }),
-      materials: Map.fromEntries(
-        (await loadDataAsset<List>("materials.json"))
-            .map((e) => MapEntry(e["id"], Material.fromJson(e))),
-      ),
+      materials: (await loadDataAsset<Map<String, dynamic>>("materials.json")).map((key, value) {
+        return MapEntry(
+          key,
+          Material.fromJson(value),
+        );
+      }),
       materialCategories: materialsMeta.categories,
       materialSortOrder: materialsMeta.sortOrder,
       dailyMaterials: materialsMeta.daily,
       specialCharactersUsingMaterials: materialsMeta.specialCharactersUsingMaterials,
-      artifactSets: Map.fromEntries(
-        (await loadDataAsset<List>("artifact-sets.json"))
-            .map((e) => MapEntry(e["id"], ArtifactSet.fromJson(e))),
-      ),
+      artifactSets: (await loadDataAsset<Map<String, dynamic>>("artifact-sets.json")).map((key, value) {
+        return MapEntry(
+          key,
+          ArtifactSet.fromJson(value),
+        );
+      }),
       artifactPieceTypes: artifactsMeta.pieceTypes,
     );
   }
 
-  /// Reads data asset file and parses YAML into JSON.
+  /// Reads data asset file and parses JSON.
   Future<RootT> loadDataAsset<RootT>(String filename) async {
     final filePath = path.join(assetDir, "data/$filename");
     final jsonString = await File(filePath).readAsString();
