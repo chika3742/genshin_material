@@ -10,6 +10,7 @@ import "../models/common.dart";
 import "../models/material.dart";
 import "../models/material_bookmark_frame.dart";
 import "../providers/database_provider.dart";
+import "../providers/preferences.dart";
 import "../providers/versions.dart";
 import "layout.dart";
 import "material_card.dart";
@@ -86,6 +87,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
     return MaterialCard(
       image: material.getImageFile(assetDir),
       name: material.name.localized,
+      showName: ref.watch(preferencesStateNotifierProvider).showItemNameOnCard,
       rarity: material.rarity,
       quantity: quantity,
       id: material.id,

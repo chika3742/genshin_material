@@ -108,6 +108,9 @@ releaseNotesPage:
   featureUpdates: 機能更新
   assetUpdates: データ更新
 settingsPage:
+  display: 表示
+  showItemNameOnCard: 素材のアイテム名を表示
+  showItemNameOnCardDesc: 使用数を表示するカードにアイテム名を表示します。
   assetData: アセットデータ
   reDownloadAssets: アセットデータを再ダウンロード
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。

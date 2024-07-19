@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 253 (126 per locale)
+/// Strings: 256 (128 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -414,6 +414,9 @@ class _StringsSettingsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	String get display => '表示';
+	String get showItemNameOnCard => '素材のアイテム名を表示';
+	String get showItemNameOnCardDesc => '使用数を表示するカードにアイテム名を表示します。';
 	String get assetData => 'アセットデータ';
 	String get reDownloadAssets => 'アセットデータを再ダウンロード';
 	String get reDownloadAssetsDesc => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
@@ -936,6 +939,9 @@ extension on Translations {
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
+			case 'settingsPage.display': return '表示';
+			case 'settingsPage.showItemNameOnCard': return '素材のアイテム名を表示';
+			case 'settingsPage.showItemNameOnCardDesc': return '使用数を表示するカードにアイテム名を表示します。';
 			case 'settingsPage.assetData': return 'アセットデータ';
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';

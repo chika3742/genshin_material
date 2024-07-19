@@ -78,6 +78,11 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     state.pref.setSyncCharaState(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
+
+  Future<void> setShowItemNameOnCard(bool value) async {
+    state.pref.setShowItemNameOnCard(value);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
 }
 
 @freezed
@@ -95,6 +100,7 @@ class PreferencesState with _$PreferencesState {
     required String? hyvUid,
     required bool syncResin,
     required bool syncCharaState,
+    required bool showItemNameOnCard,
   }) = _PreferencesState;
 
   factory PreferencesState.fromSharedPreferences(KvPreferences pref) {
@@ -109,6 +115,7 @@ class PreferencesState with _$PreferencesState {
       hyvUid: pref.hyvUid,
       syncResin: pref.syncResin,
       syncCharaState: pref.syncCharaState,
+      showItemNameOnCard: pref.showItemNameOnCard,
     );
   }
 

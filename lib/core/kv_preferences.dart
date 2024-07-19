@@ -48,4 +48,7 @@ class KvPreferences {
 
   bool get syncCharaState => sp.getBool("syncCharaState") ?? true;
   Future<void> setSyncCharaState(bool value) => sp.setBool("syncCharaState", value);
+
+  bool get showItemNameOnCard => sp.getBool("showItemNameOnCard") ?? true;
+  Future<void> setShowItemNameOnCard(bool value) => sp.setBool("showItemNameOnCard", value);
 }

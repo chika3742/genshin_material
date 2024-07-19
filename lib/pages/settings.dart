@@ -10,6 +10,7 @@ import "../core/handle_error.dart";
 import "../i18n/strings.g.dart";
 import "../main.dart";
 import "../providers/asset_updating_state.dart";
+import "../providers/preferences.dart";
 import "../providers/versions.dart";
 import "../routes.dart";
 import "../ui_core/install_latest_assets.dart";
@@ -26,12 +27,23 @@ class SettingsPage extends ConsumerStatefulWidget {
 class _SettingsPageState extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    final prefs = ref.watch(preferencesStateNotifierProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.settings),
       ),
       body: ListView(
         children: [
+          ListSubheader(tr.settingsPage.display),
+          CheckboxListTile(
+            title: Text(tr.settingsPage.showItemNameOnCard),
+            subtitle: Text(tr.settingsPage.showItemNameOnCardDesc),
+            value: prefs.showItemNameOnCard,
+            onChanged: (value) {
+              ref.read(preferencesStateNotifierProvider.notifier).setShowItemNameOnCard(value!);
+            },
+          ),
           ListSubheader(tr.settingsPage.assetData),
           SimpleListTile(
             title: tr.settingsPage.reDownloadAssets,
