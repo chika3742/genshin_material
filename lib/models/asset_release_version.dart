@@ -11,6 +11,7 @@ class AssetReleaseVersion with _$AssetReleaseVersion {
     required String dataVersion,
     required AssetChannel channel,
     required String distUrl,
+    required int schemaVersion,
   }) = _AssetReleaseVersion;
 
   factory AssetReleaseVersion.fromJson(Map<String, dynamic> json) =>
@@ -19,5 +20,5 @@ class AssetReleaseVersion with _$AssetReleaseVersion {
 
 enum AssetChannel {
   prod,
-  staging,
+  dev,
 }

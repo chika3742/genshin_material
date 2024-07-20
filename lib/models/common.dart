@@ -2,20 +2,15 @@ import "dart:io";
 
 import "package:path/path.dart" as path;
 
+const dataSchemaVersion = 0;
+
 typedef MaterialUsageType = String;
-
 typedef MaterialDefinitions = Map<MaterialUsageType, String>;
-
 typedef WeaponType = String;
-
 typedef WeaponSubStat = String;
-
 typedef TeyvatElement = String;
-
 typedef TalentType = String;
-
 typedef MaterialCategoryType = String;
-
 typedef ArtifactPieceType = String;
 
 mixin ImageGetter {

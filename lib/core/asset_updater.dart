@@ -31,10 +31,7 @@ class AssetUpdater {
   /// If new version found, returns the latest [AssetReleaseVersion].
   /// If not, `null` will be returned.
   Future<void> checkForUpdate() async {
-    final latestRelease = await _fetchAssetRelease(kReleaseMode ? "prod" : "staging");
-    if (latestRelease == null) {
-      throw "No releases found.";
-    }
+    final releases = await _fetchAssetRelease(kReleaseMode ? "prod" : "dev");
 
     AssetReleaseVersion? currentVersion;
     try {
@@ -42,6 +39,8 @@ class AssetUpdater {
     } catch (e) {
       debugPrint("Failed to get current version: $e");
     }
+
+    final latestRelease = releases.reduce((value, element) => value.createdAt.isAfter(element.createdAt) ? value : element);
 
     if (currentVersion == null || latestRelease.createdAt.isAfter(currentVersion.createdAt)) {
       // No local assets exist or a new version found
@@ -78,19 +77,19 @@ class AssetUpdater {
     debugPrint("Installation completed!");
   }
 
-  Future<AssetReleaseVersion?> _fetchAssetRelease(String channel) async {
-    final uri = Uri.parse(assetReleasesUrl);
+  Future<List<AssetReleaseVersion>> _fetchAssetRelease(String channel) async {
+    final uri = Uri.parse(assetReleasesUrl).replace(
+      queryParameters: {
+        "channel": channel,
+      },
+    );
     final response = await httpClient.get(uri);
     final json = const JsonDecoder().convert(response.body);
-    if (json is! Map) {
+    if (json is! List) {
       throw "Invalid type of response";
     }
 
-    final release = json["channels"]?[channel];
-    if (release == null) {
-      return null;
-    }
-    return AssetReleaseVersion.fromJson(release);
+    return json.map((e) => AssetReleaseVersion.fromJson(e)).toList();
   }
 
   Future<File> _downloadRelease(Uri uri) async {

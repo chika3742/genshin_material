@@ -1,3 +1,5 @@
+import "dart:developer";
+
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
@@ -7,6 +9,7 @@ import "../core/asset_updater.dart";
 import "../core/handle_error.dart";
 import "../i18n/strings.g.dart";
 import "../main.dart";
+import "../models/common.dart";
 import "../providers/asset_updating_state.dart";
 import "../routes.dart";
 import "snack_bar.dart";
@@ -17,6 +20,17 @@ Future<void> installLatestAssets({
   required AssetUpdater updater,
 }) async {
   if (!context.mounted || !ref.context.mounted) {
+    throw StateError("The provided context is not mounted");
+  }
+  if (!updater.isUpdateAvailable) {
+    throw StateError("No update available");
+  }
+
+  log("Asset Data update found: D${updater.foundUpdate!.dataVersion}");
+
+  if (updater.foundUpdate!.schemaVersion > dataSchemaVersion) {
+    log("Schema version mismatch: ${updater.foundUpdate!.schemaVersion} (remote) vs $dataSchemaVersion (client)");
+    showSnackBar(context: context, message: tr.common.schemaVersionMismatch, error: true);
     return;
   }
 
