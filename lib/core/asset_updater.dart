@@ -1,5 +1,6 @@
 import "dart:async";
 import "dart:convert";
+import "dart:developer";
 import "dart:io";
 
 import "package:archive/archive_io.dart";
@@ -7,9 +8,12 @@ import "package:flutter/foundation.dart";
 import "package:http/http.dart" as http;
 import "package:path/path.dart" as path;
 import "package:path_provider/path_provider.dart";
+import "package:uuid/uuid.dart";
 
 import "../constants/urls.dart";
 import "../models/asset_release_version.dart";
+import "../models/common.dart";
+import "asset_cache.dart";
 
 class AssetUpdater {
   AssetUpdater(this.assetDir, {this.tempDir, http.Client? httpClient})
@@ -28,19 +32,24 @@ class AssetUpdater {
 
   bool get isUpdateAvailable => isUpdateChecked && foundUpdate != null;
 
-  /// If new version found, returns the latest [AssetReleaseVersion].
-  /// If not, `null` will be returned.
-  Future<void> checkForUpdate() async {
+  /// Checks for updates and sets [foundUpdate] if an update is available.
+  /// When [force] is true, it will always sets [foundUpdate] to the latest release.
+  Future<void> checkForUpdate({bool force = false}) async {
     final releases = await _fetchAssetRelease(kReleaseMode ? "prod" : "dev");
+    final latestRelease = releases.reduce((value, element) => value.createdAt.isAfter(element.createdAt) ? value : element);
+
+    if (force) {
+      foundUpdate = latestRelease;
+      isUpdateChecked = true;
+      return;
+    }
 
     AssetReleaseVersion? currentVersion;
     try {
       currentVersion = await getCurrentVersion();
     } catch (e) {
-      debugPrint("Failed to get current version: $e");
+      log("Failed to get current version", error: e);
     }
-
-    final latestRelease = releases.reduce((value, element) => value.createdAt.isAfter(element.createdAt) ? value : element);
 
     if (currentVersion == null || latestRelease.createdAt.isAfter(currentVersion.createdAt)) {
       // No local assets exist or a new version found
@@ -66,15 +75,56 @@ class AssetUpdater {
     assert(isUpdateChecked, "checkForUpdate() must be called successfully.");
     assert(foundUpdate != null, "No update found.");
 
+    if (foundUpdate!.schemaVersion > dataSchemaVersion) {
+      throw SchemaVersionMismatchException();
+    }
+
     state = AssetUpdateProgressState.downloading;
     final file = await _downloadRelease(Uri.parse(foundUpdate!.distUrl));
 
     state = AssetUpdateProgressState.installing;
     onProgress?.call();
-    await _unzipRelease(file.path);
+
+    final extractDir = path.join(FileSystemEntity.parentOf(assetDir), const Uuid().v4());
+    await _unzipRelease(file.path, extractDir);
+
     await file.delete(); // delete temporary file
 
-    debugPrint("Installation completed!");
+    // Check if installation is valid
+    if (!await _checkInstallation(extractDir)) {
+      // Installation failed, clean up
+      await Directory(extractDir).delete(recursive: true);
+
+      throw AssetUpdateCheckException();
+    }
+
+    // Installation successful, update symlink and clean up previous asset
+    final prevAssetPath = await Link(assetDir).exists() ? await Link(assetDir).target() : null;
+    await _updateSymlink(assetDir, extractDir);
+    if (prevAssetPath != null && await Directory(prevAssetPath).exists()) {
+      await Directory(prevAssetPath).delete(recursive: true);
+    }
+
+    log("Installation completed!");
+  }
+
+  Future<bool> _checkInstallation(String assetDir) async {
+    try {
+      final result = await AssetDataCache(assetDir).fetchIntoCache();
+      return result;
+    } catch (e, st) {
+      log("Asset installation check failed", error: e, stackTrace: st);
+      return false;
+    }
+  }
+
+  Future<Link> _updateSymlink(String path, String target) async {
+    final link = Link(path);
+    if (await link.exists()) {
+      return await link.update(target);
+    } else {
+      return await link.create(target, recursive: true);
+    }
   }
 
   Future<List<AssetReleaseVersion>> _fetchAssetRelease(String channel) async {
@@ -126,11 +176,11 @@ class AssetUpdater {
     return completer.future;
   }
 
-  Future<void> _unzipRelease(String zipPath) async {
+  Future<void> _unzipRelease(String zipPath, String destDir) async {
     final inputStream = InputFileStream(zipPath);
     final archive = ZipDecoder().decodeBuffer(inputStream);
 
-    await extractArchiveToDiskAsync(archive, assetDir, asyncWrite: true);
+    await extractArchiveToDiskAsync(archive, destDir, asyncWrite: true);
   }
 }
 
@@ -146,4 +196,12 @@ Future<Directory> getLocalAssetDirectory() async {
 enum AssetUpdateProgressState {
   downloading,
   installing,
+}
+
+class SchemaVersionMismatchException implements Exception {}
+class AssetUpdateCheckException implements Exception {
+  @override
+  String toString() {
+    return "Downloaded asset is not valid.";
+  }
 }

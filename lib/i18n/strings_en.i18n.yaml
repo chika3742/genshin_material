@@ -27,7 +27,7 @@ talentTypes(map):
   elementalBurst: Elemental Burst
 updates:
   downloading: Downloading data updates...
-  failed: "Failed to load data. Try re-downloading from 'Settings' -> 'Re-download Assets'."
+  failedToLoad: "Failed to load data. Try re-downloading from 'Settings' -> 'Re-download Assets'."
   completed: Data update completed.
   installing: Installing...
   pleaseWaitUntilComplete: Please wait until data update is complete.

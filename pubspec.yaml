@@ -58,6 +58,7 @@ dependencies:
   drift_db_viewer: ^2.1.0
   google_fonts: ^6.2.1
   assorted_layout_widgets: ^9.0.2
+  uuid: ^4.4.2
 
 dev_dependencies:
   flutter_test:

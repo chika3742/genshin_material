@@ -25,7 +25,8 @@ talentTypes(map):
   elementalBurst: 元素爆発
 updates:
   downloading: データ更新をダウンロードしています…
-  failed: データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。
+  failedToLoad: データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。
+  failedToUpdate: データの更新に失敗しました。しばらく待ってから再度お試しください。
   completed: 更新が完了しました。
   installing: インストールしています...
   pleaseWaitUntilComplete: データ更新が完了するまでお待ちください。
@@ -113,6 +114,9 @@ settingsPage:
   showItemNameOnCard: 素材のアイテム名を表示
   showItemNameOnCardDesc: 使用数を表示するカードにアイテム名を表示します。
   assetData: アセットデータ
+  checkAssetUpdate: アセットデータの更新を確認
+  checkAssetUpdateDesc: アプリ内データのアップデートをチェックします。
+  noUpdateAvailable: アップデートはありません
   reDownloadAssets: アセットデータを再ダウンロード
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
   others: その他

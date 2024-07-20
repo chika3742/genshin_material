@@ -32,11 +32,11 @@ class AssetDataCache {
   AssetReleaseVersion? version;
   AssetData? data;
 
-  Future<void> fetchIntoCache() async {
-    version = await AssetUpdater((await getLocalAssetDirectory()).path).getCurrentVersion();
+  Future<bool> fetchIntoCache() async {
+    version = await AssetUpdater(assetDir).getCurrentVersion();
 
     if (version == null) {
-      return;
+      return false;
     }
 
     final weaponsMeta = WeaponsMeta.fromJson(
@@ -94,6 +94,8 @@ class AssetDataCache {
       }),
       artifactPieceTypes: artifactsMeta.pieceTypes,
     );
+
+    return true;
   }
 
   /// Reads data asset file and parses JSON.

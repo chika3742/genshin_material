@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 257 (128 per locale)
+/// Strings: 261 (130 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -227,7 +227,8 @@ class _StringsUpdatesJa {
 
 	// Translations
 	String get downloading => 'データ更新をダウンロードしています…';
-	String get failed => 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
+	String get failedToLoad => 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
+	String get failedToUpdate => 'データの更新に失敗しました。しばらく待ってから再度お試しください。';
 	String get completed => '更新が完了しました。';
 	String get installing => 'インストールしています...';
 	String get pleaseWaitUntilComplete => 'データ更新が完了するまでお待ちください。';
@@ -419,6 +420,9 @@ class _StringsSettingsPageJa {
 	String get showItemNameOnCard => '素材のアイテム名を表示';
 	String get showItemNameOnCardDesc => '使用数を表示するカードにアイテム名を表示します。';
 	String get assetData => 'アセットデータ';
+	String get checkAssetUpdate => 'アセットデータの更新を確認';
+	String get checkAssetUpdateDesc => 'アプリ内データのアップデートをチェックします。';
+	String get noUpdateAvailable => 'アップデートはありません';
 	String get reDownloadAssets => 'アセットデータを再ダウンロード';
 	String get reDownloadAssetsDesc => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
 	String get others => 'その他';
@@ -590,7 +594,7 @@ class _StringsUpdatesEn extends _StringsUpdatesJa {
 
 	// Translations
 	@override String get downloading => 'Downloading data updates...';
-	@override String get failed => 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
+	@override String get failedToLoad => 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
 	@override String get completed => 'Data update completed.';
 	@override String get installing => 'Installing...';
 	@override String get pleaseWaitUntilComplete => 'Please wait until data update is complete.';
@@ -874,7 +878,8 @@ extension on Translations {
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';
 			case 'updates.downloading': return 'データ更新をダウンロードしています…';
-			case 'updates.failed': return 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
+			case 'updates.failedToLoad': return 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
+			case 'updates.failedToUpdate': return 'データの更新に失敗しました。しばらく待ってから再度お試しください。';
 			case 'updates.completed': return '更新が完了しました。';
 			case 'updates.installing': return 'インストールしています...';
 			case 'updates.pleaseWaitUntilComplete': return 'データ更新が完了するまでお待ちください。';
@@ -945,6 +950,9 @@ extension on Translations {
 			case 'settingsPage.showItemNameOnCard': return '素材のアイテム名を表示';
 			case 'settingsPage.showItemNameOnCardDesc': return '使用数を表示するカードにアイテム名を表示します。';
 			case 'settingsPage.assetData': return 'アセットデータ';
+			case 'settingsPage.checkAssetUpdate': return 'アセットデータの更新を確認';
+			case 'settingsPage.checkAssetUpdateDesc': return 'アプリ内データのアップデートをチェックします。';
+			case 'settingsPage.noUpdateAvailable': return 'アップデートはありません';
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
 			case 'settingsPage.others': return 'その他';
@@ -1049,7 +1057,7 @@ extension on _StringsEn {
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
 			case 'updates.downloading': return 'Downloading data updates...';
-			case 'updates.failed': return 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
+			case 'updates.failedToLoad': return 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
 			case 'updates.completed': return 'Data update completed.';
 			case 'updates.installing': return 'Installing...';
 			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';

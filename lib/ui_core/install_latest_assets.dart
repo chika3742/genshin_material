@@ -36,6 +36,7 @@ Future<void> installLatestAssets({
 
   final messenger = ScaffoldMessenger.of(context);
 
+  messenger.hideCurrentSnackBar();
   // show progress snack bar
   messenger.showSnackBar(
     const SnackBar(
@@ -76,7 +77,7 @@ Future<void> installLatestAssets({
     // Display a snack bar to indicate FAILURE
     messenger.showSnackBar(
       SnackBar(
-        content: Text(tr.updates.failed),
+        content: Text(tr.updates.failedToUpdate),
         behavior: SnackBarBehavior.floating,
       ),
     );

@@ -62,7 +62,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         await updater.checkForUpdate();
       } catch (e, st) {
         handleError(e, st);
-        showSnackBar(context: routerContext!, message: tr.updates.failed);
+        showSnackBar(context: routerContext!, message: tr.updates.failedToUpdate);
         return;
       }
 

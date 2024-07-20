@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
-import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 import "package:path_provider/path_provider.dart";
 
@@ -11,23 +12,20 @@ import "../i18n/strings.g.dart";
 import "../main.dart";
 import "../providers/asset_updating_state.dart";
 import "../providers/preferences.dart";
-import "../providers/versions.dart";
 import "../routes.dart";
 import "../ui_core/install_latest_assets.dart";
 import "../ui_core/snack_bar.dart";
-import "../utils/show_loading_modal.dart";
 
-class SettingsPage extends ConsumerStatefulWidget {
+class SettingsPage extends HookConsumerWidget {
   const SettingsPage({super.key});
 
   @override
-  ConsumerState<SettingsPage> createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends ConsumerState<SettingsPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.watch(preferencesStateNotifierProvider);
+
+    final checkingForUpdates = useState(false);
+
+    final updating = checkingForUpdates.value || ref.watch(assetUpdatingStateNotifierProvider).state != null;
 
     return Scaffold(
       appBar: AppBar(
@@ -46,35 +44,56 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           ),
           ListSubheader(tr.settingsPage.assetData),
           SimpleListTile(
-            title: tr.settingsPage.reDownloadAssets,
-            subtitle: tr.settingsPage.reDownloadAssetsDesc,
-            trailingIcon: Symbols.download,
-            enabled: ref.watch(assetUpdatingStateNotifierProvider).state == null,
+            title: tr.settingsPage.checkAssetUpdate,
+            subtitle: tr.settingsPage.checkAssetUpdateDesc,
+            trailingIcon: Symbols.update,
+            enabled: !updating,
             onTap: () async {
-              showLoadingModal(context);
-
-              // Delete existing assets in the device
-              try {
-                (await getLocalAssetDirectory()).delete(recursive: true);
-              } catch (_) {}
-
-              ref.invalidate(assetDataProvider);
-
               final updater = AssetUpdater(
                 (await getLocalAssetDirectory()).path,
                 tempDir: (await getTemporaryDirectory()).path,
               );
               try {
+                checkingForUpdates.value = true;
                 await updater.checkForUpdate();
               } catch (e, st) {
                 handleError(e, st);
-
-                showSnackBar(context: routerContext!, message: tr.updates.failed);
+                showSnackBar(context: routerContext!, message: tr.updates.failedToUpdate);
                 return;
               } finally {
-                if (context.mounted) {
-                  Navigator.of(context, rootNavigator: true).pop();
-                }
+                checkingForUpdates.value = false;
+              }
+
+              if (updater.isUpdateAvailable) {
+                await installLatestAssets(
+                  context: routerContext!,
+                  ref: ref,
+                  updater: updater,
+                );
+              } else {
+                showSnackBar(context: routerContext!, message: tr.settingsPage.noUpdateAvailable);
+              }
+            },
+          ),
+          SimpleListTile(
+            title: tr.settingsPage.reDownloadAssets,
+            subtitle: tr.settingsPage.reDownloadAssetsDesc,
+            trailingIcon: Symbols.download,
+            enabled: !updating,
+            onTap: () async {
+              final updater = AssetUpdater(
+                (await getLocalAssetDirectory()).path,
+                tempDir: (await getTemporaryDirectory()).path,
+              );
+              try {
+                checkingForUpdates.value = true;
+                await updater.checkForUpdate(force: true);
+              } catch (e, st) {
+                handleError(e, st);
+                showSnackBar(context: routerContext!, message: tr.updates.failedToUpdate);
+                return;
+              } finally {
+                checkingForUpdates.value = false;
               }
 
               await installLatestAssets(

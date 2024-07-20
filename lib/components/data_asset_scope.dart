@@ -36,7 +36,7 @@ class DataAssetScope extends ConsumerWidget {
     }
 
     // Asset installation failed
-    return _wrapWithScaffold(CenterText(tr.updates.failed));
+    return _wrapWithScaffold(CenterText(tr.updates.failedToLoad));
   }
 
   Widget _wrapWithScaffold(Widget child) {
