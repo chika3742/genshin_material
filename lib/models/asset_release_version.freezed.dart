@@ -24,6 +24,7 @@ mixin _$AssetReleaseVersion {
   String get dataVersion => throw _privateConstructorUsedError;
   AssetChannel get channel => throw _privateConstructorUsedError;
   String get distUrl => throw _privateConstructorUsedError;
+  int get schemaVersion => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +42,8 @@ abstract class $AssetReleaseVersionCopyWith<$Res> {
       {DateTime createdAt,
       String dataVersion,
       AssetChannel channel,
-      String distUrl});
+      String distUrl,
+      int schemaVersion});
 }
 
 /// @nodoc
@@ -61,6 +63,7 @@ class _$AssetReleaseVersionCopyWithImpl<$Res, $Val extends AssetReleaseVersion>
     Object? dataVersion = null,
     Object? channel = null,
     Object? distUrl = null,
+    Object? schemaVersion = null,
   }) {
     return _then(_value.copyWith(
       createdAt: null == createdAt
@@ -79,6 +82,10 @@ class _$AssetReleaseVersionCopyWithImpl<$Res, $Val extends AssetReleaseVersion>
           ? _value.distUrl
           : distUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      schemaVersion: null == schemaVersion
+          ? _value.schemaVersion
+          : schemaVersion // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -95,7 +102,8 @@ abstract class _$$AssetReleaseVersionImplCopyWith<$Res>
       {DateTime createdAt,
       String dataVersion,
       AssetChannel channel,
-      String distUrl});
+      String distUrl,
+      int schemaVersion});
 }
 
 /// @nodoc
@@ -113,6 +121,7 @@ class __$$AssetReleaseVersionImplCopyWithImpl<$Res>
     Object? dataVersion = null,
     Object? channel = null,
     Object? distUrl = null,
+    Object? schemaVersion = null,
   }) {
     return _then(_$AssetReleaseVersionImpl(
       createdAt: null == createdAt
@@ -131,6 +140,10 @@ class __$$AssetReleaseVersionImplCopyWithImpl<$Res>
           ? _value.distUrl
           : distUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      schemaVersion: null == schemaVersion
+          ? _value.schemaVersion
+          : schemaVersion // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -142,7 +155,8 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
       {required this.createdAt,
       required this.dataVersion,
       required this.channel,
-      required this.distUrl});
+      required this.distUrl,
+      required this.schemaVersion});
 
   factory _$AssetReleaseVersionImpl.fromJson(Map<String, dynamic> json) =>
       _$$AssetReleaseVersionImplFromJson(json);
@@ -155,10 +169,12 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
   final AssetChannel channel;
   @override
   final String distUrl;
+  @override
+  final int schemaVersion;
 
   @override
   String toString() {
-    return 'AssetReleaseVersion(createdAt: $createdAt, dataVersion: $dataVersion, channel: $channel, distUrl: $distUrl)';
+    return 'AssetReleaseVersion(createdAt: $createdAt, dataVersion: $dataVersion, channel: $channel, distUrl: $distUrl, schemaVersion: $schemaVersion)';
   }
 
   @override
@@ -171,13 +187,15 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
             (identical(other.dataVersion, dataVersion) ||
                 other.dataVersion == dataVersion) &&
             (identical(other.channel, channel) || other.channel == channel) &&
-            (identical(other.distUrl, distUrl) || other.distUrl == distUrl));
+            (identical(other.distUrl, distUrl) || other.distUrl == distUrl) &&
+            (identical(other.schemaVersion, schemaVersion) ||
+                other.schemaVersion == schemaVersion));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, createdAt, dataVersion, channel, distUrl);
+  int get hashCode => Object.hash(
+      runtimeType, createdAt, dataVersion, channel, distUrl, schemaVersion);
 
   @JsonKey(ignore: true)
   @override
@@ -199,7 +217,8 @@ abstract class _AssetReleaseVersion implements AssetReleaseVersion {
       {required final DateTime createdAt,
       required final String dataVersion,
       required final AssetChannel channel,
-      required final String distUrl}) = _$AssetReleaseVersionImpl;
+      required final String distUrl,
+      required final int schemaVersion}) = _$AssetReleaseVersionImpl;
 
   factory _AssetReleaseVersion.fromJson(Map<String, dynamic> json) =
       _$AssetReleaseVersionImpl.fromJson;
@@ -212,6 +231,8 @@ abstract class _AssetReleaseVersion implements AssetReleaseVersion {
   AssetChannel get channel;
   @override
   String get distUrl;
+  @override
+  int get schemaVersion;
   @override
   @JsonKey(ignore: true)
   _$$AssetReleaseVersionImplCopyWith<_$AssetReleaseVersionImpl> get copyWith =>

@@ -18,6 +18,7 @@ common:
   hours(rich):
     other: $n${unit(時間)}
   element: 元素
+  schemaVersionMismatch: データを更新できません。アプリを最新版にアップデートしてください。
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル

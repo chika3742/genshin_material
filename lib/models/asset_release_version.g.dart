@@ -13,6 +13,7 @@ _$AssetReleaseVersionImpl _$$AssetReleaseVersionImplFromJson(
       dataVersion: json['dataVersion'] as String,
       channel: $enumDecode(_$AssetChannelEnumMap, json['channel']),
       distUrl: json['distUrl'] as String,
+      schemaVersion: json['schemaVersion'] as int,
     );
 
 Map<String, dynamic> _$$AssetReleaseVersionImplToJson(
@@ -22,9 +23,10 @@ Map<String, dynamic> _$$AssetReleaseVersionImplToJson(
       'dataVersion': instance.dataVersion,
       'channel': _$AssetChannelEnumMap[instance.channel]!,
       'distUrl': instance.distUrl,
+      'schemaVersion': instance.schemaVersion,
     };
 
 const _$AssetChannelEnumMap = {
   AssetChannel.prod: 'prod',
-  AssetChannel.staging: 'staging',
+  AssetChannel.dev: 'dev',
 };
