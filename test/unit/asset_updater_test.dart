@@ -13,9 +13,12 @@ import "asset_updater_test.mocks.dart";
 @GenerateMocks([http.Client])
 void main() {
   tearDown(() async {
+    // clear temporary file
     try {
       await File("${Directory.current.path}/version.json").delete();
-    } on PathNotFoundException {}
+    } on PathNotFoundException {
+      // File does not exist
+    }
   });
 
   test("Check for updates", () async {
