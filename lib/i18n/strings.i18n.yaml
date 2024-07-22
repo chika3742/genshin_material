@@ -19,6 +19,9 @@ common:
     other: $n${unit(時間)}
   element: 元素
   schemaVersionMismatch: データを更新できません。アプリを最新版にアップデートしてください。
+  rarity: レアリティ
+  weaponType: 武器種
+  clear: クリア
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル

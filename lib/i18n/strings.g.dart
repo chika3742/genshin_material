@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 261 (130 per locale)
+/// Strings: 264 (132 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -217,6 +217,9 @@ class _StringsCommonJa {
 	);
 	String get element => '元素';
 	String get schemaVersionMismatch => 'データを更新できません。アプリを最新版にアップデートしてください。';
+	String get rarity => 'レアリティ';
+	String get weaponType => '武器種';
+	String get clear => 'クリア';
 }
 
 // Path: updates
@@ -874,6 +877,9 @@ extension on Translations {
 			);
 			case 'common.element': return '元素';
 			case 'common.schemaVersionMismatch': return 'データを更新できません。アプリを最新版にアップデートしてください。';
+			case 'common.rarity': return 'レアリティ';
+			case 'common.weaponType': return '武器種';
+			case 'common.clear': return 'クリア';
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';
