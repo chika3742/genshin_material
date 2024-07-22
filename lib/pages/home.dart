@@ -51,10 +51,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.initState();
 
     Future(() async {
-      // try {
-      //   (await getLocalAssetDirectory()).delete(recursive: true);
-      // } catch (_) {}
-
       final assetDir = (await getLocalAssetDirectory()).path;
 
       final updater = AssetUpdater(assetDir, tempDir: (await getTemporaryDirectory()).path);

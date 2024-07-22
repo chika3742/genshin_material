@@ -118,8 +118,9 @@ class AssetUpdater {
     }
   }
 
-  Future<Link> _updateSymlink(String path, String target) async {
-    final link = Link(path);
+  Future<Link> _updateSymlink(String path_, String target) async {
+    target = path.relative(target, from: path.dirname(path_));
+    final link = Link(path_);
     if (await link.exists()) {
       return await link.update(target);
     } else {
