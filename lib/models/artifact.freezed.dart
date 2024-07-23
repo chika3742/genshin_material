@@ -651,8 +651,10 @@ ArtifactsMeta _$ArtifactsMetaFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ArtifactsMeta {
-  Map<String, LocalizedText> get pieceTypes =>
+  Map<String, LocalizedText> get stats => throw _privateConstructorUsedError;
+  Map<String, ArtifactPieceType> get pieceTypes =>
       throw _privateConstructorUsedError;
+  List<String> get possibleSubStats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -666,7 +668,10 @@ abstract class $ArtifactsMetaCopyWith<$Res> {
           ArtifactsMeta value, $Res Function(ArtifactsMeta) then) =
       _$ArtifactsMetaCopyWithImpl<$Res, ArtifactsMeta>;
   @useResult
-  $Res call({Map<String, LocalizedText> pieceTypes});
+  $Res call(
+      {Map<String, LocalizedText> stats,
+      Map<String, ArtifactPieceType> pieceTypes,
+      List<String> possibleSubStats});
 }
 
 /// @nodoc
@@ -682,13 +687,23 @@ class _$ArtifactsMetaCopyWithImpl<$Res, $Val extends ArtifactsMeta>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? stats = null,
     Object? pieceTypes = null,
+    Object? possibleSubStats = null,
   }) {
     return _then(_value.copyWith(
+      stats: null == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as Map<String, LocalizedText>,
       pieceTypes: null == pieceTypes
           ? _value.pieceTypes
           : pieceTypes // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalizedText>,
+              as Map<String, ArtifactPieceType>,
+      possibleSubStats: null == possibleSubStats
+          ? _value.possibleSubStats
+          : possibleSubStats // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -701,7 +716,10 @@ abstract class _$$ArtifactsMetaImplCopyWith<$Res>
       __$$ArtifactsMetaImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<String, LocalizedText> pieceTypes});
+  $Res call(
+      {Map<String, LocalizedText> stats,
+      Map<String, ArtifactPieceType> pieceTypes,
+      List<String> possibleSubStats});
 }
 
 /// @nodoc
@@ -715,13 +733,23 @@ class __$$ArtifactsMetaImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? stats = null,
     Object? pieceTypes = null,
+    Object? possibleSubStats = null,
   }) {
     return _then(_$ArtifactsMetaImpl(
+      stats: null == stats
+          ? _value._stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as Map<String, LocalizedText>,
       pieceTypes: null == pieceTypes
           ? _value._pieceTypes
           : pieceTypes // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalizedText>,
+              as Map<String, ArtifactPieceType>,
+      possibleSubStats: null == possibleSubStats
+          ? _value._possibleSubStats
+          : possibleSubStats // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -730,23 +758,44 @@ class __$$ArtifactsMetaImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ArtifactsMetaImpl implements _ArtifactsMeta {
   const _$ArtifactsMetaImpl(
-      {required final Map<String, LocalizedText> pieceTypes})
-      : _pieceTypes = pieceTypes;
+      {required final Map<String, LocalizedText> stats,
+      required final Map<String, ArtifactPieceType> pieceTypes,
+      required final List<String> possibleSubStats})
+      : _stats = stats,
+        _pieceTypes = pieceTypes,
+        _possibleSubStats = possibleSubStats;
 
   factory _$ArtifactsMetaImpl.fromJson(Map<String, dynamic> json) =>
       _$$ArtifactsMetaImplFromJson(json);
 
-  final Map<String, LocalizedText> _pieceTypes;
+  final Map<String, LocalizedText> _stats;
   @override
-  Map<String, LocalizedText> get pieceTypes {
+  Map<String, LocalizedText> get stats {
+    if (_stats is EqualUnmodifiableMapView) return _stats;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_stats);
+  }
+
+  final Map<String, ArtifactPieceType> _pieceTypes;
+  @override
+  Map<String, ArtifactPieceType> get pieceTypes {
     if (_pieceTypes is EqualUnmodifiableMapView) return _pieceTypes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_pieceTypes);
   }
 
+  final List<String> _possibleSubStats;
+  @override
+  List<String> get possibleSubStats {
+    if (_possibleSubStats is EqualUnmodifiableListView)
+      return _possibleSubStats;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_possibleSubStats);
+  }
+
   @override
   String toString() {
-    return 'ArtifactsMeta(pieceTypes: $pieceTypes)';
+    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats)';
   }
 
   @override
@@ -754,14 +803,20 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ArtifactsMetaImpl &&
+            const DeepCollectionEquality().equals(other._stats, _stats) &&
             const DeepCollectionEquality()
-                .equals(other._pieceTypes, _pieceTypes));
+                .equals(other._pieceTypes, _pieceTypes) &&
+            const DeepCollectionEquality()
+                .equals(other._possibleSubStats, _possibleSubStats));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_pieceTypes));
+      runtimeType,
+      const DeepCollectionEquality().hash(_stats),
+      const DeepCollectionEquality().hash(_pieceTypes),
+      const DeepCollectionEquality().hash(_possibleSubStats));
 
   @JsonKey(ignore: true)
   @override
@@ -779,16 +834,366 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
 
 abstract class _ArtifactsMeta implements ArtifactsMeta {
   const factory _ArtifactsMeta(
-          {required final Map<String, LocalizedText> pieceTypes}) =
-      _$ArtifactsMetaImpl;
+      {required final Map<String, LocalizedText> stats,
+      required final Map<String, ArtifactPieceType> pieceTypes,
+      required final List<String> possibleSubStats}) = _$ArtifactsMetaImpl;
 
   factory _ArtifactsMeta.fromJson(Map<String, dynamic> json) =
       _$ArtifactsMetaImpl.fromJson;
 
   @override
-  Map<String, LocalizedText> get pieceTypes;
+  Map<String, LocalizedText> get stats;
+  @override
+  Map<String, ArtifactPieceType> get pieceTypes;
+  @override
+  List<String> get possibleSubStats;
   @override
   @JsonKey(ignore: true)
   _$$ArtifactsMetaImplCopyWith<_$ArtifactsMetaImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ArtifactPieceType _$ArtifactPieceTypeFromJson(Map<String, dynamic> json) {
+  return _ArtifactPieceType.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ArtifactPieceType {
+  LocalizedText get desc => throw _privateConstructorUsedError;
+  List<String> get possibleMainStats => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ArtifactPieceTypeCopyWith<ArtifactPieceType> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ArtifactPieceTypeCopyWith<$Res> {
+  factory $ArtifactPieceTypeCopyWith(
+          ArtifactPieceType value, $Res Function(ArtifactPieceType) then) =
+      _$ArtifactPieceTypeCopyWithImpl<$Res, ArtifactPieceType>;
+  @useResult
+  $Res call({LocalizedText desc, List<String> possibleMainStats});
+
+  $LocalizedTextCopyWith<$Res> get desc;
+}
+
+/// @nodoc
+class _$ArtifactPieceTypeCopyWithImpl<$Res, $Val extends ArtifactPieceType>
+    implements $ArtifactPieceTypeCopyWith<$Res> {
+  _$ArtifactPieceTypeCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? desc = null,
+    Object? possibleMainStats = null,
+  }) {
+    return _then(_value.copyWith(
+      desc: null == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
+              as LocalizedText,
+      possibleMainStats: null == possibleMainStats
+          ? _value.possibleMainStats
+          : possibleMainStats // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocalizedTextCopyWith<$Res> get desc {
+    return $LocalizedTextCopyWith<$Res>(_value.desc, (value) {
+      return _then(_value.copyWith(desc: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ArtifactPieceTypeImplCopyWith<$Res>
+    implements $ArtifactPieceTypeCopyWith<$Res> {
+  factory _$$ArtifactPieceTypeImplCopyWith(_$ArtifactPieceTypeImpl value,
+          $Res Function(_$ArtifactPieceTypeImpl) then) =
+      __$$ArtifactPieceTypeImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({LocalizedText desc, List<String> possibleMainStats});
+
+  @override
+  $LocalizedTextCopyWith<$Res> get desc;
+}
+
+/// @nodoc
+class __$$ArtifactPieceTypeImplCopyWithImpl<$Res>
+    extends _$ArtifactPieceTypeCopyWithImpl<$Res, _$ArtifactPieceTypeImpl>
+    implements _$$ArtifactPieceTypeImplCopyWith<$Res> {
+  __$$ArtifactPieceTypeImplCopyWithImpl(_$ArtifactPieceTypeImpl _value,
+      $Res Function(_$ArtifactPieceTypeImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? desc = null,
+    Object? possibleMainStats = null,
+  }) {
+    return _then(_$ArtifactPieceTypeImpl(
+      desc: null == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
+              as LocalizedText,
+      possibleMainStats: null == possibleMainStats
+          ? _value._possibleMainStats
+          : possibleMainStats // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
+  const _$ArtifactPieceTypeImpl(
+      {required this.desc, required final List<String> possibleMainStats})
+      : _possibleMainStats = possibleMainStats;
+
+  factory _$ArtifactPieceTypeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtifactPieceTypeImplFromJson(json);
+
+  @override
+  final LocalizedText desc;
+  final List<String> _possibleMainStats;
+  @override
+  List<String> get possibleMainStats {
+    if (_possibleMainStats is EqualUnmodifiableListView)
+      return _possibleMainStats;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_possibleMainStats);
+  }
+
+  @override
+  String toString() {
+    return 'ArtifactPieceType(desc: $desc, possibleMainStats: $possibleMainStats)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ArtifactPieceTypeImpl &&
+            (identical(other.desc, desc) || other.desc == desc) &&
+            const DeepCollectionEquality()
+                .equals(other._possibleMainStats, _possibleMainStats));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, desc,
+      const DeepCollectionEquality().hash(_possibleMainStats));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ArtifactPieceTypeImplCopyWith<_$ArtifactPieceTypeImpl> get copyWith =>
+      __$$ArtifactPieceTypeImplCopyWithImpl<_$ArtifactPieceTypeImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ArtifactPieceTypeImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ArtifactPieceType implements ArtifactPieceType {
+  const factory _ArtifactPieceType(
+      {required final LocalizedText desc,
+      required final List<String> possibleMainStats}) = _$ArtifactPieceTypeImpl;
+
+  factory _ArtifactPieceType.fromJson(Map<String, dynamic> json) =
+      _$ArtifactPieceTypeImpl.fromJson;
+
+  @override
+  LocalizedText get desc;
+  @override
+  List<String> get possibleMainStats;
+  @override
+  @JsonKey(ignore: true)
+  _$$ArtifactPieceTypeImplCopyWith<_$ArtifactPieceTypeImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ArtifactStat _$ArtifactStatFromJson(Map<String, dynamic> json) {
+  return _ArtifactStat.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ArtifactStat {
+  String get id => throw _privateConstructorUsedError;
+  LocalizedText get desc => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ArtifactStatCopyWith<ArtifactStat> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ArtifactStatCopyWith<$Res> {
+  factory $ArtifactStatCopyWith(
+          ArtifactStat value, $Res Function(ArtifactStat) then) =
+      _$ArtifactStatCopyWithImpl<$Res, ArtifactStat>;
+  @useResult
+  $Res call({String id, LocalizedText desc});
+
+  $LocalizedTextCopyWith<$Res> get desc;
+}
+
+/// @nodoc
+class _$ArtifactStatCopyWithImpl<$Res, $Val extends ArtifactStat>
+    implements $ArtifactStatCopyWith<$Res> {
+  _$ArtifactStatCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? desc = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      desc: null == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
+              as LocalizedText,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocalizedTextCopyWith<$Res> get desc {
+    return $LocalizedTextCopyWith<$Res>(_value.desc, (value) {
+      return _then(_value.copyWith(desc: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ArtifactStatImplCopyWith<$Res>
+    implements $ArtifactStatCopyWith<$Res> {
+  factory _$$ArtifactStatImplCopyWith(
+          _$ArtifactStatImpl value, $Res Function(_$ArtifactStatImpl) then) =
+      __$$ArtifactStatImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, LocalizedText desc});
+
+  @override
+  $LocalizedTextCopyWith<$Res> get desc;
+}
+
+/// @nodoc
+class __$$ArtifactStatImplCopyWithImpl<$Res>
+    extends _$ArtifactStatCopyWithImpl<$Res, _$ArtifactStatImpl>
+    implements _$$ArtifactStatImplCopyWith<$Res> {
+  __$$ArtifactStatImplCopyWithImpl(
+      _$ArtifactStatImpl _value, $Res Function(_$ArtifactStatImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? desc = null,
+  }) {
+    return _then(_$ArtifactStatImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      desc: null == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
+              as LocalizedText,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ArtifactStatImpl implements _ArtifactStat {
+  const _$ArtifactStatImpl({required this.id, required this.desc});
+
+  factory _$ArtifactStatImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtifactStatImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final LocalizedText desc;
+
+  @override
+  String toString() {
+    return 'ArtifactStat(id: $id, desc: $desc)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ArtifactStatImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.desc, desc) || other.desc == desc));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, desc);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ArtifactStatImplCopyWith<_$ArtifactStatImpl> get copyWith =>
+      __$$ArtifactStatImplCopyWithImpl<_$ArtifactStatImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ArtifactStatImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ArtifactStat implements ArtifactStat {
+  const factory _ArtifactStat(
+      {required final String id,
+      required final LocalizedText desc}) = _$ArtifactStatImpl;
+
+  factory _ArtifactStat.fromJson(Map<String, dynamic> json) =
+      _$ArtifactStatImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  LocalizedText get desc;
+  @override
+  @JsonKey(ignore: true)
+  _$$ArtifactStatImplCopyWith<_$ArtifactStatImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

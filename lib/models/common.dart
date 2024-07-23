@@ -11,7 +11,8 @@ typedef WeaponSubStat = String;
 typedef TeyvatElement = String;
 typedef TalentType = String;
 typedef MaterialCategoryType = String;
-typedef ArtifactPieceType = String;
+typedef ArtifactPieceTypeId = String;
+typedef ArtifactStatId = String;
 
 mixin ImageGetter {
   String get imageUrl;

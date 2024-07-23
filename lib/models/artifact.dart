@@ -26,7 +26,7 @@ class ArtifactPiece with _$ArtifactPiece, ImageGetter {
 
   const factory ArtifactPiece({
     required String id,
-    required ArtifactPieceType type,
+    required ArtifactPieceTypeId type,
     required String imageUrl,
     required LocalizedText name,
   }) = _ArtifactPiece;
@@ -49,9 +49,33 @@ class ArtifactSetBonus with _$ArtifactSetBonus {
 @freezed
 class ArtifactsMeta with _$ArtifactsMeta {
   const factory ArtifactsMeta({
-    required Map<ArtifactPieceType, LocalizedText> pieceTypes,
+    required Map<ArtifactStatId, LocalizedText> stats,
+    required Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes,
+    required List<ArtifactStatId> possibleSubStats,
   }) = _ArtifactsMeta;
 
   factory ArtifactsMeta.fromJson(Map<String, dynamic> json) =>
       _$ArtifactsMetaFromJson(json);
+}
+
+@freezed
+class ArtifactPieceType with _$ArtifactPieceType {
+  const factory ArtifactPieceType({
+    required LocalizedText desc,
+    required List<ArtifactStatId> possibleMainStats,
+  }) = _ArtifactPieceType;
+
+  factory ArtifactPieceType.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactPieceTypeFromJson(json);
+}
+
+@freezed
+class ArtifactStat with _$ArtifactStat {
+  const factory ArtifactStat({
+    required ArtifactStatId id,
+    required LocalizedText desc,
+  }) = _ArtifactStat;
+
+  factory ArtifactStat.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactStatFromJson(json);
 }

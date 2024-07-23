@@ -61,13 +61,50 @@ Map<String, dynamic> _$$ArtifactSetBonusImplToJson(
 
 _$ArtifactsMetaImpl _$$ArtifactsMetaImplFromJson(Map<String, dynamic> json) =>
     _$ArtifactsMetaImpl(
-      pieceTypes: (json['pieceTypes'] as Map<String, dynamic>).map(
+      stats: (json['stats'] as Map<String, dynamic>).map(
         (k, e) =>
             MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
       ),
+      pieceTypes: (json['pieceTypes'] as Map<String, dynamic>).map(
+        (k, e) =>
+            MapEntry(k, ArtifactPieceType.fromJson(e as Map<String, dynamic>)),
+      ),
+      possibleSubStats: (json['possibleSubStats'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$$ArtifactsMetaImplToJson(_$ArtifactsMetaImpl instance) =>
     <String, dynamic>{
+      'stats': instance.stats,
       'pieceTypes': instance.pieceTypes,
+      'possibleSubStats': instance.possibleSubStats,
+    };
+
+_$ArtifactPieceTypeImpl _$$ArtifactPieceTypeImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ArtifactPieceTypeImpl(
+      desc: LocalizedText.fromJson(json['desc'] as Map<String, dynamic>),
+      possibleMainStats: (json['possibleMainStats'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$$ArtifactPieceTypeImplToJson(
+        _$ArtifactPieceTypeImpl instance) =>
+    <String, dynamic>{
+      'desc': instance.desc,
+      'possibleMainStats': instance.possibleMainStats,
+    };
+
+_$ArtifactStatImpl _$$ArtifactStatImplFromJson(Map<String, dynamic> json) =>
+    _$ArtifactStatImpl(
+      id: json['id'] as String,
+      desc: LocalizedText.fromJson(json['desc'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ArtifactStatImplToJson(_$ArtifactStatImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'desc': instance.desc,
     };
