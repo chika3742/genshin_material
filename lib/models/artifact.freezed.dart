@@ -24,7 +24,7 @@ mixin _$ArtifactSet {
   LocalizedText get name => throw _privateConstructorUsedError;
   int get maxRarity => throw _privateConstructorUsedError;
   List<ArtifactPiece> get consistsOf => throw _privateConstructorUsedError;
-  List<ArtifactBonus> get bonuses => throw _privateConstructorUsedError;
+  List<ArtifactSetBonus> get bonuses => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +43,7 @@ abstract class $ArtifactSetCopyWith<$Res> {
       LocalizedText name,
       int maxRarity,
       List<ArtifactPiece> consistsOf,
-      List<ArtifactBonus> bonuses});
+      List<ArtifactSetBonus> bonuses});
 
   $LocalizedTextCopyWith<$Res> get name;
 }
@@ -87,7 +87,7 @@ class _$ArtifactSetCopyWithImpl<$Res, $Val extends ArtifactSet>
       bonuses: null == bonuses
           ? _value.bonuses
           : bonuses // ignore: cast_nullable_to_non_nullable
-              as List<ArtifactBonus>,
+              as List<ArtifactSetBonus>,
     ) as $Val);
   }
 
@@ -113,7 +113,7 @@ abstract class _$$ArtifactSetImplCopyWith<$Res>
       LocalizedText name,
       int maxRarity,
       List<ArtifactPiece> consistsOf,
-      List<ArtifactBonus> bonuses});
+      List<ArtifactSetBonus> bonuses});
 
   @override
   $LocalizedTextCopyWith<$Res> get name;
@@ -156,7 +156,7 @@ class __$$ArtifactSetImplCopyWithImpl<$Res>
       bonuses: null == bonuses
           ? _value._bonuses
           : bonuses // ignore: cast_nullable_to_non_nullable
-              as List<ArtifactBonus>,
+              as List<ArtifactSetBonus>,
     ));
   }
 }
@@ -169,7 +169,7 @@ class _$ArtifactSetImpl implements _ArtifactSet {
       required this.name,
       required this.maxRarity,
       required final List<ArtifactPiece> consistsOf,
-      required final List<ArtifactBonus> bonuses})
+      required final List<ArtifactSetBonus> bonuses})
       : _consistsOf = consistsOf,
         _bonuses = bonuses;
 
@@ -190,9 +190,9 @@ class _$ArtifactSetImpl implements _ArtifactSet {
     return EqualUnmodifiableListView(_consistsOf);
   }
 
-  final List<ArtifactBonus> _bonuses;
+  final List<ArtifactSetBonus> _bonuses;
   @override
-  List<ArtifactBonus> get bonuses {
+  List<ArtifactSetBonus> get bonuses {
     if (_bonuses is EqualUnmodifiableListView) return _bonuses;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_bonuses);
@@ -247,7 +247,7 @@ abstract class _ArtifactSet implements ArtifactSet {
       required final LocalizedText name,
       required final int maxRarity,
       required final List<ArtifactPiece> consistsOf,
-      required final List<ArtifactBonus> bonuses}) = _$ArtifactSetImpl;
+      required final List<ArtifactSetBonus> bonuses}) = _$ArtifactSetImpl;
 
   factory _ArtifactSet.fromJson(Map<String, dynamic> json) =
       _$ArtifactSetImpl.fromJson;
@@ -261,7 +261,7 @@ abstract class _ArtifactSet implements ArtifactSet {
   @override
   List<ArtifactPiece> get consistsOf;
   @override
-  List<ArtifactBonus> get bonuses;
+  List<ArtifactSetBonus> get bonuses;
   @override
   @JsonKey(ignore: true)
   _$$ArtifactSetImplCopyWith<_$ArtifactSetImpl> get copyWith =>
@@ -476,26 +476,26 @@ abstract class _ArtifactPiece extends ArtifactPiece {
       throw _privateConstructorUsedError;
 }
 
-ArtifactBonus _$ArtifactBonusFromJson(Map<String, dynamic> json) {
-  return _ArtifactBonus.fromJson(json);
+ArtifactSetBonus _$ArtifactSetBonusFromJson(Map<String, dynamic> json) {
+  return _ArtifactSetBonus.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ArtifactBonus {
+mixin _$ArtifactSetBonus {
   String get type => throw _privateConstructorUsedError;
   LocalizedText get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ArtifactBonusCopyWith<ArtifactBonus> get copyWith =>
+  $ArtifactSetBonusCopyWith<ArtifactSetBonus> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ArtifactBonusCopyWith<$Res> {
-  factory $ArtifactBonusCopyWith(
-          ArtifactBonus value, $Res Function(ArtifactBonus) then) =
-      _$ArtifactBonusCopyWithImpl<$Res, ArtifactBonus>;
+abstract class $ArtifactSetBonusCopyWith<$Res> {
+  factory $ArtifactSetBonusCopyWith(
+          ArtifactSetBonus value, $Res Function(ArtifactSetBonus) then) =
+      _$ArtifactSetBonusCopyWithImpl<$Res, ArtifactSetBonus>;
   @useResult
   $Res call({String type, LocalizedText description});
 
@@ -503,9 +503,9 @@ abstract class $ArtifactBonusCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ArtifactBonusCopyWithImpl<$Res, $Val extends ArtifactBonus>
-    implements $ArtifactBonusCopyWith<$Res> {
-  _$ArtifactBonusCopyWithImpl(this._value, this._then);
+class _$ArtifactSetBonusCopyWithImpl<$Res, $Val extends ArtifactSetBonus>
+    implements $ArtifactSetBonusCopyWith<$Res> {
+  _$ArtifactSetBonusCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -540,11 +540,11 @@ class _$ArtifactBonusCopyWithImpl<$Res, $Val extends ArtifactBonus>
 }
 
 /// @nodoc
-abstract class _$$ArtifactBonusImplCopyWith<$Res>
-    implements $ArtifactBonusCopyWith<$Res> {
-  factory _$$ArtifactBonusImplCopyWith(
-          _$ArtifactBonusImpl value, $Res Function(_$ArtifactBonusImpl) then) =
-      __$$ArtifactBonusImplCopyWithImpl<$Res>;
+abstract class _$$ArtifactSetBonusImplCopyWith<$Res>
+    implements $ArtifactSetBonusCopyWith<$Res> {
+  factory _$$ArtifactSetBonusImplCopyWith(_$ArtifactSetBonusImpl value,
+          $Res Function(_$ArtifactSetBonusImpl) then) =
+      __$$ArtifactSetBonusImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String type, LocalizedText description});
@@ -554,11 +554,11 @@ abstract class _$$ArtifactBonusImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ArtifactBonusImplCopyWithImpl<$Res>
-    extends _$ArtifactBonusCopyWithImpl<$Res, _$ArtifactBonusImpl>
-    implements _$$ArtifactBonusImplCopyWith<$Res> {
-  __$$ArtifactBonusImplCopyWithImpl(
-      _$ArtifactBonusImpl _value, $Res Function(_$ArtifactBonusImpl) _then)
+class __$$ArtifactSetBonusImplCopyWithImpl<$Res>
+    extends _$ArtifactSetBonusCopyWithImpl<$Res, _$ArtifactSetBonusImpl>
+    implements _$$ArtifactSetBonusImplCopyWith<$Res> {
+  __$$ArtifactSetBonusImplCopyWithImpl(_$ArtifactSetBonusImpl _value,
+      $Res Function(_$ArtifactSetBonusImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -567,7 +567,7 @@ class __$$ArtifactBonusImplCopyWithImpl<$Res>
     Object? type = null,
     Object? description = null,
   }) {
-    return _then(_$ArtifactBonusImpl(
+    return _then(_$ArtifactSetBonusImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -582,11 +582,11 @@ class __$$ArtifactBonusImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ArtifactBonusImpl implements _ArtifactBonus {
-  const _$ArtifactBonusImpl({required this.type, required this.description});
+class _$ArtifactSetBonusImpl implements _ArtifactSetBonus {
+  const _$ArtifactSetBonusImpl({required this.type, required this.description});
 
-  factory _$ArtifactBonusImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ArtifactBonusImplFromJson(json);
+  factory _$ArtifactSetBonusImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtifactSetBonusImplFromJson(json);
 
   @override
   final String type;
@@ -595,14 +595,14 @@ class _$ArtifactBonusImpl implements _ArtifactBonus {
 
   @override
   String toString() {
-    return 'ArtifactBonus(type: $type, description: $description)';
+    return 'ArtifactSetBonus(type: $type, description: $description)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArtifactBonusImpl &&
+            other is _$ArtifactSetBonusImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.description, description) ||
                 other.description == description));
@@ -615,24 +615,25 @@ class _$ArtifactBonusImpl implements _ArtifactBonus {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ArtifactBonusImplCopyWith<_$ArtifactBonusImpl> get copyWith =>
-      __$$ArtifactBonusImplCopyWithImpl<_$ArtifactBonusImpl>(this, _$identity);
+  _$$ArtifactSetBonusImplCopyWith<_$ArtifactSetBonusImpl> get copyWith =>
+      __$$ArtifactSetBonusImplCopyWithImpl<_$ArtifactSetBonusImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ArtifactBonusImplToJson(
+    return _$$ArtifactSetBonusImplToJson(
       this,
     );
   }
 }
 
-abstract class _ArtifactBonus implements ArtifactBonus {
-  const factory _ArtifactBonus(
+abstract class _ArtifactSetBonus implements ArtifactSetBonus {
+  const factory _ArtifactSetBonus(
       {required final String type,
-      required final LocalizedText description}) = _$ArtifactBonusImpl;
+      required final LocalizedText description}) = _$ArtifactSetBonusImpl;
 
-  factory _ArtifactBonus.fromJson(Map<String, dynamic> json) =
-      _$ArtifactBonusImpl.fromJson;
+  factory _ArtifactSetBonus.fromJson(Map<String, dynamic> json) =
+      _$ArtifactSetBonusImpl.fromJson;
 
   @override
   String get type;
@@ -640,7 +641,7 @@ abstract class _ArtifactBonus implements ArtifactBonus {
   LocalizedText get description;
   @override
   @JsonKey(ignore: true)
-  _$$ArtifactBonusImplCopyWith<_$ArtifactBonusImpl> get copyWith =>
+  _$$ArtifactSetBonusImplCopyWith<_$ArtifactSetBonusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

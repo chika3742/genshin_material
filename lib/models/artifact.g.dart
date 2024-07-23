@@ -15,7 +15,7 @@ _$ArtifactSetImpl _$$ArtifactSetImplFromJson(Map<String, dynamic> json) =>
           .map((e) => ArtifactPiece.fromJson(e as Map<String, dynamic>))
           .toList(),
       bonuses: (json['bonuses'] as List<dynamic>)
-          .map((e) => ArtifactBonus.fromJson(e as Map<String, dynamic>))
+          .map((e) => ArtifactSetBonus.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -44,14 +44,16 @@ Map<String, dynamic> _$$ArtifactPieceImplToJson(_$ArtifactPieceImpl instance) =>
       'name': instance.name,
     };
 
-_$ArtifactBonusImpl _$$ArtifactBonusImplFromJson(Map<String, dynamic> json) =>
-    _$ArtifactBonusImpl(
+_$ArtifactSetBonusImpl _$$ArtifactSetBonusImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ArtifactSetBonusImpl(
       type: json['type'] as String,
       description:
           LocalizedText.fromJson(json['description'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ArtifactBonusImplToJson(_$ArtifactBonusImpl instance) =>
+Map<String, dynamic> _$$ArtifactSetBonusImplToJson(
+        _$ArtifactSetBonusImpl instance) =>
     <String, dynamic>{
       'type': instance.type,
       'description': instance.description,

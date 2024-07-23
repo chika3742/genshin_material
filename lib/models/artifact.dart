@@ -13,7 +13,7 @@ class ArtifactSet with _$ArtifactSet {
     required LocalizedText name,
     required int maxRarity,
     required List<ArtifactPiece> consistsOf,
-    required List<ArtifactBonus> bonuses,
+    required List<ArtifactSetBonus> bonuses,
   }) = _ArtifactSet;
 
   factory ArtifactSet.fromJson(Map<String, dynamic> json) =>
@@ -36,14 +36,14 @@ class ArtifactPiece with _$ArtifactPiece, ImageGetter {
 }
 
 @freezed
-class ArtifactBonus with _$ArtifactBonus {
-  const factory ArtifactBonus({
+class ArtifactSetBonus with _$ArtifactSetBonus {
+  const factory ArtifactSetBonus({
     required String type,
     required LocalizedText description,
-  }) = _ArtifactBonus;
+  }) = _ArtifactSetBonus;
 
-  factory ArtifactBonus.fromJson(Map<String, dynamic> json) =>
-      _$ArtifactBonusFromJson(json);
+  factory ArtifactSetBonus.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactSetBonusFromJson(json);
 }
 
 @freezed
