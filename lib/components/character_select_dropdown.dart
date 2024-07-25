@@ -12,6 +12,7 @@ class CharacterSelectDropdown extends HookConsumerWidget {
   final List<CharacterOrVariant> characters;
   final WeaponType? weaponTypeFilter;
   final String? label;
+  final String? errorText;
 
   const CharacterSelectDropdown({
     super.key,
@@ -20,6 +21,7 @@ class CharacterSelectDropdown extends HookConsumerWidget {
     required this.characters,
     this.weaponTypeFilter,
     this.label,
+    this.errorText,
   });
 
   @override
@@ -52,6 +54,7 @@ class CharacterSelectDropdown extends HookConsumerWidget {
       decoration: InputDecoration(
         labelText: label,
         border: const OutlineInputBorder(),
+        errorText: errorText,
       ),
     );
   }

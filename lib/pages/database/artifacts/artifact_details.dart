@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 
+import "../../../components/artifact_bookmark_dialog.dart";
 import "../../../components/center_text.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/game_item_info_box.dart";
@@ -77,30 +78,54 @@ class ArtifactDetailsPage extends StatelessWidget {
 
                 SectionHeading(tr.artifactDetailsPage.bookmarkSet),
                 ElevatedButton.icon(
-                  onPressed: () {}, // TODO
+                  onPressed: () {
+                    showArtifactBookmarkDialog(
+                      context: context,
+                      firstSetId: artifactSet.id,
+                      showSecondSetChooser: true,
+                    );
+                  },
                   icon: const Icon(Icons.bookmarks),
                   label: Text(tr.artifactDetailsPage.bookmarkTwoAndTwoPcSet),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () {}, // TODO
+                  onPressed: () {
+                    showArtifactBookmarkDialog(
+                      context: context,
+                      firstSetId: artifactSet.id,
+                    );
+                  },
                   icon: const Icon(Icons.bookmark),
                   label: Text(tr.artifactDetailsPage.bookmarkFourPcSet),
                 ),
 
                 const SizedBox(), // add 8px gap
                 SectionHeading(tr.artifactDetailsPage.bookmarkPiece),
-                for(final piece in artifactSet.consistsOf) ListTile(
-                  leading: Image.file(
-                    piece.getImageFile(assetDir),
-                    width: 32,
-                    height: 32,
-                  ),
-                  title: Text(piece.name.localized),
-                  subtitle: Text(tr.artifactsPage.pieceTypes[piece.type]!),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.bookmark),
-                    onPressed: () {}, // TODO
-                  ),
+                Column(
+                  children: [
+                    for(final piece in artifactSet.consistsOf.values)
+                      SizedBox(
+                        height: 56,
+                        child: ListTile(
+                          leading: Image.file(
+                            piece.getImageFile(assetDir),
+                            width: 32,
+                            height: 32,
+                          ),
+                          title: Text(piece.name.localized),
+                          subtitle: Text(tr.artifactsPage.pieceTypes[piece.type]!),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.bookmark),
+                            onPressed: () {
+                              showArtifactBookmarkDialog(
+                                context: context,
+                                pieceId: piece.id,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ],
             ),

@@ -22,6 +22,10 @@ common:
   rarity: レアリティ
   weaponType: 武器種
   clear: クリア
+  save: 保存
+  next: 次へ
+  change: 変更
+  pleaseSelect: 選択してください
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル
@@ -61,7 +65,7 @@ characterDetailsPage:
   charaLevelUpAndAscensionMaterials: キャラクターLvアップ・突破素材
   talentLevelUpMaterials: 天賦Lvアップ素材
 weaponDetailsPage:
-  characterToEquip: この武器を装備させるキャラクター
+  characterToEquip: 武器を装備させるキャラクター
 materialDetailsPage:
   charactersUsing: この素材を使用するキャラクター
   weaponsUsing: この素材を使用する武器
@@ -87,6 +91,15 @@ artifactDetailsPage:
   bookmarkPiece: 部位ごとにブックマーク
   bookmarkTwoAndTwoPcSet: 2 + 2 セットをブックマーク
   bookmarkFourPcSet: 4 セットをブックマーク
+  bookmarkArtifacts: 聖遺物をブックマーク
+  characterToEquip: 聖遺物を装備させるキャラクター
+  chooseSecondSet: 2個目のセットを選択
+  chooseSecondSetDesc: 2個目の聖遺物セットを選択してください
+  mainStat: メインステータス
+  mainStatWithPieceType: "@:artifactDetailsPage.mainStat ($pieceType)"
+  subStats: サブステータス
+  unspecified: 指定しない
+  nSet: $nセット
 dailyPage:
   mondayAndThursday: 月/木
   tuesdayAndFriday: 火/金
