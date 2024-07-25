@@ -11,9 +11,10 @@ _$ArtifactSetImpl _$$ArtifactSetImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       maxRarity: json['maxRarity'] as int,
-      consistsOf: (json['consistsOf'] as List<dynamic>)
-          .map((e) => ArtifactPiece.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      consistsOf: (json['consistsOf'] as Map<String, dynamic>).map(
+        (k, e) =>
+            MapEntry(k, ArtifactPiece.fromJson(e as Map<String, dynamic>)),
+      ),
       bonuses: (json['bonuses'] as List<dynamic>)
           .map((e) => ArtifactSetBonus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -72,6 +73,7 @@ _$ArtifactsMetaImpl _$$ArtifactsMetaImplFromJson(Map<String, dynamic> json) =>
       possibleSubStats: (json['possibleSubStats'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      pieceSetMap: Map<String, String>.from(json['pieceSetMap'] as Map),
     );
 
 Map<String, dynamic> _$$ArtifactsMetaImplToJson(_$ArtifactsMetaImpl instance) =>
@@ -79,11 +81,13 @@ Map<String, dynamic> _$$ArtifactsMetaImplToJson(_$ArtifactsMetaImpl instance) =>
       'stats': instance.stats,
       'pieceTypes': instance.pieceTypes,
       'possibleSubStats': instance.possibleSubStats,
+      'pieceSetMap': instance.pieceSetMap,
     };
 
 _$ArtifactPieceTypeImpl _$$ArtifactPieceTypeImplFromJson(
         Map<String, dynamic> json) =>
     _$ArtifactPieceTypeImpl(
+      id: json['id'] as String,
       desc: LocalizedText.fromJson(json['desc'] as Map<String, dynamic>),
       possibleMainStats: (json['possibleMainStats'] as List<dynamic>)
           .map((e) => e as String)
@@ -93,6 +97,7 @@ _$ArtifactPieceTypeImpl _$$ArtifactPieceTypeImplFromJson(
 Map<String, dynamic> _$$ArtifactPieceTypeImplToJson(
         _$ArtifactPieceTypeImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'desc': instance.desc,
       'possibleMainStats': instance.possibleMainStats,
     };

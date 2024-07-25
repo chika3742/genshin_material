@@ -1,5 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
+import "../core/asset_cache.dart";
 import "common.dart";
 import "localized_text.dart";
 
@@ -12,7 +13,7 @@ class ArtifactSet with _$ArtifactSet {
     required String id,
     required LocalizedText name,
     required int maxRarity,
-    required List<ArtifactPiece> consistsOf,
+    required Map<ArtifactPieceId, ArtifactPiece> consistsOf,
     required List<ArtifactSetBonus> bonuses,
   }) = _ArtifactSet;
 
@@ -33,6 +34,25 @@ class ArtifactPiece with _$ArtifactPiece, ImageGetter {
 
   factory ArtifactPiece.fromJson(Map<String, dynamic> json) =>
       _$ArtifactPieceFromJson(json);
+
+  static ArtifactPiece fromId(ArtifactPieceId id, AssetData assetData) {
+    final setId = assetData.artifactPieceSetMap[id];
+    if (setId == null) {
+      throw StateError("No mapping found for artifact piece $id");
+    }
+
+    final set = assetData.artifactSets[setId];
+    if (set == null) {
+      throw StateError("No artifact set found for $setId");
+    }
+
+    final piece = set.consistsOf[id];
+    if (piece == null) {
+      throw StateError("No artifact piece found for $id");
+    }
+
+    return piece;
+  }
 }
 
 @freezed
@@ -52,6 +72,7 @@ class ArtifactsMeta with _$ArtifactsMeta {
     required Map<ArtifactStatId, LocalizedText> stats,
     required Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes,
     required List<ArtifactStatId> possibleSubStats,
+    required Map<ArtifactPieceId, ArtifactSetId> pieceSetMap,
   }) = _ArtifactsMeta;
 
   factory ArtifactsMeta.fromJson(Map<String, dynamic> json) =>
@@ -61,6 +82,7 @@ class ArtifactsMeta with _$ArtifactsMeta {
 @freezed
 class ArtifactPieceType with _$ArtifactPieceType {
   const factory ArtifactPieceType({
+    required ArtifactPieceTypeId id,
     required LocalizedText desc,
     required List<ArtifactStatId> possibleMainStats,
   }) = _ArtifactPieceType;

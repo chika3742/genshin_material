@@ -23,7 +23,8 @@ mixin _$ArtifactSet {
   String get id => throw _privateConstructorUsedError;
   LocalizedText get name => throw _privateConstructorUsedError;
   int get maxRarity => throw _privateConstructorUsedError;
-  List<ArtifactPiece> get consistsOf => throw _privateConstructorUsedError;
+  Map<String, ArtifactPiece> get consistsOf =>
+      throw _privateConstructorUsedError;
   List<ArtifactSetBonus> get bonuses => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,7 +43,7 @@ abstract class $ArtifactSetCopyWith<$Res> {
       {String id,
       LocalizedText name,
       int maxRarity,
-      List<ArtifactPiece> consistsOf,
+      Map<String, ArtifactPiece> consistsOf,
       List<ArtifactSetBonus> bonuses});
 
   $LocalizedTextCopyWith<$Res> get name;
@@ -83,7 +84,7 @@ class _$ArtifactSetCopyWithImpl<$Res, $Val extends ArtifactSet>
       consistsOf: null == consistsOf
           ? _value.consistsOf
           : consistsOf // ignore: cast_nullable_to_non_nullable
-              as List<ArtifactPiece>,
+              as Map<String, ArtifactPiece>,
       bonuses: null == bonuses
           ? _value.bonuses
           : bonuses // ignore: cast_nullable_to_non_nullable
@@ -112,7 +113,7 @@ abstract class _$$ArtifactSetImplCopyWith<$Res>
       {String id,
       LocalizedText name,
       int maxRarity,
-      List<ArtifactPiece> consistsOf,
+      Map<String, ArtifactPiece> consistsOf,
       List<ArtifactSetBonus> bonuses});
 
   @override
@@ -152,7 +153,7 @@ class __$$ArtifactSetImplCopyWithImpl<$Res>
       consistsOf: null == consistsOf
           ? _value._consistsOf
           : consistsOf // ignore: cast_nullable_to_non_nullable
-              as List<ArtifactPiece>,
+              as Map<String, ArtifactPiece>,
       bonuses: null == bonuses
           ? _value._bonuses
           : bonuses // ignore: cast_nullable_to_non_nullable
@@ -168,7 +169,7 @@ class _$ArtifactSetImpl implements _ArtifactSet {
       {required this.id,
       required this.name,
       required this.maxRarity,
-      required final List<ArtifactPiece> consistsOf,
+      required final Map<String, ArtifactPiece> consistsOf,
       required final List<ArtifactSetBonus> bonuses})
       : _consistsOf = consistsOf,
         _bonuses = bonuses;
@@ -182,12 +183,12 @@ class _$ArtifactSetImpl implements _ArtifactSet {
   final LocalizedText name;
   @override
   final int maxRarity;
-  final List<ArtifactPiece> _consistsOf;
+  final Map<String, ArtifactPiece> _consistsOf;
   @override
-  List<ArtifactPiece> get consistsOf {
-    if (_consistsOf is EqualUnmodifiableListView) return _consistsOf;
+  Map<String, ArtifactPiece> get consistsOf {
+    if (_consistsOf is EqualUnmodifiableMapView) return _consistsOf;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_consistsOf);
+    return EqualUnmodifiableMapView(_consistsOf);
   }
 
   final List<ArtifactSetBonus> _bonuses;
@@ -246,7 +247,7 @@ abstract class _ArtifactSet implements ArtifactSet {
       {required final String id,
       required final LocalizedText name,
       required final int maxRarity,
-      required final List<ArtifactPiece> consistsOf,
+      required final Map<String, ArtifactPiece> consistsOf,
       required final List<ArtifactSetBonus> bonuses}) = _$ArtifactSetImpl;
 
   factory _ArtifactSet.fromJson(Map<String, dynamic> json) =
@@ -259,7 +260,7 @@ abstract class _ArtifactSet implements ArtifactSet {
   @override
   int get maxRarity;
   @override
-  List<ArtifactPiece> get consistsOf;
+  Map<String, ArtifactPiece> get consistsOf;
   @override
   List<ArtifactSetBonus> get bonuses;
   @override
@@ -655,6 +656,7 @@ mixin _$ArtifactsMeta {
   Map<String, ArtifactPieceType> get pieceTypes =>
       throw _privateConstructorUsedError;
   List<String> get possibleSubStats => throw _privateConstructorUsedError;
+  Map<String, String> get pieceSetMap => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -671,7 +673,8 @@ abstract class $ArtifactsMetaCopyWith<$Res> {
   $Res call(
       {Map<String, LocalizedText> stats,
       Map<String, ArtifactPieceType> pieceTypes,
-      List<String> possibleSubStats});
+      List<String> possibleSubStats,
+      Map<String, String> pieceSetMap});
 }
 
 /// @nodoc
@@ -690,6 +693,7 @@ class _$ArtifactsMetaCopyWithImpl<$Res, $Val extends ArtifactsMeta>
     Object? stats = null,
     Object? pieceTypes = null,
     Object? possibleSubStats = null,
+    Object? pieceSetMap = null,
   }) {
     return _then(_value.copyWith(
       stats: null == stats
@@ -704,6 +708,10 @@ class _$ArtifactsMetaCopyWithImpl<$Res, $Val extends ArtifactsMeta>
           ? _value.possibleSubStats
           : possibleSubStats // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      pieceSetMap: null == pieceSetMap
+          ? _value.pieceSetMap
+          : pieceSetMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ) as $Val);
   }
 }
@@ -719,7 +727,8 @@ abstract class _$$ArtifactsMetaImplCopyWith<$Res>
   $Res call(
       {Map<String, LocalizedText> stats,
       Map<String, ArtifactPieceType> pieceTypes,
-      List<String> possibleSubStats});
+      List<String> possibleSubStats,
+      Map<String, String> pieceSetMap});
 }
 
 /// @nodoc
@@ -736,6 +745,7 @@ class __$$ArtifactsMetaImplCopyWithImpl<$Res>
     Object? stats = null,
     Object? pieceTypes = null,
     Object? possibleSubStats = null,
+    Object? pieceSetMap = null,
   }) {
     return _then(_$ArtifactsMetaImpl(
       stats: null == stats
@@ -750,6 +760,10 @@ class __$$ArtifactsMetaImplCopyWithImpl<$Res>
           ? _value._possibleSubStats
           : possibleSubStats // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      pieceSetMap: null == pieceSetMap
+          ? _value._pieceSetMap
+          : pieceSetMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 }
@@ -760,10 +774,12 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
   const _$ArtifactsMetaImpl(
       {required final Map<String, LocalizedText> stats,
       required final Map<String, ArtifactPieceType> pieceTypes,
-      required final List<String> possibleSubStats})
+      required final List<String> possibleSubStats,
+      required final Map<String, String> pieceSetMap})
       : _stats = stats,
         _pieceTypes = pieceTypes,
-        _possibleSubStats = possibleSubStats;
+        _possibleSubStats = possibleSubStats,
+        _pieceSetMap = pieceSetMap;
 
   factory _$ArtifactsMetaImpl.fromJson(Map<String, dynamic> json) =>
       _$$ArtifactsMetaImplFromJson(json);
@@ -793,9 +809,17 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
     return EqualUnmodifiableListView(_possibleSubStats);
   }
 
+  final Map<String, String> _pieceSetMap;
+  @override
+  Map<String, String> get pieceSetMap {
+    if (_pieceSetMap is EqualUnmodifiableMapView) return _pieceSetMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_pieceSetMap);
+  }
+
   @override
   String toString() {
-    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats)';
+    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, pieceSetMap: $pieceSetMap)';
   }
 
   @override
@@ -807,7 +831,9 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
             const DeepCollectionEquality()
                 .equals(other._pieceTypes, _pieceTypes) &&
             const DeepCollectionEquality()
-                .equals(other._possibleSubStats, _possibleSubStats));
+                .equals(other._possibleSubStats, _possibleSubStats) &&
+            const DeepCollectionEquality()
+                .equals(other._pieceSetMap, _pieceSetMap));
   }
 
   @JsonKey(ignore: true)
@@ -816,7 +842,8 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
       runtimeType,
       const DeepCollectionEquality().hash(_stats),
       const DeepCollectionEquality().hash(_pieceTypes),
-      const DeepCollectionEquality().hash(_possibleSubStats));
+      const DeepCollectionEquality().hash(_possibleSubStats),
+      const DeepCollectionEquality().hash(_pieceSetMap));
 
   @JsonKey(ignore: true)
   @override
@@ -836,7 +863,8 @@ abstract class _ArtifactsMeta implements ArtifactsMeta {
   const factory _ArtifactsMeta(
       {required final Map<String, LocalizedText> stats,
       required final Map<String, ArtifactPieceType> pieceTypes,
-      required final List<String> possibleSubStats}) = _$ArtifactsMetaImpl;
+      required final List<String> possibleSubStats,
+      required final Map<String, String> pieceSetMap}) = _$ArtifactsMetaImpl;
 
   factory _ArtifactsMeta.fromJson(Map<String, dynamic> json) =
       _$ArtifactsMetaImpl.fromJson;
@@ -847,6 +875,8 @@ abstract class _ArtifactsMeta implements ArtifactsMeta {
   Map<String, ArtifactPieceType> get pieceTypes;
   @override
   List<String> get possibleSubStats;
+  @override
+  Map<String, String> get pieceSetMap;
   @override
   @JsonKey(ignore: true)
   _$$ArtifactsMetaImplCopyWith<_$ArtifactsMetaImpl> get copyWith =>
@@ -859,6 +889,7 @@ ArtifactPieceType _$ArtifactPieceTypeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ArtifactPieceType {
+  String get id => throw _privateConstructorUsedError;
   LocalizedText get desc => throw _privateConstructorUsedError;
   List<String> get possibleMainStats => throw _privateConstructorUsedError;
 
@@ -874,7 +905,7 @@ abstract class $ArtifactPieceTypeCopyWith<$Res> {
           ArtifactPieceType value, $Res Function(ArtifactPieceType) then) =
       _$ArtifactPieceTypeCopyWithImpl<$Res, ArtifactPieceType>;
   @useResult
-  $Res call({LocalizedText desc, List<String> possibleMainStats});
+  $Res call({String id, LocalizedText desc, List<String> possibleMainStats});
 
   $LocalizedTextCopyWith<$Res> get desc;
 }
@@ -892,10 +923,15 @@ class _$ArtifactPieceTypeCopyWithImpl<$Res, $Val extends ArtifactPieceType>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? desc = null,
     Object? possibleMainStats = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       desc: null == desc
           ? _value.desc
           : desc // ignore: cast_nullable_to_non_nullable
@@ -924,7 +960,7 @@ abstract class _$$ArtifactPieceTypeImplCopyWith<$Res>
       __$$ArtifactPieceTypeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({LocalizedText desc, List<String> possibleMainStats});
+  $Res call({String id, LocalizedText desc, List<String> possibleMainStats});
 
   @override
   $LocalizedTextCopyWith<$Res> get desc;
@@ -941,10 +977,15 @@ class __$$ArtifactPieceTypeImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? desc = null,
     Object? possibleMainStats = null,
   }) {
     return _then(_$ArtifactPieceTypeImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       desc: null == desc
           ? _value.desc
           : desc // ignore: cast_nullable_to_non_nullable
@@ -961,12 +1002,16 @@ class __$$ArtifactPieceTypeImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
   const _$ArtifactPieceTypeImpl(
-      {required this.desc, required final List<String> possibleMainStats})
+      {required this.id,
+      required this.desc,
+      required final List<String> possibleMainStats})
       : _possibleMainStats = possibleMainStats;
 
   factory _$ArtifactPieceTypeImpl.fromJson(Map<String, dynamic> json) =>
       _$$ArtifactPieceTypeImplFromJson(json);
 
+  @override
+  final String id;
   @override
   final LocalizedText desc;
   final List<String> _possibleMainStats;
@@ -980,7 +1025,7 @@ class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
 
   @override
   String toString() {
-    return 'ArtifactPieceType(desc: $desc, possibleMainStats: $possibleMainStats)';
+    return 'ArtifactPieceType(id: $id, desc: $desc, possibleMainStats: $possibleMainStats)';
   }
 
   @override
@@ -988,6 +1033,7 @@ class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ArtifactPieceTypeImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.desc, desc) || other.desc == desc) &&
             const DeepCollectionEquality()
                 .equals(other._possibleMainStats, _possibleMainStats));
@@ -995,7 +1041,7 @@ class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, desc,
+  int get hashCode => Object.hash(runtimeType, id, desc,
       const DeepCollectionEquality().hash(_possibleMainStats));
 
   @JsonKey(ignore: true)
@@ -1015,12 +1061,15 @@ class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
 
 abstract class _ArtifactPieceType implements ArtifactPieceType {
   const factory _ArtifactPieceType(
-      {required final LocalizedText desc,
+      {required final String id,
+      required final LocalizedText desc,
       required final List<String> possibleMainStats}) = _$ArtifactPieceTypeImpl;
 
   factory _ArtifactPieceType.fromJson(Map<String, dynamic> json) =
       _$ArtifactPieceTypeImpl.fromJson;
 
+  @override
+  String get id;
   @override
   LocalizedText get desc;
   @override

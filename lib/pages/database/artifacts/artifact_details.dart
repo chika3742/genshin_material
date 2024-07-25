@@ -37,7 +37,7 @@ class ArtifactDetailsPage extends StatelessWidget {
               children: [
                 GameItemInfoBox(
                   itemImage: Image.file(
-                    artifactSet.consistsOf[0].getImageFile(assetDir),
+                    artifactSet.consistsOf.values.first.getImageFile(assetDir),
                     width: 50,
                     height: 50,
                   ),

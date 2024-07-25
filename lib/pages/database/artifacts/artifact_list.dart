@@ -68,7 +68,7 @@ class ArtifactListPage extends HookWidget {
 
                           return ListTile(
                             leading: Image.file(
-                              set.consistsOf[0].getImageFile(assetDir),
+                              set.consistsOf.values.first.getImageFile(assetDir),
                               height: 40,
                               width: 40,
                             ),
