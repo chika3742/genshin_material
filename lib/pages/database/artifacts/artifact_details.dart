@@ -3,10 +3,10 @@ import "package:flutter/material.dart";
 import "../../../components/artifact_bookmark_dialog.dart";
 import "../../../components/center_text.dart";
 import "../../../components/data_asset_scope.dart";
+import "../../../components/effect_description.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/layout.dart";
 import "../../../components/rarity_stars.dart";
-import "../../../components/style_parsed_text.dart";
 import "../../../i18n/strings.g.dart";
 
 class ArtifactDetailsPage extends StatelessWidget {
@@ -64,12 +64,8 @@ class ArtifactDetailsPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: StyleParsedText(
+                    child: EffectDescription(
                       bonus.description.localized,
-                      strongStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
                     ),
                   ),
                 ],
@@ -113,7 +109,7 @@ class ArtifactDetailsPage extends StatelessWidget {
                             height: 32,
                           ),
                           title: Text(piece.name.localized),
-                          subtitle: Text(tr.artifactsPage.pieceTypes[piece.type]!),
+                          subtitle: Text(assetData.artifactPieceTypes[piece.type]!.desc.localized),
                           trailing: IconButton(
                             icon: const Icon(Icons.bookmark),
                             onPressed: () {

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'character_filter_state.dart';
+part of 'filter_state.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -24,5 +24,23 @@ final characterFilterStateNotifierProvider = AutoDisposeNotifierProvider<
 
 typedef _$CharacterFilterStateNotifier
     = AutoDisposeNotifier<CharacterFilterState>;
+String _$artifactFilterStateNotifierHash() =>
+    r'2acae805761bf198edae2697ded8bb35b1923d6a';
+
+/// See also [ArtifactFilterStateNotifier].
+@ProviderFor(ArtifactFilterStateNotifier)
+final artifactFilterStateNotifierProvider = AutoDisposeNotifierProvider<
+    ArtifactFilterStateNotifier, ArtifactFilterState>.internal(
+  ArtifactFilterStateNotifier.new,
+  name: r'artifactFilterStateNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$artifactFilterStateNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ArtifactFilterStateNotifier
+    = AutoDisposeNotifier<ArtifactFilterState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

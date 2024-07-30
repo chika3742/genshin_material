@@ -62,6 +62,10 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                   factory: $ArtifactListRouteExtension._fromState,
                   routes: [
                     GoRouteData.$route(
+                      path: 'effects',
+                      factory: $ArtifactEffectListRouteExtension._fromState,
+                    ),
+                    GoRouteData.$route(
                       path: ':id',
                       factory: $ArtifactDetailsRouteExtension._fromState,
                     ),
@@ -336,6 +340,24 @@ extension $ArtifactListRouteExtension on ArtifactListRoute {
 
   String get location => GoRouteData.$location(
         '/database/artifacts',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ArtifactEffectListRouteExtension on ArtifactEffectListRoute {
+  static ArtifactEffectListRoute _fromState(GoRouterState state) =>
+      ArtifactEffectListRoute();
+
+  String get location => GoRouteData.$location(
+        '/database/artifacts/effects',
       );
 
   void go(BuildContext context) => context.go(location);

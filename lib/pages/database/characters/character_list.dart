@@ -9,7 +9,7 @@ import "../../../components/layout.dart";
 import "../../../components/list_subheader.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
-import "../../../providers/character_filter_state.dart";
+import "../../../providers/filter_state.dart";
 
 class CharacterListPage extends ConsumerWidget {
   const CharacterListPage({super.key});

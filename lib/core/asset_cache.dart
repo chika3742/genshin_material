@@ -96,6 +96,7 @@ class AssetDataCache {
       artifactStats: artifactsMeta.stats,
       artifactPossibleSubStats: artifactsMeta.possibleSubStats,
       artifactPieceSetMap: artifactsMeta.pieceSetMap,
+      artifactTags: artifactsMeta.tags.categories,
     );
 
     return true;
@@ -137,5 +138,6 @@ class AssetData with _$AssetData {
     required Map<ArtifactStatId, LocalizedText> artifactStats,
     required List<ArtifactStatId> artifactPossibleSubStats,
     required Map<ArtifactPieceId, ArtifactSetId> artifactPieceSetMap,
+    required List<ArtifactTagCategory> artifactTags,
   }) = _AssetData;
 }

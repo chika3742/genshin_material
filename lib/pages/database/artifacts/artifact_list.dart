@@ -4,140 +4,110 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/data_asset_scope.dart";
 import "../../../components/layout.dart";
-import "../../../components/style_parsed_text.dart";
+import "../../../core/theme.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../routes.dart";
 
-class ArtifactListPage extends HookWidget {
+class ArtifactListPage extends StatelessWidget {
   const ArtifactListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final expandedIndices = useState(<int>{});
-
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.artifacts),
       ),
       body: DataAssetScope(
         builder: (assetData, assetDir) {
-          final sets = assetData.artifactSets;
 
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                // expand/collapse all buttons
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child: GappedRow(
-                    children: [
-                      OutlinedButton.icon(
-                        onPressed: () {
-                          expandedIndices.value = <int>{
-                            ...List.generate(sets.length, (index) => index),
-                          };
-                        },
-                        icon: const Icon(Symbols.expand_all),
-                        label: Text(tr.common.expandAll),
-                      ),
-                      OutlinedButton.icon(
-                        onPressed: () {
-                          expandedIndices.value = <int>{};
-                        },
-                        icon: const Icon(Symbols.collapse_all),
-                        label: Text(tr.common.collapseAll),
-                      ),
-                    ],
-                  ),
-                ),
+          return HookBuilder(
+            builder: (context) {
+              final filteringRarity = useState<int?>(null);
+              final sets = useMemoized(
+                () {
+                  if (filteringRarity.value != null) {
+                    return {...assetData.artifactSets}..removeWhere((key, value) => value.maxRarity != filteringRarity.value);
+                  } else {
+                    return assetData.artifactSets;
+                  }
+                },
+                [filteringRarity.value],
+              );
 
-                ExpansionPanelList(
-                  expansionCallback: (index, isExpanded) {
-                    if (isExpanded) {
-                      expandedIndices.value = {...expandedIndices.value}..add(index);
-                    } else {
-                      expandedIndices.value = {...expandedIndices.value}..remove(index);
-                    }
-                  },
-                  children: [
-                    for (int i = 0; i < sets.length; i++)
-                      ExpansionPanel(
-                        isExpanded: expandedIndices.value.contains(i),
-                        headerBuilder: (context, isExpanded) {
-                          final set = sets.values.elementAt(i);
-
-                          return ListTile(
-                            leading: Image.file(
-                              set.consistsOf.values.first.getImageFile(assetDir),
-                              height: 40,
-                              width: 40,
+              return CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      child: GappedRow(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          for (final rarity in [3, 4, 5])
+                            FilterChip(
+                              label: Text("☆$rarity"),
+                              selected: filteringRarity.value == rarity,
+                              onSelected: (selected) {
+                                filteringRarity.value = selected ? rarity : null;
+                              },
                             ),
-                            title: Text(set.name.localized),
-                            trailing: const Icon(Icons.loupe),
-                            onTap: () {
-                              ArtifactDetailsRoute(id: set.id).push(context);
+                          OutlinedButton.icon(
+                            onPressed: () {
+                              ArtifactEffectListRoute().push(context);
                             },
-                          );
+                            icon: const Icon(Symbols.list),
+                            label: Text(tr.artifactsPage.effectList),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverList.builder(
+                    itemCount: sets.length,
+                    itemBuilder: (context, index) {
+                      final set = sets.values.elementAt(index);
+
+                      return InkWell(
+                        onTap: () {
+                          ArtifactDetailsRoute(id: set.id).push(context);
                         },
-                        body: SizedBox(
-                          width: double.infinity,
+                        child: Container(
+                          height: 64,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Theme.of(context).extension<ComponentThemeExtension>()!.getRarityColor(set.maxRarity).withOpacity(0.4),
+                                Theme.of(context).extension<ComponentThemeExtension>()!.getRarityColor(set.maxRarity).withOpacity(0.4),
+                                Theme.of(context).colorScheme.background.withOpacity(0),
+                                Theme.of(context).colorScheme.background.withOpacity(0),
+                              ],
+                              stops: const [0.0, 0.05, 0.15, 1.0],
+                            ),
+                          ),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-                            child: GappedColumn(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                            child: Row(
                               children: [
-                                for (final bonus in sets.values.elementAt(i).bonuses) ...[
-                                  Text(
-                                    tr.artifactsPage.bonusTypes[bonus.type]!,
-                                    style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: StyleParsedText(
-                                      bonus.description.localized,
-                                      strongStyle: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).colorScheme.primary,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                Image.file(
+                                  set.consistsOf.values.first.getImageFile(assetDir),
+                                  width: 56,
+                                  height: 56,
+                                ),
+                                const SizedBox(width: 16),
+                                Text(set.name.localized, style: Theme.of(context).textTheme.titleMedium),
+                                const Spacer(),
+                                const Icon(Symbols.chevron_right),
                               ],
                             ),
                           ),
                         ),
-                      ),
-                  ],
-                ),
-              ],
-            ),
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
           );
-          // return ListView.builder(
-          //   itemCount: assetData.artifactSets!.length,
-          //   itemBuilder: (context, index) {
-          //     final artifact = assetData.artifactSets![index];
-          //     return ExpansionTile(
-          //       title: Text(artifact.name.localized),
-          //       expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          //       expansionAnimationStyle: AnimationStyle(
-          //         curve: Curves.easeOutQuint,
-          //         reverseCurve: Curves.easeInQuint,
-          //         duration: const Duration(milliseconds: 300),
-          //       ),
-          //       children: [
-          //         for (final piece in artifact.consistsOf)
-          //           ListTile(
-          //             leading: Image.file(
-          //               piece.getImageFile(assetData.assetDir!),
-          //               height: 48,
-          //               width: 48,
-          //             ),
-          //             title: Text(piece.name.localized),
-          //           ),
-          //       ],
-          //     );
-          //   },
-          // );
         },
       ),
     );

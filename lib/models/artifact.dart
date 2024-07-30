@@ -13,6 +13,7 @@ class ArtifactSet with _$ArtifactSet {
     required String id,
     required LocalizedText name,
     required int maxRarity,
+    List<String>? tags,
     required Map<ArtifactPieceId, ArtifactPiece> consistsOf,
     required List<ArtifactSetBonus> bonuses,
   }) = _ArtifactSet;
@@ -73,6 +74,7 @@ class ArtifactsMeta with _$ArtifactsMeta {
     required Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes,
     required List<ArtifactStatId> possibleSubStats,
     required Map<ArtifactPieceId, ArtifactSetId> pieceSetMap,
+    required ArtifactTagCategoriesInternal tags,
   }) = _ArtifactsMeta;
 
   factory ArtifactsMeta.fromJson(Map<String, dynamic> json) =>
@@ -100,4 +102,36 @@ class ArtifactStat with _$ArtifactStat {
 
   factory ArtifactStat.fromJson(Map<String, dynamic> json) =>
       _$ArtifactStatFromJson(json);
+}
+
+@freezed
+class ArtifactTagCategoriesInternal with _$ArtifactTagCategoriesInternal {
+  const factory ArtifactTagCategoriesInternal({
+    required List<ArtifactTagCategory> categories,
+  }) = _ArtifactTagCategoriesInternal;
+
+  factory ArtifactTagCategoriesInternal.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactTagCategoriesInternalFromJson(json);
+}
+
+@freezed
+class ArtifactTagCategory with _$ArtifactTagCategory {
+  const factory ArtifactTagCategory({
+    required LocalizedText desc,
+    required List<ArtifactTag> items,
+  }) = _ArtifactTagCategory;
+
+  factory ArtifactTagCategory.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactTagCategoryFromJson(json);
+}
+
+@freezed
+class ArtifactTag with _$ArtifactTag {
+  const factory ArtifactTag({
+    required String id,
+    required LocalizedText desc,
+  }) = _ArtifactTag;
+
+  factory ArtifactTag.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactTagFromJson(json);
 }

@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 301 (150 per locale)
+/// Strings: 298 (149 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -338,13 +338,8 @@ class _StringsArtifactsPageJa {
 		'2-pc': '2セット効果',
 		'4-pc': '4セット効果',
 	};
-	Map<String, String> get pieceTypes => {
-		'flower': '生の花',
-		'plume': '死の羽',
-		'sands': '時の砂',
-		'goblet': '空の杯',
-		'circlet': '理の冠',
-	};
+	String get effectList => 'セット効果リスト';
+	String get kindOfEffect => '効果の種類';
 }
 
 // Path: artifactDetailsPage
@@ -964,11 +959,8 @@ extension on Translations {
 			case 'artifactsPage.bonusTypes.1-pc': return '1セット効果';
 			case 'artifactsPage.bonusTypes.2-pc': return '2セット効果';
 			case 'artifactsPage.bonusTypes.4-pc': return '4セット効果';
-			case 'artifactsPage.pieceTypes.flower': return '生の花';
-			case 'artifactsPage.pieceTypes.plume': return '死の羽';
-			case 'artifactsPage.pieceTypes.sands': return '時の砂';
-			case 'artifactsPage.pieceTypes.goblet': return '空の杯';
-			case 'artifactsPage.pieceTypes.circlet': return '理の冠';
+			case 'artifactsPage.effectList': return 'セット効果リスト';
+			case 'artifactsPage.kindOfEffect': return '効果の種類';
 			case 'artifactDetailsPage.maxRarity': return '最高レアリティ';
 			case 'artifactDetailsPage.bookmarkSet': return 'セットをブックマーク';
 			case 'artifactDetailsPage.bookmarkPiece': return '部位ごとにブックマーク';

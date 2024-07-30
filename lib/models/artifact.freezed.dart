@@ -23,6 +23,7 @@ mixin _$ArtifactSet {
   String get id => throw _privateConstructorUsedError;
   LocalizedText get name => throw _privateConstructorUsedError;
   int get maxRarity => throw _privateConstructorUsedError;
+  List<String>? get tags => throw _privateConstructorUsedError;
   Map<String, ArtifactPiece> get consistsOf =>
       throw _privateConstructorUsedError;
   List<ArtifactSetBonus> get bonuses => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $ArtifactSetCopyWith<$Res> {
       {String id,
       LocalizedText name,
       int maxRarity,
+      List<String>? tags,
       Map<String, ArtifactPiece> consistsOf,
       List<ArtifactSetBonus> bonuses});
 
@@ -65,6 +67,7 @@ class _$ArtifactSetCopyWithImpl<$Res, $Val extends ArtifactSet>
     Object? id = null,
     Object? name = null,
     Object? maxRarity = null,
+    Object? tags = freezed,
     Object? consistsOf = null,
     Object? bonuses = null,
   }) {
@@ -81,6 +84,10 @@ class _$ArtifactSetCopyWithImpl<$Res, $Val extends ArtifactSet>
           ? _value.maxRarity
           : maxRarity // ignore: cast_nullable_to_non_nullable
               as int,
+      tags: freezed == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       consistsOf: null == consistsOf
           ? _value.consistsOf
           : consistsOf // ignore: cast_nullable_to_non_nullable
@@ -113,6 +120,7 @@ abstract class _$$ArtifactSetImplCopyWith<$Res>
       {String id,
       LocalizedText name,
       int maxRarity,
+      List<String>? tags,
       Map<String, ArtifactPiece> consistsOf,
       List<ArtifactSetBonus> bonuses});
 
@@ -134,6 +142,7 @@ class __$$ArtifactSetImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? maxRarity = null,
+    Object? tags = freezed,
     Object? consistsOf = null,
     Object? bonuses = null,
   }) {
@@ -150,6 +159,10 @@ class __$$ArtifactSetImplCopyWithImpl<$Res>
           ? _value.maxRarity
           : maxRarity // ignore: cast_nullable_to_non_nullable
               as int,
+      tags: freezed == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       consistsOf: null == consistsOf
           ? _value._consistsOf
           : consistsOf // ignore: cast_nullable_to_non_nullable
@@ -169,9 +182,11 @@ class _$ArtifactSetImpl implements _ArtifactSet {
       {required this.id,
       required this.name,
       required this.maxRarity,
+      final List<String>? tags,
       required final Map<String, ArtifactPiece> consistsOf,
       required final List<ArtifactSetBonus> bonuses})
-      : _consistsOf = consistsOf,
+      : _tags = tags,
+        _consistsOf = consistsOf,
         _bonuses = bonuses;
 
   factory _$ArtifactSetImpl.fromJson(Map<String, dynamic> json) =>
@@ -183,6 +198,16 @@ class _$ArtifactSetImpl implements _ArtifactSet {
   final LocalizedText name;
   @override
   final int maxRarity;
+  final List<String>? _tags;
+  @override
+  List<String>? get tags {
+    final value = _tags;
+    if (value == null) return null;
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   final Map<String, ArtifactPiece> _consistsOf;
   @override
   Map<String, ArtifactPiece> get consistsOf {
@@ -201,7 +226,7 @@ class _$ArtifactSetImpl implements _ArtifactSet {
 
   @override
   String toString() {
-    return 'ArtifactSet(id: $id, name: $name, maxRarity: $maxRarity, consistsOf: $consistsOf, bonuses: $bonuses)';
+    return 'ArtifactSet(id: $id, name: $name, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
   }
 
   @override
@@ -213,6 +238,7 @@ class _$ArtifactSetImpl implements _ArtifactSet {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.maxRarity, maxRarity) ||
                 other.maxRarity == maxRarity) &&
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
             const DeepCollectionEquality()
                 .equals(other._consistsOf, _consistsOf) &&
             const DeepCollectionEquality().equals(other._bonuses, _bonuses));
@@ -225,6 +251,7 @@ class _$ArtifactSetImpl implements _ArtifactSet {
       id,
       name,
       maxRarity,
+      const DeepCollectionEquality().hash(_tags),
       const DeepCollectionEquality().hash(_consistsOf),
       const DeepCollectionEquality().hash(_bonuses));
 
@@ -247,6 +274,7 @@ abstract class _ArtifactSet implements ArtifactSet {
       {required final String id,
       required final LocalizedText name,
       required final int maxRarity,
+      final List<String>? tags,
       required final Map<String, ArtifactPiece> consistsOf,
       required final List<ArtifactSetBonus> bonuses}) = _$ArtifactSetImpl;
 
@@ -259,6 +287,8 @@ abstract class _ArtifactSet implements ArtifactSet {
   LocalizedText get name;
   @override
   int get maxRarity;
+  @override
+  List<String>? get tags;
   @override
   Map<String, ArtifactPiece> get consistsOf;
   @override
@@ -657,6 +687,7 @@ mixin _$ArtifactsMeta {
       throw _privateConstructorUsedError;
   List<String> get possibleSubStats => throw _privateConstructorUsedError;
   Map<String, String> get pieceSetMap => throw _privateConstructorUsedError;
+  ArtifactTagCategoriesInternal get tags => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -674,7 +705,10 @@ abstract class $ArtifactsMetaCopyWith<$Res> {
       {Map<String, LocalizedText> stats,
       Map<String, ArtifactPieceType> pieceTypes,
       List<String> possibleSubStats,
-      Map<String, String> pieceSetMap});
+      Map<String, String> pieceSetMap,
+      ArtifactTagCategoriesInternal tags});
+
+  $ArtifactTagCategoriesInternalCopyWith<$Res> get tags;
 }
 
 /// @nodoc
@@ -694,6 +728,7 @@ class _$ArtifactsMetaCopyWithImpl<$Res, $Val extends ArtifactsMeta>
     Object? pieceTypes = null,
     Object? possibleSubStats = null,
     Object? pieceSetMap = null,
+    Object? tags = null,
   }) {
     return _then(_value.copyWith(
       stats: null == stats
@@ -712,7 +747,19 @@ class _$ArtifactsMetaCopyWithImpl<$Res, $Val extends ArtifactsMeta>
           ? _value.pieceSetMap
           : pieceSetMap // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as ArtifactTagCategoriesInternal,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ArtifactTagCategoriesInternalCopyWith<$Res> get tags {
+    return $ArtifactTagCategoriesInternalCopyWith<$Res>(_value.tags, (value) {
+      return _then(_value.copyWith(tags: value) as $Val);
+    });
   }
 }
 
@@ -728,7 +775,11 @@ abstract class _$$ArtifactsMetaImplCopyWith<$Res>
       {Map<String, LocalizedText> stats,
       Map<String, ArtifactPieceType> pieceTypes,
       List<String> possibleSubStats,
-      Map<String, String> pieceSetMap});
+      Map<String, String> pieceSetMap,
+      ArtifactTagCategoriesInternal tags});
+
+  @override
+  $ArtifactTagCategoriesInternalCopyWith<$Res> get tags;
 }
 
 /// @nodoc
@@ -746,6 +797,7 @@ class __$$ArtifactsMetaImplCopyWithImpl<$Res>
     Object? pieceTypes = null,
     Object? possibleSubStats = null,
     Object? pieceSetMap = null,
+    Object? tags = null,
   }) {
     return _then(_$ArtifactsMetaImpl(
       stats: null == stats
@@ -764,6 +816,10 @@ class __$$ArtifactsMetaImplCopyWithImpl<$Res>
           ? _value._pieceSetMap
           : pieceSetMap // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as ArtifactTagCategoriesInternal,
     ));
   }
 }
@@ -775,7 +831,8 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
       {required final Map<String, LocalizedText> stats,
       required final Map<String, ArtifactPieceType> pieceTypes,
       required final List<String> possibleSubStats,
-      required final Map<String, String> pieceSetMap})
+      required final Map<String, String> pieceSetMap,
+      required this.tags})
       : _stats = stats,
         _pieceTypes = pieceTypes,
         _possibleSubStats = possibleSubStats,
@@ -818,8 +875,11 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
   }
 
   @override
+  final ArtifactTagCategoriesInternal tags;
+
+  @override
   String toString() {
-    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, pieceSetMap: $pieceSetMap)';
+    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, pieceSetMap: $pieceSetMap, tags: $tags)';
   }
 
   @override
@@ -833,7 +893,8 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
             const DeepCollectionEquality()
                 .equals(other._possibleSubStats, _possibleSubStats) &&
             const DeepCollectionEquality()
-                .equals(other._pieceSetMap, _pieceSetMap));
+                .equals(other._pieceSetMap, _pieceSetMap) &&
+            (identical(other.tags, tags) || other.tags == tags));
   }
 
   @JsonKey(ignore: true)
@@ -843,7 +904,8 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
       const DeepCollectionEquality().hash(_stats),
       const DeepCollectionEquality().hash(_pieceTypes),
       const DeepCollectionEquality().hash(_possibleSubStats),
-      const DeepCollectionEquality().hash(_pieceSetMap));
+      const DeepCollectionEquality().hash(_pieceSetMap),
+      tags);
 
   @JsonKey(ignore: true)
   @override
@@ -864,7 +926,8 @@ abstract class _ArtifactsMeta implements ArtifactsMeta {
       {required final Map<String, LocalizedText> stats,
       required final Map<String, ArtifactPieceType> pieceTypes,
       required final List<String> possibleSubStats,
-      required final Map<String, String> pieceSetMap}) = _$ArtifactsMetaImpl;
+      required final Map<String, String> pieceSetMap,
+      required final ArtifactTagCategoriesInternal tags}) = _$ArtifactsMetaImpl;
 
   factory _ArtifactsMeta.fromJson(Map<String, dynamic> json) =
       _$ArtifactsMetaImpl.fromJson;
@@ -877,6 +940,8 @@ abstract class _ArtifactsMeta implements ArtifactsMeta {
   List<String> get possibleSubStats;
   @override
   Map<String, String> get pieceSetMap;
+  @override
+  ArtifactTagCategoriesInternal get tags;
   @override
   @JsonKey(ignore: true)
   _$$ArtifactsMetaImplCopyWith<_$ArtifactsMetaImpl> get copyWith =>
@@ -1244,5 +1309,509 @@ abstract class _ArtifactStat implements ArtifactStat {
   @override
   @JsonKey(ignore: true)
   _$$ArtifactStatImplCopyWith<_$ArtifactStatImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ArtifactTagCategoriesInternal _$ArtifactTagCategoriesInternalFromJson(
+    Map<String, dynamic> json) {
+  return _ArtifactTagCategoriesInternal.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ArtifactTagCategoriesInternal {
+  List<ArtifactTagCategory> get categories =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ArtifactTagCategoriesInternalCopyWith<ArtifactTagCategoriesInternal>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ArtifactTagCategoriesInternalCopyWith<$Res> {
+  factory $ArtifactTagCategoriesInternalCopyWith(
+          ArtifactTagCategoriesInternal value,
+          $Res Function(ArtifactTagCategoriesInternal) then) =
+      _$ArtifactTagCategoriesInternalCopyWithImpl<$Res,
+          ArtifactTagCategoriesInternal>;
+  @useResult
+  $Res call({List<ArtifactTagCategory> categories});
+}
+
+/// @nodoc
+class _$ArtifactTagCategoriesInternalCopyWithImpl<$Res,
+        $Val extends ArtifactTagCategoriesInternal>
+    implements $ArtifactTagCategoriesInternalCopyWith<$Res> {
+  _$ArtifactTagCategoriesInternalCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? categories = null,
+  }) {
+    return _then(_value.copyWith(
+      categories: null == categories
+          ? _value.categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<ArtifactTagCategory>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ArtifactTagCategoriesInternalImplCopyWith<$Res>
+    implements $ArtifactTagCategoriesInternalCopyWith<$Res> {
+  factory _$$ArtifactTagCategoriesInternalImplCopyWith(
+          _$ArtifactTagCategoriesInternalImpl value,
+          $Res Function(_$ArtifactTagCategoriesInternalImpl) then) =
+      __$$ArtifactTagCategoriesInternalImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<ArtifactTagCategory> categories});
+}
+
+/// @nodoc
+class __$$ArtifactTagCategoriesInternalImplCopyWithImpl<$Res>
+    extends _$ArtifactTagCategoriesInternalCopyWithImpl<$Res,
+        _$ArtifactTagCategoriesInternalImpl>
+    implements _$$ArtifactTagCategoriesInternalImplCopyWith<$Res> {
+  __$$ArtifactTagCategoriesInternalImplCopyWithImpl(
+      _$ArtifactTagCategoriesInternalImpl _value,
+      $Res Function(_$ArtifactTagCategoriesInternalImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? categories = null,
+  }) {
+    return _then(_$ArtifactTagCategoriesInternalImpl(
+      categories: null == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<ArtifactTagCategory>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ArtifactTagCategoriesInternalImpl
+    implements _ArtifactTagCategoriesInternal {
+  const _$ArtifactTagCategoriesInternalImpl(
+      {required final List<ArtifactTagCategory> categories})
+      : _categories = categories;
+
+  factory _$ArtifactTagCategoriesInternalImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ArtifactTagCategoriesInternalImplFromJson(json);
+
+  final List<ArtifactTagCategory> _categories;
+  @override
+  List<ArtifactTagCategory> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
+  @override
+  String toString() {
+    return 'ArtifactTagCategoriesInternal(categories: $categories)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ArtifactTagCategoriesInternalImpl &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_categories));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ArtifactTagCategoriesInternalImplCopyWith<
+          _$ArtifactTagCategoriesInternalImpl>
+      get copyWith => __$$ArtifactTagCategoriesInternalImplCopyWithImpl<
+          _$ArtifactTagCategoriesInternalImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ArtifactTagCategoriesInternalImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ArtifactTagCategoriesInternal
+    implements ArtifactTagCategoriesInternal {
+  const factory _ArtifactTagCategoriesInternal(
+          {required final List<ArtifactTagCategory> categories}) =
+      _$ArtifactTagCategoriesInternalImpl;
+
+  factory _ArtifactTagCategoriesInternal.fromJson(Map<String, dynamic> json) =
+      _$ArtifactTagCategoriesInternalImpl.fromJson;
+
+  @override
+  List<ArtifactTagCategory> get categories;
+  @override
+  @JsonKey(ignore: true)
+  _$$ArtifactTagCategoriesInternalImplCopyWith<
+          _$ArtifactTagCategoriesInternalImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ArtifactTagCategory _$ArtifactTagCategoryFromJson(Map<String, dynamic> json) {
+  return _ArtifactTagCategory.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ArtifactTagCategory {
+  LocalizedText get desc => throw _privateConstructorUsedError;
+  List<ArtifactTag> get items => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ArtifactTagCategoryCopyWith<ArtifactTagCategory> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ArtifactTagCategoryCopyWith<$Res> {
+  factory $ArtifactTagCategoryCopyWith(
+          ArtifactTagCategory value, $Res Function(ArtifactTagCategory) then) =
+      _$ArtifactTagCategoryCopyWithImpl<$Res, ArtifactTagCategory>;
+  @useResult
+  $Res call({LocalizedText desc, List<ArtifactTag> items});
+
+  $LocalizedTextCopyWith<$Res> get desc;
+}
+
+/// @nodoc
+class _$ArtifactTagCategoryCopyWithImpl<$Res, $Val extends ArtifactTagCategory>
+    implements $ArtifactTagCategoryCopyWith<$Res> {
+  _$ArtifactTagCategoryCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? desc = null,
+    Object? items = null,
+  }) {
+    return _then(_value.copyWith(
+      desc: null == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
+              as LocalizedText,
+      items: null == items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<ArtifactTag>,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocalizedTextCopyWith<$Res> get desc {
+    return $LocalizedTextCopyWith<$Res>(_value.desc, (value) {
+      return _then(_value.copyWith(desc: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ArtifactTagCategoryImplCopyWith<$Res>
+    implements $ArtifactTagCategoryCopyWith<$Res> {
+  factory _$$ArtifactTagCategoryImplCopyWith(_$ArtifactTagCategoryImpl value,
+          $Res Function(_$ArtifactTagCategoryImpl) then) =
+      __$$ArtifactTagCategoryImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({LocalizedText desc, List<ArtifactTag> items});
+
+  @override
+  $LocalizedTextCopyWith<$Res> get desc;
+}
+
+/// @nodoc
+class __$$ArtifactTagCategoryImplCopyWithImpl<$Res>
+    extends _$ArtifactTagCategoryCopyWithImpl<$Res, _$ArtifactTagCategoryImpl>
+    implements _$$ArtifactTagCategoryImplCopyWith<$Res> {
+  __$$ArtifactTagCategoryImplCopyWithImpl(_$ArtifactTagCategoryImpl _value,
+      $Res Function(_$ArtifactTagCategoryImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? desc = null,
+    Object? items = null,
+  }) {
+    return _then(_$ArtifactTagCategoryImpl(
+      desc: null == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
+              as LocalizedText,
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<ArtifactTag>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ArtifactTagCategoryImpl implements _ArtifactTagCategory {
+  const _$ArtifactTagCategoryImpl(
+      {required this.desc, required final List<ArtifactTag> items})
+      : _items = items;
+
+  factory _$ArtifactTagCategoryImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtifactTagCategoryImplFromJson(json);
+
+  @override
+  final LocalizedText desc;
+  final List<ArtifactTag> _items;
+  @override
+  List<ArtifactTag> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  @override
+  String toString() {
+    return 'ArtifactTagCategory(desc: $desc, items: $items)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ArtifactTagCategoryImpl &&
+            (identical(other.desc, desc) || other.desc == desc) &&
+            const DeepCollectionEquality().equals(other._items, _items));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, desc, const DeepCollectionEquality().hash(_items));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ArtifactTagCategoryImplCopyWith<_$ArtifactTagCategoryImpl> get copyWith =>
+      __$$ArtifactTagCategoryImplCopyWithImpl<_$ArtifactTagCategoryImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ArtifactTagCategoryImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ArtifactTagCategory implements ArtifactTagCategory {
+  const factory _ArtifactTagCategory(
+      {required final LocalizedText desc,
+      required final List<ArtifactTag> items}) = _$ArtifactTagCategoryImpl;
+
+  factory _ArtifactTagCategory.fromJson(Map<String, dynamic> json) =
+      _$ArtifactTagCategoryImpl.fromJson;
+
+  @override
+  LocalizedText get desc;
+  @override
+  List<ArtifactTag> get items;
+  @override
+  @JsonKey(ignore: true)
+  _$$ArtifactTagCategoryImplCopyWith<_$ArtifactTagCategoryImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ArtifactTag _$ArtifactTagFromJson(Map<String, dynamic> json) {
+  return _ArtifactTag.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ArtifactTag {
+  String get id => throw _privateConstructorUsedError;
+  LocalizedText get desc => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ArtifactTagCopyWith<ArtifactTag> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ArtifactTagCopyWith<$Res> {
+  factory $ArtifactTagCopyWith(
+          ArtifactTag value, $Res Function(ArtifactTag) then) =
+      _$ArtifactTagCopyWithImpl<$Res, ArtifactTag>;
+  @useResult
+  $Res call({String id, LocalizedText desc});
+
+  $LocalizedTextCopyWith<$Res> get desc;
+}
+
+/// @nodoc
+class _$ArtifactTagCopyWithImpl<$Res, $Val extends ArtifactTag>
+    implements $ArtifactTagCopyWith<$Res> {
+  _$ArtifactTagCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? desc = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      desc: null == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
+              as LocalizedText,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocalizedTextCopyWith<$Res> get desc {
+    return $LocalizedTextCopyWith<$Res>(_value.desc, (value) {
+      return _then(_value.copyWith(desc: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ArtifactTagImplCopyWith<$Res>
+    implements $ArtifactTagCopyWith<$Res> {
+  factory _$$ArtifactTagImplCopyWith(
+          _$ArtifactTagImpl value, $Res Function(_$ArtifactTagImpl) then) =
+      __$$ArtifactTagImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, LocalizedText desc});
+
+  @override
+  $LocalizedTextCopyWith<$Res> get desc;
+}
+
+/// @nodoc
+class __$$ArtifactTagImplCopyWithImpl<$Res>
+    extends _$ArtifactTagCopyWithImpl<$Res, _$ArtifactTagImpl>
+    implements _$$ArtifactTagImplCopyWith<$Res> {
+  __$$ArtifactTagImplCopyWithImpl(
+      _$ArtifactTagImpl _value, $Res Function(_$ArtifactTagImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? desc = null,
+  }) {
+    return _then(_$ArtifactTagImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      desc: null == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
+              as LocalizedText,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ArtifactTagImpl implements _ArtifactTag {
+  const _$ArtifactTagImpl({required this.id, required this.desc});
+
+  factory _$ArtifactTagImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtifactTagImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final LocalizedText desc;
+
+  @override
+  String toString() {
+    return 'ArtifactTag(id: $id, desc: $desc)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ArtifactTagImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.desc, desc) || other.desc == desc));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, desc);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ArtifactTagImplCopyWith<_$ArtifactTagImpl> get copyWith =>
+      __$$ArtifactTagImplCopyWithImpl<_$ArtifactTagImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ArtifactTagImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ArtifactTag implements ArtifactTag {
+  const factory _ArtifactTag(
+      {required final String id,
+      required final LocalizedText desc}) = _$ArtifactTagImpl;
+
+  factory _ArtifactTag.fromJson(Map<String, dynamic> json) =
+      _$ArtifactTagImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  LocalizedText get desc;
+  @override
+  @JsonKey(ignore: true)
+  _$$ArtifactTagImplCopyWith<_$ArtifactTagImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

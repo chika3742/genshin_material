@@ -3,8 +3,8 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../models/common.dart";
 
-part "character_filter_state.freezed.dart";
-part "character_filter_state.g.dart";
+part "filter_state.freezed.dart";
+part "filter_state.g.dart";
 
 @riverpod
 class CharacterFilterStateNotifier extends _$CharacterFilterStateNotifier {
@@ -41,4 +41,32 @@ class CharacterFilterState with _$CharacterFilterState {
   }) = _CharacterFilterState;
 
   bool get isFiltering => rarity != null || element != null || weaponType != null;
+}
+
+@riverpod
+class ArtifactFilterStateNotifier extends _$ArtifactFilterStateNotifier {
+  @override
+  ArtifactFilterState build() {
+    return const ArtifactFilterState();
+  }
+
+  void addTag(String tag) {
+    state = state.copyWith(tags: [...state.tags, tag]);
+  }
+
+  void removeTag(String tag) {
+    state = state.copyWith(tags: state.tags.where((t) => t != tag).toList());
+  }
+
+  void clear() {
+    state = const ArtifactFilterState();
+  }
+}
+
+@freezed
+class ArtifactFilterState with _$ArtifactFilterState {
+  const factory ArtifactFilterState({
+    @Default([])
+    List<String> tags,
+  }) = _ArtifactFilterState;
 }
