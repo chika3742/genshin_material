@@ -1,4 +1,3 @@
-
 import "dart:math";
 
 import "package:flutter/material.dart";
@@ -6,6 +5,7 @@ import "package:flutter_hooks/flutter_hooks.dart";
 
 import "layout.dart";
 import "list_subheader.dart";
+import "scroll_blur_effect.dart";
 
 class FilterBottomSheet extends HookWidget {
   final List<Widget> categories;
@@ -49,15 +49,19 @@ class FilterBottomSheet extends HookWidget {
           expand: false,
           snap: true,
           builder: (context, scrollController) {
-            return SingleChildScrollView(
-              controller: scrollController,
-              child: Padding(
-                key: contentKey,
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-                child: GappedColumn(
-                  gap: 16,
-                  mainAxisSize: MainAxisSize.min,
-                  children: categories,
+            return ScrollBlurEffect(
+              scrollController: scrollController,
+              child: SingleChildScrollView(
+                controller: scrollController,
+                physics: maxChildSize != currentMaxChildSize.value ? const NeverScrollableScrollPhysics() : null,
+                child: Padding(
+                  key: contentKey,
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+                  child: GappedColumn(
+                    gap: 16,
+                    mainAxisSize: MainAxisSize.min,
+                    children: categories,
+                  ),
                 ),
               ),
             );
