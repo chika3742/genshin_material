@@ -4,7 +4,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/data_asset_scope.dart";
 import "../../../components/layout.dart";
-import "../../../core/theme.dart";
+import "../../../components/list_tile.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../routes.dart";
 
@@ -67,40 +67,13 @@ class ArtifactListPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final set = sets.values.elementAt(index);
 
-                      return InkWell(
+                      return GameItemListTile(
+                        image: set.consistsOf.values.first.getImageFile(assetDir),
+                        name: set.name.localized,
+                        rarity: set.maxRarity,
                         onTap: () {
                           ArtifactDetailsRoute(id: set.id).push(context);
                         },
-                        child: Container(
-                          height: 64,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Theme.of(context).extension<ComponentThemeExtension>()!.getRarityColor(set.maxRarity).withOpacity(0.4),
-                                Theme.of(context).extension<ComponentThemeExtension>()!.getRarityColor(set.maxRarity).withOpacity(0.4),
-                                Theme.of(context).colorScheme.background.withOpacity(0),
-                                Theme.of(context).colorScheme.background.withOpacity(0),
-                              ],
-                              stops: const [0.0, 0.05, 0.15, 1.0],
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                            child: Row(
-                              children: [
-                                Image.file(
-                                  set.consistsOf.values.first.getImageFile(assetDir),
-                                  width: 56,
-                                  height: 56,
-                                ),
-                                const SizedBox(width: 16),
-                                Text(set.name.localized, style: Theme.of(context).textTheme.titleMedium),
-                                const Spacer(),
-                                const Icon(Symbols.chevron_right),
-                              ],
-                            ),
-                          ),
-                        ),
                       );
                     },
                   ),
