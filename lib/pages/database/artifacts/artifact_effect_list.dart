@@ -54,6 +54,13 @@ class ArtifactEffectListPage extends HookConsumerWidget {
                               _showFilterBottomSheet(context);
                             },
                           ),
+                          FilterChipWithIcon(
+                            leading: const Icon(Symbols.clear),
+                            label: Text(tr.common.clear),
+                            onSelected: filterState.tags.isNotEmpty ? (_) {
+                              ref.read(artifactFilterStateNotifierProvider.notifier).clear();
+                            } : null,
+                          ),
                         ],
                       ),
                     ),
@@ -123,17 +130,6 @@ class _ArtifactEffectFilterBottomSheet extends ConsumerWidget {
       builder: (assetData, assetDir) {
         return FilterBottomSheet(
           categories: [
-            const Text("※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、複数選択時の扱いは「かつ(AND)」です。"),
-            Align(
-              alignment: Alignment.centerRight,
-              child: OutlinedButton.icon(
-                icon: const Icon(Symbols.clear),
-                label: const Text("Clear"),
-                onPressed: () {
-                  ref.read(artifactFilterStateNotifierProvider.notifier).clear();
-                },
-              ),
-            ),
             for (final cat in assetData.artifactTags)
               FilteringCategory(
                 labelText: cat.desc.localized,
@@ -153,6 +149,7 @@ class _ArtifactEffectFilterBottomSheet extends ConsumerWidget {
                     ),
                 ],
               ),
+            Text(tr.artifactsPage.effectFilteringNote),
           ],
         );
       },

@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 298 (149 per locale)
+/// Strings: 299 (149 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -340,6 +340,7 @@ class _StringsArtifactsPageJa {
 	};
 	String get effectList => 'セット効果リスト';
 	String get kindOfEffect => '効果の種類';
+	String get effectFilteringNote => '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。';
 }
 
 // Path: artifactDetailsPage
@@ -961,6 +962,7 @@ extension on Translations {
 			case 'artifactsPage.bonusTypes.4-pc': return '4セット効果';
 			case 'artifactsPage.effectList': return 'セット効果リスト';
 			case 'artifactsPage.kindOfEffect': return '効果の種類';
+			case 'artifactsPage.effectFilteringNote': return '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。';
 			case 'artifactDetailsPage.maxRarity': return '最高レアリティ';
 			case 'artifactDetailsPage.bookmarkSet': return 'セットをブックマーク';
 			case 'artifactDetailsPage.bookmarkPiece': return '部位ごとにブックマーク';

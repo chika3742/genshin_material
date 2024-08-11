@@ -81,6 +81,7 @@ artifactsPage:
     4-pc: 4セット効果
   effectList: セット効果リスト
   kindOfEffect: 効果の種類
+  effectFilteringNote: ※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。
 artifactDetailsPage:
   maxRarity: 最高レアリティ
   bookmarkSet: セットをブックマーク
