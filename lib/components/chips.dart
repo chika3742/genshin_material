@@ -25,7 +25,7 @@ class FilterChipWithIcon extends StatelessWidget {
         children: [
           if (leading != null) ...[
             IconTheme(
-              data: const IconThemeData(size: 18),
+              data: Theme.of(context).iconTheme.copyWith(size: 18),
               child: leading!,
             ),
             const SizedBox(width: 8),
@@ -34,7 +34,7 @@ class FilterChipWithIcon extends StatelessWidget {
           if (trailing != null) ...[
             const SizedBox(width: 8),
             IconTheme(
-              data: const IconThemeData(size: 18),
+              data: Theme.of(context).iconTheme.copyWith(size: 18),
               child: trailing!,
             ),
           ],
