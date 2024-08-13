@@ -84,6 +84,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
         },
         child: screenState.value == _ScreenState.secondSetChooser
             ? SecondArtifactChooserScreen(
+                key: const PageStorageKey(0),
                 assetData: assetData,
                 assetDir: assetDir,
                 excludedSetId: firstSetId,
