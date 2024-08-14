@@ -8,7 +8,6 @@ import "../../../components/data_asset_scope.dart";
 import "../../../components/effect_description.dart";
 import "../../../components/filter_bottom_sheet.dart";
 import "../../../components/layout.dart";
-import "../../../components/list_subheader.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../providers/filter_state.dart";
 
@@ -84,7 +83,15 @@ class ArtifactEffectListPage extends HookConsumerWidget {
                                   ],
                                 ),
                                 for (final bonus in set.bonuses) ...[
-                                  ListSubheader(tr.artifactsPage.bonusTypes[bonus.type]!, padding: const EdgeInsets.only(top: 8.0)),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                                    child: Text(
+                                      tr.artifactsPage.bonusTypes[bonus.type]!,
+                                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                        color: Theme.of(context).colorScheme.secondary,
+                                      ),
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: EffectDescription(bonus.description.localized),
