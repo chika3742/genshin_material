@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 299 (149 per locale)
+/// Strings: 300 (150 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -224,6 +224,7 @@ class _StringsCommonJa {
 	String get next => '次へ';
 	String get change => '変更';
 	String get pleaseSelect => '選択してください';
+	String get bookmarkSaved => 'ブックマークしました';
 }
 
 // Path: updates
@@ -917,6 +918,7 @@ extension on Translations {
 			case 'common.next': return '次へ';
 			case 'common.change': return '変更';
 			case 'common.pleaseSelect': return '選択してください';
+			case 'common.bookmarkSaved': return 'ブックマークしました';
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';

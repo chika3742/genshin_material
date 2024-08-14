@@ -1,20 +1,27 @@
 import "package:animations/animations.dart";
+import "package:drift/drift.dart" show Value;
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../core/asset_cache.dart";
+import "../database.dart";
 import "../i18n/strings.g.dart";
 import "../models/artifact.dart";
 import "../models/character.dart";
 import "../models/common.dart";
+import "../providers/database_provider.dart";
 import "../providers/versions.dart";
 import "../ui_core/page_transition.dart";
+import "../ui_core/snack_bar.dart";
 import "character_select_dropdown.dart";
 import "labeled_check_box.dart";
 import "layout.dart";
 import "list_subheader.dart";
 import "style_parsed_text.dart";
+
+part "artifact_bookmark_dialog.freezed.dart";
 
 class ArtifactBookmarkDialog extends HookConsumerWidget {
   final ArtifactSetId? firstSetId;
@@ -36,11 +43,11 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
 
     final characters = useMemoized(() => assetData.characters.values.whereType<CharacterOrVariant>().toList());
 
-    final characterToEquip = useState<CharacterId?>(null);
-    final mainStats = useState<Map<ArtifactPieceTypeId, ArtifactStatId?>>({});
-    final subStats = useState<List<ArtifactStatId>>([]);
+    final state = useState(ArtifactBookmarkDialogState(
+      firstSetId: firstSetId,
+      pieceId: pieceId,
+    ),);
     final screenState = useState<_ScreenState>(showSecondSetChooser ? _ScreenState.secondSetChooser : _ScreenState.artifactDetails);
-    final secondSetId = useState<ArtifactSetId?>(null);
     final characterDropdownError = useState<String?>(null);
 
     return Scaffold(
@@ -51,20 +58,26 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
         actions: [
           if (screenState.value == _ScreenState.secondSetChooser)
             TextButton(
-              onPressed: secondSetId.value != null ? () {
+              onPressed: state.value.secondSetId != null ? () {
                 screenState.value = _ScreenState.artifactDetails;
               } : null,
               child: Text(tr.common.next),
-            ),
-          if (screenState.value == _ScreenState.artifactDetails)
+            )
+          else if (screenState.value == _ScreenState.artifactDetails)
             GestureDetector(
               onTap: () {
-                if (characterToEquip.value == null) {
+                if (state.value.characterId == null) {
                   characterDropdownError.value = tr.common.pleaseSelect;
                 }
               },
               child: TextButton(
-                onPressed: characterToEquip.value != null ? _saveBookmark : null,
+                onPressed: state.value.characterId != null ? () async {
+                  await _saveBookmark(ref, state.value);
+                  if (context.mounted) {
+                    showSnackBar(context: context, message: tr.common.bookmarkSaved);
+                    Navigator.pop(context);
+                  }
+                } : null,
                 child: Text(tr.common.save),
               ),
             ),
@@ -88,9 +101,9 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                 assetData: assetData,
                 assetDir: assetDir,
                 excludedSetId: firstSetId,
-                selectedSetId: secondSetId.value,
+                selectedSetId: state.value.secondSetId,
                 onSetSelected: (setId) {
-                  secondSetId.value = setId;
+                  state.value = state.value.copyWith(secondSetId: setId);
                 },
               )
             : SingleChildScrollView(
@@ -102,15 +115,15 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                           assetData.artifactSets[firstSetId]!.consistsOf.values.first.getImageFile(assetDir),
                           width: 36,
                         ),
-                        title: Text("${assetData.artifactSets[firstSetId]!.name.localized} (${tr.artifactDetailsPage.nSet(n: secondSetId.value != null ? "2" : "4")})"),
+                        title: Text("${assetData.artifactSets[firstSetId]!.name.localized} (${tr.artifactDetailsPage.nSet(n: state.value.secondSetId != null ? "2" : "4")})"),
                       ),
-                    if (secondSetId.value != null)
+                    if (state.value.secondSetId != null)
                       ListTile(
                         leading: Image.file(
-                          assetData.artifactSets[secondSetId.value]!.consistsOf.values.first.getImageFile(assetDir),
+                          assetData.artifactSets[state.value.secondSetId]!.consistsOf.values.first.getImageFile(assetDir),
                           width: 36,
                         ),
-                        title: Text("${assetData.artifactSets[secondSetId.value]!.name.localized} (${tr.artifactDetailsPage.nSet(n: "2")})"),
+                        title: Text("${assetData.artifactSets[state.value.secondSetId]!.name.localized} (${tr.artifactDetailsPage.nSet(n: "2")})"),
                         trailing: TextButton(
                           onPressed: () {
                             screenState.value = _ScreenState.secondSetChooser;
@@ -135,9 +148,11 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                           CharacterSelectDropdown(
                             label: tr.artifactDetailsPage.characterToEquip,
                             characters: characters,
-                            value: characterToEquip.value,
+                            value: state.value.characterId,
                             onChanged: (value) {
-                              characterToEquip.value = value;
+                              state.value = state.value.copyWith(
+                                characterId: value,
+                              );
                               characterDropdownError.value = null;
                             },
                             errorText: characterDropdownError.value,
@@ -159,28 +174,17 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                                       spacing: 8.0,
                                       runSpacing: 4.0,
                                       children: [
-                                        LabeledRadio(
-                                          label: Text(tr.artifactDetailsPage.unspecified),
-                                          value: null,
-                                          groupValue: mainStats.value[pieceType.id],
-                                          activeColor: Theme.of(context).colorScheme.secondary,
-                                          onChanged: (value) {
-                                            mainStats.value = {
-                                              ...mainStats.value,
-                                              pieceType.id: value,
-                                            };
-                                          },
-                                        ),
-                                        for (final stat in pieceType.possibleMainStats)
+                                        for (final stat in [null, ...pieceType.possibleMainStats])
                                           LabeledRadio(
-                                            label: Text((assetData.artifactStats[stat]?.localized).toString()),
+                                            label: Text(stat != null
+                                                ? (assetData.artifactStats[stat]?.localized).toString()
+                                                : tr.artifactDetailsPage.unspecified,),
                                             value: stat,
-                                            groupValue: mainStats.value[pieceType.id],
+                                            groupValue: state.value.mainStats[pieceType.id],
                                             onChanged: (value) {
-                                              mainStats.value = {
-                                                ...mainStats.value,
-                                                pieceType.id: value,
-                                              };
+                                              state.value = state.value.copyWith(
+                                                mainStats: {...state.value.mainStats}..[pieceType.id] = value,
+                                              );
                                             },
                                           ),
                                       ],
@@ -200,12 +204,16 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                             children: [
                               for (final stat in assetData.artifactPossibleSubStats)
                                 LabeledCheckBox(
-                                  value: subStats.value.contains(stat),
+                                  value: state.value.subStats.contains(stat),
                                   onChanged: (value) {
                                     if (value == true) {
-                                      subStats.value = [...subStats.value, stat];
+                                      state.value = state.value.copyWith(
+                                        subStats: [...state.value.subStats, stat],
+                                      );
                                     } else {
-                                      subStats.value = [...subStats.value..remove(stat)];
+                                      state.value = state.value.copyWith(
+                                        subStats: [...state.value.subStats]..remove(stat),
+                                      );
                                     }
                                   },
                                   child: Text((assetData.artifactStats[stat]?.localized).toString()),
@@ -230,8 +238,21 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
     }
   }
 
-  void _saveBookmark() {
-    // TODO
+  Future<void> _saveBookmark(WidgetRef ref, ArtifactBookmarkDialogState state) async {
+    if (state.characterId == null) {
+      return;
+    }
+    final db = ref.read(appDatabaseProvider);
+    await db.addArtifactBookmark(
+      ArtifactBookmarkCompanion.insert(
+        characterId: state.characterId!,
+        setId1: Value.absentIfNull(state.firstSetId),
+        setId2: Value.absentIfNull(state.secondSetId),
+        pieceId: Value.absentIfNull(state.pieceId),
+        mainStatIds: state.mainStats,
+        subStatIds: state.subStats,
+      ),
+    );
   }
 }
 
@@ -321,4 +342,16 @@ Future<void> showArtifactBookmarkDialog({
       fullscreenDialog: true,
     ),
   );
+}
+
+@freezed
+class ArtifactBookmarkDialogState with _$ArtifactBookmarkDialogState {
+  const factory ArtifactBookmarkDialogState({
+    CharacterId? characterId,
+    ArtifactSetId? firstSetId,
+    ArtifactSetId? secondSetId,
+    ArtifactPieceId? pieceId,
+    @Default({}) Map<ArtifactPieceTypeId, ArtifactStatId?> mainStats,
+    @Default([]) List<ArtifactStatId> subStats,
+  }) = _ArtifactBookmarkDialogState;
 }

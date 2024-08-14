@@ -26,6 +26,7 @@ common:
   next: 次へ
   change: 変更
   pleaseSelect: 選択してください
+  bookmarkSaved: ブックマークしました
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル
