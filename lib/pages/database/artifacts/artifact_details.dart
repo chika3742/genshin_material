@@ -72,28 +72,30 @@ class ArtifactDetailsPage extends StatelessWidget {
 
                 const Divider(),
 
-                SectionHeading(tr.artifactDetailsPage.bookmarkSet),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    showArtifactBookmarkDialog(
-                      context: context,
-                      firstSetId: artifactSet.id,
-                      showSecondSetChooser: true,
-                    );
-                  },
-                  icon: const Icon(Icons.bookmarks),
-                  label: Text(tr.artifactDetailsPage.bookmarkTwoAndTwoPcSet),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    showArtifactBookmarkDialog(
-                      context: context,
-                      firstSetId: artifactSet.id,
-                    );
-                  },
-                  icon: const Icon(Icons.bookmark),
-                  label: Text(tr.artifactDetailsPage.bookmarkFourPcSet),
-                ),
+                if (artifactSet.bonuses.length >= 2) ...[
+                  SectionHeading(tr.artifactDetailsPage.bookmarkSet),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      showArtifactBookmarkDialog(
+                        context: context,
+                        firstSetId: artifactSet.id,
+                        showSecondSetChooser: true,
+                      );
+                    },
+                    icon: const Icon(Icons.bookmarks),
+                    label: Text(tr.artifactDetailsPage.bookmarkTwoAndTwoPcSet),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      showArtifactBookmarkDialog(
+                        context: context,
+                        firstSetId: artifactSet.id,
+                      );
+                    },
+                    icon: const Icon(Icons.bookmark),
+                    label: Text(tr.artifactDetailsPage.bookmarkFourPcSet),
+                  ),
+                ],
 
                 const SizedBox(), // add 8px gap
                 SectionHeading(tr.artifactDetailsPage.bookmarkPiece),
