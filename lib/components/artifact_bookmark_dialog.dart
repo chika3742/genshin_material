@@ -201,7 +201,6 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                               for (final stat in assetData.artifactPossibleSubStats)
                                 LabeledCheckBox(
                                   value: subStats.value.contains(stat),
-                                  expandChild: false,
                                   onChanged: (value) {
                                     if (value == true) {
                                       subStats.value = [...subStats.value, stat];
