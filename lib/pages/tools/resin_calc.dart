@@ -59,7 +59,7 @@ class ResinCalcPage extends HookConsumerWidget {
     }
 
     useEffect(() {
-      if (prefs.syncResin) {
+      if (prefs.syncResin && prefs.isLinkedWithHoyolab) {
         syncResin();
       }
       return null;
