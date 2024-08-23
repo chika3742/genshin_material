@@ -23,3 +23,20 @@ Page buildTransitionedPage({
     )
   };
 }
+
+Route<T> adaptiveRoute<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  bool fullscreenDialog = false,
+}) {
+  return switch (Theme.of(context).platform) {
+    TargetPlatform.iOS || TargetPlatform.macOS => CupertinoPageRoute<T>(
+      builder: builder,
+      fullscreenDialog: fullscreenDialog,
+    ),
+    _ => MaterialPageRoute<T>(
+      builder: builder,
+      fullscreenDialog: fullscreenDialog,
+    ),
+  };
+}

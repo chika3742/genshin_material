@@ -1,15 +1,15 @@
-import "package:assorted_layout_widgets/assorted_layout_widgets.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/character_list_item.dart";
+import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
+import "../../../components/filter_bottom_sheet.dart";
 import "../../../components/layout.dart";
-import "../../../components/list_subheader.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
-import "../../../providers/character_filter_state.dart";
+import "../../../providers/filter_state.dart";
 
 class CharacterListPage extends ConsumerWidget {
   const CharacterListPage({super.key});
@@ -47,56 +47,33 @@ class CharacterListPage extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: GappedRow(
                         children: [
-                          FilterChip( // rarity
+                          FilterChipWithMenu( // rarity
                             selected: filterState.rarity != null,
-                            label: Row(
-                              children: [
-                                Text(tr.common.rarity),
-                                const SizedBox(width: 8),
-                                const Icon(Symbols.arrow_drop_down),
-                              ],
-                            ),
+                            label: Text(tr.common.rarity),
                             onSelected: (_) {
                               _showFilterBottomSheet(context);
                             },
                           ),
 
-                          FilterChip( // element
+                          FilterChipWithMenu( // element
                             selected: filterState.element != null,
-                            label: Row(
-                              children: [
-                                Text(tr.common.element),
-                                const SizedBox(width: 8),
-                                const Icon(Symbols.arrow_drop_down),
-                              ],
-                            ),
+                            label: Text(tr.common.element),
                             onSelected: (_) {
                               _showFilterBottomSheet(context);
                             },
                           ),
 
-                          FilterChip( // weapon type
+                          FilterChipWithMenu( // weapon type
                             selected: filterState.weaponType != null,
-                            label: Row(
-                              children: [
-                                Text(tr.common.weaponType),
-                                const SizedBox(width: 8),
-                                const Icon(Symbols.arrow_drop_down),
-                              ],
-                            ),
+                            label: Text(tr.common.weaponType),
                             onSelected: (_) {
                               _showFilterBottomSheet(context);
                             },
                           ),
 
-                          FilterChip( // clear
-                            label: Row(
-                              children: [
-                                const Icon(Symbols.clear),
-                                const SizedBox(width: 8),
-                                Text(tr.common.clear),
-                              ],
-                            ),
+                          FilterChipWithIcon( // clear
+                            leading: const Icon(Symbols.clear),
+                            label: Text(tr.common.clear),
                             onSelected: filterState.isFiltering ? (_) {
                               ref.read(characterFilterStateNotifierProvider.notifier)
                                   .clear();
@@ -123,19 +100,6 @@ class CharacterListPage extends ConsumerWidget {
                   ),
                 ),
               ],
-              // child: GridView.builder(
-              //   padding: const EdgeInsets.all(16.0),
-              //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              //     maxCrossAxisExtent: 200,
-              //     mainAxisSpacing: 8.0,
-              //     crossAxisSpacing: 8.0,
-              //     childAspectRatio: 2,
-              //   ),
-              //   itemCount: characters.length,
-              //   itemBuilder: (context, index) {
-              //     return CharacterListItem(characters[index]);
-              //   },
-              // ),
             ),
           );
         },
@@ -162,80 +126,57 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DataAssetScope(
       builder: (assetData, assetDir) {
-        return SizedBox(
-          width: double.infinity,
-          child: GappedColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListSubheader(tr.common.rarity),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Wrap(
-                  spacing: 8,
-                  children: [
-                    for (final rarity in [4, 5]) FilterChip(
-                      selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.rarity == rarity)),
-                      label: RowSuper(
-                        mainAxisSize: MainAxisSize.min,
-                        innerDistance: -4,
-                        children: List.generate(rarity, (_) => const Icon(Symbols.star)),
-                      ),
-                      onSelected: (selected) {
-                        ref.read(characterFilterStateNotifierProvider.notifier)
-                            .setRarity(selected ? rarity : null);
-                      },
+        return FilterBottomSheet(
+          categories: [
+            FilteringCategory(
+              labelText: tr.common.rarity,
+              items: [
+                for (final rarity in [4, 5])
+                  FilterChipWithIcon(
+                    selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.rarity == rarity)),
+                    leading: const Icon(Symbols.star),
+                    label: Text(rarity.toString()),
+                    onSelected: (selected) {
+                      ref.read(characterFilterStateNotifierProvider.notifier)
+                          .setRarity(selected ? rarity : null);
+                    },
+                  ),
+              ],
+            ),
+            FilteringCategory(
+              labelText: tr.common.element,
+              items: [
+                for (final element in assetData.elements.entries)
+                  FilterChipWithIcon(
+                    selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.element == element.key)),
+                    leading: Image.file(
+                      element.value.getImageFile(assetDir),
+                      width: 24,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
-                  ],
-                ),
-              ),
-
-              ListSubheader(tr.common.element),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Wrap(
-                  spacing: 8,
-                  children: [
-                    for (final element in assetData.elements.entries) FilterChip(
-                      selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.element == element.key)),
-                      label: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.file(element.value.getImageFile(assetDir), width: 24, color: Theme.of(context).colorScheme.onSurface),
-                          const SizedBox(width: 8),
-                          Text(element.value.text.localized),
-                        ],
-                      ),
-                      onSelected: (selected) {
-                        ref.read(characterFilterStateNotifierProvider.notifier)
-                            .setElement(selected ? element.key : null);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-
-              ListSubheader(tr.common.weaponType),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Wrap(
-                  spacing: 8,
-                  children: [
-                    for (final weaponType in assetData.weaponTypes.entries) FilterChip(
-                      selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.weaponType == weaponType.key)),
-                      label: Text(weaponType.value.name.localized),
-                      onSelected: (selected) {
-                        ref.read(characterFilterStateNotifierProvider.notifier)
-                            .setWeaponType(selected ? weaponType.key : null);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 16),
-            ],
-          ),
+                    label: Text(element.value.text.localized),
+                    onSelected: (selected) {
+                      ref.read(characterFilterStateNotifierProvider.notifier)
+                          .setElement(selected ? element.key : null);
+                    },
+                  ),
+              ],
+            ),
+            FilteringCategory(
+              labelText: tr.common.weaponType,
+              items: [
+                for (final weaponType in assetData.weaponTypes.entries)
+                  FilterChipWithIcon(
+                    selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.weaponType == weaponType.key)),
+                    label: Text(weaponType.value.name.localized),
+                    onSelected: (selected) {
+                      ref.read(characterFilterStateNotifierProvider.notifier)
+                          .setWeaponType(selected ? weaponType.key : null);
+                    },
+                  ),
+              ],
+            ),
+          ],
         );
       },
     );

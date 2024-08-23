@@ -21,6 +21,14 @@ common:
     other: "$n ${unit(hours)}"
     one: "$n ${unit(hour)}"
   element: Element
+  schemaVersionMismatch: Cannot update assets. Please update the app.
+  rarity: Rarity
+  weaponType: Weapon Type
+  clear: Clear
+  save: Save
+  next: Next
+  change: Change
+  pleaseSelect: Please select
 talentTypes(map):
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill
@@ -28,6 +36,7 @@ talentTypes(map):
 updates:
   downloading: Downloading data updates...
   failedToLoad: "Failed to load data. Try re-downloading from 'Settings' -> 'Re-download Assets'."
+  failedToUpdate: Failed to update assets. Please try again later.
   completed: Data update completed.
   installing: Installing...
   pleaseWaitUntilComplete: Please wait until data update is complete.
@@ -85,6 +94,15 @@ artifactDetailsPage:
   bookmarkPiece: Bookmark by Piece
   bookmarkTwoAndTwoPcSet: Bookmark 2+2 Pc Set
   bookmarkFourPcSet: Bookmark 4 Pc Set
+  bookmarkArtifacts: Bookmark Artifacts
+  characterToEquip: Character to Equip
+  chooseSecondSet: Select the Second One
+  chooseSecondSetDesc: Choose the second artifact set.
+  mainStat: Main Stat
+  mainStatWithPieceType: "@:artifactDetailsPage.mainStat ($pieceType)"
+  subStats: Sub Stats
+  unspecified: Unspecified
+  nSet: $n-Pieces
 dailyPage:
   mondayAndThursday: Mon/Thu
   tuesdayAndFriday: Tue/Fri
@@ -111,7 +129,13 @@ releaseNotesPage:
   featureUpdates: Feature Updates
   assetUpdates: Asset Updates
 settingsPage:
+  display: Display
+  showItemNameOnCard: Show Item Name on Card
+  showItemNameOnCardDesc: Show the item name on the card that displays the number of uses.
   assetData: Assets
+  checkAssetUpdate: Check Asset Update
+  checkAssetUpdateDesc: Check for updates to the app's assets.
+  noUpdateAvailable: No update available.
   reDownloadAssets: Re-download Assets
   reDownloadAssetsDesc: Please try this if the assets of the app are not loading properly.
   others: Others

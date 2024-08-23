@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 264 (132 per locale)
+/// Strings: 300 (150 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -220,6 +220,11 @@ class _StringsCommonJa {
 	String get rarity => 'レアリティ';
 	String get weaponType => '武器種';
 	String get clear => 'クリア';
+	String get save => '保存';
+	String get next => '次へ';
+	String get change => '変更';
+	String get pleaseSelect => '選択してください';
+	String get bookmarkSaved => 'ブックマークしました';
 }
 
 // Path: updates
@@ -295,7 +300,7 @@ class _StringsWeaponDetailsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get characterToEquip => 'この武器を装備させるキャラクター';
+	String get characterToEquip => '武器を装備させるキャラクター';
 }
 
 // Path: materialDetailsPage
@@ -334,13 +339,9 @@ class _StringsArtifactsPageJa {
 		'2-pc': '2セット効果',
 		'4-pc': '4セット効果',
 	};
-	Map<String, String> get pieceTypes => {
-		'flower': '生の花',
-		'plume': '死の羽',
-		'sands': '時の砂',
-		'goblet': '空の杯',
-		'circlet': '理の冠',
-	};
+	String get effectList => 'セット効果リスト';
+	String get kindOfEffect => '効果の種類';
+	String get effectFilteringNote => '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。';
 }
 
 // Path: artifactDetailsPage
@@ -355,6 +356,15 @@ class _StringsArtifactDetailsPageJa {
 	String get bookmarkPiece => '部位ごとにブックマーク';
 	String get bookmarkTwoAndTwoPcSet => '2 + 2 セットをブックマーク';
 	String get bookmarkFourPcSet => '4 セットをブックマーク';
+	String get bookmarkArtifacts => '聖遺物をブックマーク';
+	String get characterToEquip => '聖遺物を装備させるキャラクター';
+	String get chooseSecondSet => '2個目のセットを選択';
+	String get chooseSecondSetDesc => '2個目の聖遺物セットを選択してください';
+	String get mainStat => 'メインステータス';
+	String mainStatWithPieceType({required Object pieceType}) => '${_root.artifactDetailsPage.mainStat} (${pieceType})';
+	String get subStats => 'サブステータス';
+	String get unspecified => '指定しない';
+	String nSet({required Object n}) => '${n}セット';
 }
 
 // Path: dailyPage
@@ -587,6 +597,14 @@ class _StringsCommonEn extends _StringsCommonJa {
 		]),
 	);
 	@override String get element => 'Element';
+	@override String get schemaVersionMismatch => 'Cannot update assets. Please update the app.';
+	@override String get rarity => 'Rarity';
+	@override String get weaponType => 'Weapon Type';
+	@override String get clear => 'Clear';
+	@override String get save => 'Save';
+	@override String get next => 'Next';
+	@override String get change => 'Change';
+	@override String get pleaseSelect => 'Please select';
 }
 
 // Path: updates
@@ -598,6 +616,7 @@ class _StringsUpdatesEn extends _StringsUpdatesJa {
 	// Translations
 	@override String get downloading => 'Downloading data updates...';
 	@override String get failedToLoad => 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
+	@override String get failedToUpdate => 'Failed to update assets. Please try again later.';
 	@override String get completed => 'Data update completed.';
 	@override String get installing => 'Installing...';
 	@override String get pleaseWaitUntilComplete => 'Please wait until data update is complete.';
@@ -721,6 +740,15 @@ class _StringsArtifactDetailsPageEn extends _StringsArtifactDetailsPageJa {
 	@override String get bookmarkPiece => 'Bookmark by Piece';
 	@override String get bookmarkTwoAndTwoPcSet => 'Bookmark 2+2 Pc Set';
 	@override String get bookmarkFourPcSet => 'Bookmark 4 Pc Set';
+	@override String get bookmarkArtifacts => 'Bookmark Artifacts';
+	@override String get characterToEquip => 'Character to Equip';
+	@override String get chooseSecondSet => 'Select the Second One';
+	@override String get chooseSecondSetDesc => 'Choose the second artifact set.';
+	@override String get mainStat => 'Main Stat';
+	@override String mainStatWithPieceType({required Object pieceType}) => '${_root.artifactDetailsPage.mainStat} (${pieceType})';
+	@override String get subStats => 'Sub Stats';
+	@override String get unspecified => 'Unspecified';
+	@override String nSet({required Object n}) => '${n}-Pieces';
 }
 
 // Path: dailyPage
@@ -785,7 +813,13 @@ class _StringsSettingsPageEn extends _StringsSettingsPageJa {
 	@override final _StringsEn _root; // ignore: unused_field
 
 	// Translations
+	@override String get display => 'Display';
+	@override String get showItemNameOnCard => 'Show Item Name on Card';
+	@override String get showItemNameOnCardDesc => 'Show the item name on the card that displays the number of uses.';
 	@override String get assetData => 'Assets';
+	@override String get checkAssetUpdate => 'Check Asset Update';
+	@override String get checkAssetUpdateDesc => 'Check for updates to the app\'s assets.';
+	@override String get noUpdateAvailable => 'No update available.';
 	@override String get reDownloadAssets => 'Re-download Assets';
 	@override String get reDownloadAssetsDesc => 'Please try this if the assets of the app are not loading properly.';
 	@override String get others => 'Others';
@@ -880,6 +914,11 @@ extension on Translations {
 			case 'common.rarity': return 'レアリティ';
 			case 'common.weaponType': return '武器種';
 			case 'common.clear': return 'クリア';
+			case 'common.save': return '保存';
+			case 'common.next': return '次へ';
+			case 'common.change': return '変更';
+			case 'common.pleaseSelect': return '選択してください';
+			case 'common.bookmarkSaved': return 'ブックマークしました';
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';
@@ -913,7 +952,7 @@ extension on Translations {
 			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB連携設定';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
-			case 'weaponDetailsPage.characterToEquip': return 'この武器を装備させるキャラクター';
+			case 'weaponDetailsPage.characterToEquip': return '武器を装備させるキャラクター';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
 			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
 			case 'materialCard.reBookmark': return '現在の範囲で再ブックマーク';
@@ -923,16 +962,23 @@ extension on Translations {
 			case 'artifactsPage.bonusTypes.1-pc': return '1セット効果';
 			case 'artifactsPage.bonusTypes.2-pc': return '2セット効果';
 			case 'artifactsPage.bonusTypes.4-pc': return '4セット効果';
-			case 'artifactsPage.pieceTypes.flower': return '生の花';
-			case 'artifactsPage.pieceTypes.plume': return '死の羽';
-			case 'artifactsPage.pieceTypes.sands': return '時の砂';
-			case 'artifactsPage.pieceTypes.goblet': return '空の杯';
-			case 'artifactsPage.pieceTypes.circlet': return '理の冠';
+			case 'artifactsPage.effectList': return 'セット効果リスト';
+			case 'artifactsPage.kindOfEffect': return '効果の種類';
+			case 'artifactsPage.effectFilteringNote': return '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。';
 			case 'artifactDetailsPage.maxRarity': return '最高レアリティ';
 			case 'artifactDetailsPage.bookmarkSet': return 'セットをブックマーク';
 			case 'artifactDetailsPage.bookmarkPiece': return '部位ごとにブックマーク';
 			case 'artifactDetailsPage.bookmarkTwoAndTwoPcSet': return '2 + 2 セットをブックマーク';
 			case 'artifactDetailsPage.bookmarkFourPcSet': return '4 セットをブックマーク';
+			case 'artifactDetailsPage.bookmarkArtifacts': return '聖遺物をブックマーク';
+			case 'artifactDetailsPage.characterToEquip': return '聖遺物を装備させるキャラクター';
+			case 'artifactDetailsPage.chooseSecondSet': return '2個目のセットを選択';
+			case 'artifactDetailsPage.chooseSecondSetDesc': return '2個目の聖遺物セットを選択してください';
+			case 'artifactDetailsPage.mainStat': return 'メインステータス';
+			case 'artifactDetailsPage.mainStatWithPieceType': return ({required Object pieceType}) => '${_root.artifactDetailsPage.mainStat} (${pieceType})';
+			case 'artifactDetailsPage.subStats': return 'サブステータス';
+			case 'artifactDetailsPage.unspecified': return '指定しない';
+			case 'artifactDetailsPage.nSet': return ({required Object n}) => '${n}セット';
 			case 'dailyPage.mondayAndThursday': return '月/木';
 			case 'dailyPage.tuesdayAndFriday': return '火/金';
 			case 'dailyPage.wednesdayAndSaturday': return '水/土';
@@ -1059,11 +1105,20 @@ extension on _StringsEn {
 				]),
 			);
 			case 'common.element': return 'Element';
+			case 'common.schemaVersionMismatch': return 'Cannot update assets. Please update the app.';
+			case 'common.rarity': return 'Rarity';
+			case 'common.weaponType': return 'Weapon Type';
+			case 'common.clear': return 'Clear';
+			case 'common.save': return 'Save';
+			case 'common.next': return 'Next';
+			case 'common.change': return 'Change';
+			case 'common.pleaseSelect': return 'Please select';
 			case 'talentTypes.normalAttack': return 'Normal Attack';
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
 			case 'updates.downloading': return 'Downloading data updates...';
 			case 'updates.failedToLoad': return 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
+			case 'updates.failedToUpdate': return 'Failed to update assets. Please try again later.';
 			case 'updates.completed': return 'Data update completed.';
 			case 'updates.installing': return 'Installing...';
 			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
@@ -1111,6 +1166,15 @@ extension on _StringsEn {
 			case 'artifactDetailsPage.bookmarkPiece': return 'Bookmark by Piece';
 			case 'artifactDetailsPage.bookmarkTwoAndTwoPcSet': return 'Bookmark 2+2 Pc Set';
 			case 'artifactDetailsPage.bookmarkFourPcSet': return 'Bookmark 4 Pc Set';
+			case 'artifactDetailsPage.bookmarkArtifacts': return 'Bookmark Artifacts';
+			case 'artifactDetailsPage.characterToEquip': return 'Character to Equip';
+			case 'artifactDetailsPage.chooseSecondSet': return 'Select the Second One';
+			case 'artifactDetailsPage.chooseSecondSetDesc': return 'Choose the second artifact set.';
+			case 'artifactDetailsPage.mainStat': return 'Main Stat';
+			case 'artifactDetailsPage.mainStatWithPieceType': return ({required Object pieceType}) => '${_root.artifactDetailsPage.mainStat} (${pieceType})';
+			case 'artifactDetailsPage.subStats': return 'Sub Stats';
+			case 'artifactDetailsPage.unspecified': return 'Unspecified';
+			case 'artifactDetailsPage.nSet': return ({required Object n}) => '${n}-Pieces';
 			case 'dailyPage.mondayAndThursday': return 'Mon/Thu';
 			case 'dailyPage.tuesdayAndFriday': return 'Tue/Fri';
 			case 'dailyPage.wednesdayAndSaturday': return 'Wed/Sat';
@@ -1130,7 +1194,13 @@ extension on _StringsEn {
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'Link with HoYoLAB to sync in-game data';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
+			case 'settingsPage.display': return 'Display';
+			case 'settingsPage.showItemNameOnCard': return 'Show Item Name on Card';
+			case 'settingsPage.showItemNameOnCardDesc': return 'Show the item name on the card that displays the number of uses.';
 			case 'settingsPage.assetData': return 'Assets';
+			case 'settingsPage.checkAssetUpdate': return 'Check Asset Update';
+			case 'settingsPage.checkAssetUpdateDesc': return 'Check for updates to the app\'s assets.';
+			case 'settingsPage.noUpdateAvailable': return 'No update available.';
 			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
 			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the assets of the app are not loading properly.';
 			case 'settingsPage.others': return 'Others';

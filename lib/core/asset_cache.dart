@@ -93,6 +93,10 @@ class AssetDataCache {
         );
       }),
       artifactPieceTypes: artifactsMeta.pieceTypes,
+      artifactStats: artifactsMeta.stats,
+      artifactPossibleSubStats: artifactsMeta.possibleSubStats,
+      artifactPieceSetMap: artifactsMeta.pieceSetMap,
+      artifactTags: artifactsMeta.tags.categories,
     );
 
     return true;
@@ -129,7 +133,11 @@ class AssetData with _$AssetData {
     required Map<String, int> materialSortOrder,
     required DailyMaterials dailyMaterials,
     required Map<ArtifactSetId, ArtifactSet> artifactSets,
-    required Map<ArtifactPieceType, LocalizedText> artifactPieceTypes,
+    required Map<ArtifactPieceTypeId, ArtifactPieceType> artifactPieceTypes,
     required Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials,
+    required Map<ArtifactStatId, LocalizedText> artifactStats,
+    required List<ArtifactStatId> artifactPossibleSubStats,
+    required Map<ArtifactPieceId, ArtifactSetId> artifactPieceSetMap,
+    required List<ArtifactTagCategory> artifactTags,
   }) = _AssetData;
 }

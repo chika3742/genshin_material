@@ -10,6 +10,7 @@ import "pages/account.dart";
 import "pages/bookmarks.dart";
 import "pages/daily.dart";
 import "pages/database/artifacts/artifact_details.dart";
+import "pages/database/artifacts/artifact_effect_list.dart";
 import "pages/database/artifacts/artifact_list.dart";
 import "pages/database/characters/character_details.dart";
 import "pages/database/characters/character_list.dart";
@@ -68,6 +69,7 @@ part "routes.g.dart";
             TypedGoRoute<ArtifactListRoute>(
               path: "artifacts",
               routes: [
+                TypedGoRoute<ArtifactEffectListRoute>(path: "effects"),
                 TypedGoRoute<ArtifactDetailsRoute>(path: ":id"),
               ],
             ),
@@ -239,6 +241,17 @@ class ArtifactListRoute extends GoRouteData {
     return buildTransitionedPage(
       context: context,
       child: const ArtifactListPage(),
+    );
+  }
+}
+
+@immutable
+class ArtifactEffectListRoute extends GoRouteData {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: const ArtifactEffectListPage(),
     );
   }
 }

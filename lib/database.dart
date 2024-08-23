@@ -38,6 +38,18 @@ class CharacterLevelInfo extends Table {
   Set<Column> get primaryKey => {uid, characterId};
 }
 
+class ArtifactBookmark extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get characterId => text()();
+  TextColumn get setId1 => text().nullable()();
+  TextColumn get setId2 => text().nullable()();
+  TextColumn get pieceId => text().nullable()();
+  /// key = [ArtifactPieceTypeId]
+  TextColumn get mainStatIds => text().map(const MapConverter<String?>())();
+  TextColumn get subStatIds => text().map(const ListConverter<String>())();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
 class PurposeMapConverter extends TypeConverter<Map<Purpose, int>, String> {
   const PurposeMapConverter();
 
@@ -53,12 +65,53 @@ class PurposeMapConverter extends TypeConverter<Map<Purpose, int>, String> {
   }
 }
 
-@DriftDatabase(tables: [MaterialBookmark, CharacterLevelInfo])
+class ListConverter<T> extends TypeConverter<List<T>, String> {
+  const ListConverter();
+
+  @override
+  List<T> fromSql(String fromDb) {
+    return (jsonDecode(fromDb) as List<dynamic>).cast<T>();
+  }
+
+  @override
+  String toSql(List<T> value) {
+    return jsonEncode(value);
+  }
+}
+
+class MapConverter<T> extends TypeConverter<Map<String, T>, String> {
+  const MapConverter();
+
+  @override
+  Map<String, T> fromSql(String fromDb) {
+    return (jsonDecode(fromDb) as Map<String, dynamic>).cast<String, T>();
+  }
+
+  @override
+  String toSql(Map<String, T> value) {
+    return jsonEncode(value);
+  }
+}
+
+@DriftDatabase(tables: [
+  MaterialBookmark,
+  CharacterLevelInfo,
+  ArtifactBookmark,
+],)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      beforeOpen: (details) async {
+        await customStatement("PRAGMA foreign_keys = ON");
+      },
+    );
+  }
 
   Stream<List<MaterialBookmarkData>> watchMaterialBookmarks() {
     return select(materialBookmark).watch();
@@ -108,6 +161,10 @@ class AppDatabase extends _$AppDatabase {
       ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId));
     final info = await query.getSingleOrNull();
     return info?.purposes;
+  }
+
+  Future<int> addArtifactBookmark(ArtifactBookmarkCompanion companion) {
+    return into(artifactBookmark).insert(companion);
   }
 }
 

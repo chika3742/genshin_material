@@ -700,6 +700,427 @@ class CharacterLevelInfoCompanion
   }
 }
 
+class $ArtifactBookmarkTable extends ArtifactBookmark
+    with TableInfo<$ArtifactBookmarkTable, ArtifactBookmarkData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ArtifactBookmarkTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _characterIdMeta =
+      const VerificationMeta('characterId');
+  @override
+  late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
+      'character_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _setId1Meta = const VerificationMeta('setId1');
+  @override
+  late final GeneratedColumn<String> setId1 = GeneratedColumn<String>(
+      'set_id1', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _setId2Meta = const VerificationMeta('setId2');
+  @override
+  late final GeneratedColumn<String> setId2 = GeneratedColumn<String>(
+      'set_id2', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _pieceIdMeta =
+      const VerificationMeta('pieceId');
+  @override
+  late final GeneratedColumn<String> pieceId = GeneratedColumn<String>(
+      'piece_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _mainStatIdsMeta =
+      const VerificationMeta('mainStatIds');
+  @override
+  late final GeneratedColumnWithTypeConverter<Map<String, String?>, String>
+      mainStatIds = GeneratedColumn<String>('main_stat_ids', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<Map<String, String?>>(
+              $ArtifactBookmarkTable.$convertermainStatIds);
+  static const VerificationMeta _subStatIdsMeta =
+      const VerificationMeta('subStatIds');
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>, String> subStatIds =
+      GeneratedColumn<String>('sub_stat_ids', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<List<String>>(
+              $ArtifactBookmarkTable.$convertersubStatIds);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        characterId,
+        setId1,
+        setId2,
+        pieceId,
+        mainStatIds,
+        subStatIds,
+        createdAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'artifact_bookmark';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<ArtifactBookmarkData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('character_id')) {
+      context.handle(
+          _characterIdMeta,
+          characterId.isAcceptableOrUnknown(
+              data['character_id']!, _characterIdMeta));
+    } else if (isInserting) {
+      context.missing(_characterIdMeta);
+    }
+    if (data.containsKey('set_id1')) {
+      context.handle(_setId1Meta,
+          setId1.isAcceptableOrUnknown(data['set_id1']!, _setId1Meta));
+    }
+    if (data.containsKey('set_id2')) {
+      context.handle(_setId2Meta,
+          setId2.isAcceptableOrUnknown(data['set_id2']!, _setId2Meta));
+    }
+    if (data.containsKey('piece_id')) {
+      context.handle(_pieceIdMeta,
+          pieceId.isAcceptableOrUnknown(data['piece_id']!, _pieceIdMeta));
+    }
+    context.handle(_mainStatIdsMeta, const VerificationResult.success());
+    context.handle(_subStatIdsMeta, const VerificationResult.success());
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ArtifactBookmarkData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ArtifactBookmarkData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      characterId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}character_id'])!,
+      setId1: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}set_id1']),
+      setId2: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}set_id2']),
+      pieceId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}piece_id']),
+      mainStatIds: $ArtifactBookmarkTable.$convertermainStatIds.fromSql(
+          attachedDatabase.typeMapping.read(
+              DriftSqlType.string, data['${effectivePrefix}main_stat_ids'])!),
+      subStatIds: $ArtifactBookmarkTable.$convertersubStatIds.fromSql(
+          attachedDatabase.typeMapping.read(
+              DriftSqlType.string, data['${effectivePrefix}sub_stat_ids'])!),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+    );
+  }
+
+  @override
+  $ArtifactBookmarkTable createAlias(String alias) {
+    return $ArtifactBookmarkTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<Map<String, String?>, String> $convertermainStatIds =
+      const MapConverter();
+  static TypeConverter<List<String>, String> $convertersubStatIds =
+      const ListConverter();
+}
+
+class ArtifactBookmarkData extends DataClass
+    implements Insertable<ArtifactBookmarkData> {
+  final int id;
+  final String characterId;
+  final String? setId1;
+  final String? setId2;
+  final String? pieceId;
+
+  /// key = [ArtifactPieceTypeId]
+  final Map<String, String?> mainStatIds;
+  final List<String> subStatIds;
+  final DateTime createdAt;
+  const ArtifactBookmarkData(
+      {required this.id,
+      required this.characterId,
+      this.setId1,
+      this.setId2,
+      this.pieceId,
+      required this.mainStatIds,
+      required this.subStatIds,
+      required this.createdAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['character_id'] = Variable<String>(characterId);
+    if (!nullToAbsent || setId1 != null) {
+      map['set_id1'] = Variable<String>(setId1);
+    }
+    if (!nullToAbsent || setId2 != null) {
+      map['set_id2'] = Variable<String>(setId2);
+    }
+    if (!nullToAbsent || pieceId != null) {
+      map['piece_id'] = Variable<String>(pieceId);
+    }
+    {
+      map['main_stat_ids'] = Variable<String>(
+          $ArtifactBookmarkTable.$convertermainStatIds.toSql(mainStatIds));
+    }
+    {
+      map['sub_stat_ids'] = Variable<String>(
+          $ArtifactBookmarkTable.$convertersubStatIds.toSql(subStatIds));
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ArtifactBookmarkCompanion toCompanion(bool nullToAbsent) {
+    return ArtifactBookmarkCompanion(
+      id: Value(id),
+      characterId: Value(characterId),
+      setId1:
+          setId1 == null && nullToAbsent ? const Value.absent() : Value(setId1),
+      setId2:
+          setId2 == null && nullToAbsent ? const Value.absent() : Value(setId2),
+      pieceId: pieceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(pieceId),
+      mainStatIds: Value(mainStatIds),
+      subStatIds: Value(subStatIds),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ArtifactBookmarkData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ArtifactBookmarkData(
+      id: serializer.fromJson<int>(json['id']),
+      characterId: serializer.fromJson<String>(json['characterId']),
+      setId1: serializer.fromJson<String?>(json['setId1']),
+      setId2: serializer.fromJson<String?>(json['setId2']),
+      pieceId: serializer.fromJson<String?>(json['pieceId']),
+      mainStatIds:
+          serializer.fromJson<Map<String, String?>>(json['mainStatIds']),
+      subStatIds: serializer.fromJson<List<String>>(json['subStatIds']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'characterId': serializer.toJson<String>(characterId),
+      'setId1': serializer.toJson<String?>(setId1),
+      'setId2': serializer.toJson<String?>(setId2),
+      'pieceId': serializer.toJson<String?>(pieceId),
+      'mainStatIds': serializer.toJson<Map<String, String?>>(mainStatIds),
+      'subStatIds': serializer.toJson<List<String>>(subStatIds),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ArtifactBookmarkData copyWith(
+          {int? id,
+          String? characterId,
+          Value<String?> setId1 = const Value.absent(),
+          Value<String?> setId2 = const Value.absent(),
+          Value<String?> pieceId = const Value.absent(),
+          Map<String, String?>? mainStatIds,
+          List<String>? subStatIds,
+          DateTime? createdAt}) =>
+      ArtifactBookmarkData(
+        id: id ?? this.id,
+        characterId: characterId ?? this.characterId,
+        setId1: setId1.present ? setId1.value : this.setId1,
+        setId2: setId2.present ? setId2.value : this.setId2,
+        pieceId: pieceId.present ? pieceId.value : this.pieceId,
+        mainStatIds: mainStatIds ?? this.mainStatIds,
+        subStatIds: subStatIds ?? this.subStatIds,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ArtifactBookmarkData(')
+          ..write('id: $id, ')
+          ..write('characterId: $characterId, ')
+          ..write('setId1: $setId1, ')
+          ..write('setId2: $setId2, ')
+          ..write('pieceId: $pieceId, ')
+          ..write('mainStatIds: $mainStatIds, ')
+          ..write('subStatIds: $subStatIds, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, characterId, setId1, setId2, pieceId,
+      mainStatIds, subStatIds, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ArtifactBookmarkData &&
+          other.id == this.id &&
+          other.characterId == this.characterId &&
+          other.setId1 == this.setId1 &&
+          other.setId2 == this.setId2 &&
+          other.pieceId == this.pieceId &&
+          other.mainStatIds == this.mainStatIds &&
+          other.subStatIds == this.subStatIds &&
+          other.createdAt == this.createdAt);
+}
+
+class ArtifactBookmarkCompanion extends UpdateCompanion<ArtifactBookmarkData> {
+  final Value<int> id;
+  final Value<String> characterId;
+  final Value<String?> setId1;
+  final Value<String?> setId2;
+  final Value<String?> pieceId;
+  final Value<Map<String, String?>> mainStatIds;
+  final Value<List<String>> subStatIds;
+  final Value<DateTime> createdAt;
+  const ArtifactBookmarkCompanion({
+    this.id = const Value.absent(),
+    this.characterId = const Value.absent(),
+    this.setId1 = const Value.absent(),
+    this.setId2 = const Value.absent(),
+    this.pieceId = const Value.absent(),
+    this.mainStatIds = const Value.absent(),
+    this.subStatIds = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  ArtifactBookmarkCompanion.insert({
+    this.id = const Value.absent(),
+    required String characterId,
+    this.setId1 = const Value.absent(),
+    this.setId2 = const Value.absent(),
+    this.pieceId = const Value.absent(),
+    required Map<String, String?> mainStatIds,
+    required List<String> subStatIds,
+    this.createdAt = const Value.absent(),
+  })  : characterId = Value(characterId),
+        mainStatIds = Value(mainStatIds),
+        subStatIds = Value(subStatIds);
+  static Insertable<ArtifactBookmarkData> custom({
+    Expression<int>? id,
+    Expression<String>? characterId,
+    Expression<String>? setId1,
+    Expression<String>? setId2,
+    Expression<String>? pieceId,
+    Expression<String>? mainStatIds,
+    Expression<String>? subStatIds,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (characterId != null) 'character_id': characterId,
+      if (setId1 != null) 'set_id1': setId1,
+      if (setId2 != null) 'set_id2': setId2,
+      if (pieceId != null) 'piece_id': pieceId,
+      if (mainStatIds != null) 'main_stat_ids': mainStatIds,
+      if (subStatIds != null) 'sub_stat_ids': subStatIds,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  ArtifactBookmarkCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? characterId,
+      Value<String?>? setId1,
+      Value<String?>? setId2,
+      Value<String?>? pieceId,
+      Value<Map<String, String?>>? mainStatIds,
+      Value<List<String>>? subStatIds,
+      Value<DateTime>? createdAt}) {
+    return ArtifactBookmarkCompanion(
+      id: id ?? this.id,
+      characterId: characterId ?? this.characterId,
+      setId1: setId1 ?? this.setId1,
+      setId2: setId2 ?? this.setId2,
+      pieceId: pieceId ?? this.pieceId,
+      mainStatIds: mainStatIds ?? this.mainStatIds,
+      subStatIds: subStatIds ?? this.subStatIds,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (characterId.present) {
+      map['character_id'] = Variable<String>(characterId.value);
+    }
+    if (setId1.present) {
+      map['set_id1'] = Variable<String>(setId1.value);
+    }
+    if (setId2.present) {
+      map['set_id2'] = Variable<String>(setId2.value);
+    }
+    if (pieceId.present) {
+      map['piece_id'] = Variable<String>(pieceId.value);
+    }
+    if (mainStatIds.present) {
+      map['main_stat_ids'] = Variable<String>($ArtifactBookmarkTable
+          .$convertermainStatIds
+          .toSql(mainStatIds.value));
+    }
+    if (subStatIds.present) {
+      map['sub_stat_ids'] = Variable<String>(
+          $ArtifactBookmarkTable.$convertersubStatIds.toSql(subStatIds.value));
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ArtifactBookmarkCompanion(')
+          ..write('id: $id, ')
+          ..write('characterId: $characterId, ')
+          ..write('setId1: $setId1, ')
+          ..write('setId2: $setId2, ')
+          ..write('pieceId: $pieceId, ')
+          ..write('mainStatIds: $mainStatIds, ')
+          ..write('subStatIds: $subStatIds, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   _$AppDatabaseManager get managers => _$AppDatabaseManager(this);
@@ -707,12 +1128,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $MaterialBookmarkTable(this);
   late final $CharacterLevelInfoTable characterLevelInfo =
       $CharacterLevelInfoTable(this);
+  late final $ArtifactBookmarkTable artifactBookmark =
+      $ArtifactBookmarkTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [materialBookmark, characterLevelInfo];
+      [materialBookmark, characterLevelInfo, artifactBookmark];
 }
 
 typedef $$MaterialBookmarkTableInsertCompanionBuilder
@@ -1035,6 +1458,198 @@ class $$CharacterLevelInfoTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
+typedef $$ArtifactBookmarkTableInsertCompanionBuilder
+    = ArtifactBookmarkCompanion Function({
+  Value<int> id,
+  required String characterId,
+  Value<String?> setId1,
+  Value<String?> setId2,
+  Value<String?> pieceId,
+  required Map<String, String?> mainStatIds,
+  required List<String> subStatIds,
+  Value<DateTime> createdAt,
+});
+typedef $$ArtifactBookmarkTableUpdateCompanionBuilder
+    = ArtifactBookmarkCompanion Function({
+  Value<int> id,
+  Value<String> characterId,
+  Value<String?> setId1,
+  Value<String?> setId2,
+  Value<String?> pieceId,
+  Value<Map<String, String?>> mainStatIds,
+  Value<List<String>> subStatIds,
+  Value<DateTime> createdAt,
+});
+
+class $$ArtifactBookmarkTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $ArtifactBookmarkTable,
+    ArtifactBookmarkData,
+    $$ArtifactBookmarkTableFilterComposer,
+    $$ArtifactBookmarkTableOrderingComposer,
+    $$ArtifactBookmarkTableProcessedTableManager,
+    $$ArtifactBookmarkTableInsertCompanionBuilder,
+    $$ArtifactBookmarkTableUpdateCompanionBuilder> {
+  $$ArtifactBookmarkTableTableManager(
+      _$AppDatabase db, $ArtifactBookmarkTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$ArtifactBookmarkTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$ArtifactBookmarkTableOrderingComposer(ComposerState(db, table)),
+          getChildManagerBuilder: (p) =>
+              $$ArtifactBookmarkTableProcessedTableManager(p),
+          getUpdateCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            Value<String> characterId = const Value.absent(),
+            Value<String?> setId1 = const Value.absent(),
+            Value<String?> setId2 = const Value.absent(),
+            Value<String?> pieceId = const Value.absent(),
+            Value<Map<String, String?>> mainStatIds = const Value.absent(),
+            Value<List<String>> subStatIds = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+          }) =>
+              ArtifactBookmarkCompanion(
+            id: id,
+            characterId: characterId,
+            setId1: setId1,
+            setId2: setId2,
+            pieceId: pieceId,
+            mainStatIds: mainStatIds,
+            subStatIds: subStatIds,
+            createdAt: createdAt,
+          ),
+          getInsertCompanionBuilder: ({
+            Value<int> id = const Value.absent(),
+            required String characterId,
+            Value<String?> setId1 = const Value.absent(),
+            Value<String?> setId2 = const Value.absent(),
+            Value<String?> pieceId = const Value.absent(),
+            required Map<String, String?> mainStatIds,
+            required List<String> subStatIds,
+            Value<DateTime> createdAt = const Value.absent(),
+          }) =>
+              ArtifactBookmarkCompanion.insert(
+            id: id,
+            characterId: characterId,
+            setId1: setId1,
+            setId2: setId2,
+            pieceId: pieceId,
+            mainStatIds: mainStatIds,
+            subStatIds: subStatIds,
+            createdAt: createdAt,
+          ),
+        ));
+}
+
+class $$ArtifactBookmarkTableProcessedTableManager
+    extends ProcessedTableManager<
+        _$AppDatabase,
+        $ArtifactBookmarkTable,
+        ArtifactBookmarkData,
+        $$ArtifactBookmarkTableFilterComposer,
+        $$ArtifactBookmarkTableOrderingComposer,
+        $$ArtifactBookmarkTableProcessedTableManager,
+        $$ArtifactBookmarkTableInsertCompanionBuilder,
+        $$ArtifactBookmarkTableUpdateCompanionBuilder> {
+  $$ArtifactBookmarkTableProcessedTableManager(super.$state);
+}
+
+class $$ArtifactBookmarkTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $ArtifactBookmarkTable> {
+  $$ArtifactBookmarkTableFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get characterId => $state.composableBuilder(
+      column: $state.table.characterId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get setId1 => $state.composableBuilder(
+      column: $state.table.setId1,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get setId2 => $state.composableBuilder(
+      column: $state.table.setId2,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get pieceId => $state.composableBuilder(
+      column: $state.table.pieceId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnWithTypeConverterFilters<Map<String, String?>, Map<String, String>,
+          String>
+      get mainStatIds => $state.composableBuilder(
+          column: $state.table.mainStatIds,
+          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
+              column,
+              joinBuilders: joinBuilders));
+
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String>
+      get subStatIds => $state.composableBuilder(
+          column: $state.table.subStatIds,
+          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
+              column,
+              joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get createdAt => $state.composableBuilder(
+      column: $state.table.createdAt,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$ArtifactBookmarkTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $ArtifactBookmarkTable> {
+  $$ArtifactBookmarkTableOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get characterId => $state.composableBuilder(
+      column: $state.table.characterId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get setId1 => $state.composableBuilder(
+      column: $state.table.setId1,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get setId2 => $state.composableBuilder(
+      column: $state.table.setId2,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get pieceId => $state.composableBuilder(
+      column: $state.table.pieceId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get mainStatIds => $state.composableBuilder(
+      column: $state.table.mainStatIds,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get subStatIds => $state.composableBuilder(
+      column: $state.table.subStatIds,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get createdAt => $state.composableBuilder(
+      column: $state.table.createdAt,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
 class _$AppDatabaseManager {
   final _$AppDatabase _db;
   _$AppDatabaseManager(this._db);
@@ -1042,4 +1657,6 @@ class _$AppDatabaseManager {
       $$MaterialBookmarkTableTableManager(_db, _db.materialBookmark);
   $$CharacterLevelInfoTableTableManager get characterLevelInfo =>
       $$CharacterLevelInfoTableTableManager(_db, _db.characterLevelInfo);
+  $$ArtifactBookmarkTableTableManager get artifactBookmark =>
+      $$ArtifactBookmarkTableTableManager(_db, _db.artifactBookmark);
 }

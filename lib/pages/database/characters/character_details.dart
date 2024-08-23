@@ -417,25 +417,27 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                                           });
                                         }
                                       },
-                                      child: Text.rich( // checkbox label
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: tr.talentTypes[purpose.name]!,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
+                                      child: Expanded(
+                                        child: Text.rich( // checkbox label
+                                          TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: tr.talentTypes[purpose.name]!,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                ),
                                               ),
-                                            ),
-                                            const TextSpan(text: "  "),
-                                            TextSpan(
-                                              text: variant.value
-                                                  .talents[purpose.name]!
-                                                  .localized,
-                                            ),
-                                          ],
+                                              const TextSpan(text: "  "),
+                                              TextSpan(
+                                                text: variant.value
+                                                    .talents[purpose.name]!
+                                                    .localized,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
