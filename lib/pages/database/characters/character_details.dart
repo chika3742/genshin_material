@@ -280,33 +280,34 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GameItemInfoBox(
-                      itemImage: Image.file(
-                        variant.value.getSmallImageFile(assetDir),
-                        width: 70,
-                        height: 70,
-                      ),
-                      children: [
-                        // rarity
-                        RarityStars(count: character.rarity),
-                        // element
-                        Row(
-                          children: [
-                            Image.file(
-                              assetData.elements[variant.value.element]!.getImageFile(assetDir),
-                              width: 26,
-                              height: 26,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(assetData.elements[variant.value.element]!.text.localized),
-                          ],
+                    Expanded(
+                      child: GameItemInfoBox(
+                        itemImage: Image.file(
+                          variant.value.getSmallImageFile(assetDir),
+                          width: 70,
+                          height: 70,
                         ),
-                        // weapon type
-                        Text(assetData.weaponTypes[character.weaponType]!.name.localized),
-                      ],
+                        children: [
+                          // rarity
+                          RarityStars(count: character.rarity),
+                          // element
+                          Row(
+                            children: [
+                              Image.file(
+                                assetData.elements[variant.value.element]!.getImageFile(assetDir),
+                                width: 26,
+                                height: 26,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(assetData.elements[variant.value.element]!.text.localized),
+                            ],
+                          ),
+                          // weapon type
+                          Text(assetData.weaponTypes[character.weaponType]!.name.localized),
+                        ],
+                      ),
                     ),
-                    const Spacer(),
                     if (prefs.isLinkedWithHoyolab && prefs.syncCharaState) GameDataSyncIndicator(
                       status: hoyolabSyncStatus.value,
                     ),

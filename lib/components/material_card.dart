@@ -105,11 +105,14 @@ class MaterialCard extends HookWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.file(image, width: 35, height: 35),
+                      if (showName) Expanded(
+                        child: Text(name, style: const TextStyle(fontSize: 18)),
+                      ),
+                      const SizedBox(),
                       Text.rich(
                         TextSpan(
                           children: [
-                            if (showName) TextSpan(text: name, style: const TextStyle(fontSize: 16)),
-                            TextSpan(text: "  x", style: GoogleFonts.titilliumWeb(fontSize: 18)),
+                            TextSpan(text: "x", style: GoogleFonts.titilliumWeb(fontSize: 18)),
                             TextSpan(
                               text: NumberFormat.decimalPattern().format(animatedQuantity),
                               style: GoogleFonts.titilliumWeb(

@@ -1,4 +1,5 @@
 
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
 import "layout.dart";
@@ -18,10 +19,12 @@ class GameItemInfoBox extends StatelessWidget {
     return GappedRow(
       children: [
         itemImage,
-        GappedColumn(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          gap: 4,
-          children: children,
+        Expanded(
+          child: GappedColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            gap: 4,
+            children: children,
+          ),
         ),
       ],
     );
