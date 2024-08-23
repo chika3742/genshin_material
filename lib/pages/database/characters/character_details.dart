@@ -435,7 +435,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                                               TextSpan(
                                                 text: variant.value
                                                     .talents[purpose.name]!
-                                                    .localized,
+                                                    .name.localized,
                                               ),
                                             ],
                                           ),
@@ -510,6 +510,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
         key: ValueKey(item.id),
         item: item,
         possiblePurposeTypes: const [Purpose.ascension],
+        expItems: widget.assetData.characterIngredients.expItems,
         usage: MaterialUsage(
           characterId: widget.character.id,
         ),
@@ -544,6 +545,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
         key: ValueKey(item.id),
         item: item,
         possiblePurposeTypes: talents.keys.map(Purpose.fromTalentType).toList(),
+        expItems: widget.assetData.characterIngredients.expItems,
         usage: MaterialUsage(
           characterId: variant.id,
         ),

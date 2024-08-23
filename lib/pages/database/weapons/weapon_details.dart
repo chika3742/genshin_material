@@ -184,6 +184,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
       (item) => MaterialItem(
         item: item,
         possiblePurposeTypes: const [Purpose.ascension],
+        expItems: widget.assetData.weaponIngredients.expItems,
         usage: MaterialUsage(
           characterId: characterId,
           weaponId: widget.weapon.id,

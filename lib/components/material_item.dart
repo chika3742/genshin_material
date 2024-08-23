@@ -6,6 +6,7 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../database.dart";
 import "../i18n/strings.g.dart";
+import "../models/character_ingredients.dart";
 import "../models/common.dart";
 import "../models/material.dart";
 import "../models/material_bookmark_frame.dart";
@@ -20,12 +21,14 @@ class MaterialItem extends StatefulHookConsumerWidget {
   final MaterialCardMaterial item;
   final MaterialUsage usage;
   final List<Purpose> possiblePurposeTypes;
+  final List<ExpItem>? expItems;
 
   const MaterialItem({
     super.key,
     required this.item,
     required this.usage,
     required this.possiblePurposeTypes,
+    this.expItems,
   });
 
   @override
@@ -66,7 +69,8 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
     Material material;
     int quantity;
     if (widget.item.isExp) {
-      final expItem = assetData.characterIngredients.expItems[_currentExpItemIndex];
+      assert(widget.expItems != null, "expItems must be provided when displaying exp items.");
+      final expItem = widget.expItems![_currentExpItemIndex];
       material = assetData.materials[expItem.itemId]!;
       quantity = (widget.item.sum / expItem.expPerItem).ceil();
     } else {
