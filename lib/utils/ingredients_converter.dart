@@ -23,11 +23,12 @@ String? getConcreteItemId(Ingredient ingredient, CharacterOrWeapon characterOrWe
           return expr;
         }
         if (defType == "group") {
-          return assetData.materials.values
-              .firstWhere(
+          final material = assetData.materials.values
+              .firstWhereOrNull(
                 (e) => e.groupId == expr && e.craftLevel == ingredient.craftLevel,
-              )
-              .id;
+              );
+          assert(material != null, "No material found for group id $expr and craft level ${ingredient.craftLevel}");
+          return material!.id;
         }
 
         throw "Unknown type: $defType";

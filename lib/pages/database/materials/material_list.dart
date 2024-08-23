@@ -46,6 +46,7 @@ class MaterialListPage extends StatelessWidget {
                     );
                   },
                   items: assetData.materialCategories.entries
+                      .where((e) => materialsGroupedByCategory.containsKey(e.key))
                       .map((e) {
                         final categoryId = e.key;
                         final categoryText = e.value.localized;
@@ -99,7 +100,7 @@ class MaterialListPage extends StatelessWidget {
                             },
                           );
                         },
-                        childCount: materialsGroupedByCategory[categoryId]!.length,
+                        childCount: materialsGroupedByCategory[categoryId]?.length ?? 0,
                       ),
                     ),
                   );
