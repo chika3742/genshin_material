@@ -28,7 +28,6 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
     final prefs = ref.watch(preferencesStateNotifierProvider);
     final isSignedIn = prefs.hyvCookie != null;
 
-    final isCharaAccessAllowed = ref.watch(charaAccessPermissionStateProvider);
     final isRealtimeNotesEnabled = ref.watch(realtimeNotesActivationStateProvider);
 
     return Scaffold(
@@ -115,26 +114,18 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
 
           ListSubheader(tr.hoyolab.accessPermission),
           // error tile
-          if (isCharaAccessAllowed.hasError) Padding(
+          if (isRealtimeNotesEnabled.hasError) Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: DefaultTextStyle(
               style: TextStyle(color: Theme.of(context).colorScheme.error),
               child: () {
-                final error = isCharaAccessAllowed.error;
+                final error = isRealtimeNotesEnabled.error;
                 if (error is HoyolabApiException) {
                   return Text(error.getMessage(tr.hoyolab.failedToLoadPermissionState));
                 }
                 return Text(tr.hoyolab.failedToLoadPermissionState);
               }(),
             ),
-          ),
-          SwitchListTile(
-            title: Text(tr.hoyolab.characterDataAccess),
-            subtitle: Text(tr.hoyolab.charaDataAccessDesc),
-            value: isCharaAccessAllowed is! AsyncError && (isCharaAccessAllowed.value ?? false),
-            onChanged: !isCharaAccessAllowed.isLoading && !isCharaAccessAllowed.hasError ? (value) {
-              ref.read(charaAccessPermissionStateProvider.notifier).updateValue(value);
-            } : null,
           ),
           SwitchListTile(
             title: Text(tr.hoyolab.enableRealtimeNotes),
@@ -170,31 +161,6 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
 
     ref.read(preferencesStateNotifierProvider.notifier)
         .setHoyolabCookie(cookie);
-
-    bool? isCharaAccessGranted;
-    try {
-      if (context.mounted) showLoadingModal(context);
-      isCharaAccessGranted = await ref.read(charaAccessPermissionStateProvider.future);
-    } catch (e, st) {
-      log("Failed to check chara access permission", error: e, stackTrace: st);
-      // do nothing
-    } finally {
-      // close the loading modal
-      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
-    }
-    if (isCharaAccessGranted != null && !isCharaAccessGranted && context.mounted) {
-      await showSimpleDialog(
-        context: context,
-        title: tr.hoyolab.doYouWantToAllowCharaDataAccess,
-        content: tr.hoyolab.charaDataAccessDesc,
-        showCancel: true,
-        onOkPressed: () async {
-          await ref
-              .read(charaAccessPermissionStateProvider.notifier)
-              .updateValue(true);
-        },
-      );
-    }
 
     bool? isRealtimeNotesEnabled;
     try {

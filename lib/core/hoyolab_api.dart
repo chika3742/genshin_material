@@ -51,35 +51,6 @@ class HoyolabApi {
     return HoyolabApiResult.fromJson(const JsonCodec().decode(result.body), (obj) => HyvUserInfo.fromJson((obj as Map<String, dynamic>)["user_info"]));
   }
 
-  Future<AvatarAuth> getAvatarAuthInfo() async {
-    const url = "https://sg-public-api.hoyolab.com/event/calculateos/avatar/auth/info?lang=ja-jp";
-
-    _ensureRequiredParams(params: [HoyolabApiParams.cookie]);
-
-    return _errorHandledThen(
-      client.get(Uri.parse(url), headers: headers),
-      (obj) => AvatarAuth.fromJson(obj as Map<String, dynamic>),
-    );
-  }
-
-  Future<Map> setAvatarAuth(int value) async {
-    const url = "https://sg-public-api.hoyolab.com/event/calculateos/avatar/auth";
-
-    _ensureRequiredParams(params: [HoyolabApiParams.cookie]);
-
-    return _errorHandledThen(
-      client.post(
-        Uri.parse(url),
-        headers: headers,
-        body: jsonEncode({
-          "lang": "ja-jp",
-          "avatar_auth": value,
-        }),
-      ),
-      (_) => {},
-    );
-  }
-
   Future<AvatarListResult> avatarList(int page, {List<int> elementIds = const [], List<int> weaponCatIds = const []}) {
     _ensureRequiredParams();
 
