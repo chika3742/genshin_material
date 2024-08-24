@@ -44,9 +44,9 @@ class CharacterListItem extends ConsumerWidget {
                 gradient: LinearGradient(
                   stops: const [0.0, 0.2, 1.0],
                   colors: [
-                    Colors.transparent,
-                    Theme.of(context).colorScheme.surface.withOpacity(0.6),
-                    Theme.of(context).colorScheme.surface.withOpacity(0.6),
+                    Theme.of(context).colorScheme.surface.withOpacity(0),
+                    Theme.of(context).colorScheme.surface.withOpacity(0.8),
+                    Theme.of(context).colorScheme.surface.withOpacity(0.8),
                   ],
                 ),
                 borderRadius: const BorderRadius.only(
@@ -55,14 +55,17 @@ class CharacterListItem extends ConsumerWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: containerBorderRadius,
+                  vertical: 4.0,
                   horizontal: 16.0,
                 ),
-                child: Text(
-                  character.name.localized,
-                  style: GoogleFonts.kaiseiOpti(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    character.name.localized,
+                    style: GoogleFonts.kaiseiOpti(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
