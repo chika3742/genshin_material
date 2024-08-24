@@ -19,6 +19,7 @@ class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon {
     required String imageUrl,
     required int rarity,
     required WeaponSubStat? subStat,
+    required LocalizedText? weaponAffixDesc,
     required WeaponType type,
     required Map<MaterialUsageType, String> materials,
     WhereToGet? whereToGet,

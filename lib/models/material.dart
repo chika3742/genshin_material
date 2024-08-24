@@ -21,10 +21,35 @@ sealed class Material with _$Material, ImageGetter {
     String? groupId,
     int? craftLevel,
     List<DayOfWeek>? availableDays,
+    MaterialSource? source,
   }) = _Material;
 
   factory Material.fromJson(Map<String, dynamic> json) =>
       _$MaterialFromJson(json);
+}
+
+@freezed
+sealed class MaterialSource with _$MaterialSource {
+  const factory MaterialSource.teyvatMap({
+    required String typeId,
+  }) = TeyvatMapMaterialSource;
+
+  const factory MaterialSource.domain({
+    required String domainId,
+    required String areaId,
+  }) = DomainMaterialSource;
+
+  const factory MaterialSource.weeklyBoss({
+    required String bossId,
+    required String areaId,
+  }) = WeeklyBossMaterialSource;
+
+  const factory MaterialSource.text({
+    required String textId,
+  }) = TextMaterialSource;
+
+  factory MaterialSource.fromJson(Map<String, dynamic> json) =>
+      _$MaterialSourceFromJson(json);
 }
 
 @freezed

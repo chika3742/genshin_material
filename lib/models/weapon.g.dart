@@ -14,6 +14,10 @@ _$WeaponImpl _$$WeaponImplFromJson(Map<String, dynamic> json) => _$WeaponImpl(
       imageUrl: json['imageUrl'] as String,
       rarity: json['rarity'] as int,
       subStat: json['subStat'] as String?,
+      weaponAffixDesc: json['weaponAffixDesc'] == null
+          ? null
+          : LocalizedText.fromJson(
+              json['weaponAffixDesc'] as Map<String, dynamic>),
       type: json['type'] as String,
       materials: Map<String, String>.from(json['materials'] as Map),
       whereToGet: json['whereToGet'] == null
@@ -30,6 +34,7 @@ Map<String, dynamic> _$$WeaponImplToJson(_$WeaponImpl instance) =>
       'imageUrl': instance.imageUrl,
       'rarity': instance.rarity,
       'subStat': instance.subStat,
+      'weaponAffixDesc': instance.weaponAffixDesc,
       'type': instance.type,
       'materials': instance.materials,
       'whereToGet': instance.whereToGet,

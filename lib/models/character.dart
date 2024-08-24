@@ -11,7 +11,7 @@ part "character.g.dart";
 
 typedef CharacterList = List<Character>;
 
-typedef Talents = Map<TalentType, LocalizedText>;
+typedef Talents = Map<TalentType, CharacterTalent>;
 
 mixin CharacterWithLargeImage on Character {
   @override
@@ -43,7 +43,6 @@ sealed class Character with _$Character, CharacterOrWeapon {
   @With<CharacterOrVariant>()
   const factory Character({
     required String id,
-    required String rid,
     required List<int> hyvIds,
     required LocalizedText name,
     required String jaPronunciation,
@@ -88,4 +87,15 @@ sealed class Character with _$Character, CharacterOrWeapon {
 
   File getSmallImageFile(String localAssetPath) =>
       File(path.join(localAssetPath, smallImageUrl));
+}
+
+@freezed
+class CharacterTalent with _$CharacterTalent {
+  const factory CharacterTalent({
+    required List<int> idList,
+    required LocalizedText name,
+  }) = _CharacterTalent;
+
+  factory CharacterTalent.fromJson(Map<String, dynamic> json) =>
+      _$CharacterTalentFromJson(json);
 }

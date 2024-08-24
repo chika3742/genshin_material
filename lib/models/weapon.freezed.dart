@@ -27,6 +27,7 @@ mixin _$Weapon {
   String get imageUrl => throw _privateConstructorUsedError;
   int get rarity => throw _privateConstructorUsedError;
   String? get subStat => throw _privateConstructorUsedError;
+  LocalizedText? get weaponAffixDesc => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   Map<String, String> get materials => throw _privateConstructorUsedError;
   WhereToGet? get whereToGet => throw _privateConstructorUsedError;
@@ -49,11 +50,13 @@ abstract class $WeaponCopyWith<$Res> {
       String imageUrl,
       int rarity,
       String? subStat,
+      LocalizedText? weaponAffixDesc,
       String type,
       Map<String, String> materials,
       WhereToGet? whereToGet});
 
   $LocalizedTextCopyWith<$Res> get name;
+  $LocalizedTextCopyWith<$Res>? get weaponAffixDesc;
   $WhereToGetCopyWith<$Res>? get whereToGet;
 }
 
@@ -77,6 +80,7 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
     Object? imageUrl = null,
     Object? rarity = null,
     Object? subStat = freezed,
+    Object? weaponAffixDesc = freezed,
     Object? type = null,
     Object? materials = null,
     Object? whereToGet = freezed,
@@ -110,6 +114,10 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
           ? _value.subStat
           : subStat // ignore: cast_nullable_to_non_nullable
               as String?,
+      weaponAffixDesc: freezed == weaponAffixDesc
+          ? _value.weaponAffixDesc
+          : weaponAffixDesc // ignore: cast_nullable_to_non_nullable
+              as LocalizedText?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -130,6 +138,18 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
   $LocalizedTextCopyWith<$Res> get name {
     return $LocalizedTextCopyWith<$Res>(_value.name, (value) {
       return _then(_value.copyWith(name: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocalizedTextCopyWith<$Res>? get weaponAffixDesc {
+    if (_value.weaponAffixDesc == null) {
+      return null;
+    }
+
+    return $LocalizedTextCopyWith<$Res>(_value.weaponAffixDesc!, (value) {
+      return _then(_value.copyWith(weaponAffixDesc: value) as $Val);
     });
   }
 
@@ -161,12 +181,15 @@ abstract class _$$WeaponImplCopyWith<$Res> implements $WeaponCopyWith<$Res> {
       String imageUrl,
       int rarity,
       String? subStat,
+      LocalizedText? weaponAffixDesc,
       String type,
       Map<String, String> materials,
       WhereToGet? whereToGet});
 
   @override
   $LocalizedTextCopyWith<$Res> get name;
+  @override
+  $LocalizedTextCopyWith<$Res>? get weaponAffixDesc;
   @override
   $WhereToGetCopyWith<$Res>? get whereToGet;
 }
@@ -189,6 +212,7 @@ class __$$WeaponImplCopyWithImpl<$Res>
     Object? imageUrl = null,
     Object? rarity = null,
     Object? subStat = freezed,
+    Object? weaponAffixDesc = freezed,
     Object? type = null,
     Object? materials = null,
     Object? whereToGet = freezed,
@@ -222,6 +246,10 @@ class __$$WeaponImplCopyWithImpl<$Res>
           ? _value.subStat
           : subStat // ignore: cast_nullable_to_non_nullable
               as String?,
+      weaponAffixDesc: freezed == weaponAffixDesc
+          ? _value.weaponAffixDesc
+          : weaponAffixDesc // ignore: cast_nullable_to_non_nullable
+              as LocalizedText?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -249,6 +277,7 @@ class _$WeaponImpl extends _Weapon {
       required this.imageUrl,
       required this.rarity,
       required this.subStat,
+      required this.weaponAffixDesc,
       required this.type,
       required final Map<String, String> materials,
       this.whereToGet})
@@ -273,6 +302,8 @@ class _$WeaponImpl extends _Weapon {
   @override
   final String? subStat;
   @override
+  final LocalizedText? weaponAffixDesc;
+  @override
   final String type;
   final Map<String, String> _materials;
   @override
@@ -287,7 +318,7 @@ class _$WeaponImpl extends _Weapon {
 
   @override
   String toString() {
-    return 'Weapon(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, type: $type, materials: $materials, whereToGet: $whereToGet)';
+    return 'Weapon(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, whereToGet: $whereToGet)';
   }
 
   @override
@@ -304,6 +335,8 @@ class _$WeaponImpl extends _Weapon {
                 other.imageUrl == imageUrl) &&
             (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.subStat, subStat) || other.subStat == subStat) &&
+            (identical(other.weaponAffixDesc, weaponAffixDesc) ||
+                other.weaponAffixDesc == weaponAffixDesc) &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality()
                 .equals(other._materials, _materials) &&
@@ -322,6 +355,7 @@ class _$WeaponImpl extends _Weapon {
       imageUrl,
       rarity,
       subStat,
+      weaponAffixDesc,
       type,
       const DeepCollectionEquality().hash(_materials),
       whereToGet);
@@ -349,6 +383,7 @@ abstract class _Weapon extends Weapon {
       required final String imageUrl,
       required final int rarity,
       required final String? subStat,
+      required final LocalizedText? weaponAffixDesc,
       required final String type,
       required final Map<String, String> materials,
       final WhereToGet? whereToGet}) = _$WeaponImpl;
@@ -370,6 +405,8 @@ abstract class _Weapon extends Weapon {
   int get rarity;
   @override
   String? get subStat;
+  @override
+  LocalizedText? get weaponAffixDesc;
   @override
   String get type;
   @override

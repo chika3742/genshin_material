@@ -19,6 +19,9 @@ _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
       availableDays: (json['availableDays'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$DayOfWeekEnumMap, e))
           .toList(),
+      source: json['source'] == null
+          ? null
+          : MaterialSource.fromJson(json['source'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
@@ -33,6 +36,7 @@ Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
       'craftLevel': instance.craftLevel,
       'availableDays':
           instance.availableDays?.map((e) => _$DayOfWeekEnumMap[e]!).toList(),
+      'source': instance.source,
     };
 
 const _$DayOfWeekEnumMap = {
@@ -44,6 +48,66 @@ const _$DayOfWeekEnumMap = {
   DayOfWeek.saturday: 'saturday',
   DayOfWeek.sunday: 'sunday',
 };
+
+_$TeyvatMapMaterialSourceImpl _$$TeyvatMapMaterialSourceImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TeyvatMapMaterialSourceImpl(
+      typeId: json['typeId'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$TeyvatMapMaterialSourceImplToJson(
+        _$TeyvatMapMaterialSourceImpl instance) =>
+    <String, dynamic>{
+      'typeId': instance.typeId,
+      'runtimeType': instance.$type,
+    };
+
+_$DomainMaterialSourceImpl _$$DomainMaterialSourceImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DomainMaterialSourceImpl(
+      domainId: json['domainId'] as String,
+      areaId: json['areaId'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$DomainMaterialSourceImplToJson(
+        _$DomainMaterialSourceImpl instance) =>
+    <String, dynamic>{
+      'domainId': instance.domainId,
+      'areaId': instance.areaId,
+      'runtimeType': instance.$type,
+    };
+
+_$WeeklyBossMaterialSourceImpl _$$WeeklyBossMaterialSourceImplFromJson(
+        Map<String, dynamic> json) =>
+    _$WeeklyBossMaterialSourceImpl(
+      bossId: json['bossId'] as String,
+      areaId: json['areaId'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$WeeklyBossMaterialSourceImplToJson(
+        _$WeeklyBossMaterialSourceImpl instance) =>
+    <String, dynamic>{
+      'bossId': instance.bossId,
+      'areaId': instance.areaId,
+      'runtimeType': instance.$type,
+    };
+
+_$TextMaterialSourceImpl _$$TextMaterialSourceImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TextMaterialSourceImpl(
+      textId: json['textId'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$TextMaterialSourceImplToJson(
+        _$TextMaterialSourceImpl instance) =>
+    <String, dynamic>{
+      'textId': instance.textId,
+      'runtimeType': instance.$type,
+    };
 
 _$MaterialsMetaImpl _$$MaterialsMetaImplFromJson(Map<String, dynamic> json) =>
     _$MaterialsMetaImpl(

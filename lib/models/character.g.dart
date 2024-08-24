@@ -10,7 +10,6 @@ _$ListedCharacterImpl _$$ListedCharacterImplFromJson(
         Map<String, dynamic> json) =>
     _$ListedCharacterImpl(
       id: json['id'] as String,
-      rid: json['rid'] as String,
       hyvIds: (json['hyvIds'] as List<dynamic>).map((e) => e as int).toList(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
@@ -21,7 +20,7 @@ _$ListedCharacterImpl _$$ListedCharacterImplFromJson(
       element: json['element'] as String,
       talents: (json['talents'] as Map<String, dynamic>).map(
         (k, e) =>
-            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
+            MapEntry(k, CharacterTalent.fromJson(e as Map<String, dynamic>)),
       ),
       materials: Map<String, String>.from(json['materials'] as Map),
       $type: json['runtimeType'] as String?,
@@ -31,7 +30,6 @@ Map<String, dynamic> _$$ListedCharacterImplToJson(
         _$ListedCharacterImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'rid': instance.rid,
       'hyvIds': instance.hyvIds,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,
@@ -90,7 +88,7 @@ _$CharacterVariantImpl _$$CharacterVariantImplFromJson(
       weaponType: json['weaponType'] as String,
       talents: (json['talents'] as Map<String, dynamic>).map(
         (k, e) =>
-            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
+            MapEntry(k, CharacterTalent.fromJson(e as Map<String, dynamic>)),
       ),
       materials: Map<String, String>.from(json['materials'] as Map),
       $type: json['runtimeType'] as String?,
@@ -109,4 +107,18 @@ Map<String, dynamic> _$$CharacterVariantImplToJson(
       'talents': instance.talents,
       'materials': instance.materials,
       'runtimeType': instance.$type,
+    };
+
+_$CharacterTalentImpl _$$CharacterTalentImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CharacterTalentImpl(
+      idList: (json['idList'] as List<dynamic>).map((e) => e as int).toList(),
+      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$CharacterTalentImplToJson(
+        _$CharacterTalentImpl instance) =>
+    <String, dynamic>{
+      'idList': instance.idList,
+      'name': instance.name,
     };

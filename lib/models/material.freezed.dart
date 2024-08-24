@@ -29,6 +29,7 @@ mixin _$Material {
   String? get groupId => throw _privateConstructorUsedError;
   int? get craftLevel => throw _privateConstructorUsedError;
   List<DayOfWeek>? get availableDays => throw _privateConstructorUsedError;
+  MaterialSource? get source => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,9 +51,11 @@ abstract class $MaterialCopyWith<$Res> {
       String category,
       String? groupId,
       int? craftLevel,
-      List<DayOfWeek>? availableDays});
+      List<DayOfWeek>? availableDays,
+      MaterialSource? source});
 
   $LocalizedTextCopyWith<$Res> get name;
+  $MaterialSourceCopyWith<$Res>? get source;
 }
 
 /// @nodoc
@@ -77,6 +80,7 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
     Object? groupId = freezed,
     Object? craftLevel = freezed,
     Object? availableDays = freezed,
+    Object? source = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -115,6 +119,10 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
           ? _value.availableDays
           : availableDays // ignore: cast_nullable_to_non_nullable
               as List<DayOfWeek>?,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as MaterialSource?,
     ) as $Val);
   }
 
@@ -123,6 +131,18 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
   $LocalizedTextCopyWith<$Res> get name {
     return $LocalizedTextCopyWith<$Res>(_value.name, (value) {
       return _then(_value.copyWith(name: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MaterialSourceCopyWith<$Res>? get source {
+    if (_value.source == null) {
+      return null;
+    }
+
+    return $MaterialSourceCopyWith<$Res>(_value.source!, (value) {
+      return _then(_value.copyWith(source: value) as $Val);
     });
   }
 }
@@ -144,10 +164,13 @@ abstract class _$$MaterialImplCopyWith<$Res>
       String category,
       String? groupId,
       int? craftLevel,
-      List<DayOfWeek>? availableDays});
+      List<DayOfWeek>? availableDays,
+      MaterialSource? source});
 
   @override
   $LocalizedTextCopyWith<$Res> get name;
+  @override
+  $MaterialSourceCopyWith<$Res>? get source;
 }
 
 /// @nodoc
@@ -170,6 +193,7 @@ class __$$MaterialImplCopyWithImpl<$Res>
     Object? groupId = freezed,
     Object? craftLevel = freezed,
     Object? availableDays = freezed,
+    Object? source = freezed,
   }) {
     return _then(_$MaterialImpl(
       id: null == id
@@ -208,6 +232,10 @@ class __$$MaterialImplCopyWithImpl<$Res>
           ? _value._availableDays
           : availableDays // ignore: cast_nullable_to_non_nullable
               as List<DayOfWeek>?,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as MaterialSource?,
     ));
   }
 }
@@ -224,7 +252,8 @@ class _$MaterialImpl extends _Material {
       required this.category,
       this.groupId,
       this.craftLevel,
-      final List<DayOfWeek>? availableDays})
+      final List<DayOfWeek>? availableDays,
+      this.source})
       : _availableDays = availableDays,
         super._();
 
@@ -258,8 +287,11 @@ class _$MaterialImpl extends _Material {
   }
 
   @override
+  final MaterialSource? source;
+
+  @override
   String toString() {
-    return 'Material(id: $id, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, category: $category, groupId: $groupId, craftLevel: $craftLevel, availableDays: $availableDays)';
+    return 'Material(id: $id, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, category: $category, groupId: $groupId, craftLevel: $craftLevel, availableDays: $availableDays, source: $source)';
   }
 
   @override
@@ -280,7 +312,8 @@ class _$MaterialImpl extends _Material {
             (identical(other.craftLevel, craftLevel) ||
                 other.craftLevel == craftLevel) &&
             const DeepCollectionEquality()
-                .equals(other._availableDays, _availableDays));
+                .equals(other._availableDays, _availableDays) &&
+            (identical(other.source, source) || other.source == source));
   }
 
   @JsonKey(ignore: true)
@@ -295,7 +328,8 @@ class _$MaterialImpl extends _Material {
       category,
       groupId,
       craftLevel,
-      const DeepCollectionEquality().hash(_availableDays));
+      const DeepCollectionEquality().hash(_availableDays),
+      source);
 
   @JsonKey(ignore: true)
   @override
@@ -321,7 +355,8 @@ abstract class _Material extends Material {
       required final String category,
       final String? groupId,
       final int? craftLevel,
-      final List<DayOfWeek>? availableDays}) = _$MaterialImpl;
+      final List<DayOfWeek>? availableDays,
+      final MaterialSource? source}) = _$MaterialImpl;
   const _Material._() : super._();
 
   factory _Material.fromJson(Map<String, dynamic> json) =
@@ -346,8 +381,789 @@ abstract class _Material extends Material {
   @override
   List<DayOfWeek>? get availableDays;
   @override
+  MaterialSource? get source;
+  @override
   @JsonKey(ignore: true)
   _$$MaterialImplCopyWith<_$MaterialImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+MaterialSource _$MaterialSourceFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'teyvatMap':
+      return TeyvatMapMaterialSource.fromJson(json);
+    case 'domain':
+      return DomainMaterialSource.fromJson(json);
+    case 'weeklyBoss':
+      return WeeklyBossMaterialSource.fromJson(json);
+    case 'text':
+      return TextMaterialSource.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'MaterialSource',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$MaterialSource {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String typeId) teyvatMap,
+    required TResult Function(String domainId, String areaId) domain,
+    required TResult Function(String bossId, String areaId) weeklyBoss,
+    required TResult Function(String textId) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String typeId)? teyvatMap,
+    TResult? Function(String domainId, String areaId)? domain,
+    TResult? Function(String bossId, String areaId)? weeklyBoss,
+    TResult? Function(String textId)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String typeId)? teyvatMap,
+    TResult Function(String domainId, String areaId)? domain,
+    TResult Function(String bossId, String areaId)? weeklyBoss,
+    TResult Function(String textId)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TeyvatMapMaterialSource value) teyvatMap,
+    required TResult Function(DomainMaterialSource value) domain,
+    required TResult Function(WeeklyBossMaterialSource value) weeklyBoss,
+    required TResult Function(TextMaterialSource value) text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(TeyvatMapMaterialSource value)? teyvatMap,
+    TResult? Function(DomainMaterialSource value)? domain,
+    TResult? Function(WeeklyBossMaterialSource value)? weeklyBoss,
+    TResult? Function(TextMaterialSource value)? text,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TeyvatMapMaterialSource value)? teyvatMap,
+    TResult Function(DomainMaterialSource value)? domain,
+    TResult Function(WeeklyBossMaterialSource value)? weeklyBoss,
+    TResult Function(TextMaterialSource value)? text,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MaterialSourceCopyWith<$Res> {
+  factory $MaterialSourceCopyWith(
+          MaterialSource value, $Res Function(MaterialSource) then) =
+      _$MaterialSourceCopyWithImpl<$Res, MaterialSource>;
+}
+
+/// @nodoc
+class _$MaterialSourceCopyWithImpl<$Res, $Val extends MaterialSource>
+    implements $MaterialSourceCopyWith<$Res> {
+  _$MaterialSourceCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$TeyvatMapMaterialSourceImplCopyWith<$Res> {
+  factory _$$TeyvatMapMaterialSourceImplCopyWith(
+          _$TeyvatMapMaterialSourceImpl value,
+          $Res Function(_$TeyvatMapMaterialSourceImpl) then) =
+      __$$TeyvatMapMaterialSourceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String typeId});
+}
+
+/// @nodoc
+class __$$TeyvatMapMaterialSourceImplCopyWithImpl<$Res>
+    extends _$MaterialSourceCopyWithImpl<$Res, _$TeyvatMapMaterialSourceImpl>
+    implements _$$TeyvatMapMaterialSourceImplCopyWith<$Res> {
+  __$$TeyvatMapMaterialSourceImplCopyWithImpl(
+      _$TeyvatMapMaterialSourceImpl _value,
+      $Res Function(_$TeyvatMapMaterialSourceImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? typeId = null,
+  }) {
+    return _then(_$TeyvatMapMaterialSourceImpl(
+      typeId: null == typeId
+          ? _value.typeId
+          : typeId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TeyvatMapMaterialSourceImpl implements TeyvatMapMaterialSource {
+  const _$TeyvatMapMaterialSourceImpl(
+      {required this.typeId, final String? $type})
+      : $type = $type ?? 'teyvatMap';
+
+  factory _$TeyvatMapMaterialSourceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TeyvatMapMaterialSourceImplFromJson(json);
+
+  @override
+  final String typeId;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'MaterialSource.teyvatMap(typeId: $typeId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TeyvatMapMaterialSourceImpl &&
+            (identical(other.typeId, typeId) || other.typeId == typeId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, typeId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TeyvatMapMaterialSourceImplCopyWith<_$TeyvatMapMaterialSourceImpl>
+      get copyWith => __$$TeyvatMapMaterialSourceImplCopyWithImpl<
+          _$TeyvatMapMaterialSourceImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String typeId) teyvatMap,
+    required TResult Function(String domainId, String areaId) domain,
+    required TResult Function(String bossId, String areaId) weeklyBoss,
+    required TResult Function(String textId) text,
+  }) {
+    return teyvatMap(typeId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String typeId)? teyvatMap,
+    TResult? Function(String domainId, String areaId)? domain,
+    TResult? Function(String bossId, String areaId)? weeklyBoss,
+    TResult? Function(String textId)? text,
+  }) {
+    return teyvatMap?.call(typeId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String typeId)? teyvatMap,
+    TResult Function(String domainId, String areaId)? domain,
+    TResult Function(String bossId, String areaId)? weeklyBoss,
+    TResult Function(String textId)? text,
+    required TResult orElse(),
+  }) {
+    if (teyvatMap != null) {
+      return teyvatMap(typeId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TeyvatMapMaterialSource value) teyvatMap,
+    required TResult Function(DomainMaterialSource value) domain,
+    required TResult Function(WeeklyBossMaterialSource value) weeklyBoss,
+    required TResult Function(TextMaterialSource value) text,
+  }) {
+    return teyvatMap(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(TeyvatMapMaterialSource value)? teyvatMap,
+    TResult? Function(DomainMaterialSource value)? domain,
+    TResult? Function(WeeklyBossMaterialSource value)? weeklyBoss,
+    TResult? Function(TextMaterialSource value)? text,
+  }) {
+    return teyvatMap?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TeyvatMapMaterialSource value)? teyvatMap,
+    TResult Function(DomainMaterialSource value)? domain,
+    TResult Function(WeeklyBossMaterialSource value)? weeklyBoss,
+    TResult Function(TextMaterialSource value)? text,
+    required TResult orElse(),
+  }) {
+    if (teyvatMap != null) {
+      return teyvatMap(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TeyvatMapMaterialSourceImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class TeyvatMapMaterialSource implements MaterialSource {
+  const factory TeyvatMapMaterialSource({required final String typeId}) =
+      _$TeyvatMapMaterialSourceImpl;
+
+  factory TeyvatMapMaterialSource.fromJson(Map<String, dynamic> json) =
+      _$TeyvatMapMaterialSourceImpl.fromJson;
+
+  String get typeId;
+  @JsonKey(ignore: true)
+  _$$TeyvatMapMaterialSourceImplCopyWith<_$TeyvatMapMaterialSourceImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DomainMaterialSourceImplCopyWith<$Res> {
+  factory _$$DomainMaterialSourceImplCopyWith(_$DomainMaterialSourceImpl value,
+          $Res Function(_$DomainMaterialSourceImpl) then) =
+      __$$DomainMaterialSourceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String domainId, String areaId});
+}
+
+/// @nodoc
+class __$$DomainMaterialSourceImplCopyWithImpl<$Res>
+    extends _$MaterialSourceCopyWithImpl<$Res, _$DomainMaterialSourceImpl>
+    implements _$$DomainMaterialSourceImplCopyWith<$Res> {
+  __$$DomainMaterialSourceImplCopyWithImpl(_$DomainMaterialSourceImpl _value,
+      $Res Function(_$DomainMaterialSourceImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? domainId = null,
+    Object? areaId = null,
+  }) {
+    return _then(_$DomainMaterialSourceImpl(
+      domainId: null == domainId
+          ? _value.domainId
+          : domainId // ignore: cast_nullable_to_non_nullable
+              as String,
+      areaId: null == areaId
+          ? _value.areaId
+          : areaId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DomainMaterialSourceImpl implements DomainMaterialSource {
+  const _$DomainMaterialSourceImpl(
+      {required this.domainId, required this.areaId, final String? $type})
+      : $type = $type ?? 'domain';
+
+  factory _$DomainMaterialSourceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DomainMaterialSourceImplFromJson(json);
+
+  @override
+  final String domainId;
+  @override
+  final String areaId;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'MaterialSource.domain(domainId: $domainId, areaId: $areaId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DomainMaterialSourceImpl &&
+            (identical(other.domainId, domainId) ||
+                other.domainId == domainId) &&
+            (identical(other.areaId, areaId) || other.areaId == areaId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, domainId, areaId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DomainMaterialSourceImplCopyWith<_$DomainMaterialSourceImpl>
+      get copyWith =>
+          __$$DomainMaterialSourceImplCopyWithImpl<_$DomainMaterialSourceImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String typeId) teyvatMap,
+    required TResult Function(String domainId, String areaId) domain,
+    required TResult Function(String bossId, String areaId) weeklyBoss,
+    required TResult Function(String textId) text,
+  }) {
+    return domain(domainId, areaId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String typeId)? teyvatMap,
+    TResult? Function(String domainId, String areaId)? domain,
+    TResult? Function(String bossId, String areaId)? weeklyBoss,
+    TResult? Function(String textId)? text,
+  }) {
+    return domain?.call(domainId, areaId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String typeId)? teyvatMap,
+    TResult Function(String domainId, String areaId)? domain,
+    TResult Function(String bossId, String areaId)? weeklyBoss,
+    TResult Function(String textId)? text,
+    required TResult orElse(),
+  }) {
+    if (domain != null) {
+      return domain(domainId, areaId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TeyvatMapMaterialSource value) teyvatMap,
+    required TResult Function(DomainMaterialSource value) domain,
+    required TResult Function(WeeklyBossMaterialSource value) weeklyBoss,
+    required TResult Function(TextMaterialSource value) text,
+  }) {
+    return domain(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(TeyvatMapMaterialSource value)? teyvatMap,
+    TResult? Function(DomainMaterialSource value)? domain,
+    TResult? Function(WeeklyBossMaterialSource value)? weeklyBoss,
+    TResult? Function(TextMaterialSource value)? text,
+  }) {
+    return domain?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TeyvatMapMaterialSource value)? teyvatMap,
+    TResult Function(DomainMaterialSource value)? domain,
+    TResult Function(WeeklyBossMaterialSource value)? weeklyBoss,
+    TResult Function(TextMaterialSource value)? text,
+    required TResult orElse(),
+  }) {
+    if (domain != null) {
+      return domain(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DomainMaterialSourceImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class DomainMaterialSource implements MaterialSource {
+  const factory DomainMaterialSource(
+      {required final String domainId,
+      required final String areaId}) = _$DomainMaterialSourceImpl;
+
+  factory DomainMaterialSource.fromJson(Map<String, dynamic> json) =
+      _$DomainMaterialSourceImpl.fromJson;
+
+  String get domainId;
+  String get areaId;
+  @JsonKey(ignore: true)
+  _$$DomainMaterialSourceImplCopyWith<_$DomainMaterialSourceImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$WeeklyBossMaterialSourceImplCopyWith<$Res> {
+  factory _$$WeeklyBossMaterialSourceImplCopyWith(
+          _$WeeklyBossMaterialSourceImpl value,
+          $Res Function(_$WeeklyBossMaterialSourceImpl) then) =
+      __$$WeeklyBossMaterialSourceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String bossId, String areaId});
+}
+
+/// @nodoc
+class __$$WeeklyBossMaterialSourceImplCopyWithImpl<$Res>
+    extends _$MaterialSourceCopyWithImpl<$Res, _$WeeklyBossMaterialSourceImpl>
+    implements _$$WeeklyBossMaterialSourceImplCopyWith<$Res> {
+  __$$WeeklyBossMaterialSourceImplCopyWithImpl(
+      _$WeeklyBossMaterialSourceImpl _value,
+      $Res Function(_$WeeklyBossMaterialSourceImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? bossId = null,
+    Object? areaId = null,
+  }) {
+    return _then(_$WeeklyBossMaterialSourceImpl(
+      bossId: null == bossId
+          ? _value.bossId
+          : bossId // ignore: cast_nullable_to_non_nullable
+              as String,
+      areaId: null == areaId
+          ? _value.areaId
+          : areaId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$WeeklyBossMaterialSourceImpl implements WeeklyBossMaterialSource {
+  const _$WeeklyBossMaterialSourceImpl(
+      {required this.bossId, required this.areaId, final String? $type})
+      : $type = $type ?? 'weeklyBoss';
+
+  factory _$WeeklyBossMaterialSourceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$WeeklyBossMaterialSourceImplFromJson(json);
+
+  @override
+  final String bossId;
+  @override
+  final String areaId;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'MaterialSource.weeklyBoss(bossId: $bossId, areaId: $areaId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WeeklyBossMaterialSourceImpl &&
+            (identical(other.bossId, bossId) || other.bossId == bossId) &&
+            (identical(other.areaId, areaId) || other.areaId == areaId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, bossId, areaId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$WeeklyBossMaterialSourceImplCopyWith<_$WeeklyBossMaterialSourceImpl>
+      get copyWith => __$$WeeklyBossMaterialSourceImplCopyWithImpl<
+          _$WeeklyBossMaterialSourceImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String typeId) teyvatMap,
+    required TResult Function(String domainId, String areaId) domain,
+    required TResult Function(String bossId, String areaId) weeklyBoss,
+    required TResult Function(String textId) text,
+  }) {
+    return weeklyBoss(bossId, areaId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String typeId)? teyvatMap,
+    TResult? Function(String domainId, String areaId)? domain,
+    TResult? Function(String bossId, String areaId)? weeklyBoss,
+    TResult? Function(String textId)? text,
+  }) {
+    return weeklyBoss?.call(bossId, areaId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String typeId)? teyvatMap,
+    TResult Function(String domainId, String areaId)? domain,
+    TResult Function(String bossId, String areaId)? weeklyBoss,
+    TResult Function(String textId)? text,
+    required TResult orElse(),
+  }) {
+    if (weeklyBoss != null) {
+      return weeklyBoss(bossId, areaId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TeyvatMapMaterialSource value) teyvatMap,
+    required TResult Function(DomainMaterialSource value) domain,
+    required TResult Function(WeeklyBossMaterialSource value) weeklyBoss,
+    required TResult Function(TextMaterialSource value) text,
+  }) {
+    return weeklyBoss(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(TeyvatMapMaterialSource value)? teyvatMap,
+    TResult? Function(DomainMaterialSource value)? domain,
+    TResult? Function(WeeklyBossMaterialSource value)? weeklyBoss,
+    TResult? Function(TextMaterialSource value)? text,
+  }) {
+    return weeklyBoss?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TeyvatMapMaterialSource value)? teyvatMap,
+    TResult Function(DomainMaterialSource value)? domain,
+    TResult Function(WeeklyBossMaterialSource value)? weeklyBoss,
+    TResult Function(TextMaterialSource value)? text,
+    required TResult orElse(),
+  }) {
+    if (weeklyBoss != null) {
+      return weeklyBoss(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WeeklyBossMaterialSourceImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class WeeklyBossMaterialSource implements MaterialSource {
+  const factory WeeklyBossMaterialSource(
+      {required final String bossId,
+      required final String areaId}) = _$WeeklyBossMaterialSourceImpl;
+
+  factory WeeklyBossMaterialSource.fromJson(Map<String, dynamic> json) =
+      _$WeeklyBossMaterialSourceImpl.fromJson;
+
+  String get bossId;
+  String get areaId;
+  @JsonKey(ignore: true)
+  _$$WeeklyBossMaterialSourceImplCopyWith<_$WeeklyBossMaterialSourceImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TextMaterialSourceImplCopyWith<$Res> {
+  factory _$$TextMaterialSourceImplCopyWith(_$TextMaterialSourceImpl value,
+          $Res Function(_$TextMaterialSourceImpl) then) =
+      __$$TextMaterialSourceImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String textId});
+}
+
+/// @nodoc
+class __$$TextMaterialSourceImplCopyWithImpl<$Res>
+    extends _$MaterialSourceCopyWithImpl<$Res, _$TextMaterialSourceImpl>
+    implements _$$TextMaterialSourceImplCopyWith<$Res> {
+  __$$TextMaterialSourceImplCopyWithImpl(_$TextMaterialSourceImpl _value,
+      $Res Function(_$TextMaterialSourceImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? textId = null,
+  }) {
+    return _then(_$TextMaterialSourceImpl(
+      textId: null == textId
+          ? _value.textId
+          : textId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TextMaterialSourceImpl implements TextMaterialSource {
+  const _$TextMaterialSourceImpl({required this.textId, final String? $type})
+      : $type = $type ?? 'text';
+
+  factory _$TextMaterialSourceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TextMaterialSourceImplFromJson(json);
+
+  @override
+  final String textId;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'MaterialSource.text(textId: $textId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TextMaterialSourceImpl &&
+            (identical(other.textId, textId) || other.textId == textId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, textId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TextMaterialSourceImplCopyWith<_$TextMaterialSourceImpl> get copyWith =>
+      __$$TextMaterialSourceImplCopyWithImpl<_$TextMaterialSourceImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String typeId) teyvatMap,
+    required TResult Function(String domainId, String areaId) domain,
+    required TResult Function(String bossId, String areaId) weeklyBoss,
+    required TResult Function(String textId) text,
+  }) {
+    return text(textId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String typeId)? teyvatMap,
+    TResult? Function(String domainId, String areaId)? domain,
+    TResult? Function(String bossId, String areaId)? weeklyBoss,
+    TResult? Function(String textId)? text,
+  }) {
+    return text?.call(textId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String typeId)? teyvatMap,
+    TResult Function(String domainId, String areaId)? domain,
+    TResult Function(String bossId, String areaId)? weeklyBoss,
+    TResult Function(String textId)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(textId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TeyvatMapMaterialSource value) teyvatMap,
+    required TResult Function(DomainMaterialSource value) domain,
+    required TResult Function(WeeklyBossMaterialSource value) weeklyBoss,
+    required TResult Function(TextMaterialSource value) text,
+  }) {
+    return text(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(TeyvatMapMaterialSource value)? teyvatMap,
+    TResult? Function(DomainMaterialSource value)? domain,
+    TResult? Function(WeeklyBossMaterialSource value)? weeklyBoss,
+    TResult? Function(TextMaterialSource value)? text,
+  }) {
+    return text?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TeyvatMapMaterialSource value)? teyvatMap,
+    TResult Function(DomainMaterialSource value)? domain,
+    TResult Function(WeeklyBossMaterialSource value)? weeklyBoss,
+    TResult Function(TextMaterialSource value)? text,
+    required TResult orElse(),
+  }) {
+    if (text != null) {
+      return text(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TextMaterialSourceImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class TextMaterialSource implements MaterialSource {
+  const factory TextMaterialSource({required final String textId}) =
+      _$TextMaterialSourceImpl;
+
+  factory TextMaterialSource.fromJson(Map<String, dynamic> json) =
+      _$TextMaterialSourceImpl.fromJson;
+
+  String get textId;
+  @JsonKey(ignore: true)
+  _$$TextMaterialSourceImplCopyWith<_$TextMaterialSourceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
