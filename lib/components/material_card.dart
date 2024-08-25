@@ -31,6 +31,8 @@ class MaterialCard extends HookWidget {
 
   final BookmarkState? bookmarkState;
 
+  final bool dailyMaterialAvailable;
+
   /// Callback for bookmarking the material.
   final void Function()? onBookmark;
 
@@ -45,6 +47,7 @@ class MaterialCard extends HookWidget {
     required this.quantity,
     this.id,
     this.bookmarkState,
+    this.dailyMaterialAvailable = false,
     this.onBookmark,
     this.onSwapExpItem,
   });
@@ -106,8 +109,9 @@ class MaterialCard extends HookWidget {
                     children: [
                       Image.file(image, width: 35, height: 35),
                       if (showName) Expanded(
-                        child: Text(name, style: const TextStyle(fontSize: 18)),
+                        child: Text(name, style: const TextStyle(fontSize: 16)),
                       ),
+                      if (dailyMaterialAvailable) const Icon(Symbols.event_available, color: Colors.green, weight: 700),
                       const SizedBox(),
                       Text.rich(
                         TextSpan(

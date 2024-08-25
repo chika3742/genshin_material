@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 300 (150 per locale)
+/// Strings: 303 (151 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -312,6 +312,7 @@ class _StringsMaterialDetailsPageJa {
 	// Translations
 	String get charactersUsing => 'この素材を使用するキャラクター';
 	String get weaponsUsing => 'この素材を使用する武器';
+	String get availableToday => '本日入手可能';
 }
 
 // Path: materialCard
@@ -432,6 +433,8 @@ class _StringsSettingsPageJa {
 	String get display => '表示';
 	String get showItemNameOnCard => '素材のアイテム名を表示';
 	String get showItemNameOnCardDesc => '使用数を表示するカードにアイテム名を表示します。';
+	String get dailyResetServer => '日替わり素材のサーバー時間';
+	String get dailyResetServerDesc => '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。';
 	String get assetData => 'アセットデータ';
 	String get checkAssetUpdate => 'アセットデータの更新を確認';
 	String get checkAssetUpdateDesc => 'アプリ内データのアップデートをチェックします。';
@@ -955,6 +958,7 @@ extension on Translations {
 			case 'weaponDetailsPage.characterToEquip': return '武器を装備させるキャラクター';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
 			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
+			case 'materialDetailsPage.availableToday': return '本日入手可能';
 			case 'materialCard.reBookmark': return '現在の範囲で再ブックマーク';
 			case 'materialCard.reBookmarkDesc': return '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします';
 			case 'materialCard.unBookmark': return 'ブックマークを解除';
@@ -1001,6 +1005,8 @@ extension on Translations {
 			case 'settingsPage.display': return '表示';
 			case 'settingsPage.showItemNameOnCard': return '素材のアイテム名を表示';
 			case 'settingsPage.showItemNameOnCardDesc': return '使用数を表示するカードにアイテム名を表示します。';
+			case 'settingsPage.dailyResetServer': return '日替わり素材のサーバー時間';
+			case 'settingsPage.dailyResetServerDesc': return '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。';
 			case 'settingsPage.assetData': return 'アセットデータ';
 			case 'settingsPage.checkAssetUpdate': return 'アセットデータの更新を確認';
 			case 'settingsPage.checkAssetUpdateDesc': return 'アプリ内データのアップデートをチェックします。';

@@ -1,10 +1,12 @@
 import "package:flutter/material.dart";
-import "package:flutter_hooks/flutter_hooks.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../composables/use_periodic_timer.dart";
 import "../models/common.dart";
+import "../providers/preferences.dart";
+import "../utils/daily_material_weekday.dart";
 
-class WeekdayTab extends StatefulHookWidget implements PreferredSizeWidget {
+class WeekdayTab extends StatefulHookConsumerWidget implements PreferredSizeWidget {
   const WeekdayTab({
     super.key,
     required TabController tabController,
@@ -15,13 +17,13 @@ class WeekdayTab extends StatefulHookWidget implements PreferredSizeWidget {
   final List<DailyTab> tabs;
 
   @override
-  State<WeekdayTab> createState() => _WeekdayTabState();
+  ConsumerState<WeekdayTab> createState() => _WeekdayTabState();
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class _WeekdayTabState extends State<WeekdayTab> {
+class _WeekdayTabState extends ConsumerState<WeekdayTab> {
   @override
   Widget build(BuildContext context) {
     usePeriodicTimer(const Duration(seconds: 2), (_) {
@@ -30,18 +32,20 @@ class _WeekdayTabState extends State<WeekdayTab> {
       }
     });
 
+    final pref = ref.watch(preferencesStateNotifierProvider);
+
     return TabBar(
       controller: widget._tabController,
       tabs: [
         for (final tab in widget.tabs)
           Tab(
             child: Container(
-              key: ValueKey(DateTime.now().weekday),
+              key: ValueKey(getCurrentDailyMaterialWeekday(pref.dailyResetServer)),
               padding: const EdgeInsets.symmetric(
                 vertical: 4,
                 horizontal: 8,
               ),
-              decoration: tab.isToday ? BoxDecoration(
+              decoration: tab.getIsToday(pref.dailyResetServer) ? BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Theme.of(context).colorScheme.inversePrimary,
               ) : null,
@@ -56,7 +60,7 @@ class _WeekdayTabState extends State<WeekdayTab> {
 class DailyTab {
   final String id;
   final String title;
-  final List<DayOfWeek> days;
+  final List<int> days;
 
   const DailyTab({
     required this.id,
@@ -64,9 +68,8 @@ class DailyTab {
     required this.days,
   });
 
-  bool get isToday {
-    final now = DateTime.now();
-    final today = now.weekday;
-    return days.any((day) => day.index + 1 == today);
+  bool getIsToday(GameServer server) {
+    final now = getCurrentDailyMaterialWeekday(server);
+    return days.contains(now);
   }
 }

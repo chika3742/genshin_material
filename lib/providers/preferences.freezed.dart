@@ -27,6 +27,7 @@ mixin _$PreferencesState {
   bool get syncResin => throw _privateConstructorUsedError;
   bool get syncCharaState => throw _privateConstructorUsedError;
   bool get showItemNameOnCard => throw _privateConstructorUsedError;
+  GameServer get dailyResetServer => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PreferencesStateCopyWith<PreferencesState> get copyWith =>
@@ -50,7 +51,8 @@ abstract class $PreferencesStateCopyWith<$Res> {
       String? hyvUid,
       bool syncResin,
       bool syncCharaState,
-      bool showItemNameOnCard});
+      bool showItemNameOnCard,
+      GameServer dailyResetServer});
 }
 
 /// @nodoc
@@ -77,6 +79,7 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
     Object? syncResin = null,
     Object? syncCharaState = null,
     Object? showItemNameOnCard = null,
+    Object? dailyResetServer = null,
   }) {
     return _then(_value.copyWith(
       pref: null == pref
@@ -123,6 +126,10 @@ class _$PreferencesStateCopyWithImpl<$Res, $Val extends PreferencesState>
           ? _value.showItemNameOnCard
           : showItemNameOnCard // ignore: cast_nullable_to_non_nullable
               as bool,
+      dailyResetServer: null == dailyResetServer
+          ? _value.dailyResetServer
+          : dailyResetServer // ignore: cast_nullable_to_non_nullable
+              as GameServer,
     ) as $Val);
   }
 }
@@ -146,7 +153,8 @@ abstract class _$$PreferencesStateImplCopyWith<$Res>
       String? hyvUid,
       bool syncResin,
       bool syncCharaState,
-      bool showItemNameOnCard});
+      bool showItemNameOnCard,
+      GameServer dailyResetServer});
 }
 
 /// @nodoc
@@ -171,6 +179,7 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
     Object? syncResin = null,
     Object? syncCharaState = null,
     Object? showItemNameOnCard = null,
+    Object? dailyResetServer = null,
   }) {
     return _then(_$PreferencesStateImpl(
       pref: null == pref
@@ -217,6 +226,10 @@ class __$$PreferencesStateImplCopyWithImpl<$Res>
           ? _value.showItemNameOnCard
           : showItemNameOnCard // ignore: cast_nullable_to_non_nullable
               as bool,
+      dailyResetServer: null == dailyResetServer
+          ? _value.dailyResetServer
+          : dailyResetServer // ignore: cast_nullable_to_non_nullable
+              as GameServer,
     ));
   }
 }
@@ -235,7 +248,8 @@ class _$PreferencesStateImpl extends _PreferencesState {
       required this.hyvUid,
       required this.syncResin,
       required this.syncCharaState,
-      required this.showItemNameOnCard})
+      required this.showItemNameOnCard,
+      required this.dailyResetServer})
       : super._();
 
   @override
@@ -260,10 +274,12 @@ class _$PreferencesStateImpl extends _PreferencesState {
   final bool syncCharaState;
   @override
   final bool showItemNameOnCard;
+  @override
+  final GameServer dailyResetServer;
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvCookie: $hyvCookie, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, showItemNameOnCard: $showItemNameOnCard)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvCookie: $hyvCookie, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer)';
   }
 
   @override
@@ -289,7 +305,9 @@ class _$PreferencesStateImpl extends _PreferencesState {
             (identical(other.syncCharaState, syncCharaState) ||
                 other.syncCharaState == syncCharaState) &&
             (identical(other.showItemNameOnCard, showItemNameOnCard) ||
-                other.showItemNameOnCard == showItemNameOnCard));
+                other.showItemNameOnCard == showItemNameOnCard) &&
+            (identical(other.dailyResetServer, dailyResetServer) ||
+                other.dailyResetServer == dailyResetServer));
   }
 
   @override
@@ -305,7 +323,8 @@ class _$PreferencesStateImpl extends _PreferencesState {
       hyvUid,
       syncResin,
       syncCharaState,
-      showItemNameOnCard);
+      showItemNameOnCard,
+      dailyResetServer);
 
   @JsonKey(ignore: true)
   @override
@@ -327,7 +346,8 @@ abstract class _PreferencesState extends PreferencesState {
       required final String? hyvUid,
       required final bool syncResin,
       required final bool syncCharaState,
-      required final bool showItemNameOnCard}) = _$PreferencesStateImpl;
+      required final bool showItemNameOnCard,
+      required final GameServer dailyResetServer}) = _$PreferencesStateImpl;
   const _PreferencesState._() : super._();
 
   @override
@@ -352,6 +372,8 @@ abstract class _PreferencesState extends PreferencesState {
   bool get syncCharaState;
   @override
   bool get showItemNameOnCard;
+  @override
+  GameServer get dailyResetServer;
   @override
   @JsonKey(ignore: true)
   _$$PreferencesStateImplCopyWith<_$PreferencesStateImpl> get copyWith =>

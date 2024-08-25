@@ -1,5 +1,7 @@
 import "package:shared_preferences/shared_preferences.dart";
 
+import "../models/common.dart";
+
 class KvPreferences {
   final SharedPreferences sp;
 
@@ -51,4 +53,7 @@ class KvPreferences {
 
   bool get showItemNameOnCard => sp.getBool("showItemNameOnCard") ?? true;
   Future<void> setShowItemNameOnCard(bool value) => sp.setBool("showItemNameOnCard", value);
+
+  String get dailyResetServer => sp.getString("dailyResetServer") ?? GameServer.asia.name;
+  Future<void> setDailyResetServer(String value) => sp.setString("dailyResetServer", value);
 }

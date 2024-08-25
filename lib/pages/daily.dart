@@ -1,6 +1,7 @@
 
 import "package:flutter/material.dart";
-import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../components/character_small_card.dart";
 import "../components/data_asset_scope.dart";
@@ -8,63 +9,52 @@ import "../components/layout.dart";
 import "../components/list_tile.dart";
 import "../components/weekday_tab.dart";
 import "../i18n/strings.g.dart";
-import "../models/common.dart";
 import "../models/material.dart";
+import "../providers/preferences.dart";
 import "../providers/versions.dart";
 import "../routes.dart";
 import "../utils/lists.dart";
 import "../utils/material_usage.dart";
 
-class DailyPage extends StatefulWidget {
+class DailyPage extends HookConsumerWidget {
   const DailyPage({super.key});
 
-  @override
-  State<DailyPage> createState() => _DailyPageState();
-}
-
-class _DailyPageState extends State<DailyPage> with TickerProviderStateMixin {
-  late final TabController _tabController;
-
-  final tabs = [
+  List<DailyTab> get tabs => [
     DailyTab(
       id: "monday|thursday",
       title: tr.dailyPage.mondayAndThursday,
-      days: const [DayOfWeek.monday, DayOfWeek.thursday, DayOfWeek.sunday],
+      days: const [DateTime.monday, DateTime.thursday, DateTime.sunday],
     ),
     DailyTab(
       id: "tuesday|friday",
       title: tr.dailyPage.tuesdayAndFriday,
-      days: const [DayOfWeek.tuesday, DayOfWeek.friday, DayOfWeek.sunday],
+      days: const [DateTime.tuesday, DateTime.friday, DateTime.sunday],
     ),
     DailyTab(
       id: "wednesday|saturday",
       title: tr.dailyPage.wednesdayAndSaturday,
-      days: const [DayOfWeek.wednesday, DayOfWeek.saturday, DayOfWeek.sunday],
+      days: const [DateTime.wednesday, DateTime.saturday, DateTime.sunday],
     ),
   ];
-
+  
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pref = ref.watch(preferencesStateNotifierProvider);
 
-    _tabController = TabController(
-      length: tabs.length,
-      initialIndex: tabs.indexWhere((tab) => tab.isToday),
-      vsync: this,
+    final tabController = useTabController(
+      initialLength: tabs.length,
+      initialIndex: tabs.indexWhere((tab) => tab.getIsToday(pref.dailyResetServer)),
     );
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.daily),
-        bottom: WeekdayTab(tabController: _tabController, tabs: tabs),
+        bottom: WeekdayTab(tabController: tabController, tabs: tabs),
       ),
       body: DataAssetScope(
         builder: (assetData, assetDir) {
           return TabBarView(
-            controller: _tabController,
+            controller: tabController,
             children: [
               for (final tab in tabs)
                 SingleChildScrollView(

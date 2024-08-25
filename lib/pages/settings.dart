@@ -10,10 +10,12 @@ import "../core/asset_updater.dart";
 import "../core/handle_error.dart";
 import "../i18n/strings.g.dart";
 import "../main.dart";
+import "../models/common.dart";
 import "../providers/asset_updating_state.dart";
 import "../providers/preferences.dart";
 import "../routes.dart";
 import "../ui_core/install_latest_assets.dart";
+import "../ui_core/select_bottom_sheet.dart";
 import "../ui_core/snack_bar.dart";
 
 class SettingsPage extends HookConsumerWidget {
@@ -40,6 +42,29 @@ class SettingsPage extends HookConsumerWidget {
             value: prefs.showItemNameOnCard,
             onChanged: (value) {
               ref.read(preferencesStateNotifierProvider.notifier).setShowItemNameOnCard(value!);
+            },
+          ),
+          SimpleListTile(
+            title: tr.settingsPage.dailyResetServer,
+            subtitle: prefs.dailyResetServer.description,
+            onTap: () {
+              showSelectBottomSheet(
+                context: context,
+                title: Text(tr.settingsPage.dailyResetServer),
+                subtitle: Text(tr.settingsPage.dailyResetServerDesc),
+                selectedValue: prefs.dailyResetServer,
+                items: [
+                  for (final server in GameServer.values)
+                    SelectBottomSheetItem(
+                      text: server.description,
+                      value: server,
+                    ),
+                ],
+              ).then((value) {
+                if (value != null) {
+                  ref.read(preferencesStateNotifierProvider.notifier).setDailyResetServer(value);
+                }
+              });
             },
           ),
           ListSubheader(tr.settingsPage.assetData),

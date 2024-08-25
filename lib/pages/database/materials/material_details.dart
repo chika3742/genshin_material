@@ -1,5 +1,6 @@
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
+import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/center_text.dart";
 import "../../../components/character_small_card.dart";
@@ -9,6 +10,7 @@ import "../../../components/layout.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/common.dart";
 import "../../../routes.dart";
 import "../../../utils/material_usage.dart";
 
@@ -60,6 +62,13 @@ class MaterialDetailsPage extends StatelessWidget {
                         assetData.materialCategories[material.category]!.localized,
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
+                      if (material.getDailyMaterialAvailable(GameServer.asia))
+                        GappedRow(
+                          children: [
+                            const Icon(Symbols.event_available, color: Colors.green),
+                            Text(tr.materialDetailsPage.availableToday),
+                          ],
+                        ),
                     ],
                   ),
 
