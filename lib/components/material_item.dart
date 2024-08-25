@@ -96,6 +96,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       quantity: quantity,
       id: material.id,
       bookmarkState: bookmarkState,
+      dailyMaterialAvailable: material.getDailyMaterialAvailable(GameServer.asia),
       onBookmark: () async {
         final db = ref.read(appDatabaseProvider);
 

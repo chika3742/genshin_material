@@ -5,6 +5,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/kv_preferences.dart";
 import "../main.dart";
+import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "../pages/tools/resin_calc.dart";
 
@@ -83,6 +84,11 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     state.pref.setShowItemNameOnCard(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
+
+  Future<void> setDailyResetServer(GameServer server) async {
+    state.pref.setDailyResetServer(server.name);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
 }
 
 @freezed
@@ -101,6 +107,7 @@ class PreferencesState with _$PreferencesState {
     required bool syncResin,
     required bool syncCharaState,
     required bool showItemNameOnCard,
+    required GameServer dailyResetServer,
   }) = _PreferencesState;
 
   factory PreferencesState.fromSharedPreferences(KvPreferences pref) {
@@ -116,6 +123,7 @@ class PreferencesState with _$PreferencesState {
       syncResin: pref.syncResin,
       syncCharaState: pref.syncCharaState,
       showItemNameOnCard: pref.showItemNameOnCard,
+      dailyResetServer: GameServer.values.firstWhere((e) => e.name == pref.dailyResetServer),
     );
   }
 

@@ -1,6 +1,7 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
+import "../utils/daily_material_weekday.dart";
 import "common.dart";
 import "localized_text.dart";
 
@@ -26,6 +27,15 @@ sealed class Material with _$Material, ImageGetter {
 
   factory Material.fromJson(Map<String, dynamic> json) =>
       _$MaterialFromJson(json);
+
+  bool getDailyMaterialAvailable(GameServer server) {
+    if (availableDays == null) {
+      return false;
+    }
+
+    final currentWeekday = getCurrentDailyMaterialWeekday(server);
+    return availableDays!.any((day) => day.value == currentWeekday);
+  }
 }
 
 @freezed

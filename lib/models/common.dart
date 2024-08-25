@@ -45,11 +45,26 @@ enum BookmarkState {
 }
 
 enum DayOfWeek {
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  sunday,
+  monday(DateTime.monday),
+  tuesday(DateTime.tuesday),
+  wednesday(DateTime.wednesday),
+  thursday(DateTime.thursday),
+  friday(DateTime.friday),
+  saturday(DateTime.saturday),
+  sunday(DateTime.sunday);
+
+  const DayOfWeek(this.value);
+
+  final int value;
+}
+
+enum GameServer {
+  america(Duration(hours: -5), "America"),
+  europe(Duration(hours: 1), "Europe"),
+  asia(Duration(hours: 8), "Asia, TW/HK/MO");
+
+  const GameServer(this.serverTimeZoneOffset, this.description);
+
+  final Duration serverTimeZoneOffset;
+  final String description;
 }

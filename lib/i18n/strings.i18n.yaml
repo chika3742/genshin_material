@@ -70,6 +70,7 @@ weaponDetailsPage:
 materialDetailsPage:
   charactersUsing: この素材を使用するキャラクター
   weaponsUsing: この素材を使用する武器
+  availableToday: 本日入手可能
 materialCard:
   reBookmark: 現在の範囲で再ブックマーク
   reBookmarkDesc: 一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします
@@ -127,6 +128,8 @@ settingsPage:
   display: 表示
   showItemNameOnCard: 素材のアイテム名を表示
   showItemNameOnCardDesc: 使用数を表示するカードにアイテム名を表示します。
+  dailyResetServer: 日替わり素材のサーバー時間
+  dailyResetServerDesc: 日替わり素材が更新される時間の基準とするゲームサーバーを選択します。
   assetData: アセットデータ
   checkAssetUpdate: アセットデータの更新を確認
   checkAssetUpdateDesc: アプリ内データのアップデートをチェックします。
