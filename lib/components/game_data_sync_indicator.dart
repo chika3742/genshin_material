@@ -99,7 +99,7 @@ class GameDataSyncIndicator extends HookWidget {
                             ),
                           ],
                           color: status == GameDataSyncStatus.synced
-                              ? Theme.of(context).colorScheme.surfaceVariant
+                              ? Theme.of(context).colorScheme.surfaceContainerHighest
                               : Theme.of(context).colorScheme.errorContainer,
                           shape: BubbleShapeBorder(
                             tailPosition: widgetPos.dx + renderBox.size.width / 2,
