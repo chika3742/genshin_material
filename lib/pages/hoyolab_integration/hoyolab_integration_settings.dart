@@ -284,11 +284,11 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
                 padding: const EdgeInsets.only(right: 16.0),
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith((states) {
-                      if (states.contains(MaterialState.disabled)) {
-                        return Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.6);
+                    backgroundColor: WidgetStateProperty.resolveWith((states) {
+                      if (states.contains(WidgetState.disabled)) {
+                        return Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.6);
                       }
-                      return Theme.of(context).colorScheme.surfaceVariant;
+                      return Theme.of(context).colorScheme.surfaceContainerHighest;
                     }),
                   ),
                   onPressed: selectedServer.value != null && gameRoles.value[selectedServer.value!] != null ? () {

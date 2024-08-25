@@ -117,11 +117,15 @@ class _HoyolabSignInPageState extends State<HoyolabSignInPage> {
             }
             if (message.message == "tokenReceived") {
               HoyolabIntegrationApi().fetchCookie().then((cookie) {
-                Navigator.of(context).pop(cookie);
+                if (mounted) {
+                  Navigator.of(context).pop(cookie);
+                }
               }).catchError((error) {
-                showSnackBar(context: context, message: tr.hoyolab.failedToSignIn, error: true);
                 debugPrint("Failed to sign in: $error");
-                Navigator.of(context).pop();
+                if (mounted) {
+                  showSnackBar(context: context, message: tr.hoyolab.failedToSignIn, error: true);
+                  Navigator.of(context).pop();
+                }
               });
             }
           },
