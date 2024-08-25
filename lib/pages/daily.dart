@@ -88,14 +88,14 @@ class DailyPage extends HookConsumerWidget {
                               assetData.materials[dm.items.first]!,
                               assetData.weapons.values,
                             ).toList().sortedDescendingByRarity().groupByType().entries) ...[
-                              SectionHeading(
+                              SectionInnerHeading(
                                 assetData.weaponTypes[e.key]!.name.localized,
-                                indent: 8,
                               ),
                               for (final weapon in e.value)
                                 GameItemListTile(
                                   name: weapon.name.localized,
                                   image: weapon.getImageFile(assetDir),
+                                  rounded: true,
                                   rarity: weapon.rarity,
                                   onTap: () {
                                     WeaponDetailsRoute(id: weapon.id)
@@ -131,6 +131,7 @@ class _DailyMaterialHeading extends ConsumerWidget {
     }
 
     return Card(
+      color: Theme.of(context).colorScheme.tertiaryContainer,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
