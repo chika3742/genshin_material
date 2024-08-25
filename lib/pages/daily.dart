@@ -1,4 +1,3 @@
-
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
@@ -73,7 +72,8 @@ class DailyPage extends HookConsumerWidget {
                                 assetData.characters.values,
                                 assetData.specialCharactersUsingMaterials,
                               ))
-                                CharacterSmallCard(character),
+                                if (!character.id.startsWith("traveler"))
+                                  CharacterSmallCard(character),
                             ],
                           ),
                         ],
