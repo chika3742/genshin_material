@@ -4,9 +4,22 @@ import "package:flutter_hooks/flutter_hooks.dart";
 class ScrollBlurEffect extends HookWidget {
   final Widget child;
   final ScrollController scrollController;
+
+  /// The maximum blur height as a fraction of the total height.
+  /// Acceptable values are between 0 and 1.
   final double maxBlurHeight;
 
-  const ScrollBlurEffect({super.key, required this.scrollController, required this.child, this.maxBlurHeight = 100});
+  /// The height from the bottom of the screen where the blur effect will start to fade.
+  final double blurFadeHeight;
+
+  const ScrollBlurEffect({
+    super.key,
+    required this.scrollController,
+    required this.child,
+    this.maxBlurHeight = 0.15,
+    this.blurFadeHeight = 100.0,
+  })  : assert(maxBlurHeight >= 0.0 && maxBlurHeight <= 1.0),
+        assert(blurFadeHeight >= 0);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +36,7 @@ class ScrollBlurEffect extends HookWidget {
       return () {
         scrollController.removeListener(onScroll);
       };
-    }, [blurHeightFactor.value],);
+    }, [],);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -37,7 +50,7 @@ class ScrollBlurEffect extends HookWidget {
                 Colors.white,
                 Colors.white.withOpacity(0),
               ],
-              stops: [0.0, 1 - ((maxBlurHeight / constraints.maxHeight) * blurHeightFactor.value), 1.0],
+              stops: [0.0, 1 - (maxBlurHeight * blurHeightFactor.value), 1.0],
             ).createShader(bounds);
           },
           child: child,
@@ -48,6 +61,6 @@ class ScrollBlurEffect extends HookWidget {
 
   void updateBlurHeight(ValueNotifier<double> blurHeightFactor) {
     final offset = scrollController.offset;
-    blurHeightFactor.value = ((scrollController.position.maxScrollExtent - offset) / maxBlurHeight).clamp(0.0, 1.0);
+    blurHeightFactor.value = ((scrollController.position.maxScrollExtent - offset) / blurFadeHeight).clamp(0.0, 1.0);
   }
 }

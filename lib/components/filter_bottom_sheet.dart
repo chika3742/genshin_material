@@ -53,7 +53,7 @@ class FilterBottomSheet extends HookWidget {
               scrollController: scrollController,
               child: SingleChildScrollView(
                 controller: scrollController,
-                physics: maxChildSize != currentMaxChildSize.value ? const NeverScrollableScrollPhysics() : null,
+                physics: initialChildSize >= currentMaxChildSize.value ? const NeverScrollableScrollPhysics() : null,
                 child: Padding(
                   key: contentKey,
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
