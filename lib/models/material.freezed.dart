@@ -31,8 +31,12 @@ mixin _$Material {
   List<DayOfWeek>? get availableDays => throw _privateConstructorUsedError;
   MaterialSource? get source => throw _privateConstructorUsedError;
 
+  /// Serializes this Material to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Material
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MaterialCopyWith<Material> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -68,6 +72,8 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Material
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -126,6 +132,8 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
     ) as $Val);
   }
 
+  /// Create a copy of Material
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get name {
@@ -134,6 +142,8 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
     });
   }
 
+  /// Create a copy of Material
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MaterialSourceCopyWith<$Res>? get source {
@@ -181,6 +191,8 @@ class __$$MaterialImplCopyWithImpl<$Res>
       _$MaterialImpl _value, $Res Function(_$MaterialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Material
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -316,7 +328,7 @@ class _$MaterialImpl extends _Material {
             (identical(other.source, source) || other.source == source));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -331,7 +343,9 @@ class _$MaterialImpl extends _Material {
       const DeepCollectionEquality().hash(_availableDays),
       source);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Material
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MaterialImplCopyWith<_$MaterialImpl> get copyWith =>
@@ -382,8 +396,11 @@ abstract class _Material extends Material {
   List<DayOfWeek>? get availableDays;
   @override
   MaterialSource? get source;
+
+  /// Create a copy of Material
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MaterialImplCopyWith<_$MaterialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -457,6 +474,8 @@ mixin _$MaterialSource {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this MaterialSource to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -476,6 +495,9 @@ class _$MaterialSourceCopyWithImpl<$Res, $Val extends MaterialSource>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -497,6 +519,8 @@ class __$$TeyvatMapMaterialSourceImplCopyWithImpl<$Res>
       $Res Function(_$TeyvatMapMaterialSourceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -540,11 +564,13 @@ class _$TeyvatMapMaterialSourceImpl implements TeyvatMapMaterialSource {
             (identical(other.typeId, typeId) || other.typeId == typeId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, typeId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TeyvatMapMaterialSourceImplCopyWith<_$TeyvatMapMaterialSourceImpl>
@@ -641,7 +667,10 @@ abstract class TeyvatMapMaterialSource implements MaterialSource {
       _$TeyvatMapMaterialSourceImpl.fromJson;
 
   String get typeId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TeyvatMapMaterialSourceImplCopyWith<_$TeyvatMapMaterialSourceImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -663,6 +692,8 @@ class __$$DomainMaterialSourceImplCopyWithImpl<$Res>
       $Res Function(_$DomainMaterialSourceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -715,11 +746,13 @@ class _$DomainMaterialSourceImpl implements DomainMaterialSource {
             (identical(other.areaId, areaId) || other.areaId == areaId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, domainId, areaId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DomainMaterialSourceImplCopyWith<_$DomainMaterialSourceImpl>
@@ -819,7 +852,10 @@ abstract class DomainMaterialSource implements MaterialSource {
 
   String get domainId;
   String get areaId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DomainMaterialSourceImplCopyWith<_$DomainMaterialSourceImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -843,6 +879,8 @@ class __$$WeeklyBossMaterialSourceImplCopyWithImpl<$Res>
       $Res Function(_$WeeklyBossMaterialSourceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -894,11 +932,13 @@ class _$WeeklyBossMaterialSourceImpl implements WeeklyBossMaterialSource {
             (identical(other.areaId, areaId) || other.areaId == areaId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, bossId, areaId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WeeklyBossMaterialSourceImplCopyWith<_$WeeklyBossMaterialSourceImpl>
@@ -997,7 +1037,10 @@ abstract class WeeklyBossMaterialSource implements MaterialSource {
 
   String get bossId;
   String get areaId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WeeklyBossMaterialSourceImplCopyWith<_$WeeklyBossMaterialSourceImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1019,6 +1062,8 @@ class __$$TextMaterialSourceImplCopyWithImpl<$Res>
       $Res Function(_$TextMaterialSourceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1061,11 +1106,13 @@ class _$TextMaterialSourceImpl implements TextMaterialSource {
             (identical(other.textId, textId) || other.textId == textId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, textId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TextMaterialSourceImplCopyWith<_$TextMaterialSourceImpl> get copyWith =>
@@ -1162,7 +1209,10 @@ abstract class TextMaterialSource implements MaterialSource {
       _$TextMaterialSourceImpl.fromJson;
 
   String get textId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MaterialSource
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TextMaterialSourceImplCopyWith<_$TextMaterialSourceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1180,8 +1230,12 @@ mixin _$MaterialsMeta {
   Map<String, List<String>> get specialCharactersUsingMaterials =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this MaterialsMeta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MaterialsMeta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MaterialsMetaCopyWith<MaterialsMeta> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1211,6 +1265,8 @@ class _$MaterialsMetaCopyWithImpl<$Res, $Val extends MaterialsMeta>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MaterialsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1239,6 +1295,8 @@ class _$MaterialsMetaCopyWithImpl<$Res, $Val extends MaterialsMeta>
     ) as $Val);
   }
 
+  /// Create a copy of MaterialsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DailyMaterialsCopyWith<$Res> get daily {
@@ -1274,6 +1332,8 @@ class __$$MaterialsMetaImplCopyWithImpl<$Res>
       _$MaterialsMetaImpl _value, $Res Function(_$MaterialsMetaImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaterialsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1365,7 +1425,7 @@ class _$MaterialsMetaImpl implements _MaterialsMeta {
                 _specialCharactersUsingMaterials));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -1374,7 +1434,9 @@ class _$MaterialsMetaImpl implements _MaterialsMeta {
       daily,
       const DeepCollectionEquality().hash(_specialCharactersUsingMaterials));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaterialsMeta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MaterialsMetaImplCopyWith<_$MaterialsMetaImpl> get copyWith =>
@@ -1407,8 +1469,11 @@ abstract class _MaterialsMeta implements MaterialsMeta {
   DailyMaterials get daily;
   @override
   Map<String, List<String>> get specialCharactersUsingMaterials;
+
+  /// Create a copy of MaterialsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MaterialsMetaImplCopyWith<_$MaterialsMetaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1424,8 +1489,12 @@ mixin _$DailyMaterials {
   Map<String, List<DailyMaterial>> get weapon =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this DailyMaterials to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DailyMaterials
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DailyMaterialsCopyWith<DailyMaterials> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1451,6 +1520,8 @@ class _$DailyMaterialsCopyWithImpl<$Res, $Val extends DailyMaterials>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DailyMaterials
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1491,6 +1562,8 @@ class __$$DailyMaterialsImplCopyWithImpl<$Res>
       _$DailyMaterialsImpl _value, $Res Function(_$DailyMaterialsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DailyMaterials
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1552,14 +1625,16 @@ class _$DailyMaterialsImpl implements _DailyMaterials {
             const DeepCollectionEquality().equals(other._weapon, _weapon));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_talent),
       const DeepCollectionEquality().hash(_weapon));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DailyMaterials
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DailyMaterialsImplCopyWith<_$DailyMaterialsImpl> get copyWith =>
@@ -1587,8 +1662,11 @@ abstract class _DailyMaterials implements DailyMaterials {
   Map<String, List<DailyMaterial>> get talent;
   @override
   Map<String, List<DailyMaterial>> get weapon;
+
+  /// Create a copy of DailyMaterials
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DailyMaterialsImplCopyWith<_$DailyMaterialsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1602,8 +1680,12 @@ mixin _$DailyMaterial {
   LocalizedText get description => throw _privateConstructorUsedError;
   List<String> get items => throw _privateConstructorUsedError;
 
+  /// Serializes this DailyMaterial to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DailyMaterial
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DailyMaterialCopyWith<DailyMaterial> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1629,6 +1711,8 @@ class _$DailyMaterialCopyWithImpl<$Res, $Val extends DailyMaterial>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DailyMaterial
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1647,6 +1731,8 @@ class _$DailyMaterialCopyWithImpl<$Res, $Val extends DailyMaterial>
     ) as $Val);
   }
 
+  /// Create a copy of DailyMaterial
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get description {
@@ -1678,6 +1764,8 @@ class __$$DailyMaterialImplCopyWithImpl<$Res>
       _$DailyMaterialImpl _value, $Res Function(_$DailyMaterialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DailyMaterial
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1732,12 +1820,14 @@ class _$DailyMaterialImpl implements _DailyMaterial {
             const DeepCollectionEquality().equals(other._items, _items));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, description, const DeepCollectionEquality().hash(_items));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DailyMaterial
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DailyMaterialImplCopyWith<_$DailyMaterialImpl> get copyWith =>
@@ -1763,8 +1853,11 @@ abstract class _DailyMaterial implements DailyMaterial {
   LocalizedText get description;
   @override
   List<String> get items;
+
+  /// Create a copy of DailyMaterial
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DailyMaterialImplCopyWith<_$DailyMaterialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

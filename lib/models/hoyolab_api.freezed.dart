@@ -25,9 +25,13 @@ mixin _$HoyolabApiResult<T> {
   String get message => throw _privateConstructorUsedError;
   T? get data => throw _privateConstructorUsedError;
 
+  /// Serializes this HoyolabApiResult to a JSON map.
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
       throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HoyolabApiResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HoyolabApiResultCopyWith<T, HoyolabApiResult<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +55,8 @@ class _$HoyolabApiResultCopyWithImpl<T, $Res, $Val extends HoyolabApiResult<T>>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HoyolabApiResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -94,6 +100,8 @@ class __$$HoyolabApiResultImplCopyWithImpl<T, $Res>
       $Res Function(_$HoyolabApiResultImpl<T>) _then)
       : super(_value, _then);
 
+  /// Create a copy of HoyolabApiResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,12 +159,14 @@ class _$HoyolabApiResultImpl<T> extends _HoyolabApiResult<T> {
             const DeepCollectionEquality().equals(other.data, data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, retcode, message, const DeepCollectionEquality().hash(data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HoyolabApiResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HoyolabApiResultImplCopyWith<T, _$HoyolabApiResultImpl<T>> get copyWith =>
@@ -186,8 +196,11 @@ abstract class _HoyolabApiResult<T> extends HoyolabApiResult<T> {
   String get message;
   @override
   T? get data;
+
+  /// Create a copy of HoyolabApiResult
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HoyolabApiResultImplCopyWith<T, _$HoyolabApiResultImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -201,9 +214,13 @@ HoyolabListData<T> _$HoyolabListDataFromJson<T>(
 mixin _$HoyolabListData<T> {
   List<T> get list => throw _privateConstructorUsedError;
 
+  /// Serializes this HoyolabListData to a JSON map.
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
       throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HoyolabListData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HoyolabListDataCopyWith<T, HoyolabListData<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -227,6 +244,8 @@ class _$HoyolabListDataCopyWithImpl<T, $Res, $Val extends HoyolabListData<T>>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HoyolabListData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -260,6 +279,8 @@ class __$$HoyolabListDataImplCopyWithImpl<T, $Res>
       $Res Function(_$HoyolabListDataImpl<T>) _then)
       : super(_value, _then);
 
+  /// Create a copy of HoyolabListData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -304,12 +325,14 @@ class _$HoyolabListDataImpl<T> implements _HoyolabListData<T> {
             const DeepCollectionEquality().equals(other._list, _list));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_list));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HoyolabListData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HoyolabListDataImplCopyWith<T, _$HoyolabListDataImpl<T>> get copyWith =>
@@ -332,8 +355,11 @@ abstract class _HoyolabListData<T> implements HoyolabListData<T> {
 
   @override
   List<T> get list;
+
+  /// Create a copy of HoyolabListData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HoyolabListDataImplCopyWith<T, _$HoyolabListDataImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -347,8 +373,12 @@ mixin _$HyvServer {
   String get region => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
+  /// Serializes this HyvServer to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HyvServer
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HyvServerCopyWith<HyvServer> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -371,6 +401,8 @@ class _$HyvServerCopyWithImpl<$Res, $Val extends HyvServer>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HyvServer
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -409,6 +441,8 @@ class __$$HyvServerImplCopyWithImpl<$Res>
       _$HyvServerImpl _value, $Res Function(_$HyvServerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HyvServer
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -455,11 +489,13 @@ class _$HyvServerImpl implements _HyvServer {
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, region, name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HyvServer
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HyvServerImplCopyWith<_$HyvServerImpl> get copyWith =>
@@ -485,8 +521,11 @@ abstract class _HyvServer implements HyvServer {
   String get region;
   @override
   String get name;
+
+  /// Create a copy of HyvServer
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HyvServerImplCopyWith<_$HyvServerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -502,8 +541,12 @@ mixin _$HyvUserInfo {
   @JsonKey(name: "account_name")
   String get accountName => throw _privateConstructorUsedError;
 
+  /// Serializes this HyvUserInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HyvUserInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HyvUserInfoCopyWith<HyvUserInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -527,6 +570,8 @@ class _$HyvUserInfoCopyWithImpl<$Res, $Val extends HyvUserInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HyvUserInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -560,6 +605,8 @@ class __$$HyvUserInfoImplCopyWithImpl<$Res>
       _$HyvUserInfoImpl _value, $Res Function(_$HyvUserInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HyvUserInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -603,11 +650,13 @@ class _$HyvUserInfoImpl implements _HyvUserInfo {
                 other.accountName == accountName));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, accountName);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HyvUserInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HyvUserInfoImplCopyWith<_$HyvUserInfoImpl> get copyWith =>
@@ -629,12 +678,16 @@ abstract class _HyvUserInfo implements HyvUserInfo {
   factory _HyvUserInfo.fromJson(Map<String, dynamic> json) =
       _$HyvUserInfoImpl.fromJson;
 
-  @override // workaround for https://github.com/rrousselGit/freezed/issues/488
+// workaround for https://github.com/rrousselGit/freezed/issues/488
 // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "account_name")
   String get accountName;
+
+  /// Create a copy of HyvUserInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HyvUserInfoImplCopyWith<_$HyvUserInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -652,8 +705,12 @@ mixin _$HyvUserGameRole {
   String get nickname => throw _privateConstructorUsedError;
   int get level => throw _privateConstructorUsedError;
 
+  /// Serializes this HyvUserGameRole to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HyvUserGameRole
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HyvUserGameRoleCopyWith<HyvUserGameRole> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -678,6 +735,8 @@ class _$HyvUserGameRoleCopyWithImpl<$Res, $Val extends HyvUserGameRole>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HyvUserGameRole
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -722,6 +781,8 @@ class __$$HyvUserGameRoleImplCopyWithImpl<$Res>
       _$HyvUserGameRoleImpl _value, $Res Function(_$HyvUserGameRoleImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HyvUserGameRole
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -783,11 +844,13 @@ class _$HyvUserGameRoleImpl implements _HyvUserGameRole {
             (identical(other.level, level) || other.level == level));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, uid, nickname, level);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HyvUserGameRole
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HyvUserGameRoleImplCopyWith<_$HyvUserGameRoleImpl> get copyWith =>
@@ -811,16 +874,20 @@ abstract class _HyvUserGameRole implements HyvUserGameRole {
   factory _HyvUserGameRole.fromJson(Map<String, dynamic> json) =
       _$HyvUserGameRoleImpl.fromJson;
 
-  @override // workaround for https://github.com/rrousselGit/freezed/issues/488
+// workaround for https://github.com/rrousselGit/freezed/issues/488
 // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "game_uid")
   String get uid;
   @override
   String get nickname;
   @override
   int get level;
+
+  /// Create a copy of HyvUserGameRole
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HyvUserGameRoleImplCopyWith<_$HyvUserGameRoleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -841,8 +908,12 @@ mixin _$AvatarListResultItem {
   @JsonKey(name: "max_level")
   int get maxLevel => throw _privateConstructorUsedError;
 
+  /// Serializes this AvatarListResultItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AvatarListResultItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AvatarListResultItemCopyWith<AvatarListResultItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -871,6 +942,8 @@ class _$AvatarListResultItemCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AvatarListResultItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -923,6 +996,8 @@ class __$$AvatarListResultItemImplCopyWithImpl<$Res>
       $Res Function(_$AvatarListResultItemImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AvatarListResultItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -997,12 +1072,14 @@ class _$AvatarListResultItemImpl extends _AvatarListResultItem {
                 other.maxLevel == maxLevel));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, name, currentLevel, maxLevel);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AvatarListResultItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AvatarListResultItemImplCopyWith<_$AvatarListResultItemImpl>
@@ -1033,16 +1110,20 @@ abstract class _AvatarListResultItem extends AvatarListResultItem {
   @override
   int get id;
   @override
-  String get name;
-  @override // workaround for https://github.com/rrousselGit/freezed/issues/488
+  String
+      get name; // workaround for https://github.com/rrousselGit/freezed/issues/488
 // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "level_current")
-  String get currentLevel;
-  @override // ignore: invalid_annotation_target
+  String get currentLevel; // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "max_level")
   int get maxLevel;
+
+  /// Create a copy of AvatarListResultItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AvatarListResultItemImplCopyWith<_$AvatarListResultItemImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1057,8 +1138,12 @@ mixin _$AvatarDetail {
   @JsonKey(name: "skill_list")
   List<AvatarDetailSkill> get skills => throw _privateConstructorUsedError;
 
+  /// Serializes this AvatarDetail to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AvatarDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AvatarDetailCopyWith<AvatarDetail> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1082,6 +1167,8 @@ class _$AvatarDetailCopyWithImpl<$Res, $Val extends AvatarDetail>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AvatarDetail
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1115,6 +1202,8 @@ class __$$AvatarDetailImplCopyWithImpl<$Res>
       _$AvatarDetailImpl _value, $Res Function(_$AvatarDetailImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AvatarDetail
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1164,12 +1253,14 @@ class _$AvatarDetailImpl implements _AvatarDetail {
             const DeepCollectionEquality().equals(other._skills, _skills));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_skills));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AvatarDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AvatarDetailImplCopyWith<_$AvatarDetailImpl> get copyWith =>
@@ -1191,11 +1282,15 @@ abstract class _AvatarDetail implements AvatarDetail {
   factory _AvatarDetail.fromJson(Map<String, dynamic> json) =
       _$AvatarDetailImpl.fromJson;
 
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "skill_list")
   List<AvatarDetailSkill> get skills;
+
+  /// Create a copy of AvatarDetail
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AvatarDetailImplCopyWith<_$AvatarDetailImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1213,8 +1308,12 @@ mixin _$AvatarDetailSkill {
   @JsonKey(name: "level_current")
   int get currentLevel => throw _privateConstructorUsedError;
 
+  /// Serializes this AvatarDetailSkill to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AvatarDetailSkill
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AvatarDetailSkillCopyWith<AvatarDetailSkill> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1240,6 +1339,8 @@ class _$AvatarDetailSkillCopyWithImpl<$Res, $Val extends AvatarDetailSkill>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AvatarDetailSkill
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1280,6 +1381,8 @@ class __$$AvatarDetailSkillImplCopyWithImpl<$Res>
       $Res Function(_$AvatarDetailSkillImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AvatarDetailSkill
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1334,11 +1437,13 @@ class _$AvatarDetailSkillImpl implements _AvatarDetailSkill {
                 other.currentLevel == currentLevel));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, maxLevel, currentLevel);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AvatarDetailSkill
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AvatarDetailSkillImplCopyWith<_$AvatarDetailSkillImpl> get copyWith =>
@@ -1362,14 +1467,18 @@ abstract class _AvatarDetailSkill implements AvatarDetailSkill {
   factory _AvatarDetailSkill.fromJson(Map<String, dynamic> json) =
       _$AvatarDetailSkillImpl.fromJson;
 
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "max_level")
-  int get maxLevel;
-  @override // ignore: invalid_annotation_target
+  int get maxLevel; // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "level_current")
   int get currentLevel;
+
+  /// Create a copy of AvatarDetailSkill
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AvatarDetailSkillImplCopyWith<_$AvatarDetailSkillImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1384,8 +1493,12 @@ mixin _$AvatarAuth {
   @JsonKey(name: "avatar_auth")
   int get avatarAuth => throw _privateConstructorUsedError;
 
+  /// Serializes this AvatarAuth to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AvatarAuth
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AvatarAuthCopyWith<AvatarAuth> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1409,6 +1522,8 @@ class _$AvatarAuthCopyWithImpl<$Res, $Val extends AvatarAuth>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AvatarAuth
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1442,6 +1557,8 @@ class __$$AvatarAuthImplCopyWithImpl<$Res>
       _$AvatarAuthImpl _value, $Res Function(_$AvatarAuthImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AvatarAuth
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1484,11 +1601,13 @@ class _$AvatarAuthImpl implements _AvatarAuth {
                 other.avatarAuth == avatarAuth));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, avatarAuth);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AvatarAuth
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AvatarAuthImplCopyWith<_$AvatarAuthImpl> get copyWith =>
@@ -1510,11 +1629,15 @@ abstract class _AvatarAuth implements AvatarAuth {
   factory _AvatarAuth.fromJson(Map<String, dynamic> json) =
       _$AvatarAuthImpl.fromJson;
 
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "avatar_auth")
   int get avatarAuth;
+
+  /// Create a copy of AvatarAuth
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AvatarAuthImplCopyWith<_$AvatarAuthImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1533,8 +1656,12 @@ mixin _$GameRecordCard {
   List<DataSwitchMetadata> get dataSwitches =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this GameRecordCard to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GameRecordCard
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GameRecordCardCopyWith<GameRecordCard> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1561,6 +1688,8 @@ class _$GameRecordCardCopyWithImpl<$Res, $Val extends GameRecordCard>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GameRecordCard
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1602,6 +1731,8 @@ class __$$GameRecordCardImplCopyWithImpl<$Res>
       _$GameRecordCardImpl _value, $Res Function(_$GameRecordCardImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GameRecordCard
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1665,12 +1796,14 @@ class _$GameRecordCardImpl implements _GameRecordCard {
                 .equals(other._dataSwitches, _dataSwitches));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, gameType,
       const DeepCollectionEquality().hash(_dataSwitches));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GameRecordCard
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GameRecordCardImplCopyWith<_$GameRecordCardImpl> get copyWith =>
@@ -1696,14 +1829,18 @@ abstract class _GameRecordCard implements GameRecordCard {
   factory _GameRecordCard.fromJson(Map<String, dynamic> json) =
       _$GameRecordCardImpl.fromJson;
 
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
-  GameType get gameType;
-  @override // ignore: invalid_annotation_target
+  GameType get gameType; // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "data_switches")
   List<DataSwitchMetadata> get dataSwitches;
+
+  /// Create a copy of GameRecordCard
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GameRecordCardImplCopyWith<_$GameRecordCardImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1722,8 +1859,12 @@ mixin _$DataSwitchMetadata {
   @JsonKey(name: "is_public")
   bool get isPublic => throw _privateConstructorUsedError;
 
+  /// Serializes this DataSwitchMetadata to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DataSwitchMetadata
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DataSwitchMetadataCopyWith<DataSwitchMetadata> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1752,6 +1893,8 @@ class _$DataSwitchMetadataCopyWithImpl<$Res, $Val extends DataSwitchMetadata>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DataSwitchMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1795,6 +1938,8 @@ class __$$DataSwitchMetadataImplCopyWithImpl<$Res>
       $Res Function(_$DataSwitchMetadataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DataSwitchMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1853,11 +1998,13 @@ class _$DataSwitchMetadataImpl implements _DataSwitchMetadata {
                 other.isPublic == isPublic));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, switchId, isPublic);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataSwitchMetadata
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DataSwitchMetadataImplCopyWith<_$DataSwitchMetadataImpl> get copyWith =>
@@ -1884,15 +2031,19 @@ abstract class _DataSwitchMetadata implements DataSwitchMetadata {
   factory _DataSwitchMetadata.fromJson(Map<String, dynamic> json) =
       _$DataSwitchMetadataImpl.fromJson;
 
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(
       name: "switch_id", unknownEnumValue: DataSwitchType.enableBattleChronicle)
-  DataSwitchType get switchId;
-  @override // ignore: invalid_annotation_target
+  DataSwitchType get switchId; // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "is_public")
   bool get isPublic;
+
+  /// Create a copy of DataSwitchMetadata
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DataSwitchMetadataImplCopyWith<_$DataSwitchMetadataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1913,8 +2064,12 @@ mixin _$DailyNote {
   @JsonKey(name: "current_home_coin")
   int get currentHomeCoin => throw _privateConstructorUsedError;
 
+  /// Serializes this DailyNote to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DailyNote
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DailyNoteCopyWith<DailyNote> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1940,6 +2095,8 @@ class _$DailyNoteCopyWithImpl<$Res, $Val extends DailyNote>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DailyNote
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1986,6 +2143,8 @@ class __$$DailyNoteImplCopyWithImpl<$Res>
       _$DailyNoteImpl _value, $Res Function(_$DailyNoteImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DailyNote
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2052,12 +2211,14 @@ class _$DailyNoteImpl implements _DailyNote {
                 other.currentHomeCoin == currentHomeCoin));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, currentResin, resinRecoveryTime, currentHomeCoin);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DailyNote
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DailyNoteImplCopyWith<_$DailyNoteImpl> get copyWith =>
@@ -2082,17 +2243,21 @@ abstract class _DailyNote implements DailyNote {
   factory _DailyNote.fromJson(Map<String, dynamic> json) =
       _$DailyNoteImpl.fromJson;
 
-  @override // ignore: invalid_annotation_target
+// ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "current_resin")
-  int get currentResin;
-  @override // ignore: invalid_annotation_target
+  int get currentResin; // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "resin_recovery_time")
-  String get resinRecoveryTime;
-  @override // ignore: invalid_annotation_target
+  String get resinRecoveryTime; // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: "current_home_coin")
   int get currentHomeCoin;
+
+  /// Create a copy of DailyNote
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DailyNoteImplCopyWith<_$DailyNoteImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

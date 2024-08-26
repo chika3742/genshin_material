@@ -10,8 +10,8 @@ _$IngredientByTypeImpl _$$IngredientByTypeImplFromJson(
         Map<String, dynamic> json) =>
     _$IngredientByTypeImpl(
       type: json['type'] as String,
-      quantity: json['quantity'] as int,
-      craftLevel: json['craftLevel'] as int?,
+      quantity: (json['quantity'] as num).toInt(),
+      craftLevel: (json['craftLevel'] as num?)?.toInt(),
       specificCharacters:
           (json['specificCharacters'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String?),
@@ -31,7 +31,7 @@ Map<String, dynamic> _$$IngredientByTypeImplToJson(
 
 _$IngredientExpImpl _$$IngredientExpImplFromJson(Map<String, dynamic> json) =>
     _$IngredientExpImpl(
-      exp: json['exp'] as int,
+      exp: (json['exp'] as num).toInt(),
       $type: json['runtimeType'] as String?,
     );
 
@@ -45,7 +45,7 @@ _$IngredientWithFixedIdImpl _$$IngredientWithFixedIdImplFromJson(
         Map<String, dynamic> json) =>
     _$IngredientWithFixedIdImpl(
       itemId: json['itemId'] as String,
-      quantity: json['quantity'] as int,
+      quantity: (json['quantity'] as num).toInt(),
       $type: json['runtimeType'] as String?,
     );
 

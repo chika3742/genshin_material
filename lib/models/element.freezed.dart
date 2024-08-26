@@ -24,8 +24,12 @@ mixin _$Element {
   String get imageUrl => throw _privateConstructorUsedError;
   LocalizedText get text => throw _privateConstructorUsedError;
 
+  /// Serializes this Element to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Element
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ElementCopyWith<Element> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -49,6 +53,8 @@ class _$ElementCopyWithImpl<$Res, $Val extends Element>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Element
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -72,6 +78,8 @@ class _$ElementCopyWithImpl<$Res, $Val extends Element>
     ) as $Val);
   }
 
+  /// Create a copy of Element
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get text {
@@ -102,6 +110,8 @@ class __$$ElementImplCopyWithImpl<$Res>
       _$ElementImpl _value, $Res Function(_$ElementImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Element
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -159,11 +169,13 @@ class _$ElementImpl extends _Element {
             (identical(other.text, text) || other.text == text));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, hyvId, imageUrl, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Element
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ElementImplCopyWith<_$ElementImpl> get copyWith =>
@@ -192,8 +204,11 @@ abstract class _Element extends Element {
   String get imageUrl;
   @override
   LocalizedText get text;
+
+  /// Create a copy of Element
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ElementImplCopyWith<_$ElementImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

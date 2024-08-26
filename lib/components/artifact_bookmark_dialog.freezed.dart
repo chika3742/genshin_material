@@ -23,7 +23,9 @@ mixin _$ArtifactBookmarkDialogState {
   Map<String, String?> get mainStats => throw _privateConstructorUsedError;
   List<String> get subStats => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactBookmarkDialogState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactBookmarkDialogStateCopyWith<ArtifactBookmarkDialogState>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -56,6 +58,8 @@ class _$ArtifactBookmarkDialogStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactBookmarkDialogState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -123,6 +127,8 @@ class __$$ArtifactBookmarkDialogStateImplCopyWithImpl<$Res>
       $Res Function(_$ArtifactBookmarkDialogStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactBookmarkDialogState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -234,7 +240,9 @@ class _$ArtifactBookmarkDialogStateImpl
       const DeepCollectionEquality().hash(_mainStats),
       const DeepCollectionEquality().hash(_subStats));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactBookmarkDialogState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactBookmarkDialogStateImplCopyWith<_$ArtifactBookmarkDialogStateImpl>
@@ -264,8 +272,11 @@ abstract class _ArtifactBookmarkDialogState
   Map<String, String?> get mainStats;
   @override
   List<String> get subStats;
+
+  /// Create a copy of ArtifactBookmarkDialogState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactBookmarkDialogStateImplCopyWith<_$ArtifactBookmarkDialogStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

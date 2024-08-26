@@ -10,7 +10,7 @@ _$ArtifactSetImpl _$$ArtifactSetImplFromJson(Map<String, dynamic> json) =>
     _$ArtifactSetImpl(
       id: json['id'] as String,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
-      maxRarity: json['maxRarity'] as int,
+      maxRarity: (json['maxRarity'] as num).toInt(),
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       consistsOf: (json['consistsOf'] as Map<String, dynamic>).map(
         (k, e) =>

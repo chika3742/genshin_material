@@ -10,12 +10,14 @@ _$ListedCharacterImpl _$$ListedCharacterImplFromJson(
         Map<String, dynamic> json) =>
     _$ListedCharacterImpl(
       id: json['id'] as String,
-      hyvIds: (json['hyvIds'] as List<dynamic>).map((e) => e as int).toList(),
+      hyvIds: (json['hyvIds'] as List<dynamic>)
+          .map((e) => (e as num).toInt())
+          .toList(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
       smallImageUrl: json['smallImageUrl'] as String,
-      rarity: json['rarity'] as int,
+      rarity: (json['rarity'] as num).toInt(),
       weaponType: json['weaponType'] as String,
       element: json['element'] as String,
       talents: (json['talents'] as Map<String, dynamic>).map(
@@ -46,12 +48,14 @@ Map<String, dynamic> _$$ListedCharacterImplToJson(
 _$CharacterGroupImpl _$$CharacterGroupImplFromJson(Map<String, dynamic> json) =>
     _$CharacterGroupImpl(
       id: json['id'] as String,
-      hyvIds: (json['hyvIds'] as List<dynamic>).map((e) => e as int).toList(),
+      hyvIds: (json['hyvIds'] as List<dynamic>)
+          .map((e) => (e as num).toInt())
+          .toList(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
       smallImageUrl: json['smallImageUrl'] as String,
-      rarity: json['rarity'] as int,
+      rarity: (json['rarity'] as num).toInt(),
       weaponType: json['weaponType'] as String,
       variantIds: (json['variantIds'] as List<dynamic>)
           .map((e) => e as String)
@@ -112,7 +116,9 @@ Map<String, dynamic> _$$CharacterVariantImplToJson(
 _$CharacterTalentImpl _$$CharacterTalentImplFromJson(
         Map<String, dynamic> json) =>
     _$CharacterTalentImpl(
-      idList: (json['idList'] as List<dynamic>).map((e) => e as int).toList(),
+      idList: (json['idList'] as List<dynamic>)
+          .map((e) => (e as num).toInt())
+          .toList(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
     );
 

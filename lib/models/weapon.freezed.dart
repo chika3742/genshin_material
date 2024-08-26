@@ -32,8 +32,12 @@ mixin _$Weapon {
   Map<String, String> get materials => throw _privateConstructorUsedError;
   WhereToGet? get whereToGet => throw _privateConstructorUsedError;
 
+  /// Serializes this Weapon to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Weapon
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WeaponCopyWith<Weapon> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -70,6 +74,8 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Weapon
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,6 +139,8 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
     ) as $Val);
   }
 
+  /// Create a copy of Weapon
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get name {
@@ -141,6 +149,8 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
     });
   }
 
+  /// Create a copy of Weapon
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res>? get weaponAffixDesc {
@@ -153,6 +163,8 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
     });
   }
 
+  /// Create a copy of Weapon
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $WhereToGetCopyWith<$Res>? get whereToGet {
@@ -202,6 +214,8 @@ class __$$WeaponImplCopyWithImpl<$Res>
       _$WeaponImpl _value, $Res Function(_$WeaponImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Weapon
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -344,7 +358,7 @@ class _$WeaponImpl extends _Weapon {
                 other.whereToGet == whereToGet));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -360,7 +374,9 @@ class _$WeaponImpl extends _Weapon {
       const DeepCollectionEquality().hash(_materials),
       whereToGet);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Weapon
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WeaponImplCopyWith<_$WeaponImpl> get copyWith =>
@@ -413,8 +429,11 @@ abstract class _Weapon extends Weapon {
   Map<String, String> get materials;
   @override
   WhereToGet? get whereToGet;
+
+  /// Create a copy of Weapon
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WeaponImplCopyWith<_$WeaponImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -428,8 +447,12 @@ mixin _$WeaponsMeta {
   Map<String, LocalizedText> get subStats => throw _privateConstructorUsedError;
   Map<String, WeaponTypeInfo> get types => throw _privateConstructorUsedError;
 
+  /// Serializes this WeaponsMeta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WeaponsMeta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WeaponsMetaCopyWith<WeaponsMeta> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -454,6 +477,8 @@ class _$WeaponsMetaCopyWithImpl<$Res, $Val extends WeaponsMeta>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WeaponsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -493,6 +518,8 @@ class __$$WeaponsMetaImplCopyWithImpl<$Res>
       _$WeaponsMetaImpl _value, $Res Function(_$WeaponsMetaImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WeaponsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -554,14 +581,16 @@ class _$WeaponsMetaImpl implements _WeaponsMeta {
             const DeepCollectionEquality().equals(other._types, _types));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_subStats),
       const DeepCollectionEquality().hash(_types));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WeaponsMeta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WeaponsMetaImplCopyWith<_$WeaponsMetaImpl> get copyWith =>
@@ -587,8 +616,11 @@ abstract class _WeaponsMeta implements WeaponsMeta {
   Map<String, LocalizedText> get subStats;
   @override
   Map<String, WeaponTypeInfo> get types;
+
+  /// Create a copy of WeaponsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WeaponsMetaImplCopyWith<_$WeaponsMetaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -602,8 +634,12 @@ mixin _$WeaponTypeInfo {
   int get hyvId => throw _privateConstructorUsedError;
   LocalizedText get name => throw _privateConstructorUsedError;
 
+  /// Serializes this WeaponTypeInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WeaponTypeInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WeaponTypeInfoCopyWith<WeaponTypeInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -629,6 +665,8 @@ class _$WeaponTypeInfoCopyWithImpl<$Res, $Val extends WeaponTypeInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WeaponTypeInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -647,6 +685,8 @@ class _$WeaponTypeInfoCopyWithImpl<$Res, $Val extends WeaponTypeInfo>
     ) as $Val);
   }
 
+  /// Create a copy of WeaponTypeInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get name {
@@ -678,6 +718,8 @@ class __$$WeaponTypeInfoImplCopyWithImpl<$Res>
       _$WeaponTypeInfoImpl _value, $Res Function(_$WeaponTypeInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WeaponTypeInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -724,11 +766,13 @@ class _$WeaponTypeInfoImpl implements _WeaponTypeInfo {
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, hyvId, name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WeaponTypeInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WeaponTypeInfoImplCopyWith<_$WeaponTypeInfoImpl> get copyWith =>
@@ -755,8 +799,11 @@ abstract class _WeaponTypeInfo implements WeaponTypeInfo {
   int get hyvId;
   @override
   LocalizedText get name;
+
+  /// Create a copy of WeaponTypeInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WeaponTypeInfoImplCopyWith<_$WeaponTypeInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

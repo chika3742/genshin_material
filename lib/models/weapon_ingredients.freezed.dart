@@ -24,8 +24,12 @@ mixin _$WeaponIngredients {
   Map<int, WeaponIngredientsLevels> get rarities =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this WeaponIngredients to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WeaponIngredients
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WeaponIngredientsCopyWith<WeaponIngredients> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$WeaponIngredientsCopyWithImpl<$Res, $Val extends WeaponIngredients>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WeaponIngredients
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +95,8 @@ class __$$WeaponIngredientsImplCopyWithImpl<$Res>
       $Res Function(_$WeaponIngredientsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WeaponIngredients
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -150,14 +158,16 @@ class _$WeaponIngredientsImpl implements _WeaponIngredients {
             const DeepCollectionEquality().equals(other._rarities, _rarities));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_expItems),
       const DeepCollectionEquality().hash(_rarities));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WeaponIngredients
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WeaponIngredientsImplCopyWith<_$WeaponIngredientsImpl> get copyWith =>
@@ -185,8 +195,11 @@ abstract class _WeaponIngredients implements WeaponIngredients {
   List<ExpItem> get expItems;
   @override
   Map<int, WeaponIngredientsLevels> get rarities;
+
+  /// Create a copy of WeaponIngredients
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WeaponIngredientsImplCopyWith<_$WeaponIngredientsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -200,8 +213,12 @@ WeaponIngredientsLevels _$WeaponIngredientsLevelsFromJson(
 mixin _$WeaponIngredientsLevels {
   Map<int, List<Ingredient>> get levels => throw _privateConstructorUsedError;
 
+  /// Serializes this WeaponIngredientsLevels to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WeaponIngredientsLevels
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WeaponIngredientsLevelsCopyWith<WeaponIngredientsLevels> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -226,6 +243,8 @@ class _$WeaponIngredientsLevelsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WeaponIngredientsLevels
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -262,6 +281,8 @@ class __$$WeaponIngredientsLevelsImplCopyWithImpl<$Res>
       $Res Function(_$WeaponIngredientsLevelsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WeaponIngredientsLevels
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -307,12 +328,14 @@ class _$WeaponIngredientsLevelsImpl implements _WeaponIngredientsLevels {
             const DeepCollectionEquality().equals(other._levels, _levels));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_levels));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WeaponIngredientsLevels
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WeaponIngredientsLevelsImplCopyWith<_$WeaponIngredientsLevelsImpl>
@@ -337,8 +360,11 @@ abstract class _WeaponIngredientsLevels implements WeaponIngredientsLevels {
 
   @override
   Map<int, List<Ingredient>> get levels;
+
+  /// Create a copy of WeaponIngredientsLevels
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WeaponIngredientsLevelsImplCopyWith<_$WeaponIngredientsLevelsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

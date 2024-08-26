@@ -21,7 +21,9 @@ mixin _$ResinCalculationResult {
   int get currentResin => throw _privateConstructorUsedError;
   int get wastedResin => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ResinCalculationResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ResinCalculationResultCopyWith<ResinCalculationResult> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +52,8 @@ class _$ResinCalculationResultCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ResinCalculationResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -105,6 +109,8 @@ class __$$ResinCalculationResultImplCopyWithImpl<$Res>
       $Res Function(_$ResinCalculationResultImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ResinCalculationResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -176,7 +182,9 @@ class _$ResinCalculationResultImpl implements _ResinCalculationResult {
   int get hashCode => Object.hash(
       runtimeType, fullyReplenishedBy, timeToFull, currentResin, wastedResin);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ResinCalculationResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ResinCalculationResultImplCopyWith<_$ResinCalculationResultImpl>
@@ -199,8 +207,11 @@ abstract class _ResinCalculationResult implements ResinCalculationResult {
   int get currentResin;
   @override
   int get wastedResin;
+
+  /// Create a copy of ResinCalculationResult
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ResinCalculationResultImplCopyWith<_$ResinCalculationResultImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

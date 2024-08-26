@@ -22,8 +22,12 @@ LocalizedText _$LocalizedTextFromJson(Map<String, dynamic> json) {
 mixin _$LocalizedText {
   Map<String, String> get locales => throw _privateConstructorUsedError;
 
+  /// Serializes this LocalizedText to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LocalizedText
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LocalizedTextCopyWith<LocalizedText> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +51,8 @@ class _$LocalizedTextCopyWithImpl<$Res, $Val extends LocalizedText>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LocalizedText
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +86,8 @@ class __$$LocalizedTextImplCopyWithImpl<$Res>
       _$LocalizedTextImpl _value, $Res Function(_$LocalizedTextImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LocalizedText
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -125,12 +133,14 @@ class _$LocalizedTextImpl extends _LocalizedText {
             const DeepCollectionEquality().equals(other._locales, _locales));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_locales));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocalizedText
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LocalizedTextImplCopyWith<_$LocalizedTextImpl> get copyWith =>
@@ -154,8 +164,11 @@ abstract class _LocalizedText extends LocalizedText {
 
   @override
   Map<String, String> get locales;
+
+  /// Create a copy of LocalizedText
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LocalizedTextImplCopyWith<_$LocalizedTextImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

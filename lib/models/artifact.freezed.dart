@@ -28,8 +28,12 @@ mixin _$ArtifactSet {
       throw _privateConstructorUsedError;
   List<ArtifactSetBonus> get bonuses => throw _privateConstructorUsedError;
 
+  /// Serializes this ArtifactSet to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ArtifactSet
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactSetCopyWith<ArtifactSet> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +65,8 @@ class _$ArtifactSetCopyWithImpl<$Res, $Val extends ArtifactSet>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactSet
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -99,6 +105,8 @@ class _$ArtifactSetCopyWithImpl<$Res, $Val extends ArtifactSet>
     ) as $Val);
   }
 
+  /// Create a copy of ArtifactSet
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get name {
@@ -136,6 +144,8 @@ class __$$ArtifactSetImplCopyWithImpl<$Res>
       _$ArtifactSetImpl _value, $Res Function(_$ArtifactSetImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactSet
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -244,7 +254,7 @@ class _$ArtifactSetImpl implements _ArtifactSet {
             const DeepCollectionEquality().equals(other._bonuses, _bonuses));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -255,7 +265,9 @@ class _$ArtifactSetImpl implements _ArtifactSet {
       const DeepCollectionEquality().hash(_consistsOf),
       const DeepCollectionEquality().hash(_bonuses));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactSet
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactSetImplCopyWith<_$ArtifactSetImpl> get copyWith =>
@@ -293,8 +305,11 @@ abstract class _ArtifactSet implements ArtifactSet {
   Map<String, ArtifactPiece> get consistsOf;
   @override
   List<ArtifactSetBonus> get bonuses;
+
+  /// Create a copy of ArtifactSet
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactSetImplCopyWith<_$ArtifactSetImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -310,8 +325,12 @@ mixin _$ArtifactPiece {
   String get imageUrl => throw _privateConstructorUsedError;
   LocalizedText get name => throw _privateConstructorUsedError;
 
+  /// Serializes this ArtifactPiece to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ArtifactPiece
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactPieceCopyWith<ArtifactPiece> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -337,6 +356,8 @@ class _$ArtifactPieceCopyWithImpl<$Res, $Val extends ArtifactPiece>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactPiece
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -365,6 +386,8 @@ class _$ArtifactPieceCopyWithImpl<$Res, $Val extends ArtifactPiece>
     ) as $Val);
   }
 
+  /// Create a copy of ArtifactPiece
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get name {
@@ -396,6 +419,8 @@ class __$$ArtifactPieceImplCopyWithImpl<$Res>
       _$ArtifactPieceImpl _value, $Res Function(_$ArtifactPieceImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactPiece
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -464,11 +489,13 @@ class _$ArtifactPieceImpl extends _ArtifactPiece {
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, type, imageUrl, name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactPiece
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactPieceImplCopyWith<_$ArtifactPieceImpl> get copyWith =>
@@ -501,8 +528,11 @@ abstract class _ArtifactPiece extends ArtifactPiece {
   String get imageUrl;
   @override
   LocalizedText get name;
+
+  /// Create a copy of ArtifactPiece
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactPieceImplCopyWith<_$ArtifactPieceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -516,8 +546,12 @@ mixin _$ArtifactSetBonus {
   String get type => throw _privateConstructorUsedError;
   LocalizedText get description => throw _privateConstructorUsedError;
 
+  /// Serializes this ArtifactSetBonus to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ArtifactSetBonus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactSetBonusCopyWith<ArtifactSetBonus> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -543,6 +577,8 @@ class _$ArtifactSetBonusCopyWithImpl<$Res, $Val extends ArtifactSetBonus>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactSetBonus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -561,6 +597,8 @@ class _$ArtifactSetBonusCopyWithImpl<$Res, $Val extends ArtifactSetBonus>
     ) as $Val);
   }
 
+  /// Create a copy of ArtifactSetBonus
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get description {
@@ -592,6 +630,8 @@ class __$$ArtifactSetBonusImplCopyWithImpl<$Res>
       $Res Function(_$ArtifactSetBonusImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactSetBonus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -639,11 +679,13 @@ class _$ArtifactSetBonusImpl implements _ArtifactSetBonus {
                 other.description == description));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, description);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactSetBonus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactSetBonusImplCopyWith<_$ArtifactSetBonusImpl> get copyWith =>
@@ -670,8 +712,11 @@ abstract class _ArtifactSetBonus implements ArtifactSetBonus {
   String get type;
   @override
   LocalizedText get description;
+
+  /// Create a copy of ArtifactSetBonus
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactSetBonusImplCopyWith<_$ArtifactSetBonusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -689,8 +734,12 @@ mixin _$ArtifactsMeta {
   Map<String, String> get pieceSetMap => throw _privateConstructorUsedError;
   ArtifactTagCategoriesInternal get tags => throw _privateConstructorUsedError;
 
+  /// Serializes this ArtifactsMeta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ArtifactsMeta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactsMetaCopyWith<ArtifactsMeta> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -721,6 +770,8 @@ class _$ArtifactsMetaCopyWithImpl<$Res, $Val extends ArtifactsMeta>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -754,6 +805,8 @@ class _$ArtifactsMetaCopyWithImpl<$Res, $Val extends ArtifactsMeta>
     ) as $Val);
   }
 
+  /// Create a copy of ArtifactsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ArtifactTagCategoriesInternalCopyWith<$Res> get tags {
@@ -790,6 +843,8 @@ class __$$ArtifactsMetaImplCopyWithImpl<$Res>
       _$ArtifactsMetaImpl _value, $Res Function(_$ArtifactsMetaImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -897,7 +952,7 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
             (identical(other.tags, tags) || other.tags == tags));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -907,7 +962,9 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
       const DeepCollectionEquality().hash(_pieceSetMap),
       tags);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactsMeta
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactsMetaImplCopyWith<_$ArtifactsMetaImpl> get copyWith =>
@@ -942,8 +999,11 @@ abstract class _ArtifactsMeta implements ArtifactsMeta {
   Map<String, String> get pieceSetMap;
   @override
   ArtifactTagCategoriesInternal get tags;
+
+  /// Create a copy of ArtifactsMeta
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactsMetaImplCopyWith<_$ArtifactsMetaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -958,8 +1018,12 @@ mixin _$ArtifactPieceType {
   LocalizedText get desc => throw _privateConstructorUsedError;
   List<String> get possibleMainStats => throw _privateConstructorUsedError;
 
+  /// Serializes this ArtifactPieceType to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ArtifactPieceType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactPieceTypeCopyWith<ArtifactPieceType> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -985,6 +1049,8 @@ class _$ArtifactPieceTypeCopyWithImpl<$Res, $Val extends ArtifactPieceType>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactPieceType
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1008,6 +1074,8 @@ class _$ArtifactPieceTypeCopyWithImpl<$Res, $Val extends ArtifactPieceType>
     ) as $Val);
   }
 
+  /// Create a copy of ArtifactPieceType
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get desc {
@@ -1039,6 +1107,8 @@ class __$$ArtifactPieceTypeImplCopyWithImpl<$Res>
       $Res Function(_$ArtifactPieceTypeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactPieceType
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1104,12 +1174,14 @@ class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
                 .equals(other._possibleMainStats, _possibleMainStats));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, desc,
       const DeepCollectionEquality().hash(_possibleMainStats));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactPieceType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactPieceTypeImplCopyWith<_$ArtifactPieceTypeImpl> get copyWith =>
@@ -1139,8 +1211,11 @@ abstract class _ArtifactPieceType implements ArtifactPieceType {
   LocalizedText get desc;
   @override
   List<String> get possibleMainStats;
+
+  /// Create a copy of ArtifactPieceType
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactPieceTypeImplCopyWith<_$ArtifactPieceTypeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1154,8 +1229,12 @@ mixin _$ArtifactStat {
   String get id => throw _privateConstructorUsedError;
   LocalizedText get desc => throw _privateConstructorUsedError;
 
+  /// Serializes this ArtifactStat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ArtifactStat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactStatCopyWith<ArtifactStat> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1181,6 +1260,8 @@ class _$ArtifactStatCopyWithImpl<$Res, $Val extends ArtifactStat>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactStat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1199,6 +1280,8 @@ class _$ArtifactStatCopyWithImpl<$Res, $Val extends ArtifactStat>
     ) as $Val);
   }
 
+  /// Create a copy of ArtifactStat
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get desc {
@@ -1230,6 +1313,8 @@ class __$$ArtifactStatImplCopyWithImpl<$Res>
       _$ArtifactStatImpl _value, $Res Function(_$ArtifactStatImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactStat
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1276,11 +1361,13 @@ class _$ArtifactStatImpl implements _ArtifactStat {
             (identical(other.desc, desc) || other.desc == desc));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, desc);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactStat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactStatImplCopyWith<_$ArtifactStatImpl> get copyWith =>
@@ -1306,8 +1393,11 @@ abstract class _ArtifactStat implements ArtifactStat {
   String get id;
   @override
   LocalizedText get desc;
+
+  /// Create a copy of ArtifactStat
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactStatImplCopyWith<_$ArtifactStatImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1322,8 +1412,12 @@ mixin _$ArtifactTagCategoriesInternal {
   List<ArtifactTagCategory> get categories =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this ArtifactTagCategoriesInternal to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ArtifactTagCategoriesInternal
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactTagCategoriesInternalCopyWith<ArtifactTagCategoriesInternal>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1350,6 +1444,8 @@ class _$ArtifactTagCategoriesInternalCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactTagCategoriesInternal
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1386,6 +1482,8 @@ class __$$ArtifactTagCategoriesInternalImplCopyWithImpl<$Res>
       $Res Function(_$ArtifactTagCategoriesInternalImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactTagCategoriesInternal
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1434,12 +1532,14 @@ class _$ArtifactTagCategoriesInternalImpl
                 .equals(other._categories, _categories));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_categories));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactTagCategoriesInternal
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactTagCategoriesInternalImplCopyWith<
@@ -1466,8 +1566,11 @@ abstract class _ArtifactTagCategoriesInternal
 
   @override
   List<ArtifactTagCategory> get categories;
+
+  /// Create a copy of ArtifactTagCategoriesInternal
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactTagCategoriesInternalImplCopyWith<
           _$ArtifactTagCategoriesInternalImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1482,8 +1585,12 @@ mixin _$ArtifactTagCategory {
   LocalizedText get desc => throw _privateConstructorUsedError;
   List<ArtifactTag> get items => throw _privateConstructorUsedError;
 
+  /// Serializes this ArtifactTagCategory to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ArtifactTagCategory
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactTagCategoryCopyWith<ArtifactTagCategory> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1509,6 +1616,8 @@ class _$ArtifactTagCategoryCopyWithImpl<$Res, $Val extends ArtifactTagCategory>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactTagCategory
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1527,6 +1636,8 @@ class _$ArtifactTagCategoryCopyWithImpl<$Res, $Val extends ArtifactTagCategory>
     ) as $Val);
   }
 
+  /// Create a copy of ArtifactTagCategory
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get desc {
@@ -1558,6 +1669,8 @@ class __$$ArtifactTagCategoryImplCopyWithImpl<$Res>
       $Res Function(_$ArtifactTagCategoryImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactTagCategory
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1611,12 +1724,14 @@ class _$ArtifactTagCategoryImpl implements _ArtifactTagCategory {
             const DeepCollectionEquality().equals(other._items, _items));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, desc, const DeepCollectionEquality().hash(_items));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactTagCategory
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactTagCategoryImplCopyWith<_$ArtifactTagCategoryImpl> get copyWith =>
@@ -1643,8 +1758,11 @@ abstract class _ArtifactTagCategory implements ArtifactTagCategory {
   LocalizedText get desc;
   @override
   List<ArtifactTag> get items;
+
+  /// Create a copy of ArtifactTagCategory
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactTagCategoryImplCopyWith<_$ArtifactTagCategoryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1658,8 +1776,12 @@ mixin _$ArtifactTag {
   String get id => throw _privateConstructorUsedError;
   LocalizedText get desc => throw _privateConstructorUsedError;
 
+  /// Serializes this ArtifactTag to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ArtifactTag
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactTagCopyWith<ArtifactTag> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1685,6 +1807,8 @@ class _$ArtifactTagCopyWithImpl<$Res, $Val extends ArtifactTag>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactTag
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1703,6 +1827,8 @@ class _$ArtifactTagCopyWithImpl<$Res, $Val extends ArtifactTag>
     ) as $Val);
   }
 
+  /// Create a copy of ArtifactTag
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get desc {
@@ -1734,6 +1860,8 @@ class __$$ArtifactTagImplCopyWithImpl<$Res>
       _$ArtifactTagImpl _value, $Res Function(_$ArtifactTagImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactTag
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1780,11 +1908,13 @@ class _$ArtifactTagImpl implements _ArtifactTag {
             (identical(other.desc, desc) || other.desc == desc));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, desc);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactTag
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactTagImplCopyWith<_$ArtifactTagImpl> get copyWith =>
@@ -1810,8 +1940,11 @@ abstract class _ArtifactTag implements ArtifactTag {
   String get id;
   @override
   LocalizedText get desc;
+
+  /// Create a copy of ArtifactTag
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactTagImplCopyWith<_$ArtifactTagImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

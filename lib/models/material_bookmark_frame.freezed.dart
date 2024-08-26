@@ -70,7 +70,9 @@ mixin _$MaterialBookmarkFrame {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaterialBookmarkFrame
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MaterialBookmarkFrameCopyWith<MaterialBookmarkFrame> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -95,6 +97,8 @@ class _$MaterialBookmarkFrameCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MaterialBookmarkFrame
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,6 +144,8 @@ class __$$MaterialBookmarkFrameImplCopyWithImpl<$Res>
       $Res Function(_$MaterialBookmarkFrameImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaterialBookmarkFrame
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -210,7 +216,9 @@ class _$MaterialBookmarkFrameImpl implements _MaterialBookmarkFrame {
   int get hashCode =>
       Object.hash(runtimeType, materialId, level, quantity, purposeType);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaterialBookmarkFrame
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MaterialBookmarkFrameImplCopyWith<_$MaterialBookmarkFrameImpl>
@@ -306,8 +314,11 @@ abstract class _MaterialBookmarkFrame implements MaterialBookmarkFrame {
   int get quantity;
   @override
   Purpose get purposeType;
+
+  /// Create a copy of MaterialBookmarkFrame
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MaterialBookmarkFrameImplCopyWith<_$MaterialBookmarkFrameImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -334,6 +345,8 @@ class __$$MaterialBookmarkFrameExpImplCopyWithImpl<$Res>
       $Res Function(_$MaterialBookmarkFrameExpImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaterialBookmarkFrame
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -405,7 +418,9 @@ class _$MaterialBookmarkFrameExpImpl implements MaterialBookmarkFrameExp {
   int get hashCode =>
       Object.hash(runtimeType, materialId, level, exp, purposeType);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaterialBookmarkFrame
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MaterialBookmarkFrameExpImplCopyWith<_$MaterialBookmarkFrameExpImpl>
@@ -501,8 +516,11 @@ abstract class MaterialBookmarkFrameExp implements MaterialBookmarkFrame {
   int get exp;
   @override
   Purpose get purposeType;
+
+  /// Create a copy of MaterialBookmarkFrame
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MaterialBookmarkFrameExpImplCopyWith<_$MaterialBookmarkFrameExpImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -512,7 +530,9 @@ mixin _$MaterialUsage {
   String get characterId => throw _privateConstructorUsedError;
   String? get weaponId => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaterialUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MaterialUsageCopyWith<MaterialUsage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -536,6 +556,8 @@ class _$MaterialUsageCopyWithImpl<$Res, $Val extends MaterialUsage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MaterialUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -574,6 +596,8 @@ class __$$MaterialUsageImplCopyWithImpl<$Res>
       _$MaterialUsageImpl _value, $Res Function(_$MaterialUsageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MaterialUsage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -622,7 +646,9 @@ class _$MaterialUsageImpl implements _MaterialUsage {
   @override
   int get hashCode => Object.hash(runtimeType, characterId, weaponId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MaterialUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MaterialUsageImplCopyWith<_$MaterialUsageImpl> get copyWith =>
@@ -638,8 +664,11 @@ abstract class _MaterialUsage implements MaterialUsage {
   String get characterId;
   @override
   String? get weaponId;
+
+  /// Create a copy of MaterialUsage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MaterialUsageImplCopyWith<_$MaterialUsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

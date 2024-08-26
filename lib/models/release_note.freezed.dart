@@ -24,8 +24,12 @@ mixin _$ReleaseNote {
   String get version => throw _privateConstructorUsedError;
   String get contents => throw _privateConstructorUsedError;
 
+  /// Serializes this ReleaseNote to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ReleaseNote
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ReleaseNoteCopyWith<ReleaseNote> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +53,8 @@ class _$ReleaseNoteCopyWithImpl<$Res, $Val extends ReleaseNote>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ReleaseNote
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,6 +98,8 @@ class __$$ReleaseNoteImplCopyWithImpl<$Res>
       _$ReleaseNoteImpl _value, $Res Function(_$ReleaseNoteImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ReleaseNote
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,11 +159,13 @@ class _$ReleaseNoteImpl implements _ReleaseNote {
                 other.contents == contents));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, releasedOn, version, contents);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ReleaseNote
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ReleaseNoteImplCopyWith<_$ReleaseNoteImpl> get copyWith =>
@@ -184,8 +194,11 @@ abstract class _ReleaseNote implements ReleaseNote {
   String get version;
   @override
   String get contents;
+
+  /// Create a copy of ReleaseNote
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ReleaseNoteImplCopyWith<_$ReleaseNoteImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -36,7 +36,7 @@ const _$PurposeEnumMap = {
 _$ExpItemImpl _$$ExpItemImplFromJson(Map<String, dynamic> json) =>
     _$ExpItemImpl(
       itemId: json['itemId'] as String,
-      expPerItem: json['expPerItem'] as int,
+      expPerItem: (json['expPerItem'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$ExpItemImplToJson(_$ExpItemImpl instance) =>

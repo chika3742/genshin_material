@@ -54,8 +54,13 @@ mixin _$WhereToGet {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this WhereToGet to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WhereToGet
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WhereToGetCopyWith<WhereToGet> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -81,6 +86,8 @@ class _$WhereToGetCopyWithImpl<$Res, $Val extends WhereToGet>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WhereToGet
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -99,6 +106,8 @@ class _$WhereToGetCopyWithImpl<$Res, $Val extends WhereToGet>
     ) as $Val);
   }
 
+  /// Create a copy of WhereToGet
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res>? get text {
@@ -134,6 +143,8 @@ class __$$WhereToGetTextImplCopyWithImpl<$Res>
       _$WhereToGetTextImpl _value, $Res Function(_$WhereToGetTextImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WhereToGet
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -180,11 +191,13 @@ class _$WhereToGetTextImpl implements WhereToGetText {
             (identical(other.key, key) || other.key == key));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, text, key);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WhereToGet
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WhereToGetTextImplCopyWith<_$WhereToGetTextImpl> get copyWith =>
@@ -266,8 +279,11 @@ abstract class WhereToGetText implements WhereToGet {
   LocalizedText? get text;
   @override
   String? get key;
+
+  /// Create a copy of WhereToGet
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WhereToGetTextImplCopyWith<_$WhereToGetTextImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
