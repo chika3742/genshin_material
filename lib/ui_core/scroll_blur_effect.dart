@@ -53,7 +53,13 @@ class ScrollBlurEffect extends HookWidget {
               stops: [0.0, 1 - (maxBlurHeight * blurHeightFactor.value), 1.0],
             ).createShader(bounds);
           },
-          child: child,
+          child: NotificationListener<SizeChangedLayoutNotification>(
+            onNotification: (notification) {
+              updateBlurHeight(blurHeightFactor);
+              return false;
+            },
+            child: child,
+          ),
         );
       },
     );

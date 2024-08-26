@@ -14,8 +14,8 @@ import "../models/common.dart";
 import "../providers/asset_updating_state.dart";
 import "../providers/preferences.dart";
 import "../routes.dart";
+import "../ui_core/bottom_sheet.dart";
 import "../ui_core/install_latest_assets.dart";
-import "../ui_core/select_bottom_sheet.dart";
 import "../ui_core/snack_bar.dart";
 
 class SettingsPage extends HookConsumerWidget {

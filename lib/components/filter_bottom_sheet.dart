@@ -1,76 +1,31 @@
-import "dart:math";
-
 import "package:flutter/material.dart";
-import "package:flutter_hooks/flutter_hooks.dart";
 
+import "../ui_core/bottom_sheet.dart";
 import "layout.dart";
 import "list_subheader.dart";
-import "scroll_blur_effect.dart";
 
-class FilterBottomSheet extends HookWidget {
+class FilterBottomSheet extends StatelessWidget {
   final List<Widget> categories;
 
   const FilterBottomSheet({super.key, required this.categories});
 
-
-@override
+  @override
   Widget build(BuildContext context) {
-    final contentKey = useMemoized(() => GlobalKey());
-
-    const maxChildSize = 0.9;
-    const initialChildSize = 0.6;
-
-    final currentMaxChildSize = useState(maxChildSize);
-    final availableHeight = useRef<double?>(null);
-
-    double calculateIntrinsicChildSize() {
-      final renderBox = contentKey.currentContext?.findRenderObject() as RenderBox?;
-      if (renderBox == null || availableHeight.value == null) {
-        return maxChildSize;
-      }
-
-      return max(initialChildSize, min(renderBox.size.height / availableHeight.value!, maxChildSize));
-    }
-
-    useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        currentMaxChildSize.value = calculateIntrinsicChildSize();
-      });
-      return null;
-    }, [],);
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        availableHeight.value = constraints.maxHeight;
-
-        return DraggableScrollableSheet(
-          maxChildSize: currentMaxChildSize.value,
-          initialChildSize: initialChildSize,
-          expand: false,
-          snap: true,
-          builder: (context, scrollController) {
-            return ScrollBlurEffect(
-              scrollController: scrollController,
-              child: SingleChildScrollView(
-                controller: scrollController,
-                physics: initialChildSize >= currentMaxChildSize.value ? const NeverScrollableScrollPhysics() : null,
-                child: Padding(
-                  key: contentKey,
-                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-                  child: GappedColumn(
-                    gap: 16,
-                    mainAxisSize: MainAxisSize.min,
-                    children: categories,
-                  ),
-                ),
-              ),
-            );
-          },
+    return ScrollableBottomSheet(
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+          child: GappedColumn(
+            gap: 16,
+            mainAxisSize: MainAxisSize.min,
+            children: categories,
+          ),
         );
       },
     );
   }
 }
+
 
 class FilteringCategory extends StatelessWidget {
   final String labelText;
