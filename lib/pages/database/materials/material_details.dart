@@ -94,7 +94,7 @@ class MaterialDetailsPage extends StatelessWidget {
                           SectionInnerHeading(assetData.weaponTypes[weaponTypes.key]!.name.localized),
                           Column(
                             children: [
-                              for (final weapon in weaponTypes.value)
+                              for (final weapon in weaponTypes.value.sorted((a, b) => b.rarity - a.rarity))
                                 GameItemListTile(
                                   image: weapon.getImageFile(assetDir),
                                   name: weapon.name.localized,
