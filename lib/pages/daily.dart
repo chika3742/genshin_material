@@ -148,9 +148,11 @@ class _DailyMaterialHeading extends ConsumerWidget {
                 ),
               ),
             const SizedBox(width: 16),
-            Text(
-              dailyMaterial.description.localized,
-              style: Theme.of(context).textTheme.titleMedium,
+            Expanded(
+              child: Text(
+                dailyMaterial.description.localized,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
           ],
         ),
