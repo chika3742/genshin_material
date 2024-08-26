@@ -1,16 +1,11 @@
-import "package:flutter_custom_tabs/flutter_custom_tabs.dart";
+import "package:url_launcher/url_launcher.dart";
 
 void launchCustomTab(String url) {
   launchUrl(
     Uri.parse(url),
-    customTabsOptions: const CustomTabsOptions(
+    browserConfiguration: const BrowserConfiguration(
       showTitle: true,
-      shareState: CustomTabsShareState.off,
     ),
-    safariVCOptions: const SafariViewControllerOptions.pageSheet(
-      configuration: SheetPresentationControllerConfiguration(
-        detents: {SheetPresentationControllerDetent.large},
-      ),
-    ),
+    mode: LaunchMode.platformDefault,
   );
 }
