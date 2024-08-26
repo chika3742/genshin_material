@@ -5,6 +5,7 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
+import "../constants/dimens.dart";
 import "../core/theme.dart";
 
 class SimpleListTile extends StatelessWidget {
@@ -70,39 +71,45 @@ class GameItemListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Image.file(
-        image,
-        width: 36,
-        height: 36,
-      ),
-      title: Text(name),
-      trailing: Container(
-        width: 48,
-        height: 30,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Theme.of(context)
-                .extension<ComponentThemeExtension>()!
-                .getRarityColor(rarity),
-          ),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Text(
-          "★$rarity",
-          style: TextStyle(
-            fontSize: 14,
-            color: Theme.of(context)
-                .extension<ComponentThemeExtension>()!
-                .getRarityColor(rarity),
+    return SizedBox(
+      height: listTileHeight,
+      child: ListTile(
+        leading: Transform.scale(
+          scale: 1.2,
+          child: Image.file(
+            image,
+            width: 36,
+            height: 36,
           ),
         ),
+        title: Text(name),
+        trailing: Container(
+          width: 48,
+          height: 30,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Theme.of(context)
+                  .extension<ComponentThemeExtension>()!
+                  .getRarityColor(rarity),
+            ),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Text(
+            "★$rarity",
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context)
+                  .extension<ComponentThemeExtension>()!
+                  .getRarityColor(rarity),
+            ),
+          ),
+        ),
+        shape: rounded ? RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ) : null,
+        onTap: onTap,
       ),
-      shape: rounded ? RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ) : null,
-      onTap: onTap,
     );
   }
 }
