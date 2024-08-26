@@ -177,8 +177,13 @@ mixin _$Character {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this Character to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterCopyWith<Character> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -209,6 +214,8 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -247,6 +254,8 @@ class _$CharacterCopyWithImpl<$Res, $Val extends Character>
     ) as $Val);
   }
 
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get name {
@@ -289,6 +298,8 @@ class __$$ListedCharacterImplCopyWithImpl<$Res>
       _$ListedCharacterImpl _value, $Res Function(_$ListedCharacterImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -450,7 +461,7 @@ class _$ListedCharacterImpl extends ListedCharacter
                 .equals(other._materials, _materials));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -466,7 +477,9 @@ class _$ListedCharacterImpl extends ListedCharacter
       const DeepCollectionEquality().hash(_talents),
       const DeepCollectionEquality().hash(_materials));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListedCharacterImplCopyWith<_$ListedCharacterImpl> get copyWith =>
@@ -687,8 +700,11 @@ abstract class ListedCharacter extends Character
   Map<String, CharacterTalent> get talents;
   @override
   Map<String, String> get materials;
+
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListedCharacterImplCopyWith<_$ListedCharacterImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -725,6 +741,8 @@ class __$$CharacterGroupImplCopyWithImpl<$Res>
       _$CharacterGroupImpl _value, $Res Function(_$CharacterGroupImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -877,7 +895,7 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
                 .equals(other._materials, _materials));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -892,7 +910,9 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
       const DeepCollectionEquality().hash(_variantIds),
       const DeepCollectionEquality().hash(_materials));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterGroupImplCopyWith<_$CharacterGroupImpl> get copyWith =>
@@ -1111,8 +1131,11 @@ abstract class CharacterGroup extends Character
   List<String> get variantIds;
   @override
   Map<String, String> get materials;
+
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterGroupImplCopyWith<_$CharacterGroupImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1148,6 +1171,8 @@ class __$$CharacterVariantImplCopyWithImpl<$Res>
       $Res Function(_$CharacterVariantImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1283,7 +1308,7 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
                 .equals(other._materials, _materials));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -1297,7 +1322,9 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
       const DeepCollectionEquality().hash(_talents),
       const DeepCollectionEquality().hash(_materials));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterVariantImplCopyWith<_$CharacterVariantImpl> get copyWith =>
@@ -1514,8 +1541,11 @@ abstract class CharacterVariant extends Character
   Map<String, CharacterTalent> get talents;
   @override
   Map<String, String> get materials;
+
+  /// Create a copy of Character
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterVariantImplCopyWith<_$CharacterVariantImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1529,8 +1559,12 @@ mixin _$CharacterTalent {
   List<int> get idList => throw _privateConstructorUsedError;
   LocalizedText get name => throw _privateConstructorUsedError;
 
+  /// Serializes this CharacterTalent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CharacterTalent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterTalentCopyWith<CharacterTalent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1556,6 +1590,8 @@ class _$CharacterTalentCopyWithImpl<$Res, $Val extends CharacterTalent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CharacterTalent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1574,6 +1610,8 @@ class _$CharacterTalentCopyWithImpl<$Res, $Val extends CharacterTalent>
     ) as $Val);
   }
 
+  /// Create a copy of CharacterTalent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LocalizedTextCopyWith<$Res> get name {
@@ -1605,6 +1643,8 @@ class __$$CharacterTalentImplCopyWithImpl<$Res>
       _$CharacterTalentImpl _value, $Res Function(_$CharacterTalentImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CharacterTalent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1659,12 +1699,14 @@ class _$CharacterTalentImpl implements _CharacterTalent {
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_idList), name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterTalent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterTalentImplCopyWith<_$CharacterTalentImpl> get copyWith =>
@@ -1691,8 +1733,11 @@ abstract class _CharacterTalent implements CharacterTalent {
   List<int> get idList;
   @override
   LocalizedText get name;
+
+  /// Create a copy of CharacterTalent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterTalentImplCopyWith<_$CharacterTalentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

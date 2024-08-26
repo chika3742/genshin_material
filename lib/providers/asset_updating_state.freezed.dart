@@ -20,7 +20,9 @@ mixin _$AssetUpdatingState {
   double? get progress => throw _privateConstructorUsedError;
   int? get totalBytes => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssetUpdatingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AssetUpdatingStateCopyWith<AssetUpdatingState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$AssetUpdatingStateCopyWithImpl<$Res, $Val extends AssetUpdatingState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AssetUpdatingState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +93,8 @@ class __$$AssetUpdatingStateImplCopyWithImpl<$Res>
       $Res Function(_$AssetUpdatingStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssetUpdatingState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -146,7 +152,9 @@ class _$AssetUpdatingStateImpl implements _AssetUpdatingState {
   @override
   int get hashCode => Object.hash(runtimeType, state, progress, totalBytes);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssetUpdatingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssetUpdatingStateImplCopyWith<_$AssetUpdatingStateImpl> get copyWith =>
@@ -166,8 +174,11 @@ abstract class _AssetUpdatingState implements AssetUpdatingState {
   double? get progress;
   @override
   int? get totalBytes;
+
+  /// Create a copy of AssetUpdatingState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssetUpdatingStateImplCopyWith<_$AssetUpdatingStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

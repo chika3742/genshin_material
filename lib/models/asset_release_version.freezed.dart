@@ -26,8 +26,12 @@ mixin _$AssetReleaseVersion {
   String get distUrl => throw _privateConstructorUsedError;
   int get schemaVersion => throw _privateConstructorUsedError;
 
+  /// Serializes this AssetReleaseVersion to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AssetReleaseVersion
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AssetReleaseVersionCopyWith<AssetReleaseVersion> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,6 +60,8 @@ class _$AssetReleaseVersionCopyWithImpl<$Res, $Val extends AssetReleaseVersion>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AssetReleaseVersion
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,6 +120,8 @@ class __$$AssetReleaseVersionImplCopyWithImpl<$Res>
       $Res Function(_$AssetReleaseVersionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AssetReleaseVersion
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -192,12 +200,14 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
                 other.schemaVersion == schemaVersion));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, createdAt, dataVersion, channel, distUrl, schemaVersion);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AssetReleaseVersion
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AssetReleaseVersionImplCopyWith<_$AssetReleaseVersionImpl> get copyWith =>
@@ -233,8 +243,11 @@ abstract class _AssetReleaseVersion implements AssetReleaseVersion {
   String get distUrl;
   @override
   int get schemaVersion;
+
+  /// Create a copy of AssetReleaseVersion
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AssetReleaseVersionImplCopyWith<_$AssetReleaseVersionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -8,11 +8,11 @@ part of 'weapon.dart';
 
 _$WeaponImpl _$$WeaponImplFromJson(Map<String, dynamic> json) => _$WeaponImpl(
       id: json['id'] as String,
-      hyvId: json['hyvId'] as int,
+      hyvId: (json['hyvId'] as num).toInt(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
-      rarity: json['rarity'] as int,
+      rarity: (json['rarity'] as num).toInt(),
       subStat: json['subStat'] as String?,
       weaponAffixDesc: json['weaponAffixDesc'] == null
           ? null
@@ -60,7 +60,7 @@ Map<String, dynamic> _$$WeaponsMetaImplToJson(_$WeaponsMetaImpl instance) =>
 
 _$WeaponTypeInfoImpl _$$WeaponTypeInfoImplFromJson(Map<String, dynamic> json) =>
     _$WeaponTypeInfoImpl(
-      hyvId: json['hyvId'] as int,
+      hyvId: (json['hyvId'] as num).toInt(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
     );
 

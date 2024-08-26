@@ -12,10 +12,10 @@ _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
-      rarity: json['rarity'] as int,
+      rarity: (json['rarity'] as num).toInt(),
       category: json['category'] as String,
       groupId: json['groupId'] as String?,
-      craftLevel: json['craftLevel'] as int?,
+      craftLevel: (json['craftLevel'] as num?)?.toInt(),
       availableDays: (json['availableDays'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$DayOfWeekEnumMap, e))
           .toList(),

@@ -11,7 +11,7 @@ _$HoyolabApiResultImpl<T> _$$HoyolabApiResultImplFromJson<T>(
   T Function(Object? json) fromJsonT,
 ) =>
     _$HoyolabApiResultImpl<T>(
-      retcode: json['retcode'] as int,
+      retcode: (json['retcode'] as num).toInt(),
       message: json['message'] as String,
       data: _$nullableGenericFromJson(json['data'], fromJsonT),
     );
@@ -81,7 +81,7 @@ _$HyvUserGameRoleImpl _$$HyvUserGameRoleImplFromJson(
     _$HyvUserGameRoleImpl(
       uid: json['game_uid'] as String,
       nickname: json['nickname'] as String,
-      level: json['level'] as int,
+      level: (json['level'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$HyvUserGameRoleImplToJson(
@@ -95,10 +95,10 @@ Map<String, dynamic> _$$HyvUserGameRoleImplToJson(
 _$AvatarListResultItemImpl _$$AvatarListResultItemImplFromJson(
         Map<String, dynamic> json) =>
     _$AvatarListResultItemImpl(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       currentLevel: json['level_current'] as String,
-      maxLevel: json['max_level'] as int,
+      maxLevel: (json['max_level'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$AvatarListResultItemImplToJson(
@@ -125,8 +125,8 @@ Map<String, dynamic> _$$AvatarDetailImplToJson(_$AvatarDetailImpl instance) =>
 _$AvatarDetailSkillImpl _$$AvatarDetailSkillImplFromJson(
         Map<String, dynamic> json) =>
     _$AvatarDetailSkillImpl(
-      maxLevel: json['max_level'] as int,
-      currentLevel: json['level_current'] as int,
+      maxLevel: (json['max_level'] as num).toInt(),
+      currentLevel: (json['level_current'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$AvatarDetailSkillImplToJson(
@@ -138,7 +138,7 @@ Map<String, dynamic> _$$AvatarDetailSkillImplToJson(
 
 _$AvatarAuthImpl _$$AvatarAuthImplFromJson(Map<String, dynamic> json) =>
     _$AvatarAuthImpl(
-      avatarAuth: json['avatar_auth'] as int,
+      avatarAuth: (json['avatar_auth'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$AvatarAuthImplToJson(_$AvatarAuthImpl instance) =>
@@ -192,9 +192,9 @@ const _$DataSwitchTypeEnumMap = {
 
 _$DailyNoteImpl _$$DailyNoteImplFromJson(Map<String, dynamic> json) =>
     _$DailyNoteImpl(
-      currentResin: json['current_resin'] as int,
+      currentResin: (json['current_resin'] as num).toInt(),
       resinRecoveryTime: json['resin_recovery_time'] as String,
-      currentHomeCoin: json['current_home_coin'] as int,
+      currentHomeCoin: (json['current_home_coin'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$DailyNoteImplToJson(_$DailyNoteImpl instance) =>

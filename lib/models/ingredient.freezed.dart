@@ -81,6 +81,8 @@ mixin _$Ingredient {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Serializes this Ingredient to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
@@ -100,6 +102,9 @@ class _$IngredientCopyWithImpl<$Res, $Val extends Ingredient>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -123,6 +128,8 @@ class __$$IngredientByTypeImplCopyWithImpl<$Res>
       $Res Function(_$IngredientByTypeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -206,12 +213,14 @@ class _$IngredientByTypeImpl implements IngredientByType {
                 .equals(other._specificCharacters, _specificCharacters));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, quantity, craftLevel,
       const DeepCollectionEquality().hash(_specificCharacters));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IngredientByTypeImplCopyWith<_$IngredientByTypeImpl> get copyWith =>
@@ -314,7 +323,10 @@ abstract class IngredientByType implements Ingredient {
   int get quantity;
   int? get craftLevel;
   Map<String, String?>? get specificCharacters;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IngredientByTypeImplCopyWith<_$IngredientByTypeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -336,6 +348,8 @@ class __$$IngredientExpImplCopyWithImpl<$Res>
       _$IngredientExpImpl _value, $Res Function(_$IngredientExpImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -378,11 +392,13 @@ class _$IngredientExpImpl implements IngredientExp {
             (identical(other.exp, exp) || other.exp == exp));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, exp);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IngredientExpImplCopyWith<_$IngredientExpImpl> get copyWith =>
@@ -477,7 +493,10 @@ abstract class IngredientExp implements Ingredient {
       _$IngredientExpImpl.fromJson;
 
   int get exp;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IngredientExpImplCopyWith<_$IngredientExpImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -500,6 +519,8 @@ class __$$IngredientWithFixedIdImplCopyWithImpl<$Res>
       $Res Function(_$IngredientWithFixedIdImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -552,11 +573,13 @@ class _$IngredientWithFixedIdImpl implements IngredientWithFixedId {
                 other.quantity == quantity));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, itemId, quantity);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IngredientWithFixedIdImplCopyWith<_$IngredientWithFixedIdImpl>
@@ -655,7 +678,10 @@ abstract class IngredientWithFixedId implements Ingredient {
 
   String get itemId;
   int get quantity;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Ingredient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IngredientWithFixedIdImplCopyWith<_$IngredientWithFixedIdImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

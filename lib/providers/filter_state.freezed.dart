@@ -20,7 +20,9 @@ mixin _$CharacterFilterState {
   String? get element => throw _privateConstructorUsedError;
   String? get weaponType => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterFilterStateCopyWith<CharacterFilterState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$CharacterFilterStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CharacterFilterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -88,6 +92,8 @@ class __$$CharacterFilterStateImplCopyWithImpl<$Res>
       $Res Function(_$CharacterFilterStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CharacterFilterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -144,7 +150,9 @@ class _$CharacterFilterStateImpl extends _CharacterFilterState {
   @override
   int get hashCode => Object.hash(runtimeType, rarity, element, weaponType);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterFilterStateImplCopyWith<_$CharacterFilterStateImpl>
@@ -166,8 +174,11 @@ abstract class _CharacterFilterState extends CharacterFilterState {
   String? get element;
   @override
   String? get weaponType;
+
+  /// Create a copy of CharacterFilterState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterFilterStateImplCopyWith<_$CharacterFilterStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -176,7 +187,9 @@ abstract class _CharacterFilterState extends CharacterFilterState {
 mixin _$ArtifactFilterState {
   List<String> get tags => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ArtifactFilterStateCopyWith<ArtifactFilterState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -200,6 +213,8 @@ class _$ArtifactFilterStateCopyWithImpl<$Res, $Val extends ArtifactFilterState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ArtifactFilterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -233,6 +248,8 @@ class __$$ArtifactFilterStateImplCopyWithImpl<$Res>
       $Res Function(_$ArtifactFilterStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ArtifactFilterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -279,7 +296,9 @@ class _$ArtifactFilterStateImpl implements _ArtifactFilterState {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_tags));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ArtifactFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ArtifactFilterStateImplCopyWith<_$ArtifactFilterStateImpl> get copyWith =>
@@ -293,8 +312,11 @@ abstract class _ArtifactFilterState implements ArtifactFilterState {
 
   @override
   List<String> get tags;
+
+  /// Create a copy of ArtifactFilterState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ArtifactFilterStateImplCopyWith<_$ArtifactFilterStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -184,7 +184,7 @@ class WeaponListRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: WeaponListPage(),
+      child: const WeaponListPage(),
     );
   }
 }

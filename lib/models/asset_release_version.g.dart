@@ -13,7 +13,7 @@ _$AssetReleaseVersionImpl _$$AssetReleaseVersionImplFromJson(
       dataVersion: json['dataVersion'] as String,
       channel: $enumDecode(_$AssetChannelEnumMap, json['channel']),
       distUrl: json['distUrl'] as String,
-      schemaVersion: json['schemaVersion'] as int,
+      schemaVersion: (json['schemaVersion'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$AssetReleaseVersionImplToJson(

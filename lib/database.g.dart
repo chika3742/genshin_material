@@ -298,6 +298,24 @@ class MaterialBookmarkData extends DataClass
         purposeType: purposeType ?? this.purposeType,
         hash: hash ?? this.hash,
       );
+  MaterialBookmarkData copyWithCompanion(MaterialBookmarkCompanion data) {
+    return MaterialBookmarkData(
+      id: data.id.present ? data.id.value : this.id,
+      materialId:
+          data.materialId.present ? data.materialId.value : this.materialId,
+      characterId:
+          data.characterId.present ? data.characterId.value : this.characterId,
+      weaponId: data.weaponId.present ? data.weaponId.value : this.weaponId,
+      quantity: data.quantity.present ? data.quantity.value : this.quantity,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      upperLevel:
+          data.upperLevel.present ? data.upperLevel.value : this.upperLevel,
+      purposeType:
+          data.purposeType.present ? data.purposeType.value : this.purposeType,
+      hash: data.hash.present ? data.hash.value : this.hash,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('MaterialBookmarkData(')
@@ -601,6 +619,15 @@ class CharacterLevelInfoData extends DataClass
         characterId: characterId ?? this.characterId,
         purposes: purposes ?? this.purposes,
       );
+  CharacterLevelInfoData copyWithCompanion(CharacterLevelInfoCompanion data) {
+    return CharacterLevelInfoData(
+      uid: data.uid.present ? data.uid.value : this.uid,
+      characterId:
+          data.characterId.present ? data.characterId.value : this.characterId,
+      purposes: data.purposes.present ? data.purposes.value : this.purposes,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('CharacterLevelInfoData(')
@@ -966,6 +993,22 @@ class ArtifactBookmarkData extends DataClass
         subStatIds: subStatIds ?? this.subStatIds,
         createdAt: createdAt ?? this.createdAt,
       );
+  ArtifactBookmarkData copyWithCompanion(ArtifactBookmarkCompanion data) {
+    return ArtifactBookmarkData(
+      id: data.id.present ? data.id.value : this.id,
+      characterId:
+          data.characterId.present ? data.characterId.value : this.characterId,
+      setId1: data.setId1.present ? data.setId1.value : this.setId1,
+      setId2: data.setId2.present ? data.setId2.value : this.setId2,
+      pieceId: data.pieceId.present ? data.pieceId.value : this.pieceId,
+      mainStatIds:
+          data.mainStatIds.present ? data.mainStatIds.value : this.mainStatIds,
+      subStatIds:
+          data.subStatIds.present ? data.subStatIds.value : this.subStatIds,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('ArtifactBookmarkData(')
@@ -1123,7 +1166,7 @@ class ArtifactBookmarkCompanion extends UpdateCompanion<ArtifactBookmarkData> {
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
-  _$AppDatabaseManager get managers => _$AppDatabaseManager(this);
+  $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $MaterialBookmarkTable materialBookmark =
       $MaterialBookmarkTable(this);
   late final $CharacterLevelInfoTable characterLevelInfo =
@@ -1138,7 +1181,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       [materialBookmark, characterLevelInfo, artifactBookmark];
 }
 
-typedef $$MaterialBookmarkTableInsertCompanionBuilder
+typedef $$MaterialBookmarkTableCreateCompanionBuilder
     = MaterialBookmarkCompanion Function({
   Value<int> id,
   Value<String?> materialId,
@@ -1169,8 +1212,7 @@ class $$MaterialBookmarkTableTableManager extends RootTableManager<
     MaterialBookmarkData,
     $$MaterialBookmarkTableFilterComposer,
     $$MaterialBookmarkTableOrderingComposer,
-    $$MaterialBookmarkTableProcessedTableManager,
-    $$MaterialBookmarkTableInsertCompanionBuilder,
+    $$MaterialBookmarkTableCreateCompanionBuilder,
     $$MaterialBookmarkTableUpdateCompanionBuilder> {
   $$MaterialBookmarkTableTableManager(
       _$AppDatabase db, $MaterialBookmarkTable table)
@@ -1181,9 +1223,7 @@ class $$MaterialBookmarkTableTableManager extends RootTableManager<
               $$MaterialBookmarkTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$MaterialBookmarkTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$MaterialBookmarkTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String?> materialId = const Value.absent(),
             Value<String> characterId = const Value.absent(),
@@ -1205,7 +1245,7 @@ class $$MaterialBookmarkTableTableManager extends RootTableManager<
             purposeType: purposeType,
             hash: hash,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String?> materialId = const Value.absent(),
             required String characterId,
@@ -1228,19 +1268,6 @@ class $$MaterialBookmarkTableTableManager extends RootTableManager<
             hash: hash,
           ),
         ));
-}
-
-class $$MaterialBookmarkTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AppDatabase,
-        $MaterialBookmarkTable,
-        MaterialBookmarkData,
-        $$MaterialBookmarkTableFilterComposer,
-        $$MaterialBookmarkTableOrderingComposer,
-        $$MaterialBookmarkTableProcessedTableManager,
-        $$MaterialBookmarkTableInsertCompanionBuilder,
-        $$MaterialBookmarkTableUpdateCompanionBuilder> {
-  $$MaterialBookmarkTableProcessedTableManager(super.$state);
 }
 
 class $$MaterialBookmarkTableFilterComposer
@@ -1343,7 +1370,7 @@ class $$MaterialBookmarkTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$CharacterLevelInfoTableInsertCompanionBuilder
+typedef $$CharacterLevelInfoTableCreateCompanionBuilder
     = CharacterLevelInfoCompanion Function({
   required String uid,
   required String characterId,
@@ -1364,8 +1391,7 @@ class $$CharacterLevelInfoTableTableManager extends RootTableManager<
     CharacterLevelInfoData,
     $$CharacterLevelInfoTableFilterComposer,
     $$CharacterLevelInfoTableOrderingComposer,
-    $$CharacterLevelInfoTableProcessedTableManager,
-    $$CharacterLevelInfoTableInsertCompanionBuilder,
+    $$CharacterLevelInfoTableCreateCompanionBuilder,
     $$CharacterLevelInfoTableUpdateCompanionBuilder> {
   $$CharacterLevelInfoTableTableManager(
       _$AppDatabase db, $CharacterLevelInfoTable table)
@@ -1376,9 +1402,7 @@ class $$CharacterLevelInfoTableTableManager extends RootTableManager<
               $$CharacterLevelInfoTableFilterComposer(ComposerState(db, table)),
           orderingComposer: $$CharacterLevelInfoTableOrderingComposer(
               ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$CharacterLevelInfoTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> uid = const Value.absent(),
             Value<String> characterId = const Value.absent(),
             Value<Map<Purpose, int>> purposes = const Value.absent(),
@@ -1390,7 +1414,7 @@ class $$CharacterLevelInfoTableTableManager extends RootTableManager<
             purposes: purposes,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String uid,
             required String characterId,
             required Map<Purpose, int> purposes,
@@ -1403,19 +1427,6 @@ class $$CharacterLevelInfoTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$CharacterLevelInfoTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AppDatabase,
-        $CharacterLevelInfoTable,
-        CharacterLevelInfoData,
-        $$CharacterLevelInfoTableFilterComposer,
-        $$CharacterLevelInfoTableOrderingComposer,
-        $$CharacterLevelInfoTableProcessedTableManager,
-        $$CharacterLevelInfoTableInsertCompanionBuilder,
-        $$CharacterLevelInfoTableUpdateCompanionBuilder> {
-  $$CharacterLevelInfoTableProcessedTableManager(super.$state);
 }
 
 class $$CharacterLevelInfoTableFilterComposer
@@ -1458,7 +1469,7 @@ class $$CharacterLevelInfoTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$ArtifactBookmarkTableInsertCompanionBuilder
+typedef $$ArtifactBookmarkTableCreateCompanionBuilder
     = ArtifactBookmarkCompanion Function({
   Value<int> id,
   required String characterId,
@@ -1487,8 +1498,7 @@ class $$ArtifactBookmarkTableTableManager extends RootTableManager<
     ArtifactBookmarkData,
     $$ArtifactBookmarkTableFilterComposer,
     $$ArtifactBookmarkTableOrderingComposer,
-    $$ArtifactBookmarkTableProcessedTableManager,
-    $$ArtifactBookmarkTableInsertCompanionBuilder,
+    $$ArtifactBookmarkTableCreateCompanionBuilder,
     $$ArtifactBookmarkTableUpdateCompanionBuilder> {
   $$ArtifactBookmarkTableTableManager(
       _$AppDatabase db, $ArtifactBookmarkTable table)
@@ -1499,9 +1509,7 @@ class $$ArtifactBookmarkTableTableManager extends RootTableManager<
               $$ArtifactBookmarkTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$ArtifactBookmarkTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$ArtifactBookmarkTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> characterId = const Value.absent(),
             Value<String?> setId1 = const Value.absent(),
@@ -1521,7 +1529,7 @@ class $$ArtifactBookmarkTableTableManager extends RootTableManager<
             subStatIds: subStatIds,
             createdAt: createdAt,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String characterId,
             Value<String?> setId1 = const Value.absent(),
@@ -1542,19 +1550,6 @@ class $$ArtifactBookmarkTableTableManager extends RootTableManager<
             createdAt: createdAt,
           ),
         ));
-}
-
-class $$ArtifactBookmarkTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AppDatabase,
-        $ArtifactBookmarkTable,
-        ArtifactBookmarkData,
-        $$ArtifactBookmarkTableFilterComposer,
-        $$ArtifactBookmarkTableOrderingComposer,
-        $$ArtifactBookmarkTableProcessedTableManager,
-        $$ArtifactBookmarkTableInsertCompanionBuilder,
-        $$ArtifactBookmarkTableUpdateCompanionBuilder> {
-  $$ArtifactBookmarkTableProcessedTableManager(super.$state);
 }
 
 class $$ArtifactBookmarkTableFilterComposer
@@ -1650,9 +1645,9 @@ class $$ArtifactBookmarkTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-class _$AppDatabaseManager {
+class $AppDatabaseManager {
   final _$AppDatabase _db;
-  _$AppDatabaseManager(this._db);
+  $AppDatabaseManager(this._db);
   $$MaterialBookmarkTableTableManager get materialBookmark =>
       $$MaterialBookmarkTableTableManager(_db, _db.materialBookmark);
   $$CharacterLevelInfoTableTableManager get characterLevelInfo =>

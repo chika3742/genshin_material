@@ -24,8 +24,12 @@ mixin _$CharacterIngredients {
   Map<Purpose, CharacterIngredientsLevels> get purposes =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this CharacterIngredients to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CharacterIngredients
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterIngredientsCopyWith<CharacterIngredients> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,6 +56,8 @@ class _$CharacterIngredientsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CharacterIngredients
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,6 +98,8 @@ class __$$CharacterIngredientsImplCopyWithImpl<$Res>
       $Res Function(_$CharacterIngredientsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CharacterIngredients
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -154,14 +162,16 @@ class _$CharacterIngredientsImpl extends _CharacterIngredients {
             const DeepCollectionEquality().equals(other._purposes, _purposes));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_expItems),
       const DeepCollectionEquality().hash(_purposes));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterIngredients
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterIngredientsImplCopyWith<_$CharacterIngredientsImpl>
@@ -191,8 +201,11 @@ abstract class _CharacterIngredients extends CharacterIngredients {
   List<ExpItem> get expItems;
   @override
   Map<Purpose, CharacterIngredientsLevels> get purposes;
+
+  /// Create a copy of CharacterIngredients
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterIngredientsImplCopyWith<_$CharacterIngredientsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -206,8 +219,12 @@ mixin _$ExpItem {
   String get itemId => throw _privateConstructorUsedError;
   int get expPerItem => throw _privateConstructorUsedError;
 
+  /// Serializes this ExpItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ExpItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ExpItemCopyWith<ExpItem> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -229,6 +246,8 @@ class _$ExpItemCopyWithImpl<$Res, $Val extends ExpItem>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ExpItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -266,6 +285,8 @@ class __$$ExpItemImplCopyWithImpl<$Res>
       _$ExpItemImpl _value, $Res Function(_$ExpItemImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ExpItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -313,11 +334,13 @@ class _$ExpItemImpl implements _ExpItem {
                 other.expPerItem == expPerItem));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, itemId, expPerItem);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ExpItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ExpItemImplCopyWith<_$ExpItemImpl> get copyWith =>
@@ -342,8 +365,11 @@ abstract class _ExpItem implements ExpItem {
   String get itemId;
   @override
   int get expPerItem;
+
+  /// Create a copy of ExpItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ExpItemImplCopyWith<_$ExpItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -357,8 +383,12 @@ CharacterIngredientsLevels _$CharacterIngredientsLevelsFromJson(
 mixin _$CharacterIngredientsLevels {
   Map<int, List<Ingredient>> get levels => throw _privateConstructorUsedError;
 
+  /// Serializes this CharacterIngredientsLevels to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CharacterIngredientsLevels
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CharacterIngredientsLevelsCopyWith<CharacterIngredientsLevels>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -384,6 +414,8 @@ class _$CharacterIngredientsLevelsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CharacterIngredientsLevels
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -420,6 +452,8 @@ class __$$CharacterIngredientsLevelsImplCopyWithImpl<$Res>
       $Res Function(_$CharacterIngredientsLevelsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CharacterIngredientsLevels
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -466,12 +500,14 @@ class _$CharacterIngredientsLevelsImpl implements _CharacterIngredientsLevels {
             const DeepCollectionEquality().equals(other._levels, _levels));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_levels));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CharacterIngredientsLevels
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CharacterIngredientsLevelsImplCopyWith<_$CharacterIngredientsLevelsImpl>
@@ -497,8 +533,11 @@ abstract class _CharacterIngredientsLevels
 
   @override
   Map<int, List<Ingredient>> get levels;
+
+  /// Create a copy of CharacterIngredientsLevels
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CharacterIngredientsLevelsImplCopyWith<_$CharacterIngredientsLevelsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
