@@ -71,6 +71,8 @@ materialDetailsPage:
   charactersUsing: この素材を使用するキャラクター
   weaponsUsing: この素材を使用する武器
   availableToday: 本日入手可能
+  source: 入手方法
+  toTeyvatMap: テイワットマップへ
 materialCard:
   reBookmark: 現在の範囲で再ブックマーク
   reBookmarkDesc: 一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします

@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 303 (151 per locale)
+/// Strings: 305 (152 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -313,6 +313,8 @@ class _StringsMaterialDetailsPageJa {
 	String get charactersUsing => 'この素材を使用するキャラクター';
 	String get weaponsUsing => 'この素材を使用する武器';
 	String get availableToday => '本日入手可能';
+	String get source => '入手方法';
+	String get toTeyvatMap => 'テイワットマップへ';
 }
 
 // Path: materialCard
@@ -959,6 +961,8 @@ extension on Translations {
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
 			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
 			case 'materialDetailsPage.availableToday': return '本日入手可能';
+			case 'materialDetailsPage.source': return '入手方法';
+			case 'materialDetailsPage.toTeyvatMap': return 'テイワットマップへ';
 			case 'materialCard.reBookmark': return '現在の範囲で再ブックマーク';
 			case 'materialCard.reBookmarkDesc': return '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします';
 			case 'materialCard.unBookmark': return 'ブックマークを解除';

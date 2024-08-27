@@ -16,5 +16,6 @@ class LocalizedText with _$LocalizedText {
   factory LocalizedText.fromJson(Map<String, dynamic> json) =>
       _$LocalizedTextFromJson(json);
 
-  String get localized => locales[LocaleSettings.currentLocale.languageCode]!;
+  String get localized => locales[LocaleSettings.currentLocale.languageCode]!
+      .replaceAll("\u00B7", "\u30FB"); // 半角中黒を全角中黒に変換
 }

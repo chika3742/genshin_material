@@ -21,7 +21,7 @@ _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       source: json['source'] == null
           ? null
-          : MaterialSource.fromJson(json['source'] as Map<String, dynamic>),
+          : ItemSource.fromJson(json['source'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
@@ -49,63 +49,32 @@ const _$DayOfWeekEnumMap = {
   DayOfWeek.sunday: 'sunday',
 };
 
-_$TeyvatMapMaterialSourceImpl _$$TeyvatMapMaterialSourceImplFromJson(
+_$TeyvatMapItemSourceImpl _$$TeyvatMapItemSourceImplFromJson(
         Map<String, dynamic> json) =>
-    _$TeyvatMapMaterialSourceImpl(
+    _$TeyvatMapItemSourceImpl(
       typeId: json['typeId'] as String,
+      center: json['center'] as String?,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$TeyvatMapMaterialSourceImplToJson(
-        _$TeyvatMapMaterialSourceImpl instance) =>
+Map<String, dynamic> _$$TeyvatMapItemSourceImplToJson(
+        _$TeyvatMapItemSourceImpl instance) =>
     <String, dynamic>{
       'typeId': instance.typeId,
+      'center': instance.center,
       'runtimeType': instance.$type,
     };
 
-_$DomainMaterialSourceImpl _$$DomainMaterialSourceImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DomainMaterialSourceImpl(
-      domainId: json['domainId'] as String,
-      areaId: json['areaId'] as String,
+_$TextItemSourceImpl _$$TextItemSourceImplFromJson(Map<String, dynamic> json) =>
+    _$TextItemSourceImpl(
+      text: LocalizedText.fromJson(json['text'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$DomainMaterialSourceImplToJson(
-        _$DomainMaterialSourceImpl instance) =>
+Map<String, dynamic> _$$TextItemSourceImplToJson(
+        _$TextItemSourceImpl instance) =>
     <String, dynamic>{
-      'domainId': instance.domainId,
-      'areaId': instance.areaId,
-      'runtimeType': instance.$type,
-    };
-
-_$WeeklyBossMaterialSourceImpl _$$WeeklyBossMaterialSourceImplFromJson(
-        Map<String, dynamic> json) =>
-    _$WeeklyBossMaterialSourceImpl(
-      bossId: json['bossId'] as String,
-      areaId: json['areaId'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$WeeklyBossMaterialSourceImplToJson(
-        _$WeeklyBossMaterialSourceImpl instance) =>
-    <String, dynamic>{
-      'bossId': instance.bossId,
-      'areaId': instance.areaId,
-      'runtimeType': instance.$type,
-    };
-
-_$TextMaterialSourceImpl _$$TextMaterialSourceImplFromJson(
-        Map<String, dynamic> json) =>
-    _$TextMaterialSourceImpl(
-      textId: json['textId'] as String,
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$TextMaterialSourceImplToJson(
-        _$TextMaterialSourceImpl instance) =>
-    <String, dynamic>{
-      'textId': instance.textId,
+      'text': instance.text,
       'runtimeType': instance.$type,
     };
 

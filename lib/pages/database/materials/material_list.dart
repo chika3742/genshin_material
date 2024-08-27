@@ -1,7 +1,6 @@
 import "dart:math";
 
 import "package:collection/collection.dart";
-import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_sticky_header/flutter_sticky_header.dart";
 import "package:material_symbols_icons/symbols.dart";
@@ -77,7 +76,7 @@ class MaterialListPage extends StatelessWidget {
               .groupListsBy((element) => element.category);
           return PrimaryScrollController(
             controller: _scrollController,
-            child: CupertinoScrollbar(
+            child: Scrollbar(
               child: CustomScrollView(
                 controller: _scrollController,
                 slivers: categories.entries.map((e) {
