@@ -15,11 +15,19 @@ List<Fragment> parseStyledText(String input) {
 
   // forward until string gets empty
   while (remaining.isNotEmpty) {
-    // escaping character
     if (remaining.characters.first == "\\") {
-      fragments.putChar(remaining.characters.elementAt(1));
-      remaining = remaining.substring(2);
-      continue;
+      final nextChar = remaining.characters.elementAt(1);
+      // escape character
+      if (_markers.any((e) => e.marker.characters.first == nextChar)) {
+        fragments.putChar(remaining.characters.elementAt(1));
+        remaining = remaining.substring(2);
+        continue;
+      }
+      if (nextChar == "n") {
+        fragments.putChar("\n");
+        remaining = remaining.substring(2);
+        continue;
+      }
     }
 
     // if remaining string starts with any of markers
