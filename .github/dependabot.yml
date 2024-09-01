@@ -9,6 +9,7 @@ updates:
       - "deps"
       - "deps:pub"
     open-pull-requests-limit: 20
+    versioning-strategy: increase
     commit-message:
       prefix: "deps(pub)"
     groups:
