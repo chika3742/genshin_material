@@ -30,7 +30,7 @@ mixin _$Weapon {
   LocalizedText? get weaponAffixDesc => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   Map<String, String> get materials => throw _privateConstructorUsedError;
-  WhereToGet? get whereToGet => throw _privateConstructorUsedError;
+  ItemSource? get source => throw _privateConstructorUsedError;
 
   /// Serializes this Weapon to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -57,11 +57,11 @@ abstract class $WeaponCopyWith<$Res> {
       LocalizedText? weaponAffixDesc,
       String type,
       Map<String, String> materials,
-      WhereToGet? whereToGet});
+      ItemSource? source});
 
   $LocalizedTextCopyWith<$Res> get name;
   $LocalizedTextCopyWith<$Res>? get weaponAffixDesc;
-  $WhereToGetCopyWith<$Res>? get whereToGet;
+  $ItemSourceCopyWith<$Res>? get source;
 }
 
 /// @nodoc
@@ -89,7 +89,7 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
     Object? weaponAffixDesc = freezed,
     Object? type = null,
     Object? materials = null,
-    Object? whereToGet = freezed,
+    Object? source = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -132,10 +132,10 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
           ? _value.materials
           : materials // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
-      whereToGet: freezed == whereToGet
-          ? _value.whereToGet
-          : whereToGet // ignore: cast_nullable_to_non_nullable
-              as WhereToGet?,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as ItemSource?,
     ) as $Val);
   }
 
@@ -167,13 +167,13 @@ class _$WeaponCopyWithImpl<$Res, $Val extends Weapon>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $WhereToGetCopyWith<$Res>? get whereToGet {
-    if (_value.whereToGet == null) {
+  $ItemSourceCopyWith<$Res>? get source {
+    if (_value.source == null) {
       return null;
     }
 
-    return $WhereToGetCopyWith<$Res>(_value.whereToGet!, (value) {
-      return _then(_value.copyWith(whereToGet: value) as $Val);
+    return $ItemSourceCopyWith<$Res>(_value.source!, (value) {
+      return _then(_value.copyWith(source: value) as $Val);
     });
   }
 }
@@ -196,14 +196,14 @@ abstract class _$$WeaponImplCopyWith<$Res> implements $WeaponCopyWith<$Res> {
       LocalizedText? weaponAffixDesc,
       String type,
       Map<String, String> materials,
-      WhereToGet? whereToGet});
+      ItemSource? source});
 
   @override
   $LocalizedTextCopyWith<$Res> get name;
   @override
   $LocalizedTextCopyWith<$Res>? get weaponAffixDesc;
   @override
-  $WhereToGetCopyWith<$Res>? get whereToGet;
+  $ItemSourceCopyWith<$Res>? get source;
 }
 
 /// @nodoc
@@ -229,7 +229,7 @@ class __$$WeaponImplCopyWithImpl<$Res>
     Object? weaponAffixDesc = freezed,
     Object? type = null,
     Object? materials = null,
-    Object? whereToGet = freezed,
+    Object? source = freezed,
   }) {
     return _then(_$WeaponImpl(
       id: null == id
@@ -272,10 +272,10 @@ class __$$WeaponImplCopyWithImpl<$Res>
           ? _value._materials
           : materials // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
-      whereToGet: freezed == whereToGet
-          ? _value.whereToGet
-          : whereToGet // ignore: cast_nullable_to_non_nullable
-              as WhereToGet?,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as ItemSource?,
     ));
   }
 }
@@ -294,7 +294,7 @@ class _$WeaponImpl extends _Weapon {
       required this.weaponAffixDesc,
       required this.type,
       required final Map<String, String> materials,
-      this.whereToGet})
+      this.source})
       : _materials = materials,
         super._();
 
@@ -328,11 +328,11 @@ class _$WeaponImpl extends _Weapon {
   }
 
   @override
-  final WhereToGet? whereToGet;
+  final ItemSource? source;
 
   @override
   String toString() {
-    return 'Weapon(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, whereToGet: $whereToGet)';
+    return 'Weapon(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, source: $source)';
   }
 
   @override
@@ -354,8 +354,7 @@ class _$WeaponImpl extends _Weapon {
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality()
                 .equals(other._materials, _materials) &&
-            (identical(other.whereToGet, whereToGet) ||
-                other.whereToGet == whereToGet));
+            (identical(other.source, source) || other.source == source));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -372,7 +371,7 @@ class _$WeaponImpl extends _Weapon {
       weaponAffixDesc,
       type,
       const DeepCollectionEquality().hash(_materials),
-      whereToGet);
+      source);
 
   /// Create a copy of Weapon
   /// with the given fields replaced by the non-null parameter values.
@@ -402,7 +401,7 @@ abstract class _Weapon extends Weapon {
       required final LocalizedText? weaponAffixDesc,
       required final String type,
       required final Map<String, String> materials,
-      final WhereToGet? whereToGet}) = _$WeaponImpl;
+      final ItemSource? source}) = _$WeaponImpl;
   const _Weapon._() : super._();
 
   factory _Weapon.fromJson(Map<String, dynamic> json) = _$WeaponImpl.fromJson;
@@ -428,7 +427,7 @@ abstract class _Weapon extends Weapon {
   @override
   Map<String, String> get materials;
   @override
-  WhereToGet? get whereToGet;
+  ItemSource? get source;
 
   /// Create a copy of Weapon
   /// with the given fields replaced by the non-null parameter values.

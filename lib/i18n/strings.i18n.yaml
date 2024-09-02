@@ -27,6 +27,10 @@ common:
   change: 変更
   pleaseSelect: 選択してください
   bookmarkSaved: ブックマークしました
+  none: なし
+tutorial:
+  indexSheet: 目次の表示
+  indexSheetDesc: このボタンをタップすると、お探しの項目へ素早く移動できます。
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル
@@ -67,6 +71,8 @@ characterDetailsPage:
   talentLevelUpMaterials: 天賦Lvアップ素材
 weaponDetailsPage:
   characterToEquip: 武器を装備させるキャラクター
+  skillEffect: スキル効果
+  ascension: 武器Lvアップ・突破素材
 materialDetailsPage:
   charactersUsing: この素材を使用するキャラクター
   weaponsUsing: この素材を使用する武器

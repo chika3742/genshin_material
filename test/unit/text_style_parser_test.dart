@@ -58,5 +58,31 @@ void main() {
 
       expect(parsed, expectedFragments);
     });
+
+    test("If the markers are preceded by an escape character, they are treated as normal characters", () {
+      const input = "Lorem \\**ipsum \\~~dolor sit\\~~ amet\\*\\*,";
+
+      final parsed = parseStyledText(input);
+
+      final expectedFragments = [
+        const Fragment(type: FragmentType.text, text: "Lorem **ipsum ~~dolor sit~~ amet**,"),
+      ];
+
+      expect(parsed, expectedFragments);
+    });
+
+    test("Newline characters are parsed properly", () {
+      const input = "Lorem ipsum **dolor\\nsit** amet,";
+
+      final parsed = parseStyledText(input);
+
+      final expectedFragments = [
+        const Fragment(type: FragmentType.text, text: "Lorem ipsum "),
+        const Fragment(type: FragmentType.boldText, text: "dolor\nsit"),
+        const Fragment(type: FragmentType.text, text: " amet,"),
+      ];
+
+      expect(parsed, expectedFragments);
+    });
   });
 }

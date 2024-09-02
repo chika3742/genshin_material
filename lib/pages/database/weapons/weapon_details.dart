@@ -5,7 +5,9 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "../../../components/center_text.dart";
 import "../../../components/character_select_dropdown.dart";
 import "../../../components/data_asset_scope.dart";
+import "../../../components/effect_description.dart";
 import "../../../components/game_item_info_box.dart";
+import "../../../components/item_source_widget.dart";
 import "../../../components/layout.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
@@ -133,6 +135,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
                 },
               ),
 
+              SectionHeading(tr.weaponDetailsPage.ascension),
               Card(
                 margin: EdgeInsets.zero,
                 child: Padding(
@@ -157,6 +160,20 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
               Wrap(
                 children: _buildMaterialCards(selectedCharacterId.value),
               ),
+
+              _buildSection(
+                heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
+                content: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: EffectDescription(weapon.weaponAffixDesc?.localized ?? tr.common.none),
+                ),
+              ),
+
+              if (weapon.source != null)
+                _buildSection(
+                  heading: SectionHeading(tr.materialDetailsPage.source),
+                  content: ItemSourceWidget(weapon.source!),
+                ),
             ],
           ),
         ),
@@ -191,5 +208,16 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
         ),
       ),
     ).toList();
+  }
+
+  Widget _buildSection({required Widget heading, required Widget content}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        heading,
+        const SizedBox(height: 8),
+        content,
+      ],
+    );
   }
 }
