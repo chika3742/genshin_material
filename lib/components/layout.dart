@@ -80,3 +80,22 @@ class SectionInnerHeading extends StatelessWidget {
     );
   }
 }
+
+/// A section of the screen with a heading and a child widget.
+class Section extends StatelessWidget {
+  final Widget heading;
+  final Widget child;
+
+  const Section({super.key, required this.heading, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(width: double.infinity, child: heading),
+        const SizedBox(height: 8),
+        child,
+      ],
+    );
+  }
+}

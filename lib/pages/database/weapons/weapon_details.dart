@@ -135,44 +135,50 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
                 },
               ),
 
-              SectionHeading(tr.weaponDetailsPage.ascension),
-              Card(
-                margin: EdgeInsets.zero,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: LevelSlider(
-                    levels: _sliderTickLabels,
-                    values: _rangeValues,
-                    onChanged: (values) {
-                      // avoid overlapping slider handles
-                      if (values.start == values.end) {
-                        return;
-                      }
+              Section(
+                heading: SectionHeading(tr.weaponDetailsPage.ascension),
+                child: GappedColumn(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Card(
+                      margin: EdgeInsets.zero,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: LevelSlider(
+                          levels: _sliderTickLabels,
+                          values: _rangeValues,
+                          onChanged: (values) {
+                            // avoid overlapping slider handles
+                            if (values.start == values.end) {
+                              return;
+                            }
 
-                      setState(() {
-                        _rangeValues = values;
-                      });
-                    },
-                  ),
+                            setState(() {
+                              _rangeValues = values;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Wrap(
+                      children: _buildMaterialCards(selectedCharacterId.value),
+                    ),
+                  ],
                 ),
               ),
 
-              Wrap(
-                children: _buildMaterialCards(selectedCharacterId.value),
-              ),
-
-              _buildSection(
+              Section(
                 heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
-                content: Padding(
+                child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: EffectDescription(weapon.weaponAffixDesc?.localized ?? tr.common.none),
                 ),
               ),
 
               if (weapon.source != null)
-                _buildSection(
+                Section(
                   heading: SectionHeading(tr.materialDetailsPage.source),
-                  content: ItemSourceWidget(weapon.source!),
+                  child: ItemSourceWidget(weapon.source!),
                 ),
             ],
           ),
@@ -208,16 +214,5 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
         ),
       ),
     ).toList();
-  }
-
-  Widget _buildSection({required Widget heading, required Widget content}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        heading,
-        const SizedBox(height: 8),
-        content,
-      ],
-    );
   }
 }
