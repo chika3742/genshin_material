@@ -27,41 +27,7 @@ class WeaponListPage extends HookWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            showDragHandle: true,
-            builder: (context) => DataAssetScope(
-              builder: (assetData, assetDir) {
-                var offset = 0.0;
-                final weaponsGroupedByType = assetData.weapons.values
-                    .groupListsBy((element) => element.type);
-
-                return ListIndexSheet(
-                  onSelected: (scrollOffset) {
-                    scrollController.animateTo(
-                      min(scrollOffset, scrollController.position.maxScrollExtent),
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOutQuint,
-                    );
-                  },
-                  items: weaponsGroupedByType.entries.map((e) {
-                    final typeId = e.key;
-                    final items = e.value;
-
-                    final item = ListIndexItem(
-                      title: assetData.weaponTypes[typeId]!.name.localized,
-                      image: items.first.getImageFile(assetDir),
-                      scrollOffset: offset,
-                    );
-                    offset += stickyListHeaderHeight +
-                        (listTileHeight * items.length);
-                    return item;
-                  }).toList(),
-                );
-              },
-            ),
-          );
+          _showIndexSheet(context, scrollController);
         },
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
@@ -81,34 +47,76 @@ class WeaponListPage extends HookWidget {
                 controller: scrollController,
                 child: CustomScrollView(
                   controller: scrollController,
-                  slivers: weaponsGroupedByType.entries.map((e) {
-                    final categoryId = e.key;
-                    final categoryText = assetData.weaponTypes[categoryId]!.name.localized;
+                  slivers: [
+                    ...weaponsGroupedByType.entries.map((e) {
+                      final categoryId = e.key;
+                      final categoryText = assetData.weaponTypes[categoryId]!.name.localized;
+                      final weapons = e.value;
 
-                    return SliverStickyHeader.builder(
-                      builder: (_, __) => StickyListHeader(categoryText),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                              (context, index) {
-                            final weapon = weaponsGroupedByType[categoryId]![index];
+                      return SliverStickyHeader.builder(
+                        builder: (_, __) => StickyListHeader(categoryText),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                              final weapon = weapons[index];
 
-                            return GameItemListTile(
-                              image: weapon.getImageFile(assetDir),
-                              name: weapon.name.localized,
-                              rarity: weapon.rarity,
-                              onTap: () {
-                                WeaponDetailsRoute(id: weapon.id).go(context);
-                              },
-                            );
-                          },
-                          childCount: weaponsGroupedByType[categoryId]!.length,
+                              return GameItemListTile(
+                                image: weapon.getImageFile(assetDir),
+                                name: weapon.name.localized,
+                                rarity: weapon.rarity,
+                                onTap: () {
+                                  WeaponDetailsRoute(id: weapon.id).go(context);
+                                },
+                              );
+                            },
+                            childCount: weapons.length,
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
+                      );
+                    }),
+                  ],
                 ),
               );
             },
+          );
+        },
+      ),
+    );
+  }
+
+  void _showIndexSheet(BuildContext context, ScrollController scrollController) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (context) => DataAssetScope(
+        builder: (assetData, assetDir) {
+          var offset = 0.0;
+          final weaponsGroupedByType = assetData.weapons.values
+              .groupListsBy((element) => element.type);
+
+          return ListIndexSheet(
+            onSelected: (scrollOffset) {
+              scrollController.animateTo(
+                min(scrollOffset, scrollController.position.maxScrollExtent),
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOutQuint,
+              );
+            },
+            items: weaponsGroupedByType.entries.map((e) {
+              final typeId = e.key;
+              final items = e.value;
+
+              final item = ListIndexItem(
+                title: assetData.weaponTypes[typeId]!.name.localized,
+                image: items.first.getImageFile(assetDir),
+                scrollOffset: offset,
+              );
+
+              offset += stickyListHeaderHeight + (listTileHeight * items.length);
+
+              return item;
+            }).toList(),
           );
         },
       ),
