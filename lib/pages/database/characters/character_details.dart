@@ -266,7 +266,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                   },
                 ),
               Section(
-                heading: Text(tr.characterDetailsPage.charaLevelUpAndAscensionMaterials),
+                heading: SectionHeading(tr.characterDetailsPage.charaLevelUpAndAscensionMaterials),
                 child: GappedColumn(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -298,7 +298,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
               ),
 
               Section(
-                heading: Text(tr.characterDetailsPage.talentLevelUpMaterials),
+                heading: SectionHeading(tr.characterDetailsPage.talentLevelUpMaterials),
                 child: GappedColumn(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

@@ -91,8 +91,9 @@ class Section extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SizedBox(width: double.infinity, child: heading),
+        heading,
         const SizedBox(height: 8),
         child,
       ],
