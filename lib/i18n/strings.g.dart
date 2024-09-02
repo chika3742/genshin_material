@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 305 (152 per locale)
+/// Strings: 310 (155 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -148,6 +148,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	// Translations
 	String get appName => '原神素材ノート';
 	late final _StringsCommonJa common = _StringsCommonJa._(_root);
+	late final _StringsTutorialJa tutorial = _StringsTutorialJa._(_root);
 	Map<String, String> get talentTypes => {
 		'normalAttack': '通常攻撃',
 		'elementalSkill': '元素スキル',
@@ -225,6 +226,18 @@ class _StringsCommonJa {
 	String get change => '変更';
 	String get pleaseSelect => '選択してください';
 	String get bookmarkSaved => 'ブックマークしました';
+	String get none => 'なし';
+}
+
+// Path: tutorial
+class _StringsTutorialJa {
+	_StringsTutorialJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get indexSheet => '目次の表示';
+	String get indexSheetDesc => 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
 }
 
 // Path: updates
@@ -301,6 +314,8 @@ class _StringsWeaponDetailsPageJa {
 
 	// Translations
 	String get characterToEquip => '武器を装備させるキャラクター';
+	String get skillEffect => 'スキル効果';
+	String get ascension => '武器Lvアップ・突破素材';
 }
 
 // Path: materialDetailsPage
@@ -924,6 +939,9 @@ extension on Translations {
 			case 'common.change': return '変更';
 			case 'common.pleaseSelect': return '選択してください';
 			case 'common.bookmarkSaved': return 'ブックマークしました';
+			case 'common.none': return 'なし';
+			case 'tutorial.indexSheet': return '目次の表示';
+			case 'tutorial.indexSheetDesc': return 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';
@@ -958,6 +976,8 @@ extension on Translations {
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'weaponDetailsPage.characterToEquip': return '武器を装備させるキャラクター';
+			case 'weaponDetailsPage.skillEffect': return 'スキル効果';
+			case 'weaponDetailsPage.ascension': return '武器Lvアップ・突破素材';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
 			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
 			case 'materialDetailsPage.availableToday': return '本日入手可能';

@@ -1,21 +1,19 @@
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
-import "package:flutter/rendering.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/center_text.dart";
 import "../../../components/character_small_card.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/game_item_info_box.dart";
+import "../../../components/item_source_widget.dart";
 import "../../../components/layout.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
-import "../../../models/material.dart";
 import "../../../routes.dart";
 import "../../../utils/material_usage.dart";
-import "../../../utils/teyvat_map.dart";
 
 class MaterialDetailsPage extends StatelessWidget {
   final String id;
@@ -79,21 +77,7 @@ class MaterialDetailsPage extends StatelessWidget {
                   if (material.source != null)
                     _buildSection(
                       headingText: tr.materialDetailsPage.source,
-                      child: switch (material.source!) {
-                        TeyvatMapItemSource(:final typeId, :final center) => OverflowBox(
-                          fit: OverflowBoxFit.deferToChild,
-                          maxWidth: MediaQuery.of(context).size.width,
-                          child: SimpleListTile(
-                            leadingIcon: Symbols.map,
-                            title: tr.materialDetailsPage.toTeyvatMap,
-                            trailingIcon: Symbols.chevron_right,
-                            onTap: () {
-                              openTeyvatMap(typeId, initialPosition: center);
-                            },
-                          ),
-                        ),
-                        TextItemSource(:final text) => Text(text.localized),
-                      },
+                      child: ItemSourceWidget(material.source!),
                     ),
 
                   if (charactersUsingMaterial.isNotEmpty)

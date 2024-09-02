@@ -20,9 +20,9 @@ _$WeaponImpl _$$WeaponImplFromJson(Map<String, dynamic> json) => _$WeaponImpl(
               json['weaponAffixDesc'] as Map<String, dynamic>),
       type: json['type'] as String,
       materials: Map<String, String>.from(json['materials'] as Map),
-      whereToGet: json['whereToGet'] == null
+      source: json['source'] == null
           ? null
-          : WhereToGet.fromJson(json['whereToGet'] as Map<String, dynamic>),
+          : ItemSource.fromJson(json['source'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$WeaponImplToJson(_$WeaponImpl instance) =>
@@ -37,7 +37,7 @@ Map<String, dynamic> _$$WeaponImplToJson(_$WeaponImpl instance) =>
       'weaponAffixDesc': instance.weaponAffixDesc,
       'type': instance.type,
       'materials': instance.materials,
-      'whereToGet': instance.whereToGet,
+      'source': instance.source,
     };
 
 _$WeaponsMetaImpl _$$WeaponsMetaImplFromJson(Map<String, dynamic> json) =>

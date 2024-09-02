@@ -2,7 +2,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 
 import "common.dart";
 import "localized_text.dart";
-import "where_to_get.dart";
+import "material.dart";
 
 part "weapon.freezed.dart";
 part "weapon.g.dart";
@@ -22,7 +22,7 @@ class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon {
     required LocalizedText? weaponAffixDesc,
     required WeaponType type,
     required Map<MaterialUsageType, String> materials,
-    WhereToGet? whereToGet,
+    ItemSource? source,
   }) = _Weapon;
 
   factory Weapon.fromJson(Map<String, dynamic> json) =>
