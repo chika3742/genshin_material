@@ -32,7 +32,7 @@ dependencies:
   slang: ^3.30.2
   slang_flutter: ^3.29.0
   timelines: ^0.1.0
-  json_annotation: ^4.8.1
+  json_annotation: ^4.9.0
   yaml: ^3.1.2
   collection: ^1.18.0
   package_info_plus: ^8.0.2
@@ -58,6 +58,7 @@ dependencies:
   google_fonts: ^6.2.1
   assorted_layout_widgets: ^9.0.2
   uuid: ^4.4.2
+  tutorial_coach_mark: ^1.2.11
 
 dev_dependencies:
   flutter_test:

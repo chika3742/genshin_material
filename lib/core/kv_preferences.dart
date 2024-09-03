@@ -56,4 +56,7 @@ class KvPreferences {
 
   String get dailyResetServer => sp.getString("dailyResetServer") ?? GameServer.asia.name;
   Future<void> setDailyResetServer(String value) => sp.setString("dailyResetServer", value);
+
+  bool get indexSheetTutorialShown => sp.getBool("indexSheetTutorialShown") ?? false;
+  Future<void> setIndexSheetTutorialShown(bool value) => sp.setBool("indexSheetTutorialShown", value);
 }

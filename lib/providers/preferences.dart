@@ -89,6 +89,11 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     await state.pref.setDailyResetServer(server.name);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
+
+  Future<void> setIndexSheetTutorialShown() async {
+    await state.pref.setIndexSheetTutorialShown(true);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
 }
 
 @freezed
@@ -108,6 +113,7 @@ class PreferencesState with _$PreferencesState {
     required bool syncCharaState,
     required bool showItemNameOnCard,
     required GameServer dailyResetServer,
+    required bool indexSheetTutorialShown,
   }) = _PreferencesState;
 
   factory PreferencesState.fromSharedPreferences(KvPreferences pref) {
@@ -124,6 +130,7 @@ class PreferencesState with _$PreferencesState {
       syncCharaState: pref.syncCharaState,
       showItemNameOnCard: pref.showItemNameOnCard,
       dailyResetServer: GameServer.values.firstWhere((e) => e.name == pref.dailyResetServer),
+      indexSheetTutorialShown: pref.indexSheetTutorialShown,
     );
   }
 
