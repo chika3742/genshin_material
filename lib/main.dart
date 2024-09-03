@@ -13,6 +13,7 @@ import "core/provider_error_observer.dart";
 import "core/theme.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
+import "providers/versions.dart";
 import "routes.dart";
 
 late final SharedPreferencesWithCache spInstance;
@@ -65,11 +66,14 @@ final _router = GoRouter(
 
 BuildContext? get routerContext => _router.routerDelegate.navigatorKey.currentContext;
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(assetDataProvider);
+    ref.watch(appDatabaseProvider);
+
     const appTitle = "Genshin Material";
 
     return MaterialApp.router(

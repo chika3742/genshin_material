@@ -8,8 +8,6 @@ import "../core/asset_updater.dart";
 import "../core/handle_error.dart";
 import "../i18n/strings.g.dart";
 import "../main.dart";
-import "../providers/database_provider.dart";
-import "../providers/versions.dart";
 import "../ui_core/install_latest_assets.dart";
 import "../ui_core/snack_bar.dart";
 
@@ -74,9 +72,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(assetDataProvider);
-    ref.watch(appDatabaseProvider);
-
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         destinations: navDestinations,
