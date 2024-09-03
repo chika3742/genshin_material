@@ -3,7 +3,7 @@ import "package:shared_preferences/shared_preferences.dart";
 import "../models/common.dart";
 
 class KvPreferences {
-  final SharedPreferences sp;
+  final SharedPreferencesWithCache sp;
 
   KvPreferences(this.sp);
 

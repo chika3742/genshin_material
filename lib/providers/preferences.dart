@@ -41,52 +41,52 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
   }
 
   Future<void> setHoyolabCookie(String cookie) async {
-    state.pref.setHyvCookie(cookie);
+    await state.pref.setHyvCookie(cookie);
 
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setHoyolabServer(HyvServer server, String username) async {
-    state.pref.setHyvServer(server.region);
-    state.pref.setHyvServerName(server.name);
-    state.pref.setHyvUserName(username);
+    await state.pref.setHyvServer(server.region);
+    await state.pref.setHyvServerName(server.name);
+    await state.pref.setHyvUserName(username);
 
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setUid(String uid) async {
-    state.pref.setHyvUid(uid);
+    await state.pref.setHyvUid(uid);
 
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> clearHoyolabCredential() async {
-    state.pref.setHyvCookie(null);
-    state.pref.setHyvServer(null);
-    state.pref.setHyvServerName(null);
-    state.pref.setHyvUserName(null);
-    state.pref.setHyvUid(null);
+    await state.pref.setHyvCookie(null);
+    await state.pref.setHyvServer(null);
+    await state.pref.setHyvServerName(null);
+    await state.pref.setHyvUserName(null);
+    await state.pref.setHyvUid(null);
 
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setSyncResin(bool value) async {
-    state.pref.setSyncResin(value);
+    await state.pref.setSyncResin(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setSyncCharaState(bool value) async {
-    state.pref.setSyncCharaState(value);
+    await state.pref.setSyncCharaState(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setShowItemNameOnCard(bool value) async {
-    state.pref.setShowItemNameOnCard(value);
+    await state.pref.setShowItemNameOnCard(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setDailyResetServer(GameServer server) async {
-    state.pref.setDailyResetServer(server.name);
+    await state.pref.setDailyResetServer(server.name);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 }
