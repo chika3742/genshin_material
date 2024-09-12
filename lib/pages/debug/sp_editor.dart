@@ -74,7 +74,7 @@ class SharedPreferencesEditorPage extends HookWidget {
   }
 
   Map<String, Object?> _getPreferences() {
-    final keys = spInstance.getKeys();
+    final keys = spInstance.keys;
     final Map<String, Object?> prefs = {};
 
     for (final key in keys) {

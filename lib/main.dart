@@ -13,9 +13,10 @@ import "core/provider_error_observer.dart";
 import "core/theme.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
+import "providers/versions.dart";
 import "routes.dart";
 
-late final SharedPreferences spInstance;
+late final SharedPreferencesWithCache spInstance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +30,11 @@ void main() async {
     locale: AppLocale.ja,
     cardinalResolver: (n, {few, many, one, other, two, zero}) => other!,
   );
-  spInstance = await SharedPreferences.getInstance();
+  spInstance = await SharedPreferencesWithCache.create(
+    cacheOptions: const SharedPreferencesWithCacheOptions(
+      allowList: null,
+    ),
+  );
   LicenseRegistry.addLicense(() async* {
     final licenses = [
       "assets/google_fonts/OFL_MPLUS2.txt",
@@ -61,11 +66,14 @@ final _router = GoRouter(
 
 BuildContext? get routerContext => _router.routerDelegate.navigatorKey.currentContext;
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(assetDataProvider);
+    ref.watch(appDatabaseProvider);
+
     const appTitle = "Genshin Material";
 
     return MaterialApp.router(

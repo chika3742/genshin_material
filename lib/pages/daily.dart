@@ -61,51 +61,72 @@ class DailyPage extends HookConsumerWidget {
                   child: GappedColumn(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SectionHeading(tr.dailyPage.talentMaterials),
-                      for (final dm in assetData.dailyMaterials.talent[tab.id]!)
-                        ...[
-                          _DailyMaterialHeading(dailyMaterial: dm),
-                          Wrap(
-                            children: [
-                              for (final character in getCharactersUsingMaterial(
-                                assetData.materials[dm.items.first]!,
-                                assetData.characters.values,
-                                assetData.specialCharactersUsingMaterials,
-                              ))
-                                if (!character.id.startsWith("traveler"))
-                                  CharacterSmallCard(character),
-                            ],
-                          ),
-                        ],
-                      const Divider(),
-                      SectionHeading(tr.dailyPage.weaponMaterials),
-                      for (final dm in assetData.dailyMaterials.weapon[tab.id]!) ...[
-                        _DailyMaterialHeading(dailyMaterial: dm),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      Section(
+                        heading: SectionHeading(tr.dailyPage.talentMaterials),
+                        child: GappedColumn(
                           children: [
-                            for (final e in getWeaponsUsingMaterial(
-                              assetData.materials[dm.items.first]!,
-                              assetData.weapons.values,
-                            ).toList().sortedDescendingByRarity().groupByType().entries) ...[
-                              SectionInnerHeading(
-                                assetData.weaponTypes[e.key]!.name.localized,
+                            for (final dm in assetData.dailyMaterials.talent[tab.id]!)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  _DailyMaterialHeading(dailyMaterial: dm),
+                                  Wrap(
+                                    children: [
+                                      for (final character in getCharactersUsingMaterial(
+                                        assetData.materials[dm.items.first]!,
+                                        assetData.characters.values,
+                                        assetData.specialCharactersUsingMaterials,
+                                      ))
+                                        if (!character.id.startsWith("traveler"))
+                                          CharacterSmallCard(character),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              for (final weapon in e.value)
-                                GameItemListTile(
-                                  name: weapon.name.localized,
-                                  image: weapon.getImageFile(assetDir),
-                                  rounded: true,
-                                  rarity: weapon.rarity,
-                                  onTap: () {
-                                    WeaponDetailsRoute(id: weapon.id)
-                                        .push(context);
-                                  },
-                                ),
-                            ],
                           ],
                         ),
-                      ],
+                      ),
+
+                      const Divider(),
+
+                      Section(
+                        heading: SectionHeading(tr.dailyPage.weaponMaterials),
+                        child: GappedColumn(
+                          children: [
+                            for (final dm in assetData.dailyMaterials.weapon[tab.id]!)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  _DailyMaterialHeading(dailyMaterial: dm),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      for (final e in getWeaponsUsingMaterial(
+                                        assetData.materials[dm.items.first]!,
+                                        assetData.weapons.values,
+                                      ).toList().sortedDescendingByRarity().groupByType(assetData.weaponTypes.keys.toList()).entries) ...[
+                                        SectionInnerHeading(
+                                          assetData.weaponTypes[e.key]!.name.localized,
+                                        ),
+                                        for (final weapon in e.value)
+                                          GameItemListTile(
+                                            name: weapon.name.localized,
+                                            image: weapon.getImageFile(assetDir),
+                                            rounded: true,
+                                            rarity: weapon.rarity,
+                                            onTap: () {
+                                              WeaponDetailsRoute(id: weapon.id)
+                                                  .push(context);
+                                            },
+                                          ),
+                                      ],
+                                    ],
+                                  ),
+                                ],
+                              ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

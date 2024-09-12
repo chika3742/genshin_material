@@ -33,96 +33,114 @@ class ArtifactDetailsPage extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
-            child: GappedColumn(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
               children: [
-                GameItemInfoBox(
-                  itemImage: Image.file(
-                    artifactSet.consistsOf.values.first.getImageFile(assetDir),
-                    width: 50,
-                    height: 50,
-                  ),
+                GappedColumn(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    GappedRow(
+                    GameItemInfoBox(
+                      itemImage: Image.file(
+                        artifactSet.consistsOf.values.first.getImageFile(assetDir),
+                        width: 50,
+                        height: 50,
+                      ),
                       children: [
-                        Text(
-                          tr.artifactDetailsPage.maxRarity,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
+                        GappedRow(
+                          children: [
+                            Text(
+                              tr.artifactDetailsPage.maxRarity,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                            ),
+                            RarityStars(count: artifactSet.maxRarity),
+                          ],
                         ),
-                        RarityStars(count: artifactSet.maxRarity),
                       ],
                     ),
-                  ],
-                ),
 
-                for (final bonus in artifactSet.bonuses) ...[
-                  Text(
-                    tr.artifactsPage.bonusTypes[bonus.type]!,
-                    style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: EffectDescription(
-                      bonus.description.localized,
-                    ),
-                  ),
-                ],
-
-                const Divider(),
-
-                if (artifactSet.bonuses.length >= 2) ...[
-                  SectionHeading(tr.artifactDetailsPage.bookmarkSet),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      showArtifactBookmarkDialog(
-                        context: context,
-                        firstSetId: artifactSet.id,
-                        showSecondSetChooser: true,
-                      );
-                    },
-                    icon: const Icon(Icons.bookmarks),
-                    label: Text(tr.artifactDetailsPage.bookmarkTwoAndTwoPcSet),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      showArtifactBookmarkDialog(
-                        context: context,
-                        firstSetId: artifactSet.id,
-                      );
-                    },
-                    icon: const Icon(Icons.bookmark),
-                    label: Text(tr.artifactDetailsPage.bookmarkFourPcSet),
-                  ),
-                ],
-
-                const SizedBox(), // add 8px gap
-                SectionHeading(tr.artifactDetailsPage.bookmarkPiece),
-                Column(
-                  children: [
-                    for(final piece in artifactSet.consistsOf.values)
-                      SizedBox(
-                        height: 56,
-                        child: ListTile(
-                          leading: Image.file(
-                            piece.getImageFile(assetDir),
-                            width: 32,
-                            height: 32,
-                          ),
-                          title: Text(piece.name.localized),
-                          subtitle: Text(assetData.artifactPieceTypes[piece.type]!.desc.localized),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.bookmark),
-                            onPressed: () {
-                              showArtifactBookmarkDialog(
-                                context: context,
-                                pieceId: piece.id,
-                              );
-                            },
-                          ),
+                    // set effects
+                    for (final bonus in artifactSet.bonuses) ...[
+                      Text(
+                        tr.artifactsPage.bonusTypes[bonus.type]!,
+                        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: EffectDescription(
+                          bonus.description.localized,
                         ),
                       ),
+                    ],
+
+                    const Divider(),
+                  ],
+                ),
+                const SizedBox(height: 8),
+
+                GappedColumn(
+                  gap: 16,
+                  children: [
+                    if (artifactSet.bonuses.length >= 2)
+                      Section(
+                        heading: SectionHeading(tr.artifactDetailsPage.bookmarkSet),
+                        child: GappedColumn(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                showArtifactBookmarkDialog(
+                                  context: context,
+                                  firstSetId: artifactSet.id,
+                                  showSecondSetChooser: true,
+                                );
+                              },
+                              icon: const Icon(Icons.bookmarks),
+                              label: Text(tr.artifactDetailsPage.bookmarkTwoAndTwoPcSet),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                showArtifactBookmarkDialog(
+                                  context: context,
+                                  firstSetId: artifactSet.id,
+                                );
+                              },
+                              icon: const Icon(Icons.bookmark),
+                              label: Text(tr.artifactDetailsPage.bookmarkFourPcSet),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    Section(
+                      heading: SectionHeading(tr.artifactDetailsPage.bookmarkPiece),
+                      child: Column(
+                        children: [
+                          for(final piece in artifactSet.consistsOf.values)
+                            SizedBox(
+                              height: 56,
+                              child: ListTile(
+                                leading: Image.file(
+                                  piece.getImageFile(assetDir),
+                                  width: 32,
+                                  height: 32,
+                                ),
+                                title: Text(piece.name.localized),
+                                subtitle: Text(assetData.artifactPieceTypes[piece.type]!.desc.localized),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.bookmark),
+                                  onPressed: () {
+                                    showArtifactBookmarkDialog(
+                                      context: context,
+                                      pieceId: piece.id,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ],

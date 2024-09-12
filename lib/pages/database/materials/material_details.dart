@@ -75,14 +75,14 @@ class MaterialDetailsPage extends StatelessWidget {
                   ),
 
                   if (material.source != null)
-                    _buildSection(
-                      headingText: tr.materialDetailsPage.source,
+                    Section(
+                      heading: SectionHeading(tr.materialDetailsPage.source),
                       child: ItemSourceWidget(material.source!),
                     ),
 
                   if (charactersUsingMaterial.isNotEmpty)
-                    _buildSection(
-                      headingText: tr.materialDetailsPage.charactersUsing,
+                    Section(
+                      heading: SectionHeading(tr.materialDetailsPage.charactersUsing),
                       child: Wrap(
                         children: [
                           for (final character in charactersUsingMaterial)
@@ -92,8 +92,8 @@ class MaterialDetailsPage extends StatelessWidget {
                     ),
 
                   if (weaponsUseMaterial.isNotEmpty)
-                    _buildSection(
-                      headingText: tr.materialDetailsPage.weaponsUsing,
+                    Section(
+                      heading: SectionHeading(tr.materialDetailsPage.weaponsUsing),
                       child: Column(
                         children: [
                           for (final weaponTypes in weaponsUseMaterial.groupListsBy((w) => w.type).entries)
@@ -123,17 +123,6 @@ class MaterialDetailsPage extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildSection({required String headingText, required Widget child}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionHeading(headingText),
-        const SizedBox(height: 8),
-        child,
-      ],
     );
   }
 }

@@ -1,3 +1,5 @@
+import "dart:collection";
+
 import "package:collection/collection.dart";
 
 import "../components/level_slider.dart";
@@ -9,8 +11,8 @@ extension WeaponListExtension on List<Weapon> {
     return sorted((a, b) => b.rarity.compareTo(a.rarity));
   }
 
-  Map<WeaponType, List<Weapon>> groupByType() {
-    return groupListsBy((e) => e.type);
+  Map<WeaponType, List<Weapon>> groupByType(List<WeaponType> weaponTypes) {
+    return SplayTreeMap.from(groupListsBy((e) => e.type), (a, b) => weaponTypes.indexOf(a) - weaponTypes.indexOf(b));
   }
 }
 
