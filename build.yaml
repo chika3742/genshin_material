@@ -4,6 +4,5 @@ targets:
       freezed:
         options:
           copy_with: false
-          equal: false
           map: false
           when: false
