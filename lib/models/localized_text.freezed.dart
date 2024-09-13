@@ -50,6 +50,19 @@ class _$LocalizedTextImpl extends _LocalizedText {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LocalizedTextImpl &&
+            const DeepCollectionEquality().equals(other._locales, _locales));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_locales));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$LocalizedTextImplToJson(
       this,

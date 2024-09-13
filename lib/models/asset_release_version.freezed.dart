@@ -60,6 +60,26 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssetReleaseVersionImpl &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.dataVersion, dataVersion) ||
+                other.dataVersion == dataVersion) &&
+            (identical(other.channel, channel) || other.channel == channel) &&
+            (identical(other.distUrl, distUrl) || other.distUrl == distUrl) &&
+            (identical(other.schemaVersion, schemaVersion) ||
+                other.schemaVersion == schemaVersion));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, createdAt, dataVersion, channel, distUrl, schemaVersion);
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$AssetReleaseVersionImplToJson(
       this,

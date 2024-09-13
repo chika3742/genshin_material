@@ -54,6 +54,21 @@ class _$HoyolabApiResultImpl<T> extends _HoyolabApiResult<T> {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HoyolabApiResultImpl<T> &&
+            (identical(other.retcode, retcode) || other.retcode == retcode) &&
+            (identical(other.message, message) || other.message == message) &&
+            const DeepCollectionEquality().equals(other.data, data));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, retcode, message, const DeepCollectionEquality().hash(data));
+
+  @override
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
     return _$$HoyolabApiResultImplToJson<T>(this, toJsonT);
   }
@@ -115,6 +130,19 @@ class _$HoyolabListDataImpl<T> implements _HoyolabListData<T> {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HoyolabListDataImpl<T> &&
+            const DeepCollectionEquality().equals(other._list, _list));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_list));
+
+  @override
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
     return _$$HoyolabListDataImplToJson<T>(this, toJsonT);
   }
@@ -162,6 +190,19 @@ class _$HyvServerImpl implements _HyvServer {
   String toString() {
     return 'HyvServer(region: $region, name: $name)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HyvServerImpl &&
+            (identical(other.region, region) || other.region == region) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, region, name);
 
   @override
   Map<String, dynamic> toJson() {
@@ -219,6 +260,19 @@ class _$HyvUserInfoImpl implements _HyvUserInfo {
   String toString() {
     return 'HyvUserInfo(accountName: $accountName)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HyvUserInfoImpl &&
+            (identical(other.accountName, accountName) ||
+                other.accountName == accountName));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, accountName);
 
   @override
   Map<String, dynamic> toJson() {
@@ -285,6 +339,21 @@ class _$HyvUserGameRoleImpl implements _HyvUserGameRole {
   String toString() {
     return 'HyvUserGameRole(uid: $uid, nickname: $nickname, level: $level)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HyvUserGameRoleImpl &&
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
+            (identical(other.level, level) || other.level == level));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, uid, nickname, level);
 
   @override
   Map<String, dynamic> toJson() {
@@ -367,6 +436,24 @@ class _$AvatarListResultItemImpl extends _AvatarListResultItem {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AvatarListResultItemImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.currentLevel, currentLevel) ||
+                other.currentLevel == currentLevel) &&
+            (identical(other.maxLevel, maxLevel) ||
+                other.maxLevel == maxLevel));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, currentLevel, maxLevel);
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$AvatarListResultItemImplToJson(
       this,
@@ -442,6 +529,19 @@ class _$AvatarDetailImpl implements _AvatarDetail {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AvatarDetailImpl &&
+            const DeepCollectionEquality().equals(other._skills, _skills));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_skills));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$AvatarDetailImplToJson(
       this,
@@ -505,6 +605,21 @@ class _$AvatarDetailSkillImpl implements _AvatarDetailSkill {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AvatarDetailSkillImpl &&
+            (identical(other.maxLevel, maxLevel) ||
+                other.maxLevel == maxLevel) &&
+            (identical(other.currentLevel, currentLevel) ||
+                other.currentLevel == currentLevel));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, maxLevel, currentLevel);
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$AvatarDetailSkillImplToJson(
       this,
@@ -562,6 +677,19 @@ class _$AvatarAuthImpl implements _AvatarAuth {
   String toString() {
     return 'AvatarAuth(avatarAuth: $avatarAuth)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AvatarAuthImpl &&
+            (identical(other.avatarAuth, avatarAuth) ||
+                other.avatarAuth == avatarAuth));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, avatarAuth);
 
   @override
   Map<String, dynamic> toJson() {
@@ -637,6 +765,22 @@ class _$GameRecordCardImpl implements _GameRecordCard {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GameRecordCardImpl &&
+            (identical(other.gameType, gameType) ||
+                other.gameType == gameType) &&
+            const DeepCollectionEquality()
+                .equals(other._dataSwitches, _dataSwitches));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, gameType,
+      const DeepCollectionEquality().hash(_dataSwitches));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$GameRecordCardImplToJson(
       this,
@@ -709,6 +853,21 @@ class _$DataSwitchMetadataImpl implements _DataSwitchMetadata {
   String toString() {
     return 'DataSwitchMetadata(switchId: $switchId, isPublic: $isPublic)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DataSwitchMetadataImpl &&
+            (identical(other.switchId, switchId) ||
+                other.switchId == switchId) &&
+            (identical(other.isPublic, isPublic) ||
+                other.isPublic == isPublic));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, switchId, isPublic);
 
   @override
   Map<String, dynamic> toJson() {
@@ -788,6 +947,24 @@ class _$DailyNoteImpl implements _DailyNote {
   String toString() {
     return 'DailyNote(currentResin: $currentResin, resinRecoveryTime: $resinRecoveryTime, currentHomeCoin: $currentHomeCoin)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DailyNoteImpl &&
+            (identical(other.currentResin, currentResin) ||
+                other.currentResin == currentResin) &&
+            (identical(other.resinRecoveryTime, resinRecoveryTime) ||
+                other.resinRecoveryTime == resinRecoveryTime) &&
+            (identical(other.currentHomeCoin, currentHomeCoin) ||
+                other.currentHomeCoin == currentHomeCoin));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, currentResin, resinRecoveryTime, currentHomeCoin);
 
   @override
   Map<String, dynamic> toJson() {

@@ -63,6 +63,22 @@ class _$CharacterIngredientsImpl extends _CharacterIngredients {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CharacterIngredientsImpl &&
+            const DeepCollectionEquality().equals(other._expItems, _expItems) &&
+            const DeepCollectionEquality().equals(other._purposes, _purposes));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_expItems),
+      const DeepCollectionEquality().hash(_purposes));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$CharacterIngredientsImplToJson(
       this,
@@ -116,6 +132,20 @@ class _$ExpItemImpl implements _ExpItem {
   String toString() {
     return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ExpItemImpl &&
+            (identical(other.itemId, itemId) || other.itemId == itemId) &&
+            (identical(other.expPerItem, expPerItem) ||
+                other.expPerItem == expPerItem));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, itemId, expPerItem);
 
   @override
   Map<String, dynamic> toJson() {
@@ -174,6 +204,19 @@ class _$CharacterIngredientsLevelsImpl implements _CharacterIngredientsLevels {
   String toString() {
     return 'CharacterIngredientsLevels(levels: $levels)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CharacterIngredientsLevelsImpl &&
+            const DeepCollectionEquality().equals(other._levels, _levels));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_levels));
 
   @override
   Map<String, dynamic> toJson() {

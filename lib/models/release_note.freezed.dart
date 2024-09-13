@@ -52,6 +52,22 @@ class _$ReleaseNoteImpl implements _ReleaseNote {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ReleaseNoteImpl &&
+            (identical(other.releasedOn, releasedOn) ||
+                other.releasedOn == releasedOn) &&
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.contents, contents) ||
+                other.contents == contents));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, releasedOn, version, contents);
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$ReleaseNoteImplToJson(
       this,

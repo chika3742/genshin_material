@@ -43,6 +43,24 @@ class _$MaterialBookmarkFrameImpl implements _MaterialBookmarkFrame {
   String toString() {
     return 'MaterialBookmarkFrame(materialId: $materialId, level: $level, quantity: $quantity, purposeType: $purposeType)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MaterialBookmarkFrameImpl &&
+            (identical(other.materialId, materialId) ||
+                other.materialId == materialId) &&
+            (identical(other.level, level) || other.level == level) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity) &&
+            (identical(other.purposeType, purposeType) ||
+                other.purposeType == purposeType));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, materialId, level, quantity, purposeType);
 }
 
 abstract class _MaterialBookmarkFrame implements MaterialBookmarkFrame {
@@ -85,6 +103,23 @@ class _$MaterialBookmarkFrameExpImpl implements MaterialBookmarkFrameExp {
   String toString() {
     return 'MaterialBookmarkFrame.exp(materialId: $materialId, level: $level, exp: $exp, purposeType: $purposeType)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MaterialBookmarkFrameExpImpl &&
+            (identical(other.materialId, materialId) ||
+                other.materialId == materialId) &&
+            (identical(other.level, level) || other.level == level) &&
+            (identical(other.exp, exp) || other.exp == exp) &&
+            (identical(other.purposeType, purposeType) ||
+                other.purposeType == purposeType));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, materialId, level, exp, purposeType);
 }
 
 abstract class MaterialBookmarkFrameExp implements MaterialBookmarkFrame {
@@ -123,6 +158,20 @@ class _$MaterialUsageImpl implements _MaterialUsage {
   String toString() {
     return 'MaterialUsage(characterId: $characterId, weaponId: $weaponId)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MaterialUsageImpl &&
+            (identical(other.characterId, characterId) ||
+                other.characterId == characterId) &&
+            (identical(other.weaponId, weaponId) ||
+                other.weaponId == weaponId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, characterId, weaponId);
 }
 
 abstract class _MaterialUsage implements MaterialUsage {

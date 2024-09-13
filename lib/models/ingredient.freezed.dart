@@ -76,6 +76,25 @@ class _$IngredientByTypeImpl implements IngredientByType {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$IngredientByTypeImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity) &&
+            (identical(other.craftLevel, craftLevel) ||
+                other.craftLevel == craftLevel) &&
+            const DeepCollectionEquality()
+                .equals(other._specificCharacters, _specificCharacters));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, quantity, craftLevel,
+      const DeepCollectionEquality().hash(_specificCharacters));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$IngredientByTypeImplToJson(
       this,
@@ -120,6 +139,18 @@ class _$IngredientExpImpl implements IngredientExp {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$IngredientExpImpl &&
+            (identical(other.exp, exp) || other.exp == exp));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, exp);
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$IngredientExpImplToJson(
       this,
@@ -158,6 +189,20 @@ class _$IngredientWithFixedIdImpl implements IngredientWithFixedId {
   String toString() {
     return 'Ingredient.fixed(itemId: $itemId, quantity: $quantity)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$IngredientWithFixedIdImpl &&
+            (identical(other.itemId, itemId) || other.itemId == itemId) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, itemId, quantity);
 
   @override
   Map<String, dynamic> toJson() {

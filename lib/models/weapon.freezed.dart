@@ -92,6 +92,44 @@ class _$WeaponImpl extends _Weapon {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WeaponImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.rarity, rarity) || other.rarity == rarity) &&
+            (identical(other.subStat, subStat) || other.subStat == subStat) &&
+            (identical(other.weaponAffixDesc, weaponAffixDesc) ||
+                other.weaponAffixDesc == weaponAffixDesc) &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other._materials, _materials) &&
+            (identical(other.source, source) || other.source == source));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      hyvId,
+      name,
+      jaPronunciation,
+      imageUrl,
+      rarity,
+      subStat,
+      weaponAffixDesc,
+      type,
+      const DeepCollectionEquality().hash(_materials),
+      source);
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$WeaponImplToJson(
       this,
@@ -187,6 +225,22 @@ class _$WeaponsMetaImpl implements _WeaponsMeta {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WeaponsMetaImpl &&
+            const DeepCollectionEquality().equals(other._subStats, _subStats) &&
+            const DeepCollectionEquality().equals(other._types, _types));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_subStats),
+      const DeepCollectionEquality().hash(_types));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$WeaponsMetaImplToJson(
       this,
@@ -238,6 +292,19 @@ class _$WeaponTypeInfoImpl implements _WeaponTypeInfo {
   String toString() {
     return 'WeaponTypeInfo(hyvId: $hyvId, name: $name)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WeaponTypeInfoImpl &&
+            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, hyvId, name);
 
   @override
   Map<String, dynamic> toJson() {

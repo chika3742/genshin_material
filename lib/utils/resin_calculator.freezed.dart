@@ -44,6 +44,25 @@ class _$ResinCalculationResultImpl implements _ResinCalculationResult {
   String toString() {
     return 'ResinCalculationResult(fullyReplenishedBy: $fullyReplenishedBy, timeToFull: $timeToFull, currentResin: $currentResin, wastedResin: $wastedResin)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResinCalculationResultImpl &&
+            (identical(other.fullyReplenishedBy, fullyReplenishedBy) ||
+                other.fullyReplenishedBy == fullyReplenishedBy) &&
+            (identical(other.timeToFull, timeToFull) ||
+                other.timeToFull == timeToFull) &&
+            (identical(other.currentResin, currentResin) ||
+                other.currentResin == currentResin) &&
+            (identical(other.wastedResin, wastedResin) ||
+                other.wastedResin == wastedResin));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, fullyReplenishedBy, timeToFull, currentResin, wastedResin);
 }
 
 abstract class _ResinCalculationResult implements ResinCalculationResult {

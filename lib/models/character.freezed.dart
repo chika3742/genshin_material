@@ -114,6 +114,45 @@ class _$ListedCharacterImpl extends ListedCharacter
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListedCharacterImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality().equals(other._hyvIds, _hyvIds) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.smallImageUrl, smallImageUrl) ||
+                other.smallImageUrl == smallImageUrl) &&
+            (identical(other.rarity, rarity) || other.rarity == rarity) &&
+            (identical(other.weaponType, weaponType) ||
+                other.weaponType == weaponType) &&
+            (identical(other.element, element) || other.element == element) &&
+            const DeepCollectionEquality().equals(other._talents, _talents) &&
+            const DeepCollectionEquality()
+                .equals(other._materials, _materials));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      const DeepCollectionEquality().hash(_hyvIds),
+      name,
+      jaPronunciation,
+      imageUrl,
+      smallImageUrl,
+      rarity,
+      weaponType,
+      element,
+      const DeepCollectionEquality().hash(_talents),
+      const DeepCollectionEquality().hash(_materials));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$ListedCharacterImplToJson(
       this,
@@ -230,6 +269,44 @@ class _$CharacterGroupImpl extends CharacterGroup with CharacterWithLargeImage {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CharacterGroupImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality().equals(other._hyvIds, _hyvIds) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.smallImageUrl, smallImageUrl) ||
+                other.smallImageUrl == smallImageUrl) &&
+            (identical(other.rarity, rarity) || other.rarity == rarity) &&
+            (identical(other.weaponType, weaponType) ||
+                other.weaponType == weaponType) &&
+            const DeepCollectionEquality()
+                .equals(other._variantIds, _variantIds) &&
+            const DeepCollectionEquality()
+                .equals(other._materials, _materials));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      const DeepCollectionEquality().hash(_hyvIds),
+      name,
+      jaPronunciation,
+      imageUrl,
+      smallImageUrl,
+      rarity,
+      weaponType,
+      const DeepCollectionEquality().hash(_variantIds),
+      const DeepCollectionEquality().hash(_materials));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$CharacterGroupImplToJson(
       this,
@@ -334,6 +411,41 @@ class _$CharacterVariantImpl extends CharacterVariant with CharacterOrVariant {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CharacterVariantImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.parentId, parentId) ||
+                other.parentId == parentId) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
+            (identical(other.smallImageUrl, smallImageUrl) ||
+                other.smallImageUrl == smallImageUrl) &&
+            (identical(other.element, element) || other.element == element) &&
+            (identical(other.weaponType, weaponType) ||
+                other.weaponType == weaponType) &&
+            const DeepCollectionEquality().equals(other._talents, _talents) &&
+            const DeepCollectionEquality()
+                .equals(other._materials, _materials));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      parentId,
+      name,
+      jaPronunciation,
+      smallImageUrl,
+      element,
+      weaponType,
+      const DeepCollectionEquality().hash(_talents),
+      const DeepCollectionEquality().hash(_materials));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$CharacterVariantImplToJson(
       this,
@@ -413,6 +525,20 @@ class _$CharacterTalentImpl implements _CharacterTalent {
   String toString() {
     return 'CharacterTalent(idList: $idList, name: $name)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CharacterTalentImpl &&
+            const DeepCollectionEquality().equals(other._idList, _idList) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_idList), name);
 
   @override
   Map<String, dynamic> toJson() {

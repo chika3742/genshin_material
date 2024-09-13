@@ -90,6 +90,43 @@ class _$MaterialImpl extends _Material {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MaterialImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.rarity, rarity) || other.rarity == rarity) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.groupId, groupId) || other.groupId == groupId) &&
+            (identical(other.craftLevel, craftLevel) ||
+                other.craftLevel == craftLevel) &&
+            const DeepCollectionEquality()
+                .equals(other._availableDays, _availableDays) &&
+            (identical(other.source, source) || other.source == source));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      jaPronunciation,
+      imageUrl,
+      rarity,
+      category,
+      groupId,
+      craftLevel,
+      const DeepCollectionEquality().hash(_availableDays),
+      source);
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$MaterialImplToJson(
       this,
@@ -179,6 +216,19 @@ class _$TeyvatMapItemSourceImpl implements TeyvatMapItemSource {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TeyvatMapItemSourceImpl &&
+            (identical(other.typeId, typeId) || other.typeId == typeId) &&
+            (identical(other.center, center) || other.center == center));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, typeId, center);
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$TeyvatMapItemSourceImplToJson(
       this,
@@ -217,6 +267,18 @@ class _$TextItemSourceImpl implements TextItemSource {
   String toString() {
     return 'ItemSource.text(text: $text)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TextItemSourceImpl &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, text);
 
   @override
   Map<String, dynamic> toJson() {
@@ -301,6 +363,30 @@ class _$MaterialsMetaImpl implements _MaterialsMeta {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MaterialsMetaImpl &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories) &&
+            const DeepCollectionEquality()
+                .equals(other._sortOrder, _sortOrder) &&
+            (identical(other.daily, daily) || other.daily == daily) &&
+            const DeepCollectionEquality().equals(
+                other._specialCharactersUsingMaterials,
+                _specialCharactersUsingMaterials));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_categories),
+      const DeepCollectionEquality().hash(_sortOrder),
+      daily,
+      const DeepCollectionEquality().hash(_specialCharactersUsingMaterials));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$MaterialsMetaImplToJson(
       this,
@@ -378,6 +464,22 @@ class _$DailyMaterialsImpl implements _DailyMaterials {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DailyMaterialsImpl &&
+            const DeepCollectionEquality().equals(other._talent, _talent) &&
+            const DeepCollectionEquality().equals(other._weapon, _weapon));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_talent),
+      const DeepCollectionEquality().hash(_weapon));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$DailyMaterialsImplToJson(
       this,
@@ -437,6 +539,21 @@ class _$DailyMaterialImpl implements _DailyMaterial {
   String toString() {
     return 'DailyMaterial(description: $description, items: $items)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DailyMaterialImpl &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality().equals(other._items, _items));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, description, const DeepCollectionEquality().hash(_items));
 
   @override
   Map<String, dynamic> toJson() {

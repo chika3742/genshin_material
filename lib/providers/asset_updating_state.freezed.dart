@@ -38,6 +38,21 @@ class _$AssetUpdatingStateImpl implements _AssetUpdatingState {
   String toString() {
     return 'AssetUpdatingState(state: $state, progress: $progress, totalBytes: $totalBytes)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AssetUpdatingStateImpl &&
+            (identical(other.state, state) || other.state == state) &&
+            (identical(other.progress, progress) ||
+                other.progress == progress) &&
+            (identical(other.totalBytes, totalBytes) ||
+                other.totalBytes == totalBytes));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, state, progress, totalBytes);
 }
 
 abstract class _AssetUpdatingState implements AssetUpdatingState {

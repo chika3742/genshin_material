@@ -62,6 +62,22 @@ class _$WeaponIngredientsImpl implements _WeaponIngredients {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WeaponIngredientsImpl &&
+            const DeepCollectionEquality().equals(other._expItems, _expItems) &&
+            const DeepCollectionEquality().equals(other._rarities, _rarities));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_expItems),
+      const DeepCollectionEquality().hash(_rarities));
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$WeaponIngredientsImplToJson(
       this,
@@ -119,6 +135,19 @@ class _$WeaponIngredientsLevelsImpl implements _WeaponIngredientsLevels {
   String toString() {
     return 'WeaponIngredientsLevels(levels: $levels)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WeaponIngredientsLevelsImpl &&
+            const DeepCollectionEquality().equals(other._levels, _levels));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_levels));
 
   @override
   Map<String, dynamic> toJson() {

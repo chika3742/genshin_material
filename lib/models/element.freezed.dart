@@ -51,6 +51,21 @@ class _$ElementImpl extends _Element {
   }
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ElementImpl &&
+            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, hyvId, imageUrl, text);
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$ElementImplToJson(
       this,
