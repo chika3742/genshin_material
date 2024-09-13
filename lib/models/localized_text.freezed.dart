@@ -24,82 +24,6 @@ mixin _$LocalizedText {
 
   /// Serializes this LocalizedText to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of LocalizedText
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $LocalizedTextCopyWith<LocalizedText> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $LocalizedTextCopyWith<$Res> {
-  factory $LocalizedTextCopyWith(
-          LocalizedText value, $Res Function(LocalizedText) then) =
-      _$LocalizedTextCopyWithImpl<$Res, LocalizedText>;
-  @useResult
-  $Res call({Map<String, String> locales});
-}
-
-/// @nodoc
-class _$LocalizedTextCopyWithImpl<$Res, $Val extends LocalizedText>
-    implements $LocalizedTextCopyWith<$Res> {
-  _$LocalizedTextCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of LocalizedText
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? locales = null,
-  }) {
-    return _then(_value.copyWith(
-      locales: null == locales
-          ? _value.locales
-          : locales // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$LocalizedTextImplCopyWith<$Res>
-    implements $LocalizedTextCopyWith<$Res> {
-  factory _$$LocalizedTextImplCopyWith(
-          _$LocalizedTextImpl value, $Res Function(_$LocalizedTextImpl) then) =
-      __$$LocalizedTextImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Map<String, String> locales});
-}
-
-/// @nodoc
-class __$$LocalizedTextImplCopyWithImpl<$Res>
-    extends _$LocalizedTextCopyWithImpl<$Res, _$LocalizedTextImpl>
-    implements _$$LocalizedTextImplCopyWith<$Res> {
-  __$$LocalizedTextImplCopyWithImpl(
-      _$LocalizedTextImpl _value, $Res Function(_$LocalizedTextImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of LocalizedText
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? locales = null,
-  }) {
-    return _then(_$LocalizedTextImpl(
-      locales: null == locales
-          ? _value._locales
-          : locales // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-    ));
-  }
 }
 
 /// @nodoc
@@ -126,27 +50,6 @@ class _$LocalizedTextImpl extends _LocalizedText {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LocalizedTextImpl &&
-            const DeepCollectionEquality().equals(other._locales, _locales));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_locales));
-
-  /// Create a copy of LocalizedText
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LocalizedTextImplCopyWith<_$LocalizedTextImpl> get copyWith =>
-      __$$LocalizedTextImplCopyWithImpl<_$LocalizedTextImpl>(this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$LocalizedTextImplToJson(
       this,
@@ -164,11 +67,4 @@ abstract class _LocalizedText extends LocalizedText {
 
   @override
   Map<String, String> get locales;
-
-  /// Create a copy of LocalizedText
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LocalizedTextImplCopyWith<_$LocalizedTextImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }

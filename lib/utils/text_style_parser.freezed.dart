@@ -34,18 +34,6 @@ class _$FragmentImpl implements _Fragment {
   String toString() {
     return 'Fragment(type: $type, text: $text)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$FragmentImpl &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.text, text) || other.text == text));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, type, text);
 }
 
 abstract class _Fragment implements Fragment {

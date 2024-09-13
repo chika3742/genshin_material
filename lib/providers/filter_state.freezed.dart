@@ -136,20 +136,6 @@ class _$CharacterFilterStateImpl extends _CharacterFilterState {
     return 'CharacterFilterState(rarity: $rarity, element: $element, weaponType: $weaponType)';
   }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CharacterFilterStateImpl &&
-            (identical(other.rarity, rarity) || other.rarity == rarity) &&
-            (identical(other.element, element) || other.element == element) &&
-            (identical(other.weaponType, weaponType) ||
-                other.weaponType == weaponType));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, rarity, element, weaponType);
-
   /// Create a copy of CharacterFilterState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -283,18 +269,6 @@ class _$ArtifactFilterStateImpl implements _ArtifactFilterState {
   String toString() {
     return 'ArtifactFilterState(tags: $tags)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactFilterStateImpl &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_tags));
 
   /// Create a copy of ArtifactFilterState
   /// with the given fields replaced by the non-null parameter values.

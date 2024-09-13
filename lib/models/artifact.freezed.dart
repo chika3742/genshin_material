@@ -30,159 +30,6 @@ mixin _$ArtifactSet {
 
   /// Serializes this ArtifactSet to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ArtifactSet
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ArtifactSetCopyWith<ArtifactSet> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ArtifactSetCopyWith<$Res> {
-  factory $ArtifactSetCopyWith(
-          ArtifactSet value, $Res Function(ArtifactSet) then) =
-      _$ArtifactSetCopyWithImpl<$Res, ArtifactSet>;
-  @useResult
-  $Res call(
-      {String id,
-      LocalizedText name,
-      int maxRarity,
-      List<String>? tags,
-      Map<String, ArtifactPiece> consistsOf,
-      List<ArtifactSetBonus> bonuses});
-
-  $LocalizedTextCopyWith<$Res> get name;
-}
-
-/// @nodoc
-class _$ArtifactSetCopyWithImpl<$Res, $Val extends ArtifactSet>
-    implements $ArtifactSetCopyWith<$Res> {
-  _$ArtifactSetCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ArtifactSet
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? maxRarity = null,
-    Object? tags = freezed,
-    Object? consistsOf = null,
-    Object? bonuses = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-      maxRarity: null == maxRarity
-          ? _value.maxRarity
-          : maxRarity // ignore: cast_nullable_to_non_nullable
-              as int,
-      tags: freezed == tags
-          ? _value.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      consistsOf: null == consistsOf
-          ? _value.consistsOf
-          : consistsOf // ignore: cast_nullable_to_non_nullable
-              as Map<String, ArtifactPiece>,
-      bonuses: null == bonuses
-          ? _value.bonuses
-          : bonuses // ignore: cast_nullable_to_non_nullable
-              as List<ArtifactSetBonus>,
-    ) as $Val);
-  }
-
-  /// Create a copy of ArtifactSet
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get name {
-    return $LocalizedTextCopyWith<$Res>(_value.name, (value) {
-      return _then(_value.copyWith(name: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$ArtifactSetImplCopyWith<$Res>
-    implements $ArtifactSetCopyWith<$Res> {
-  factory _$$ArtifactSetImplCopyWith(
-          _$ArtifactSetImpl value, $Res Function(_$ArtifactSetImpl) then) =
-      __$$ArtifactSetImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String id,
-      LocalizedText name,
-      int maxRarity,
-      List<String>? tags,
-      Map<String, ArtifactPiece> consistsOf,
-      List<ArtifactSetBonus> bonuses});
-
-  @override
-  $LocalizedTextCopyWith<$Res> get name;
-}
-
-/// @nodoc
-class __$$ArtifactSetImplCopyWithImpl<$Res>
-    extends _$ArtifactSetCopyWithImpl<$Res, _$ArtifactSetImpl>
-    implements _$$ArtifactSetImplCopyWith<$Res> {
-  __$$ArtifactSetImplCopyWithImpl(
-      _$ArtifactSetImpl _value, $Res Function(_$ArtifactSetImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ArtifactSet
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? maxRarity = null,
-    Object? tags = freezed,
-    Object? consistsOf = null,
-    Object? bonuses = null,
-  }) {
-    return _then(_$ArtifactSetImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-      maxRarity: null == maxRarity
-          ? _value.maxRarity
-          : maxRarity // ignore: cast_nullable_to_non_nullable
-              as int,
-      tags: freezed == tags
-          ? _value._tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      consistsOf: null == consistsOf
-          ? _value._consistsOf
-          : consistsOf // ignore: cast_nullable_to_non_nullable
-              as Map<String, ArtifactPiece>,
-      bonuses: null == bonuses
-          ? _value._bonuses
-          : bonuses // ignore: cast_nullable_to_non_nullable
-              as List<ArtifactSetBonus>,
-    ));
-  }
 }
 
 /// @nodoc
@@ -240,40 +87,6 @@ class _$ArtifactSetImpl implements _ArtifactSet {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactSetImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.maxRarity, maxRarity) ||
-                other.maxRarity == maxRarity) &&
-            const DeepCollectionEquality().equals(other._tags, _tags) &&
-            const DeepCollectionEquality()
-                .equals(other._consistsOf, _consistsOf) &&
-            const DeepCollectionEquality().equals(other._bonuses, _bonuses));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      maxRarity,
-      const DeepCollectionEquality().hash(_tags),
-      const DeepCollectionEquality().hash(_consistsOf),
-      const DeepCollectionEquality().hash(_bonuses));
-
-  /// Create a copy of ArtifactSet
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ArtifactSetImplCopyWith<_$ArtifactSetImpl> get copyWith =>
-      __$$ArtifactSetImplCopyWithImpl<_$ArtifactSetImpl>(this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$ArtifactSetImplToJson(
       this,
@@ -305,13 +118,6 @@ abstract class _ArtifactSet implements ArtifactSet {
   Map<String, ArtifactPiece> get consistsOf;
   @override
   List<ArtifactSetBonus> get bonuses;
-
-  /// Create a copy of ArtifactSet
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ArtifactSetImplCopyWith<_$ArtifactSetImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 ArtifactPiece _$ArtifactPieceFromJson(Map<String, dynamic> json) {
@@ -327,127 +133,6 @@ mixin _$ArtifactPiece {
 
   /// Serializes this ArtifactPiece to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ArtifactPiece
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ArtifactPieceCopyWith<ArtifactPiece> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ArtifactPieceCopyWith<$Res> {
-  factory $ArtifactPieceCopyWith(
-          ArtifactPiece value, $Res Function(ArtifactPiece) then) =
-      _$ArtifactPieceCopyWithImpl<$Res, ArtifactPiece>;
-  @useResult
-  $Res call({String id, String type, String imageUrl, LocalizedText name});
-
-  $LocalizedTextCopyWith<$Res> get name;
-}
-
-/// @nodoc
-class _$ArtifactPieceCopyWithImpl<$Res, $Val extends ArtifactPiece>
-    implements $ArtifactPieceCopyWith<$Res> {
-  _$ArtifactPieceCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ArtifactPiece
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? type = null,
-    Object? imageUrl = null,
-    Object? name = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ) as $Val);
-  }
-
-  /// Create a copy of ArtifactPiece
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get name {
-    return $LocalizedTextCopyWith<$Res>(_value.name, (value) {
-      return _then(_value.copyWith(name: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$ArtifactPieceImplCopyWith<$Res>
-    implements $ArtifactPieceCopyWith<$Res> {
-  factory _$$ArtifactPieceImplCopyWith(
-          _$ArtifactPieceImpl value, $Res Function(_$ArtifactPieceImpl) then) =
-      __$$ArtifactPieceImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String id, String type, String imageUrl, LocalizedText name});
-
-  @override
-  $LocalizedTextCopyWith<$Res> get name;
-}
-
-/// @nodoc
-class __$$ArtifactPieceImplCopyWithImpl<$Res>
-    extends _$ArtifactPieceCopyWithImpl<$Res, _$ArtifactPieceImpl>
-    implements _$$ArtifactPieceImplCopyWith<$Res> {
-  __$$ArtifactPieceImplCopyWithImpl(
-      _$ArtifactPieceImpl _value, $Res Function(_$ArtifactPieceImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ArtifactPiece
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? type = null,
-    Object? imageUrl = null,
-    Object? name = null,
-  }) {
-    return _then(_$ArtifactPieceImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ));
-  }
 }
 
 /// @nodoc
@@ -478,30 +163,6 @@ class _$ArtifactPieceImpl extends _ArtifactPiece {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactPieceImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
-            (identical(other.name, name) || other.name == name));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, type, imageUrl, name);
-
-  /// Create a copy of ArtifactPiece
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ArtifactPieceImplCopyWith<_$ArtifactPieceImpl> get copyWith =>
-      __$$ArtifactPieceImplCopyWithImpl<_$ArtifactPieceImpl>(this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$ArtifactPieceImplToJson(
       this,
@@ -528,13 +189,6 @@ abstract class _ArtifactPiece extends ArtifactPiece {
   String get imageUrl;
   @override
   LocalizedText get name;
-
-  /// Create a copy of ArtifactPiece
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ArtifactPieceImplCopyWith<_$ArtifactPieceImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 ArtifactSetBonus _$ArtifactSetBonusFromJson(Map<String, dynamic> json) {
@@ -548,107 +202,6 @@ mixin _$ArtifactSetBonus {
 
   /// Serializes this ArtifactSetBonus to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ArtifactSetBonus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ArtifactSetBonusCopyWith<ArtifactSetBonus> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ArtifactSetBonusCopyWith<$Res> {
-  factory $ArtifactSetBonusCopyWith(
-          ArtifactSetBonus value, $Res Function(ArtifactSetBonus) then) =
-      _$ArtifactSetBonusCopyWithImpl<$Res, ArtifactSetBonus>;
-  @useResult
-  $Res call({String type, LocalizedText description});
-
-  $LocalizedTextCopyWith<$Res> get description;
-}
-
-/// @nodoc
-class _$ArtifactSetBonusCopyWithImpl<$Res, $Val extends ArtifactSetBonus>
-    implements $ArtifactSetBonusCopyWith<$Res> {
-  _$ArtifactSetBonusCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ArtifactSetBonus
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-    Object? description = null,
-  }) {
-    return _then(_value.copyWith(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ) as $Val);
-  }
-
-  /// Create a copy of ArtifactSetBonus
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get description {
-    return $LocalizedTextCopyWith<$Res>(_value.description, (value) {
-      return _then(_value.copyWith(description: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$ArtifactSetBonusImplCopyWith<$Res>
-    implements $ArtifactSetBonusCopyWith<$Res> {
-  factory _$$ArtifactSetBonusImplCopyWith(_$ArtifactSetBonusImpl value,
-          $Res Function(_$ArtifactSetBonusImpl) then) =
-      __$$ArtifactSetBonusImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String type, LocalizedText description});
-
-  @override
-  $LocalizedTextCopyWith<$Res> get description;
-}
-
-/// @nodoc
-class __$$ArtifactSetBonusImplCopyWithImpl<$Res>
-    extends _$ArtifactSetBonusCopyWithImpl<$Res, _$ArtifactSetBonusImpl>
-    implements _$$ArtifactSetBonusImplCopyWith<$Res> {
-  __$$ArtifactSetBonusImplCopyWithImpl(_$ArtifactSetBonusImpl _value,
-      $Res Function(_$ArtifactSetBonusImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ArtifactSetBonus
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-    Object? description = null,
-  }) {
-    return _then(_$ArtifactSetBonusImpl(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ));
-  }
 }
 
 /// @nodoc
@@ -670,29 +223,6 @@ class _$ArtifactSetBonusImpl implements _ArtifactSetBonus {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactSetBonusImpl &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.description, description) ||
-                other.description == description));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, type, description);
-
-  /// Create a copy of ArtifactSetBonus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ArtifactSetBonusImplCopyWith<_$ArtifactSetBonusImpl> get copyWith =>
-      __$$ArtifactSetBonusImplCopyWithImpl<_$ArtifactSetBonusImpl>(
-          this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$ArtifactSetBonusImplToJson(
       this,
@@ -712,13 +242,6 @@ abstract class _ArtifactSetBonus implements ArtifactSetBonus {
   String get type;
   @override
   LocalizedText get description;
-
-  /// Create a copy of ArtifactSetBonus
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ArtifactSetBonusImplCopyWith<_$ArtifactSetBonusImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 ArtifactsMeta _$ArtifactsMetaFromJson(Map<String, dynamic> json) {
@@ -736,147 +259,6 @@ mixin _$ArtifactsMeta {
 
   /// Serializes this ArtifactsMeta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ArtifactsMeta
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ArtifactsMetaCopyWith<ArtifactsMeta> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ArtifactsMetaCopyWith<$Res> {
-  factory $ArtifactsMetaCopyWith(
-          ArtifactsMeta value, $Res Function(ArtifactsMeta) then) =
-      _$ArtifactsMetaCopyWithImpl<$Res, ArtifactsMeta>;
-  @useResult
-  $Res call(
-      {Map<String, LocalizedText> stats,
-      Map<String, ArtifactPieceType> pieceTypes,
-      List<String> possibleSubStats,
-      Map<String, String> pieceSetMap,
-      ArtifactTagCategoriesInternal tags});
-
-  $ArtifactTagCategoriesInternalCopyWith<$Res> get tags;
-}
-
-/// @nodoc
-class _$ArtifactsMetaCopyWithImpl<$Res, $Val extends ArtifactsMeta>
-    implements $ArtifactsMetaCopyWith<$Res> {
-  _$ArtifactsMetaCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ArtifactsMeta
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? stats = null,
-    Object? pieceTypes = null,
-    Object? possibleSubStats = null,
-    Object? pieceSetMap = null,
-    Object? tags = null,
-  }) {
-    return _then(_value.copyWith(
-      stats: null == stats
-          ? _value.stats
-          : stats // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalizedText>,
-      pieceTypes: null == pieceTypes
-          ? _value.pieceTypes
-          : pieceTypes // ignore: cast_nullable_to_non_nullable
-              as Map<String, ArtifactPieceType>,
-      possibleSubStats: null == possibleSubStats
-          ? _value.possibleSubStats
-          : possibleSubStats // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      pieceSetMap: null == pieceSetMap
-          ? _value.pieceSetMap
-          : pieceSetMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-      tags: null == tags
-          ? _value.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as ArtifactTagCategoriesInternal,
-    ) as $Val);
-  }
-
-  /// Create a copy of ArtifactsMeta
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ArtifactTagCategoriesInternalCopyWith<$Res> get tags {
-    return $ArtifactTagCategoriesInternalCopyWith<$Res>(_value.tags, (value) {
-      return _then(_value.copyWith(tags: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$ArtifactsMetaImplCopyWith<$Res>
-    implements $ArtifactsMetaCopyWith<$Res> {
-  factory _$$ArtifactsMetaImplCopyWith(
-          _$ArtifactsMetaImpl value, $Res Function(_$ArtifactsMetaImpl) then) =
-      __$$ArtifactsMetaImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {Map<String, LocalizedText> stats,
-      Map<String, ArtifactPieceType> pieceTypes,
-      List<String> possibleSubStats,
-      Map<String, String> pieceSetMap,
-      ArtifactTagCategoriesInternal tags});
-
-  @override
-  $ArtifactTagCategoriesInternalCopyWith<$Res> get tags;
-}
-
-/// @nodoc
-class __$$ArtifactsMetaImplCopyWithImpl<$Res>
-    extends _$ArtifactsMetaCopyWithImpl<$Res, _$ArtifactsMetaImpl>
-    implements _$$ArtifactsMetaImplCopyWith<$Res> {
-  __$$ArtifactsMetaImplCopyWithImpl(
-      _$ArtifactsMetaImpl _value, $Res Function(_$ArtifactsMetaImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ArtifactsMeta
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? stats = null,
-    Object? pieceTypes = null,
-    Object? possibleSubStats = null,
-    Object? pieceSetMap = null,
-    Object? tags = null,
-  }) {
-    return _then(_$ArtifactsMetaImpl(
-      stats: null == stats
-          ? _value._stats
-          : stats // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalizedText>,
-      pieceTypes: null == pieceTypes
-          ? _value._pieceTypes
-          : pieceTypes // ignore: cast_nullable_to_non_nullable
-              as Map<String, ArtifactPieceType>,
-      possibleSubStats: null == possibleSubStats
-          ? _value._possibleSubStats
-          : possibleSubStats // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      pieceSetMap: null == pieceSetMap
-          ? _value._pieceSetMap
-          : pieceSetMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-      tags: null == tags
-          ? _value.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as ArtifactTagCategoriesInternal,
-    ));
-  }
 }
 
 /// @nodoc
@@ -938,39 +320,6 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactsMetaImpl &&
-            const DeepCollectionEquality().equals(other._stats, _stats) &&
-            const DeepCollectionEquality()
-                .equals(other._pieceTypes, _pieceTypes) &&
-            const DeepCollectionEquality()
-                .equals(other._possibleSubStats, _possibleSubStats) &&
-            const DeepCollectionEquality()
-                .equals(other._pieceSetMap, _pieceSetMap) &&
-            (identical(other.tags, tags) || other.tags == tags));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_stats),
-      const DeepCollectionEquality().hash(_pieceTypes),
-      const DeepCollectionEquality().hash(_possibleSubStats),
-      const DeepCollectionEquality().hash(_pieceSetMap),
-      tags);
-
-  /// Create a copy of ArtifactsMeta
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ArtifactsMetaImplCopyWith<_$ArtifactsMetaImpl> get copyWith =>
-      __$$ArtifactsMetaImplCopyWithImpl<_$ArtifactsMetaImpl>(this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$ArtifactsMetaImplToJson(
       this,
@@ -999,13 +348,6 @@ abstract class _ArtifactsMeta implements ArtifactsMeta {
   Map<String, String> get pieceSetMap;
   @override
   ArtifactTagCategoriesInternal get tags;
-
-  /// Create a copy of ArtifactsMeta
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ArtifactsMetaImplCopyWith<_$ArtifactsMetaImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 ArtifactPieceType _$ArtifactPieceTypeFromJson(Map<String, dynamic> json) {
@@ -1020,117 +362,6 @@ mixin _$ArtifactPieceType {
 
   /// Serializes this ArtifactPieceType to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ArtifactPieceType
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ArtifactPieceTypeCopyWith<ArtifactPieceType> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ArtifactPieceTypeCopyWith<$Res> {
-  factory $ArtifactPieceTypeCopyWith(
-          ArtifactPieceType value, $Res Function(ArtifactPieceType) then) =
-      _$ArtifactPieceTypeCopyWithImpl<$Res, ArtifactPieceType>;
-  @useResult
-  $Res call({String id, LocalizedText desc, List<String> possibleMainStats});
-
-  $LocalizedTextCopyWith<$Res> get desc;
-}
-
-/// @nodoc
-class _$ArtifactPieceTypeCopyWithImpl<$Res, $Val extends ArtifactPieceType>
-    implements $ArtifactPieceTypeCopyWith<$Res> {
-  _$ArtifactPieceTypeCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ArtifactPieceType
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? desc = null,
-    Object? possibleMainStats = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      desc: null == desc
-          ? _value.desc
-          : desc // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-      possibleMainStats: null == possibleMainStats
-          ? _value.possibleMainStats
-          : possibleMainStats // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ) as $Val);
-  }
-
-  /// Create a copy of ArtifactPieceType
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get desc {
-    return $LocalizedTextCopyWith<$Res>(_value.desc, (value) {
-      return _then(_value.copyWith(desc: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$ArtifactPieceTypeImplCopyWith<$Res>
-    implements $ArtifactPieceTypeCopyWith<$Res> {
-  factory _$$ArtifactPieceTypeImplCopyWith(_$ArtifactPieceTypeImpl value,
-          $Res Function(_$ArtifactPieceTypeImpl) then) =
-      __$$ArtifactPieceTypeImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String id, LocalizedText desc, List<String> possibleMainStats});
-
-  @override
-  $LocalizedTextCopyWith<$Res> get desc;
-}
-
-/// @nodoc
-class __$$ArtifactPieceTypeImplCopyWithImpl<$Res>
-    extends _$ArtifactPieceTypeCopyWithImpl<$Res, _$ArtifactPieceTypeImpl>
-    implements _$$ArtifactPieceTypeImplCopyWith<$Res> {
-  __$$ArtifactPieceTypeImplCopyWithImpl(_$ArtifactPieceTypeImpl _value,
-      $Res Function(_$ArtifactPieceTypeImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ArtifactPieceType
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? desc = null,
-    Object? possibleMainStats = null,
-  }) {
-    return _then(_$ArtifactPieceTypeImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      desc: null == desc
-          ? _value.desc
-          : desc // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-      possibleMainStats: null == possibleMainStats
-          ? _value._possibleMainStats
-          : possibleMainStats // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ));
-  }
 }
 
 /// @nodoc
@@ -1164,31 +395,6 @@ class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactPieceTypeImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.desc, desc) || other.desc == desc) &&
-            const DeepCollectionEquality()
-                .equals(other._possibleMainStats, _possibleMainStats));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, desc,
-      const DeepCollectionEquality().hash(_possibleMainStats));
-
-  /// Create a copy of ArtifactPieceType
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ArtifactPieceTypeImplCopyWith<_$ArtifactPieceTypeImpl> get copyWith =>
-      __$$ArtifactPieceTypeImplCopyWithImpl<_$ArtifactPieceTypeImpl>(
-          this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$ArtifactPieceTypeImplToJson(
       this,
@@ -1211,13 +417,6 @@ abstract class _ArtifactPieceType implements ArtifactPieceType {
   LocalizedText get desc;
   @override
   List<String> get possibleMainStats;
-
-  /// Create a copy of ArtifactPieceType
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ArtifactPieceTypeImplCopyWith<_$ArtifactPieceTypeImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 ArtifactStat _$ArtifactStatFromJson(Map<String, dynamic> json) {
@@ -1231,107 +430,6 @@ mixin _$ArtifactStat {
 
   /// Serializes this ArtifactStat to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ArtifactStat
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ArtifactStatCopyWith<ArtifactStat> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ArtifactStatCopyWith<$Res> {
-  factory $ArtifactStatCopyWith(
-          ArtifactStat value, $Res Function(ArtifactStat) then) =
-      _$ArtifactStatCopyWithImpl<$Res, ArtifactStat>;
-  @useResult
-  $Res call({String id, LocalizedText desc});
-
-  $LocalizedTextCopyWith<$Res> get desc;
-}
-
-/// @nodoc
-class _$ArtifactStatCopyWithImpl<$Res, $Val extends ArtifactStat>
-    implements $ArtifactStatCopyWith<$Res> {
-  _$ArtifactStatCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ArtifactStat
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? desc = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      desc: null == desc
-          ? _value.desc
-          : desc // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ) as $Val);
-  }
-
-  /// Create a copy of ArtifactStat
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get desc {
-    return $LocalizedTextCopyWith<$Res>(_value.desc, (value) {
-      return _then(_value.copyWith(desc: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$ArtifactStatImplCopyWith<$Res>
-    implements $ArtifactStatCopyWith<$Res> {
-  factory _$$ArtifactStatImplCopyWith(
-          _$ArtifactStatImpl value, $Res Function(_$ArtifactStatImpl) then) =
-      __$$ArtifactStatImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String id, LocalizedText desc});
-
-  @override
-  $LocalizedTextCopyWith<$Res> get desc;
-}
-
-/// @nodoc
-class __$$ArtifactStatImplCopyWithImpl<$Res>
-    extends _$ArtifactStatCopyWithImpl<$Res, _$ArtifactStatImpl>
-    implements _$$ArtifactStatImplCopyWith<$Res> {
-  __$$ArtifactStatImplCopyWithImpl(
-      _$ArtifactStatImpl _value, $Res Function(_$ArtifactStatImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ArtifactStat
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? desc = null,
-  }) {
-    return _then(_$ArtifactStatImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      desc: null == desc
-          ? _value.desc
-          : desc // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ));
-  }
 }
 
 /// @nodoc
@@ -1353,27 +451,6 @@ class _$ArtifactStatImpl implements _ArtifactStat {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactStatImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.desc, desc) || other.desc == desc));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, desc);
-
-  /// Create a copy of ArtifactStat
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ArtifactStatImplCopyWith<_$ArtifactStatImpl> get copyWith =>
-      __$$ArtifactStatImplCopyWithImpl<_$ArtifactStatImpl>(this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$ArtifactStatImplToJson(
       this,
@@ -1393,13 +470,6 @@ abstract class _ArtifactStat implements ArtifactStat {
   String get id;
   @override
   LocalizedText get desc;
-
-  /// Create a copy of ArtifactStat
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ArtifactStatImplCopyWith<_$ArtifactStatImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 ArtifactTagCategoriesInternal _$ArtifactTagCategoriesInternalFromJson(
@@ -1414,88 +484,6 @@ mixin _$ArtifactTagCategoriesInternal {
 
   /// Serializes this ArtifactTagCategoriesInternal to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ArtifactTagCategoriesInternal
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ArtifactTagCategoriesInternalCopyWith<ArtifactTagCategoriesInternal>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ArtifactTagCategoriesInternalCopyWith<$Res> {
-  factory $ArtifactTagCategoriesInternalCopyWith(
-          ArtifactTagCategoriesInternal value,
-          $Res Function(ArtifactTagCategoriesInternal) then) =
-      _$ArtifactTagCategoriesInternalCopyWithImpl<$Res,
-          ArtifactTagCategoriesInternal>;
-  @useResult
-  $Res call({List<ArtifactTagCategory> categories});
-}
-
-/// @nodoc
-class _$ArtifactTagCategoriesInternalCopyWithImpl<$Res,
-        $Val extends ArtifactTagCategoriesInternal>
-    implements $ArtifactTagCategoriesInternalCopyWith<$Res> {
-  _$ArtifactTagCategoriesInternalCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ArtifactTagCategoriesInternal
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? categories = null,
-  }) {
-    return _then(_value.copyWith(
-      categories: null == categories
-          ? _value.categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<ArtifactTagCategory>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ArtifactTagCategoriesInternalImplCopyWith<$Res>
-    implements $ArtifactTagCategoriesInternalCopyWith<$Res> {
-  factory _$$ArtifactTagCategoriesInternalImplCopyWith(
-          _$ArtifactTagCategoriesInternalImpl value,
-          $Res Function(_$ArtifactTagCategoriesInternalImpl) then) =
-      __$$ArtifactTagCategoriesInternalImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({List<ArtifactTagCategory> categories});
-}
-
-/// @nodoc
-class __$$ArtifactTagCategoriesInternalImplCopyWithImpl<$Res>
-    extends _$ArtifactTagCategoriesInternalCopyWithImpl<$Res,
-        _$ArtifactTagCategoriesInternalImpl>
-    implements _$$ArtifactTagCategoriesInternalImplCopyWith<$Res> {
-  __$$ArtifactTagCategoriesInternalImplCopyWithImpl(
-      _$ArtifactTagCategoriesInternalImpl _value,
-      $Res Function(_$ArtifactTagCategoriesInternalImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ArtifactTagCategoriesInternal
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? categories = null,
-  }) {
-    return _then(_$ArtifactTagCategoriesInternalImpl(
-      categories: null == categories
-          ? _value._categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<ArtifactTagCategory>,
-    ));
-  }
 }
 
 /// @nodoc
@@ -1524,30 +512,6 @@ class _$ArtifactTagCategoriesInternalImpl
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactTagCategoriesInternalImpl &&
-            const DeepCollectionEquality()
-                .equals(other._categories, _categories));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_categories));
-
-  /// Create a copy of ArtifactTagCategoriesInternal
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ArtifactTagCategoriesInternalImplCopyWith<
-          _$ArtifactTagCategoriesInternalImpl>
-      get copyWith => __$$ArtifactTagCategoriesInternalImplCopyWithImpl<
-          _$ArtifactTagCategoriesInternalImpl>(this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$ArtifactTagCategoriesInternalImplToJson(
       this,
@@ -1566,14 +530,6 @@ abstract class _ArtifactTagCategoriesInternal
 
   @override
   List<ArtifactTagCategory> get categories;
-
-  /// Create a copy of ArtifactTagCategoriesInternal
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ArtifactTagCategoriesInternalImplCopyWith<
-          _$ArtifactTagCategoriesInternalImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 ArtifactTagCategory _$ArtifactTagCategoryFromJson(Map<String, dynamic> json) {
@@ -1587,107 +543,6 @@ mixin _$ArtifactTagCategory {
 
   /// Serializes this ArtifactTagCategory to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ArtifactTagCategory
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ArtifactTagCategoryCopyWith<ArtifactTagCategory> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ArtifactTagCategoryCopyWith<$Res> {
-  factory $ArtifactTagCategoryCopyWith(
-          ArtifactTagCategory value, $Res Function(ArtifactTagCategory) then) =
-      _$ArtifactTagCategoryCopyWithImpl<$Res, ArtifactTagCategory>;
-  @useResult
-  $Res call({LocalizedText desc, List<ArtifactTag> items});
-
-  $LocalizedTextCopyWith<$Res> get desc;
-}
-
-/// @nodoc
-class _$ArtifactTagCategoryCopyWithImpl<$Res, $Val extends ArtifactTagCategory>
-    implements $ArtifactTagCategoryCopyWith<$Res> {
-  _$ArtifactTagCategoryCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ArtifactTagCategory
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? desc = null,
-    Object? items = null,
-  }) {
-    return _then(_value.copyWith(
-      desc: null == desc
-          ? _value.desc
-          : desc // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-      items: null == items
-          ? _value.items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<ArtifactTag>,
-    ) as $Val);
-  }
-
-  /// Create a copy of ArtifactTagCategory
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get desc {
-    return $LocalizedTextCopyWith<$Res>(_value.desc, (value) {
-      return _then(_value.copyWith(desc: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$ArtifactTagCategoryImplCopyWith<$Res>
-    implements $ArtifactTagCategoryCopyWith<$Res> {
-  factory _$$ArtifactTagCategoryImplCopyWith(_$ArtifactTagCategoryImpl value,
-          $Res Function(_$ArtifactTagCategoryImpl) then) =
-      __$$ArtifactTagCategoryImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({LocalizedText desc, List<ArtifactTag> items});
-
-  @override
-  $LocalizedTextCopyWith<$Res> get desc;
-}
-
-/// @nodoc
-class __$$ArtifactTagCategoryImplCopyWithImpl<$Res>
-    extends _$ArtifactTagCategoryCopyWithImpl<$Res, _$ArtifactTagCategoryImpl>
-    implements _$$ArtifactTagCategoryImplCopyWith<$Res> {
-  __$$ArtifactTagCategoryImplCopyWithImpl(_$ArtifactTagCategoryImpl _value,
-      $Res Function(_$ArtifactTagCategoryImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ArtifactTagCategory
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? desc = null,
-    Object? items = null,
-  }) {
-    return _then(_$ArtifactTagCategoryImpl(
-      desc: null == desc
-          ? _value.desc
-          : desc // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-      items: null == items
-          ? _value._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<ArtifactTag>,
-    ));
-  }
 }
 
 /// @nodoc
@@ -1716,29 +571,6 @@ class _$ArtifactTagCategoryImpl implements _ArtifactTagCategory {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactTagCategoryImpl &&
-            (identical(other.desc, desc) || other.desc == desc) &&
-            const DeepCollectionEquality().equals(other._items, _items));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, desc, const DeepCollectionEquality().hash(_items));
-
-  /// Create a copy of ArtifactTagCategory
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ArtifactTagCategoryImplCopyWith<_$ArtifactTagCategoryImpl> get copyWith =>
-      __$$ArtifactTagCategoryImplCopyWithImpl<_$ArtifactTagCategoryImpl>(
-          this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$ArtifactTagCategoryImplToJson(
       this,
@@ -1758,13 +590,6 @@ abstract class _ArtifactTagCategory implements ArtifactTagCategory {
   LocalizedText get desc;
   @override
   List<ArtifactTag> get items;
-
-  /// Create a copy of ArtifactTagCategory
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ArtifactTagCategoryImplCopyWith<_$ArtifactTagCategoryImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 ArtifactTag _$ArtifactTagFromJson(Map<String, dynamic> json) {
@@ -1778,107 +603,6 @@ mixin _$ArtifactTag {
 
   /// Serializes this ArtifactTag to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ArtifactTag
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ArtifactTagCopyWith<ArtifactTag> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ArtifactTagCopyWith<$Res> {
-  factory $ArtifactTagCopyWith(
-          ArtifactTag value, $Res Function(ArtifactTag) then) =
-      _$ArtifactTagCopyWithImpl<$Res, ArtifactTag>;
-  @useResult
-  $Res call({String id, LocalizedText desc});
-
-  $LocalizedTextCopyWith<$Res> get desc;
-}
-
-/// @nodoc
-class _$ArtifactTagCopyWithImpl<$Res, $Val extends ArtifactTag>
-    implements $ArtifactTagCopyWith<$Res> {
-  _$ArtifactTagCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ArtifactTag
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? desc = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      desc: null == desc
-          ? _value.desc
-          : desc // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ) as $Val);
-  }
-
-  /// Create a copy of ArtifactTag
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get desc {
-    return $LocalizedTextCopyWith<$Res>(_value.desc, (value) {
-      return _then(_value.copyWith(desc: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$ArtifactTagImplCopyWith<$Res>
-    implements $ArtifactTagCopyWith<$Res> {
-  factory _$$ArtifactTagImplCopyWith(
-          _$ArtifactTagImpl value, $Res Function(_$ArtifactTagImpl) then) =
-      __$$ArtifactTagImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String id, LocalizedText desc});
-
-  @override
-  $LocalizedTextCopyWith<$Res> get desc;
-}
-
-/// @nodoc
-class __$$ArtifactTagImplCopyWithImpl<$Res>
-    extends _$ArtifactTagCopyWithImpl<$Res, _$ArtifactTagImpl>
-    implements _$$ArtifactTagImplCopyWith<$Res> {
-  __$$ArtifactTagImplCopyWithImpl(
-      _$ArtifactTagImpl _value, $Res Function(_$ArtifactTagImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ArtifactTag
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? desc = null,
-  }) {
-    return _then(_$ArtifactTagImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      desc: null == desc
-          ? _value.desc
-          : desc // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ));
-  }
 }
 
 /// @nodoc
@@ -1900,27 +624,6 @@ class _$ArtifactTagImpl implements _ArtifactTag {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactTagImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.desc, desc) || other.desc == desc));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, desc);
-
-  /// Create a copy of ArtifactTag
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ArtifactTagImplCopyWith<_$ArtifactTagImpl> get copyWith =>
-      __$$ArtifactTagImplCopyWithImpl<_$ArtifactTagImpl>(this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$ArtifactTagImplToJson(
       this,
@@ -1940,11 +643,4 @@ abstract class _ArtifactTag implements ArtifactTag {
   String get id;
   @override
   LocalizedText get desc;
-
-  /// Create a copy of ArtifactTag
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ArtifactTagImplCopyWith<_$ArtifactTagImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }

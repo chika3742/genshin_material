@@ -30,7 +30,7 @@ class CharacterFilterStateNotifier extends _$CharacterFilterStateNotifier {
   }
 }
 
-@freezed
+@Freezed(copyWith: true)
 class CharacterFilterState with _$CharacterFilterState {
   const CharacterFilterState._();
 
@@ -63,7 +63,7 @@ class ArtifactFilterStateNotifier extends _$ArtifactFilterStateNotifier {
   }
 }
 
-@freezed
+@Freezed(copyWith: true)
 class ArtifactFilterState with _$ArtifactFilterState {
   const factory ArtifactFilterState({
     @Default([])

@@ -213,33 +213,6 @@ class _$ArtifactBookmarkDialogStateImpl
     return 'ArtifactBookmarkDialogState(characterId: $characterId, firstSetId: $firstSetId, secondSetId: $secondSetId, pieceId: $pieceId, mainStats: $mainStats, subStats: $subStats)';
   }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ArtifactBookmarkDialogStateImpl &&
-            (identical(other.characterId, characterId) ||
-                other.characterId == characterId) &&
-            (identical(other.firstSetId, firstSetId) ||
-                other.firstSetId == firstSetId) &&
-            (identical(other.secondSetId, secondSetId) ||
-                other.secondSetId == secondSetId) &&
-            (identical(other.pieceId, pieceId) || other.pieceId == pieceId) &&
-            const DeepCollectionEquality()
-                .equals(other._mainStats, _mainStats) &&
-            const DeepCollectionEquality().equals(other._subStats, _subStats));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      characterId,
-      firstSetId,
-      secondSetId,
-      pieceId,
-      const DeepCollectionEquality().hash(_mainStats),
-      const DeepCollectionEquality().hash(_subStats));
-
   /// Create a copy of ArtifactBookmarkDialogState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)

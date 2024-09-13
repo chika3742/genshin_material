@@ -26,94 +26,6 @@ mixin _$WeaponIngredients {
 
   /// Serializes this WeaponIngredients to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of WeaponIngredients
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $WeaponIngredientsCopyWith<WeaponIngredients> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $WeaponIngredientsCopyWith<$Res> {
-  factory $WeaponIngredientsCopyWith(
-          WeaponIngredients value, $Res Function(WeaponIngredients) then) =
-      _$WeaponIngredientsCopyWithImpl<$Res, WeaponIngredients>;
-  @useResult
-  $Res call(
-      {List<ExpItem> expItems, Map<int, WeaponIngredientsLevels> rarities});
-}
-
-/// @nodoc
-class _$WeaponIngredientsCopyWithImpl<$Res, $Val extends WeaponIngredients>
-    implements $WeaponIngredientsCopyWith<$Res> {
-  _$WeaponIngredientsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of WeaponIngredients
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? expItems = null,
-    Object? rarities = null,
-  }) {
-    return _then(_value.copyWith(
-      expItems: null == expItems
-          ? _value.expItems
-          : expItems // ignore: cast_nullable_to_non_nullable
-              as List<ExpItem>,
-      rarities: null == rarities
-          ? _value.rarities
-          : rarities // ignore: cast_nullable_to_non_nullable
-              as Map<int, WeaponIngredientsLevels>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$WeaponIngredientsImplCopyWith<$Res>
-    implements $WeaponIngredientsCopyWith<$Res> {
-  factory _$$WeaponIngredientsImplCopyWith(_$WeaponIngredientsImpl value,
-          $Res Function(_$WeaponIngredientsImpl) then) =
-      __$$WeaponIngredientsImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {List<ExpItem> expItems, Map<int, WeaponIngredientsLevels> rarities});
-}
-
-/// @nodoc
-class __$$WeaponIngredientsImplCopyWithImpl<$Res>
-    extends _$WeaponIngredientsCopyWithImpl<$Res, _$WeaponIngredientsImpl>
-    implements _$$WeaponIngredientsImplCopyWith<$Res> {
-  __$$WeaponIngredientsImplCopyWithImpl(_$WeaponIngredientsImpl _value,
-      $Res Function(_$WeaponIngredientsImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of WeaponIngredients
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? expItems = null,
-    Object? rarities = null,
-  }) {
-    return _then(_$WeaponIngredientsImpl(
-      expItems: null == expItems
-          ? _value._expItems
-          : expItems // ignore: cast_nullable_to_non_nullable
-              as List<ExpItem>,
-      rarities: null == rarities
-          ? _value._rarities
-          : rarities // ignore: cast_nullable_to_non_nullable
-              as Map<int, WeaponIngredientsLevels>,
-    ));
-  }
 }
 
 /// @nodoc
@@ -150,31 +62,6 @@ class _$WeaponIngredientsImpl implements _WeaponIngredients {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$WeaponIngredientsImpl &&
-            const DeepCollectionEquality().equals(other._expItems, _expItems) &&
-            const DeepCollectionEquality().equals(other._rarities, _rarities));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_expItems),
-      const DeepCollectionEquality().hash(_rarities));
-
-  /// Create a copy of WeaponIngredients
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$WeaponIngredientsImplCopyWith<_$WeaponIngredientsImpl> get copyWith =>
-      __$$WeaponIngredientsImplCopyWithImpl<_$WeaponIngredientsImpl>(
-          this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$WeaponIngredientsImplToJson(
       this,
@@ -195,13 +82,6 @@ abstract class _WeaponIngredients implements WeaponIngredients {
   List<ExpItem> get expItems;
   @override
   Map<int, WeaponIngredientsLevels> get rarities;
-
-  /// Create a copy of WeaponIngredients
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WeaponIngredientsImplCopyWith<_$WeaponIngredientsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 WeaponIngredientsLevels _$WeaponIngredientsLevelsFromJson(
@@ -215,86 +95,6 @@ mixin _$WeaponIngredientsLevels {
 
   /// Serializes this WeaponIngredientsLevels to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of WeaponIngredientsLevels
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $WeaponIngredientsLevelsCopyWith<WeaponIngredientsLevels> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $WeaponIngredientsLevelsCopyWith<$Res> {
-  factory $WeaponIngredientsLevelsCopyWith(WeaponIngredientsLevels value,
-          $Res Function(WeaponIngredientsLevels) then) =
-      _$WeaponIngredientsLevelsCopyWithImpl<$Res, WeaponIngredientsLevels>;
-  @useResult
-  $Res call({Map<int, List<Ingredient>> levels});
-}
-
-/// @nodoc
-class _$WeaponIngredientsLevelsCopyWithImpl<$Res,
-        $Val extends WeaponIngredientsLevels>
-    implements $WeaponIngredientsLevelsCopyWith<$Res> {
-  _$WeaponIngredientsLevelsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of WeaponIngredientsLevels
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? levels = null,
-  }) {
-    return _then(_value.copyWith(
-      levels: null == levels
-          ? _value.levels
-          : levels // ignore: cast_nullable_to_non_nullable
-              as Map<int, List<Ingredient>>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$WeaponIngredientsLevelsImplCopyWith<$Res>
-    implements $WeaponIngredientsLevelsCopyWith<$Res> {
-  factory _$$WeaponIngredientsLevelsImplCopyWith(
-          _$WeaponIngredientsLevelsImpl value,
-          $Res Function(_$WeaponIngredientsLevelsImpl) then) =
-      __$$WeaponIngredientsLevelsImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Map<int, List<Ingredient>> levels});
-}
-
-/// @nodoc
-class __$$WeaponIngredientsLevelsImplCopyWithImpl<$Res>
-    extends _$WeaponIngredientsLevelsCopyWithImpl<$Res,
-        _$WeaponIngredientsLevelsImpl>
-    implements _$$WeaponIngredientsLevelsImplCopyWith<$Res> {
-  __$$WeaponIngredientsLevelsImplCopyWithImpl(
-      _$WeaponIngredientsLevelsImpl _value,
-      $Res Function(_$WeaponIngredientsLevelsImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of WeaponIngredientsLevels
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? levels = null,
-  }) {
-    return _then(_$WeaponIngredientsLevelsImpl(
-      levels: null == levels
-          ? _value._levels
-          : levels // ignore: cast_nullable_to_non_nullable
-              as Map<int, List<Ingredient>>,
-    ));
-  }
 }
 
 /// @nodoc
@@ -321,28 +121,6 @@ class _$WeaponIngredientsLevelsImpl implements _WeaponIngredientsLevels {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$WeaponIngredientsLevelsImpl &&
-            const DeepCollectionEquality().equals(other._levels, _levels));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_levels));
-
-  /// Create a copy of WeaponIngredientsLevels
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$WeaponIngredientsLevelsImplCopyWith<_$WeaponIngredientsLevelsImpl>
-      get copyWith => __$$WeaponIngredientsLevelsImplCopyWithImpl<
-          _$WeaponIngredientsLevelsImpl>(this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$WeaponIngredientsLevelsImplToJson(
       this,
@@ -360,11 +138,4 @@ abstract class _WeaponIngredientsLevels implements WeaponIngredientsLevels {
 
   @override
   Map<int, List<Ingredient>> get levels;
-
-  /// Create a copy of WeaponIngredientsLevels
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WeaponIngredientsLevelsImplCopyWith<_$WeaponIngredientsLevelsImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }

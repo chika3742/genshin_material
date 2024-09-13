@@ -344,7 +344,7 @@ Future<void> showArtifactBookmarkDialog({
   );
 }
 
-@freezed
+@Freezed(copyWith: true)
 class ArtifactBookmarkDialogState with _$ArtifactBookmarkDialogState {
   const factory ArtifactBookmarkDialogState({
     CharacterId? characterId,

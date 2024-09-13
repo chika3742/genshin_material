@@ -28,132 +28,6 @@ mixin _$AssetReleaseVersion {
 
   /// Serializes this AssetReleaseVersion to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of AssetReleaseVersion
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $AssetReleaseVersionCopyWith<AssetReleaseVersion> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AssetReleaseVersionCopyWith<$Res> {
-  factory $AssetReleaseVersionCopyWith(
-          AssetReleaseVersion value, $Res Function(AssetReleaseVersion) then) =
-      _$AssetReleaseVersionCopyWithImpl<$Res, AssetReleaseVersion>;
-  @useResult
-  $Res call(
-      {DateTime createdAt,
-      String dataVersion,
-      AssetChannel channel,
-      String distUrl,
-      int schemaVersion});
-}
-
-/// @nodoc
-class _$AssetReleaseVersionCopyWithImpl<$Res, $Val extends AssetReleaseVersion>
-    implements $AssetReleaseVersionCopyWith<$Res> {
-  _$AssetReleaseVersionCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AssetReleaseVersion
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? createdAt = null,
-    Object? dataVersion = null,
-    Object? channel = null,
-    Object? distUrl = null,
-    Object? schemaVersion = null,
-  }) {
-    return _then(_value.copyWith(
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      dataVersion: null == dataVersion
-          ? _value.dataVersion
-          : dataVersion // ignore: cast_nullable_to_non_nullable
-              as String,
-      channel: null == channel
-          ? _value.channel
-          : channel // ignore: cast_nullable_to_non_nullable
-              as AssetChannel,
-      distUrl: null == distUrl
-          ? _value.distUrl
-          : distUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      schemaVersion: null == schemaVersion
-          ? _value.schemaVersion
-          : schemaVersion // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$AssetReleaseVersionImplCopyWith<$Res>
-    implements $AssetReleaseVersionCopyWith<$Res> {
-  factory _$$AssetReleaseVersionImplCopyWith(_$AssetReleaseVersionImpl value,
-          $Res Function(_$AssetReleaseVersionImpl) then) =
-      __$$AssetReleaseVersionImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {DateTime createdAt,
-      String dataVersion,
-      AssetChannel channel,
-      String distUrl,
-      int schemaVersion});
-}
-
-/// @nodoc
-class __$$AssetReleaseVersionImplCopyWithImpl<$Res>
-    extends _$AssetReleaseVersionCopyWithImpl<$Res, _$AssetReleaseVersionImpl>
-    implements _$$AssetReleaseVersionImplCopyWith<$Res> {
-  __$$AssetReleaseVersionImplCopyWithImpl(_$AssetReleaseVersionImpl _value,
-      $Res Function(_$AssetReleaseVersionImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AssetReleaseVersion
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? createdAt = null,
-    Object? dataVersion = null,
-    Object? channel = null,
-    Object? distUrl = null,
-    Object? schemaVersion = null,
-  }) {
-    return _then(_$AssetReleaseVersionImpl(
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      dataVersion: null == dataVersion
-          ? _value.dataVersion
-          : dataVersion // ignore: cast_nullable_to_non_nullable
-              as String,
-      channel: null == channel
-          ? _value.channel
-          : channel // ignore: cast_nullable_to_non_nullable
-              as AssetChannel,
-      distUrl: null == distUrl
-          ? _value.distUrl
-          : distUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      schemaVersion: null == schemaVersion
-          ? _value.schemaVersion
-          : schemaVersion // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
 }
 
 /// @nodoc
@@ -186,35 +60,6 @@ class _$AssetReleaseVersionImpl implements _AssetReleaseVersion {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AssetReleaseVersionImpl &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.dataVersion, dataVersion) ||
-                other.dataVersion == dataVersion) &&
-            (identical(other.channel, channel) || other.channel == channel) &&
-            (identical(other.distUrl, distUrl) || other.distUrl == distUrl) &&
-            (identical(other.schemaVersion, schemaVersion) ||
-                other.schemaVersion == schemaVersion));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, createdAt, dataVersion, channel, distUrl, schemaVersion);
-
-  /// Create a copy of AssetReleaseVersion
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AssetReleaseVersionImplCopyWith<_$AssetReleaseVersionImpl> get copyWith =>
-      __$$AssetReleaseVersionImplCopyWithImpl<_$AssetReleaseVersionImpl>(
-          this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$AssetReleaseVersionImplToJson(
       this,
@@ -243,11 +88,4 @@ abstract class _AssetReleaseVersion implements AssetReleaseVersion {
   String get distUrl;
   @override
   int get schemaVersion;
-
-  /// Create a copy of AssetReleaseVersion
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AssetReleaseVersionImplCopyWith<_$AssetReleaseVersionImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }

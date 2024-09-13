@@ -20,124 +20,6 @@ mixin _$ResinCalculationResult {
   Duration get timeToFull => throw _privateConstructorUsedError;
   int get currentResin => throw _privateConstructorUsedError;
   int get wastedResin => throw _privateConstructorUsedError;
-
-  /// Create a copy of ResinCalculationResult
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ResinCalculationResultCopyWith<ResinCalculationResult> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ResinCalculationResultCopyWith<$Res> {
-  factory $ResinCalculationResultCopyWith(ResinCalculationResult value,
-          $Res Function(ResinCalculationResult) then) =
-      _$ResinCalculationResultCopyWithImpl<$Res, ResinCalculationResult>;
-  @useResult
-  $Res call(
-      {DateTime fullyReplenishedBy,
-      Duration timeToFull,
-      int currentResin,
-      int wastedResin});
-}
-
-/// @nodoc
-class _$ResinCalculationResultCopyWithImpl<$Res,
-        $Val extends ResinCalculationResult>
-    implements $ResinCalculationResultCopyWith<$Res> {
-  _$ResinCalculationResultCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ResinCalculationResult
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? fullyReplenishedBy = null,
-    Object? timeToFull = null,
-    Object? currentResin = null,
-    Object? wastedResin = null,
-  }) {
-    return _then(_value.copyWith(
-      fullyReplenishedBy: null == fullyReplenishedBy
-          ? _value.fullyReplenishedBy
-          : fullyReplenishedBy // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      timeToFull: null == timeToFull
-          ? _value.timeToFull
-          : timeToFull // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      currentResin: null == currentResin
-          ? _value.currentResin
-          : currentResin // ignore: cast_nullable_to_non_nullable
-              as int,
-      wastedResin: null == wastedResin
-          ? _value.wastedResin
-          : wastedResin // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ResinCalculationResultImplCopyWith<$Res>
-    implements $ResinCalculationResultCopyWith<$Res> {
-  factory _$$ResinCalculationResultImplCopyWith(
-          _$ResinCalculationResultImpl value,
-          $Res Function(_$ResinCalculationResultImpl) then) =
-      __$$ResinCalculationResultImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {DateTime fullyReplenishedBy,
-      Duration timeToFull,
-      int currentResin,
-      int wastedResin});
-}
-
-/// @nodoc
-class __$$ResinCalculationResultImplCopyWithImpl<$Res>
-    extends _$ResinCalculationResultCopyWithImpl<$Res,
-        _$ResinCalculationResultImpl>
-    implements _$$ResinCalculationResultImplCopyWith<$Res> {
-  __$$ResinCalculationResultImplCopyWithImpl(
-      _$ResinCalculationResultImpl _value,
-      $Res Function(_$ResinCalculationResultImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ResinCalculationResult
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? fullyReplenishedBy = null,
-    Object? timeToFull = null,
-    Object? currentResin = null,
-    Object? wastedResin = null,
-  }) {
-    return _then(_$ResinCalculationResultImpl(
-      fullyReplenishedBy: null == fullyReplenishedBy
-          ? _value.fullyReplenishedBy
-          : fullyReplenishedBy // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      timeToFull: null == timeToFull
-          ? _value.timeToFull
-          : timeToFull // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      currentResin: null == currentResin
-          ? _value.currentResin
-          : currentResin // ignore: cast_nullable_to_non_nullable
-              as int,
-      wastedResin: null == wastedResin
-          ? _value.wastedResin
-          : wastedResin // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
 }
 
 /// @nodoc
@@ -162,34 +44,6 @@ class _$ResinCalculationResultImpl implements _ResinCalculationResult {
   String toString() {
     return 'ResinCalculationResult(fullyReplenishedBy: $fullyReplenishedBy, timeToFull: $timeToFull, currentResin: $currentResin, wastedResin: $wastedResin)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ResinCalculationResultImpl &&
-            (identical(other.fullyReplenishedBy, fullyReplenishedBy) ||
-                other.fullyReplenishedBy == fullyReplenishedBy) &&
-            (identical(other.timeToFull, timeToFull) ||
-                other.timeToFull == timeToFull) &&
-            (identical(other.currentResin, currentResin) ||
-                other.currentResin == currentResin) &&
-            (identical(other.wastedResin, wastedResin) ||
-                other.wastedResin == wastedResin));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, fullyReplenishedBy, timeToFull, currentResin, wastedResin);
-
-  /// Create a copy of ResinCalculationResult
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ResinCalculationResultImplCopyWith<_$ResinCalculationResultImpl>
-      get copyWith => __$$ResinCalculationResultImplCopyWithImpl<
-          _$ResinCalculationResultImpl>(this, _$identity);
 }
 
 abstract class _ResinCalculationResult implements ResinCalculationResult {
@@ -207,11 +61,4 @@ abstract class _ResinCalculationResult implements ResinCalculationResult {
   int get currentResin;
   @override
   int get wastedResin;
-
-  /// Create a copy of ResinCalculationResult
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ResinCalculationResultImplCopyWith<_$ResinCalculationResultImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }

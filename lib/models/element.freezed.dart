@@ -26,114 +26,6 @@ mixin _$Element {
 
   /// Serializes this Element to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Element
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ElementCopyWith<Element> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ElementCopyWith<$Res> {
-  factory $ElementCopyWith(Element value, $Res Function(Element) then) =
-      _$ElementCopyWithImpl<$Res, Element>;
-  @useResult
-  $Res call({int hyvId, String imageUrl, LocalizedText text});
-
-  $LocalizedTextCopyWith<$Res> get text;
-}
-
-/// @nodoc
-class _$ElementCopyWithImpl<$Res, $Val extends Element>
-    implements $ElementCopyWith<$Res> {
-  _$ElementCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Element
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? hyvId = null,
-    Object? imageUrl = null,
-    Object? text = null,
-  }) {
-    return _then(_value.copyWith(
-      hyvId: null == hyvId
-          ? _value.hyvId
-          : hyvId // ignore: cast_nullable_to_non_nullable
-              as int,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ) as $Val);
-  }
-
-  /// Create a copy of Element
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizedTextCopyWith<$Res> get text {
-    return $LocalizedTextCopyWith<$Res>(_value.text, (value) {
-      return _then(_value.copyWith(text: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$ElementImplCopyWith<$Res> implements $ElementCopyWith<$Res> {
-  factory _$$ElementImplCopyWith(
-          _$ElementImpl value, $Res Function(_$ElementImpl) then) =
-      __$$ElementImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int hyvId, String imageUrl, LocalizedText text});
-
-  @override
-  $LocalizedTextCopyWith<$Res> get text;
-}
-
-/// @nodoc
-class __$$ElementImplCopyWithImpl<$Res>
-    extends _$ElementCopyWithImpl<$Res, _$ElementImpl>
-    implements _$$ElementImplCopyWith<$Res> {
-  __$$ElementImplCopyWithImpl(
-      _$ElementImpl _value, $Res Function(_$ElementImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Element
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? hyvId = null,
-    Object? imageUrl = null,
-    Object? text = null,
-  }) {
-    return _then(_$ElementImpl(
-      hyvId: null == hyvId
-          ? _value.hyvId
-          : hyvId // ignore: cast_nullable_to_non_nullable
-              as int,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as LocalizedText,
-    ));
-  }
 }
 
 /// @nodoc
@@ -159,29 +51,6 @@ class _$ElementImpl extends _Element {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ElementImpl &&
-            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
-            (identical(other.text, text) || other.text == text));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, hyvId, imageUrl, text);
-
-  /// Create a copy of Element
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ElementImplCopyWith<_$ElementImpl> get copyWith =>
-      __$$ElementImplCopyWithImpl<_$ElementImpl>(this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$ElementImplToJson(
       this,
@@ -204,11 +73,4 @@ abstract class _Element extends Element {
   String get imageUrl;
   @override
   LocalizedText get text;
-
-  /// Create a copy of Element
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ElementImplCopyWith<_$ElementImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }

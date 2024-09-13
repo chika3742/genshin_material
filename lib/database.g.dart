@@ -1206,70 +1206,6 @@ typedef $$MaterialBookmarkTableUpdateCompanionBuilder
   Value<String> hash,
 });
 
-class $$MaterialBookmarkTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $MaterialBookmarkTable,
-    MaterialBookmarkData,
-    $$MaterialBookmarkTableFilterComposer,
-    $$MaterialBookmarkTableOrderingComposer,
-    $$MaterialBookmarkTableCreateCompanionBuilder,
-    $$MaterialBookmarkTableUpdateCompanionBuilder> {
-  $$MaterialBookmarkTableTableManager(
-      _$AppDatabase db, $MaterialBookmarkTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          filteringComposer:
-              $$MaterialBookmarkTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$MaterialBookmarkTableOrderingComposer(ComposerState(db, table)),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String?> materialId = const Value.absent(),
-            Value<String> characterId = const Value.absent(),
-            Value<String?> weaponId = const Value.absent(),
-            Value<int> quantity = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<int> upperLevel = const Value.absent(),
-            Value<Purpose> purposeType = const Value.absent(),
-            Value<String> hash = const Value.absent(),
-          }) =>
-              MaterialBookmarkCompanion(
-            id: id,
-            materialId: materialId,
-            characterId: characterId,
-            weaponId: weaponId,
-            quantity: quantity,
-            createdAt: createdAt,
-            upperLevel: upperLevel,
-            purposeType: purposeType,
-            hash: hash,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String?> materialId = const Value.absent(),
-            required String characterId,
-            Value<String?> weaponId = const Value.absent(),
-            required int quantity,
-            Value<DateTime> createdAt = const Value.absent(),
-            required int upperLevel,
-            required Purpose purposeType,
-            required String hash,
-          }) =>
-              MaterialBookmarkCompanion.insert(
-            id: id,
-            materialId: materialId,
-            characterId: characterId,
-            weaponId: weaponId,
-            quantity: quantity,
-            createdAt: createdAt,
-            upperLevel: upperLevel,
-            purposeType: purposeType,
-            hash: hash,
-          ),
-        ));
-}
-
 class $$MaterialBookmarkTableFilterComposer
     extends FilterComposer<_$AppDatabase, $MaterialBookmarkTable> {
   $$MaterialBookmarkTableFilterComposer(super.$state);
@@ -1370,6 +1306,96 @@ class $$MaterialBookmarkTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
+class $$MaterialBookmarkTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $MaterialBookmarkTable,
+    MaterialBookmarkData,
+    $$MaterialBookmarkTableFilterComposer,
+    $$MaterialBookmarkTableOrderingComposer,
+    $$MaterialBookmarkTableCreateCompanionBuilder,
+    $$MaterialBookmarkTableUpdateCompanionBuilder,
+    (
+      MaterialBookmarkData,
+      BaseReferences<_$AppDatabase, $MaterialBookmarkTable,
+          MaterialBookmarkData>
+    ),
+    MaterialBookmarkData,
+    PrefetchHooks Function()> {
+  $$MaterialBookmarkTableTableManager(
+      _$AppDatabase db, $MaterialBookmarkTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$MaterialBookmarkTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$MaterialBookmarkTableOrderingComposer(ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String?> materialId = const Value.absent(),
+            Value<String> characterId = const Value.absent(),
+            Value<String?> weaponId = const Value.absent(),
+            Value<int> quantity = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<int> upperLevel = const Value.absent(),
+            Value<Purpose> purposeType = const Value.absent(),
+            Value<String> hash = const Value.absent(),
+          }) =>
+              MaterialBookmarkCompanion(
+            id: id,
+            materialId: materialId,
+            characterId: characterId,
+            weaponId: weaponId,
+            quantity: quantity,
+            createdAt: createdAt,
+            upperLevel: upperLevel,
+            purposeType: purposeType,
+            hash: hash,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String?> materialId = const Value.absent(),
+            required String characterId,
+            Value<String?> weaponId = const Value.absent(),
+            required int quantity,
+            Value<DateTime> createdAt = const Value.absent(),
+            required int upperLevel,
+            required Purpose purposeType,
+            required String hash,
+          }) =>
+              MaterialBookmarkCompanion.insert(
+            id: id,
+            materialId: materialId,
+            characterId: characterId,
+            weaponId: weaponId,
+            quantity: quantity,
+            createdAt: createdAt,
+            upperLevel: upperLevel,
+            purposeType: purposeType,
+            hash: hash,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$MaterialBookmarkTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $MaterialBookmarkTable,
+    MaterialBookmarkData,
+    $$MaterialBookmarkTableFilterComposer,
+    $$MaterialBookmarkTableOrderingComposer,
+    $$MaterialBookmarkTableCreateCompanionBuilder,
+    $$MaterialBookmarkTableUpdateCompanionBuilder,
+    (
+      MaterialBookmarkData,
+      BaseReferences<_$AppDatabase, $MaterialBookmarkTable,
+          MaterialBookmarkData>
+    ),
+    MaterialBookmarkData,
+    PrefetchHooks Function()>;
 typedef $$CharacterLevelInfoTableCreateCompanionBuilder
     = CharacterLevelInfoCompanion Function({
   required String uid,
@@ -1384,50 +1410,6 @@ typedef $$CharacterLevelInfoTableUpdateCompanionBuilder
   Value<Map<Purpose, int>> purposes,
   Value<int> rowid,
 });
-
-class $$CharacterLevelInfoTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $CharacterLevelInfoTable,
-    CharacterLevelInfoData,
-    $$CharacterLevelInfoTableFilterComposer,
-    $$CharacterLevelInfoTableOrderingComposer,
-    $$CharacterLevelInfoTableCreateCompanionBuilder,
-    $$CharacterLevelInfoTableUpdateCompanionBuilder> {
-  $$CharacterLevelInfoTableTableManager(
-      _$AppDatabase db, $CharacterLevelInfoTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          filteringComposer:
-              $$CharacterLevelInfoTableFilterComposer(ComposerState(db, table)),
-          orderingComposer: $$CharacterLevelInfoTableOrderingComposer(
-              ComposerState(db, table)),
-          updateCompanionCallback: ({
-            Value<String> uid = const Value.absent(),
-            Value<String> characterId = const Value.absent(),
-            Value<Map<Purpose, int>> purposes = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CharacterLevelInfoCompanion(
-            uid: uid,
-            characterId: characterId,
-            purposes: purposes,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String uid,
-            required String characterId,
-            required Map<Purpose, int> purposes,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CharacterLevelInfoCompanion.insert(
-            uid: uid,
-            characterId: characterId,
-            purposes: purposes,
-            rowid: rowid,
-          ),
-        ));
-}
 
 class $$CharacterLevelInfoTableFilterComposer
     extends FilterComposer<_$AppDatabase, $CharacterLevelInfoTable> {
@@ -1469,6 +1451,76 @@ class $$CharacterLevelInfoTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
+class $$CharacterLevelInfoTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $CharacterLevelInfoTable,
+    CharacterLevelInfoData,
+    $$CharacterLevelInfoTableFilterComposer,
+    $$CharacterLevelInfoTableOrderingComposer,
+    $$CharacterLevelInfoTableCreateCompanionBuilder,
+    $$CharacterLevelInfoTableUpdateCompanionBuilder,
+    (
+      CharacterLevelInfoData,
+      BaseReferences<_$AppDatabase, $CharacterLevelInfoTable,
+          CharacterLevelInfoData>
+    ),
+    CharacterLevelInfoData,
+    PrefetchHooks Function()> {
+  $$CharacterLevelInfoTableTableManager(
+      _$AppDatabase db, $CharacterLevelInfoTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$CharacterLevelInfoTableFilterComposer(ComposerState(db, table)),
+          orderingComposer: $$CharacterLevelInfoTableOrderingComposer(
+              ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<String> uid = const Value.absent(),
+            Value<String> characterId = const Value.absent(),
+            Value<Map<Purpose, int>> purposes = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CharacterLevelInfoCompanion(
+            uid: uid,
+            characterId: characterId,
+            purposes: purposes,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String uid,
+            required String characterId,
+            required Map<Purpose, int> purposes,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CharacterLevelInfoCompanion.insert(
+            uid: uid,
+            characterId: characterId,
+            purposes: purposes,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$CharacterLevelInfoTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $CharacterLevelInfoTable,
+    CharacterLevelInfoData,
+    $$CharacterLevelInfoTableFilterComposer,
+    $$CharacterLevelInfoTableOrderingComposer,
+    $$CharacterLevelInfoTableCreateCompanionBuilder,
+    $$CharacterLevelInfoTableUpdateCompanionBuilder,
+    (
+      CharacterLevelInfoData,
+      BaseReferences<_$AppDatabase, $CharacterLevelInfoTable,
+          CharacterLevelInfoData>
+    ),
+    CharacterLevelInfoData,
+    PrefetchHooks Function()>;
 typedef $$ArtifactBookmarkTableCreateCompanionBuilder
     = ArtifactBookmarkCompanion Function({
   Value<int> id,
@@ -1491,66 +1543,6 @@ typedef $$ArtifactBookmarkTableUpdateCompanionBuilder
   Value<List<String>> subStatIds,
   Value<DateTime> createdAt,
 });
-
-class $$ArtifactBookmarkTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $ArtifactBookmarkTable,
-    ArtifactBookmarkData,
-    $$ArtifactBookmarkTableFilterComposer,
-    $$ArtifactBookmarkTableOrderingComposer,
-    $$ArtifactBookmarkTableCreateCompanionBuilder,
-    $$ArtifactBookmarkTableUpdateCompanionBuilder> {
-  $$ArtifactBookmarkTableTableManager(
-      _$AppDatabase db, $ArtifactBookmarkTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          filteringComposer:
-              $$ArtifactBookmarkTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$ArtifactBookmarkTableOrderingComposer(ComposerState(db, table)),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> characterId = const Value.absent(),
-            Value<String?> setId1 = const Value.absent(),
-            Value<String?> setId2 = const Value.absent(),
-            Value<String?> pieceId = const Value.absent(),
-            Value<Map<String, String?>> mainStatIds = const Value.absent(),
-            Value<List<String>> subStatIds = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-          }) =>
-              ArtifactBookmarkCompanion(
-            id: id,
-            characterId: characterId,
-            setId1: setId1,
-            setId2: setId2,
-            pieceId: pieceId,
-            mainStatIds: mainStatIds,
-            subStatIds: subStatIds,
-            createdAt: createdAt,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required String characterId,
-            Value<String?> setId1 = const Value.absent(),
-            Value<String?> setId2 = const Value.absent(),
-            Value<String?> pieceId = const Value.absent(),
-            required Map<String, String?> mainStatIds,
-            required List<String> subStatIds,
-            Value<DateTime> createdAt = const Value.absent(),
-          }) =>
-              ArtifactBookmarkCompanion.insert(
-            id: id,
-            characterId: characterId,
-            setId1: setId1,
-            setId2: setId2,
-            pieceId: pieceId,
-            mainStatIds: mainStatIds,
-            subStatIds: subStatIds,
-            createdAt: createdAt,
-          ),
-        ));
-}
 
 class $$ArtifactBookmarkTableFilterComposer
     extends FilterComposer<_$AppDatabase, $ArtifactBookmarkTable> {
@@ -1644,6 +1636,93 @@ class $$ArtifactBookmarkTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
+
+class $$ArtifactBookmarkTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $ArtifactBookmarkTable,
+    ArtifactBookmarkData,
+    $$ArtifactBookmarkTableFilterComposer,
+    $$ArtifactBookmarkTableOrderingComposer,
+    $$ArtifactBookmarkTableCreateCompanionBuilder,
+    $$ArtifactBookmarkTableUpdateCompanionBuilder,
+    (
+      ArtifactBookmarkData,
+      BaseReferences<_$AppDatabase, $ArtifactBookmarkTable,
+          ArtifactBookmarkData>
+    ),
+    ArtifactBookmarkData,
+    PrefetchHooks Function()> {
+  $$ArtifactBookmarkTableTableManager(
+      _$AppDatabase db, $ArtifactBookmarkTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$ArtifactBookmarkTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$ArtifactBookmarkTableOrderingComposer(ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> characterId = const Value.absent(),
+            Value<String?> setId1 = const Value.absent(),
+            Value<String?> setId2 = const Value.absent(),
+            Value<String?> pieceId = const Value.absent(),
+            Value<Map<String, String?>> mainStatIds = const Value.absent(),
+            Value<List<String>> subStatIds = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+          }) =>
+              ArtifactBookmarkCompanion(
+            id: id,
+            characterId: characterId,
+            setId1: setId1,
+            setId2: setId2,
+            pieceId: pieceId,
+            mainStatIds: mainStatIds,
+            subStatIds: subStatIds,
+            createdAt: createdAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String characterId,
+            Value<String?> setId1 = const Value.absent(),
+            Value<String?> setId2 = const Value.absent(),
+            Value<String?> pieceId = const Value.absent(),
+            required Map<String, String?> mainStatIds,
+            required List<String> subStatIds,
+            Value<DateTime> createdAt = const Value.absent(),
+          }) =>
+              ArtifactBookmarkCompanion.insert(
+            id: id,
+            characterId: characterId,
+            setId1: setId1,
+            setId2: setId2,
+            pieceId: pieceId,
+            mainStatIds: mainStatIds,
+            subStatIds: subStatIds,
+            createdAt: createdAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ArtifactBookmarkTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $ArtifactBookmarkTable,
+    ArtifactBookmarkData,
+    $$ArtifactBookmarkTableFilterComposer,
+    $$ArtifactBookmarkTableOrderingComposer,
+    $$ArtifactBookmarkTableCreateCompanionBuilder,
+    $$ArtifactBookmarkTableUpdateCompanionBuilder,
+    (
+      ArtifactBookmarkData,
+      BaseReferences<_$AppDatabase, $ArtifactBookmarkTable,
+          ArtifactBookmarkData>
+    ),
+    ArtifactBookmarkData,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
