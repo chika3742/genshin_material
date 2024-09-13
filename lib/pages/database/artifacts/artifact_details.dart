@@ -23,7 +23,7 @@ class ArtifactDetailsPage extends StatelessWidget {
         if (artifactSet == null) {
           return Scaffold(
             appBar: AppBar(),
-            body: CenterError(tr.errors.artifactNotFound),
+            body: CenterText(tr.errors.artifactNotFound),
           );
         }
 

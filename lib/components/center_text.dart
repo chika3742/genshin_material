@@ -20,12 +20,13 @@ class CenterText extends StatelessWidget {
 
 
 class CenterError extends StatelessWidget {
+  final String? errorText;
   final Object error;
 
-  const CenterError(this.error, {super.key});
+  const CenterError({super.key, required this.error, this.errorText});
 
   @override
   Widget build(BuildContext context) {
-    return CenterText("${tr.common.error} ($error)");
+    return CenterText("${errorText ?? tr.common.error} ($error)");
   }
 }

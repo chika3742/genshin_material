@@ -100,7 +100,7 @@ class _ReleaseNotesTabContent extends ConsumerWidget {
         items: value,
         versionPrefix: versionPrefix,
       ),
-      AsyncError(:final error) => CenterError(error),
+      AsyncError(:final error) => CenterError(error: error),
       _ => const CircularProgressIndicator(),
     };
   }
