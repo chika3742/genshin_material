@@ -141,26 +141,19 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                 ),
                 GoRouteData.$route(
                   path: 'debug',
-                  parentNavigatorKey: DebugMenuRoute.$parentNavigatorKey,
                   factory: $DebugMenuRouteExtension._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'sp-editor',
-                      parentNavigatorKey:
-                          DebugSharedPreferencesEditorRoute.$parentNavigatorKey,
                       factory: $DebugSharedPreferencesEditorRouteExtension
                           ._fromState,
                     ),
                     GoRouteData.$route(
                       path: 'drift-db-viewer',
-                      parentNavigatorKey:
-                          DebugDriftDbViewerRoute.$parentNavigatorKey,
                       factory: $DebugDriftDbViewerRouteExtension._fromState,
                     ),
                     GoRouteData.$route(
                       path: 'component-gallery',
-                      parentNavigatorKey:
-                          DebugComponentGalleryRoute.$parentNavigatorKey,
                       factory: $DebugComponentGalleryRouteExtension._fromState,
                     ),
                   ],

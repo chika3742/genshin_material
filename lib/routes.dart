@@ -3,9 +3,9 @@ import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "core/asset_cache.dart";
 import "i18n/strings.g.dart";
 import "main.dart";
+import "models/common.dart";
 import "pages/account.dart";
 import "pages/bookmarks.dart";
 import "pages/daily.dart";
@@ -407,8 +407,6 @@ class LicensesRoute extends GoRouteData {
 
 @immutable
 class DebugMenuRoute extends GoRouteData {
-  static final $parentNavigatorKey = rootNavigatorKey;
-
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -420,8 +418,6 @@ class DebugMenuRoute extends GoRouteData {
 
 @immutable
 class DebugSharedPreferencesEditorRoute extends GoRouteData {
-  static final $parentNavigatorKey = rootNavigatorKey;
-
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -433,8 +429,6 @@ class DebugSharedPreferencesEditorRoute extends GoRouteData {
 
 @immutable
 class DebugDriftDbViewerRoute extends GoRouteData {
-  static final $parentNavigatorKey = rootNavigatorKey;
-
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -452,8 +446,6 @@ class DebugDriftDbViewerRoute extends GoRouteData {
 
 @immutable
 class DebugComponentGalleryRoute extends GoRouteData {
-  static final $parentNavigatorKey = rootNavigatorKey;
-
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
