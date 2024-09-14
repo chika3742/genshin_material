@@ -4,6 +4,10 @@ import "package:path/path.dart" as path;
 
 const dataSchemaVersion = 0;
 
+typedef CharacterId = String;
+typedef WeaponId = String;
+typedef MaterialId = String;
+typedef ArtifactSetId = String;
 typedef MaterialUsageType = String;
 typedef MaterialDefinitions = Map<MaterialUsageType, String>;
 typedef WeaponType = String;

@@ -1,6 +1,5 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
-import "../core/asset_cache.dart";
 import "../utils/daily_material_weekday.dart";
 import "common.dart";
 import "localized_text.dart";

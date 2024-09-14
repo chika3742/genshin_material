@@ -1,6 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
-import "../core/asset_cache.dart";
+import "common.dart";
 
 part "ingredient.freezed.dart";
 part "ingredient.g.dart";

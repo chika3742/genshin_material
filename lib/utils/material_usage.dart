@@ -1,5 +1,3 @@
-
-import "../core/asset_cache.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../models/material.dart";

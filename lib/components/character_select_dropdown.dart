@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../core/asset_cache.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../providers/versions.dart";

@@ -19,11 +19,6 @@ import "data_parsing_exception.dart";
 
 part "asset_cache.freezed.dart";
 
-typedef CharacterId = String;
-typedef WeaponId = String;
-typedef MaterialId = String;
-typedef ArtifactSetId = String;
-
 class AssetDataCache {
   String assetDir;
 
