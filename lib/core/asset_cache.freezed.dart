@@ -37,8 +37,7 @@ mixin _$AssetData {
       throw _privateConstructorUsedError;
   Map<String, List<String>> get specialCharactersUsingMaterials =>
       throw _privateConstructorUsedError;
-  Map<String, LocalizedText> get artifactStats =>
-      throw _privateConstructorUsedError;
+  Map<String, LocalizedText> get stats => throw _privateConstructorUsedError;
   List<String> get artifactPossibleSubStats =>
       throw _privateConstructorUsedError;
   Map<String, String> get artifactPieceSetMap =>
@@ -65,7 +64,7 @@ class _$AssetDataImpl implements _AssetData {
       required final Map<String, ArtifactSet> artifactSets,
       required final Map<String, ArtifactPieceType> artifactPieceTypes,
       required final Map<String, List<String>> specialCharactersUsingMaterials,
-      required final Map<String, LocalizedText> artifactStats,
+      required final Map<String, LocalizedText> stats,
       required final List<String> artifactPossibleSubStats,
       required final Map<String, String> artifactPieceSetMap,
       required final List<ArtifactTagCategory> artifactTags})
@@ -80,7 +79,7 @@ class _$AssetDataImpl implements _AssetData {
         _artifactSets = artifactSets,
         _artifactPieceTypes = artifactPieceTypes,
         _specialCharactersUsingMaterials = specialCharactersUsingMaterials,
-        _artifactStats = artifactStats,
+        _stats = stats,
         _artifactPossibleSubStats = artifactPossibleSubStats,
         _artifactPieceSetMap = artifactPieceSetMap,
         _artifactTags = artifactTags;
@@ -183,12 +182,12 @@ class _$AssetDataImpl implements _AssetData {
     return EqualUnmodifiableMapView(_specialCharactersUsingMaterials);
   }
 
-  final Map<String, LocalizedText> _artifactStats;
+  final Map<String, LocalizedText> _stats;
   @override
-  Map<String, LocalizedText> get artifactStats {
-    if (_artifactStats is EqualUnmodifiableMapView) return _artifactStats;
+  Map<String, LocalizedText> get stats {
+    if (_stats is EqualUnmodifiableMapView) return _stats;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_artifactStats);
+    return EqualUnmodifiableMapView(_stats);
   }
 
   final List<String> _artifactPossibleSubStats;
@@ -219,7 +218,7 @@ class _$AssetDataImpl implements _AssetData {
 
   @override
   String toString() {
-    return 'AssetData(characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, artifactStats: $artifactStats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieceSetMap: $artifactPieceSetMap, artifactTags: $artifactTags)';
+    return 'AssetData(characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieceSetMap: $artifactPieceSetMap, artifactTags: $artifactTags)';
   }
 
   @override
@@ -254,8 +253,7 @@ class _$AssetDataImpl implements _AssetData {
             const DeepCollectionEquality().equals(
                 other._specialCharactersUsingMaterials,
                 _specialCharactersUsingMaterials) &&
-            const DeepCollectionEquality()
-                .equals(other._artifactStats, _artifactStats) &&
+            const DeepCollectionEquality().equals(other._stats, _stats) &&
             const DeepCollectionEquality().equals(
                 other._artifactPossibleSubStats, _artifactPossibleSubStats) &&
             const DeepCollectionEquality()
@@ -281,7 +279,7 @@ class _$AssetDataImpl implements _AssetData {
       const DeepCollectionEquality().hash(_artifactSets),
       const DeepCollectionEquality().hash(_artifactPieceTypes),
       const DeepCollectionEquality().hash(_specialCharactersUsingMaterials),
-      const DeepCollectionEquality().hash(_artifactStats),
+      const DeepCollectionEquality().hash(_stats),
       const DeepCollectionEquality().hash(_artifactPossibleSubStats),
       const DeepCollectionEquality().hash(_artifactPieceSetMap),
       const DeepCollectionEquality().hash(_artifactTags));
@@ -303,7 +301,7 @@ abstract class _AssetData implements AssetData {
       required final Map<String, ArtifactSet> artifactSets,
       required final Map<String, ArtifactPieceType> artifactPieceTypes,
       required final Map<String, List<String>> specialCharactersUsingMaterials,
-      required final Map<String, LocalizedText> artifactStats,
+      required final Map<String, LocalizedText> stats,
       required final List<String> artifactPossibleSubStats,
       required final Map<String, String> artifactPieceSetMap,
       required final List<ArtifactTagCategory> artifactTags}) = _$AssetDataImpl;
@@ -337,7 +335,7 @@ abstract class _AssetData implements AssetData {
   @override
   Map<String, List<String>> get specialCharactersUsingMaterials;
   @override
-  Map<String, LocalizedText> get artifactStats;
+  Map<String, LocalizedText> get stats;
   @override
   List<String> get artifactPossibleSubStats;
   @override

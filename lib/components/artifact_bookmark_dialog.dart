@@ -177,7 +177,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                                         for (final stat in [null, ...pieceType.possibleMainStats])
                                           LabeledRadio(
                                             label: Text(stat != null
-                                                ? (assetData.artifactStats[stat]?.localized).toString()
+                                                ? (assetData.stats[stat]?.localized).toString()
                                                 : tr.artifactDetailsPage.unspecified,),
                                             value: stat,
                                             groupValue: state.value.mainStats[pieceType.id],
@@ -216,7 +216,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                                       );
                                     }
                                   },
-                                  child: Text((assetData.artifactStats[stat]?.localized).toString()),
+                                  child: Text((assetData.stats[stat]?.localized).toString()),
                                 ),
                             ],
                           ),
@@ -351,7 +351,7 @@ class ArtifactBookmarkDialogState with _$ArtifactBookmarkDialogState {
     ArtifactSetId? firstSetId,
     ArtifactSetId? secondSetId,
     ArtifactPieceId? pieceId,
-    @Default({}) Map<ArtifactPieceTypeId, ArtifactStatId?> mainStats,
-    @Default([]) List<ArtifactStatId> subStats,
+    @Default({}) Map<ArtifactPieceTypeId, StatId?> mainStats,
+    @Default([]) List<StatId> subStats,
   }) = _ArtifactBookmarkDialogState;
 }

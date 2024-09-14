@@ -12,7 +12,7 @@ typedef TeyvatElement = String;
 typedef TalentType = String;
 typedef MaterialCategoryType = String;
 typedef ArtifactPieceTypeId = String;
-typedef ArtifactStatId = String;
+typedef StatId = String;
 typedef ArtifactPieceId = String;
 
 mixin ImageGetter {

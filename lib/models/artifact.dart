@@ -70,9 +70,9 @@ class ArtifactSetBonus with _$ArtifactSetBonus {
 @freezed
 class ArtifactsMeta with _$ArtifactsMeta {
   const factory ArtifactsMeta({
-    required Map<ArtifactStatId, LocalizedText> stats,
+    required Map<StatId, LocalizedText> stats,
     required Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes,
-    required List<ArtifactStatId> possibleSubStats,
+    required List<StatId> possibleSubStats,
     required Map<ArtifactPieceId, ArtifactSetId> pieceSetMap,
     required ArtifactTagCategoriesInternal tags,
   }) = _ArtifactsMeta;
@@ -86,7 +86,7 @@ class ArtifactPieceType with _$ArtifactPieceType {
   const factory ArtifactPieceType({
     required ArtifactPieceTypeId id,
     required LocalizedText desc,
-    required List<ArtifactStatId> possibleMainStats,
+    required List<StatId> possibleMainStats,
   }) = _ArtifactPieceType;
 
   factory ArtifactPieceType.fromJson(Map<String, dynamic> json) =>
@@ -96,7 +96,7 @@ class ArtifactPieceType with _$ArtifactPieceType {
 @freezed
 class ArtifactStat with _$ArtifactStat {
   const factory ArtifactStat({
-    required ArtifactStatId id,
+    required StatId id,
     required LocalizedText desc,
   }) = _ArtifactStat;
 
