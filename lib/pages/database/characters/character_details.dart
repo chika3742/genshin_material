@@ -17,6 +17,7 @@ import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/hoyolab_api.dart";
 import "../../../database.dart";
+import "../../../db/character_level_info_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
@@ -58,7 +59,7 @@ class CharacterDetailsPage extends ConsumerWidget {
             final prefs = ref.watch(preferencesStateNotifierProvider);
             final syncedCharacterLevelsFuture = useMemoized(() => prefs.isLinkedWithHoyolab
                 ? db.getCharacterLevels(prefs.hyvUid!, characterOrVariant is CharacterGroup ? characterOrVariant.variantIds.first : id)
-                : null,);
+                : Future.value(null),);
             final syncedCharacterLevelsAsync = useFuture(syncedCharacterLevelsFuture);
 
             if (syncedCharacterLevelsAsync.connectionState == ConnectionState.done) {

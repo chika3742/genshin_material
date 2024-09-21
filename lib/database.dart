@@ -4,32 +4,89 @@ import "dart:io";
 import "package:drift/drift.dart";
 import "package:drift/native.dart";
 import "package:flutter/foundation.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
 import "package:path/path.dart" as p;
 import "package:path_provider/path_provider.dart";
 import "package:sqlite3/sqlite3.dart";
 import "package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart";
 
 import "models/common.dart";
-import "utils/hash.dart";
 
+part "database.freezed.dart";
 part "database.g.dart";
 
-class MaterialBookmark extends Table {
+
+// tables
+
+@freezed
+class Bookmark with _$Bookmark {
+  const factory Bookmark({
+    required int id,
+    required BookmarkType type,
+    required String characterId,
+    required DateTime createdAt,
+    int? materialDetails,
+    int? artifactSetDetails,
+    int? artifactPieceDetails,
+  }) = _Bookmark;
+}
+
+@UseRowClass(Bookmark)
+class BookmarkTable extends Table {
   IntColumn get id => integer().autoIncrement()();
+  TextColumn get type => textEnum<BookmarkType>()();
+  TextColumn get characterId => text()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+@DataClassName("BookmarkMaterialDetails")
+class BookmarkMaterialDetailsTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get parentId => integer().references(BookmarkTable, #id, onDelete: KeyAction.cascade)();
+  /// If null, this is a character material bookmark.
+  TextColumn get weaponId => text().nullable()();
   /// If null, this bookmark will be regarded as EXP items.
   TextColumn get materialId => text().nullable()();
-  TextColumn get characterId => text()();
-  TextColumn get weaponId => text().nullable()();
   /// If [materialId] is null, this represents the amount of EXP.
   IntColumn get quantity => integer()();
-  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  /// target level.
   IntColumn get upperLevel => integer()();
   TextColumn get purposeType => textEnum<Purpose>()();
-  /// Can be generated with [combineMaterialBookmarkElements].
   TextColumn get hash => text()();
 }
 
-class CharacterLevelInfo extends Table {
+@DataClassName("BookmarkArtifactSetDetails")
+class BookmarkArtifactSetDetailsTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get parentId => integer().references(BookmarkTable, #id, onDelete: KeyAction.cascade)();
+  TextColumn get sets => text().map(const ListConverter<ArtifactSetId>())();
+  /// key = [ArtifactPieceTypeId]
+  TextColumn get mainStats => text().map(const MapConverter<StatId?>())();
+  TextColumn get subStats => text().map(const ListConverter<StatId>())();
+}
+
+@DataClassName("BookmarkArtifactPieceDetails")
+class BookmarkArtifactPieceDetailsTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get parentId => integer().references(BookmarkTable, #id, onDelete: KeyAction.cascade)();
+  /// [ArtifactPieceId]
+  TextColumn get piece => text()();
+  /// [ArtifactPieceTypeId]?
+  TextColumn get mainStat => text().nullable()();
+  TextColumn get subStats => text().map(const ListConverter<StatId>())();
+}
+
+@DataClassName("BookmarkOrderRegistry")
+class BookmarkOrderRegistryTable extends Table {
+  TextColumn get id => text().withDefault(const Constant("main"))();
+  TextColumn get order => text().map(const ListConverter<int>())();
+
+  @override
+  Set<Column<Object>>? get primaryKey => {id};
+}
+
+@DataClassName("CharacterLevelInfo")
+class CharacterLevelInfoTable extends Table {
   TextColumn get uid => text()();
   TextColumn get characterId => text()();
   TextColumn get purposes => text().map(const PurposeMapConverter())();
@@ -38,17 +95,8 @@ class CharacterLevelInfo extends Table {
   Set<Column> get primaryKey => {uid, characterId};
 }
 
-class ArtifactBookmark extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get characterId => text()();
-  TextColumn get setId1 => text().nullable()();
-  TextColumn get setId2 => text().nullable()();
-  TextColumn get pieceId => text().nullable()();
-  /// key = [ArtifactPieceTypeId]
-  TextColumn get mainStatIds => text().map(const MapConverter<String?>())();
-  TextColumn get subStatIds => text().map(const ListConverter<String>())();
-  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
-}
+
+// converters
 
 class PurposeMapConverter extends TypeConverter<Map<Purpose, int>, String> {
   const PurposeMapConverter();
@@ -62,6 +110,20 @@ class PurposeMapConverter extends TypeConverter<Map<Purpose, int>, String> {
   @override
   String toSql(Map<Purpose, int> value) {
     return jsonEncode(value.map((key, value) => MapEntry(key.name, value)));
+  }
+}
+
+class BookmarkTypeListConverter extends TypeConverter<List<BookmarkType>, String> {
+  const BookmarkTypeListConverter();
+
+  @override
+  List<BookmarkType> fromSql(String fromDb) {
+    return (jsonDecode(fromDb) as List<dynamic>).map((e) => BookmarkType.values.firstWhere((f) => f.name == e)).toList();
+  }
+
+  @override
+  String toSql(List<BookmarkType> value) {
+    return jsonEncode(value.map((e) => e.name).toList());
   }
 }
 
@@ -94,9 +156,12 @@ class MapConverter<T> extends TypeConverter<Map<String, T>, String> {
 }
 
 @DriftDatabase(tables: [
-  MaterialBookmark,
-  CharacterLevelInfo,
-  ArtifactBookmark,
+  BookmarkTable,
+  BookmarkMaterialDetailsTable,
+  BookmarkArtifactSetDetailsTable,
+  BookmarkArtifactPieceDetailsTable,
+  CharacterLevelInfoTable,
+  BookmarkOrderRegistryTable,
 ],)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
@@ -108,63 +173,17 @@ class AppDatabase extends _$AppDatabase {
   MigrationStrategy get migration {
     return MigrationStrategy(
       beforeOpen: (details) async {
+        // enable foreign keys
         await customStatement("PRAGMA foreign_keys = ON");
+
+        // initialize bookmark order registry
+        await into(bookmarkOrderRegistryTable).insertOnConflictUpdate(
+          BookmarkOrderRegistryCompanion.insert(
+            order: [],
+          ),
+        );
       },
     );
-  }
-
-  Stream<List<MaterialBookmarkData>> watchMaterialBookmarks() {
-    return select(materialBookmark).watch();
-  }
-
-  Stream<List<MaterialBookmarkData>> watchMaterialBookmarkByPartial({
-    required String characterId,
-    required String? weaponId,
-    required String? materialId,
-    required List<Purpose> purposeTypes,
-  }) {
-    return (select(materialBookmark)
-          ..where(
-            (tbl) =>
-                tbl.characterId.equals(characterId) &
-                tbl.materialId.equalsNullable(materialId) &
-                tbl.purposeType.isInValues(purposeTypes) &
-                tbl.weaponId.equalsNullable(weaponId),
-          ))
-        .watch();
-  }
-
-  Future<void> addMaterialBookmarks(List<MaterialBookmarkCompanion> companions) {
-    return batch((batch) {
-      batch.insertAll(materialBookmark, companions);
-    });
-  }
-
-  Future<void> removeMaterialBookmarks(List<int> ids) {
-    return batch((batch) {
-      batch.deleteWhere(materialBookmark, (tbl) => tbl.id.isIn(ids));
-    });
-  }
-
-  Future<int> setCharacterLevels(String uid, String characterId, Map<Purpose, int> purposes) async {
-    return await into(characterLevelInfo).insertOnConflictUpdate(
-      CharacterLevelInfoCompanion.insert(
-        uid: uid,
-        characterId: characterId,
-        purposes: purposes,
-      ),
-    );
-  }
-
-  Future<Map<Purpose, int>?> getCharacterLevels(String uid, String characterId) async {
-    final query = select(characterLevelInfo)
-      ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId));
-    final info = await query.getSingleOrNull();
-    return info?.purposes;
-  }
-
-  Future<int> addArtifactBookmark(ArtifactBookmarkCompanion companion) {
-    return into(artifactBookmark).insert(companion);
   }
 }
 

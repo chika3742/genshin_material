@@ -72,3 +72,10 @@ enum GameServer {
   final Duration serverTimeZoneOffset;
   final String description;
 }
+
+enum BookmarkType {
+  material,
+  artifactSet,
+  artifactPiece,
+  ;
+}

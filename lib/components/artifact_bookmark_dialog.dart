@@ -6,9 +6,10 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../core/asset_cache.dart";
-import "../database.dart";
+import "../db/bookmark_db_extension.dart";
 import "../i18n/strings.g.dart";
 import "../models/artifact.dart";
+import "../models/bookmark.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../providers/database_provider.dart";
@@ -183,7 +184,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                                             groupValue: state.value.mainStats[pieceType.id],
                                             onChanged: (value) {
                                               state.value = state.value.copyWith(
-                                                mainStats: {...state.value.mainStats}..[pieceType.id] = value,
+                                                mainStats: {...state.value.mainStats}..[pieceType.id] = value, // [state.value.mainStats] is an unmodifiable map
                                               );
                                             },
                                           ),
@@ -243,16 +244,32 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
       return;
     }
     final db = ref.read(appDatabaseProvider);
-    await db.addArtifactBookmark(
-      ArtifactBookmarkCompanion.insert(
-        characterId: state.characterId!,
-        setId1: Value.absentIfNull(state.firstSetId),
-        setId2: Value.absentIfNull(state.secondSetId),
-        pieceId: Value.absentIfNull(state.pieceId),
-        mainStatIds: state.mainStats,
-        subStatIds: state.subStats,
-      ),
-    );
+
+    if (state.pieceId != null) {
+      await db.addArtifactPieceBookmark(BookmarkCompanionWithArtifactPieceDetails(
+        metadata: BookmarkCompanionWorkaround(
+          type: BookmarkType.artifactPiece,
+          characterId: state.characterId!,
+        ),
+        artifactPieceDetails: BookmarkArtifactPieceDetailsCompanionWithoutParent(
+          piece: state.pieceId!,
+          mainStat: Value.absentIfNull(state.mainStats.values.firstOrNull),
+          subStats: state.subStats,
+        ),
+      ),);
+    } else {
+      await db.addArtifactSetBookmark(BookmarkCompanionWithArtifactSetDetails(
+        metadata: BookmarkCompanionWorkaround(
+          type: BookmarkType.artifactSet,
+          characterId: state.characterId!,
+        ),
+        artifactSetDetails: BookmarkArtifactSetDetailsCompanionWithoutParent(
+          sets: [state.firstSetId!, if (state.secondSetId != null) state.secondSetId!],
+          mainStats: state.mainStats,
+          subStats: state.subStats,
+        ),
+      ),);
+    }
   }
 }
 
