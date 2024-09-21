@@ -78,16 +78,17 @@ class MaterialCard extends HookWidget {
           mainAxisSize: MainAxisSize.min,
           innerDistance: -8,
           children: [
-            SizedBox(
-              width: 6,
-              height: 60,
-              child: CustomPaint(
-                painter: _RarityCornerMarkerPainter(
-                  Theme.of(context).extension<ComponentThemeExtension>()!
-                      .getRarityColor(rarity!).withOpacity(0.8),
+            if (rarity != null)
+              SizedBox(
+                width: 6,
+                height: 60,
+                child: CustomPaint(
+                  painter: _RarityCornerMarkerPainter(
+                    Theme.of(context).extension<ComponentThemeExtension>()!
+                        .getRarityColor(rarity!).withOpacity(0.8),
+                  ),
                 ),
               ),
-            ),
             const SizedBox(width: 16),
             if (onSwapExpItem != null) IconButton(
               padding: EdgeInsets.zero,
