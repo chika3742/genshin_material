@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 320 (160 per locale)
+/// Strings: 321 (160 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -228,6 +228,7 @@ class _StringsCommonJa {
 	String get pleaseSelect => '選択してください';
 	String get bookmarkSaved => 'ブックマークしました';
 	String get none => 'なし';
+	String get sliderTips => 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
 }
 
 // Path: tutorial
@@ -960,6 +961,7 @@ extension on Translations {
 			case 'common.pleaseSelect': return '選択してください';
 			case 'common.bookmarkSaved': return 'ブックマークしました';
 			case 'common.none': return 'なし';
+			case 'common.sliderTips': return 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
 			case 'tutorial.indexSheet': return '目次の表示';
 			case 'tutorial.indexSheetDesc': return 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
 			case 'talentTypes.normalAttack': return '通常攻撃';
