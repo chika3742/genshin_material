@@ -68,6 +68,23 @@ extension BookmarkDbExtension on AppDatabase {
     });
   }
 
+  Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksByHashes(List<String> hashes) {
+    final query = select(bookmarkTable).join([
+      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
+    ]);
+    query.where(
+      bookmarkMaterialDetailsTable.hash.isIn(hashes),
+    );
+    return query.watch().map((rows) {
+      return rows.map((row) {
+        return BookmarkWithMaterialDetails(
+          metadata: row.readTable(bookmarkTable),
+          materialDetails: row.readTable(bookmarkMaterialDetailsTable),
+        );
+      }).toList();
+    });
+  }
+
   Future<void> _addBookmarks(List<BookmarkCompanionWithDetails> companions) async {
     final groupHashes = <String>{};
     await transaction(() async {

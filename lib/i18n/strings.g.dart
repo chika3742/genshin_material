@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 310 (155 per locale)
+/// Strings: 320 (160 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -157,6 +157,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsUpdatesJa updates = _StringsUpdatesJa._(_root);
 	late final _StringsErrorsJa errors = _StringsErrorsJa._(_root);
 	late final _StringsPagesJa pages = _StringsPagesJa._(_root);
+	late final _StringsBookmarksPageJa bookmarksPage = _StringsBookmarksPageJa._(_root);
 	late final _StringsCharacterDetailsPageJa characterDetailsPage = _StringsCharacterDetailsPageJa._(_root);
 	late final _StringsWeaponDetailsPageJa weaponDetailsPage = _StringsWeaponDetailsPageJa._(_root);
 	late final _StringsMaterialDetailsPageJa materialDetailsPage = _StringsMaterialDetailsPageJa._(_root);
@@ -265,6 +266,7 @@ class _StringsErrorsJa {
 	String get characterNotFound => 'キャラクターが見つかりません';
 	String get materialNotFound => '素材が見つかりません';
 	String get artifactNotFound => '聖遺物が見つかりません';
+	String get failedToLoadBookmarks => 'ブックマークの読み込みに失敗しました';
 }
 
 // Path: pages
@@ -293,6 +295,24 @@ class _StringsPagesJa {
 	String get wishes => '祈願天井カウンター';
 	String get more => 'その他';
 	String get hoyolabIntegrationSettings => 'HoYoLAB連携設定';
+}
+
+// Path: bookmarksPage
+class _StringsBookmarksPageJa {
+	_StringsBookmarksPageJa._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get noBookmarks => 'ブックマークがありません。「データベース」タブから探してみましょう！';
+	String get character => 'キャラクター';
+	String get weapon => '武器';
+	String get artifactSet => '聖遺物セット';
+	String get artifactPiece => '聖遺物';
+	String get main => 'メイン';
+	String get sub => 'サブ';
+	String get unBookmark => 'ブックマークを解除';
+	String get unBookmarkConfirm => 'このブックマークを解除しますか？';
 }
 
 // Path: characterDetailsPage
@@ -954,6 +974,7 @@ extension on Translations {
 			case 'errors.characterNotFound': return 'キャラクターが見つかりません';
 			case 'errors.materialNotFound': return '素材が見つかりません';
 			case 'errors.artifactNotFound': return '聖遺物が見つかりません';
+			case 'errors.failedToLoadBookmarks': return 'ブックマークの読み込みに失敗しました';
 			case 'pages.characters': return 'キャラクター';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - キャラクター';
 			case 'pages.weapons': return '武器';
@@ -973,6 +994,15 @@ extension on Translations {
 			case 'pages.wishes': return '祈願天井カウンター';
 			case 'pages.more': return 'その他';
 			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB連携設定';
+			case 'bookmarksPage.noBookmarks': return 'ブックマークがありません。「データベース」タブから探してみましょう！';
+			case 'bookmarksPage.character': return 'キャラクター';
+			case 'bookmarksPage.weapon': return '武器';
+			case 'bookmarksPage.artifactSet': return '聖遺物セット';
+			case 'bookmarksPage.artifactPiece': return '聖遺物';
+			case 'bookmarksPage.main': return 'メイン';
+			case 'bookmarksPage.sub': return 'サブ';
+			case 'bookmarksPage.unBookmark': return 'ブックマークを解除';
+			case 'bookmarksPage.unBookmarkConfirm': return 'このブックマークを解除しますか？';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'weaponDetailsPage.characterToEquip': return '武器を装備させるキャラクター';

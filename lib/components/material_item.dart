@@ -21,16 +21,18 @@ import "material_card.dart";
 class MaterialItem extends StatefulHookConsumerWidget {
   final MaterialCardMaterial item;
   final MaterialUsage usage;
-  final List<Purpose> possiblePurposeTypes;
+  final List<Purpose>? possiblePurposeTypes;
   final List<ExpItem>? expItems;
+  final List<String>? hashes;
 
   const MaterialItem({
     super.key,
     required this.item,
     required this.usage,
-    required this.possiblePurposeTypes,
+    this.possiblePurposeTypes,
     this.expItems,
-  });
+    this.hashes,
+  })  : assert(hashes != null || possiblePurposeTypes != null, "possiblePurposeTypes must be provided when hashes is null.");
 
   @override
   ConsumerState<MaterialItem> createState() => _MaterialItemState();
@@ -41,19 +43,26 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
 
   @override
   Widget build(BuildContext context) {
+    final db = ref.watch(appDatabaseProvider);
+
     final bookmarkedMaterials = useStream(
       useMemoized(
-        () => ref.watch(appDatabaseProvider).watchMaterialBookmarksPartially(
-              characterId: widget.usage.characterId,
-              weaponId: widget.usage.weaponId,
-              materialId: widget.item.id,
-              purposeTypes: widget.possiblePurposeTypes,
-            ),
+        () {
+          return widget.hashes == null
+              ? db.watchMaterialBookmarksPartially(
+                  characterId: widget.usage.characterId,
+                  weaponId: widget.usage.weaponId,
+                  materialId: widget.item.id,
+                  purposeTypes: widget.possiblePurposeTypes!,
+                )
+              : db.watchMaterialBookmarksByHashes(widget.hashes!);
+        },
         [
           widget.usage.characterId,
           widget.item.id,
           const ListEquality().hash(widget.possiblePurposeTypes),
           widget.usage.weaponId,
+          widget.hashes,
         ],
       ),
     );

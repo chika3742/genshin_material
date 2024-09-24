@@ -2,6 +2,7 @@ import "package:drift/drift.dart" hide JsonKey;
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
+import "../database.dart";
 import "../utils/hash.dart";
 import "bookmark.dart";
 import "common.dart";
@@ -17,6 +18,30 @@ class MaterialCardMaterial {
     this.id,
     required this.levels,
   });
+
+  factory MaterialCardMaterial.fromBookmarks(List<BookmarkMaterialDetails> details) {
+    assert(details.isNotEmpty);
+
+    return MaterialCardMaterial(
+      id: details.first.materialId,
+      levels: details.map((e) {
+        if (e.materialId != null) {
+          return MaterialBookmarkFrame(
+            materialId: e.materialId!,
+            level: e.upperLevel,
+            quantity: e.quantity,
+            purposeType: e.purposeType,
+          );
+        } else {
+          return MaterialBookmarkFrame.exp(
+            level: e.upperLevel,
+            exp: e.quantity,
+            purposeType: e.purposeType,
+          );
+        }
+      }).toList(),
+    );
+  }
 
   int? _sum;
   Material? _material;

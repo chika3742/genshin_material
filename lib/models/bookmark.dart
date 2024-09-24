@@ -1,6 +1,9 @@
+import "package:collection/collection.dart";
 import "package:drift/drift.dart" show Value, Insertable, Expression;
 import "package:freezed_annotation/freezed_annotation.dart";
 
+import "../components/level_slider.dart";
+import "../core/asset_cache.dart";
 import "../database.dart";
 import "common.dart";
 
@@ -32,6 +35,7 @@ class BookmarkCompanionWorkaround with _$BookmarkCompanionWorkaround implements 
   const factory BookmarkCompanionWorkaround({
     required String characterId,
     required BookmarkType type,
+    required String groupHash,
   }) = _BookmarkCompanionWorkaround;
 
   @override
@@ -39,6 +43,7 @@ class BookmarkCompanionWorkaround with _$BookmarkCompanionWorkaround implements 
     return BookmarkCompanion.insert(
       characterId: characterId,
       type: type,
+      groupHash: groupHash,
     ).toColumns(nullToAbsent);
   }
 }
@@ -125,4 +130,49 @@ sealed class BookmarkCompanionWithDetails with _$BookmarkCompanionWithDetails {
     required final BookmarkCompanionWorkaround metadata,
     required final BookmarkArtifactPieceDetailsCompanionWithoutParent artifactPieceDetails,
   }) = BookmarkCompanionWithArtifactPieceDetails;
+}
+
+@freezed
+class BookmarkGroup with _$BookmarkGroup {
+  const BookmarkGroup._();
+
+  const factory BookmarkGroup({
+    required String hash,
+    required BookmarkType type,
+    required String characterId,
+    LevelRangeValues? levelRange,
+    required List<BookmarkWithDetails> bookmarks,
+  }) = _BookmarkGroup;
+
+  factory BookmarkGroup.fromBookmarks(List<BookmarkWithDetails> bookmarks, AssetData assetData) {
+    assert(bookmarks.isNotEmpty);
+    assert(bookmarks.every((e) => e.metadata.groupHash == bookmarks.first.metadata.groupHash), "All bookmarks should have the same group hash");
+
+    LevelRangeValues? levelRange;
+    if (bookmarks.first.metadata.type == BookmarkType.material) {
+      final levels = bookmarks.cast<BookmarkWithMaterialDetails>()
+          .sorted((a, b) => a.materialDetails.upperLevel - b.materialDetails.upperLevel);
+      final levelTicks = assetData.characterIngredients.purposes[levels.first.materialDetails.purposeType]!.levels.keys.toList();
+      levelRange = LevelRangeValues(
+        levelTicks.indexOf(levels.first.materialDetails.upperLevel) >= 1 ? levelTicks[levelTicks.indexOf(levels.first.materialDetails.upperLevel) - 1] : 1,
+        levels.last.materialDetails.upperLevel,
+      );
+    }
+
+    return BookmarkGroup(
+      hash: bookmarks.first.metadata.groupHash,
+      type: bookmarks.first.metadata.type,
+      characterId: bookmarks.first.metadata.characterId,
+      levelRange: levelRange,
+      bookmarks: bookmarks,
+    );
+  }
+
+  BookmarkWithArtifactSetDetails asArtifactSet() {
+    return bookmarks.first as BookmarkWithArtifactSetDetails;
+  }
+
+  BookmarkWithArtifactPieceDetails asArtifactPiece() {
+    return bookmarks.first as BookmarkWithArtifactPieceDetails;
+  }
 }

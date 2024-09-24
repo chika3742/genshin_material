@@ -46,6 +46,7 @@ errors:
   characterNotFound: キャラクターが見つかりません
   materialNotFound: 素材が見つかりません
   artifactNotFound: 聖遺物が見つかりません
+  failedToLoadBookmarks: ブックマークの読み込みに失敗しました
 pages:
   characters: キャラクター
   characterDetails: $character - キャラクター
@@ -66,6 +67,16 @@ pages:
   wishes: 祈願天井カウンター
   more: その他
   hoyolabIntegrationSettings: HoYoLAB連携設定
+bookmarksPage:
+  noBookmarks: ブックマークがありません。「データベース」タブから探してみましょう！
+  character: キャラクター
+  weapon: 武器
+  artifactSet: 聖遺物セット
+  artifactPiece: 聖遺物
+  main: メイン
+  sub: サブ
+  unBookmark: ブックマークを解除
+  unBookmarkConfirm: このブックマークを解除しますか？
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: キャラクターLvアップ・突破素材
   talentLevelUpMaterials: 天賦Lvアップ素材

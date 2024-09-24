@@ -154,6 +154,7 @@ abstract class BookmarkWithArtifactPieceDetails implements BookmarkWithDetails {
 mixin _$BookmarkCompanionWorkaround {
   String get characterId => throw _privateConstructorUsedError;
   BookmarkType get type => throw _privateConstructorUsedError;
+  String get groupHash => throw _privateConstructorUsedError;
 
   /// Create a copy of BookmarkCompanionWorkaround
   /// with the given fields replaced by the non-null parameter values.
@@ -170,7 +171,7 @@ abstract class $BookmarkCompanionWorkaroundCopyWith<$Res> {
       _$BookmarkCompanionWorkaroundCopyWithImpl<$Res,
           BookmarkCompanionWorkaround>;
   @useResult
-  $Res call({String characterId, BookmarkType type});
+  $Res call({String characterId, BookmarkType type, String groupHash});
 }
 
 /// @nodoc
@@ -191,6 +192,7 @@ class _$BookmarkCompanionWorkaroundCopyWithImpl<$Res,
   $Res call({
     Object? characterId = null,
     Object? type = null,
+    Object? groupHash = null,
   }) {
     return _then(_value.copyWith(
       characterId: null == characterId
@@ -201,6 +203,10 @@ class _$BookmarkCompanionWorkaroundCopyWithImpl<$Res,
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as BookmarkType,
+      groupHash: null == groupHash
+          ? _value.groupHash
+          : groupHash // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -214,7 +220,7 @@ abstract class _$$BookmarkCompanionWorkaroundImplCopyWith<$Res>
       __$$BookmarkCompanionWorkaroundImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String characterId, BookmarkType type});
+  $Res call({String characterId, BookmarkType type, String groupHash});
 }
 
 /// @nodoc
@@ -234,6 +240,7 @@ class __$$BookmarkCompanionWorkaroundImplCopyWithImpl<$Res>
   $Res call({
     Object? characterId = null,
     Object? type = null,
+    Object? groupHash = null,
   }) {
     return _then(_$BookmarkCompanionWorkaroundImpl(
       characterId: null == characterId
@@ -244,6 +251,10 @@ class __$$BookmarkCompanionWorkaroundImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as BookmarkType,
+      groupHash: null == groupHash
+          ? _value.groupHash
+          : groupHash // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -252,17 +263,19 @@ class __$$BookmarkCompanionWorkaroundImplCopyWithImpl<$Res>
 
 class _$BookmarkCompanionWorkaroundImpl extends _BookmarkCompanionWorkaround {
   const _$BookmarkCompanionWorkaroundImpl(
-      {required this.characterId, required this.type})
+      {required this.characterId, required this.type, required this.groupHash})
       : super._();
 
   @override
   final String characterId;
   @override
   final BookmarkType type;
+  @override
+  final String groupHash;
 
   @override
   String toString() {
-    return 'BookmarkCompanionWorkaround(characterId: $characterId, type: $type)';
+    return 'BookmarkCompanionWorkaround(characterId: $characterId, type: $type, groupHash: $groupHash)';
   }
 
   @override
@@ -272,11 +285,13 @@ class _$BookmarkCompanionWorkaroundImpl extends _BookmarkCompanionWorkaround {
             other is _$BookmarkCompanionWorkaroundImpl &&
             (identical(other.characterId, characterId) ||
                 other.characterId == characterId) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.groupHash, groupHash) ||
+                other.groupHash == groupHash));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, characterId, type);
+  int get hashCode => Object.hash(runtimeType, characterId, type, groupHash);
 
   /// Create a copy of BookmarkCompanionWorkaround
   /// with the given fields replaced by the non-null parameter values.
@@ -292,13 +307,16 @@ abstract class _BookmarkCompanionWorkaround
     extends BookmarkCompanionWorkaround {
   const factory _BookmarkCompanionWorkaround(
       {required final String characterId,
-      required final BookmarkType type}) = _$BookmarkCompanionWorkaroundImpl;
+      required final BookmarkType type,
+      required final String groupHash}) = _$BookmarkCompanionWorkaroundImpl;
   const _BookmarkCompanionWorkaround._() : super._();
 
   @override
   String get characterId;
   @override
   BookmarkType get type;
+  @override
+  String get groupHash;
 
   /// Create a copy of BookmarkCompanionWorkaround
   /// with the given fields replaced by the non-null parameter values.
@@ -691,4 +709,88 @@ abstract class BookmarkCompanionWithArtifactPieceDetails
   @override
   BookmarkCompanionWorkaround get metadata;
   BookmarkArtifactPieceDetailsCompanionWithoutParent get artifactPieceDetails;
+}
+
+/// @nodoc
+mixin _$BookmarkGroup {
+  String get hash => throw _privateConstructorUsedError;
+  BookmarkType get type => throw _privateConstructorUsedError;
+  String get characterId => throw _privateConstructorUsedError;
+  LevelRangeValues? get levelRange => throw _privateConstructorUsedError;
+  List<BookmarkWithDetails> get bookmarks => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+
+class _$BookmarkGroupImpl extends _BookmarkGroup {
+  const _$BookmarkGroupImpl(
+      {required this.hash,
+      required this.type,
+      required this.characterId,
+      this.levelRange,
+      required final List<BookmarkWithDetails> bookmarks})
+      : _bookmarks = bookmarks,
+        super._();
+
+  @override
+  final String hash;
+  @override
+  final BookmarkType type;
+  @override
+  final String characterId;
+  @override
+  final LevelRangeValues? levelRange;
+  final List<BookmarkWithDetails> _bookmarks;
+  @override
+  List<BookmarkWithDetails> get bookmarks {
+    if (_bookmarks is EqualUnmodifiableListView) return _bookmarks;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_bookmarks);
+  }
+
+  @override
+  String toString() {
+    return 'BookmarkGroup(hash: $hash, type: $type, characterId: $characterId, levelRange: $levelRange, bookmarks: $bookmarks)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BookmarkGroupImpl &&
+            (identical(other.hash, hash) || other.hash == hash) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.characterId, characterId) ||
+                other.characterId == characterId) &&
+            (identical(other.levelRange, levelRange) ||
+                other.levelRange == levelRange) &&
+            const DeepCollectionEquality()
+                .equals(other._bookmarks, _bookmarks));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, hash, type, characterId,
+      levelRange, const DeepCollectionEquality().hash(_bookmarks));
+}
+
+abstract class _BookmarkGroup extends BookmarkGroup {
+  const factory _BookmarkGroup(
+          {required final String hash,
+          required final BookmarkType type,
+          required final String characterId,
+          final LevelRangeValues? levelRange,
+          required final List<BookmarkWithDetails> bookmarks}) =
+      _$BookmarkGroupImpl;
+  const _BookmarkGroup._() : super._();
+
+  @override
+  String get hash;
+  @override
+  BookmarkType get type;
+  @override
+  String get characterId;
+  @override
+  LevelRangeValues? get levelRange;
+  @override
+  List<BookmarkWithDetails> get bookmarks;
 }
