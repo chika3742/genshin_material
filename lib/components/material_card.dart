@@ -10,7 +10,7 @@ import "package:material_symbols_icons/symbols.dart";
 import "../core/theme.dart";
 import "../models/common.dart";
 import "../routes.dart";
-import "layout.dart";
+import "../ui_core/layout.dart";
 
 class MaterialCard extends HookWidget {
   /// Image file of the material.

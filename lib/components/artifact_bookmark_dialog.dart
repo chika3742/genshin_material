@@ -15,11 +15,11 @@ import "../models/character.dart";
 import "../models/common.dart";
 import "../providers/database_provider.dart";
 import "../providers/versions.dart";
+import "../ui_core/layout.dart";
 import "../ui_core/page_transition.dart";
 import "../ui_core/snack_bar.dart";
 import "character_select_dropdown.dart";
 import "labeled_check_box.dart";
-import "layout.dart";
 import "list_subheader.dart";
 import "style_parsed_text.dart";
 

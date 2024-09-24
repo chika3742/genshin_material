@@ -8,7 +8,6 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../components/data_asset_scope.dart";
-import "../components/layout.dart";
 import "../components/material_item.dart";
 import "../db/bookmark_db_extension.dart";
 import "../db/bookmark_order_registry_db_extension.dart";
@@ -20,6 +19,7 @@ import "../providers/database_provider.dart";
 import "../providers/versions.dart";
 import "../routes.dart";
 import "../ui_core/dialog.dart";
+import "../ui_core/layout.dart";
 
 class BookmarksPage extends StatelessWidget {
   const BookmarksPage({super.key});

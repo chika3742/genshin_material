@@ -7,12 +7,12 @@ import "package:intl/intl.dart";
 import "package:timeago/timeago.dart" as timeago;
 
 import "../../components/game_data_sync_indicator.dart";
-import "../../components/layout.dart";
 import "../../components/list_subheader.dart";
 import "../../composables/use_periodic_timer.dart";
 import "../../core/hoyolab_api.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/preferences.dart";
+import "../../ui_core/layout.dart";
 import "../../ui_core/snack_bar.dart";
 import "../../utils/resin_calculator.dart";
 

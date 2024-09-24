@@ -14,7 +14,7 @@ import "../models/material_bookmark_frame.dart";
 import "../providers/database_provider.dart";
 import "../providers/preferences.dart";
 import "../providers/versions.dart";
-import "layout.dart";
+import "../ui_core/layout.dart";
 import "material_card.dart";
 
 /// Material item implementation.

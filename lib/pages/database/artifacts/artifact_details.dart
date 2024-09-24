@@ -5,9 +5,9 @@ import "../../../components/center_text.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/effect_description.dart";
 import "../../../components/game_item_info_box.dart";
-import "../../../components/layout.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../ui_core/layout.dart";
 
 class ArtifactDetailsPage extends StatelessWidget {
   final String id;

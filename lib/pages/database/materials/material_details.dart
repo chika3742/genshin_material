@@ -7,12 +7,12 @@ import "../../../components/character_small_card.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/item_source_widget.dart";
-import "../../../components/layout.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../routes.dart";
+import "../../../ui_core/layout.dart";
 import "../../../utils/material_usage.dart";
 
 class MaterialDetailsPage extends StatelessWidget {

@@ -4,7 +4,6 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../components/character_small_card.dart";
 import "../components/data_asset_scope.dart";
-import "../components/layout.dart";
 import "../components/list_tile.dart";
 import "../components/weekday_tab.dart";
 import "../i18n/strings.g.dart";
@@ -12,6 +11,7 @@ import "../models/material.dart";
 import "../providers/preferences.dart";
 import "../providers/versions.dart";
 import "../routes.dart";
+import "../ui_core/layout.dart";
 import "../utils/lists.dart";
 import "../utils/material_usage.dart";
 

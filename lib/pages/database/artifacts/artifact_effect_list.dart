@@ -7,9 +7,9 @@ import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/effect_description.dart";
 import "../../../components/filter_bottom_sheet.dart";
-import "../../../components/layout.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../providers/filter_state.dart";
+import "../../../ui_core/layout.dart";
 
 class ArtifactEffectListPage extends HookConsumerWidget {
   const ArtifactEffectListPage({super.key});

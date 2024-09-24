@@ -7,7 +7,6 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../components/center_text.dart";
-import "../../components/layout.dart";
 import "../../components/list_subheader.dart";
 import "../../core/hoyolab_api.dart";
 import "../../i18n/strings.g.dart";
@@ -16,6 +15,7 @@ import "../../providers/miscellaneous.dart";
 import "../../providers/preferences.dart";
 import "../../routes.dart";
 import "../../ui_core/dialog.dart";
+import "../../ui_core/layout.dart";
 import "../../ui_core/progress_indicator.dart";
 import "../../ui_core/snack_bar.dart";
 import "../../utils/show_loading_modal.dart";

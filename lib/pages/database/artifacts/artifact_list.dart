@@ -3,10 +3,10 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/data_asset_scope.dart";
-import "../../../components/layout.dart";
 import "../../../components/list_tile.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../routes.dart";
+import "../../../ui_core/layout.dart";
 
 class ArtifactListPage extends StatelessWidget {
   const ArtifactListPage({super.key});

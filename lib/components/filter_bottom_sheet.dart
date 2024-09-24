@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 
 import "../ui_core/bottom_sheet.dart";
-import "layout.dart";
+import "../ui_core/layout.dart";
 import "list_subheader.dart";
 
 class FilterBottomSheet extends StatelessWidget {
