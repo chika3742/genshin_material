@@ -1,11 +1,13 @@
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../i18n/strings.g.dart";
+import "../ui_core/bubble.dart";
 import "../ui_core/layout.dart";
 
-class LevelSlider extends StatelessWidget {
+class LevelSlider extends HookWidget {
   final List<int> levels;
   final LevelRangeValues values;
   final void Function(LevelRangeValues values)? onChanged;
@@ -49,15 +51,15 @@ class LevelSlider extends StatelessWidget {
                 ),
               ),
             ),
-            _buildSliderLabels(context),
+            _buildSliderLabels(),
           ],
         ),
-        _buildLevelIndicators(context),
+        _buildLevelIndicators(),
       ],
     );
   }
 
-  Padding _buildSliderLabels(BuildContext context) {
+  Padding _buildSliderLabels() {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14.0),
         child: Row(
@@ -75,7 +77,10 @@ class LevelSlider extends StatelessWidget {
       );
   }
 
-  Widget _buildLevelIndicators(BuildContext context) {
+  Widget _buildLevelIndicators() {
+    final context = useContext();
+    final helpButtonKey = useMemoized(() => GlobalKey());
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: GappedRow(
@@ -120,6 +125,18 @@ class LevelSlider extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            const Spacer(),
+            IconButton(
+              key: helpButtonKey,
+              icon: const Icon(Symbols.help),
+              onPressed: () {
+                showModalBubbleText(
+                  context: context,
+                  targetKey: helpButtonKey,
+                  text: tr.common.sliderTips,
+                );
+              },
             ),
           ],
         ),
