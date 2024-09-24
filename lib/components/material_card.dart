@@ -10,7 +10,7 @@ import "package:material_symbols_icons/symbols.dart";
 import "../core/theme.dart";
 import "../models/common.dart";
 import "../routes.dart";
-import "layout.dart";
+import "../ui_core/layout.dart";
 
 class MaterialCard extends HookWidget {
   /// Image file of the material.
@@ -78,16 +78,17 @@ class MaterialCard extends HookWidget {
           mainAxisSize: MainAxisSize.min,
           innerDistance: -8,
           children: [
-            SizedBox(
-              width: 6,
-              height: 60,
-              child: CustomPaint(
-                painter: _RarityCornerMarkerPainter(
-                  Theme.of(context).extension<ComponentThemeExtension>()!
-                      .getRarityColor(rarity!).withOpacity(0.8),
+            if (rarity != null)
+              SizedBox(
+                width: 6,
+                height: 60,
+                child: CustomPaint(
+                  painter: _RarityCornerMarkerPainter(
+                    Theme.of(context).extension<ComponentThemeExtension>()!
+                        .getRarityColor(rarity!).withOpacity(0.8),
+                  ),
                 ),
               ),
-            ),
             const SizedBox(width: 16),
             if (onSwapExpItem != null) IconButton(
               padding: EdgeInsets.zero,

@@ -4,6 +4,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "../core/asset_cache.dart";
 import "../database.dart";
 import "../utils/hash.dart";
+import "bookmark.dart";
 import "common.dart";
 import "material.dart";
 
@@ -17,6 +18,30 @@ class MaterialCardMaterial {
     this.id,
     required this.levels,
   });
+
+  factory MaterialCardMaterial.fromBookmarks(List<BookmarkMaterialDetails> details) {
+    assert(details.isNotEmpty);
+
+    return MaterialCardMaterial(
+      id: details.first.materialId,
+      levels: details.map((e) {
+        if (e.materialId != null) {
+          return MaterialBookmarkFrame(
+            materialId: e.materialId!,
+            level: e.upperLevel,
+            quantity: e.quantity,
+            purposeType: e.purposeType,
+          );
+        } else {
+          return MaterialBookmarkFrame.exp(
+            level: e.upperLevel,
+            exp: e.quantity,
+            purposeType: e.purposeType,
+          );
+        }
+      }).toList(),
+    );
+  }
 
   int? _sum;
   Material? _material;
@@ -72,24 +97,35 @@ class MaterialCardMaterial {
     }).toList();
   }
 
-  List<MaterialBookmarkCompanion> toCompanions(MaterialUsage usage) {
+  List<BookmarkCompanionWithMaterialDetails> toCompanions(MaterialUsage usage) {
     return levels.map((level) {
-      final companion = MaterialBookmarkCompanion.insert(
-        materialId: Value.absentIfNull(id),
-        characterId: usage.characterId,
-        weaponId: Value(usage.weaponId),
-        purposeType: level.purposeType,
-        quantity: switch (level) {
-          _MaterialBookmarkFrame(:final quantity) => quantity,
-          MaterialBookmarkFrameExp(:final exp) => exp,
-        },
-        upperLevel: level.level,
-        hash: combineMaterialBookmarkElements(
-          usage.characterId,
-          level.purposeType,
-          usage.weaponId,
-          id,
-          level.level,
+      final companion = BookmarkCompanionWithMaterialDetails(
+        metadata: BookmarkCompanionWorkaround(
+          type: BookmarkType.material,
+          characterId: usage.characterId,
+          groupHash: generateBookmarkGroupHash(
+            characterId: usage.characterId,
+            type: BookmarkType.material,
+            purposeType: level.purposeType,
+            weaponId: usage.weaponId,
+          ),
+        ),
+        materialDetails: BookmarkMaterialDetailsCompanionWithoutParent(
+          materialId: Value.absentIfNull(id),
+          weaponId: Value.absentIfNull(usage.weaponId),
+          purposeType: level.purposeType,
+          quantity: switch (level) {
+            _MaterialBookmarkFrame(:final quantity) => quantity,
+            MaterialBookmarkFrameExp(:final exp) => exp,
+          },
+          upperLevel: level.level,
+          hash: combineMaterialBookmarkElements(
+            usage.characterId,
+            level.purposeType,
+            usage.weaponId,
+            id,
+            level.level,
+          ),
         ),
       );
 

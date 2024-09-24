@@ -4,8 +4,9 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
-import "../database.dart";
+import "../db/bookmark_db_extension.dart";
 import "../i18n/strings.g.dart";
+import "../models/bookmark.dart";
 import "../models/character_ingredients.dart";
 import "../models/common.dart";
 import "../models/material.dart";
@@ -13,23 +14,25 @@ import "../models/material_bookmark_frame.dart";
 import "../providers/database_provider.dart";
 import "../providers/preferences.dart";
 import "../providers/versions.dart";
-import "layout.dart";
+import "../ui_core/layout.dart";
 import "material_card.dart";
 
 /// Material item implementation.
 class MaterialItem extends StatefulHookConsumerWidget {
   final MaterialCardMaterial item;
   final MaterialUsage usage;
-  final List<Purpose> possiblePurposeTypes;
+  final List<Purpose>? possiblePurposeTypes;
   final List<ExpItem>? expItems;
+  final List<String>? hashes;
 
   const MaterialItem({
     super.key,
     required this.item,
     required this.usage,
-    required this.possiblePurposeTypes,
+    this.possiblePurposeTypes,
     this.expItems,
-  });
+    this.hashes,
+  })  : assert(hashes != null || possiblePurposeTypes != null, "possiblePurposeTypes must be provided when hashes is null.");
 
   @override
   ConsumerState<MaterialItem> createState() => _MaterialItemState();
@@ -40,19 +43,26 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
 
   @override
   Widget build(BuildContext context) {
+    final db = ref.watch(appDatabaseProvider);
+
     final bookmarkedMaterials = useStream(
       useMemoized(
-        () => ref.watch(appDatabaseProvider).watchMaterialBookmarkByPartial(
-              characterId: widget.usage.characterId,
-              weaponId: widget.usage.weaponId,
-              materialId: widget.item.id,
-              purposeTypes: widget.possiblePurposeTypes,
-            ),
+        () {
+          return widget.hashes == null
+              ? db.watchMaterialBookmarksPartially(
+                  characterId: widget.usage.characterId,
+                  weaponId: widget.usage.weaponId,
+                  materialId: widget.item.id,
+                  purposeTypes: widget.possiblePurposeTypes!,
+                )
+              : db.watchMaterialBookmarksByHashes(widget.hashes!);
+        },
         [
           widget.usage.characterId,
           widget.item.id,
           const ListEquality().hash(widget.possiblePurposeTypes),
           widget.usage.weaponId,
+          widget.hashes,
         ],
       ),
     );
@@ -107,14 +117,14 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
           case BookmarkState.partial:
             final result = await showPartialBookmarkBottomSheet(bookmarkedMaterials.data!);
             if (result == PartialBookmarkBottomSheetResult.reBookmark) {
-              await db.removeMaterialBookmarks(bookmarkedMaterials.data!.map((e) => e.id).toList());
+              await db.removeBookmarks(bookmarkedMaterials.data!.map((e) => e.metadata.id).toList());
               await db.addMaterialBookmarks(widget.item.toCompanions(widget.usage));
             } else if (result == PartialBookmarkBottomSheetResult.remove) {
-              await db.removeMaterialBookmarks(bookmarkedMaterials.data!.map((e) => e.id).toList());
+              await db.removeBookmarks(bookmarkedMaterials.data!.map((e) => e.metadata.id).toList());
             }
             break;
           case BookmarkState.bookmarked:
-            await db.removeMaterialBookmarks(bookmarkedMaterials.data!.map((e) => e.id).toList());
+            await db.removeBookmarks(bookmarkedMaterials.data!.map((e) => e.metadata.id).toList());
             break;
         }
       },
@@ -127,7 +137,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
     );
   }
 
-  Future<PartialBookmarkBottomSheetResult?> showPartialBookmarkBottomSheet(List<MaterialBookmarkData> bookmarkedMaterials) async {
+  Future<PartialBookmarkBottomSheetResult?> showPartialBookmarkBottomSheet(List<BookmarkWithMaterialDetails> bookmarkedMaterials) async {
     final assetData = ref.read(assetDataProvider).value?.data;
     if (assetData == null) {
       return null;
@@ -152,7 +162,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
 class _PartialBookmarkBottomSheet extends ConsumerWidget {
   final String? materialId;
   final int expItemIndex;
-  final List<MaterialBookmarkData> bookmarkedMaterials;
+  final List<BookmarkWithMaterialDetails> bookmarkedMaterials;
   final int currentQuantity;
 
   const _PartialBookmarkBottomSheet({
@@ -197,7 +207,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
                   height: 28,
                 ),
                 Text(
-                  "x${processQuantity(bookmarkedMaterials.fold(0, (prev, e) => prev + e.quantity))}",
+                  "x${processQuantity(bookmarkedMaterials.fold(0, (prev, e) => prev + e.materialDetails.quantity))}",
                   style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),

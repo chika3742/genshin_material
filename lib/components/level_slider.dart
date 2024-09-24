@@ -3,7 +3,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../i18n/strings.g.dart";
-import "layout.dart";
+import "../ui_core/layout.dart";
 
 class LevelSlider extends StatelessWidget {
   final List<int> levels;

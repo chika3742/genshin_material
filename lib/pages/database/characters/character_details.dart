@@ -10,13 +10,13 @@ import "../../../components/data_asset_scope.dart";
 import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/labeled_check_box.dart";
-import "../../../components/layout.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/hoyolab_api.dart";
 import "../../../database.dart";
+import "../../../db/character_level_info_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
@@ -24,6 +24,7 @@ import "../../../models/material_bookmark_frame.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/preferences.dart";
 import "../../../routes.dart";
+import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
@@ -58,7 +59,7 @@ class CharacterDetailsPage extends ConsumerWidget {
             final prefs = ref.watch(preferencesStateNotifierProvider);
             final syncedCharacterLevelsFuture = useMemoized(() => prefs.isLinkedWithHoyolab
                 ? db.getCharacterLevels(prefs.hyvUid!, characterOrVariant is CharacterGroup ? characterOrVariant.variantIds.first : id)
-                : null,);
+                : Future.value(null),);
             final syncedCharacterLevelsAsync = useFuture(syncedCharacterLevelsFuture);
 
             if (syncedCharacterLevelsAsync.connectionState == ConnectionState.done) {
@@ -494,12 +495,14 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
         },
       );
       if (charaInfo != null) {
-        setState(() {
-          _rangeValues[Purpose.ascension] = LevelRangeValues(
-            _sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
-            charaInfo.maxLevel,
-          );
-        });
+        if (mounted) {
+          setState(() {
+            _rangeValues[Purpose.ascension] = LevelRangeValues(
+              _sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
+              charaInfo.maxLevel,
+            );
+          });
+        }
 
         final charaDetail = await api.avatarDetail(charaInfo.id);
 
@@ -511,10 +514,12 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
             2 => Purpose.elementalBurst,
             _ => throw "Invalid talent index",
           };
-          setState(() {
-            _rangeValues[purpose] = LevelRangeValues(element.currentLevel, element.maxLevel);
-            _checkedTalentTypes[purpose] = element.currentLevel != element.maxLevel;
-          });
+          if (mounted) {
+            setState(() {
+              _rangeValues[purpose] = LevelRangeValues(element.currentLevel, element.maxLevel);
+              _checkedTalentTypes[purpose] = element.currentLevel != element.maxLevel;
+            });
+          }
         });
 
         final db = ref.read(appDatabaseProvider);

@@ -6,10 +6,10 @@ import "../../../components/character_list_item.dart";
 import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/filter_bottom_sheet.dart";
-import "../../../components/layout.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/filter_state.dart";
+import "../../../ui_core/layout.dart";
 
 class CharacterListPage extends ConsumerWidget {
   const CharacterListPage({super.key});
