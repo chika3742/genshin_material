@@ -218,7 +218,24 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                                       );
                                     }
                                   },
-                                  child: Text((assetData.stats[stat]?.localized).toString()),
+                                  child: Row(
+                                    children: [
+                                      Text((assetData.stats[stat]?.localized).toString()),
+                                      if (state.value.subStats.contains(stat))
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Theme.of(context).colorScheme.primary,
+                                          ),
+                                          padding: const EdgeInsets.all(6).copyWith(top: 4),
+                                          margin: const EdgeInsets.only(left: 4),
+                                          child: Text(
+                                            (state.value.subStats.indexOf(stat) + 1).toString(),
+                                            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
                                 ),
                             ],
                           ),
