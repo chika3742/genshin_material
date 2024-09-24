@@ -63,14 +63,14 @@ class Bubble extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
-          right: 8,
+          right: 16,
           top: targetPos.dy + targetSize.height
               - MediaQueryData.fromView(View.of(context)).padding.top, // safe area insets before consumption
           child: Material(
             type: MaterialType.transparency,
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width - 16,
+                maxWidth: MediaQuery.of(context).size.width - 32,
               ),
               child: Container(
                 decoration: ShapeDecoration(
