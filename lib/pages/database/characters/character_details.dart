@@ -495,12 +495,14 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
         },
       );
       if (charaInfo != null) {
-        setState(() {
-          _rangeValues[Purpose.ascension] = LevelRangeValues(
-            _sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
-            charaInfo.maxLevel,
-          );
-        });
+        if (mounted) {
+          setState(() {
+            _rangeValues[Purpose.ascension] = LevelRangeValues(
+              _sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
+              charaInfo.maxLevel,
+            );
+          });
+        }
 
         final charaDetail = await api.avatarDetail(charaInfo.id);
 
@@ -512,10 +514,12 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
             2 => Purpose.elementalBurst,
             _ => throw "Invalid talent index",
           };
-          setState(() {
-            _rangeValues[purpose] = LevelRangeValues(element.currentLevel, element.maxLevel);
-            _checkedTalentTypes[purpose] = element.currentLevel != element.maxLevel;
-          });
+          if (mounted) {
+            setState(() {
+              _rangeValues[purpose] = LevelRangeValues(element.currentLevel, element.maxLevel);
+              _checkedTalentTypes[purpose] = element.currentLevel != element.maxLevel;
+            });
+          }
         });
 
         final db = ref.read(appDatabaseProvider);
