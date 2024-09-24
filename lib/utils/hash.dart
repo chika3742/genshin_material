@@ -9,3 +9,14 @@ String combineMaterialBookmarkElements(
 ) {
   return "${materialId ?? ""}:$characterId:$purposeType:${weaponId ?? ""}:$level";
 }
+
+/// [bookmarkId] is required only if [type] is [BookmarkType.artifactPiece] or [BookmarkType.artifactSet].
+String generateBookmarkGroupHash({
+  required String characterId,
+  required BookmarkType type,
+  Purpose? purposeType,
+  String? weaponId,
+  int? bookmarkId,
+}) {
+  return "$characterId:${type.name}:${purposeType?.name ?? ""}:${weaponId ?? ""}:${bookmarkId ?? ""}";
+}

@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:uuid/uuid.dart";
 
 import "../core/asset_cache.dart";
 import "../db/bookmark_db_extension.dart";
@@ -250,6 +251,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
         metadata: BookmarkCompanionWorkaround(
           type: BookmarkType.artifactPiece,
           characterId: state.characterId!,
+          groupHash: const Uuid().v4(),
         ),
         artifactPieceDetails: BookmarkArtifactPieceDetailsCompanionWithoutParent(
           piece: state.pieceId!,
@@ -262,6 +264,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
         metadata: BookmarkCompanionWorkaround(
           type: BookmarkType.artifactSet,
           characterId: state.characterId!,
+          groupHash: const Uuid().v4(),
         ),
         artifactSetDetails: BookmarkArtifactSetDetailsCompanionWithoutParent(
           sets: [state.firstSetId!, if (state.secondSetId != null) state.secondSetId!],

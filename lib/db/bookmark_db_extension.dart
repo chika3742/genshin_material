@@ -4,6 +4,7 @@ import "package:drift/drift.dart";
 import "../database.dart";
 import "../models/bookmark.dart";
 import "../models/common.dart";
+import "bookmark_order_registry_db_extension.dart";
 
 extension BookmarkDbExtension on AppDatabase {
   Stream<List<BookmarkWithDetails>> watchBookmarks() {
@@ -68,7 +69,7 @@ extension BookmarkDbExtension on AppDatabase {
   }
 
   Future<void> _addBookmarks(List<BookmarkCompanionWithDetails> companions) async {
-    final insertedIds = <int>[];
+    final groupHashes = <String>{};
     await transaction(() async {
       for (final companion in companions) {
         final bookmarkId = await into(bookmarkTable).insert(companion.metadata);
@@ -77,12 +78,9 @@ extension BookmarkDbExtension on AppDatabase {
           BookmarkCompanionWithArtifactSetDetails() => into(bookmarkArtifactSetDetailsTable).insert(companion.artifactSetDetails.withParentId(bookmarkId)),
           BookmarkCompanionWithArtifactPieceDetails() => into(bookmarkArtifactPieceDetailsTable).insert(companion.artifactPieceDetails.withParentId(bookmarkId)),
         };
-        insertedIds.add(bookmarkId);
+        groupHashes.add(companion.metadata.groupHash);
       }
-      final registry = await select(bookmarkOrderRegistryTable).getSingle();
-      await update(bookmarkOrderRegistryTable).write(BookmarkOrderRegistryCompanion.insert(
-        order: registry.order..addAll(insertedIds),
-      ),);
+      await registerBookmarkOrderHashes(groupHashes.toList());
     });
   }
 
@@ -99,6 +97,16 @@ extension BookmarkDbExtension on AppDatabase {
   }
 
   Future<void> removeBookmarks(List<int> ids) async {
-    await (delete(bookmarkTable)..where((tbl) => tbl.id.isIn(ids))).go();
+    await transaction(() async {
+      await (delete(bookmarkTable)..where((tbl) => tbl.id.isIn(ids))).go();
+
+      final order = await getBookmarkOrder();
+      for (var groupHash in order) {
+        final bookmarkCount = await bookmarkTable.count(where: (tbl) => tbl.groupHash.equals(groupHash)).getSingle();
+        if (bookmarkCount == 0) {
+          await unregisterBookmarkOrderHashes([groupHash]);
+        }
+      }
+    });
   }
 }

@@ -20,9 +20,7 @@ mixin _$Bookmark {
   BookmarkType get type => throw _privateConstructorUsedError;
   String get characterId => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
-  int? get materialDetails => throw _privateConstructorUsedError;
-  int? get artifactSetDetails => throw _privateConstructorUsedError;
-  int? get artifactPieceDetails => throw _privateConstructorUsedError;
+  String get groupHash => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -33,9 +31,7 @@ class _$BookmarkImpl with DiagnosticableTreeMixin implements _Bookmark {
       required this.type,
       required this.characterId,
       required this.createdAt,
-      this.materialDetails,
-      this.artifactSetDetails,
-      this.artifactPieceDetails});
+      required this.groupHash});
 
   @override
   final int id;
@@ -46,15 +42,11 @@ class _$BookmarkImpl with DiagnosticableTreeMixin implements _Bookmark {
   @override
   final DateTime createdAt;
   @override
-  final int? materialDetails;
-  @override
-  final int? artifactSetDetails;
-  @override
-  final int? artifactPieceDetails;
+  final String groupHash;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Bookmark(id: $id, type: $type, characterId: $characterId, createdAt: $createdAt, materialDetails: $materialDetails, artifactSetDetails: $artifactSetDetails, artifactPieceDetails: $artifactPieceDetails)';
+    return 'Bookmark(id: $id, type: $type, characterId: $characterId, createdAt: $createdAt, groupHash: $groupHash)';
   }
 
   @override
@@ -66,9 +58,7 @@ class _$BookmarkImpl with DiagnosticableTreeMixin implements _Bookmark {
       ..add(DiagnosticsProperty('type', type))
       ..add(DiagnosticsProperty('characterId', characterId))
       ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('materialDetails', materialDetails))
-      ..add(DiagnosticsProperty('artifactSetDetails', artifactSetDetails))
-      ..add(DiagnosticsProperty('artifactPieceDetails', artifactPieceDetails));
+      ..add(DiagnosticsProperty('groupHash', groupHash));
   }
 
   @override
@@ -82,17 +72,13 @@ class _$BookmarkImpl with DiagnosticableTreeMixin implements _Bookmark {
                 other.characterId == characterId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.materialDetails, materialDetails) ||
-                other.materialDetails == materialDetails) &&
-            (identical(other.artifactSetDetails, artifactSetDetails) ||
-                other.artifactSetDetails == artifactSetDetails) &&
-            (identical(other.artifactPieceDetails, artifactPieceDetails) ||
-                other.artifactPieceDetails == artifactPieceDetails));
+            (identical(other.groupHash, groupHash) ||
+                other.groupHash == groupHash));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, type, characterId, createdAt,
-      materialDetails, artifactSetDetails, artifactPieceDetails);
+  int get hashCode =>
+      Object.hash(runtimeType, id, type, characterId, createdAt, groupHash);
 }
 
 abstract class _Bookmark implements Bookmark {
@@ -101,9 +87,7 @@ abstract class _Bookmark implements Bookmark {
       required final BookmarkType type,
       required final String characterId,
       required final DateTime createdAt,
-      final int? materialDetails,
-      final int? artifactSetDetails,
-      final int? artifactPieceDetails}) = _$BookmarkImpl;
+      required final String groupHash}) = _$BookmarkImpl;
 
   @override
   int get id;
@@ -114,9 +98,5 @@ abstract class _Bookmark implements Bookmark {
   @override
   DateTime get createdAt;
   @override
-  int? get materialDetails;
-  @override
-  int? get artifactSetDetails;
-  @override
-  int? get artifactPieceDetails;
+  String get groupHash;
 }

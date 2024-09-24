@@ -78,6 +78,12 @@ class MaterialCardMaterial {
         metadata: BookmarkCompanionWorkaround(
           type: BookmarkType.material,
           characterId: usage.characterId,
+          groupHash: generateBookmarkGroupHash(
+            characterId: usage.characterId,
+            type: BookmarkType.material,
+            purposeType: level.purposeType,
+            weaponId: usage.weaponId,
+          ),
         ),
         materialDetails: BookmarkMaterialDetailsCompanionWithoutParent(
           materialId: Value.absentIfNull(id),

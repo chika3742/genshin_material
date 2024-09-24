@@ -38,8 +38,15 @@ class $BookmarkTableTable extends BookmarkTable
       type: DriftSqlType.dateTime,
       requiredDuringInsert: false,
       defaultValue: currentDateAndTime);
+  static const VerificationMeta _groupHashMeta =
+      const VerificationMeta('groupHash');
   @override
-  List<GeneratedColumn> get $columns => [id, type, characterId, createdAt];
+  late final GeneratedColumn<String> groupHash = GeneratedColumn<String>(
+      'group_hash', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, type, characterId, createdAt, groupHash];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -66,6 +73,12 @@ class $BookmarkTableTable extends BookmarkTable
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     }
+    if (data.containsKey('group_hash')) {
+      context.handle(_groupHashMeta,
+          groupHash.isAcceptableOrUnknown(data['group_hash']!, _groupHashMeta));
+    } else if (isInserting) {
+      context.missing(_groupHashMeta);
+    }
     return context;
   }
 
@@ -84,6 +97,8 @@ class $BookmarkTableTable extends BookmarkTable
           .read(DriftSqlType.string, data['${effectivePrefix}character_id'])!,
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      groupHash: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}group_hash'])!,
     );
   }
 
@@ -101,30 +116,36 @@ class BookmarkCompanion extends UpdateCompanion<Bookmark> {
   final Value<BookmarkType> type;
   final Value<String> characterId;
   final Value<DateTime> createdAt;
+  final Value<String> groupHash;
   const BookmarkCompanion({
     this.id = const Value.absent(),
     this.type = const Value.absent(),
     this.characterId = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.groupHash = const Value.absent(),
   });
   BookmarkCompanion.insert({
     this.id = const Value.absent(),
     required BookmarkType type,
     required String characterId,
     this.createdAt = const Value.absent(),
+    required String groupHash,
   })  : type = Value(type),
-        characterId = Value(characterId);
+        characterId = Value(characterId),
+        groupHash = Value(groupHash);
   static Insertable<Bookmark> custom({
     Expression<int>? id,
     Expression<String>? type,
     Expression<String>? characterId,
     Expression<DateTime>? createdAt,
+    Expression<String>? groupHash,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (type != null) 'type': type,
       if (characterId != null) 'character_id': characterId,
       if (createdAt != null) 'created_at': createdAt,
+      if (groupHash != null) 'group_hash': groupHash,
     });
   }
 
@@ -132,12 +153,14 @@ class BookmarkCompanion extends UpdateCompanion<Bookmark> {
       {Value<int>? id,
       Value<BookmarkType>? type,
       Value<String>? characterId,
-      Value<DateTime>? createdAt}) {
+      Value<DateTime>? createdAt,
+      Value<String>? groupHash}) {
     return BookmarkCompanion(
       id: id ?? this.id,
       type: type ?? this.type,
       characterId: characterId ?? this.characterId,
       createdAt: createdAt ?? this.createdAt,
+      groupHash: groupHash ?? this.groupHash,
     );
   }
 
@@ -157,6 +180,9 @@ class BookmarkCompanion extends UpdateCompanion<Bookmark> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (groupHash.present) {
+      map['group_hash'] = Variable<String>(groupHash.value);
+    }
     return map;
   }
 
@@ -166,7 +192,8 @@ class BookmarkCompanion extends UpdateCompanion<Bookmark> {
           ..write('id: $id, ')
           ..write('type: $type, ')
           ..write('characterId: $characterId, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('groupHash: $groupHash')
           ..write(')'))
         .toString();
   }
@@ -1532,10 +1559,10 @@ class $BookmarkOrderRegistryTableTable extends BookmarkOrderRegistryTable
       defaultValue: const Constant("main"));
   static const VerificationMeta _orderMeta = const VerificationMeta('order');
   @override
-  late final GeneratedColumnWithTypeConverter<List<int>, String> order =
+  late final GeneratedColumnWithTypeConverter<List<String>, String> order =
       GeneratedColumn<String>('order', aliasedName, false,
               type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<List<int>>(
+          .withConverter<List<String>>(
               $BookmarkOrderRegistryTableTable.$converterorder);
   @override
   List<GeneratedColumn> get $columns => [id, order];
@@ -1576,14 +1603,14 @@ class $BookmarkOrderRegistryTableTable extends BookmarkOrderRegistryTable
     return $BookmarkOrderRegistryTableTable(attachedDatabase, alias);
   }
 
-  static TypeConverter<List<int>, String> $converterorder =
+  static TypeConverter<List<String>, String> $converterorder =
       const ListConverter();
 }
 
 class BookmarkOrderRegistry extends DataClass
     implements Insertable<BookmarkOrderRegistry> {
   final String id;
-  final List<int> order;
+  final List<String> order;
   const BookmarkOrderRegistry({required this.id, required this.order});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1608,7 +1635,7 @@ class BookmarkOrderRegistry extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BookmarkOrderRegistry(
       id: serializer.fromJson<String>(json['id']),
-      order: serializer.fromJson<List<int>>(json['order']),
+      order: serializer.fromJson<List<String>>(json['order']),
     );
   }
   @override
@@ -1616,11 +1643,11 @@ class BookmarkOrderRegistry extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
-      'order': serializer.toJson<List<int>>(order),
+      'order': serializer.toJson<List<String>>(order),
     };
   }
 
-  BookmarkOrderRegistry copyWith({String? id, List<int>? order}) =>
+  BookmarkOrderRegistry copyWith({String? id, List<String>? order}) =>
       BookmarkOrderRegistry(
         id: id ?? this.id,
         order: order ?? this.order,
@@ -1654,7 +1681,7 @@ class BookmarkOrderRegistry extends DataClass
 class BookmarkOrderRegistryCompanion
     extends UpdateCompanion<BookmarkOrderRegistry> {
   final Value<String> id;
-  final Value<List<int>> order;
+  final Value<List<String>> order;
   final Value<int> rowid;
   const BookmarkOrderRegistryCompanion({
     this.id = const Value.absent(),
@@ -1663,7 +1690,7 @@ class BookmarkOrderRegistryCompanion
   });
   BookmarkOrderRegistryCompanion.insert({
     this.id = const Value.absent(),
-    required List<int> order,
+    required List<String> order,
     this.rowid = const Value.absent(),
   }) : order = Value(order);
   static Insertable<BookmarkOrderRegistry> custom({
@@ -1679,7 +1706,7 @@ class BookmarkOrderRegistryCompanion
   }
 
   BookmarkOrderRegistryCompanion copyWith(
-      {Value<String>? id, Value<List<int>>? order, Value<int>? rowid}) {
+      {Value<String>? id, Value<List<String>>? order, Value<int>? rowid}) {
     return BookmarkOrderRegistryCompanion(
       id: id ?? this.id,
       order: order ?? this.order,
@@ -1779,6 +1806,7 @@ typedef $$BookmarkTableTableCreateCompanionBuilder = BookmarkCompanion
   required BookmarkType type,
   required String characterId,
   Value<DateTime> createdAt,
+  required String groupHash,
 });
 typedef $$BookmarkTableTableUpdateCompanionBuilder = BookmarkCompanion
     Function({
@@ -1786,6 +1814,7 @@ typedef $$BookmarkTableTableUpdateCompanionBuilder = BookmarkCompanion
   Value<BookmarkType> type,
   Value<String> characterId,
   Value<DateTime> createdAt,
+  Value<String> groupHash,
 });
 
 final class $$BookmarkTableTableReferences
@@ -1876,6 +1905,11 @@ class $$BookmarkTableTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
+  ColumnFilters<String> get groupHash => $state.composableBuilder(
+      column: $state.table.groupHash,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
   ComposableFilter bookmarkMaterialDetailsTableRefs(
       ComposableFilter Function(
               $$BookmarkMaterialDetailsTableTableFilterComposer f)
@@ -1958,6 +1992,11 @@ class $$BookmarkTableTableOrderingComposer
       column: $state.table.createdAt,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get groupHash => $state.composableBuilder(
+      column: $state.table.groupHash,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
 class $$BookmarkTableTableTableManager extends RootTableManager<
@@ -1987,24 +2026,28 @@ class $$BookmarkTableTableTableManager extends RootTableManager<
             Value<BookmarkType> type = const Value.absent(),
             Value<String> characterId = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
+            Value<String> groupHash = const Value.absent(),
           }) =>
               BookmarkCompanion(
             id: id,
             type: type,
             characterId: characterId,
             createdAt: createdAt,
+            groupHash: groupHash,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required BookmarkType type,
             required String characterId,
             Value<DateTime> createdAt = const Value.absent(),
+            required String groupHash,
           }) =>
               BookmarkCompanion.insert(
             id: id,
             type: type,
             characterId: characterId,
             createdAt: createdAt,
+            groupHash: groupHash,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (
@@ -2954,13 +2997,13 @@ typedef $$CharacterLevelInfoTableTableProcessedTableManager
 typedef $$BookmarkOrderRegistryTableTableCreateCompanionBuilder
     = BookmarkOrderRegistryCompanion Function({
   Value<String> id,
-  required List<int> order,
+  required List<String> order,
   Value<int> rowid,
 });
 typedef $$BookmarkOrderRegistryTableTableUpdateCompanionBuilder
     = BookmarkOrderRegistryCompanion Function({
   Value<String> id,
-  Value<List<int>> order,
+  Value<List<String>> order,
   Value<int> rowid,
 });
 
@@ -2972,8 +3015,8 @@ class $$BookmarkOrderRegistryTableTableFilterComposer
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnWithTypeConverterFilters<List<int>, List<int>, String> get order =>
-      $state.composableBuilder(
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String>
+      get order => $state.composableBuilder(
           column: $state.table.order,
           builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
               column,
@@ -3020,7 +3063,7 @@ class $$BookmarkOrderRegistryTableTableTableManager extends RootTableManager<
               ComposerState(db, table)),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
-            Value<List<int>> order = const Value.absent(),
+            Value<List<String>> order = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               BookmarkOrderRegistryCompanion(
@@ -3030,7 +3073,7 @@ class $$BookmarkOrderRegistryTableTableTableManager extends RootTableManager<
           ),
           createCompanionCallback: ({
             Value<String> id = const Value.absent(),
-            required List<int> order,
+            required List<String> order,
             Value<int> rowid = const Value.absent(),
           }) =>
               BookmarkOrderRegistryCompanion.insert(

@@ -25,9 +25,7 @@ class Bookmark with _$Bookmark {
     required BookmarkType type,
     required String characterId,
     required DateTime createdAt,
-    int? materialDetails,
-    int? artifactSetDetails,
-    int? artifactPieceDetails,
+    required String groupHash,
   }) = _Bookmark;
 }
 
@@ -37,6 +35,7 @@ class BookmarkTable extends Table {
   TextColumn get type => textEnum<BookmarkType>()();
   TextColumn get characterId => text()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  TextColumn get groupHash => text()();
 }
 
 @DataClassName("BookmarkMaterialDetails")
@@ -79,7 +78,7 @@ class BookmarkArtifactPieceDetailsTable extends Table {
 @DataClassName("BookmarkOrderRegistry")
 class BookmarkOrderRegistryTable extends Table {
   TextColumn get id => text().withDefault(const Constant("main"))();
-  TextColumn get order => text().map(const ListConverter<int>())();
+  TextColumn get order => text().map(const ListConverter<String>())();
 
   @override
   Set<Column<Object>>? get primaryKey => {id};
