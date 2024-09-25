@@ -20,11 +20,16 @@ import "../../ui_core/progress_indicator.dart";
 import "../../ui_core/snack_bar.dart";
 import "../../utils/show_loading_modal.dart";
 
-class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
+class HoyolabIntegrationSettingsPage extends StatefulHookConsumerWidget {
   const HoyolabIntegrationSettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HoyolabIntegrationSettingsPage> createState() => _HoyolabIntegrationSettingsPageState();
+}
+
+class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrationSettingsPage> {
+  @override
+  Widget build(BuildContext context) {
     final prefs = ref.watch(preferencesStateNotifierProvider);
     final isSignedIn = prefs.hyvCookie != null;
 
@@ -43,7 +48,7 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
               final result =
                   await HoyolabSignInRoute().push<String>(context);
               if (result != null && context.mounted) {
-                _signInToHoyolab(result, context, ref);
+                _signInToHoyolab(result);
               }
             },
           ),
@@ -149,7 +154,7 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
               .setHoyolabCookie(cookie);
     } catch (e, st) {
       log("Failed to set hoyolab cookie", error: e, stackTrace: st);
-      if (context.mounted) {
+      if (mounted) {
         Navigator.of(context, rootNavigator: true).pop();
         showSnackBar(context: context, message: tr.hoyolab.failedToSignIn, error: true);
       }
@@ -164,9 +169,9 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
     }
 
     // close the loading modal
-    if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
+    if (mounted) Navigator.of(context, rootNavigator: true).pop();
 
-    if (isRealtimeNotesEnabled != null && !isRealtimeNotesEnabled && context.mounted) {
+    if (isRealtimeNotesEnabled != null && !isRealtimeNotesEnabled && mounted) {
       await showSimpleDialog(
         context: context,
         title: tr.hoyolab.doYouWantToEnableRealtimeNotes,
@@ -181,7 +186,7 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
     }
 
     // show server select dialog
-    if (context.mounted) {
+    if (mounted) {
       showModalBottomSheet(
         context: context,
         useRootNavigator: true,
