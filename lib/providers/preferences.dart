@@ -3,6 +3,7 @@ import "dart:math";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../core/hoyolab_api.dart";
 import "../core/kv_preferences.dart";
 import "../main.dart";
 import "../models/common.dart";
@@ -41,6 +42,13 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
   }
 
   Future<void> setHoyolabCookie(String cookie) async {
+    // verify credential
+    final api = HoyolabApi(cookie: cookie);
+    final verificationResult = await api.verifyLToken();
+    if (verificationResult.hasError) {
+      throw Exception("Credential verification failed: ${verificationResult.message}");
+    }
+
     await state.pref.setHyvCookie(cookie);
 
     state = PreferencesState.fromSharedPreferences(state.pref);

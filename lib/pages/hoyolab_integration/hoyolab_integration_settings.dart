@@ -144,34 +144,28 @@ class HoyolabIntegrationSettingsPage extends HookConsumerWidget {
     // verify whether the credential is valid
     showLoadingModal(context);
 
-    final api = HoyolabApi(cookie: cookie);
     try {
-      final verificationResult = await api.verifyLToken();
-      if (verificationResult.hasError) {
-        throw Exception("Credential verification failed: ${verificationResult.message}");
+      await ref.read(preferencesStateNotifierProvider.notifier)
+              .setHoyolabCookie(cookie);
+    } catch (e, st) {
+      log("Failed to set hoyolab cookie", error: e, stackTrace: st);
+      if (context.mounted) {
+        Navigator.of(context, rootNavigator: true).pop();
+        showSnackBar(context: context, message: tr.hoyolab.failedToSignIn, error: true);
       }
-    } catch (e) {
-      debugPrint(e.toString());
-      if (context.mounted) showSnackBar(context: context, message: tr.hoyolab.credentialVerificationFailed, error: true);
       return;
-    } finally {
-      // close the loading modal
-      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
     }
-
-    ref.read(preferencesStateNotifierProvider.notifier)
-        .setHoyolabCookie(cookie);
 
     bool? isRealtimeNotesEnabled;
     try {
-      if (context.mounted) showLoadingModal(context);
       isRealtimeNotesEnabled = await ref.read(realtimeNotesActivationStateProvider.future);
     } catch (e) {
       // do nothing
-    } finally {
-      // close the loading modal
-      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
     }
+
+    // close the loading modal
+    if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
+
     if (isRealtimeNotesEnabled != null && !isRealtimeNotesEnabled && context.mounted) {
       await showSimpleDialog(
         context: context,
