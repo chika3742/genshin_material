@@ -145,7 +145,11 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
     );
   }
 
-  Future<void> _signInToHoyolab(String cookie, BuildContext context, WidgetRef ref) async {
+  Future<void> _signInToHoyolab(String cookie) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    if (!mounted) return;
+
     // verify whether the credential is valid
     showLoadingModal(context);
 
