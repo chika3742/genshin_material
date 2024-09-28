@@ -67,14 +67,10 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       ),
     );
 
-    final assetCache = ref.watch(assetDataProvider).value;
-    if (assetCache == null) {
+    final assetData = ref.watch(assetDataProvider).value;
+    if (assetData == null) {
       return const SizedBox();
     }
-
-    final assetData = assetCache.data!;
-    final assetDir = assetCache.assetDir;
-
 
     Material material;
     int quantity;
@@ -99,7 +95,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
     }();
 
     return MaterialCard(
-      image: material.getImageFile(assetDir),
+      image: material.getImageFile(assetData.assetDir),
       name: material.name.localized,
       showName: ref.watch(preferencesStateNotifierProvider).showItemNameOnCard,
       rarity: material.rarity,
@@ -138,11 +134,6 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
   }
 
   Future<PartialBookmarkBottomSheetResult?> showPartialBookmarkBottomSheet(List<BookmarkWithMaterialDetails> bookmarkedMaterials) async {
-    final assetData = ref.read(assetDataProvider).value?.data;
-    if (assetData == null) {
-      return null;
-    }
-
     return await showModalBottomSheet<PartialBookmarkBottomSheetResult>(
       context: context,
       showDragHandle: true,
@@ -174,8 +165,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetCache = ref.watch(assetDataProvider).value;
-    final assetData = assetCache?.data;
+    final assetData = ref.watch(assetDataProvider).value;
     if (assetData == null) {
       return const SizedBox();
     }
@@ -202,7 +192,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
               children: [
                 const Icon(Icons.bookmark_added),
                 Image.file(
-                  assetData.materials[itemId]!.getImageFile(assetCache!.assetDir),
+                  assetData.materials[itemId]!.getImageFile(assetData.assetDir),
                   width: 28,
                   height: 28,
                 ),
@@ -216,7 +206,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
 
                 const Icon(Symbols.sliders),
                 Image.file(
-                  assetData.materials[itemId]!.getImageFile(assetCache.assetDir),
+                  assetData.materials[itemId]!.getImageFile(assetData.assetDir),
                   width: 28,
                   height: 28,
                 ),

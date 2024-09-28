@@ -31,7 +31,7 @@ class WeaponDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
-      builder: (assetData, assetDir) {
+      builder: (context, assetData) {
         final weapon = assetData.weapons[id];
         if (weapon == null) {
           return Scaffold(
@@ -43,7 +43,6 @@ class WeaponDetailsPage extends StatelessWidget {
         return WeaponDetailsPageContents(
           weapon: weapon,
           assetData: assetData,
-          assetDir: assetDir,
           initialSelectedCharacter: initialSelectedCharacter,
         );
       },
@@ -54,14 +53,12 @@ class WeaponDetailsPage extends StatelessWidget {
 class WeaponDetailsPageContents extends StatefulHookWidget {
   final Weapon weapon;
   final AssetData assetData;
-  final String assetDir;
   final CharacterId? initialSelectedCharacter;
 
   const WeaponDetailsPageContents({
     super.key,
     required this.weapon,
     required this.assetData,
-    required this.assetDir,
     this.initialSelectedCharacter,
   });
 
@@ -87,7 +84,6 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
   Widget build(BuildContext context) {
     final weapon = widget.weapon;
     final assetData = widget.assetData;
-    final assetDir = widget.assetDir;
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
     final selectedCharacterIdInit = useMemoized(
@@ -111,7 +107,7 @@ class _WeaponDetailsPageContentsState extends State<WeaponDetailsPageContents> {
             children: [
               GameItemInfoBox(
                 itemImage: Image.file(
-                  weapon.getImageFile(assetDir),
+                  weapon.getImageFile(assetData.assetDir),
                   width: 50,
                   height: 50,
                 ),

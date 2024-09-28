@@ -18,7 +18,7 @@ class ArtifactDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
-      builder: (assetData, assetDir) {
+      builder: (context, assetData) {
         final artifactSet = assetData.artifactSets[id];
         if (artifactSet == null) {
           return Scaffold(
@@ -40,7 +40,7 @@ class ArtifactDetailsPage extends StatelessWidget {
                   children: [
                     GameItemInfoBox(
                       itemImage: Image.file(
-                        artifactSet.consistsOf.values.first.getImageFile(assetDir),
+                        artifactSet.consistsOf.values.first.getImageFile(assetData.assetDir),
                         width: 50,
                         height: 50,
                       ),
@@ -121,7 +121,7 @@ class ArtifactDetailsPage extends StatelessWidget {
                               height: 56,
                               child: ListTile(
                                 leading: Image.file(
-                                  piece.getImageFile(assetDir),
+                                  piece.getImageFile(assetData.assetDir),
                                   width: 32,
                                   height: 32,
                                 ),

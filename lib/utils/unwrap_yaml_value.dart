@@ -17,7 +17,7 @@ List<dynamic> unwrapYamlList(YamlList list) {
 }
 
 /// Loads YAML, unwrap it, and asserts its root type.
-RootT loadYamlWithUnwrap<RootT>(String yaml) {
+RootT loadYamlUnwrapped<RootT>(String yaml) {
   final unwrapped = unwrapYamlValue(loadYaml(yaml));
   if (unwrapped is! RootT) {
     throw "Root type of YAML is not $RootT.";

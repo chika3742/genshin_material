@@ -45,9 +45,8 @@ class _BookmarkList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetDataAsync = ref.watch(assetDataProvider);
-    assert(assetDataAsync.value?.data != null, "Must be used in a DataAssetScope");
-    final assetData = assetDataAsync.value!.data!;
-    final assetDir = assetDataAsync.value!.assetDir;
+    assert(assetDataAsync.value != null, "Must be used in a DataAssetScope");
+    final assetData = assetDataAsync.value!;
 
     final db = ref.watch(appDatabaseProvider);
     final bookmarksStream = useMemoized(() => db.watchBookmarks());
@@ -118,7 +117,7 @@ class _BookmarkList extends HookConsumerWidget {
                           },
                           child: Row(
                             children: [
-                              Image.file(character!.getSmallImageFile(assetDir), width: 35, height: 35),
+                              Image.file(character!.getSmallImageFile(assetData.assetDir), width: 35, height: 35),
                               const SizedBox(width: 8),
                               Flexible(
                                 child: FittedBox(
@@ -214,10 +213,10 @@ class _GroupTypeText extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetCacheAsync = ref.watch(assetDataProvider);
-    assert(assetCacheAsync.value?.data != null, "Must be used in a DataAssetScope");
+    final assetDataAsync = ref.watch(assetDataProvider);
+    assert(assetDataAsync.value != null, "Must be used in a DataAssetScope");
 
-    final assetCache = assetCacheAsync.value!;
+    final assetData = assetDataAsync.value!;
 
     switch (group.type) {
       case BookmarkType.material:
@@ -229,7 +228,7 @@ class _GroupTypeText extends HookConsumerWidget {
             Purpose.normalAttack || Purpose.elementalSkill || Purpose.elementalBurst => _buildText(tr.talentTypes[purposeType.name]!),
           };
         } else {
-          final weapon = assetCache.data!.weapons[materialDetails.weaponId]!;
+          final weapon = assetData.weapons[materialDetails.weaponId]!;
           return _ItemLinkButton(
             onTap: () {
               WeaponDetailsRoute(id: weapon.id).push(context);
@@ -237,7 +236,7 @@ class _GroupTypeText extends HookConsumerWidget {
             child: Row(
               children: [
                 _buildText(tr.bookmarksPage.weapon),
-                Image.file(weapon.getImageFile(assetCache.assetDir), width: 35, height: 35),
+                Image.file(weapon.getImageFile(assetData.assetDir), width: 35, height: 35),
               ],
             ),
           );
@@ -294,11 +293,10 @@ class _ArtifactSetDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetCacheAsync = ref.watch(assetDataProvider);
-    assert(assetCacheAsync.value?.data != null, "Must be used in a DataAssetScope");
+    final assetDataAsync = ref.watch(assetDataProvider);
+    assert(assetDataAsync.value != null, "Must be used in a DataAssetScope");
 
-    final assetData = assetCacheAsync.value!.data!;
-    final assetDir = assetCacheAsync.value!.assetDir;
+    final assetData = assetDataAsync.value!;
 
     return GappedColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,7 +311,7 @@ class _ArtifactSetDetails extends ConsumerWidget {
                   },
                   child: Row(
                     children: [
-                      Image.file(assetData.artifactSets[set]!.consistsOf.values.first.getImageFile(assetDir), width: 35, height: 35),
+                      Image.file(assetData.artifactSets[set]!.consistsOf.values.first.getImageFile(assetData.assetDir), width: 35, height: 35),
                       const SizedBox(width: 8),
                       Flexible(
                         child: Wrap(
@@ -362,11 +360,10 @@ class _ArtifactPieceDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetCacheAsync = ref.watch(assetDataProvider);
-    assert(assetCacheAsync.value?.data != null, "Must be used in a DataAssetScope");
+    final assetDataAsync = ref.watch(assetDataProvider);
+    assert(assetDataAsync.value != null, "Must be used in a DataAssetScope");
 
-    final assetData = assetCacheAsync.value!.data!;
-    final assetDir = assetCacheAsync.value!.assetDir;
+    final assetData = assetDataAsync.value!;
 
     final pieceId = bookmark.artifactPieceDetails.piece;
     final setId = assetData.artifactPieceSetMap[pieceId]!;
@@ -382,7 +379,7 @@ class _ArtifactPieceDetails extends ConsumerWidget {
           },
           child: Row(
             children: [
-              Image.file(piece.getImageFile(assetDir), width: 35, height: 35),
+              Image.file(piece.getImageFile(assetData.assetDir), width: 35, height: 35),
               const SizedBox(width: 8),
               Flexible(
                 child: Wrap(

@@ -20,11 +20,11 @@ final packageInfoProvider = FutureProvider<PackageInfo>.internal(
 );
 
 typedef PackageInfoRef = FutureProviderRef<PackageInfo>;
-String _$assetDataHash() => r'1e732f8a26207dad65398717f0600dd57b6daf5c';
+String _$assetDataHash() => r'eb0a0544270e2d46a68433c9a75defefd676733b';
 
 /// See also [assetData].
 @ProviderFor(assetData)
-final assetDataProvider = AutoDisposeFutureProvider<AssetDataCache>.internal(
+final assetDataProvider = AutoDisposeFutureProvider<AssetData>.internal(
   assetData,
   name: r'assetDataProvider',
   debugGetCreateSourceHash:
@@ -33,9 +33,9 @@ final assetDataProvider = AutoDisposeFutureProvider<AssetDataCache>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef AssetDataRef = AutoDisposeFutureProviderRef<AssetDataCache>;
+typedef AssetDataRef = AutoDisposeFutureProviderRef<AssetData>;
 String _$featuresReleaseNotesDataHash() =>
-    r'8e3ad82296b93c0879ee763a65bf12dd1515dda7';
+    r'8e2514976767aef0ea658dd933298209f5375942';
 
 /// See also [featuresReleaseNotesData].
 @ProviderFor(featuresReleaseNotesData)
@@ -53,7 +53,7 @@ final featuresReleaseNotesDataProvider =
 typedef FeaturesReleaseNotesDataRef
     = AutoDisposeFutureProviderRef<List<ReleaseNote>>;
 String _$assetsReleaseNotesDataHash() =>
-    r'e6d965fe94dc251bf63f4377a139c6541dd8d22f';
+    r'77a80a2f3041daaf0fa0698bbd18a530439554c0';
 
 /// See also [assetsReleaseNotesData].
 @ProviderFor(assetsReleaseNotesData)

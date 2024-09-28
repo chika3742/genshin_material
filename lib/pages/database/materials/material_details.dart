@@ -24,7 +24,7 @@ class MaterialDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
-      builder: (assetData, assetDir) {
+      builder: (context, assetData) {
         final material = assetData.materials[id];
         if (material == null) {
           return Scaffold(
@@ -54,7 +54,7 @@ class MaterialDetailsPage extends StatelessWidget {
                 children: [
                   GameItemInfoBox(
                     itemImage: Image.file(
-                      material.getImageFile(assetDir),
+                      material.getImageFile(assetData.assetDir),
                       width: 50,
                       height: 50,
                     ),
@@ -103,7 +103,7 @@ class MaterialDetailsPage extends StatelessWidget {
                                 children: [
                                   for (final weapon in weaponTypes.value)
                                     GameItemListTile(
-                                      image: weapon.getImageFile(assetDir),
+                                      image: weapon.getImageFile(assetData.assetDir),
                                       name: weapon.name.localized,
                                       rarity: weapon.rarity,
                                       rounded: true,

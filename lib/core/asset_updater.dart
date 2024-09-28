@@ -110,8 +110,9 @@ class AssetUpdater {
 
   Future<bool> _checkInstallation(String assetDir) async {
     try {
-      final result = await AssetDataCache(assetDir).fetchIntoCache();
-      return result;
+      await AssetDataCacheProvider(assetDir).load();
+
+      return true;
     } catch (e, st) {
       log("Asset installation check failed", error: e, stackTrace: st);
       return false;

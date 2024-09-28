@@ -20,7 +20,7 @@ class ArtifactEffectListPage extends HookConsumerWidget {
 
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
-      builder: (assetData, assetDir) {
+      builder: (context, assetData) {
         return Scaffold(
           appBar: AppBar(
             title: Text(tr.artifactsPage.effectList),
@@ -78,7 +78,7 @@ class ArtifactEffectListPage extends HookConsumerWidget {
                               children: [
                                 GappedRow(
                                   children: [
-                                    Image.file(set.consistsOf.values.first.getImageFile(assetDir), width: 35, height: 35),
+                                    Image.file(set.consistsOf.values.first.getImageFile(assetData.assetDir), width: 35, height: 35),
                                     Text(set.name.localized),
                                   ],
                                 ),
@@ -134,7 +134,7 @@ class _ArtifactEffectFilterBottomSheet extends ConsumerWidget {
     final state = ref.watch(artifactFilterStateNotifierProvider);
 
     return DataAssetScope(
-      builder: (assetData, assetDir) {
+      builder: (context, assetData) {
         return FilterBottomSheet(
           categories: [
             for (final cat in assetData.artifactTags)

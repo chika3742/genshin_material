@@ -10,7 +10,7 @@ import "center_text.dart";
 /// Shows [CircularProgressIndicator] during loading asset,
 /// and then shows [builder] widget.
 class DataAssetScope extends ConsumerWidget {
-  final Widget Function(AssetData assetData, String assetDir) builder;
+  final Widget Function(BuildContext context, AssetData assetData) builder;
   final bool wrapCenterTextWithScaffold;
 
   const DataAssetScope({super.key, required this.builder, this.wrapCenterTextWithScaffold = false});
@@ -20,9 +20,9 @@ class DataAssetScope extends ConsumerWidget {
     final assetData = ref.watch(assetDataProvider);
     final updatingState = ref.watch(assetUpdatingStateNotifierProvider);
 
-    if (assetData is AsyncData && assetData.value?.data != null) {
+    if (assetData is AsyncData) {
       // Valid assets present
-      return builder(assetData.value!.data!, assetData.value!.assetDir);
+      return builder(context, assetData.value!);
     }
     if (updatingState.state != null) {
       // No installed assets present and installation process running

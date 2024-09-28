@@ -23,7 +23,7 @@ class CharacterListPage extends ConsumerWidget {
         title: Text(tr.pages.characters),
       ),
       body: DataAssetScope(
-        builder: (assetData, _) {
+        builder: (context, assetData) {
           var charactersIterable = assetData.characters.values
               .whereType<CharacterWithLargeImage>();
           if (filterState.rarity != null) {
@@ -125,7 +125,7 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DataAssetScope(
-      builder: (assetData, assetDir) {
+      builder: (context, assetData) {
         return FilterBottomSheet(
           categories: [
             FilteringCategory(
@@ -150,7 +150,7 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
                   FilterChipWithIcon(
                     selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.element == element.key)),
                     leading: Image.file(
-                      element.value.getImageFile(assetDir),
+                      element.value.getImageFile(assetData.assetDir),
                       width: 24,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),

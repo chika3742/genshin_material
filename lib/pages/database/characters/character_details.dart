@@ -38,7 +38,7 @@ class CharacterDetailsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DataAssetScope(
       wrapCenterTextWithScaffold: true,
-      builder: (assetData, assetDir) {
+      builder: (context, assetData) {
         final characterOrVariant = assetData.characters[id];
         if (characterOrVariant == null) {
           return Scaffold(
@@ -66,7 +66,6 @@ class CharacterDetailsPage extends ConsumerWidget {
               return CharacterDetailsPageContents(
                 character: character,
                 assetData: assetData,
-                assetDir: assetDir,
                 initialVariant: characterOrVariant is CharacterVariant ? characterOrVariant.element : null,
                 initialCharacterLevels: syncedCharacterLevelsAsync.data,
               );
@@ -87,7 +86,6 @@ class CharacterDetailsPage extends ConsumerWidget {
 class CharacterDetailsPageContents extends StatefulHookConsumerWidget {
   final CharacterWithLargeImage character;
   final AssetData assetData;
-  final String assetDir;
   final String? initialVariant;
   final Map<Purpose, int>? initialCharacterLevels;
 
@@ -95,7 +93,6 @@ class CharacterDetailsPageContents extends StatefulHookConsumerWidget {
     super.key,
     required this.character,
     required this.assetData,
-    required this.assetDir,
     this.initialVariant,
     this.initialCharacterLevels,
   });
@@ -131,7 +128,6 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
   @override
   Widget build(BuildContext context) {
     final assetData = widget.assetData;
-    final assetDir = widget.assetDir;
     final character = widget.character;
     final ingredients = assetData.characterIngredients;
     final variants = useMemoized<Map<String, CharacterOrVariant>>(() {
@@ -205,7 +201,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                   Expanded(
                     child: GameItemInfoBox(
                       itemImage: Image.file(
-                        variant.value.getSmallImageFile(assetDir),
+                        variant.value.getSmallImageFile(assetData.assetDir),
                         width: 70,
                         height: 70,
                       ),
@@ -216,7 +212,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                         Row(
                           children: [
                             Image.file(
-                              assetData.elements[variant.value.element]!.getImageFile(assetDir),
+                              assetData.elements[variant.value.element]!.getImageFile(assetData.assetDir),
                               width: 26,
                               height: 26,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -247,7 +243,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                           children: [
                             Image.file(
                               assetData.elements[e.value.element]!
-                                  .getImageFile(assetDir),
+                                  .getImageFile(assetData.assetDir),
                               width: 25,
                               height: 25,
                               color: Theme.of(context).colorScheme.onSurface,

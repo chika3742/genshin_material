@@ -44,7 +44,7 @@ class MaterialListPage extends HookConsumerWidget {
             isScrollControlled: true,
             showDragHandle: true,
             builder: (context) => DataAssetScope(
-              builder: (assetData, assetDir) {
+              builder: (context, assetData) {
                 var offset = 0.0;
                 final materialsGroupedByCategory = assetData.materials.values
                     .groupListsBy((element) => element.category);
@@ -66,7 +66,7 @@ class MaterialListPage extends HookConsumerWidget {
                         final item = ListIndexItem(
                           title: categoryText,
                           image: materialsGroupedByCategory[categoryId]!
-                              .first.getImageFile(assetDir),
+                              .first.getImageFile(assetData.assetDir),
                           scrollOffset: offset,
                         );
                         offset += stickyListHeaderHeight +
@@ -83,7 +83,7 @@ class MaterialListPage extends HookConsumerWidget {
         label: Text(tr.common.index),
       ),
       body: DataAssetScope(
-        builder: (assetData, assetDir) {
+        builder: (context, assetData) {
           final categories = assetData.materialCategories;
           final materialsGroupedByCategory = assetData.materials.values
               .groupListsBy((element) => element.category);
@@ -104,7 +104,7 @@ class MaterialListPage extends HookConsumerWidget {
                           final material = materialsGroupedByCategory[categoryId]![index];
 
                           return GameItemListTile(
-                            image: material.getImageFile(assetDir),
+                            image: material.getImageFile(assetData.assetDir),
                             name: material.name.localized,
                             rarity: material.rarity,
                             onTap: () {

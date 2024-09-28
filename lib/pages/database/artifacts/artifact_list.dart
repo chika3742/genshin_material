@@ -18,7 +18,7 @@ class ArtifactListPage extends StatelessWidget {
         title: Text(tr.pages.artifacts),
       ),
       body: DataAssetScope(
-        builder: (assetData, assetDir) {
+        builder: (context, assetData) {
 
           return HookBuilder(
             builder: (context) {
@@ -68,7 +68,7 @@ class ArtifactListPage extends StatelessWidget {
                       final set = sets.values.elementAt(index);
 
                       return GameItemListTile(
-                        image: set.consistsOf.values.first.getImageFile(assetDir),
+                        image: set.consistsOf.values.first.getImageFile(assetData.assetDir),
                         name: set.name.localized,
                         rarity: set.maxRarity,
                         onTap: () {

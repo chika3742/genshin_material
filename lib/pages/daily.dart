@@ -51,7 +51,7 @@ class DailyPage extends HookConsumerWidget {
         bottom: WeekdayTab(tabController: tabController, tabs: tabs),
       ),
       body: DataAssetScope(
-        builder: (assetData, assetDir) {
+        builder: (context, assetData) {
           return TabBarView(
             controller: tabController,
             children: [
@@ -111,7 +111,7 @@ class DailyPage extends HookConsumerWidget {
                                         for (final weapon in e.value)
                                           GameItemListTile(
                                             name: weapon.name.localized,
-                                            image: weapon.getImageFile(assetDir),
+                                            image: weapon.getImageFile(assetData.assetDir),
                                             rounded: true,
                                             rarity: weapon.rarity,
                                             onTap: () {
@@ -145,8 +145,7 @@ class _DailyMaterialHeading extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetDataCache = ref.watch(assetDataProvider).value;
-    final assetData = assetDataCache?.data;
+    final assetData = ref.watch(assetDataProvider).value;
     if (assetData == null) {
       return const SizedBox();
     }
@@ -163,7 +162,7 @@ class _DailyMaterialHeading extends ConsumerWidget {
                   MaterialDetailsRoute(id: dm).push(context);
                 },
                 child: Image.file(
-                  assetData.materials[dm]!.getImageFile(assetDataCache!.assetDir),
+                  assetData.materials[dm]!.getImageFile(assetData.assetDir),
                   width: 35,
                   height: 35,
                 ),

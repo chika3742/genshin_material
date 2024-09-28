@@ -44,7 +44,7 @@ class WeaponListPage extends HookConsumerWidget {
         label: Text(tr.common.index),
       ),
       body: DataAssetScope(
-        builder: (assetData, assetDir) {
+        builder: (context, assetData) {
           return HookBuilder(
             builder: (context) {
               final weaponsGroupedByType = useMemoized(
@@ -72,7 +72,7 @@ class WeaponListPage extends HookConsumerWidget {
                               final weapon = weapons[index];
 
                               return GameItemListTile(
-                                image: weapon.getImageFile(assetDir),
+                                image: weapon.getImageFile(assetData.assetDir),
                                 name: weapon.name.localized,
                                 rarity: weapon.rarity,
                                 onTap: () {
@@ -101,7 +101,7 @@ class WeaponListPage extends HookConsumerWidget {
       isScrollControlled: true,
       showDragHandle: true,
       builder: (context) => DataAssetScope(
-        builder: (assetData, assetDir) {
+        builder: (context, assetData) {
           var offset = 0.0;
           final weaponsGroupedByType = assetData.weapons.values
               .groupListsBy((element) => element.type);
@@ -120,7 +120,7 @@ class WeaponListPage extends HookConsumerWidget {
 
               final item = ListIndexItem(
                 title: assetData.weaponTypes[typeId]!.name.localized,
-                image: items.first.getImageFile(assetDir),
+                image: items.first.getImageFile(assetData.assetDir),
                 scrollOffset: offset,
               );
 
