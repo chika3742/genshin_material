@@ -7,110 +7,108 @@ import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/effect_description.dart";
 import "../../../components/filter_bottom_sheet.dart";
+import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../providers/filter_state.dart";
 import "../../../ui_core/layout.dart";
 
 class ArtifactEffectListPage extends HookConsumerWidget {
-  const ArtifactEffectListPage({super.key});
+  final AssetData assetData;
+
+  const ArtifactEffectListPage({super.key, required this.assetData});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filterState = ref.watch(artifactFilterStateNotifierProvider);
 
-    return DataAssetScope(
-      wrapCenterTextWithScaffold: true,
-      builder: (context, assetData) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(tr.artifactsPage.effectList),
-          ),
-          body: HookBuilder(
-            builder: (context) {
-              final sets = useMemoized(() => assetData.artifactSets.values.where((e) {
-                if (filterState.tags.isEmpty) {
-                  return true;
-                }
-                if (e.tags == null) {
-                  return false;
-                }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(tr.artifactsPage.effectList),
+      ),
+      body: HookBuilder(
+        builder: (context) {
+          final sets = useMemoized(() => assetData.artifactSets.values.where((e) {
+            if (filterState.tags.isEmpty) {
+              return true;
+            }
+            if (e.tags == null) {
+              return false;
+            }
 
-                return filterState.tags.every(e.tags!.contains);
-              }).toList(), [filterState],);
+            return filterState.tags.every(e.tags!.contains);
+          }).toList(), [filterState],);
 
-              return CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      child: GappedRow(
-                        children: [
-                          FilterChipWithMenu(
-                            label: Text(tr.artifactsPage.kindOfEffect),
-                            selected: filterState.tags.isNotEmpty,
-                            onSelected: (_) {
-                              _showFilterBottomSheet(context);
-                            },
-                          ),
-                          FilterChipWithIcon(
-                            leading: const Icon(Symbols.clear),
-                            label: Text(tr.common.clear),
-                            onSelected: filterState.tags.isNotEmpty ? (_) {
-                              ref.read(artifactFilterStateNotifierProvider.notifier).clear();
-                            } : null,
-                          ),
-                        ],
+          return CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  child: GappedRow(
+                    children: [
+                      FilterChipWithMenu(
+                        label: Text(tr.artifactsPage.kindOfEffect),
+                        selected: filterState.tags.isNotEmpty,
+                        onSelected: (_) {
+                          _showFilterBottomSheet(context);
+                        },
                       ),
-                    ),
+                      FilterChipWithIcon(
+                        leading: const Icon(Symbols.clear),
+                        label: Text(tr.common.clear),
+                        onSelected: filterState.tags.isNotEmpty ? (_) {
+                          ref.read(artifactFilterStateNotifierProvider.notifier).clear();
+                        } : null,
+                      ),
+                    ],
                   ),
-                  SliverList.builder(
-                    itemCount: sets.length,
-                    itemBuilder: (context, index) {
-                      final set = sets[index];
+                ),
+              ),
+              SliverList.builder(
+                itemCount: sets.length,
+                itemBuilder: (context, index) {
+                  final set = sets[index];
 
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GappedRow(
                               children: [
-                                GappedRow(
-                                  children: [
-                                    Image.file(set.consistsOf.values.first.getImageFile(assetData.assetDir), width: 35, height: 35),
-                                    Text(set.name.localized),
-                                  ],
-                                ),
-                                for (final bonus in set.bonuses) ...[
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-                                    child: Text(
-                                      tr.artifactsPage.bonusTypes[bonus.type]!,
-                                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                        color: Theme.of(context).colorScheme.secondary,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: EffectDescription(bonus.description.localized),
-                                  ),
-                                ],
+                                Image.file(set.consistsOf.values.first.getImageFile(assetData.assetDir), width: 35, height: 35),
+                                Text(set.name.localized),
                               ],
                             ),
-                          ),
-                          const Divider(indent: 16, endIndent: 16),
-                        ],
-                      );
-                    },
-                  ),
-                ],
-              );
-            },
-          ),
-        );
-      },
+                            for (final bonus in set.bonuses) ...[
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                                child: Text(
+                                  tr.artifactsPage.bonusTypes[bonus.type]!,
+                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: EffectDescription(bonus.description.localized),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      const Divider(indent: 16, endIndent: 16),
+                    ],
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -134,6 +132,7 @@ class _ArtifactEffectFilterBottomSheet extends ConsumerWidget {
     final state = ref.watch(artifactFilterStateNotifierProvider);
 
     return DataAssetScope(
+      useScaffold: false,
       builder: (context, assetData) {
         return FilterBottomSheet(
           categories: [

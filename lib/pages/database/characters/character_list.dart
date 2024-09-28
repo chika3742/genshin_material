@@ -6,103 +6,103 @@ import "../../../components/character_list_item.dart";
 import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/filter_bottom_sheet.dart";
+import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/filter_state.dart";
 import "../../../ui_core/layout.dart";
 
 class CharacterListPage extends ConsumerWidget {
-  const CharacterListPage({super.key});
+  final AssetData assetData;
+
+  const CharacterListPage({super.key, required this.assetData});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filterState = ref.watch(characterFilterStateNotifierProvider);
 
+    var charactersIterable = assetData.characters.values
+        .whereType<CharacterWithLargeImage>();
+    if (filterState.rarity != null) {
+      charactersIterable = charactersIterable.where((e) => e.rarity == filterState.rarity);
+    }
+    if (filterState.element != null) {
+      charactersIterable = charactersIterable.where((e) => e is ListedCharacter ? e.element == filterState.element : false);
+    }
+    if (filterState.weaponType != null) {
+      charactersIterable = charactersIterable.where((e) => e.weaponType == filterState.weaponType);
+    }
+
+    final characters = charactersIterable.toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.characters),
       ),
-      body: DataAssetScope(
-        builder: (context, assetData) {
-          var charactersIterable = assetData.characters.values
-              .whereType<CharacterWithLargeImage>();
-          if (filterState.rarity != null) {
-            charactersIterable = charactersIterable.where((e) => e.rarity == filterState.rarity);
-          }
-          if (filterState.element != null) {
-            charactersIterable = charactersIterable.where((e) => e is ListedCharacter ? e.element == filterState.element : false);
-          }
-          if (filterState.weaponType != null) {
-            charactersIterable = charactersIterable.where((e) => e.weaponType == filterState.weaponType);
-          }
-
-          final characters = charactersIterable.toList();
-          return Scrollbar(
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: GappedRow(
-                        children: [
-                          FilterChipWithMenu( // rarity
-                            selected: filterState.rarity != null,
-                            label: Text(tr.common.rarity),
-                            onSelected: (_) {
-                              _showFilterBottomSheet(context);
-                            },
-                          ),
-
-                          FilterChipWithMenu( // element
-                            selected: filterState.element != null,
-                            label: Text(tr.common.element),
-                            onSelected: (_) {
-                              _showFilterBottomSheet(context);
-                            },
-                          ),
-
-                          FilterChipWithMenu( // weapon type
-                            selected: filterState.weaponType != null,
-                            label: Text(tr.common.weaponType),
-                            onSelected: (_) {
-                              _showFilterBottomSheet(context);
-                            },
-                          ),
-
-                          FilterChipWithIcon( // clear
-                            leading: const Icon(Symbols.clear),
-                            label: Text(tr.common.clear),
-                            onSelected: filterState.isFiltering ? (_) {
-                              ref.read(characterFilterStateNotifierProvider.notifier)
-                                  .clear();
-                            } : null,
-                          ),
-                        ],
+      body: Scrollbar(
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: GappedRow(
+                    children: [
+                      FilterChipWithMenu( // rarity
+                        selected: filterState.rarity != null,
+                        label: Text(tr.common.rarity),
+                        onSelected: (_) {
+                          _showFilterBottomSheet(context);
+                        },
                       ),
-                    ),
+
+                      FilterChipWithMenu( // element
+                        selected: filterState.element != null,
+                        label: Text(tr.common.element),
+                        onSelected: (_) {
+                          _showFilterBottomSheet(context);
+                        },
+                      ),
+
+                      FilterChipWithMenu( // weapon type
+                        selected: filterState.weaponType != null,
+                        label: Text(tr.common.weaponType),
+                        onSelected: (_) {
+                          _showFilterBottomSheet(context);
+                        },
+                      ),
+
+                      FilterChipWithIcon( // clear
+                        leading: const Icon(Symbols.clear),
+                        label: Text(tr.common.clear),
+                        onSelected: filterState.isFiltering ? (_) {
+                          ref.read(characterFilterStateNotifierProvider.notifier)
+                              .clear();
+                        } : null,
+                      ),
+                    ],
                   ),
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.all(16.0),
-                  sliver: SliverGrid.builder(
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200,
-                      mainAxisSpacing: 8.0,
-                      crossAxisSpacing: 8.0,
-                      childAspectRatio: 2,
-                    ),
-                    itemCount: characters.length,
-                    itemBuilder: (context, index) {
-                      return CharacterListItem(characters[index]);
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
-          );
-        },
+            SliverPadding(
+              padding: const EdgeInsets.all(16.0),
+              sliver: SliverGrid.builder(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  mainAxisSpacing: 8.0,
+                  crossAxisSpacing: 8.0,
+                  childAspectRatio: 2,
+                ),
+                itemCount: characters.length,
+                itemBuilder: (context, index) {
+                  return CharacterListItem(characters[index]);
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -125,6 +125,7 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DataAssetScope(
+      useScaffold: false,
       builder: (context, assetData) {
         return FilterBottomSheet(
           categories: [

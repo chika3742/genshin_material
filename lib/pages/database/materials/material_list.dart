@@ -12,18 +12,20 @@ import "../../../components/list_index_sheet.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/sticky_list_header.dart";
 import "../../../constants/dimens.dart";
+import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../routes.dart";
 import "../../../ui_core/tutorial.dart";
 
 class MaterialListPage extends HookConsumerWidget {
-  MaterialListPage({super.key});
+  final AssetData assetData;
 
-  final _scrollController = ScrollController();
+  const MaterialListPage({super.key, required this.assetData});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fabKey = useMemoized(() => GlobalKey());
+    final scrollController = useScrollController();
 
     useEffect(() {
       Future.delayed(const Duration(milliseconds: 350), () {
@@ -31,6 +33,11 @@ class MaterialListPage extends HookConsumerWidget {
       });
       return null;
     }, [],);
+
+    final materialsGroupedByCategory = useMemoized(
+      () => assetData.materials.values.groupListsBy((element) => element.category),
+      [assetData.materials],
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -44,6 +51,7 @@ class MaterialListPage extends HookConsumerWidget {
             isScrollControlled: true,
             showDragHandle: true,
             builder: (context) => DataAssetScope(
+              useScaffold: false,
               builder: (context, assetData) {
                 var offset = 0.0;
                 final materialsGroupedByCategory = assetData.materials.values
@@ -51,8 +59,8 @@ class MaterialListPage extends HookConsumerWidget {
 
                 return ListIndexSheet(
                   onSelected: (scrollOffset) {
-                    _scrollController.animateTo(
-                      min(scrollOffset, _scrollController.position.maxScrollExtent),
+                    scrollController.animateTo(
+                      min(scrollOffset, scrollController.position.maxScrollExtent),
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOutQuint,
                     );
@@ -82,45 +90,38 @@ class MaterialListPage extends HookConsumerWidget {
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
       ),
-      body: DataAssetScope(
-        builder: (context, assetData) {
-          final categories = assetData.materialCategories;
-          final materialsGroupedByCategory = assetData.materials.values
-              .groupListsBy((element) => element.category);
-          return PrimaryScrollController(
-            controller: _scrollController,
-            child: Scrollbar(
-              child: CustomScrollView(
-                controller: _scrollController,
-                slivers: categories.entries.map((e) {
-                  final categoryId = e.key;
-                  final categoryText = e.value.localized;
+      body: PrimaryScrollController(
+        controller: scrollController,
+        child: Scrollbar(
+          child: CustomScrollView(
+            controller: scrollController,
+            slivers: assetData.materialCategories.entries.map((e) {
+              final categoryId = e.key;
+              final categoryText = e.value.localized;
 
-                  return SliverStickyHeader.builder(
-                    builder: (_, __) => StickyListHeader(categoryText),
-                    sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                          final material = materialsGroupedByCategory[categoryId]![index];
+              return SliverStickyHeader.builder(
+                builder: (_, __) => StickyListHeader(categoryText),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                      final material = materialsGroupedByCategory[categoryId]![index];
 
-                          return GameItemListTile(
-                            image: material.getImageFile(assetData.assetDir),
-                            name: material.name.localized,
-                            rarity: material.rarity,
-                            onTap: () {
-                              MaterialDetailsRoute(id: material.id).go(context);
-                            },
-                          );
+                      return GameItemListTile(
+                        image: material.getImageFile(assetData.assetDir),
+                        name: material.name.localized,
+                        rarity: material.rarity,
+                        onTap: () {
+                          MaterialDetailsRoute(id: material.id).go(context);
                         },
-                        childCount: materialsGroupedByCategory[categoryId]?.length ?? 0,
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          );
-        },
+                      );
+                    },
+                    childCount: materialsGroupedByCategory[categoryId]?.length ?? 0,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
       ),
     );
   }

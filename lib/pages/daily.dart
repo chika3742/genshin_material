@@ -3,9 +3,9 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../components/character_small_card.dart";
-import "../components/data_asset_scope.dart";
 import "../components/list_tile.dart";
 import "../components/weekday_tab.dart";
+import "../core/asset_cache.dart";
 import "../i18n/strings.g.dart";
 import "../models/material.dart";
 import "../providers/preferences.dart";
@@ -16,7 +16,9 @@ import "../utils/lists.dart";
 import "../utils/material_usage.dart";
 
 class DailyPage extends HookConsumerWidget {
-  const DailyPage({super.key});
+  final AssetData assetData;
+
+  const DailyPage({super.key, required this.assetData});
 
   List<DailyTab> get tabs => [
     DailyTab(
@@ -50,89 +52,85 @@ class DailyPage extends HookConsumerWidget {
         title: Text(tr.pages.daily),
         bottom: WeekdayTab(tabController: tabController, tabs: tabs),
       ),
-      body: DataAssetScope(
-        builder: (context, assetData) {
-          return TabBarView(
-            controller: tabController,
-            children: [
-              for (final tab in tabs)
-                SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: GappedColumn(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Section(
-                        heading: SectionHeading(tr.dailyPage.talentMaterials),
-                        child: GappedColumn(
-                          children: [
-                            for (final dm in assetData.dailyMaterials.talent[tab.id]!)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: TabBarView(
+        controller: tabController,
+        children: [
+          for (final tab in tabs)
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: GappedColumn(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Section(
+                    heading: SectionHeading(tr.dailyPage.talentMaterials),
+                    child: GappedColumn(
+                      children: [
+                        for (final dm in assetData.dailyMaterials.talent[tab.id]!)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              _DailyMaterialHeading(dailyMaterial: dm),
+                              Wrap(
                                 children: [
-                                  _DailyMaterialHeading(dailyMaterial: dm),
-                                  Wrap(
-                                    children: [
-                                      for (final character in getCharactersUsingMaterial(
-                                        assetData.materials[dm.items.first]!,
-                                        assetData.characters.values,
-                                        assetData.specialCharactersUsingMaterials,
-                                      ))
-                                        if (!character.id.startsWith("traveler"))
-                                          CharacterSmallCard(character),
-                                    ],
-                                  ),
+                                  for (final character in getCharactersUsingMaterial(
+                                    assetData.materials[dm.items.first]!,
+                                    assetData.characters.values,
+                                    assetData.specialCharactersUsingMaterials,
+                                  ))
+                                    if (!character.id.startsWith("traveler"))
+                                      CharacterSmallCard(character),
                                 ],
                               ),
-                          ],
-                        ),
-                      ),
-
-                      const Divider(),
-
-                      Section(
-                        heading: SectionHeading(tr.dailyPage.weaponMaterials),
-                        child: GappedColumn(
-                          children: [
-                            for (final dm in assetData.dailyMaterials.weapon[tab.id]!)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  _DailyMaterialHeading(dailyMaterial: dm),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      for (final e in getWeaponsUsingMaterial(
-                                        assetData.materials[dm.items.first]!,
-                                        assetData.weapons.values,
-                                      ).toList().sortedDescendingByRarity().groupByType(assetData.weaponTypes.keys.toList()).entries) ...[
-                                        SectionInnerHeading(
-                                          assetData.weaponTypes[e.key]!.name.localized,
-                                        ),
-                                        for (final weapon in e.value)
-                                          GameItemListTile(
-                                            name: weapon.name.localized,
-                                            image: weapon.getImageFile(assetData.assetDir),
-                                            rounded: true,
-                                            rarity: weapon.rarity,
-                                            onTap: () {
-                                              WeaponDetailsRoute(id: weapon.id)
-                                                  .push(context);
-                                            },
-                                          ),
-                                      ],
-                                    ],
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
-                      ),
-                    ],
+                            ],
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-            ],
-          );
-        },
+
+                  const Divider(),
+
+                  Section(
+                    heading: SectionHeading(tr.dailyPage.weaponMaterials),
+                    child: GappedColumn(
+                      children: [
+                        for (final dm in assetData.dailyMaterials.weapon[tab.id]!)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              _DailyMaterialHeading(dailyMaterial: dm),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  for (final e in getWeaponsUsingMaterial(
+                                    assetData.materials[dm.items.first]!,
+                                    assetData.weapons.values,
+                                  ).toList().sortedDescendingByRarity().groupByType(assetData.weaponTypes.keys.toList()).entries) ...[
+                                    SectionInnerHeading(
+                                      assetData.weaponTypes[e.key]!.name.localized,
+                                    ),
+                                    for (final weapon in e.value)
+                                      GameItemListTile(
+                                        name: weapon.name.localized,
+                                        image: weapon.getImageFile(assetData.assetDir),
+                                        rounded: true,
+                                        rarity: weapon.rarity,
+                                        onTap: () {
+                                          WeaponDetailsRoute(id: weapon.id)
+                                              .push(context);
+                                        },
+                                      ),
+                                  ],
+                                ],
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
       ),
     );
   }

@@ -33,9 +33,9 @@ Future<List<ReleaseNote>> featuresReleaseNotesData(FeaturesReleaseNotesDataRef r
 
 @riverpod
 Future<List<ReleaseNote>> assetsReleaseNotesData(AssetsReleaseNotesDataRef ref) async {
-  final assetVersion = await ref.watch(assetDataProvider.future);
+  final assetData = await ref.watch(assetDataProvider.future);
 
-  final assetPath = path.join((await getLocalAssetDirectory()).path, "asset-release-notes.json");
+  final assetPath = path.join(assetData.assetDir, "asset-release-notes.json");
   final yaml = await File(assetPath).readAsString();
   final items = loadYamlUnwrapped<List>(yaml);
   return items.map((e) => ReleaseNote.fromJson(e)).toList();

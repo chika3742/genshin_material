@@ -7,7 +7,6 @@ import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
-import "../components/data_asset_scope.dart";
 import "../components/material_item.dart";
 import "../db/bookmark_db_extension.dart";
 import "../db/bookmark_order_registry_db_extension.dart";
@@ -30,11 +29,7 @@ class BookmarksPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(tr.pages.bookmarks),
       ),
-      body: DataAssetScope(
-        builder: (assetData, assetDir) {
-          return const _BookmarkList();
-        },
-      ),
+      body: const _BookmarkList(),
     );
   }
 }

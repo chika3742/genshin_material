@@ -29,56 +29,48 @@ import "../../../ui_core/snack_bar.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
 
-class CharacterDetailsPage extends ConsumerWidget {
+class CharacterDetailsPage extends HookConsumerWidget {
+  final AssetData assetData;
   final String id;
 
-  const CharacterDetailsPage(this.id, {super.key});
+  const CharacterDetailsPage({super.key, required this.assetData, required this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DataAssetScope(
-      wrapCenterTextWithScaffold: true,
-      builder: (context, assetData) {
-        final characterOrVariant = assetData.characters[id];
-        if (characterOrVariant == null) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: CenterText(tr.errors.characterNotFound),
-          );
-        }
+    final characterOrVariant = assetData.characters[id];
+    if (characterOrVariant == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: CenterText(tr.errors.characterNotFound),
+      );
+    }
 
-        final character = switch (characterOrVariant) {
-          ListedCharacter() || CharacterGroup() => characterOrVariant,
-          CharacterVariant(:final parentId) => assetData.characters[parentId]! as CharacterGroup,
-          _ => throw UnsupportedError("Unsupported character type: $characterOrVariant"),
-        } as CharacterWithLargeImage;
-        
-        return HookBuilder(
-          builder: (context) {
-            final db = ref.watch(appDatabaseProvider);
-            final prefs = ref.watch(preferencesStateNotifierProvider);
-            final syncedCharacterLevelsFuture = useMemoized(() => prefs.isLinkedWithHoyolab
-                ? db.getCharacterLevels(prefs.hyvUid!, characterOrVariant is CharacterGroup ? characterOrVariant.variantIds.first : id)
-                : Future.value(null),);
-            final syncedCharacterLevelsAsync = useFuture(syncedCharacterLevelsFuture);
+    final character = switch (characterOrVariant) {
+      ListedCharacter() || CharacterGroup() => characterOrVariant,
+      CharacterVariant(:final parentId) => assetData.characters[parentId]! as CharacterGroup,
+      _ => throw UnsupportedError("Unsupported character type: $characterOrVariant"),
+    } as CharacterWithLargeImage;
 
-            if (syncedCharacterLevelsAsync.connectionState == ConnectionState.done) {
-              return CharacterDetailsPageContents(
-                character: character,
-                assetData: assetData,
-                initialVariant: characterOrVariant is CharacterVariant ? characterOrVariant.element : null,
-                initialCharacterLevels: syncedCharacterLevelsAsync.data,
-              );
-            } else {
-              return Scaffold(
-                appBar: AppBar(),
-                body: const Center(child: CircularProgressIndicator()),
-              );
-            }
-          },
-        );
-      },
-    );
+    final db = ref.watch(appDatabaseProvider);
+    final prefs = ref.watch(preferencesStateNotifierProvider);
+    final syncedCharacterLevelsFuture = useMemoized(() => prefs.isLinkedWithHoyolab
+        ? db.getCharacterLevels(prefs.hyvUid!, characterOrVariant is CharacterGroup ? characterOrVariant.variantIds.first : id)
+        : Future.value(null),);
+    final syncedCharacterLevelsAsync = useFuture(syncedCharacterLevelsFuture);
+
+    if (syncedCharacterLevelsAsync.connectionState == ConnectionState.done) {
+      return CharacterDetailsPageContents(
+        character: character,
+        assetData: assetData,
+        initialVariant: characterOrVariant is CharacterVariant ? characterOrVariant.element : null,
+        initialCharacterLevels: syncedCharacterLevelsAsync.data,
+      );
+    } else {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
   }
 }
 

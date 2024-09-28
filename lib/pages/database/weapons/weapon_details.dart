@@ -4,7 +4,6 @@ import "package:flutter_hooks/flutter_hooks.dart";
 
 import "../../../components/center_text.dart";
 import "../../../components/character_select_dropdown.dart";
-import "../../../components/data_asset_scope.dart";
 import "../../../components/effect_description.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/item_source_widget.dart";
@@ -22,30 +21,26 @@ import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
 
 class WeaponDetailsPage extends StatelessWidget {
+  final AssetData assetData;
   final String id;
   final CharacterId? initialSelectedCharacter;
 
-  const WeaponDetailsPage(this.id, {super.key, this.initialSelectedCharacter});
+  const WeaponDetailsPage({super.key, required this.id, required this.assetData, this.initialSelectedCharacter});
 
   @override
   Widget build(BuildContext context) {
-    return DataAssetScope(
-      wrapCenterTextWithScaffold: true,
-      builder: (context, assetData) {
-        final weapon = assetData.weapons[id];
-        if (weapon == null) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: const CenterText("Weapon not found"),
-          );
-        }
+    final weapon = assetData.weapons[id];
+    if (weapon == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const CenterText("Weapon not found"),
+      );
+    }
 
-        return WeaponDetailsPageContents(
-          weapon: weapon,
-          assetData: assetData,
-          initialSelectedCharacter: initialSelectedCharacter,
-        );
-      },
+    return WeaponDetailsPageContents(
+      weapon: weapon,
+      assetData: assetData,
+      initialSelectedCharacter: initialSelectedCharacter,
     );
   }
 }
