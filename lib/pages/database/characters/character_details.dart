@@ -3,10 +3,10 @@ import "dart:developer";
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../../../components/center_text.dart";
-import "../../../components/data_asset_scope.dart";
 import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/labeled_check_box.dart";
@@ -19,6 +19,7 @@ import "../../../database.dart";
 import "../../../db/character_level_info_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
+import "../../../models/character_ingredients.dart";
 import "../../../models/common.dart";
 import "../../../models/material_bookmark_frame.dart";
 import "../../../providers/database_provider.dart";
@@ -28,6 +29,8 @@ import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
+
+part "character_details.freezed.dart";
 
 class CharacterDetailsPage extends HookConsumerWidget {
   final AssetData assetData;
@@ -59,7 +62,7 @@ class CharacterDetailsPage extends HookConsumerWidget {
     final syncedCharacterLevelsAsync = useFuture(syncedCharacterLevelsFuture);
 
     if (syncedCharacterLevelsAsync.connectionState == ConnectionState.done) {
-      return CharacterDetailsPageContents(
+      return _CharacterDetailsPageContents(
         character: character,
         assetData: assetData,
         initialVariant: characterOrVariant is CharacterVariant ? characterOrVariant.element : null,
@@ -74,15 +77,13 @@ class CharacterDetailsPage extends HookConsumerWidget {
   }
 }
 
-/// Ensure that this widget is within a [DataAssetScope].
-class CharacterDetailsPageContents extends StatefulHookConsumerWidget {
+class _CharacterDetailsPageContents extends HookConsumerWidget {
   final CharacterWithLargeImage character;
   final AssetData assetData;
   final String? initialVariant;
   final Map<Purpose, int>? initialCharacterLevels;
 
-  const CharacterDetailsPageContents({
-    super.key,
+  const _CharacterDetailsPageContents({
     required this.character,
     required this.assetData,
     this.initialVariant,
@@ -90,38 +91,15 @@ class CharacterDetailsPageContents extends StatefulHookConsumerWidget {
   });
 
   @override
-  ConsumerState<CharacterDetailsPageContents> createState() => _CharacterDetailsPageContentsState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = useState(useMemoized(() => _CharacterDetailsPageState.init(
+      ingredients: assetData.characterIngredients,
+      initialCharacterLevels: initialCharacterLevels,
+    ),),);
 
-class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsPageContents> {
-  final Map<Purpose, LevelRangeValues> _rangeValues = {};
-  final Map<Purpose, List<int>> _sliderTickLabels = {};
-  final Map<Purpose, bool> _checkedTalentTypes = {};
-  final Map<Purpose, GlobalKey> _talentSectionKeys = {};
-
-  @override
-  void initState() {
-    super.initState();
-
-    // init the range values and checked talent types for each purpose
-    final ingredients = widget.assetData.characterIngredients;
-    for (final purpose in ingredients.purposes.keys) {
-      final levels = ingredients.purposes[purpose]!.levels;
-      _sliderTickLabels[purpose] = [1, ...levels.keys];
-      var initialSliderLowerRange = 1;
-      if (widget.initialCharacterLevels?[purpose] != null) {
-        initialSliderLowerRange = widget.initialCharacterLevels![purpose]!;
-      }
-      _rangeValues[purpose] = LevelRangeValues(initialSliderLowerRange, levels.keys.last);
-      _checkedTalentTypes[purpose] = initialSliderLowerRange < levels.keys.last;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final assetData = widget.assetData;
-    final character = widget.character;
+    final character = this.character; // for type guard
     final ingredients = assetData.characterIngredients;
+
     final variants = useMemoized<Map<String, CharacterOrVariant>>(() {
       if (character is CharacterGroup) {
         return Map.fromEntries(
@@ -135,27 +113,46 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
     });
 
     final prefs = ref.watch(preferencesStateNotifierProvider);
+    final db = ref.watch(appDatabaseProvider);
 
-    final hoyolabSyncStatus = useState(GameDataSyncStatus.synced);
     final variant = useState(
-      variants[widget.initialVariant] ?? variants.values.first,
+      variants[initialVariant] ?? variants.values.first,
     );
 
-    useValueChanged<CharacterOrVariant, void>(variant.value, (_, __) {
+    useValueChanged<CharacterOrVariant, void>(variant.value, (_, __) async {
       if (prefs.isLinkedWithHoyolab) {
-        _updateSliderRange(ref.read(appDatabaseProvider), prefs.hyvUid!, variant.value.id);
+        final db = ref.read(appDatabaseProvider);
+        final levelsByPurpose = await db.getCharacterLevels(prefs.hyvUid!, variant.value.id);
+        if (levelsByPurpose != null) {
+          _updateSliderRange(levelsByPurpose, state);
+        }
       }
     });
 
-    useEffect(
-      () {
-        if (prefs.syncCharaState && _rangeValues.values.any((e) => e.start != e.end)) {
-          _syncGameData(assetData, prefs, character, variant.value, hoyolabSyncStatus);
+    useEffect(() {
+      if (prefs.isLinkedWithHoyolab && prefs.syncCharaState && state.value.rangeValues.values.any((e) => e.start != e.end)) {
+        void showError(dynamic e, StackTrace st, String message) {
+          log("Failed to sync character data", error: e, stackTrace: st);
+          if (context.mounted) {
+            showSnackBar(
+              context: context,
+              message: message,
+              error: true,
+            );
+          }
         }
-        return null;
-      },
-      [variant.value],
-    );
+        _syncGameData(prefs, db, variant.value, state)
+            .onError<HoyolabApiException>((e, st) {
+              state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.error);
+              showError(e, st, e.getMessage(tr.hoyolab.failedToSyncGameData));
+            })
+            .catchError((e, st) {
+              state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.error);
+              showError(e, st, tr.hoyolab.failedToSyncGameData);
+            });
+      }
+      return null;
+    }, [variant.value],);
 
     return Scaffold(
       appBar: AppBar(
@@ -219,7 +216,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                     ),
                   ),
                   if (prefs.isLinkedWithHoyolab && prefs.syncCharaState) GameDataSyncIndicator(
-                    status: hoyolabSyncStatus.value,
+                    status: state.value.hoyolabSyncStatus,
                   ),
                 ],
               ),
@@ -229,23 +226,23 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                 DropdownButtonFormField(
                   value: variant.value.element,
                   items: variants.entries.map((e) {
-                      return DropdownMenuItem(
-                        value: e.key,
-                        child: Row(
-                          children: [
-                            Image.file(
-                              assetData.elements[e.value.element]!
-                                  .getImageFile(assetData.assetDir),
-                              width: 25,
-                              height: 25,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(assetData.elements[e.value.element]!.text.localized),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                    return DropdownMenuItem(
+                      value: e.key,
+                      child: Row(
+                        children: [
+                          Image.file(
+                            assetData.elements[e.value.element]!
+                                .getImageFile(assetData.assetDir),
+                            width: 25,
+                            height: 25,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(assetData.elements[e.value.element]!.text.localized),
+                        ],
+                      ),
+                    );
+                  }).toList(),
                   decoration: InputDecoration(
                     label: Text(tr.common.element),
                     border: const OutlineInputBorder(),
@@ -264,23 +261,23 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: LevelSlider(
-                          levels: _sliderTickLabels[Purpose.ascension]!,
-                          values: _rangeValues[Purpose.ascension]!,
+                          levels: state.value.sliderTickLabels[Purpose.ascension]!,
+                          values: state.value.rangeValues[Purpose.ascension]!,
                           onChanged: (values) {
                             // avoid overlapping slider handles
                             if (values.start == values.end) {
                               return;
                             }
 
-                            setState(() {
-                              _rangeValues[Purpose.ascension] = values;
-                            });
+                            state.value = state.value.copyWith(
+                              rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = values,
+                            );
                           },
                         ),
                       ),
                     ),
                     Wrap(
-                      children: _buildAscensionMaterialCards(character),
+                      children: _buildAscensionMaterialCards(state.value.rangeValues),
                     ),
                   ],
                 ),
@@ -300,16 +297,16 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                           child: Column(
                             children: [
                               LabeledCheckBox(
-                                value: _checkedTalentTypes[purpose]!,
+                                value: state.value.checkedTalentTypes[purpose]!,
                                 onChanged: (value) {
-                                  setState(() {
-                                    _checkedTalentTypes[purpose] = value!;
-                                  });
+                                  state.value = state.value.copyWith(
+                                    checkedTalentTypes: {...state.value.checkedTalentTypes}..[purpose] = value!,
+                                  );
 
                                   // scroll to the talent materials section on checkbox checked
                                   if (value == true) {
                                     Future.delayed(const Duration(milliseconds: 200), () {
-                                      final context = _talentSectionKeys[purpose]!.currentContext;
+                                      final context = state.value.talentSectionKeys[purpose]!.currentContext;
                                       if (context?.mounted == true) {
                                         Scrollable.ensureVisible(
                                           context!,
@@ -347,7 +344,7 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                               ),
                               AnimatedCrossFade( // talent level slider with size animation
                                 duration: const Duration(milliseconds: 300),
-                                crossFadeState: _checkedTalentTypes[purpose]!
+                                crossFadeState: state.value.checkedTalentTypes[purpose]!
                                     ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                                 firstCurve: Curves.easeOutQuint,
                                 secondCurve: Curves.easeOutQuint,
@@ -357,17 +354,17 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                                   children: [
                                     const SizedBox(height: 8),
                                     LevelSlider(
-                                      key: _talentSectionKeys[purpose] ??= GlobalKey(),
-                                      levels: _sliderTickLabels[purpose]!,
-                                      values: _rangeValues[purpose]!,
+                                      key: state.value.talentSectionKeys[purpose] ??= GlobalKey(),
+                                      levels: state.value.sliderTickLabels[purpose]!,
+                                      values: state.value.rangeValues[purpose]!,
                                       onChanged: (values) {
                                         if (values.start == values.end) {
                                           return;
                                         }
 
-                                        setState(() {
-                                          _rangeValues[purpose] = values;
-                                        });
+                                        state.value = state.value.copyWith(
+                                          rangeValues: {...state.value.rangeValues}..[purpose] = values,
+                                        );
                                       },
                                     ),
                                   ],
@@ -378,7 +375,12 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
                         ),
                       ),
                     Wrap(
-                      children: _buildTalentMaterialCards(variant.value.talents, variant.value),
+                      children: _buildTalentMaterialCards(
+                        variant.value.talents,
+                        variant.value,
+                        state.value.rangeValues,
+                        state.value.checkedTalentTypes,
+                      ),
                     ),
                   ],
                 ),
@@ -390,48 +392,53 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
     );
   }
 
-  List<Widget> _buildAscensionMaterialCards(Character character) {
-    final mbFrames = widget.assetData.characterIngredients.purposes[Purpose.ascension]!.levels.mapInLevelRange(
-      _rangeValues[Purpose.ascension]!,
+  List<Widget> _buildAscensionMaterialCards(Map<Purpose, LevelRangeValues> rangeValues) {
+    final mbFrames = assetData.characterIngredients.purposes[Purpose.ascension]!.levels.mapInLevelRange(
+      rangeValues[Purpose.ascension]!,
       (key, value) {
         return toMaterialBookmarkFrames(
           level: key,
           ingredients: value,
           purposeType: Purpose.ascension,
           characterOrWeapon: character,
-          assetData: widget.assetData,
+          assetData: assetData,
         );
       },
     ).flattened.toList();
     final items = mergeMaterialBookmarkFrames(mbFrames);
 
-    return sortMaterials(items, widget.assetData).map(
-      (item) => MaterialItem(
+    return sortMaterials(items, assetData).map(
+          (item) => MaterialItem(
         key: ValueKey(item.id),
         item: item,
         possiblePurposeTypes: const [Purpose.ascension],
-        expItems: widget.assetData.characterIngredients.expItems,
+        expItems: assetData.characterIngredients.expItems,
         usage: MaterialUsage(
-          characterId: widget.character.id,
+          characterId: character.id,
         ),
       ),
     ).toList();
   }
 
-  List<Widget> _buildTalentMaterialCards(Talents talents, CharacterOrVariant variant) {
+  List<Widget> _buildTalentMaterialCards(
+    Talents talents,
+    CharacterOrVariant variant,
+    Map<Purpose, LevelRangeValues> rangeValues,
+    Map<Purpose, bool> checkedTalentTypes,
+  ) {
     final mbFrames = <MaterialBookmarkFrame>[];
     for (final talentType in talents.keys) {
-      if (_checkedTalentTypes[Purpose.fromTalentType(talentType)]!) {
+      if (checkedTalentTypes[Purpose.fromTalentType(talentType)]!) {
         mbFrames.addAll(
-          widget.assetData.characterIngredients.purposes[Purpose.fromTalentType(talentType)]!.levels.mapInLevelRange(
-            _rangeValues[Purpose.fromTalentType(talentType)]!,
-            (key, value) {
+          assetData.characterIngredients.purposes[Purpose.fromTalentType(talentType)]!.levels.mapInLevelRange(
+            rangeValues[Purpose.fromTalentType(talentType)]!,
+                (key, value) {
               return toMaterialBookmarkFrames(
                 level: key,
                 ingredients: value,
                 purposeType: Purpose.fromTalentType(talentType),
                 characterOrWeapon: variant,
-                assetData: widget.assetData,
+                assetData: assetData,
               );
             },
           ).flattened,
@@ -440,12 +447,12 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
     }
     final items = mergeMaterialBookmarkFrames(mbFrames);
 
-    return sortMaterials(items, widget.assetData).map(
-      (item) => MaterialItem(
+    return sortMaterials(items, assetData).map(
+          (item) => MaterialItem(
         key: ValueKey(item.id),
         item: item,
         possiblePurposeTypes: talents.keys.map(Purpose.fromTalentType).toList(),
-        expItems: widget.assetData.characterIngredients.expItems,
+        expItems: assetData.characterIngredients.expItems,
         usage: MaterialUsage(
           characterId: variant.id,
         ),
@@ -454,17 +461,16 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
   }
 
   Future<void> _syncGameData(
-    AssetData assetData,
-    PreferencesState prefs,
-    CharacterWithLargeImage character,
-    CharacterOrVariant variant,
-    ValueNotifier<GameDataSyncStatus> hoyolabSyncStatus,
+      PreferencesState prefs,
+      AppDatabase db,
+      CharacterOrVariant variant,
+      ValueNotifier<_CharacterDetailsPageState> state,
   ) async {
     if (!prefs.isLinkedWithHoyolab) {
       return;
     }
 
-    hoyolabSyncStatus.value = GameDataSyncStatus.syncing;
+    state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.syncing);
     try {
       final uid = prefs.hyvUid!;
       final api = HoyolabApi(cookie: prefs.hyvCookie, uid: uid, region: prefs.hyvServer);
@@ -483,14 +489,12 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
         },
       );
       if (charaInfo != null) {
-        if (mounted) {
-          setState(() {
-            _rangeValues[Purpose.ascension] = LevelRangeValues(
-              _sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
-              charaInfo.maxLevel,
-            );
-          });
-        }
+        state.value = state.value.copyWith(
+          rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = LevelRangeValues(
+            state.value.sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
+            charaInfo.maxLevel,
+          ),
+        );
 
         final charaDetail = await api.avatarDetail(charaInfo.id);
 
@@ -502,57 +506,78 @@ class _CharacterDetailsPageContentsState extends ConsumerState<CharacterDetailsP
             2 => Purpose.elementalBurst,
             _ => throw "Invalid talent index",
           };
-          if (mounted) {
-            setState(() {
-              _rangeValues[purpose] = LevelRangeValues(element.currentLevel, element.maxLevel);
-              _checkedTalentTypes[purpose] = element.currentLevel != element.maxLevel;
-            });
-          }
+          state.value = state.value.copyWith(
+            rangeValues: {...state.value.rangeValues}..[purpose] = LevelRangeValues(element.currentLevel, element.maxLevel),
+            checkedTalentTypes: {...state.value.checkedTalentTypes}..[purpose] = element.currentLevel != element.maxLevel,
+          );
         });
 
-        final db = ref.read(appDatabaseProvider);
         await db.setCharacterLevels(
           uid,
           variant.id,
-          _rangeValues.map((key, value) => MapEntry(key, value.start)),
+          state.value.rangeValues.map((key, value) => MapEntry(key, value.start)),
         );
 
-        hoyolabSyncStatus.value = GameDataSyncStatus.synced;
+        state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.synced);
       } else {
-        hoyolabSyncStatus.value = character.id == "traveler"
+        state.value = state.value.copyWith(hoyolabSyncStatus: character.id == "traveler"
             ? GameDataSyncStatus.mustBeResonatedWithStatue
-            : GameDataSyncStatus.characterNotExists;
+            : GameDataSyncStatus.characterNotExists,);
       }
-    } on HoyolabApiException catch (e, st) {
+    } on HoyolabApiException catch (e) {
       if (e.retcode == Retcode.characterDoesNotExist) {
-        hoyolabSyncStatus.value = GameDataSyncStatus.characterNotExists;
+        state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.characterNotExists);
       } else {
-        log("Failed to fetch character detail", error: e, stackTrace: st);
-        hoyolabSyncStatus.value = GameDataSyncStatus.error;
-        if (mounted) {
-          showSnackBar(
-            context: context,
-            message: e.getMessage(tr.hoyolab.failedToSyncGameData),
-            error: true,
-          );
-        }
+        rethrow;
       }
-    } catch (e, st) {
-      log("Failed to fetch character detail", error: e, stackTrace: st);
-      hoyolabSyncStatus.value = GameDataSyncStatus.error;
-      if (mounted) showSnackBar(context: context, message: tr.hoyolab.failedToSyncGameData, error: true);
     }
   }
 
-  Future<void> _updateSliderRange(AppDatabase db, String hyvUid, String characterId) async {
-    final levels = await db.getCharacterLevels(hyvUid, characterId);
-    if (levels != null && mounted) {
-      setState(() {
-        _rangeValues.addAll(levels.map((key, value) =>
-            MapEntry(key, LevelRangeValues(value, _sliderTickLabels[key]!.last)),),);
-        _checkedTalentTypes.addAll(levels.map((key, value) =>
-            MapEntry(key, value < _sliderTickLabels[key]!.last),),);
-      });
+  Future<void> _updateSliderRange(Map<Purpose, int> levelsByPurpose, ValueNotifier<_CharacterDetailsPageState> state) async {
+    state.value = state.value.copyWith(
+      rangeValues: state.value.rangeValues.map((key, value) =>
+          MapEntry(key, LevelRangeValues(value.start, levelsByPurpose[key] ?? value.end)),),
+      checkedTalentTypes: state.value.checkedTalentTypes.map((key, value) =>
+          MapEntry(key, levelsByPurpose[key] != null && levelsByPurpose[key]! < state.value.sliderTickLabels[key]!.last),),
+    );
+  }
+}
+
+@Freezed(copyWith: true)
+class _CharacterDetailsPageState with _$CharacterDetailsPageState {
+  const factory _CharacterDetailsPageState({
+    required Map<Purpose, LevelRangeValues> rangeValues,
+    required Map<Purpose, List<int>> sliderTickLabels,
+    required Map<Purpose, bool> checkedTalentTypes,
+    required Map<Purpose, GlobalKey> talentSectionKeys,
+    @Default(GameDataSyncStatus.synced) GameDataSyncStatus hoyolabSyncStatus, // ignore: unused_element
+  }) = __CharacterDetailsPageState;
+
+  /// Initializes state for each purpose
+  factory _CharacterDetailsPageState.init({
+    required CharacterIngredients ingredients,
+    Map<Purpose, int>? initialCharacterLevels,
+  }) {
+    final sliderTickLabels = <Purpose, List<int>>{};
+    final rangeValues = <Purpose, LevelRangeValues>{};
+    final checkedTalentTypes = <Purpose, bool>{};
+    final talentSectionKeys = <Purpose, GlobalKey>{};
+    
+    for (final purpose in ingredients.purposes.keys) {
+      final levels = ingredients.purposes[purpose]!.levels;
+      final initialSliderLowerRange = initialCharacterLevels?[purpose] ?? 1;
+
+      sliderTickLabels[purpose] = [1, ...levels.keys];
+      rangeValues[purpose] = LevelRangeValues(initialSliderLowerRange, levels.keys.last);
+      checkedTalentTypes[purpose] = initialSliderLowerRange < levels.keys.last;
+      talentSectionKeys[purpose] = GlobalKey();
     }
+
+    return _CharacterDetailsPageState(
+      rangeValues: rangeValues,
+      sliderTickLabels: sliderTickLabels,
+      checkedTalentTypes: checkedTalentTypes,
+      talentSectionKeys: talentSectionKeys,
+    );
   }
 }
