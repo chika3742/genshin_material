@@ -7,14 +7,15 @@ import "package:flutter_sticky_header/flutter_sticky_header.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
-import "../../../components/data_asset_scope.dart";
-import "../../../components/list_index_sheet.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/sticky_list_header.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/common.dart";
+import "../../../models/weapon.dart";
 import "../../../routes.dart";
+import "../../../ui_core/bottom_sheet.dart";
 import "../../../ui_core/tutorial.dart";
 
 class WeaponListPage extends HookConsumerWidget {
@@ -48,7 +49,7 @@ class WeaponListPage extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
         onPressed: () {
-          _showIndexSheet(context, scrollController);
+          _showIndexSheet(context, scrollController, weaponsGroupedByType);
         },
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
@@ -58,10 +59,10 @@ class WeaponListPage extends HookConsumerWidget {
         child: CustomScrollView(
           controller: scrollController,
           slivers: [
-            ...weaponsGroupedByType.entries.map((e) {
-              final categoryId = e.key;
-              final categoryText = assetData.weaponTypes[categoryId]!.name.localized;
-              final weapons = e.value;
+            ...assetData.weaponTypes.entries.map((e) {
+              final typeId = e.key;
+              final categoryText = e.value.name.localized;
+              final weapons = weaponsGroupedByType[typeId] ?? [];
 
               return SliverStickyHeader.builder(
                 builder: (_, __) => StickyListHeader(categoryText),
@@ -90,43 +91,37 @@ class WeaponListPage extends HookConsumerWidget {
     );
   }
 
-  void _showIndexSheet(BuildContext context, ScrollController scrollController) {
-    showModalBottomSheet(
+  Future<void> _showIndexSheet(BuildContext context, ScrollController scrollController, Map<WeaponType, List<Weapon>> weaponsGroupedByType) async {
+    final result = await showListIndexBottomSheet(
       context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      builder: (context) => DataAssetScope(
-        useScaffold: false,
-        builder: (context, assetData) {
-          var offset = 0.0;
-          final weaponsGroupedByType = assetData.weapons.values
-              .groupListsBy((element) => element.type);
+      items: assetData.weaponTypes.entries.map((e) {
+        final typeId = e.key;
+        final items = weaponsGroupedByType[typeId]!;
 
-          return ListIndexSheet(
-            onSelected: (scrollOffset) {
-              scrollController.animateTo(
-                min(scrollOffset, scrollController.position.maxScrollExtent),
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOutQuint,
-              );
-            },
-            items: weaponsGroupedByType.entries.map((e) {
-              final typeId = e.key;
-              final items = e.value;
-
-              final item = ListIndexItem(
-                title: assetData.weaponTypes[typeId]!.name.localized,
-                image: items.first.getImageFile(assetData.assetDir),
-                scrollOffset: offset,
-              );
-
-              offset += stickyListHeaderHeight + (listTileHeight * items.length);
-
-              return item;
-            }).toList(),
-          );
-        },
-      ),
+        return ListIndexItem(
+          title: e.value.name.localized,
+          image: items.first.getImageFile(assetData.assetDir),
+          value: typeId,
+        );
+      }).toList(),
     );
+    if (result != null) {
+      _scrollToWeaponType(scrollController, weaponsGroupedByType, result);
+    }
+  }
+
+  void _scrollToWeaponType(ScrollController scrollController, Map<WeaponType, List<Weapon>> weaponsGroupedByType, WeaponType weaponType) {
+    double offset = 0.0;
+    for (final e in assetData.weaponTypes.keys) {
+      if (e == weaponType) {
+        scrollController.animateTo(
+          min(offset, scrollController.position.maxScrollExtent),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOutQuint,
+        );
+        break;
+      }
+      offset += stickyListHeaderHeight + (listTileHeight * weaponsGroupedByType[e]!.length);
+    }
   }
 }

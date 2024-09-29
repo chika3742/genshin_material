@@ -7,14 +7,15 @@ import "package:flutter_sticky_header/flutter_sticky_header.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
-import "../../../components/data_asset_scope.dart";
-import "../../../components/list_index_sheet.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/sticky_list_header.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/common.dart";
+import "../../../models/material.dart" as models;
 import "../../../routes.dart";
+import "../../../ui_core/bottom_sheet.dart";
 import "../../../ui_core/tutorial.dart";
 
 class MaterialListPage extends HookConsumerWidget {
@@ -46,46 +47,7 @@ class MaterialListPage extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
         onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            showDragHandle: true,
-            builder: (context) => DataAssetScope(
-              useScaffold: false,
-              builder: (context, assetData) {
-                var offset = 0.0;
-                final materialsGroupedByCategory = assetData.materials.values
-                    .groupListsBy((element) => element.category);
-
-                return ListIndexSheet(
-                  onSelected: (scrollOffset) {
-                    scrollController.animateTo(
-                      min(scrollOffset, scrollController.position.maxScrollExtent),
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOutQuint,
-                    );
-                  },
-                  items: assetData.materialCategories.entries
-                      .where((e) => materialsGroupedByCategory.containsKey(e.key))
-                      .map((e) {
-                        final categoryId = e.key;
-                        final categoryText = e.value.localized;
-
-                        final item = ListIndexItem(
-                          title: categoryText,
-                          image: materialsGroupedByCategory[categoryId]!
-                              .first.getImageFile(assetData.assetDir),
-                          scrollOffset: offset,
-                        );
-                        offset += stickyListHeaderHeight +
-                            (listTileHeight *
-                                materialsGroupedByCategory[categoryId]!.length);
-                        return item;
-                  }).toList(),
-                );
-              },
-            ),
-          );
+          _showIndexSheet(context, scrollController, materialsGroupedByCategory);
         },
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
@@ -124,5 +86,38 @@ class MaterialListPage extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _showIndexSheet(BuildContext context, ScrollController scrollController, Map<MaterialCategoryType, List<models.Material>> materialsGroupedByCategory) async {
+    final result = await showListIndexBottomSheet(
+      context: context,
+      items: assetData.materialCategories.entries.map((e) {
+        final categoryId = e.key;
+
+        return ListIndexItem(
+          title: e.value.localized,
+          image: materialsGroupedByCategory[categoryId]!.first.getImageFile(assetData.assetDir),
+          value: categoryId,
+        );
+      }).toList(),
+    );
+    if (result != null) {
+      _scrollToMaterialCategory(scrollController, materialsGroupedByCategory, result);
+    }
+  }
+
+  void _scrollToMaterialCategory(ScrollController scrollController, Map<MaterialCategoryType, List<models.Material>> materialsGroupedByCategory, MaterialCategoryType category) {
+    double offset = 0.0;
+    for (final e in assetData.materialCategories.keys) {
+      if (e == category) {
+        scrollController.animateTo(
+          min(offset, scrollController.position.maxScrollExtent),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOutQuint,
+        );
+        break;
+      }
+      offset += stickyListHeaderHeight + (listTileHeight * (materialsGroupedByCategory[e]?.length ?? 0));
+    }
   }
 }
