@@ -19,6 +19,8 @@ class AssetUpdater {
   AssetUpdater(this.assetDir, {this.tempDir, http.Client? httpClient})
       : httpClient = httpClient ?? http.Client();
 
+  static const allowedResourceOrigins = ["https://matnote-assets.chikach.net"];
+
   final String assetDir;
   final String? tempDir;
   final http.Client httpClient;
@@ -36,7 +38,8 @@ class AssetUpdater {
   /// When [force] is true, it will always sets [foundUpdate] to the latest release.
   Future<void> checkForUpdate({bool force = false}) async {
     final releases = await _fetchAssetRelease(kReleaseMode ? "prod" : "dev");
-    final latestRelease = releases.reduce((value, element) => value.createdAt.isAfter(element.createdAt) ? value : element);
+    final latestRelease = releases.reduce((value, element) =>
+    value.createdAt.isAfter(element.createdAt) ? value : element,);
 
     if (force) {
       foundUpdate = latestRelease;
@@ -51,7 +54,8 @@ class AssetUpdater {
       log("Failed to get current version", error: e);
     }
 
-    if (currentVersion == null || latestRelease.createdAt.isAfter(currentVersion.createdAt)) {
+    if (currentVersion == null ||
+        latestRelease.createdAt.isAfter(currentVersion.createdAt)) {
       // No local assets exist or a new version found
       foundUpdate = latestRelease;
     } else {
@@ -67,8 +71,9 @@ class AssetUpdater {
     if (!await versionFile.exists()) {
       return null;
     }
-    
-    return AssetReleaseVersion.fromJson(const JsonDecoder().convert(await versionFile.readAsString()));
+
+    return AssetReleaseVersion.fromJson(
+        const JsonDecoder().convert(await versionFile.readAsString()),);
   }
 
   Future<void> installUpdate() async {
@@ -79,27 +84,51 @@ class AssetUpdater {
       throw SchemaVersionMismatchException();
     }
 
+    final downloadUri = Uri.parse(foundUpdate!.distUrl);
+    if (!allowedResourceOrigins.contains(downloadUri.origin)) {
+      throw "Resource origin is not allowed.";
+    }
+
     state = AssetUpdateProgressState.downloading;
-    final file = await _downloadRelease(Uri.parse(foundUpdate!.distUrl));
+
+    final file = File(path.join(tempDir!, path.basename(downloadUri.path)));
+    await file.create(recursive: true);
+    try {
+      await _downloadRelease(downloadUri, file);
+    } catch (e, st) {
+      log("Failed to download release", error: e, stackTrace: st);
+      await _cleanupPaths([file.path]);
+      state = null;
+      rethrow;
+    }
 
     state = AssetUpdateProgressState.installing;
     onProgress?.call();
 
-    final extractDir = path.join(FileSystemEntity.parentOf(assetDir), const Uuid().v4());
-    await _unzipRelease(file.path, extractDir);
+    final extractDir = path.join(
+        FileSystemEntity.parentOf(assetDir), const Uuid().v4(),);
+    try {
+      await _unzipRelease(file.path, extractDir);
+    } catch (e) {
+      log("Failed to extract release", error: e);
+      await _cleanupPaths([extractDir, file.path]);
+      state = null;
+      rethrow;
+    }
 
     await file.delete(); // delete temporary file
 
     // Check if installation is valid
     if (!await _checkInstallation(extractDir)) {
       // Installation failed, clean up
-      await Directory(extractDir).delete(recursive: true);
+      await _cleanupPaths([extractDir]);
 
       throw AssetUpdateCheckException();
     }
 
     // Installation successful, update symlink and clean up previous asset
-    final prevAssetPath = await Link(assetDir).exists() ? await Link(assetDir).target() : null;
+    final pathCtx = path.Context(current: FileSystemEntity.parentOf(assetDir));
+    final prevAssetPath = await Link(assetDir).exists() ? pathCtx.absolute(await Link(assetDir).target()) : null;
     await _updateSymlink(assetDir, extractDir);
     if (prevAssetPath != null && await Directory(prevAssetPath).exists()) {
       await Directory(prevAssetPath).delete(recursive: true);
@@ -144,7 +173,7 @@ class AssetUpdater {
     return json.map((e) => AssetReleaseVersion.fromJson(e)).toList();
   }
 
-  Future<File> _downloadRelease(Uri uri) async {
+  Future<File> _downloadRelease(Uri uri, File file) async {
     if (tempDir == null) {
       throw "tempDir must be specified.";
     }
@@ -153,15 +182,13 @@ class AssetUpdater {
 
     receivedBytes = 0;
 
-    final file = File(path.join(tempDir!, path.basename(uri.path)));
-    await file.create(recursive: true);
-    final fileSink = file.openWrite();
-
     final resp = await httpClient.send(http.Request("GET", uri));
 
     if (resp.statusCode.toString()[0] != "2") {
       throw "Error: Resource server responded with non-OK status code.";
     }
+
+    final fileSink = file.openWrite();
 
     totalBytes = resp.contentLength ?? 0;
     final completer = Completer<File>();
@@ -169,11 +196,16 @@ class AssetUpdater {
       fileSink.add(bytes);
       receivedBytes += bytes.length;
       onProgress?.call();
-    }).onDone(() async {
-      await fileSink.flush();
-      await fileSink.close();
-      completer.complete(file);
-    });
+    })
+      ..onDone(() async {
+        await fileSink.flush();
+        await fileSink.close();
+        completer.complete(file);
+      })
+      ..onError((e, st) async {
+        await fileSink.close();
+        completer.completeError(e, st);
+      });
 
     return completer.future;
   }
@@ -183,6 +215,25 @@ class AssetUpdater {
     final archive = ZipDecoder().decodeBuffer(inputStream);
 
     await extractArchiveToDiskAsync(archive, destDir, asyncWrite: true);
+  }
+
+  Future<void> _cleanupPaths(List<String> paths) async {
+    for (final p in paths) {
+      try {
+        final entity = await FileSystemEntity.type(p);
+        if (entity == FileSystemEntityType.notFound) {
+          continue;
+        }
+
+        if (entity == FileSystemEntityType.directory) {
+          await Directory(p).delete(recursive: true);
+        } else {
+          await File(p).delete();
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
   }
 }
 
