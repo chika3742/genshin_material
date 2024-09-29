@@ -18,28 +18,25 @@ Future<PackageInfo> packageInfo(PackageInfoRef ref) async {
 }
 
 @riverpod
-Future<AssetDataCache> assetData(AssetDataRef ref) async {
-  final dataCache = AssetDataCache((await getLocalAssetDirectory()).path);
-  await dataCache.fetchIntoCache();
-  return dataCache;
+Future<AssetData> assetData(AssetDataRef ref) async {
+  final dataCache = AssetDataCacheProvider((await getLocalAssetDirectory()).path);
+  await dataCache.load();
+  return dataCache.data!;
 }
 
 @riverpod
 Future<List<ReleaseNote>> featuresReleaseNotesData(FeaturesReleaseNotesDataRef ref) async {
   final yaml = await rootBundle.loadString("assets/release_notes.yaml");
-  final items = loadYamlWithUnwrap<List>(yaml);
+  final items = loadYamlUnwrapped<List>(yaml);
   return items.map((e) => ReleaseNote.fromJson(e)).toList();
 }
 
 @riverpod
 Future<List<ReleaseNote>> assetsReleaseNotesData(AssetsReleaseNotesDataRef ref) async {
-  final assetVersion = await ref.watch(assetDataProvider.future);
-  if (assetVersion.version == null) {
-    throw "Must be used wrapped in DataAssetScope.";
-  }
+  final assetData = await ref.watch(assetDataProvider.future);
 
-  final assetPath = path.join((await getLocalAssetDirectory()).path, "asset-release-notes.json");
+  final assetPath = path.join(assetData.assetDir, "asset-release-notes.json");
   final yaml = await File(assetPath).readAsString();
-  final items = loadYamlWithUnwrap<List>(yaml);
+  final items = loadYamlUnwrapped<List>(yaml);
   return items.map((e) => ReleaseNote.fromJson(e)).toList();
 }

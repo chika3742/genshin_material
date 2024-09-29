@@ -98,7 +98,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
     final packageInfoAsync = ref.watch(packageInfoProvider);
     final dataVersion = ref.watch(assetDataProvider);
 
-    final dataVersionText = dataVersion.hasValue ? dataVersion.value!.version?.dataVersion ?? "Unknown" : "Unknown";
+    final dataVersionText = dataVersion.hasValue ? dataVersion.value!.version.dataVersion : "Unknown";
 
     if (packageInfoAsync.value != null) {
       final packageInfo = packageInfoAsync.value!;

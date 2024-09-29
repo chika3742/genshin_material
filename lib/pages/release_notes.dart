@@ -55,6 +55,7 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
             color: Theme.of(context).colorScheme.primary,
           ),
           DataAssetScope(
+            useScaffold: false,
             builder: (_, __) {
               return _buildReleaseNotesTab(
                 provider: assetsReleaseNotesDataProvider,

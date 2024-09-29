@@ -12,12 +12,15 @@ import "../../../components/list_index_sheet.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/sticky_list_header.dart";
 import "../../../constants/dimens.dart";
+import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../routes.dart";
 import "../../../ui_core/tutorial.dart";
 
 class WeaponListPage extends HookConsumerWidget {
-  const WeaponListPage({super.key});
+  final AssetData assetData;
+
+  const WeaponListPage({super.key, required this.assetData});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,6 +34,13 @@ class WeaponListPage extends HookConsumerWidget {
       return null;
     }, [],);
 
+    final weaponsGroupedByType = useMemoized(
+          () => assetData.weapons.values
+          .groupListsBy((element) => element.type)
+          .map((key, value) => MapEntry(key, value.sorted((a, b) => b.rarity - a.rarity))),
+      [assetData.weapons],
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.weapons),
@@ -43,54 +53,39 @@ class WeaponListPage extends HookConsumerWidget {
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
       ),
-      body: DataAssetScope(
-        builder: (assetData, assetDir) {
-          return HookBuilder(
-            builder: (context) {
-              final weaponsGroupedByType = useMemoized(
-                () => assetData.weapons.values
-                    .groupListsBy((element) => element.type)
-                    .map((key, value) => MapEntry(key, value.sorted((a, b) => b.rarity - a.rarity))),
-                [assetData.weapons],
-              );
+      body: Scrollbar(
+        controller: scrollController,
+        child: CustomScrollView(
+          controller: scrollController,
+          slivers: [
+            ...weaponsGroupedByType.entries.map((e) {
+              final categoryId = e.key;
+              final categoryText = assetData.weaponTypes[categoryId]!.name.localized;
+              final weapons = e.value;
 
-              return Scrollbar(
-                controller: scrollController,
-                child: CustomScrollView(
-                  controller: scrollController,
-                  slivers: [
-                    ...weaponsGroupedByType.entries.map((e) {
-                      final categoryId = e.key;
-                      final categoryText = assetData.weaponTypes[categoryId]!.name.localized;
-                      final weapons = e.value;
+              return SliverStickyHeader.builder(
+                builder: (_, __) => StickyListHeader(categoryText),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                      final weapon = weapons[index];
 
-                      return SliverStickyHeader.builder(
-                        builder: (_, __) => StickyListHeader(categoryText),
-                        sliver: SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                                (context, index) {
-                              final weapon = weapons[index];
-
-                              return GameItemListTile(
-                                image: weapon.getImageFile(assetDir),
-                                name: weapon.name.localized,
-                                rarity: weapon.rarity,
-                                onTap: () {
-                                  WeaponDetailsRoute(id: weapon.id).go(context);
-                                },
-                              );
-                            },
-                            childCount: weapons.length,
-                          ),
-                        ),
+                      return GameItemListTile(
+                        image: weapon.getImageFile(assetData.assetDir),
+                        name: weapon.name.localized,
+                        rarity: weapon.rarity,
+                        onTap: () {
+                          WeaponDetailsRoute(id: weapon.id).go(context);
+                        },
                       );
-                    }),
-                  ],
+                    },
+                    childCount: weapons.length,
+                  ),
                 ),
               );
-            },
-          );
-        },
+            }),
+          ],
+        ),
       ),
     );
   }
@@ -101,7 +96,8 @@ class WeaponListPage extends HookConsumerWidget {
       isScrollControlled: true,
       showDragHandle: true,
       builder: (context) => DataAssetScope(
-        builder: (assetData, assetDir) {
+        useScaffold: false,
+        builder: (context, assetData) {
           var offset = 0.0;
           final weaponsGroupedByType = assetData.weapons.values
               .groupListsBy((element) => element.type);
@@ -120,7 +116,7 @@ class WeaponListPage extends HookConsumerWidget {
 
               final item = ListIndexItem(
                 title: assetData.weaponTypes[typeId]!.name.localized,
-                image: items.first.getImageFile(assetDir),
+                image: items.first.getImageFile(assetData.assetDir),
                 scrollOffset: offset,
               );
 

@@ -16,6 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AssetData {
+  String get assetDir => throw _privateConstructorUsedError;
+  AssetReleaseVersion get version => throw _privateConstructorUsedError;
   Map<String, Character> get characters => throw _privateConstructorUsedError;
   CharacterIngredients get characterIngredients =>
       throw _privateConstructorUsedError;
@@ -50,7 +52,9 @@ mixin _$AssetData {
 
 class _$AssetDataImpl implements _AssetData {
   const _$AssetDataImpl(
-      {required final Map<String, Character> characters,
+      {required this.assetDir,
+      required this.version,
+      required final Map<String, Character> characters,
       required this.characterIngredients,
       required final Map<String, Weapon> weapons,
       required this.weaponIngredients,
@@ -84,6 +88,10 @@ class _$AssetDataImpl implements _AssetData {
         _artifactPieceSetMap = artifactPieceSetMap,
         _artifactTags = artifactTags;
 
+  @override
+  final String assetDir;
+  @override
+  final AssetReleaseVersion version;
   final Map<String, Character> _characters;
   @override
   Map<String, Character> get characters {
@@ -218,7 +226,7 @@ class _$AssetDataImpl implements _AssetData {
 
   @override
   String toString() {
-    return 'AssetData(characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieceSetMap: $artifactPieceSetMap, artifactTags: $artifactTags)';
+    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieceSetMap: $artifactPieceSetMap, artifactTags: $artifactTags)';
   }
 
   @override
@@ -226,6 +234,9 @@ class _$AssetDataImpl implements _AssetData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AssetDataImpl &&
+            (identical(other.assetDir, assetDir) ||
+                other.assetDir == assetDir) &&
+            (identical(other.version, version) || other.version == version) &&
             const DeepCollectionEquality()
                 .equals(other._characters, _characters) &&
             (identical(other.characterIngredients, characterIngredients) ||
@@ -263,31 +274,36 @@ class _$AssetDataImpl implements _AssetData {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_characters),
-      characterIngredients,
-      const DeepCollectionEquality().hash(_weapons),
-      weaponIngredients,
-      const DeepCollectionEquality().hash(_weaponSubStats),
-      const DeepCollectionEquality().hash(_weaponTypes),
-      const DeepCollectionEquality().hash(_elements),
-      const DeepCollectionEquality().hash(_materials),
-      const DeepCollectionEquality().hash(_materialCategories),
-      const DeepCollectionEquality().hash(_materialSortOrder),
-      dailyMaterials,
-      const DeepCollectionEquality().hash(_artifactSets),
-      const DeepCollectionEquality().hash(_artifactPieceTypes),
-      const DeepCollectionEquality().hash(_specialCharactersUsingMaterials),
-      const DeepCollectionEquality().hash(_stats),
-      const DeepCollectionEquality().hash(_artifactPossibleSubStats),
-      const DeepCollectionEquality().hash(_artifactPieceSetMap),
-      const DeepCollectionEquality().hash(_artifactTags));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        assetDir,
+        version,
+        const DeepCollectionEquality().hash(_characters),
+        characterIngredients,
+        const DeepCollectionEquality().hash(_weapons),
+        weaponIngredients,
+        const DeepCollectionEquality().hash(_weaponSubStats),
+        const DeepCollectionEquality().hash(_weaponTypes),
+        const DeepCollectionEquality().hash(_elements),
+        const DeepCollectionEquality().hash(_materials),
+        const DeepCollectionEquality().hash(_materialCategories),
+        const DeepCollectionEquality().hash(_materialSortOrder),
+        dailyMaterials,
+        const DeepCollectionEquality().hash(_artifactSets),
+        const DeepCollectionEquality().hash(_artifactPieceTypes),
+        const DeepCollectionEquality().hash(_specialCharactersUsingMaterials),
+        const DeepCollectionEquality().hash(_stats),
+        const DeepCollectionEquality().hash(_artifactPossibleSubStats),
+        const DeepCollectionEquality().hash(_artifactPieceSetMap),
+        const DeepCollectionEquality().hash(_artifactTags)
+      ]);
 }
 
 abstract class _AssetData implements AssetData {
   const factory _AssetData(
-      {required final Map<String, Character> characters,
+      {required final String assetDir,
+      required final AssetReleaseVersion version,
+      required final Map<String, Character> characters,
       required final CharacterIngredients characterIngredients,
       required final Map<String, Weapon> weapons,
       required final WeaponIngredients weaponIngredients,
@@ -306,6 +322,10 @@ abstract class _AssetData implements AssetData {
       required final Map<String, String> artifactPieceSetMap,
       required final List<ArtifactTagCategory> artifactTags}) = _$AssetDataImpl;
 
+  @override
+  String get assetDir;
+  @override
+  AssetReleaseVersion get version;
   @override
   Map<String, Character> get characters;
   @override

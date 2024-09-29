@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
+import "components/data_asset_scope.dart";
 import "i18n/strings.g.dart";
 import "main.dart";
 import "models/common.dart";
@@ -135,7 +136,12 @@ class BookmarksNavRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: const BookmarksPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return const BookmarksPage();
+        },
+      ),
     );
   }
 }
@@ -157,7 +163,12 @@ class CharacterListRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: const CharacterListPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return CharacterListPage(assetData: assetData);
+        },
+      ),
     );
   }
 }
@@ -173,7 +184,12 @@ class CharacterDetailsRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: CharacterDetailsPage(id),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return CharacterDetailsPage(assetData: assetData, id: id);
+        },
+      ),
     );
   }
 }
@@ -184,7 +200,12 @@ class WeaponListRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: const WeaponListPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return WeaponListPage(assetData: assetData);
+        },
+      ),
     );
   }
 }
@@ -200,9 +221,15 @@ class WeaponDetailsRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: WeaponDetailsPage(
-        id,
-        initialSelectedCharacter: initialSelectedCharacter,
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return WeaponDetailsPage(
+            assetData: assetData,
+            id: id,
+            initialSelectedCharacter: initialSelectedCharacter,
+          );
+        },
       ),
     );
   }
@@ -214,7 +241,12 @@ class MaterialListRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: MaterialListPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return MaterialListPage(assetData: assetData);
+        },
+      ),
     );
   }
 }
@@ -229,7 +261,12 @@ class MaterialDetailsRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: MaterialDetailsPage(id),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return MaterialDetailsPage(assetData: assetData, id: id);
+        },
+      ),
     );
   }
 }
@@ -240,7 +277,12 @@ class ArtifactListRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: const ArtifactListPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return ArtifactListPage(assetData: assetData);
+        },
+      ),
     );
   }
 }
@@ -251,7 +293,12 @@ class ArtifactEffectListRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: const ArtifactEffectListPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return ArtifactEffectListPage(assetData: assetData);
+        },
+      ),
     );
   }
 }
@@ -266,7 +313,12 @@ class ArtifactDetailsRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: ArtifactDetailsPage(id: id),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return ArtifactDetailsPage(assetData: assetData, id: id);
+        },
+      ),
     );
   }
 }
@@ -277,7 +329,12 @@ class DailyNavRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: const DailyPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return DailyPage(assetData: assetData);
+        },
+      ),
     );
   }
 }

@@ -19,59 +19,61 @@ import "data_parsing_exception.dart";
 
 part "asset_cache.freezed.dart";
 
-class AssetDataCache {
+class AssetDataCacheProvider {
   String assetDir;
 
-  AssetDataCache(this.assetDir);
+  AssetDataCacheProvider(this.assetDir);
 
   AssetReleaseVersion? version;
   AssetData? data;
 
-  Future<bool> fetchIntoCache() async {
+  Future<void> load() async {
     version = await AssetUpdater(assetDir).getCurrentVersion();
 
     if (version == null) {
-      return false;
+      throw StateError("No available asset is installed.");
     }
 
     final weaponsMeta = WeaponsMeta.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("weapons-meta.json"),
+      await _loadJson<Map<String, dynamic>>("weapons-meta.json"),
     );
     final materialsMeta = MaterialsMeta.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("materials-meta.json"),
+      await _loadJson<Map<String, dynamic>>("materials-meta.json"),
     );
     final artifactsMeta = ArtifactsMeta.fromJson(
-      await loadDataAsset<Map<String, dynamic>>("artifacts-meta.json"),
+      await _loadJson<Map<String, dynamic>>("artifacts-meta.json"),
     );
 
     data = AssetData(
-      characters: (await loadDataAsset<Map<String, dynamic>>("characters.json")).map((key, value) {
+      assetDir: assetDir,
+      version: version!,
+      characters: (await _loadJson<Map<String, dynamic>>("characters.json")).map((key, value) {
         return MapEntry(
           key,
           Character.fromJson(value),
         );
       }),
       characterIngredients: CharacterIngredients.fromJson(
-        await loadDataAsset<Map<String, dynamic>>("character-ingredients.json"),
+        await _loadJson<Map<String, dynamic>>("character-ingredients.json"),
       ),
-      weapons: (await loadDataAsset<Map<String, dynamic>>("weapons.json")).map((key, value) {
+      weapons: (await _loadJson<Map<String, dynamic>>("weapons.json")).map((key, value) {
         return MapEntry(
           key,
           Weapon.fromJson(value),
         );
       }),
       weaponIngredients: WeaponIngredients.fromJson(
-        await loadDataAsset<Map<String, dynamic>>("weapon-ingredients.json"),
+        await _loadJson<Map<String, dynamic>>("weapon-ingredients.json"),
       ),
       weaponSubStats: weaponsMeta.subStats,
       weaponTypes: weaponsMeta.types,
-      elements: (await loadDataAsset<Map<String, dynamic>>("elements.json")).map((key, value) {
+      elements: (await _loadJson<Map<String, dynamic>>("elements.json")).map((key, value) {
         return MapEntry(
           key,
           Element.fromJson(value),
         );
       }),
-      materials: (await loadDataAsset<Map<String, dynamic>>("materials.json")).map((key, value) {
+      materials: (await _loadJson<Map<String, dynamic>>("materials.json")).map((key, value) {
         return MapEntry(
           key,
           Material.fromJson(value),
@@ -81,7 +83,7 @@ class AssetDataCache {
       materialSortOrder: materialsMeta.sortOrder,
       dailyMaterials: materialsMeta.daily,
       specialCharactersUsingMaterials: materialsMeta.specialCharactersUsingMaterials,
-      artifactSets: (await loadDataAsset<Map<String, dynamic>>("artifact-sets.json")).map((key, value) {
+      artifactSets: (await _loadJson<Map<String, dynamic>>("artifact-sets.json")).map((key, value) {
         return MapEntry(
           key,
           ArtifactSet.fromJson(value),
@@ -93,12 +95,10 @@ class AssetDataCache {
       artifactPieceSetMap: artifactsMeta.pieceSetMap,
       artifactTags: artifactsMeta.tags.categories,
     );
-
-    return true;
   }
 
   /// Reads data asset file and parses JSON.
-  Future<RootT> loadDataAsset<RootT>(String filename) async {
+  Future<RootT> _loadJson<RootT>(String filename) async {
     final filePath = path.join(assetDir, "data/$filename");
     final jsonString = await File(filePath).readAsString();
     final parsed = jsonDecode(jsonString);
@@ -116,6 +116,8 @@ class AssetDataCache {
 @Freezed(copyWith: false)
 class AssetData with _$AssetData {
   const factory AssetData({
+    required String assetDir,
+    required AssetReleaseVersion version,
     required Map<CharacterId, Character> characters,
     required CharacterIngredients characterIngredients,
     required Map<WeaponId, Weapon> weapons,
