@@ -18,6 +18,7 @@ import "../../ui_core/dialog.dart";
 import "../../ui_core/layout.dart";
 import "../../ui_core/progress_indicator.dart";
 import "../../ui_core/snack_bar.dart";
+import "../../utils/secure_storage.dart";
 import "../../utils/show_loading_modal.dart";
 
 class HoyolabIntegrationSettingsPage extends StatefulHookConsumerWidget {
@@ -31,7 +32,14 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
   @override
   Widget build(BuildContext context) {
     final prefs = ref.watch(preferencesStateNotifierProvider);
-    final isSignedIn = prefs.hyvCookie != null;
+
+    final isSignedIn = useState(false);
+    useEffect(() {
+      () async {
+        isSignedIn.value = await hasHoyolabCookie();
+      }();
+      return null;
+    }, [],);
 
     final isRealtimeNotesEnabled = ref.watch(realtimeNotesActivationStateProvider);
 
@@ -39,7 +47,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
       appBar: AppBar(
         title: Text(tr.pages.hoyolabIntegrationSettings),
       ),
-      body: !isSignedIn ? ListView(
+      body: !isSignedIn.value ? ListView(
         children: [
           ListTile(
             leading: const Icon(Symbols.login),
@@ -48,7 +56,8 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
               final result =
                   await HoyolabSignInRoute().push<String>(context);
               if (result != null && context.mounted) {
-                _signInToHoyolab(result);
+                await _signInToHoyolab(result);
+                isSignedIn.value = await hasHoyolabCookie();
               }
             },
           ),
@@ -67,6 +76,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                 onOkPressed: () {
                   if (ref.context.mounted) {
                     ref.read(preferencesStateNotifierProvider.notifier).clearHoyolabCredential();
+                    isSignedIn.value = false;
                   }
                 },
               );
@@ -154,8 +164,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
     showLoadingModal(context);
 
     try {
-      await ref.read(preferencesStateNotifierProvider.notifier)
-              .setHoyolabCookie(cookie);
+      await setHoyolabCookie(cookie);
     } catch (e, st) {
       log("Failed to set hoyolab cookie", error: e, stackTrace: st);
       if (mounted) {
@@ -167,7 +176,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
 
     bool? isRealtimeNotesEnabled;
     try {
-      isRealtimeNotesEnabled = await ref.read(realtimeNotesActivationStateProvider.future);
+      isRealtimeNotesEnabled = await ref.refresh(realtimeNotesActivationStateProvider.future);
     } catch (e) {
       // do nothing
     }
@@ -232,7 +241,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
       loadingGameRoleServers.value = [...loadingGameRoleServers.value..add(server)];
 
-      final api = HoyolabApi(cookie: ref.read(preferencesStateNotifierProvider).hyvCookie, region: server.region);
+      final api = HoyolabApi(cookie: await getHoyolabCookie(), region: server.region);
       try {
         errorText.value = null;
 

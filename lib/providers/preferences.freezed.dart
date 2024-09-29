@@ -19,7 +19,6 @@ mixin _$PreferencesState {
   KvPreferences get pref => throw _privateConstructorUsedError;
   int? get resin => throw _privateConstructorUsedError;
   DateTime? get resinBaseTime => throw _privateConstructorUsedError;
-  String? get hyvCookie => throw _privateConstructorUsedError;
   String? get hyvServer => throw _privateConstructorUsedError;
   String? get hyvServerName => throw _privateConstructorUsedError;
   String? get hyvUserName => throw _privateConstructorUsedError;
@@ -38,7 +37,6 @@ class _$PreferencesStateImpl extends _PreferencesState {
       {required this.pref,
       required this.resin,
       required this.resinBaseTime,
-      required this.hyvCookie,
       required this.hyvServer,
       required this.hyvServerName,
       required this.hyvUserName,
@@ -56,8 +54,6 @@ class _$PreferencesStateImpl extends _PreferencesState {
   final int? resin;
   @override
   final DateTime? resinBaseTime;
-  @override
-  final String? hyvCookie;
   @override
   final String? hyvServer;
   @override
@@ -79,7 +75,7 @@ class _$PreferencesStateImpl extends _PreferencesState {
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvCookie: $hyvCookie, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown)';
   }
 
   @override
@@ -91,8 +87,6 @@ class _$PreferencesStateImpl extends _PreferencesState {
             (identical(other.resin, resin) || other.resin == resin) &&
             (identical(other.resinBaseTime, resinBaseTime) ||
                 other.resinBaseTime == resinBaseTime) &&
-            (identical(other.hyvCookie, hyvCookie) ||
-                other.hyvCookie == hyvCookie) &&
             (identical(other.hyvServer, hyvServer) ||
                 other.hyvServer == hyvServer) &&
             (identical(other.hyvServerName, hyvServerName) ||
@@ -119,7 +113,6 @@ class _$PreferencesStateImpl extends _PreferencesState {
       pref,
       resin,
       resinBaseTime,
-      hyvCookie,
       hyvServer,
       hyvServerName,
       hyvUserName,
@@ -136,7 +129,6 @@ abstract class _PreferencesState extends PreferencesState {
       {required final KvPreferences pref,
       required final int? resin,
       required final DateTime? resinBaseTime,
-      required final String? hyvCookie,
       required final String? hyvServer,
       required final String? hyvServerName,
       required final String? hyvUserName,
@@ -154,8 +146,6 @@ abstract class _PreferencesState extends PreferencesState {
   int? get resin;
   @override
   DateTime? get resinBaseTime;
-  @override
-  String? get hyvCookie;
   @override
   String? get hyvServer;
   @override

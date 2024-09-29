@@ -29,6 +29,7 @@ import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
+import "../../../utils/secure_storage.dart";
 
 part "character_details.freezed.dart";
 
@@ -473,7 +474,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.syncing);
     try {
       final uid = prefs.hyvUid!;
-      final api = HoyolabApi(cookie: prefs.hyvCookie, uid: uid, region: prefs.hyvServer);
+      final api = HoyolabApi(cookie: await getHoyolabCookie(), uid: uid, region: prefs.hyvServer);
 
       final elements = assetData.elements;
       final weaponTypes = assetData.weaponTypes;

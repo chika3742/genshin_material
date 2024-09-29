@@ -7,7 +7,7 @@ part of 'miscellaneous.dart';
 // **************************************************************************
 
 String _$realtimeNotesActivationStateHash() =>
-    r'98ad860b6d448ec86dca85b7d1c9783e8c109b8b';
+    r'fe12c5df9dc88c1d710f025dc1a52f71e5e1d5af';
 
 /// See also [RealtimeNotesActivationState].
 @ProviderFor(RealtimeNotesActivationState)

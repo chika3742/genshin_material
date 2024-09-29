@@ -15,6 +15,7 @@ import "../../providers/preferences.dart";
 import "../../ui_core/layout.dart";
 import "../../ui_core/snack_bar.dart";
 import "../../utils/resin_calculator.dart";
+import "../../utils/secure_storage.dart";
 
 const maxResin = 200;
 const resinRecoveryRateInMinutes = 8;
@@ -33,7 +34,7 @@ class ResinCalcPage extends HookConsumerWidget {
     Future<void> syncResin() async {
       syncStatus.value = GameDataSyncStatus.syncing;
 
-      final api = HoyolabApi(cookie: prefs.hyvCookie, region: prefs.hyvServer, uid: prefs.hyvUid);
+      final api = HoyolabApi(cookie: await getHoyolabCookie(), region: prefs.hyvServer, uid: prefs.hyvUid);
       try {
         final dailyNote = await api.getDailyNote();
         final currentResin = calculateCurrentResin(

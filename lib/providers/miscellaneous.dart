@@ -2,7 +2,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/hoyolab_api.dart";
 import "../models/hoyolab_api.dart";
-import "preferences.dart";
+import "../utils/secure_storage.dart";
 
 part "miscellaneous.g.dart";
 
@@ -10,7 +10,7 @@ part "miscellaneous.g.dart";
 class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
   @override
   Future<bool> build() async {
-    final cookie = ref.watch(preferencesStateNotifierProvider.select((it) => it.hyvCookie));
+    final cookie = await getHoyolabCookie();
     if (cookie == null) {
       return false;
     }
@@ -25,7 +25,7 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
   }
 
   Future<void> updateValue(bool value) async {
-    final cookie = ref.read(preferencesStateNotifierProvider).hyvCookie;
+    final cookie = await getHoyolabCookie();
     if (cookie == null) {
       throw StateError("cookie is null");
     }

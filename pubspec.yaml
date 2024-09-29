@@ -59,6 +59,7 @@ dependencies:
   assorted_layout_widgets: ^9.0.2
   uuid: ^4.5.0
   tutorial_coach_mark: ^1.2.11
+  flutter_secure_storage: ^9.2.1
 
 dev_dependencies:
   flutter_test:

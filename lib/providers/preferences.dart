@@ -3,12 +3,12 @@ import "dart:math";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../core/hoyolab_api.dart";
 import "../core/kv_preferences.dart";
 import "../main.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "../pages/tools/resin_calc.dart";
+import "../utils/secure_storage.dart";
 
 part "preferences.freezed.dart";
 part "preferences.g.dart";
@@ -41,19 +41,6 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
-  Future<void> setHoyolabCookie(String cookie) async {
-    // verify credential
-    final api = HoyolabApi(cookie: cookie);
-    final verificationResult = await api.verifyLToken();
-    if (verificationResult.hasError) {
-      throw Exception("Credential verification failed: ${verificationResult.message}");
-    }
-
-    await state.pref.setHyvCookie(cookie);
-
-    state = PreferencesState.fromSharedPreferences(state.pref);
-  }
-
   Future<void> setHoyolabServer(HyvServer server, String username) async {
     await state.pref.setHyvServer(server.region);
     await state.pref.setHyvServerName(server.name);
@@ -69,7 +56,7 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
   }
 
   Future<void> clearHoyolabCredential() async {
-    await state.pref.setHyvCookie(null);
+    await deleteHoyolabCookie();
     await state.pref.setHyvServer(null);
     await state.pref.setHyvServerName(null);
     await state.pref.setHyvUserName(null);
@@ -112,7 +99,6 @@ class PreferencesState with _$PreferencesState {
     required KvPreferences pref,
     required int? resin,
     required DateTime? resinBaseTime,
-    required String? hyvCookie,
     required String? hyvServer,
     required String? hyvServerName,
     required String? hyvUserName,
@@ -129,7 +115,6 @@ class PreferencesState with _$PreferencesState {
       pref: pref,
       resin: pref.resin,
       resinBaseTime: pref.resinBaseTime,
-      hyvCookie: pref.hyvCookie,
       hyvServer: pref.hyvServer,
       hyvServerName: pref.hyvServerName,
       hyvUserName: pref.hyvUserName,
@@ -143,9 +128,8 @@ class PreferencesState with _$PreferencesState {
   }
 
   bool get isLinkedWithHoyolab =>
-      hyvCookie != null
-          && hyvServer != null
-          && hyvServerName != null
-          && hyvUserName != null
-          && hyvUid != null;
+      hyvServer != null &&
+      hyvServerName != null &&
+      hyvUserName != null &&
+      hyvUid != null;
 }

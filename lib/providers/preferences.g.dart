@@ -7,7 +7,7 @@ part of 'preferences.dart';
 // **************************************************************************
 
 String _$preferencesStateNotifierHash() =>
-    r'761105c67eda53a4218fe94ce9faa27a76f86f55';
+    r'5b1dd00bc8e2cfa432188d8705ee12667e9cae05';
 
 /// See also [PreferencesStateNotifier].
 @ProviderFor(PreferencesStateNotifier)

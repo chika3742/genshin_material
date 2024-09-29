@@ -20,11 +20,6 @@ class KvPreferences {
       ? sp.setString("resinBaseTime", value.toIso8601String())
       : sp.remove("resinBaseTime");
 
-  String? get hyvCookie => sp.getString("hyvCookie");
-  Future<void> setHyvCookie(String? value) => value != null
-      ? sp.setString("hyvCookie", value)
-      : sp.remove("hyvCookie");
-
   String? get hyvServer => sp.getString("hyvServer");
   Future<void> setHyvServer(String? value) => value != null
       ? sp.setString("hyvServer", value)
