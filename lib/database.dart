@@ -176,10 +176,11 @@ class AppDatabase extends _$AppDatabase {
         await customStatement("PRAGMA foreign_keys = ON");
 
         // initialize bookmark order registry
-        await into(bookmarkOrderRegistryTable).insertOnConflictUpdate(
+        await into(bookmarkOrderRegistryTable).insert(
           BookmarkOrderRegistryCompanion.insert(
             order: [],
           ),
+          mode: InsertMode.insertOrIgnore,
         );
       },
     );
