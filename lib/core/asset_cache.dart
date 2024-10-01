@@ -28,7 +28,7 @@ class AssetDataCacheProvider {
   AssetData? data;
 
   Future<void> load() async {
-    version = await AssetUpdater(assetDir).getCurrentVersion();
+    version = await AssetUpdater(assetDir: assetDir).getCurrentVersion();
 
     if (version == null) {
       throw StateError("No available asset is installed.");

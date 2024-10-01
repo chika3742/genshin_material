@@ -29,7 +29,7 @@ void main() {
       return http.Response('[{"createdAt": "2024-01-01T00:00:00Z", "dataVersion": "test", "channel": "dev", "distUrl": "", "schemaVersion": 0}]', 200);
     });
     final updater = AssetUpdater(
-      Directory.current.path,
+      assetDir: Directory.current.path,
       tempDir: Directory.systemTemp.path,
       httpClient: client,
     );

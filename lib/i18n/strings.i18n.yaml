@@ -18,7 +18,6 @@ common:
   hours(rich):
     other: $n${unit(時間)}
   element: 元素
-  schemaVersionMismatch: データを更新できません。アプリを最新版にアップデートしてください。
   rarity: レアリティ
   weaponType: 武器種
   clear: クリア
@@ -39,7 +38,12 @@ talentTypes(map):
 updates:
   downloading: データ更新をダウンロードしています…
   failedToLoad: データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。
-  failedToUpdate: データの更新に失敗しました。しばらく待ってから再度お試しください。
+  failedToDownload: データ更新のダウンロードに失敗しました。
+  failedToInstall: データ更新のインストールに失敗しました。
+  failedToCheck: データ更新の確認に失敗しました。
+  schemaVersionMismatch: アプリを最新版にアップデートしてください。
+  noInternet: インターネット接続をご確認ください。
+  noUpdateAvailable: アップデートはありません
   completed: 更新が完了しました。
   installing: インストールしています...
   pleaseWaitUntilComplete: データ更新が完了するまでお待ちください。
@@ -48,6 +52,7 @@ errors:
   materialNotFound: 素材が見つかりません
   artifactNotFound: 聖遺物が見つかりません
   failedToLoadBookmarks: ブックマークの読み込みに失敗しました
+  tryAgainLater: しばらくしてから再度お試しください。
 pages:
   characters: キャラクター
   characterDetails: $character - キャラクター
@@ -153,7 +158,6 @@ settingsPage:
   assetData: アセットデータ
   checkAssetUpdate: アセットデータの更新を確認
   checkAssetUpdateDesc: アプリ内データのアップデートをチェックします。
-  noUpdateAvailable: アップデートはありません
   reDownloadAssets: アセットデータを再ダウンロード
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
   others: その他

@@ -16,7 +16,7 @@ import "../models/common.dart";
 import "asset_cache.dart";
 
 class AssetUpdater {
-  AssetUpdater(this.assetDir, {this.tempDir, http.Client? httpClient})
+  AssetUpdater({required this.assetDir, this.tempDir, http.Client? httpClient})
       : httpClient = httpClient ?? http.Client();
 
   static const allowedResourceOrigins = ["https://matnote-assets.chikach.net"];
@@ -28,9 +28,9 @@ class AssetUpdater {
   void Function()? onProgress;
   int receivedBytes = 0;
   int totalBytes = 0;
-  AssetUpdateProgressState? state;
   bool isUpdateChecked = false;
   AssetReleaseVersion? foundUpdate;
+  File? downloadFile;
 
   bool get isUpdateAvailable => isUpdateChecked && foundUpdate != null;
 
@@ -76,12 +76,15 @@ class AssetUpdater {
         const JsonDecoder().convert(await versionFile.readAsString()),);
   }
 
-  Future<void> installUpdate() async {
-    assert(isUpdateChecked, "checkForUpdate() must be called successfully.");
-    assert(foundUpdate != null, "No update found.");
-
-    if (foundUpdate!.schemaVersion > dataSchemaVersion) {
-      throw SchemaVersionMismatchException();
+  Future<void> downloadUpdate() async {
+    if (!isUpdateChecked) {
+      throw "checkForUpdate() must be called successfully.";
+    }
+    if (foundUpdate == null) {
+      throw "No update found.";
+    }
+    if (foundUpdate!.schemaVersion != dataSchemaVersion) {
+      throw SchemaVersionMismatchException(remote: foundUpdate!.schemaVersion, runtime: dataSchemaVersion);
     }
 
     final downloadUri = Uri.parse(foundUpdate!.distUrl);
@@ -89,40 +92,40 @@ class AssetUpdater {
       throw "Resource origin is not allowed.";
     }
 
-    state = AssetUpdateProgressState.downloading;
-
-    final file = File(path.join(tempDir!, path.basename(downloadUri.path)));
-    await file.create(recursive: true);
+    downloadFile = File(path.join(tempDir!, path.basename(downloadUri.path)));
+    await downloadFile!.create(recursive: true);
     try {
-      await _downloadRelease(downloadUri, file);
+      await _downloadRelease(downloadUri, downloadFile!);
     } catch (e, st) {
       log("Failed to download release", error: e, stackTrace: st);
-      await _cleanupPaths([file.path]);
-      state = null;
+      await _cleanupPaths([downloadFile!.path]);
+      downloadFile = null;
       rethrow;
     }
+  }
 
-    state = AssetUpdateProgressState.installing;
-    onProgress?.call();
+  Future<void> installUpdate() async {
+    if (downloadFile == null) {
+      throw "downloadUpdate() must be called successfully.";
+    }
 
     final extractDir = path.join(
         FileSystemEntity.parentOf(assetDir), const Uuid().v4(),);
     try {
-      await _unzipRelease(file.path, extractDir);
+      await _unzipRelease(downloadFile!.path, extractDir);
     } catch (e) {
       log("Failed to extract release", error: e);
-      await _cleanupPaths([extractDir, file.path]);
-      state = null;
+      await _cleanupPaths([extractDir, downloadFile!.path]);
       rethrow;
     }
 
-    await file.delete(); // delete temporary file
+    await downloadFile!.delete(); // delete temporary file
+    downloadFile = null;
 
     // Check if installation is valid
     if (!await _checkInstallation(extractDir)) {
       // Installation failed, clean up
       await _cleanupPaths([extractDir]);
-
       throw AssetUpdateCheckException();
     }
 
@@ -231,7 +234,7 @@ class AssetUpdater {
           await File(p).delete();
         }
       } catch (e) {
-        // ignore
+        log("Failed to delete $p", error: e);
       }
     }
   }
@@ -247,11 +250,59 @@ Future<Directory> getLocalAssetDirectory() async {
 }
 
 enum AssetUpdateProgressState {
+  /// No process is running.
+  none,
+
+  /// Checking for updates.
+  checkingForUpdate,
+
+  /// No update available after explicit check.
+  noUpdateAvailable,
+
+  /// Downloading update.
   downloading,
+
+  /// Installing update.
   installing,
+
+  /// Successfully updated.
+  updated,
+
+  /// Error occurred while checking for updates.
+  errorWhileChecking,
+
+  /// Error occurred while downloading update.
+  errorWhileDownloading,
+
+  /// Error occurred while installing update.
+  errorWhileInstalling,
+  ;
+
+  bool get isUpdating =>
+      this == AssetUpdateProgressState.downloading ||
+      this == AssetUpdateProgressState.installing;
+
+  bool get isChecking => this == AssetUpdateProgressState.checkingForUpdate;
+
+  bool get hasError =>
+      this == AssetUpdateProgressState.errorWhileChecking ||
+      this == AssetUpdateProgressState.errorWhileDownloading ||
+      this == AssetUpdateProgressState.errorWhileInstalling;
+
+  bool get isBusy => isUpdating || isChecking;
 }
 
-class SchemaVersionMismatchException implements Exception {}
+class SchemaVersionMismatchException implements Exception {
+  final int remote;
+  final int runtime;
+
+  SchemaVersionMismatchException({required this.remote, required this.runtime});
+
+  @override
+  String toString() {
+    return "Schema version mismatch: $remote (remote) vs $runtime (runtime)";
+  }
+}
 class AssetUpdateCheckException implements Exception {
   @override
   String toString() {

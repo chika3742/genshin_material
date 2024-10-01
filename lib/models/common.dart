@@ -2,7 +2,7 @@ import "dart:io";
 
 import "package:path/path.dart" as path;
 
-const dataSchemaVersion = 0;
+const dataSchemaVersion = -1;
 
 typedef CharacterId = String;
 typedef WeaponId = String;

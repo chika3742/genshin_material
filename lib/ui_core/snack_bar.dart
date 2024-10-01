@@ -8,7 +8,7 @@ void showSnackBar({
 }) {
   duration ??= error ? const Duration(seconds: 10) : const Duration(seconds: 4);
   final messenger = ScaffoldMessenger.of(context);
-  messenger.hideCurrentSnackBar();
+  messenger.clearSnackBars();
   messenger.showSnackBar(
     createSnackBar(
       message: message,

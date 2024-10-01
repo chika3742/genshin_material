@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 321 (160 per locale)
+/// Strings: 325 (162 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -218,7 +218,6 @@ class _StringsCommonJa {
 		]),
 	);
 	String get element => '元素';
-	String get schemaVersionMismatch => 'データを更新できません。アプリを最新版にアップデートしてください。';
 	String get rarity => 'レアリティ';
 	String get weaponType => '武器種';
 	String get clear => 'クリア';
@@ -251,7 +250,12 @@ class _StringsUpdatesJa {
 	// Translations
 	String get downloading => 'データ更新をダウンロードしています…';
 	String get failedToLoad => 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
-	String get failedToUpdate => 'データの更新に失敗しました。しばらく待ってから再度お試しください。';
+	String get failedToDownload => 'データ更新のダウンロードに失敗しました。';
+	String get failedToInstall => 'データ更新のインストールに失敗しました。';
+	String get failedToCheck => 'データ更新の確認に失敗しました。';
+	String get schemaVersionMismatch => 'アプリを最新版にアップデートしてください。';
+	String get noInternet => 'インターネット接続をご確認ください。';
+	String get noUpdateAvailable => 'アップデートはありません';
 	String get completed => '更新が完了しました。';
 	String get installing => 'インストールしています...';
 	String get pleaseWaitUntilComplete => 'データ更新が完了するまでお待ちください。';
@@ -268,6 +272,7 @@ class _StringsErrorsJa {
 	String get materialNotFound => '素材が見つかりません';
 	String get artifactNotFound => '聖遺物が見つかりません';
 	String get failedToLoadBookmarks => 'ブックマークの読み込みに失敗しました';
+	String get tryAgainLater => 'しばらくしてから再度お試しください。';
 }
 
 // Path: pages
@@ -476,7 +481,6 @@ class _StringsSettingsPageJa {
 	String get assetData => 'アセットデータ';
 	String get checkAssetUpdate => 'アセットデータの更新を確認';
 	String get checkAssetUpdateDesc => 'アプリ内データのアップデートをチェックします。';
-	String get noUpdateAvailable => 'アップデートはありません';
 	String get reDownloadAssets => 'アセットデータを再ダウンロード';
 	String get reDownloadAssetsDesc => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
 	String get others => 'その他';
@@ -951,7 +955,6 @@ extension on Translations {
 				]),
 			);
 			case 'common.element': return '元素';
-			case 'common.schemaVersionMismatch': return 'データを更新できません。アプリを最新版にアップデートしてください。';
 			case 'common.rarity': return 'レアリティ';
 			case 'common.weaponType': return '武器種';
 			case 'common.clear': return 'クリア';
@@ -969,7 +972,12 @@ extension on Translations {
 			case 'talentTypes.elementalBurst': return '元素爆発';
 			case 'updates.downloading': return 'データ更新をダウンロードしています…';
 			case 'updates.failedToLoad': return 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
-			case 'updates.failedToUpdate': return 'データの更新に失敗しました。しばらく待ってから再度お試しください。';
+			case 'updates.failedToDownload': return 'データ更新のダウンロードに失敗しました。';
+			case 'updates.failedToInstall': return 'データ更新のインストールに失敗しました。';
+			case 'updates.failedToCheck': return 'データ更新の確認に失敗しました。';
+			case 'updates.schemaVersionMismatch': return 'アプリを最新版にアップデートしてください。';
+			case 'updates.noInternet': return 'インターネット接続をご確認ください。';
+			case 'updates.noUpdateAvailable': return 'アップデートはありません';
 			case 'updates.completed': return '更新が完了しました。';
 			case 'updates.installing': return 'インストールしています...';
 			case 'updates.pleaseWaitUntilComplete': return 'データ更新が完了するまでお待ちください。';
@@ -977,6 +985,7 @@ extension on Translations {
 			case 'errors.materialNotFound': return '素材が見つかりません';
 			case 'errors.artifactNotFound': return '聖遺物が見つかりません';
 			case 'errors.failedToLoadBookmarks': return 'ブックマークの読み込みに失敗しました';
+			case 'errors.tryAgainLater': return 'しばらくしてから再度お試しください。';
 			case 'pages.characters': return 'キャラクター';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - キャラクター';
 			case 'pages.weapons': return '武器';
@@ -1066,7 +1075,6 @@ extension on Translations {
 			case 'settingsPage.assetData': return 'アセットデータ';
 			case 'settingsPage.checkAssetUpdate': return 'アセットデータの更新を確認';
 			case 'settingsPage.checkAssetUpdateDesc': return 'アプリ内データのアップデートをチェックします。';
-			case 'settingsPage.noUpdateAvailable': return 'アップデートはありません';
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
 			case 'settingsPage.others': return 'その他';

@@ -25,7 +25,7 @@ class DataAssetScope extends ConsumerWidget {
       // Valid assets present
       return builder(context, assetData.value!);
     }
-    if (updatingState.state != null) {
+    if (updatingState.state.isUpdating) {
       // No installed assets present and installation process running
       return _wrapWithScaffoldIfNeeded(CenterText(tr.updates.pleaseWaitUntilComplete));
     }

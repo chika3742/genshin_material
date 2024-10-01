@@ -1,15 +1,11 @@
 import "package:flutter/material.dart";
-import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:go_router/go_router.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
-import "package:path_provider/path_provider.dart";
 
-import "../core/asset_updater.dart";
-import "../core/handle_error.dart";
+import "../composables/use_asset_update_progress.dart";
 import "../i18n/strings.g.dart";
-import "../main.dart";
-import "../ui_core/install_latest_assets.dart";
-import "../ui_core/snack_bar.dart";
+import "../providers/asset_updating_state.dart";
 
 class HomePage extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -48,25 +44,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
 
-    Future(() async {
-      final assetDir = (await getLocalAssetDirectory()).path;
-
-      final updater = AssetUpdater(assetDir, tempDir: (await getTemporaryDirectory()).path);
-      try {
-        await updater.checkForUpdate();
-      } catch (e, st) {
-        handleError(e, st);
-        showSnackBar(context: routerContext!, message: tr.updates.failedToUpdate);
-        return;
-      }
-
-      if (updater.isUpdateAvailable && mounted) {
-        await installLatestAssets(
-          context: context,
-          ref: ref,
-          updater: updater,
-        );
-      }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(assetUpdatingStateNotifierProvider.notifier).checkForUpdate();
     });
   }
 
@@ -83,7 +62,14 @@ class _HomePageState extends ConsumerState<HomePage> {
           );
         },
       ),
-      body: widget.navigationShell,
+      body: HookConsumer(
+        builder: (context, ref, child) {
+          useAssetUpdateProgress(ref);
+
+          return child!;
+        },
+        child: widget.navigationShell,
+      ),
     );
   }
 }

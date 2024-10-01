@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
-import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../core/asset_updater.dart";
 import "../i18n/strings.g.dart";
 import "../providers/asset_updating_state.dart";
 
-class AssetUpdateProgressSnackBar extends ConsumerWidget {
+class AssetUpdateProgressSnackBar extends HookConsumerWidget {
   const AssetUpdateProgressSnackBar({super.key});
 
   static final stateTexts = {
@@ -16,6 +16,15 @@ class AssetUpdateProgressSnackBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(assetUpdatingStateNotifierProvider);
+
+    // useEffect(() {
+    //   if (!state.state.isUpdating) {
+    //     WidgetsBinding.instance.addPostFrameCallback((_) {
+    //       ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    //     });
+    //   }
+    //   return null;
+    // }, [state.state],);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

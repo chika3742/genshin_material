@@ -85,7 +85,7 @@ class _BookmarkList extends HookConsumerWidget {
 
               db.updateBookmarkOrder(bookmarkOrder);
             } on RangeError catch (e, st) {
-              log("Reorder failed: $oldIndex -> $newIndex", error: e, stackTrace: st);
+              log("Reorder failed: $oldIndex -> $newIndex, length: ${bookmarkOrder.length}", error: e, stackTrace: st);
             }
           },
           buildDefaultDragHandles: false,
