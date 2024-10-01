@@ -99,6 +99,12 @@ _$AvatarListResultItemImpl _$$AvatarListResultItemImplFromJson(
       name: json['name'] as String,
       currentLevel: json['level_current'] as String,
       maxLevel: (json['max_level'] as num).toInt(),
+      skills: (json['skill_list'] as List<dynamic>)
+          .map((e) => AvatarSkill.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      weapon: json['weapon'] == null
+          ? null
+          : AvatarWeapon.fromJson(json['weapon'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$AvatarListResultItemImplToJson(
@@ -108,30 +114,20 @@ Map<String, dynamic> _$$AvatarListResultItemImplToJson(
       'name': instance.name,
       'level_current': instance.currentLevel,
       'max_level': instance.maxLevel,
-    };
-
-_$AvatarDetailImpl _$$AvatarDetailImplFromJson(Map<String, dynamic> json) =>
-    _$AvatarDetailImpl(
-      skills: (json['skill_list'] as List<dynamic>)
-          .map((e) => AvatarDetailSkill.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$$AvatarDetailImplToJson(_$AvatarDetailImpl instance) =>
-    <String, dynamic>{
       'skill_list': instance.skills,
+      'weapon': instance.weapon,
     };
 
-_$AvatarDetailSkillImpl _$$AvatarDetailSkillImplFromJson(
-        Map<String, dynamic> json) =>
-    _$AvatarDetailSkillImpl(
+_$AvatarSkillImpl _$$AvatarSkillImplFromJson(Map<String, dynamic> json) =>
+    _$AvatarSkillImpl(
+      groupId: (json['group_id'] as num).toInt(),
       maxLevel: (json['max_level'] as num).toInt(),
       currentLevel: (json['level_current'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$AvatarDetailSkillImplToJson(
-        _$AvatarDetailSkillImpl instance) =>
+Map<String, dynamic> _$$AvatarSkillImplToJson(_$AvatarSkillImpl instance) =>
     <String, dynamic>{
+      'group_id': instance.groupId,
       'max_level': instance.maxLevel,
       'level_current': instance.currentLevel,
     };
@@ -202,4 +198,86 @@ Map<String, dynamic> _$$DailyNoteImplToJson(_$DailyNoteImpl instance) =>
       'current_resin': instance.currentResin,
       'resin_recovery_time': instance.resinRecoveryTime,
       'current_home_coin': instance.currentHomeCoin,
+    };
+
+Map<String, dynamic> _$$CalcComputeItemImplToJson(
+        _$CalcComputeItemImpl instance) =>
+    <String, dynamic>{
+      'avatar_id': instance.avatarId,
+      'avatar_level_current': instance.currentAvatarLevel,
+      'element_attr_id': instance.elementAttrId,
+      'avatar_level_target': instance.targetAvatarLevel,
+      'skill_list': instance.skills,
+      'weapon': instance.weapon,
+    };
+
+Map<String, dynamic> _$$CalcComputeSkillImplToJson(
+        _$CalcComputeSkillImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'level_current': instance.currentLevel,
+      'level_target': instance.targetLevel,
+    };
+
+_$AvatarWeaponImpl _$$AvatarWeaponImplFromJson(Map<String, dynamic> json) =>
+    _$AvatarWeaponImpl(
+      id: (json['id'] as num).toInt(),
+      maxLevel: (json['max_level'] as num).toInt(),
+      currentLevel: (json['level_current'] as num).toInt(),
+      categoryId: (json['weapon_cat_id'] as num).toInt(),
+      rarity: (json['weapon_level'] as num).toInt(),
+      name: json['name'] as String,
+      icon: json['icon'] as String,
+    );
+
+Map<String, dynamic> _$$AvatarWeaponImplToJson(_$AvatarWeaponImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'max_level': instance.maxLevel,
+      'level_current': instance.currentLevel,
+      'weapon_cat_id': instance.categoryId,
+      'weapon_level': instance.rarity,
+      'name': instance.name,
+      'icon': instance.icon,
+    };
+
+Map<String, dynamic> _$$CalcComputeWeaponImplToJson(
+        _$CalcComputeWeaponImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'max_level': instance.maxLevel,
+      'level_current': instance.currentLevel,
+      'level_target': instance.targetLevel,
+      'weapon_cat_id': instance.categoryId,
+      'weapon_level': instance.rarity,
+      'name': instance.name,
+      'icon': instance.icon,
+    };
+
+_$CalcResultImpl _$$CalcResultImplFromJson(Map<String, dynamic> json) =>
+    _$CalcResultImpl(
+      overallConsume: (json['overall_consume'] as List<dynamic>)
+          .map((e) => CalcConsumptionItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$CalcResultImplToJson(_$CalcResultImpl instance) =>
+    <String, dynamic>{
+      'overall_consume': instance.overallConsume,
+    };
+
+_$CalcConsumptionItemImpl _$$CalcConsumptionItemImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CalcConsumptionItemImpl(
+      id: (json['id'] as num).toInt(),
+      lackNum: (json['lack_num'] as num).toInt(),
+      num: (json['num'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$CalcConsumptionItemImplToJson(
+        _$CalcConsumptionItemImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'lack_num': instance.lackNum,
+      'num': instance.num,
     };

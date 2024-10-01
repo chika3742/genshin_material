@@ -1,3 +1,6 @@
+// workaround for https://github.com/rrousselGit/freezed/issues/488
+// ignore_for_file: invalid_annotation_target
+
 import "package:freezed_annotation/freezed_annotation.dart";
 
 part "hoyolab_api.freezed.dart";
@@ -51,8 +54,6 @@ class HyvServer with _$HyvServer {
 @freezed
 class HyvUserInfo with _$HyvUserInfo {
   const factory HyvUserInfo({
-    // workaround for https://github.com/rrousselGit/freezed/issues/488
-    // ignore: invalid_annotation_target
     @JsonKey(name: "account_name") required String accountName,
   }) = _HyvUserInfo;
   
@@ -63,8 +64,6 @@ class HyvUserInfo with _$HyvUserInfo {
 @freezed
 class HyvUserGameRole with _$HyvUserGameRole {
   const factory HyvUserGameRole({
-    // workaround for https://github.com/rrousselGit/freezed/issues/488
-    // ignore: invalid_annotation_target
     @JsonKey(name: "game_uid") required String uid,
     required String nickname,
     required int level,
@@ -81,45 +80,53 @@ class AvatarListResultItem with _$AvatarListResultItem, WithId {
   const factory AvatarListResultItem({
     required int id,
     required String name,
-    // workaround for https://github.com/rrousselGit/freezed/issues/488
-    // ignore: invalid_annotation_target
     @JsonKey(name: "level_current") required String currentLevel,
-    // ignore: invalid_annotation_target
     @JsonKey(name: "max_level") required int maxLevel,
+    @JsonKey(name: "skill_list") required List<AvatarSkill> skills,
+    AvatarWeapon? weapon,
   }) = _AvatarListResultItem;
 
   factory AvatarListResultItem.fromJson(Map<String, dynamic> json) =>
       _$AvatarListResultItemFromJson(json);
 }
 
-@freezed
-class AvatarDetail with _$AvatarDetail {
-  const factory AvatarDetail({
-    // ignore: invalid_annotation_target
-    @JsonKey(name: "skill_list") required List<AvatarDetailSkill> skills,
-  }) = _AvatarDetail;
+// @freezed
+// class AvatarDetail with _$AvatarDetail {
+//   const factory AvatarDetail({
+//     @JsonKey(name: "skill_list") required List<AvatarDetailSkill> skills,
+//   }) = _AvatarDetail;
+//
+//   factory AvatarDetail.fromJson(Map<String, dynamic> json) =>
+//       _$AvatarDetailFromJson(json);
+// }
 
-  factory AvatarDetail.fromJson(Map<String, dynamic> json) =>
-      _$AvatarDetailFromJson(json);
-}
+// @freezed
+// class AvatarDetailSkill with _$AvatarDetailSkill {
+//   const factory AvatarDetailSkill({
+//     @JsonKey(name: "group_id") required int groupId,
+//     @JsonKey(name: "max_level") required int maxLevel,
+//     @JsonKey(name: "level_current") required int currentLevel,
+//   }) = _AvatarDetailSkill;
+//
+//   factory AvatarDetailSkill.fromJson(Map<String, dynamic> json) =>
+//       _$AvatarDetailSkillFromJson(json);
+// }
 
 @freezed
-class AvatarDetailSkill with _$AvatarDetailSkill {
-  const factory AvatarDetailSkill({
-    // ignore: invalid_annotation_target
+class AvatarSkill with _$AvatarSkill {
+  const factory AvatarSkill({
+    @JsonKey(name: "group_id") required int groupId,
     @JsonKey(name: "max_level") required int maxLevel,
-    // ignore: invalid_annotation_target
     @JsonKey(name: "level_current") required int currentLevel,
-  }) = _AvatarDetailSkill;
+  }) = _AvatarSkill;
 
-  factory AvatarDetailSkill.fromJson(Map<String, dynamic> json) =>
-      _$AvatarDetailSkillFromJson(json);
+  factory AvatarSkill.fromJson(Map<String, dynamic> json) =>
+      _$AvatarSkillFromJson(json);
 }
 
 @freezed
 class AvatarAuth with _$AvatarAuth {
   const factory AvatarAuth({
-    // ignore: invalid_annotation_target
     @JsonKey(name: "avatar_auth") required int avatarAuth,
   }) = _AvatarAuth;
 
@@ -130,10 +137,8 @@ class AvatarAuth with _$AvatarAuth {
 @freezed
 class GameRecordCard with _$GameRecordCard {
   const factory GameRecordCard({
-    // ignore: invalid_annotation_target
     @JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
     required GameType gameType,
-    // ignore: invalid_annotation_target
     @JsonKey(name: "data_switches") required List<DataSwitchMetadata> dataSwitches,
   }) = _GameRecordCard;
 
@@ -144,10 +149,8 @@ class GameRecordCard with _$GameRecordCard {
 @freezed
 class DataSwitchMetadata with _$DataSwitchMetadata {
   const factory DataSwitchMetadata({
-    // ignore: invalid_annotation_target
     @JsonKey(name: "switch_id", unknownEnumValue: DataSwitchType.enableBattleChronicle)
     required DataSwitchType switchId,
-    // ignore: invalid_annotation_target
     @JsonKey(name: "is_public") required bool isPublic,
   }) = _DataSwitchMetadata;
 
@@ -178,16 +181,98 @@ enum GameType {
 @freezed
 class DailyNote with _$DailyNote {
   const factory DailyNote({
-    // ignore: invalid_annotation_target
     @JsonKey(name: "current_resin") required int currentResin,
-    // ignore: invalid_annotation_target
     @JsonKey(name: "resin_recovery_time") required String resinRecoveryTime,
-    // ignore: invalid_annotation_target
     @JsonKey(name: "current_home_coin") required int currentHomeCoin,
   }) = _DailyNote;
 
   factory DailyNote.fromJson(Map<String, dynamic> json) =>
       _$DailyNoteFromJson(json);
+}
+
+@Freezed(toJson: true)
+class CalcComputeItem with _$CalcComputeItem {
+  const factory CalcComputeItem({
+    @JsonKey(name: "avatar_id") required int avatarId,
+    @JsonKey(name: "avatar_level_current") required int currentAvatarLevel,
+    @JsonKey(name: "element_attr_id") required int elementAttrId,
+    @JsonKey(name: "avatar_level_target") required int targetAvatarLevel,
+    @JsonKey(name: "skill_list") required List<CalcComputeSkill> skills,
+    CalcComputeWeapon? weapon,
+  }) = _CalcComputeItem;
+}
+
+@Freezed(toJson: true)
+class CalcComputeSkill with _$CalcComputeSkill {
+  const factory CalcComputeSkill({
+    required int id,
+    @JsonKey(name: "level_current") required int currentLevel,
+    @JsonKey(name: "level_target") required int targetLevel,
+  }) = _CalcComputeSkill;
+}
+
+@freezed
+class AvatarWeapon with _$AvatarWeapon {
+  const factory AvatarWeapon({
+    required int id,
+    @JsonKey(name: "max_level") required int maxLevel,
+    @JsonKey(name: "level_current") required int currentLevel,
+    @JsonKey(name: "weapon_cat_id") required int categoryId,
+    @JsonKey(name: "weapon_level") required int rarity,
+    required String name,
+    required String icon,
+  }) = _AvatarWeapon;
+
+  factory AvatarWeapon.fromJson(Map<String, dynamic> json) =>
+      _$AvatarWeaponFromJson(json);
+}
+
+@Freezed(toJson: true)
+class CalcComputeWeapon with _$CalcComputeWeapon {
+  const factory CalcComputeWeapon({
+    required int id,
+    @JsonKey(name: "max_level") required int maxLevel,
+    @JsonKey(name: "level_current") required int currentLevel,
+    @JsonKey(name: "level_target") required int targetLevel,
+    @JsonKey(name: "weapon_cat_id") required int categoryId,
+    @JsonKey(name: "weapon_level") required int rarity,
+    required String name,
+    required String icon,
+  }) = _CalcComputeWeapon;
+
+  factory CalcComputeWeapon.fromWeapon(AvatarWeapon weapon, int targetLevel) =>
+      CalcComputeWeapon(
+        id: weapon.id,
+        maxLevel: weapon.maxLevel,
+        currentLevel: weapon.currentLevel,
+        targetLevel: targetLevel,
+        categoryId: weapon.categoryId,
+        rarity: weapon.rarity,
+        name: weapon.name,
+        icon: weapon.icon,
+      );
+}
+
+@freezed
+class CalcResult with _$CalcResult {
+  const factory CalcResult({
+    @JsonKey(name: "overall_consume") required List<CalcConsumptionItem> overallConsume,
+  }) = _CalcResult;
+
+  factory CalcResult.fromJson(Map<String, dynamic> json) =>
+      _$CalcResultFromJson(json);
+}
+
+@freezed
+class CalcConsumptionItem with _$CalcConsumptionItem {
+  const factory CalcConsumptionItem({
+    required int id,
+    @JsonKey(name: "lack_num") required int lackNum,
+    required int num,
+  }) = _CalcConsumptionItem;
+
+  factory CalcConsumptionItem.fromJson(Map<String, dynamic> json) =>
+      _$CalcConsumptionItemFromJson(json);
 }
 
 mixin WithId {

@@ -24,6 +24,7 @@ mixin _$CharacterDetailsPageState {
       throw _privateConstructorUsedError;
   Map<Purpose, GlobalKey<State<StatefulWidget>>> get talentSectionKeys =>
       throw _privateConstructorUsedError;
+  Map<int, int> get bagCounts => throw _privateConstructorUsedError;
   GameDataSyncStatus get hoyolabSyncStatus =>
       throw _privateConstructorUsedError;
 
@@ -46,6 +47,7 @@ abstract class _$CharacterDetailsPageStateCopyWith<$Res> {
       Map<Purpose, List<int>> sliderTickLabels,
       Map<Purpose, bool> checkedTalentTypes,
       Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys,
+      Map<int, int> bagCounts,
       GameDataSyncStatus hoyolabSyncStatus});
 }
 
@@ -69,6 +71,7 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res,
     Object? sliderTickLabels = null,
     Object? checkedTalentTypes = null,
     Object? talentSectionKeys = null,
+    Object? bagCounts = null,
     Object? hoyolabSyncStatus = null,
   }) {
     return _then(_value.copyWith(
@@ -88,6 +91,10 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res,
           ? _value.talentSectionKeys
           : talentSectionKeys // ignore: cast_nullable_to_non_nullable
               as Map<Purpose, GlobalKey<State<StatefulWidget>>>,
+      bagCounts: null == bagCounts
+          ? _value.bagCounts
+          : bagCounts // ignore: cast_nullable_to_non_nullable
+              as Map<int, int>,
       hoyolabSyncStatus: null == hoyolabSyncStatus
           ? _value.hoyolabSyncStatus
           : hoyolabSyncStatus // ignore: cast_nullable_to_non_nullable
@@ -110,6 +117,7 @@ abstract class _$$_CharacterDetailsPageStateImplCopyWith<$Res>
       Map<Purpose, List<int>> sliderTickLabels,
       Map<Purpose, bool> checkedTalentTypes,
       Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys,
+      Map<int, int> bagCounts,
       GameDataSyncStatus hoyolabSyncStatus});
 }
 
@@ -132,6 +140,7 @@ class __$$_CharacterDetailsPageStateImplCopyWithImpl<$Res>
     Object? sliderTickLabels = null,
     Object? checkedTalentTypes = null,
     Object? talentSectionKeys = null,
+    Object? bagCounts = null,
     Object? hoyolabSyncStatus = null,
   }) {
     return _then(_$_CharacterDetailsPageStateImpl(
@@ -151,6 +160,10 @@ class __$$_CharacterDetailsPageStateImplCopyWithImpl<$Res>
           ? _value._talentSectionKeys
           : talentSectionKeys // ignore: cast_nullable_to_non_nullable
               as Map<Purpose, GlobalKey<State<StatefulWidget>>>,
+      bagCounts: null == bagCounts
+          ? _value._bagCounts
+          : bagCounts // ignore: cast_nullable_to_non_nullable
+              as Map<int, int>,
       hoyolabSyncStatus: null == hoyolabSyncStatus
           ? _value.hoyolabSyncStatus
           : hoyolabSyncStatus // ignore: cast_nullable_to_non_nullable
@@ -168,11 +181,13 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
       required final Map<Purpose, bool> checkedTalentTypes,
       required final Map<Purpose, GlobalKey<State<StatefulWidget>>>
           talentSectionKeys,
+      required final Map<int, int> bagCounts,
       this.hoyolabSyncStatus = GameDataSyncStatus.synced})
       : _rangeValues = rangeValues,
         _sliderTickLabels = sliderTickLabels,
         _checkedTalentTypes = checkedTalentTypes,
-        _talentSectionKeys = talentSectionKeys;
+        _talentSectionKeys = talentSectionKeys,
+        _bagCounts = bagCounts;
 
   final Map<Purpose, LevelRangeValues> _rangeValues;
   @override
@@ -208,13 +223,21 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
     return EqualUnmodifiableMapView(_talentSectionKeys);
   }
 
+  final Map<int, int> _bagCounts;
+  @override
+  Map<int, int> get bagCounts {
+    if (_bagCounts is EqualUnmodifiableMapView) return _bagCounts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_bagCounts);
+  }
+
   @override
   @JsonKey()
   final GameDataSyncStatus hoyolabSyncStatus;
 
   @override
   String toString() {
-    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys, hoyolabSyncStatus: $hoyolabSyncStatus)';
+    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys, bagCounts: $bagCounts, hoyolabSyncStatus: $hoyolabSyncStatus)';
   }
 
   @override
@@ -230,6 +253,8 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
                 .equals(other._checkedTalentTypes, _checkedTalentTypes) &&
             const DeepCollectionEquality()
                 .equals(other._talentSectionKeys, _talentSectionKeys) &&
+            const DeepCollectionEquality()
+                .equals(other._bagCounts, _bagCounts) &&
             (identical(other.hoyolabSyncStatus, hoyolabSyncStatus) ||
                 other.hoyolabSyncStatus == hoyolabSyncStatus));
   }
@@ -241,6 +266,7 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
       const DeepCollectionEquality().hash(_sliderTickLabels),
       const DeepCollectionEquality().hash(_checkedTalentTypes),
       const DeepCollectionEquality().hash(_talentSectionKeys),
+      const DeepCollectionEquality().hash(_bagCounts),
       hoyolabSyncStatus);
 
   /// Create a copy of _CharacterDetailsPageState
@@ -261,6 +287,7 @@ abstract class __CharacterDetailsPageState
           required final Map<Purpose, bool> checkedTalentTypes,
           required final Map<Purpose, GlobalKey<State<StatefulWidget>>>
               talentSectionKeys,
+          required final Map<int, int> bagCounts,
           final GameDataSyncStatus hoyolabSyncStatus}) =
       _$_CharacterDetailsPageStateImpl;
 
@@ -272,6 +299,8 @@ abstract class __CharacterDetailsPageState
   Map<Purpose, bool> get checkedTalentTypes;
   @override
   Map<Purpose, GlobalKey<State<StatefulWidget>>> get talentSectionKeys;
+  @override
+  Map<int, int> get bagCounts;
   @override
   GameDataSyncStatus get hoyolabSyncStatus;
 

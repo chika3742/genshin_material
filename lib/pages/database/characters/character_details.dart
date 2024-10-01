@@ -23,6 +23,7 @@ import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/character_ingredients.dart";
 import "../../../models/common.dart";
+import "../../../models/hoyolab_api.dart";
 import "../../../models/material_bookmark_frame.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/preferences.dart";
@@ -503,6 +504,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       final elements = assetData.elements;
       final weaponTypes = assetData.weaponTypes;
 
+      // get character info
       final charaInfo = await HoyolabApiUtils.loopUntilCharacter(
         character.hyvIds,
             (page) {
@@ -514,6 +516,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
         },
       );
       if (charaInfo != null) {
+        log(charaInfo.toString());
         state.value = state.value.copyWith(
           rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = LevelRangeValues(
             state.value.sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
@@ -521,9 +524,10 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
           ),
         );
 
-        final charaDetail = await api.avatarDetail(charaInfo.id);
+        // get character detail
+        // final charaDetail = await api.avatarDetail(charaInfo.id);
 
-        final skills = charaDetail.skills.where((element) => element.maxLevel != 1);
+        final skills = charaInfo.skills.where((element) => element.maxLevel != 1);
         skills.forEachIndexed((index, element) {
           final purpose = switch (index) {
             0 => Purpose.normalAttack,
@@ -542,6 +546,27 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
           variant.id,
           state.value.rangeValues.map((key, value) => MapEntry(key, value.start)),
         );
+
+        // get material lacks
+        final calcResult = await api.batchCompute([
+          CalcComputeItem(
+            avatarId: charaInfo.id,
+            currentAvatarLevel: 1,
+            elementAttrId: elements[variant.element]!.hyvId,
+            targetAvatarLevel: charaInfo.maxLevel,
+            skills: charaInfo.skills.map((e) => CalcComputeSkill(
+              id: e.groupId,
+              currentLevel: 1,
+              targetLevel: e.maxLevel,
+            ),).toList(),
+          ),
+        ]);
+
+        final bagCounts = <int, int>{}; // item id (hyvId) -> count
+        for (final item in calcResult.overallConsume) {
+          bagCounts[item.id] = item.num - item.lackNum;
+        }
+        state.value = state.value.copyWith(bagCounts: bagCounts);
 
         state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.synced);
       } else {
@@ -575,6 +600,7 @@ class _CharacterDetailsPageState with _$CharacterDetailsPageState {
     required Map<Purpose, List<int>> sliderTickLabels,
     required Map<Purpose, bool> checkedTalentTypes,
     required Map<Purpose, GlobalKey> talentSectionKeys,
+    required Map<int, int> bagCounts,
     @Default(GameDataSyncStatus.synced) GameDataSyncStatus hoyolabSyncStatus, // ignore: unused_element
   }) = __CharacterDetailsPageState;
 
@@ -603,6 +629,7 @@ class _CharacterDetailsPageState with _$CharacterDetailsPageState {
       sliderTickLabels: sliderTickLabels,
       checkedTalentTypes: checkedTalentTypes,
       talentSectionKeys: talentSectionKeys,
+      bagCounts: {},
     );
   }
 }

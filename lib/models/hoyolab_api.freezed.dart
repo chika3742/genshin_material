@@ -232,8 +232,6 @@ HyvUserInfo _$HyvUserInfoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HyvUserInfo {
-// workaround for https://github.com/rrousselGit/freezed/issues/488
-// ignore: invalid_annotation_target
   @JsonKey(name: "account_name")
   String get accountName => throw _privateConstructorUsedError;
 
@@ -250,8 +248,6 @@ class _$HyvUserInfoImpl implements _HyvUserInfo {
   factory _$HyvUserInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$HyvUserInfoImplFromJson(json);
 
-// workaround for https://github.com/rrousselGit/freezed/issues/488
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "account_name")
   final String accountName;
@@ -290,8 +286,6 @@ abstract class _HyvUserInfo implements HyvUserInfo {
   factory _HyvUserInfo.fromJson(Map<String, dynamic> json) =
       _$HyvUserInfoImpl.fromJson;
 
-// workaround for https://github.com/rrousselGit/freezed/issues/488
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "account_name")
   String get accountName;
@@ -303,8 +297,6 @@ HyvUserGameRole _$HyvUserGameRoleFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HyvUserGameRole {
-// workaround for https://github.com/rrousselGit/freezed/issues/488
-// ignore: invalid_annotation_target
   @JsonKey(name: "game_uid")
   String get uid => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
@@ -325,8 +317,6 @@ class _$HyvUserGameRoleImpl implements _HyvUserGameRole {
   factory _$HyvUserGameRoleImpl.fromJson(Map<String, dynamic> json) =>
       _$$HyvUserGameRoleImplFromJson(json);
 
-// workaround for https://github.com/rrousselGit/freezed/issues/488
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "game_uid")
   final String uid;
@@ -372,8 +362,6 @@ abstract class _HyvUserGameRole implements HyvUserGameRole {
   factory _HyvUserGameRole.fromJson(Map<String, dynamic> json) =
       _$HyvUserGameRoleImpl.fromJson;
 
-// workaround for https://github.com/rrousselGit/freezed/issues/488
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "game_uid")
   String get uid;
@@ -390,14 +378,14 @@ AvatarListResultItem _$AvatarListResultItemFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AvatarListResultItem {
   int get id => throw _privateConstructorUsedError;
-  String get name =>
-      throw _privateConstructorUsedError; // workaround for https://github.com/rrousselGit/freezed/issues/488
-// ignore: invalid_annotation_target
+  String get name => throw _privateConstructorUsedError;
   @JsonKey(name: "level_current")
-  String get currentLevel =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  String get currentLevel => throw _privateConstructorUsedError;
   @JsonKey(name: "max_level")
   int get maxLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: "skill_list")
+  List<AvatarSkill> get skills => throw _privateConstructorUsedError;
+  AvatarWeapon? get weapon => throw _privateConstructorUsedError;
 
   /// Serializes this AvatarListResultItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -410,8 +398,11 @@ class _$AvatarListResultItemImpl extends _AvatarListResultItem {
       {required this.id,
       required this.name,
       @JsonKey(name: "level_current") required this.currentLevel,
-      @JsonKey(name: "max_level") required this.maxLevel})
-      : super._();
+      @JsonKey(name: "max_level") required this.maxLevel,
+      @JsonKey(name: "skill_list") required final List<AvatarSkill> skills,
+      this.weapon})
+      : _skills = skills,
+        super._();
 
   factory _$AvatarListResultItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$AvatarListResultItemImplFromJson(json);
@@ -420,19 +411,27 @@ class _$AvatarListResultItemImpl extends _AvatarListResultItem {
   final int id;
   @override
   final String name;
-// workaround for https://github.com/rrousselGit/freezed/issues/488
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "level_current")
   final String currentLevel;
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "max_level")
   final int maxLevel;
+  final List<AvatarSkill> _skills;
+  @override
+  @JsonKey(name: "skill_list")
+  List<AvatarSkill> get skills {
+    if (_skills is EqualUnmodifiableListView) return _skills;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_skills);
+  }
+
+  @override
+  final AvatarWeapon? weapon;
 
   @override
   String toString() {
-    return 'AvatarListResultItem(id: $id, name: $name, currentLevel: $currentLevel, maxLevel: $maxLevel)';
+    return 'AvatarListResultItem(id: $id, name: $name, currentLevel: $currentLevel, maxLevel: $maxLevel, skills: $skills, weapon: $weapon)';
   }
 
   @override
@@ -445,13 +444,15 @@ class _$AvatarListResultItemImpl extends _AvatarListResultItem {
             (identical(other.currentLevel, currentLevel) ||
                 other.currentLevel == currentLevel) &&
             (identical(other.maxLevel, maxLevel) ||
-                other.maxLevel == maxLevel));
+                other.maxLevel == maxLevel) &&
+            const DeepCollectionEquality().equals(other._skills, _skills) &&
+            (identical(other.weapon, weapon) || other.weapon == weapon));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, currentLevel, maxLevel);
+  int get hashCode => Object.hash(runtimeType, id, name, currentLevel, maxLevel,
+      const DeepCollectionEquality().hash(_skills), weapon);
 
   @override
   Map<String, dynamic> toJson() {
@@ -463,11 +464,12 @@ class _$AvatarListResultItemImpl extends _AvatarListResultItem {
 
 abstract class _AvatarListResultItem extends AvatarListResultItem {
   const factory _AvatarListResultItem(
-          {required final int id,
-          required final String name,
-          @JsonKey(name: "level_current") required final String currentLevel,
-          @JsonKey(name: "max_level") required final int maxLevel}) =
-      _$AvatarListResultItemImpl;
+      {required final int id,
+      required final String name,
+      @JsonKey(name: "level_current") required final String currentLevel,
+      @JsonKey(name: "max_level") required final int maxLevel,
+      @JsonKey(name: "skill_list") required final List<AvatarSkill> skills,
+      final AvatarWeapon? weapon}) = _$AvatarListResultItemImpl;
   const _AvatarListResultItem._() : super._();
 
   factory _AvatarListResultItem.fromJson(Map<String, dynamic> json) =
@@ -476,139 +478,69 @@ abstract class _AvatarListResultItem extends AvatarListResultItem {
   @override
   int get id;
   @override
-  String
-      get name; // workaround for https://github.com/rrousselGit/freezed/issues/488
-// ignore: invalid_annotation_target
+  String get name;
   @override
   @JsonKey(name: "level_current")
-  String get currentLevel; // ignore: invalid_annotation_target
+  String get currentLevel;
   @override
   @JsonKey(name: "max_level")
   int get maxLevel;
+  @override
+  @JsonKey(name: "skill_list")
+  List<AvatarSkill> get skills;
+  @override
+  AvatarWeapon? get weapon;
 }
 
-AvatarDetail _$AvatarDetailFromJson(Map<String, dynamic> json) {
-  return _AvatarDetail.fromJson(json);
+AvatarSkill _$AvatarSkillFromJson(Map<String, dynamic> json) {
+  return _AvatarSkill.fromJson(json);
 }
 
 /// @nodoc
-mixin _$AvatarDetail {
-// ignore: invalid_annotation_target
-  @JsonKey(name: "skill_list")
-  List<AvatarDetailSkill> get skills => throw _privateConstructorUsedError;
-
-  /// Serializes this AvatarDetail to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$AvatarDetailImpl implements _AvatarDetail {
-  const _$AvatarDetailImpl(
-      {@JsonKey(name: "skill_list")
-      required final List<AvatarDetailSkill> skills})
-      : _skills = skills;
-
-  factory _$AvatarDetailImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AvatarDetailImplFromJson(json);
-
-// ignore: invalid_annotation_target
-  final List<AvatarDetailSkill> _skills;
-// ignore: invalid_annotation_target
-  @override
-  @JsonKey(name: "skill_list")
-  List<AvatarDetailSkill> get skills {
-    if (_skills is EqualUnmodifiableListView) return _skills;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_skills);
-  }
-
-  @override
-  String toString() {
-    return 'AvatarDetail(skills: $skills)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AvatarDetailImpl &&
-            const DeepCollectionEquality().equals(other._skills, _skills));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_skills));
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AvatarDetailImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _AvatarDetail implements AvatarDetail {
-  const factory _AvatarDetail(
-      {@JsonKey(name: "skill_list")
-      required final List<AvatarDetailSkill> skills}) = _$AvatarDetailImpl;
-
-  factory _AvatarDetail.fromJson(Map<String, dynamic> json) =
-      _$AvatarDetailImpl.fromJson;
-
-// ignore: invalid_annotation_target
-  @override
-  @JsonKey(name: "skill_list")
-  List<AvatarDetailSkill> get skills;
-}
-
-AvatarDetailSkill _$AvatarDetailSkillFromJson(Map<String, dynamic> json) {
-  return _AvatarDetailSkill.fromJson(json);
-}
-
-/// @nodoc
-mixin _$AvatarDetailSkill {
-// ignore: invalid_annotation_target
+mixin _$AvatarSkill {
+  @JsonKey(name: "group_id")
+  int get groupId => throw _privateConstructorUsedError;
   @JsonKey(name: "max_level")
-  int get maxLevel =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  int get maxLevel => throw _privateConstructorUsedError;
   @JsonKey(name: "level_current")
   int get currentLevel => throw _privateConstructorUsedError;
 
-  /// Serializes this AvatarDetailSkill to a JSON map.
+  /// Serializes this AvatarSkill to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$AvatarDetailSkillImpl implements _AvatarDetailSkill {
-  const _$AvatarDetailSkillImpl(
-      {@JsonKey(name: "max_level") required this.maxLevel,
+class _$AvatarSkillImpl implements _AvatarSkill {
+  const _$AvatarSkillImpl(
+      {@JsonKey(name: "group_id") required this.groupId,
+      @JsonKey(name: "max_level") required this.maxLevel,
       @JsonKey(name: "level_current") required this.currentLevel});
 
-  factory _$AvatarDetailSkillImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AvatarDetailSkillImplFromJson(json);
+  factory _$AvatarSkillImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AvatarSkillImplFromJson(json);
 
-// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "group_id")
+  final int groupId;
   @override
   @JsonKey(name: "max_level")
   final int maxLevel;
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "level_current")
   final int currentLevel;
 
   @override
   String toString() {
-    return 'AvatarDetailSkill(maxLevel: $maxLevel, currentLevel: $currentLevel)';
+    return 'AvatarSkill(groupId: $groupId, maxLevel: $maxLevel, currentLevel: $currentLevel)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AvatarDetailSkillImpl &&
+            other is _$AvatarSkillImpl &&
+            (identical(other.groupId, groupId) || other.groupId == groupId) &&
             (identical(other.maxLevel, maxLevel) ||
                 other.maxLevel == maxLevel) &&
             (identical(other.currentLevel, currentLevel) ||
@@ -617,29 +549,32 @@ class _$AvatarDetailSkillImpl implements _AvatarDetailSkill {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, maxLevel, currentLevel);
+  int get hashCode => Object.hash(runtimeType, groupId, maxLevel, currentLevel);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AvatarDetailSkillImplToJson(
+    return _$$AvatarSkillImplToJson(
       this,
     );
   }
 }
 
-abstract class _AvatarDetailSkill implements AvatarDetailSkill {
-  const factory _AvatarDetailSkill(
-          {@JsonKey(name: "max_level") required final int maxLevel,
+abstract class _AvatarSkill implements AvatarSkill {
+  const factory _AvatarSkill(
+          {@JsonKey(name: "group_id") required final int groupId,
+          @JsonKey(name: "max_level") required final int maxLevel,
           @JsonKey(name: "level_current") required final int currentLevel}) =
-      _$AvatarDetailSkillImpl;
+      _$AvatarSkillImpl;
 
-  factory _AvatarDetailSkill.fromJson(Map<String, dynamic> json) =
-      _$AvatarDetailSkillImpl.fromJson;
+  factory _AvatarSkill.fromJson(Map<String, dynamic> json) =
+      _$AvatarSkillImpl.fromJson;
 
-// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: "group_id")
+  int get groupId;
   @override
   @JsonKey(name: "max_level")
-  int get maxLevel; // ignore: invalid_annotation_target
+  int get maxLevel;
   @override
   @JsonKey(name: "level_current")
   int get currentLevel;
@@ -651,7 +586,6 @@ AvatarAuth _$AvatarAuthFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AvatarAuth {
-// ignore: invalid_annotation_target
   @JsonKey(name: "avatar_auth")
   int get avatarAuth => throw _privateConstructorUsedError;
 
@@ -668,7 +602,6 @@ class _$AvatarAuthImpl implements _AvatarAuth {
   factory _$AvatarAuthImpl.fromJson(Map<String, dynamic> json) =>
       _$$AvatarAuthImplFromJson(json);
 
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "avatar_auth")
   final int avatarAuth;
@@ -707,7 +640,6 @@ abstract class _AvatarAuth implements AvatarAuth {
   factory _AvatarAuth.fromJson(Map<String, dynamic> json) =
       _$AvatarAuthImpl.fromJson;
 
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "avatar_auth")
   int get avatarAuth;
@@ -719,10 +651,8 @@ GameRecordCard _$GameRecordCardFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GameRecordCard {
-// ignore: invalid_annotation_target
   @JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
-  GameType get gameType =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  GameType get gameType => throw _privateConstructorUsedError;
   @JsonKey(name: "data_switches")
   List<DataSwitchMetadata> get dataSwitches =>
       throw _privateConstructorUsedError;
@@ -744,13 +674,10 @@ class _$GameRecordCardImpl implements _GameRecordCard {
   factory _$GameRecordCardImpl.fromJson(Map<String, dynamic> json) =>
       _$$GameRecordCardImplFromJson(json);
 
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
   final GameType gameType;
-// ignore: invalid_annotation_target
   final List<DataSwitchMetadata> _dataSwitches;
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "data_switches")
   List<DataSwitchMetadata> get dataSwitches {
@@ -799,10 +726,9 @@ abstract class _GameRecordCard implements GameRecordCard {
   factory _GameRecordCard.fromJson(Map<String, dynamic> json) =
       _$GameRecordCardImpl.fromJson;
 
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
-  GameType get gameType; // ignore: invalid_annotation_target
+  GameType get gameType;
   @override
   @JsonKey(name: "data_switches")
   List<DataSwitchMetadata> get dataSwitches;
@@ -814,11 +740,9 @@ DataSwitchMetadata _$DataSwitchMetadataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DataSwitchMetadata {
-// ignore: invalid_annotation_target
   @JsonKey(
       name: "switch_id", unknownEnumValue: DataSwitchType.enableBattleChronicle)
-  DataSwitchType get switchId =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  DataSwitchType get switchId => throw _privateConstructorUsedError;
   @JsonKey(name: "is_public")
   bool get isPublic => throw _privateConstructorUsedError;
 
@@ -839,12 +763,10 @@ class _$DataSwitchMetadataImpl implements _DataSwitchMetadata {
   factory _$DataSwitchMetadataImpl.fromJson(Map<String, dynamic> json) =>
       _$$DataSwitchMetadataImplFromJson(json);
 
-// ignore: invalid_annotation_target
   @override
   @JsonKey(
       name: "switch_id", unknownEnumValue: DataSwitchType.enableBattleChronicle)
   final DataSwitchType switchId;
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "is_public")
   final bool isPublic;
@@ -889,11 +811,10 @@ abstract class _DataSwitchMetadata implements DataSwitchMetadata {
   factory _DataSwitchMetadata.fromJson(Map<String, dynamic> json) =
       _$DataSwitchMetadataImpl.fromJson;
 
-// ignore: invalid_annotation_target
   @override
   @JsonKey(
       name: "switch_id", unknownEnumValue: DataSwitchType.enableBattleChronicle)
-  DataSwitchType get switchId; // ignore: invalid_annotation_target
+  DataSwitchType get switchId;
   @override
   @JsonKey(name: "is_public")
   bool get isPublic;
@@ -905,13 +826,10 @@ DailyNote _$DailyNoteFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DailyNote {
-// ignore: invalid_annotation_target
   @JsonKey(name: "current_resin")
-  int get currentResin =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  int get currentResin => throw _privateConstructorUsedError;
   @JsonKey(name: "resin_recovery_time")
-  String get resinRecoveryTime =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  String get resinRecoveryTime => throw _privateConstructorUsedError;
   @JsonKey(name: "current_home_coin")
   int get currentHomeCoin => throw _privateConstructorUsedError;
 
@@ -930,15 +848,12 @@ class _$DailyNoteImpl implements _DailyNote {
   factory _$DailyNoteImpl.fromJson(Map<String, dynamic> json) =>
       _$$DailyNoteImplFromJson(json);
 
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "current_resin")
   final int currentResin;
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "resin_recovery_time")
   final String resinRecoveryTime;
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "current_home_coin")
   final int currentHomeCoin;
@@ -985,14 +900,617 @@ abstract class _DailyNote implements DailyNote {
   factory _DailyNote.fromJson(Map<String, dynamic> json) =
       _$DailyNoteImpl.fromJson;
 
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: "current_resin")
-  int get currentResin; // ignore: invalid_annotation_target
+  int get currentResin;
   @override
   @JsonKey(name: "resin_recovery_time")
-  String get resinRecoveryTime; // ignore: invalid_annotation_target
+  String get resinRecoveryTime;
   @override
   @JsonKey(name: "current_home_coin")
   int get currentHomeCoin;
+}
+
+/// @nodoc
+mixin _$CalcComputeItem {
+  @JsonKey(name: "avatar_id")
+  int get avatarId => throw _privateConstructorUsedError;
+  @JsonKey(name: "avatar_level_current")
+  int get currentAvatarLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: "element_attr_id")
+  int get elementAttrId => throw _privateConstructorUsedError;
+  @JsonKey(name: "avatar_level_target")
+  int get targetAvatarLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: "skill_list")
+  List<CalcComputeSkill> get skills => throw _privateConstructorUsedError;
+  CalcComputeWeapon? get weapon => throw _privateConstructorUsedError;
+
+  /// Serializes this CalcComputeItem to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+@JsonSerializable(createFactory: false)
+class _$CalcComputeItemImpl implements _CalcComputeItem {
+  const _$CalcComputeItemImpl(
+      {@JsonKey(name: "avatar_id") required this.avatarId,
+      @JsonKey(name: "avatar_level_current") required this.currentAvatarLevel,
+      @JsonKey(name: "element_attr_id") required this.elementAttrId,
+      @JsonKey(name: "avatar_level_target") required this.targetAvatarLevel,
+      @JsonKey(name: "skill_list") required final List<CalcComputeSkill> skills,
+      this.weapon})
+      : _skills = skills;
+
+  @override
+  @JsonKey(name: "avatar_id")
+  final int avatarId;
+  @override
+  @JsonKey(name: "avatar_level_current")
+  final int currentAvatarLevel;
+  @override
+  @JsonKey(name: "element_attr_id")
+  final int elementAttrId;
+  @override
+  @JsonKey(name: "avatar_level_target")
+  final int targetAvatarLevel;
+  final List<CalcComputeSkill> _skills;
+  @override
+  @JsonKey(name: "skill_list")
+  List<CalcComputeSkill> get skills {
+    if (_skills is EqualUnmodifiableListView) return _skills;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_skills);
+  }
+
+  @override
+  final CalcComputeWeapon? weapon;
+
+  @override
+  String toString() {
+    return 'CalcComputeItem(avatarId: $avatarId, currentAvatarLevel: $currentAvatarLevel, elementAttrId: $elementAttrId, targetAvatarLevel: $targetAvatarLevel, skills: $skills, weapon: $weapon)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CalcComputeItemImpl &&
+            (identical(other.avatarId, avatarId) ||
+                other.avatarId == avatarId) &&
+            (identical(other.currentAvatarLevel, currentAvatarLevel) ||
+                other.currentAvatarLevel == currentAvatarLevel) &&
+            (identical(other.elementAttrId, elementAttrId) ||
+                other.elementAttrId == elementAttrId) &&
+            (identical(other.targetAvatarLevel, targetAvatarLevel) ||
+                other.targetAvatarLevel == targetAvatarLevel) &&
+            const DeepCollectionEquality().equals(other._skills, _skills) &&
+            (identical(other.weapon, weapon) || other.weapon == weapon));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      avatarId,
+      currentAvatarLevel,
+      elementAttrId,
+      targetAvatarLevel,
+      const DeepCollectionEquality().hash(_skills),
+      weapon);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CalcComputeItemImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CalcComputeItem implements CalcComputeItem {
+  const factory _CalcComputeItem(
+      {@JsonKey(name: "avatar_id") required final int avatarId,
+      @JsonKey(name: "avatar_level_current")
+      required final int currentAvatarLevel,
+      @JsonKey(name: "element_attr_id") required final int elementAttrId,
+      @JsonKey(name: "avatar_level_target")
+      required final int targetAvatarLevel,
+      @JsonKey(name: "skill_list") required final List<CalcComputeSkill> skills,
+      final CalcComputeWeapon? weapon}) = _$CalcComputeItemImpl;
+
+  @override
+  @JsonKey(name: "avatar_id")
+  int get avatarId;
+  @override
+  @JsonKey(name: "avatar_level_current")
+  int get currentAvatarLevel;
+  @override
+  @JsonKey(name: "element_attr_id")
+  int get elementAttrId;
+  @override
+  @JsonKey(name: "avatar_level_target")
+  int get targetAvatarLevel;
+  @override
+  @JsonKey(name: "skill_list")
+  List<CalcComputeSkill> get skills;
+  @override
+  CalcComputeWeapon? get weapon;
+}
+
+/// @nodoc
+mixin _$CalcComputeSkill {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "level_current")
+  int get currentLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: "level_target")
+  int get targetLevel => throw _privateConstructorUsedError;
+
+  /// Serializes this CalcComputeSkill to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+@JsonSerializable(createFactory: false)
+class _$CalcComputeSkillImpl implements _CalcComputeSkill {
+  const _$CalcComputeSkillImpl(
+      {required this.id,
+      @JsonKey(name: "level_current") required this.currentLevel,
+      @JsonKey(name: "level_target") required this.targetLevel});
+
+  @override
+  final int id;
+  @override
+  @JsonKey(name: "level_current")
+  final int currentLevel;
+  @override
+  @JsonKey(name: "level_target")
+  final int targetLevel;
+
+  @override
+  String toString() {
+    return 'CalcComputeSkill(id: $id, currentLevel: $currentLevel, targetLevel: $targetLevel)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CalcComputeSkillImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.currentLevel, currentLevel) ||
+                other.currentLevel == currentLevel) &&
+            (identical(other.targetLevel, targetLevel) ||
+                other.targetLevel == targetLevel));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, currentLevel, targetLevel);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CalcComputeSkillImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CalcComputeSkill implements CalcComputeSkill {
+  const factory _CalcComputeSkill(
+          {required final int id,
+          @JsonKey(name: "level_current") required final int currentLevel,
+          @JsonKey(name: "level_target") required final int targetLevel}) =
+      _$CalcComputeSkillImpl;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(name: "level_current")
+  int get currentLevel;
+  @override
+  @JsonKey(name: "level_target")
+  int get targetLevel;
+}
+
+AvatarWeapon _$AvatarWeaponFromJson(Map<String, dynamic> json) {
+  return _AvatarWeapon.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AvatarWeapon {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "max_level")
+  int get maxLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: "level_current")
+  int get currentLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: "weapon_cat_id")
+  int get categoryId => throw _privateConstructorUsedError;
+  @JsonKey(name: "weapon_level")
+  int get rarity => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get icon => throw _privateConstructorUsedError;
+
+  /// Serializes this AvatarWeapon to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AvatarWeaponImpl implements _AvatarWeapon {
+  const _$AvatarWeaponImpl(
+      {required this.id,
+      @JsonKey(name: "max_level") required this.maxLevel,
+      @JsonKey(name: "level_current") required this.currentLevel,
+      @JsonKey(name: "weapon_cat_id") required this.categoryId,
+      @JsonKey(name: "weapon_level") required this.rarity,
+      required this.name,
+      required this.icon});
+
+  factory _$AvatarWeaponImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AvatarWeaponImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey(name: "max_level")
+  final int maxLevel;
+  @override
+  @JsonKey(name: "level_current")
+  final int currentLevel;
+  @override
+  @JsonKey(name: "weapon_cat_id")
+  final int categoryId;
+  @override
+  @JsonKey(name: "weapon_level")
+  final int rarity;
+  @override
+  final String name;
+  @override
+  final String icon;
+
+  @override
+  String toString() {
+    return 'AvatarWeapon(id: $id, maxLevel: $maxLevel, currentLevel: $currentLevel, categoryId: $categoryId, rarity: $rarity, name: $name, icon: $icon)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AvatarWeaponImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.maxLevel, maxLevel) ||
+                other.maxLevel == maxLevel) &&
+            (identical(other.currentLevel, currentLevel) ||
+                other.currentLevel == currentLevel) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId) &&
+            (identical(other.rarity, rarity) || other.rarity == rarity) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.icon, icon) || other.icon == icon));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, id, maxLevel, currentLevel, categoryId, rarity, name, icon);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AvatarWeaponImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AvatarWeapon implements AvatarWeapon {
+  const factory _AvatarWeapon(
+      {required final int id,
+      @JsonKey(name: "max_level") required final int maxLevel,
+      @JsonKey(name: "level_current") required final int currentLevel,
+      @JsonKey(name: "weapon_cat_id") required final int categoryId,
+      @JsonKey(name: "weapon_level") required final int rarity,
+      required final String name,
+      required final String icon}) = _$AvatarWeaponImpl;
+
+  factory _AvatarWeapon.fromJson(Map<String, dynamic> json) =
+      _$AvatarWeaponImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(name: "max_level")
+  int get maxLevel;
+  @override
+  @JsonKey(name: "level_current")
+  int get currentLevel;
+  @override
+  @JsonKey(name: "weapon_cat_id")
+  int get categoryId;
+  @override
+  @JsonKey(name: "weapon_level")
+  int get rarity;
+  @override
+  String get name;
+  @override
+  String get icon;
+}
+
+/// @nodoc
+mixin _$CalcComputeWeapon {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "max_level")
+  int get maxLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: "level_current")
+  int get currentLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: "level_target")
+  int get targetLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: "weapon_cat_id")
+  int get categoryId => throw _privateConstructorUsedError;
+  @JsonKey(name: "weapon_level")
+  int get rarity => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get icon => throw _privateConstructorUsedError;
+
+  /// Serializes this CalcComputeWeapon to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+@JsonSerializable(createFactory: false)
+class _$CalcComputeWeaponImpl implements _CalcComputeWeapon {
+  const _$CalcComputeWeaponImpl(
+      {required this.id,
+      @JsonKey(name: "max_level") required this.maxLevel,
+      @JsonKey(name: "level_current") required this.currentLevel,
+      @JsonKey(name: "level_target") required this.targetLevel,
+      @JsonKey(name: "weapon_cat_id") required this.categoryId,
+      @JsonKey(name: "weapon_level") required this.rarity,
+      required this.name,
+      required this.icon});
+
+  @override
+  final int id;
+  @override
+  @JsonKey(name: "max_level")
+  final int maxLevel;
+  @override
+  @JsonKey(name: "level_current")
+  final int currentLevel;
+  @override
+  @JsonKey(name: "level_target")
+  final int targetLevel;
+  @override
+  @JsonKey(name: "weapon_cat_id")
+  final int categoryId;
+  @override
+  @JsonKey(name: "weapon_level")
+  final int rarity;
+  @override
+  final String name;
+  @override
+  final String icon;
+
+  @override
+  String toString() {
+    return 'CalcComputeWeapon(id: $id, maxLevel: $maxLevel, currentLevel: $currentLevel, targetLevel: $targetLevel, categoryId: $categoryId, rarity: $rarity, name: $name, icon: $icon)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CalcComputeWeaponImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.maxLevel, maxLevel) ||
+                other.maxLevel == maxLevel) &&
+            (identical(other.currentLevel, currentLevel) ||
+                other.currentLevel == currentLevel) &&
+            (identical(other.targetLevel, targetLevel) ||
+                other.targetLevel == targetLevel) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId) &&
+            (identical(other.rarity, rarity) || other.rarity == rarity) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.icon, icon) || other.icon == icon));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, maxLevel, currentLevel,
+      targetLevel, categoryId, rarity, name, icon);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CalcComputeWeaponImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CalcComputeWeapon implements CalcComputeWeapon {
+  const factory _CalcComputeWeapon(
+      {required final int id,
+      @JsonKey(name: "max_level") required final int maxLevel,
+      @JsonKey(name: "level_current") required final int currentLevel,
+      @JsonKey(name: "level_target") required final int targetLevel,
+      @JsonKey(name: "weapon_cat_id") required final int categoryId,
+      @JsonKey(name: "weapon_level") required final int rarity,
+      required final String name,
+      required final String icon}) = _$CalcComputeWeaponImpl;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(name: "max_level")
+  int get maxLevel;
+  @override
+  @JsonKey(name: "level_current")
+  int get currentLevel;
+  @override
+  @JsonKey(name: "level_target")
+  int get targetLevel;
+  @override
+  @JsonKey(name: "weapon_cat_id")
+  int get categoryId;
+  @override
+  @JsonKey(name: "weapon_level")
+  int get rarity;
+  @override
+  String get name;
+  @override
+  String get icon;
+}
+
+CalcResult _$CalcResultFromJson(Map<String, dynamic> json) {
+  return _CalcResult.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CalcResult {
+  @JsonKey(name: "overall_consume")
+  List<CalcConsumptionItem> get overallConsume =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this CalcResult to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CalcResultImpl implements _CalcResult {
+  const _$CalcResultImpl(
+      {@JsonKey(name: "overall_consume")
+      required final List<CalcConsumptionItem> overallConsume})
+      : _overallConsume = overallConsume;
+
+  factory _$CalcResultImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CalcResultImplFromJson(json);
+
+  final List<CalcConsumptionItem> _overallConsume;
+  @override
+  @JsonKey(name: "overall_consume")
+  List<CalcConsumptionItem> get overallConsume {
+    if (_overallConsume is EqualUnmodifiableListView) return _overallConsume;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_overallConsume);
+  }
+
+  @override
+  String toString() {
+    return 'CalcResult(overallConsume: $overallConsume)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CalcResultImpl &&
+            const DeepCollectionEquality()
+                .equals(other._overallConsume, _overallConsume));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_overallConsume));
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CalcResultImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CalcResult implements CalcResult {
+  const factory _CalcResult(
+          {@JsonKey(name: "overall_consume")
+          required final List<CalcConsumptionItem> overallConsume}) =
+      _$CalcResultImpl;
+
+  factory _CalcResult.fromJson(Map<String, dynamic> json) =
+      _$CalcResultImpl.fromJson;
+
+  @override
+  @JsonKey(name: "overall_consume")
+  List<CalcConsumptionItem> get overallConsume;
+}
+
+CalcConsumptionItem _$CalcConsumptionItemFromJson(Map<String, dynamic> json) {
+  return _CalcConsumptionItem.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CalcConsumptionItem {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "lack_num")
+  int get lackNum => throw _privateConstructorUsedError;
+  int get num => throw _privateConstructorUsedError;
+
+  /// Serializes this CalcConsumptionItem to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CalcConsumptionItemImpl implements _CalcConsumptionItem {
+  const _$CalcConsumptionItemImpl(
+      {required this.id,
+      @JsonKey(name: "lack_num") required this.lackNum,
+      required this.num});
+
+  factory _$CalcConsumptionItemImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CalcConsumptionItemImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey(name: "lack_num")
+  final int lackNum;
+  @override
+  final int num;
+
+  @override
+  String toString() {
+    return 'CalcConsumptionItem(id: $id, lackNum: $lackNum, num: $num)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CalcConsumptionItemImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.lackNum, lackNum) || other.lackNum == lackNum) &&
+            (identical(other.num, num) || other.num == num));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, lackNum, num);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CalcConsumptionItemImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CalcConsumptionItem implements CalcConsumptionItem {
+  const factory _CalcConsumptionItem(
+      {required final int id,
+      @JsonKey(name: "lack_num") required final int lackNum,
+      required final int num}) = _$CalcConsumptionItemImpl;
+
+  factory _CalcConsumptionItem.fromJson(Map<String, dynamic> json) =
+      _$CalcConsumptionItemImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(name: "lack_num")
+  int get lackNum;
+  @override
+  int get num;
 }

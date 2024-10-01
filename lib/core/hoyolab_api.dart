@@ -1,5 +1,6 @@
 import "dart:convert";
-import "dart:math";
+import "dart:developer";
+import "dart:math" hide log;
 import "dart:typed_data";
 
 import "package:crypto/crypto.dart";
@@ -73,23 +74,23 @@ class HoyolabApi {
     );
   }
 
-  Future<AvatarDetail> avatarDetail(int avatarId) {
-    _ensureRequiredParams();
-
-    const url = "https://sg-public-api.hoyolab.com/event/calculateos/sync/avatar/detail";
-    final queryParams = {
-      "avatar_id": avatarId.toString(),
-      "uid": uid!,
-      "region": region!,
-      "lang": lang,
-    };
-    final uri = Uri.parse(url).replace(queryParameters: queryParams);
-
-    return _errorHandledThen(client.get(
-      uri,
-      headers: headers,
-    ), (obj) => AvatarDetail.fromJson(obj as Map<String, dynamic>),);
-  }
+  // Future<AvatarDetail> avatarDetail(int avatarId) {
+  //   _ensureRequiredParams();
+  //
+  //   const url = "https://sg-public-api.hoyolab.com/event/calculateos/sync/avatar/detail";
+  //   final queryParams = {
+  //     "avatar_id": avatarId.toString(),
+  //     "uid": uid!,
+  //     "region": region!,
+  //     "lang": lang,
+  //   };
+  //   final uri = Uri.parse(url).replace(queryParameters: queryParams);
+  //
+  //   return _errorHandledThen(client.get(
+  //     uri,
+  //     headers: headers,
+  //   ), (obj) => AvatarDetail.fromJson(obj as Map<String, dynamic>),);
+  // }
 
   Future<GetUserGameRolesResult> getUserGameRoles() {
     _ensureRequiredParams(params: [HoyolabApiParams.cookie, HoyolabApiParams.region]);
@@ -164,6 +165,35 @@ class HoyolabApi {
     );
   }
 
+  Future<CalcResult> batchCompute(List<CalcComputeItem> items) async {
+    _ensureRequiredParams();
+
+    const endpoint = "https://sg-public-api.hoyolab.com/event/calculateos/batch_compute";
+
+    log("Request body: ${jsonEncode({
+      "items": items.map((e) => e.toJson()).toList(),
+      "uid": uid,
+      "region": region,
+      "lang": lang,
+    })}");
+
+    return _errorHandledThen(
+      client.post(
+        Uri.parse(endpoint),
+        headers: {
+          ...headers,
+        },
+        body: jsonEncode({
+          "items": items.map((e) => e.toJson()).toList(),
+          "uid": uid,
+          "region": region,
+          "lang": lang,
+        }),
+      ),
+      (obj) => CalcResult.fromJson(obj as Map<String, dynamic>),
+    );
+  }
+
   String _getDsToken({String body = "", Map<String, String> queryParameters = const {}}) {
     const salt = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w"; // global region (NOT APPLICABLE FOR MAINLAND CHINA)
 
@@ -196,7 +226,7 @@ class HoyolabApi {
     return const JsonCodec().decode(utf8.decode(bytes));
   }
 
-  static Future<T> _errorHandledThen<T>(Future<http.Response> response, T Function(Object?) fromJsonT) {
+  static Future<T> _errorHandledThen<T>(Future<http.Response> response, T Function(Object? obj) fromJsonT) {
     return response.then((value) {
       final result = HoyolabApiResult.fromJson(_parseJson(value.bodyBytes), fromJsonT);
       if (result.hasError) {
