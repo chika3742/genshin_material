@@ -26,6 +26,7 @@ common:
   bookmarkSaved: ブックマークしました
   none: なし
   sliderTips: スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。
+  selected: "選択中: $character"
 tutorial:
   indexSheet: 目次の表示
   indexSheetDesc: このボタンをタップすると、お探しの項目へ素早く移動できます。

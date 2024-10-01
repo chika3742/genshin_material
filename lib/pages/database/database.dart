@@ -19,22 +19,22 @@ class DatabasePage extends StatelessWidget {
           SimpleListTile(
             title: tr.pages.characters,
             leadingIcon: Symbols.face,
-            location: CharacterListRoute().location,
+            location: const CharacterListRoute().location,
           ),
           SimpleListTile(
             title: tr.pages.weapons,
             leadingIcon: Symbols.swords,
-            location: WeaponListRoute().location,
+            location: const WeaponListRoute().location,
           ),
           SimpleListTile(
             title: tr.pages.materials,
             leadingIcon: Symbols.grass,
-            location: MaterialListRoute().location,
+            location: const MaterialListRoute().location,
           ),
           SimpleListTile(
             title: tr.pages.artifacts,
             leadingIcon: Symbols.person_play,
-            location: ArtifactListRoute().location,
+            location: const ArtifactListRoute().location,
           ),
         ],
       ),

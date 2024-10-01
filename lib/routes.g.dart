@@ -206,7 +206,7 @@ extension $DatabaseNavRouteExtension on DatabaseNavRoute {
 
 extension $CharacterListRouteExtension on CharacterListRoute {
   static CharacterListRoute _fromState(GoRouterState state) =>
-      CharacterListRoute();
+      const CharacterListRoute();
 
   String get location => GoRouteData.$location(
         '/database/characters',
@@ -247,10 +247,15 @@ extension $CharacterDetailsRouteExtension on CharacterDetailsRoute {
 }
 
 extension $WeaponListRouteExtension on WeaponListRoute {
-  static WeaponListRoute _fromState(GoRouterState state) => WeaponListRoute();
+  static WeaponListRoute _fromState(GoRouterState state) => WeaponListRoute(
+        equipCharacterId: state.uri.queryParameters['equip-character-id'],
+      );
 
   String get location => GoRouteData.$location(
         '/database/weapons',
+        queryParams: {
+          if (equipCharacterId != null) 'equip-character-id': equipCharacterId,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -291,7 +296,7 @@ extension $WeaponDetailsRouteExtension on WeaponDetailsRoute {
 
 extension $MaterialListRouteExtension on MaterialListRoute {
   static MaterialListRoute _fromState(GoRouterState state) =>
-      MaterialListRoute();
+      const MaterialListRoute();
 
   String get location => GoRouteData.$location(
         '/database/materials',
@@ -328,11 +333,15 @@ extension $MaterialDetailsRouteExtension on MaterialDetailsRoute {
 }
 
 extension $ArtifactListRouteExtension on ArtifactListRoute {
-  static ArtifactListRoute _fromState(GoRouterState state) =>
-      ArtifactListRoute();
+  static ArtifactListRoute _fromState(GoRouterState state) => ArtifactListRoute(
+        equipCharacterId: state.uri.queryParameters['equip-character-id'],
+      );
 
   String get location => GoRouteData.$location(
         '/database/artifacts',
+        queryParams: {
+          if (equipCharacterId != null) 'equip-character-id': equipCharacterId,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -367,10 +376,16 @@ extension $ArtifactDetailsRouteExtension on ArtifactDetailsRoute {
   static ArtifactDetailsRoute _fromState(GoRouterState state) =>
       ArtifactDetailsRoute(
         id: state.pathParameters['id']!,
+        initialSelectedCharacter:
+            state.uri.queryParameters['initial-selected-character'],
       );
 
   String get location => GoRouteData.$location(
         '/database/artifacts/${Uri.encodeComponent(id)}',
+        queryParams: {
+          if (initialSelectedCharacter != null)
+            'initial-selected-character': initialSelectedCharacter,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

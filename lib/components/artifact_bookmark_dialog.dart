@@ -28,9 +28,16 @@ part "artifact_bookmark_dialog.freezed.dart";
 class ArtifactBookmarkDialog extends HookConsumerWidget {
   final ArtifactSetId? firstSetId;
   final ArtifactPieceId? pieceId;
+  final CharacterId? initialSelectedCharacter;
   final bool showSecondSetChooser;
 
-  const ArtifactBookmarkDialog({super.key, this.firstSetId, this.pieceId, this.showSecondSetChooser = false});
+  const ArtifactBookmarkDialog({
+    super.key,
+    this.firstSetId,
+    this.pieceId,
+    this.initialSelectedCharacter,
+    this.showSecondSetChooser = false,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,6 +51,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
     final characters = useMemoized(() => assetData.characters.values.whereType<CharacterOrVariant>().toList());
 
     final state = useState(ArtifactBookmarkDialogState(
+      characterId: initialSelectedCharacter,
       firstSetId: firstSetId,
       pieceId: pieceId,
     ),);
@@ -360,6 +368,7 @@ Future<void> showArtifactBookmarkDialog({
   required BuildContext context,
   ArtifactSetId? firstSetId,
   ArtifactPieceId? pieceId,
+  CharacterId? initialSelectedCharacter,
   bool showSecondSetChooser = false,
 }) async {
   await Navigator.push(
@@ -369,6 +378,7 @@ Future<void> showArtifactBookmarkDialog({
       builder: (context) => ArtifactBookmarkDialog(
         firstSetId: firstSetId,
         pieceId: pieceId,
+        initialSelectedCharacter: initialSelectedCharacter,
         showSecondSetChooser: showSecondSetChooser,
       ),
       fullscreenDialog: true,

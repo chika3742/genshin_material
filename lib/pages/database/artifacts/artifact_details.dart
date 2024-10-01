@@ -7,13 +7,20 @@ import "../../../components/game_item_info_box.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/common.dart";
 import "../../../ui_core/layout.dart";
 
 class ArtifactDetailsPage extends StatelessWidget {
   final AssetData assetData;
   final String id;
+  final CharacterId? initialSelectedCharacter;
 
-  const ArtifactDetailsPage({super.key, required this.assetData, required this.id});
+  const ArtifactDetailsPage({
+    super.key,
+    required this.assetData,
+    required this.id,
+    required this.initialSelectedCharacter,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +97,7 @@ class ArtifactDetailsPage extends StatelessWidget {
                             showArtifactBookmarkDialog(
                               context: context,
                               firstSetId: artifactSet.id,
+                              initialSelectedCharacter: initialSelectedCharacter,
                               showSecondSetChooser: true,
                             );
                           },
@@ -101,6 +109,7 @@ class ArtifactDetailsPage extends StatelessWidget {
                             showArtifactBookmarkDialog(
                               context: context,
                               firstSetId: artifactSet.id,
+                              initialSelectedCharacter: initialSelectedCharacter,
                             );
                           },
                           icon: const Icon(Icons.bookmark),
@@ -131,6 +140,7 @@ class ArtifactDetailsPage extends StatelessWidget {
                                 showArtifactBookmarkDialog(
                                   context: context,
                                   pieceId: piece.id,
+                                  initialSelectedCharacter: initialSelectedCharacter,
                                 );
                               },
                             ),

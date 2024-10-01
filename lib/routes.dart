@@ -159,6 +159,8 @@ class DatabaseNavRoute extends GoRouteData {
 
 @immutable
 class CharacterListRoute extends GoRouteData {
+  const CharacterListRoute();
+
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -196,6 +198,10 @@ class CharacterDetailsRoute extends GoRouteData {
 
 @immutable
 class WeaponListRoute extends GoRouteData {
+  final String? equipCharacterId;
+
+  const WeaponListRoute({this.equipCharacterId});
+
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -203,7 +209,10 @@ class WeaponListRoute extends GoRouteData {
       child: DataAssetScope(
         useScaffold: true,
         builder: (context, assetData) {
-          return WeaponListPage(assetData: assetData);
+          return WeaponListPage(
+            assetData: assetData,
+            equipCharacter: equipCharacterId,
+          );
         },
       ),
     );
@@ -237,6 +246,8 @@ class WeaponDetailsRoute extends GoRouteData {
 
 @immutable
 class MaterialListRoute extends GoRouteData {
+  const MaterialListRoute();
+
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -273,6 +284,10 @@ class MaterialDetailsRoute extends GoRouteData {
 
 @immutable
 class ArtifactListRoute extends GoRouteData {
+  final String? equipCharacterId;
+
+  const ArtifactListRoute({this.equipCharacterId});
+
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -280,7 +295,10 @@ class ArtifactListRoute extends GoRouteData {
       child: DataAssetScope(
         useScaffold: true,
         builder: (context, assetData) {
-          return ArtifactListPage(assetData: assetData);
+          return ArtifactListPage(
+            assetData: assetData,
+            equipCharacter: equipCharacterId,
+          );
         },
       ),
     );
@@ -306,8 +324,9 @@ class ArtifactEffectListRoute extends GoRouteData {
 @immutable
 class ArtifactDetailsRoute extends GoRouteData {
   final String id;
+  final CharacterId? initialSelectedCharacter;
 
-  const ArtifactDetailsRoute({required this.id});
+  const ArtifactDetailsRoute({required this.id, this.initialSelectedCharacter});
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
@@ -316,7 +335,11 @@ class ArtifactDetailsRoute extends GoRouteData {
       child: DataAssetScope(
         useScaffold: true,
         builder: (context, assetData) {
-          return ArtifactDetailsPage(assetData: assetData, id: id);
+          return ArtifactDetailsPage(
+            assetData: assetData,
+            id: id,
+            initialSelectedCharacter: initialSelectedCharacter,
+          );
         },
       ),
     );

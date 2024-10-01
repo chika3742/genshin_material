@@ -5,13 +5,15 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "../../../components/list_tile.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/common.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
 
 class ArtifactListPage extends HookWidget {
   final AssetData assetData;
+  final CharacterId? equipCharacter;
 
-  const ArtifactListPage({super.key, required this.assetData});
+  const ArtifactListPage({super.key, required this.assetData, required this.equipCharacter});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +29,16 @@ class ArtifactListPage extends HookWidget {
       [filteringRarity.value],
     );
 
+    final String appBarTitle;
+    if (equipCharacter != null) {
+      appBarTitle = "${tr.pages.artifacts} (${tr.common.selected(character: assetData.characters[equipCharacter]!.name.localized)})";
+    } else {
+      appBarTitle = tr.pages.artifacts;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr.pages.artifacts),
+        title: Text(appBarTitle),
       ),
       body: CustomScrollView(
         slivers: [
@@ -69,7 +78,7 @@ class ArtifactListPage extends HookWidget {
                 name: set.name.localized,
                 rarity: set.maxRarity,
                 onTap: () {
-                  ArtifactDetailsRoute(id: set.id).push(context);
+                  ArtifactDetailsRoute(id: set.id, initialSelectedCharacter: equipCharacter).push(context);
                 },
               );
             },

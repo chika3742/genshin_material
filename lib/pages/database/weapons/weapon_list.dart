@@ -20,20 +20,13 @@ import "../../../ui_core/tutorial.dart";
 
 class WeaponListPage extends HookConsumerWidget {
   final AssetData assetData;
+  final CharacterId? equipCharacter;
 
-  const WeaponListPage({super.key, required this.assetData});
+  const WeaponListPage({super.key, required this.assetData, required this.equipCharacter});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scrollController = useScrollController();
     final fabKey = useMemoized(() => GlobalKey());
-
-    useEffect(() {
-      Future.delayed(const Duration(milliseconds: 350), () {
-        if (context.mounted) showIndexSheetTutorialIfNeeded(context, fabKey, ref);
-      });
-      return null;
-    }, [],);
 
     final weaponsGroupedByType = useMemoized(
           () => assetData.weapons.values
@@ -42,9 +35,29 @@ class WeaponListPage extends HookConsumerWidget {
       [assetData.weapons],
     );
 
+    useEffect(() {
+      Future.delayed(const Duration(milliseconds: 350), () {
+        if (context.mounted) showIndexSheetTutorialIfNeeded(context, fabKey, ref);
+      });
+      return null;
+    }, [],);
+
+    double initialScrollOffset = 0;
+    if (equipCharacter != null) {
+      initialScrollOffset = _getHeaderScrollOffset(weaponsGroupedByType, assetData.characters[equipCharacter]!.weaponType);
+    }
+    final scrollController = useScrollController(initialScrollOffset: initialScrollOffset);
+
+    final String appBarTitle;
+    if (equipCharacter != null) {
+      appBarTitle = "${tr.pages.weapons} (${tr.common.selected(character: assetData.characters[equipCharacter]!.name.localized)})";
+    } else {
+      appBarTitle = tr.pages.weapons;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr.pages.weapons),
+        title: Text(appBarTitle),
       ),
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
@@ -76,7 +89,7 @@ class WeaponListPage extends HookConsumerWidget {
                         name: weapon.name.localized,
                         rarity: weapon.rarity,
                         onTap: () {
-                          WeaponDetailsRoute(id: weapon.id).go(context);
+                          WeaponDetailsRoute(id: weapon.id, initialSelectedCharacter: equipCharacter).push(context);
                         },
                       );
                     },
@@ -106,22 +119,23 @@ class WeaponListPage extends HookConsumerWidget {
       }).toList(),
     );
     if (result != null) {
-      _scrollToWeaponType(scrollController, weaponsGroupedByType, result);
+      final offset = _getHeaderScrollOffset(weaponsGroupedByType, result);
+      scrollController.animateTo(
+        min(offset, scrollController.position.maxScrollExtent),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOutQuint,
+      );
     }
   }
 
-  void _scrollToWeaponType(ScrollController scrollController, Map<WeaponType, List<Weapon>> weaponsGroupedByType, WeaponType weaponType) {
+  double _getHeaderScrollOffset(Map<WeaponType, List<Weapon>> weaponsGroupedByType, WeaponType weaponType) {
     double offset = 0.0;
     for (final e in assetData.weaponTypes.keys) {
       if (e == weaponType) {
-        scrollController.animateTo(
-          min(offset, scrollController.position.maxScrollExtent),
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOutQuint,
-        );
-        break;
+        return offset;
       }
       offset += stickyListHeaderHeight + (listTileHeight * weaponsGroupedByType[e]!.length);
     }
+    return offset;
   }
 }

@@ -5,6 +5,7 @@ import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/center_text.dart";
 import "../../../components/game_data_sync_indicator.dart";
@@ -216,8 +217,31 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  if (prefs.isLinkedWithHoyolab && prefs.syncCharaState) GameDataSyncIndicator(
-                    status: state.value.hoyolabSyncStatus,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      if (prefs.isLinkedWithHoyolab && prefs.syncCharaState)
+                        GameDataSyncIndicator(
+                          status: state.value.hoyolabSyncStatus,
+                        ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Symbols.swords),
+                            onPressed: () {
+                              WeaponListRoute(equipCharacterId: variant.value.id).push(context);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Symbols.person_play),
+                            onPressed: () {
+                              ArtifactListRoute(equipCharacterId: variant.value.id).push(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -563,7 +587,7 @@ class _CharacterDetailsPageState with _$CharacterDetailsPageState {
     final rangeValues = <Purpose, LevelRangeValues>{};
     final checkedTalentTypes = <Purpose, bool>{};
     final talentSectionKeys = <Purpose, GlobalKey>{};
-    
+
     for (final purpose in ingredients.purposes.keys) {
       final levels = ingredients.purposes[purpose]!.levels;
       final initialSliderLowerRange = initialCharacterLevels?[purpose] ?? 1;
