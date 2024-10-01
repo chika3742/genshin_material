@@ -74,6 +74,7 @@ class MaterialCard extends HookWidget {
     return SizedBox(
       height: 60,
       child: Card(
+        color: Theme.of(context).colorScheme.surfaceContainerHigh,
         child: RowSuper(
           mainAxisSize: MainAxisSize.min,
           innerDistance: -8,
