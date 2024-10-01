@@ -4,11 +4,11 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/kv_preferences.dart";
+import "../core/secure_storage.dart";
 import "../main.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "../pages/tools/resin_calc.dart";
-import "../utils/secure_storage.dart";
 
 part "preferences.freezed.dart";
 part "preferences.g.dart";

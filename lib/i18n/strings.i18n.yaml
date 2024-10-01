@@ -9,8 +9,6 @@ common:
   goalLevel: 目標レベル
   currentLevel: 現在レベル
   index: 目次
-  expandAll: 全て展開
-  collapseAll: 全て折りたたむ
   seconds(rich):
     other: $n${unit(秒)}
   minutes(rich):
@@ -51,7 +49,6 @@ errors:
   characterNotFound: キャラクターが見つかりません
   materialNotFound: 素材が見つかりません
   artifactNotFound: 聖遺物が見つかりません
-  failedToLoadBookmarks: ブックマークの読み込みに失敗しました
   tryAgainLater: しばらくしてから再度お試しください。
 pages:
   characters: キャラクター
@@ -184,9 +181,7 @@ hoyolab:
   realtimeNotesNotEnabled: リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。
   loginExpired: 一度連携を解除し、再度ログインしてください。
   accessPermission: アクセス許可
-  doYouWantToAllowCharaDataAccess: キャラクターデータへのアクセスを本アプリに許可しますか？
   doYouWantToEnableRealtimeNotes: リアルタイムノートを有効化しますか？
-  charaDataAccessDesc: ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。
   characterDataAccess: キャラクターデータへのアクセス
   enableRealtimeNotes: リアルタイムノートの有効化
   enableRealtimeNotesDesc: 現在の天然樹脂の数を同期できるようになります。

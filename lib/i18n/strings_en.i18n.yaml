@@ -9,8 +9,6 @@ common:
   goalLevel: Goal Level
   currentLevel: Current Level
   index: Index
-  expandAll: Expand all
-  collapseAll: Collapse all
   seconds(rich):
     other: "$n ${unit(seconds)}"
     one: "$n ${unit(second)}"
@@ -21,7 +19,6 @@ common:
     other: "$n ${unit(hours)}"
     one: "$n ${unit(hour)}"
   element: Element
-  schemaVersionMismatch: Cannot update assets. Please update the app.
   rarity: Rarity
   weaponType: Weapon Type
   clear: Clear
@@ -29,6 +26,15 @@ common:
   next: Next
   change: Change
   pleaseSelect: Please select
+  bookmarkSaved: Bookmark saved
+  none: None
+  sliderTips: "If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation."
+  expandAll: Expand all
+  collapseAll: Collapse all
+  schemaVersionMismatch: Cannot update assets. Please update the app.
+tutorial:
+  indexSheet: Table of contents
+  indexSheetDesc: Tap this button to quickly navigate to the section you're looking for.
 talentTypes(map):
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill
@@ -36,14 +42,21 @@ talentTypes(map):
 updates:
   downloading: Downloading data updates...
   failedToLoad: "Failed to load data. Try re-downloading from 'Settings' -> 'Re-download Assets'."
-  failedToUpdate: Failed to update assets. Please try again later.
+  failedToDownload: Failed to download data update.
+  failedToInstall: Failed to install data update.
+  failedToCheck: Failed to check for data update.
+  schemaVersionMismatch: Please update the app to the latest version.
+  noInternet: Please check your internet connection.
+  noUpdateAvailable: No update available.
   completed: Data update completed.
   installing: Installing...
   pleaseWaitUntilComplete: Please wait until data update is complete.
+  failedToUpdate: Failed to update assets. Please try again later.
 errors:
   characterNotFound: Character not found
   materialNotFound: Material not found
   artifactNotFound: Artifact not found
+  tryAgainLater: Please try again later.
 pages:
   characters: Characters
   characterDetails: $character - Character
@@ -64,14 +77,29 @@ pages:
   wishes: Wish Pity Counter
   more: More
   hoyolabIntegrationSettings: HoYoLAB Integration Settings
+bookmarksPage:
+  noBookmarks: "No bookmarks yet. Try finding something in the Database tab!"
+  character: Character
+  weapon: Weapon
+  artifactSet: Artifact Set
+  artifactPiece: Artifact
+  main: Main
+  sub: Sub
+  unBookmark: Remove bookmark
+  unBookmarkConfirm: "Remove this bookmark?"
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: "Character Lv Up & Ascension Materials"
   talentLevelUpMaterials: Talent Lv Up Materials
 weaponDetailsPage:
   characterToEquip: Character to Equip this Weapon
+  skillEffect: Skill Effect
+  ascension: "Weapon Lv Up & Ascension Materials"
 materialDetailsPage:
   charactersUsing: Characters Using This Material
   weaponsUsing: Weapons Using This Material
+  availableToday: Available Today
+  source: How to Obtain
+  toTeyvatMap: To Teyvat Map
 materialCard:
   reBookmark: Re-bookmark in current range
   reBookmarkDesc: "Remove the bookmark of this material once, then bookmark it again in the current slider range"
@@ -82,6 +110,9 @@ artifactsPage:
     1-pc: 1-Pc Set Bonus
     2-pc: 2-Pc Set Bonus
     4-pc: 4-Pc Set Bonus
+  effectList: Effect List
+  kindOfEffect: Kind of Effect
+  effectFilteringNote: "* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags."
   pieceTypes(map):
     flower: Flower of Life
     plume: Plume of Death
@@ -132,14 +163,16 @@ settingsPage:
   display: Display
   showItemNameOnCard: Show Item Name on Card
   showItemNameOnCardDesc: Show the item name on the card that displays the number of uses.
+  dailyResetServer: Daily Material Server Time
+  dailyResetServerDesc: Select the game server to use as the reference time for daily materials reset.
   assetData: Assets
   checkAssetUpdate: Check Asset Update
   checkAssetUpdateDesc: Check for updates to the app's assets.
-  noUpdateAvailable: No update available.
   reDownloadAssets: Re-download Assets
   reDownloadAssetsDesc: Please try this if the assets of the app are not loading properly.
   others: Others
   openSourceLicenses: Open Source Licenses
+  noUpdateAvailable: No update available.
 hoyolab:
   signIn: Sign in to HoYoLAB
   signOut: Sign out from HoYoLAB
@@ -162,9 +195,7 @@ hoyolab:
   realtimeNotesNotEnabled: Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.
   loginExpired: Please sign out and sign in again.
   accessPermission: Access Permission
-  doYouWantToAllowCharaDataAccess: "Do you want to allow access to character data?"
   doYouWantToEnableRealtimeNotes: "Enable Real-Time Notes?"
-  charaDataAccessDesc: You will be able to sync character levels and talent levels in the game.
   characterDataAccess: Character Data Access
   enableRealtimeNotes: Enable Real-Time Notes
   enableRealtimeNotesDesc: You will be able to sync your current Original Resin count.

@@ -1,8 +1,8 @@
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/hoyolab_api.dart";
+import "../core/secure_storage.dart";
 import "../models/hoyolab_api.dart";
-import "../utils/secure_storage.dart";
 
 part "miscellaneous.g.dart";
 

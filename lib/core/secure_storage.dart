@@ -1,6 +1,6 @@
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
 
-import "../core/hoyolab_api.dart";
+import "hoyolab_api.dart";
 
 const secureStorage = FlutterSecureStorage(
   aOptions: AndroidOptions(
@@ -13,10 +13,21 @@ Future<void> setHoyolabCookie(String cookie) async {
   final api = HoyolabApi(cookie: cookie);
   final verificationResult = await api.verifyLToken();
   if (verificationResult.hasError) {
-    throw Exception("Credential verification failed: ${verificationResult.message}");
+    throw CredentialVerificationException(message: verificationResult.message);
   }
 
   await secureStorage.write(key: "hoyolab_cookie", value: cookie);
+}
+
+class CredentialVerificationException implements Exception {
+  final String message;
+
+  const CredentialVerificationException({required this.message});
+
+  @override
+  String toString() {
+    return "HoYoLAB Credential verification failed: $message";
+  }
 }
 
 Future<void> deleteHoyolabCookie() async {

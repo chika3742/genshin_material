@@ -15,6 +15,7 @@ import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/hoyolab_api.dart";
+import "../../../core/secure_storage.dart";
 import "../../../database.dart";
 import "../../../db/character_level_info_db_extension.dart";
 import "../../../i18n/strings.g.dart";
@@ -29,7 +30,6 @@ import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
-import "../../../utils/secure_storage.dart";
 
 part "character_details.freezed.dart";
 

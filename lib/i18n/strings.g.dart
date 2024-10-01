@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 325 (162 per locale)
+/// Strings: 349 (174 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -191,8 +191,6 @@ class _StringsCommonJa {
 	String get goalLevel => '目標レベル';
 	String get currentLevel => '現在レベル';
 	String get index => '目次';
-	String get expandAll => '全て展開';
-	String get collapseAll => '全て折りたたむ';
 	TextSpan seconds({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
 		n: n,
 		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
@@ -271,7 +269,6 @@ class _StringsErrorsJa {
 	String get characterNotFound => 'キャラクターが見つかりません';
 	String get materialNotFound => '素材が見つかりません';
 	String get artifactNotFound => '聖遺物が見つかりません';
-	String get failedToLoadBookmarks => 'ブックマークの読み込みに失敗しました';
 	String get tryAgainLater => 'しばらくしてから再度お試しください。';
 }
 
@@ -515,9 +512,7 @@ class _StringsHoyolabJa {
 	String get realtimeNotesNotEnabled => 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。';
 	String get loginExpired => '一度連携を解除し、再度ログインしてください。';
 	String get accessPermission => 'アクセス許可';
-	String get doYouWantToAllowCharaDataAccess => 'キャラクターデータへのアクセスを本アプリに許可しますか？';
 	String get doYouWantToEnableRealtimeNotes => 'リアルタイムノートを有効化しますか？';
-	String get charaDataAccessDesc => 'ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。';
 	String get characterDataAccess => 'キャラクターデータへのアクセス';
 	String get enableRealtimeNotes => 'リアルタイムノートの有効化';
 	String get enableRealtimeNotesDesc => '現在の天然樹脂の数を同期できるようになります。';
@@ -556,6 +551,7 @@ class _StringsEn extends Translations {
 	// Translations
 	@override String get appName => 'Genshin Material Notebook';
 	@override late final _StringsCommonEn common = _StringsCommonEn._(_root);
+	@override late final _StringsTutorialEn tutorial = _StringsTutorialEn._(_root);
 	@override Map<String, String> get talentTypes => {
 		'normalAttack': 'Normal Attack',
 		'elementalSkill': 'Elemental Skill',
@@ -564,6 +560,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsUpdatesEn updates = _StringsUpdatesEn._(_root);
 	@override late final _StringsErrorsEn errors = _StringsErrorsEn._(_root);
 	@override late final _StringsPagesEn pages = _StringsPagesEn._(_root);
+	@override late final _StringsBookmarksPageEn bookmarksPage = _StringsBookmarksPageEn._(_root);
 	@override late final _StringsCharacterDetailsPageEn characterDetailsPage = _StringsCharacterDetailsPageEn._(_root);
 	@override late final _StringsWeaponDetailsPageEn weaponDetailsPage = _StringsWeaponDetailsPageEn._(_root);
 	@override late final _StringsMaterialDetailsPageEn materialDetailsPage = _StringsMaterialDetailsPageEn._(_root);
@@ -597,8 +594,6 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override String get goalLevel => 'Goal Level';
 	@override String get currentLevel => 'Current Level';
 	@override String get index => 'Index';
-	@override String get expandAll => 'Expand all';
-	@override String get collapseAll => 'Collapse all';
 	@override TextSpan seconds({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
 		n: n,
 		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
@@ -642,7 +637,6 @@ class _StringsCommonEn extends _StringsCommonJa {
 		]),
 	);
 	@override String get element => 'Element';
-	@override String get schemaVersionMismatch => 'Cannot update assets. Please update the app.';
 	@override String get rarity => 'Rarity';
 	@override String get weaponType => 'Weapon Type';
 	@override String get clear => 'Clear';
@@ -650,6 +644,23 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override String get next => 'Next';
 	@override String get change => 'Change';
 	@override String get pleaseSelect => 'Please select';
+	@override String get bookmarkSaved => 'Bookmark saved';
+	@override String get none => 'None';
+	@override String get sliderTips => 'If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.';
+	@override String get expandAll => 'Expand all';
+	@override String get collapseAll => 'Collapse all';
+	@override String get schemaVersionMismatch => 'Cannot update assets. Please update the app.';
+}
+
+// Path: tutorial
+class _StringsTutorialEn extends _StringsTutorialJa {
+	_StringsTutorialEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get indexSheet => 'Table of contents';
+	@override String get indexSheetDesc => 'Tap this button to quickly navigate to the section you\'re looking for.';
 }
 
 // Path: updates
@@ -661,10 +672,16 @@ class _StringsUpdatesEn extends _StringsUpdatesJa {
 	// Translations
 	@override String get downloading => 'Downloading data updates...';
 	@override String get failedToLoad => 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
-	@override String get failedToUpdate => 'Failed to update assets. Please try again later.';
+	@override String get failedToDownload => 'Failed to download data update.';
+	@override String get failedToInstall => 'Failed to install data update.';
+	@override String get failedToCheck => 'Failed to check for data update.';
+	@override String get schemaVersionMismatch => 'Please update the app to the latest version.';
+	@override String get noInternet => 'Please check your internet connection.';
+	@override String get noUpdateAvailable => 'No update available.';
 	@override String get completed => 'Data update completed.';
 	@override String get installing => 'Installing...';
 	@override String get pleaseWaitUntilComplete => 'Please wait until data update is complete.';
+	@override String get failedToUpdate => 'Failed to update assets. Please try again later.';
 }
 
 // Path: errors
@@ -677,6 +694,7 @@ class _StringsErrorsEn extends _StringsErrorsJa {
 	@override String get characterNotFound => 'Character not found';
 	@override String get materialNotFound => 'Material not found';
 	@override String get artifactNotFound => 'Artifact not found';
+	@override String get tryAgainLater => 'Please try again later.';
 }
 
 // Path: pages
@@ -707,6 +725,24 @@ class _StringsPagesEn extends _StringsPagesJa {
 	@override String get hoyolabIntegrationSettings => 'HoYoLAB Integration Settings';
 }
 
+// Path: bookmarksPage
+class _StringsBookmarksPageEn extends _StringsBookmarksPageJa {
+	_StringsBookmarksPageEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get noBookmarks => 'No bookmarks yet. Try finding something in the Database tab!';
+	@override String get character => 'Character';
+	@override String get weapon => 'Weapon';
+	@override String get artifactSet => 'Artifact Set';
+	@override String get artifactPiece => 'Artifact';
+	@override String get main => 'Main';
+	@override String get sub => 'Sub';
+	@override String get unBookmark => 'Remove bookmark';
+	@override String get unBookmarkConfirm => 'Remove this bookmark?';
+}
+
 // Path: characterDetailsPage
 class _StringsCharacterDetailsPageEn extends _StringsCharacterDetailsPageJa {
 	_StringsCharacterDetailsPageEn._(_StringsEn root) : this._root = root, super._(root);
@@ -726,6 +762,8 @@ class _StringsWeaponDetailsPageEn extends _StringsWeaponDetailsPageJa {
 
 	// Translations
 	@override String get characterToEquip => 'Character to Equip this Weapon';
+	@override String get skillEffect => 'Skill Effect';
+	@override String get ascension => 'Weapon Lv Up & Ascension Materials';
 }
 
 // Path: materialDetailsPage
@@ -737,6 +775,9 @@ class _StringsMaterialDetailsPageEn extends _StringsMaterialDetailsPageJa {
 	// Translations
 	@override String get charactersUsing => 'Characters Using This Material';
 	@override String get weaponsUsing => 'Weapons Using This Material';
+	@override String get availableToday => 'Available Today';
+	@override String get source => 'How to Obtain';
+	@override String get toTeyvatMap => 'To Teyvat Map';
 }
 
 // Path: materialCard
@@ -764,6 +805,9 @@ class _StringsArtifactsPageEn extends _StringsArtifactsPageJa {
 		'2-pc': '2-Pc Set Bonus',
 		'4-pc': '4-Pc Set Bonus',
 	};
+	@override String get effectList => 'Effect List';
+	@override String get kindOfEffect => 'Kind of Effect';
+	@override String get effectFilteringNote => '* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags.';
 	@override Map<String, String> get pieceTypes => {
 		'flower': 'Flower of Life',
 		'plume': 'Plume of Death',
@@ -861,14 +905,16 @@ class _StringsSettingsPageEn extends _StringsSettingsPageJa {
 	@override String get display => 'Display';
 	@override String get showItemNameOnCard => 'Show Item Name on Card';
 	@override String get showItemNameOnCardDesc => 'Show the item name on the card that displays the number of uses.';
+	@override String get dailyResetServer => 'Daily Material Server Time';
+	@override String get dailyResetServerDesc => 'Select the game server to use as the reference time for daily materials reset.';
 	@override String get assetData => 'Assets';
 	@override String get checkAssetUpdate => 'Check Asset Update';
 	@override String get checkAssetUpdateDesc => 'Check for updates to the app\'s assets.';
-	@override String get noUpdateAvailable => 'No update available.';
 	@override String get reDownloadAssets => 'Re-download Assets';
 	@override String get reDownloadAssetsDesc => 'Please try this if the assets of the app are not loading properly.';
 	@override String get others => 'Others';
 	@override String get openSourceLicenses => 'Open Source Licenses';
+	@override String get noUpdateAvailable => 'No update available.';
 }
 
 // Path: hoyolab
@@ -899,9 +945,7 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get realtimeNotesNotEnabled => 'Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.';
 	@override String get loginExpired => 'Please sign out and sign in again.';
 	@override String get accessPermission => 'Access Permission';
-	@override String get doYouWantToAllowCharaDataAccess => 'Do you want to allow access to character data?';
 	@override String get doYouWantToEnableRealtimeNotes => 'Enable Real-Time Notes?';
-	@override String get charaDataAccessDesc => 'You will be able to sync character levels and talent levels in the game.';
 	@override String get characterDataAccess => 'Character Data Access';
 	@override String get enableRealtimeNotes => 'Enable Real-Time Notes';
 	@override String get enableRealtimeNotesDesc => 'You will be able to sync your current Original Resin count.';
@@ -928,8 +972,6 @@ extension on Translations {
 			case 'common.goalLevel': return '目標レベル';
 			case 'common.currentLevel': return '現在レベル';
 			case 'common.index': return '目次';
-			case 'common.expandAll': return '全て展開';
-			case 'common.collapseAll': return '全て折りたたむ';
 			case 'common.seconds': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
 				n: n,
 				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
@@ -984,7 +1026,6 @@ extension on Translations {
 			case 'errors.characterNotFound': return 'キャラクターが見つかりません';
 			case 'errors.materialNotFound': return '素材が見つかりません';
 			case 'errors.artifactNotFound': return '聖遺物が見つかりません';
-			case 'errors.failedToLoadBookmarks': return 'ブックマークの読み込みに失敗しました';
 			case 'errors.tryAgainLater': return 'しばらくしてから再度お試しください。';
 			case 'pages.characters': return 'キャラクター';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - キャラクター';
@@ -1100,9 +1141,7 @@ extension on Translations {
 			case 'hoyolab.realtimeNotesNotEnabled': return 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。';
 			case 'hoyolab.loginExpired': return '一度連携を解除し、再度ログインしてください。';
 			case 'hoyolab.accessPermission': return 'アクセス許可';
-			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'キャラクターデータへのアクセスを本アプリに許可しますか？';
 			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'リアルタイムノートを有効化しますか？';
-			case 'hoyolab.charaDataAccessDesc': return 'ゲーム内のキャラクターレベルや天賦レベルの同期が出来るようになります。';
 			case 'hoyolab.characterDataAccess': return 'キャラクターデータへのアクセス';
 			case 'hoyolab.enableRealtimeNotes': return 'リアルタイムノートの有効化';
 			case 'hoyolab.enableRealtimeNotesDesc': return '現在の天然樹脂の数を同期できるようになります。';
@@ -1130,8 +1169,6 @@ extension on _StringsEn {
 			case 'common.goalLevel': return 'Goal Level';
 			case 'common.currentLevel': return 'Current Level';
 			case 'common.index': return 'Index';
-			case 'common.expandAll': return 'Expand all';
-			case 'common.collapseAll': return 'Collapse all';
 			case 'common.seconds': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
 				n: n,
 				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
@@ -1175,7 +1212,6 @@ extension on _StringsEn {
 				]),
 			);
 			case 'common.element': return 'Element';
-			case 'common.schemaVersionMismatch': return 'Cannot update assets. Please update the app.';
 			case 'common.rarity': return 'Rarity';
 			case 'common.weaponType': return 'Weapon Type';
 			case 'common.clear': return 'Clear';
@@ -1183,18 +1219,33 @@ extension on _StringsEn {
 			case 'common.next': return 'Next';
 			case 'common.change': return 'Change';
 			case 'common.pleaseSelect': return 'Please select';
+			case 'common.bookmarkSaved': return 'Bookmark saved';
+			case 'common.none': return 'None';
+			case 'common.sliderTips': return 'If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.';
+			case 'common.expandAll': return 'Expand all';
+			case 'common.collapseAll': return 'Collapse all';
+			case 'common.schemaVersionMismatch': return 'Cannot update assets. Please update the app.';
+			case 'tutorial.indexSheet': return 'Table of contents';
+			case 'tutorial.indexSheetDesc': return 'Tap this button to quickly navigate to the section you\'re looking for.';
 			case 'talentTypes.normalAttack': return 'Normal Attack';
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
 			case 'updates.downloading': return 'Downloading data updates...';
 			case 'updates.failedToLoad': return 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
-			case 'updates.failedToUpdate': return 'Failed to update assets. Please try again later.';
+			case 'updates.failedToDownload': return 'Failed to download data update.';
+			case 'updates.failedToInstall': return 'Failed to install data update.';
+			case 'updates.failedToCheck': return 'Failed to check for data update.';
+			case 'updates.schemaVersionMismatch': return 'Please update the app to the latest version.';
+			case 'updates.noInternet': return 'Please check your internet connection.';
+			case 'updates.noUpdateAvailable': return 'No update available.';
 			case 'updates.completed': return 'Data update completed.';
 			case 'updates.installing': return 'Installing...';
 			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
+			case 'updates.failedToUpdate': return 'Failed to update assets. Please try again later.';
 			case 'errors.characterNotFound': return 'Character not found';
 			case 'errors.materialNotFound': return 'Material not found';
 			case 'errors.artifactNotFound': return 'Artifact not found';
+			case 'errors.tryAgainLater': return 'Please try again later.';
 			case 'pages.characters': return 'Characters';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - Character';
 			case 'pages.weapons': return 'Weapons';
@@ -1214,11 +1265,25 @@ extension on _StringsEn {
 			case 'pages.wishes': return 'Wish Pity Counter';
 			case 'pages.more': return 'More';
 			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB Integration Settings';
+			case 'bookmarksPage.noBookmarks': return 'No bookmarks yet. Try finding something in the Database tab!';
+			case 'bookmarksPage.character': return 'Character';
+			case 'bookmarksPage.weapon': return 'Weapon';
+			case 'bookmarksPage.artifactSet': return 'Artifact Set';
+			case 'bookmarksPage.artifactPiece': return 'Artifact';
+			case 'bookmarksPage.main': return 'Main';
+			case 'bookmarksPage.sub': return 'Sub';
+			case 'bookmarksPage.unBookmark': return 'Remove bookmark';
+			case 'bookmarksPage.unBookmarkConfirm': return 'Remove this bookmark?';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'Character Lv Up & Ascension Materials';
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
 			case 'weaponDetailsPage.characterToEquip': return 'Character to Equip this Weapon';
+			case 'weaponDetailsPage.skillEffect': return 'Skill Effect';
+			case 'weaponDetailsPage.ascension': return 'Weapon Lv Up & Ascension Materials';
 			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
 			case 'materialDetailsPage.weaponsUsing': return 'Weapons Using This Material';
+			case 'materialDetailsPage.availableToday': return 'Available Today';
+			case 'materialDetailsPage.source': return 'How to Obtain';
+			case 'materialDetailsPage.toTeyvatMap': return 'To Teyvat Map';
 			case 'materialCard.reBookmark': return 'Re-bookmark in current range';
 			case 'materialCard.reBookmarkDesc': return 'Remove the bookmark of this material once, then bookmark it again in the current slider range';
 			case 'materialCard.unBookmark': return 'Remove bookmark';
@@ -1226,6 +1291,9 @@ extension on _StringsEn {
 			case 'artifactsPage.bonusTypes.1-pc': return '1-Pc Set Bonus';
 			case 'artifactsPage.bonusTypes.2-pc': return '2-Pc Set Bonus';
 			case 'artifactsPage.bonusTypes.4-pc': return '4-Pc Set Bonus';
+			case 'artifactsPage.effectList': return 'Effect List';
+			case 'artifactsPage.kindOfEffect': return 'Kind of Effect';
+			case 'artifactsPage.effectFilteringNote': return '* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags.';
 			case 'artifactsPage.pieceTypes.flower': return 'Flower of Life';
 			case 'artifactsPage.pieceTypes.plume': return 'Plume of Death';
 			case 'artifactsPage.pieceTypes.sands': return 'Sands of Eon';
@@ -1267,14 +1335,16 @@ extension on _StringsEn {
 			case 'settingsPage.display': return 'Display';
 			case 'settingsPage.showItemNameOnCard': return 'Show Item Name on Card';
 			case 'settingsPage.showItemNameOnCardDesc': return 'Show the item name on the card that displays the number of uses.';
+			case 'settingsPage.dailyResetServer': return 'Daily Material Server Time';
+			case 'settingsPage.dailyResetServerDesc': return 'Select the game server to use as the reference time for daily materials reset.';
 			case 'settingsPage.assetData': return 'Assets';
 			case 'settingsPage.checkAssetUpdate': return 'Check Asset Update';
 			case 'settingsPage.checkAssetUpdateDesc': return 'Check for updates to the app\'s assets.';
-			case 'settingsPage.noUpdateAvailable': return 'No update available.';
 			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
 			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the assets of the app are not loading properly.';
 			case 'settingsPage.others': return 'Others';
 			case 'settingsPage.openSourceLicenses': return 'Open Source Licenses';
+			case 'settingsPage.noUpdateAvailable': return 'No update available.';
 			case 'hoyolab.signIn': return 'Sign in to HoYoLAB';
 			case 'hoyolab.signOut': return 'Sign out from HoYoLAB';
 			case 'hoyolab.signInNote': return '* Social login is not supported. You need to sign in with your email/username and password.';
@@ -1296,9 +1366,7 @@ extension on _StringsEn {
 			case 'hoyolab.realtimeNotesNotEnabled': return 'Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.';
 			case 'hoyolab.loginExpired': return 'Please sign out and sign in again.';
 			case 'hoyolab.accessPermission': return 'Access Permission';
-			case 'hoyolab.doYouWantToAllowCharaDataAccess': return 'Do you want to allow access to character data?';
 			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'Enable Real-Time Notes?';
-			case 'hoyolab.charaDataAccessDesc': return 'You will be able to sync character levels and talent levels in the game.';
 			case 'hoyolab.characterDataAccess': return 'Character Data Access';
 			case 'hoyolab.enableRealtimeNotes': return 'Enable Real-Time Notes';
 			case 'hoyolab.enableRealtimeNotesDesc': return 'You will be able to sync your current Original Resin count.';

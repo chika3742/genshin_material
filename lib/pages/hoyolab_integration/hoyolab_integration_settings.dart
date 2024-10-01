@@ -9,16 +9,17 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "../../components/center_text.dart";
 import "../../components/list_subheader.dart";
 import "../../core/hoyolab_api.dart";
+import "../../core/secure_storage.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
 import "../../providers/miscellaneous.dart";
 import "../../providers/preferences.dart";
 import "../../routes.dart";
 import "../../ui_core/dialog.dart";
+import "../../ui_core/error_messages.dart";
 import "../../ui_core/layout.dart";
 import "../../ui_core/progress_indicator.dart";
 import "../../ui_core/snack_bar.dart";
-import "../../utils/secure_storage.dart";
 import "../../utils/show_loading_modal.dart";
 
 class HoyolabIntegrationSettingsPage extends StatefulHookConsumerWidget {
@@ -169,7 +170,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
       log("Failed to set hoyolab cookie", error: e, stackTrace: st);
       if (mounted) {
         Navigator.of(context, rootNavigator: true).pop();
-        showSnackBar(context: context, message: tr.hoyolab.failedToSignIn, error: true);
+        showSnackBar(context: context, message: getErrorMessage(e, prefix: tr.hoyolab.failedToSignIn), error: true);
       }
       return;
     }
