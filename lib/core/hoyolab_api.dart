@@ -22,14 +22,24 @@ class HoyolabApi {
   final String? region;
   final String? uid;
 
+  static const hoyolabAppVersion = "3.0.1";
+
   Map<String, String> get headers => {
+    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) miHoYoBBSOversea/$hoyolabAppVersion",
+    "Origin": "https://act.hoyolab.com",
+    "Referer": "https://act.hoyolab.com/",
+    "Accept-Encoding": "gzip, deflate, br",
+
     "Cookie": cookie!,
-    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) miHoYoBBSOversea/2.56.1",
+
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Site": "same-site",
+    "Sec-Fetch-Mode": "cors",
   };
 
   Map<String, String> get additionalHeaders => {
     "x-rpc-client_type": "2",
-    "x-rpc-app_version": "2.56.1",
+    "x-rpc-app_version": hoyolabAppVersion,
     "x-rpc-language": lang,
   };
 
@@ -73,24 +83,6 @@ class HoyolabApi {
       (obj) => HoyolabListData.fromJsonT(obj, AvatarListResultItem.fromJson),
     );
   }
-
-  // Future<AvatarDetail> avatarDetail(int avatarId) {
-  //   _ensureRequiredParams();
-  //
-  //   const url = "https://sg-public-api.hoyolab.com/event/calculateos/sync/avatar/detail";
-  //   final queryParams = {
-  //     "avatar_id": avatarId.toString(),
-  //     "uid": uid!,
-  //     "region": region!,
-  //     "lang": lang,
-  //   };
-  //   final uri = Uri.parse(url).replace(queryParameters: queryParams);
-  //
-  //   return _errorHandledThen(client.get(
-  //     uri,
-  //     headers: headers,
-  //   ), (obj) => AvatarDetail.fromJson(obj as Map<String, dynamic>),);
-  // }
 
   Future<GetUserGameRolesResult> getUserGameRoles() {
     _ensureRequiredParams(params: [HoyolabApiParams.cookie, HoyolabApiParams.region]);

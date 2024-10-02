@@ -4,15 +4,17 @@ import "package:assorted_layout_widgets/assorted_layout_widgets.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:intl/intl.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../core/theme.dart";
 import "../models/common.dart";
+import "../pages/database/characters/character_details.dart";
 import "../routes.dart";
 import "../ui_core/layout.dart";
 
-class MaterialCard extends HookWidget {
+class MaterialCard extends StatelessWidget {
   /// Image file of the material.
   final File image;
 
@@ -38,6 +40,9 @@ class MaterialCard extends HookWidget {
 
   final void Function()? onSwapExpItem;
 
+  final int? lackNum;
+  final int? craftedLackNum;
+
   const MaterialCard({
     super.key,
     required this.image,
@@ -50,27 +55,12 @@ class MaterialCard extends HookWidget {
     this.dailyMaterialAvailable = false,
     this.onBookmark,
     this.onSwapExpItem,
+    this.lackNum,
+    this.craftedLackNum,
   });
 
   @override
   Widget build(BuildContext context) {
-    final animationController = useAnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: useSingleTickerProvider(),
-    );
-    final tween = useState(IntTween(begin: quantity, end: quantity));
-
-    final animatedQuantity = useAnimation(
-      tween.value.animate(animationController.drive(CurveTween(curve: Easing.emphasizedDecelerate))),
-    );
-
-    useValueChanged<int, int>(quantity, (prev, _) {
-      animationController.reset();
-      tween.value = IntTween(begin: prev, end: quantity);
-      animationController.forward();
-      return null;
-    });
-
     return SizedBox(
       height: 60,
       child: Card(
@@ -113,21 +103,58 @@ class MaterialCard extends HookWidget {
                       if (showName) Expanded(
                         child: Text(name, style: const TextStyle(fontSize: 16)),
                       ),
-                      if (dailyMaterialAvailable) const Icon(Symbols.event_available, color: Colors.green, weight: 700),
-                      const SizedBox(),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(text: "x", style: GoogleFonts.titilliumWeb(fontSize: 18)),
-                            TextSpan(
-                              text: NumberFormat.decimalPattern().format(animatedQuantity),
-                              style: GoogleFonts.titilliumWeb(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
+                      if (dailyMaterialAvailable)
+                        const Icon(Symbols.event_available, color: Colors.green, weight: 700),
+                      _QuantityCrossFade(
+                        requiredNumChild: _AnimatedQuantity(quantity),
+                        lackNumChild: lackNum != null ? Text.rich(
+                          TextSpan(
+                            children: [
+                              const WidgetSpan(
+                                child: Padding(
+                                  padding: EdgeInsets.only(bottom: 4.0),
+                                  child: Icon(
+                                    Symbols.shopping_bag,
+                                    size: 20,
+                                  ),
+                                ),
+                                alignment: PlaceholderAlignment.middle,
                               ),
-                            ),
-                          ],
-                        ),
+                              TextSpan(
+                                text: "${lackNum! >= 0 ? "+" : ""}$lackNum",
+                                style: GoogleFonts.titilliumWeb(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          style: TextStyle(color: lackNum! < 0 ? Colors.red : Colors.green),
+                        ) : null,
+                        craftedLackNumChild: craftedLackNum != null ? Text.rich(
+                          TextSpan(
+                            children: [
+                              const WidgetSpan(
+                                child: Padding(
+                                  padding: EdgeInsets.only(bottom: 4.0),
+                                  child: Icon(
+                                    Symbols.orbit,
+                                    size: 20,
+                                  ),
+                                ),
+                                alignment: PlaceholderAlignment.middle,
+                              ),
+                              TextSpan(
+                                text: "${craftedLackNum! >= 0 ? "+" : ""}$craftedLackNum",
+                                style: GoogleFonts.titilliumWeb(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          style: TextStyle(color: craftedLackNum! < 0 ? Colors.red : Colors.green),
+                        ) : null,
                       ),
                     ],
                   ),
@@ -193,4 +220,92 @@ class _RarityCornerMarkerPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class _QuantityCrossFade extends HookConsumerWidget {
+  final Widget requiredNumChild;
+  final Widget? lackNumChild;
+  final Widget? craftedLackNumChild;
+  
+  const _QuantityCrossFade({required this.requiredNumChild, this.lackNumChild, this.craftedLackNumChild});
+
+  static const _animationDuration = Duration(milliseconds: 300);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = useValueListenable(QuantityDisplayState.of(context).state);
+
+    return Stack(
+      alignment: Alignment.centerLeft,
+      children: [
+        AnimatedOpacity(
+          duration: _animationDuration,
+          opacity: state == MaterialCrossFadeState.requiredNum ||
+              lackNumChild == null ||
+              (craftedLackNumChild == null && state == MaterialCrossFadeState.requiredNum) ? 1 : 0,
+          child: requiredNumChild,
+        ),
+        if (lackNumChild != null)
+          AnimatedOpacity(
+            duration: _animationDuration,
+            opacity: state == MaterialCrossFadeState.lackNum ||
+                (craftedLackNumChild == null && state != MaterialCrossFadeState.requiredNum) ? 1 : 0,
+            child: lackNumChild,
+          ),
+        if (craftedLackNumChild != null)
+          AnimatedOpacity(
+            duration: _animationDuration,
+            opacity: state == MaterialCrossFadeState.craftedLackNum ? 1 : 0,
+            child: craftedLackNumChild,
+          ),
+      ],
+    );
+  }
+}
+
+class _AnimatedQuantity extends HookWidget {
+  final int quantity;
+  
+  const _AnimatedQuantity(this.quantity);
+
+  @override
+  Widget build(BuildContext context) {
+    final animationController = useAnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: useSingleTickerProvider(),
+    );
+    final tween = useState(IntTween(begin: quantity, end: quantity));
+
+    final animatedNum = useAnimation(
+      tween.value.animate(animationController.drive(CurveTween(curve: Easing.emphasizedDecelerate))),
+    );
+
+    useValueChanged<int, int>(quantity, (prev, _) {
+      animationController.reset();
+      tween.value = IntTween(begin: prev, end: quantity);
+      animationController.forward();
+      return null;
+    });
+    
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(text: "x", style: GoogleFonts.titilliumWeb(fontSize: 18)),
+          TextSpan(
+            text: NumberFormat.decimalPattern().format(animatedNum),
+            style: GoogleFonts.titilliumWeb(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+enum MaterialCrossFadeState {
+  requiredNum,
+  lackNum,
+  craftedLackNum,
 }

@@ -1,3 +1,5 @@
+import "dart:math" hide log;
+
 import "package:collection/collection.dart";
 import "package:flutter/material.dart" hide Material;
 import "package:flutter_hooks/flutter_hooks.dart";
@@ -24,6 +26,7 @@ class MaterialItem extends StatefulHookConsumerWidget {
   final List<Purpose>? possiblePurposeTypes;
   final List<ExpItem>? expItems;
   final List<String>? hashes;
+  final Map<int, int> bagCounts;
 
   const MaterialItem({
     super.key,
@@ -32,6 +35,7 @@ class MaterialItem extends StatefulHookConsumerWidget {
     this.possiblePurposeTypes,
     this.expItems,
     this.hashes,
+    this.bagCounts = const {},
   })  : assert(hashes != null || possiblePurposeTypes != null, "possiblePurposeTypes must be provided when hashes is null.");
 
   @override
@@ -103,6 +107,23 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       id: material.id,
       bookmarkState: bookmarkState,
       dailyMaterialAvailable: material.getDailyMaterialAvailable(GameServer.asia),
+      lackNum: widget.bagCounts[material.hyvId] != null ? widget.bagCounts[material.hyvId]! - quantity : null,
+      craftedLackNum: (() {
+        final craftables = assetData.materials.values
+            .where((e) => e.groupId != null && e.groupId == material.groupId && e.craftLevel! < material.craftLevel!);
+        if (craftables.isEmpty || widget.bagCounts[material.hyvId] == null) {
+          return null;
+        }
+
+        int craftedBagCount = widget.bagCounts[material.hyvId]!;
+        for (final craftable in craftables) {
+          final bagCount = widget.bagCounts[craftable.hyvId];
+          if (bagCount != null) {
+            craftedBagCount += bagCount ~/ pow(3, material.craftLevel! - craftable.craftLevel!);
+          }
+        }
+        return craftedBagCount - quantity;
+      })(),
       onBookmark: () async {
         final db = ref.read(appDatabaseProvider);
 
