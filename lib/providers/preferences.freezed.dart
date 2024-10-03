@@ -28,6 +28,8 @@ mixin _$PreferencesState {
   bool get showItemNameOnCard => throw _privateConstructorUsedError;
   GameServer get dailyResetServer => throw _privateConstructorUsedError;
   bool get indexSheetTutorialShown => throw _privateConstructorUsedError;
+  LackNumDisplayMethod get lackNumDisplayMethod =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -45,7 +47,8 @@ class _$PreferencesStateImpl extends _PreferencesState {
       required this.syncCharaState,
       required this.showItemNameOnCard,
       required this.dailyResetServer,
-      required this.indexSheetTutorialShown})
+      required this.indexSheetTutorialShown,
+      required this.lackNumDisplayMethod})
       : super._();
 
   @override
@@ -72,10 +75,12 @@ class _$PreferencesStateImpl extends _PreferencesState {
   final GameServer dailyResetServer;
   @override
   final bool indexSheetTutorialShown;
+  @override
+  final LackNumDisplayMethod lackNumDisplayMethod;
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod)';
   }
 
   @override
@@ -104,7 +109,9 @@ class _$PreferencesStateImpl extends _PreferencesState {
                 other.dailyResetServer == dailyResetServer) &&
             (identical(
                     other.indexSheetTutorialShown, indexSheetTutorialShown) ||
-                other.indexSheetTutorialShown == indexSheetTutorialShown));
+                other.indexSheetTutorialShown == indexSheetTutorialShown) &&
+            (identical(other.lackNumDisplayMethod, lackNumDisplayMethod) ||
+                other.lackNumDisplayMethod == lackNumDisplayMethod));
   }
 
   @override
@@ -121,23 +128,26 @@ class _$PreferencesStateImpl extends _PreferencesState {
       syncCharaState,
       showItemNameOnCard,
       dailyResetServer,
-      indexSheetTutorialShown);
+      indexSheetTutorialShown,
+      lackNumDisplayMethod);
 }
 
 abstract class _PreferencesState extends PreferencesState {
   const factory _PreferencesState(
-      {required final KvPreferences pref,
-      required final int? resin,
-      required final DateTime? resinBaseTime,
-      required final String? hyvServer,
-      required final String? hyvServerName,
-      required final String? hyvUserName,
-      required final String? hyvUid,
-      required final bool syncResin,
-      required final bool syncCharaState,
-      required final bool showItemNameOnCard,
-      required final GameServer dailyResetServer,
-      required final bool indexSheetTutorialShown}) = _$PreferencesStateImpl;
+          {required final KvPreferences pref,
+          required final int? resin,
+          required final DateTime? resinBaseTime,
+          required final String? hyvServer,
+          required final String? hyvServerName,
+          required final String? hyvUserName,
+          required final String? hyvUid,
+          required final bool syncResin,
+          required final bool syncCharaState,
+          required final bool showItemNameOnCard,
+          required final GameServer dailyResetServer,
+          required final bool indexSheetTutorialShown,
+          required final LackNumDisplayMethod lackNumDisplayMethod}) =
+      _$PreferencesStateImpl;
   const _PreferencesState._() : super._();
 
   @override
@@ -164,4 +174,6 @@ abstract class _PreferencesState extends PreferencesState {
   GameServer get dailyResetServer;
   @override
   bool get indexSheetTutorialShown;
+  @override
+  LackNumDisplayMethod get lackNumDisplayMethod;
 }

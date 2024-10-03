@@ -89,6 +89,11 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     await state.pref.setIndexSheetTutorialShown(true);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
+
+  Future<void> setLackNumDisplayMethod(LackNumDisplayMethod method) async {
+    await state.pref.setLackNumDisplayMethod(method);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
 }
 
 @freezed
@@ -108,6 +113,7 @@ class PreferencesState with _$PreferencesState {
     required bool showItemNameOnCard,
     required GameServer dailyResetServer,
     required bool indexSheetTutorialShown,
+    required LackNumDisplayMethod lackNumDisplayMethod,
   }) = _PreferencesState;
 
   factory PreferencesState.fromSharedPreferences(KvPreferences pref) {
@@ -124,6 +130,7 @@ class PreferencesState with _$PreferencesState {
       showItemNameOnCard: pref.showItemNameOnCard,
       dailyResetServer: GameServer.values.firstWhere((e) => e.name == pref.dailyResetServer),
       indexSheetTutorialShown: pref.indexSheetTutorialShown,
+      lackNumDisplayMethod: pref.lackNumDisplayMethod,
     );
   }
 

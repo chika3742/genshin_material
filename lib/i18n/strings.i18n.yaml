@@ -151,6 +151,13 @@ settingsPage:
   display: 表示
   showItemNameOnCard: 素材のアイテム名を表示
   showItemNameOnCardDesc: 使用数を表示するカードにアイテム名を表示します。
+  lackNumDisplayMethod: バッグ内不足数の表示方法
+  lackNumDisplayMethodDesc: 素材の不足数をどのように表示するか選択します。
+  lackNumDisplayMethodValues(map):
+    alternate: すべて交互に表示
+    requiredNumOnly: 必要数のみ表示
+    lackNumOnly: 不足数のみ表示
+    craftedLackNumOnly: 合成後の不足数のみ表示
   dailyResetServer: 日替わり素材のサーバー時間
   dailyResetServerDesc: 日替わり素材が更新される時間の基準とするゲームサーバーを選択します。
   assetData: アセットデータ

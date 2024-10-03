@@ -8,9 +8,11 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:intl/intl.dart";
 import "package:material_symbols_icons/symbols.dart";
 
+import "../core/kv_preferences.dart";
 import "../core/theme.dart";
 import "../models/common.dart";
 import "../pages/database/characters/character_details.dart";
+import "../providers/preferences.dart";
 import "../routes.dart";
 import "../ui_core/layout.dart";
 
@@ -233,7 +235,21 @@ class _QuantityCrossFade extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = useValueListenable(QuantityDisplayState.of(context).state);
+    var state = useValueListenable(QuantityDisplayState.of(context).state);
+    final mode = ref.watch(preferencesStateNotifierProvider.select((e) => e.lackNumDisplayMethod));
+    switch (mode) {
+      case LackNumDisplayMethod.requiredNumOnly:
+        state = MaterialCrossFadeState.requiredNum;
+        break;
+      case LackNumDisplayMethod.lackNumOnly:
+        state = MaterialCrossFadeState.lackNum;
+        break;
+      case LackNumDisplayMethod.craftedLackNumOnly:
+        state = MaterialCrossFadeState.craftedLackNum;
+        break;
+      case LackNumDisplayMethod.alternate:
+        // do nothing
+    }
 
     return Stack(
       alignment: Alignment.centerLeft,

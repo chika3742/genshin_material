@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 350 (175 per locale)
+/// Strings: 356 (178 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -474,6 +474,14 @@ class _StringsSettingsPageJa {
 	String get display => '表示';
 	String get showItemNameOnCard => '素材のアイテム名を表示';
 	String get showItemNameOnCardDesc => '使用数を表示するカードにアイテム名を表示します。';
+	String get lackNumDisplayMethod => 'バッグ内不足数の表示方法';
+	String get lackNumDisplayMethodDesc => '素材の不足数をどのように表示するか選択します。';
+	Map<String, String> get lackNumDisplayMethodValues => {
+		'alternate': 'すべて交互に表示',
+		'requiredNumOnly': '必要数のみ表示',
+		'lackNumOnly': '不足数のみ表示',
+		'craftedLackNumOnly': '合成後の不足数のみ表示',
+	};
 	String get dailyResetServer => '日替わり素材のサーバー時間';
 	String get dailyResetServerDesc => '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。';
 	String get assetData => 'アセットデータ';
@@ -1113,6 +1121,12 @@ extension on Translations {
 			case 'settingsPage.display': return '表示';
 			case 'settingsPage.showItemNameOnCard': return '素材のアイテム名を表示';
 			case 'settingsPage.showItemNameOnCardDesc': return '使用数を表示するカードにアイテム名を表示します。';
+			case 'settingsPage.lackNumDisplayMethod': return 'バッグ内不足数の表示方法';
+			case 'settingsPage.lackNumDisplayMethodDesc': return '素材の不足数をどのように表示するか選択します。';
+			case 'settingsPage.lackNumDisplayMethodValues.alternate': return 'すべて交互に表示';
+			case 'settingsPage.lackNumDisplayMethodValues.requiredNumOnly': return '必要数のみ表示';
+			case 'settingsPage.lackNumDisplayMethodValues.lackNumOnly': return '不足数のみ表示';
+			case 'settingsPage.lackNumDisplayMethodValues.craftedLackNumOnly': return '合成後の不足数のみ表示';
 			case 'settingsPage.dailyResetServer': return '日替わり素材のサーバー時間';
 			case 'settingsPage.dailyResetServerDesc': return '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。';
 			case 'settingsPage.assetData': return 'アセットデータ';

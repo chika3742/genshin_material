@@ -54,4 +54,14 @@ class KvPreferences {
 
   bool get indexSheetTutorialShown => sp.getBool("indexSheetTutorialShown") ?? false;
   Future<void> setIndexSheetTutorialShown(bool value) => sp.setBool("indexSheetTutorialShown", value);
+
+  LackNumDisplayMethod get lackNumDisplayMethod => LackNumDisplayMethod.values[sp.getInt("lackNumDisplayMethod") ?? 0];
+  Future<void> setLackNumDisplayMethod(LackNumDisplayMethod value) => sp.setInt("lackNumDisplayMethod", value.index);
+}
+
+enum LackNumDisplayMethod {
+  alternate,
+  requiredNumOnly,
+  lackNumOnly,
+  craftedLackNumOnly,
 }
