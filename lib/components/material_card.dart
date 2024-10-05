@@ -47,9 +47,6 @@ class MaterialCard extends StatelessWidget {
 
   final void Function()? onSwapExpItem;
 
-  final int? lackNum;
-  final int? craftedLackNum;
-
   const MaterialCard({
     super.key,
     required this.image,
@@ -62,8 +59,6 @@ class MaterialCard extends StatelessWidget {
     this.dailyMaterialAvailable = false,
     this.onBookmark,
     this.onSwapExpItem,
-    this.lackNum,
-    this.craftedLackNum,
   });
 
   @override
@@ -301,48 +296,44 @@ class _QuantityCrossFade extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var state = useValueListenable(_QuantityDisplayState.of(context).state);
+    final alternateState = useValueListenable(QuantityStateProvider.of(context).state);
     final mode = ref.watch(preferencesStateNotifierProvider.select((e) => e.lackNumDisplayMethod));
-    switch (mode) {
-      case LackNumDisplayMethod.requiredNumOnly:
-        state = MaterialCrossFadeState.requiredNum;
-        break;
-      case LackNumDisplayMethod.lackNumOnly:
-        state = MaterialCrossFadeState.lackNum;
-        break;
-      case LackNumDisplayMethod.craftedLackNumOnly:
-        state = MaterialCrossFadeState.craftedLackNum;
-        break;
-      case LackNumDisplayMethod.alternate:
-        // do nothing
-    }
 
-    final showRequiredNum = state == MaterialCrossFadeState.requiredNum ||
-        lackNumChild == null ||
-        (craftedLackNumChild == null && state == MaterialCrossFadeState.requiredNum);
-    final showLackNum = state == MaterialCrossFadeState.lackNum ||
-        (craftedLackNumChild == null && state != MaterialCrossFadeState.requiredNum);
-    final showCraftedLackNum = state == MaterialCrossFadeState.craftedLackNum;
+    final currentState = switch (mode) {
+      LackNumDisplayMethod.alternate => switch (alternateState) {
+        QuantityState.requiredNum => alternateState,
+
+        QuantityState.lackNum when lackNumChild != null => alternateState,
+        QuantityState.lackNum => QuantityState.requiredNum, // fallback
+
+        QuantityState.craftedLackNum when craftedLackNumChild != null => alternateState,
+        QuantityState.craftedLackNum when lackNumChild != null => QuantityState.lackNum, // fallback
+        QuantityState.craftedLackNum => QuantityState.requiredNum, // fallback
+      },
+      LackNumDisplayMethod.requiredNumOnly => QuantityState.requiredNum,
+      LackNumDisplayMethod.lackNumOnly => QuantityState.lackNum,
+      LackNumDisplayMethod.craftedLackNumOnly => QuantityState.craftedLackNum,
+    };
 
     return Stack(
       alignment: Alignment.centerLeft,
       children: [
-        if (!mode.isSingleShowMode || showRequiredNum)
+        if (!mode.isSingleShowMode || currentState == QuantityState.requiredNum)
           AnimatedOpacity(
             duration: _animationDuration,
-            opacity: showRequiredNum ? 1 : 0,
+            opacity: currentState == QuantityState.requiredNum ? 1 : 0,
             child: requiredNumChild,
           ),
-        if (lackNumChild != null && (!mode.isSingleShowMode || showLackNum))
+        if (lackNumChild != null && (!mode.isSingleShowMode || currentState == QuantityState.lackNum))
           AnimatedOpacity(
             duration: _animationDuration,
-            opacity: showLackNum ? 1 : 0,
+            opacity: currentState == QuantityState.lackNum ? 1 : 0,
             child: lackNumChild,
           ),
-        if (craftedLackNumChild != null && (!mode.isSingleShowMode || showCraftedLackNum))
+        if (craftedLackNumChild != null && (!mode.isSingleShowMode || currentState == QuantityState.craftedLackNum))
           AnimatedOpacity(
             duration: _animationDuration,
-            opacity: showCraftedLackNum ? 1 : 0,
+            opacity: currentState == QuantityState.craftedLackNum ? 1 : 0,
             child: craftedLackNumChild,
           ),
       ],
@@ -399,7 +390,7 @@ class QuantityTickerHandler extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cfState = useValueNotifier(MaterialCrossFadeState.requiredNum);
+    final cfState = useValueNotifier(QuantityState.requiredNum);
     final enabled = ref.watch(preferencesStateNotifierProvider.select((e) => e.lackNumDisplayMethod == LackNumDisplayMethod.alternate));
     final enabledRef = useRef(enabled);
     useValueChanged<bool, void>(enabled, (_, __) {
@@ -407,37 +398,37 @@ class QuantityTickerHandler extends HookConsumerWidget {
     });
     usePeriodicTimer(const Duration(seconds: 3), (timer) {
       if (TickerMode.of(context) && enabledRef.value) {
-        cfState.value = MaterialCrossFadeState.values[(cfState.value.index + 1) % MaterialCrossFadeState.values.length];
+        cfState.value = QuantityState.values[(cfState.value.index + 1) % QuantityState.values.length];
       }
     });
 
-    return _QuantityDisplayState(
+    return QuantityStateProvider(
       state: cfState,
       child: child,
     );
   }
 }
 
+class QuantityStateProvider extends InheritedWidget {
+  final ValueNotifier<QuantityState> state;
 
-class _QuantityDisplayState extends InheritedWidget {
-  final ValueNotifier<MaterialCrossFadeState> state;
-
-  const _QuantityDisplayState({
+  const QuantityStateProvider({
+    super.key,
     required this.state,
     required super.child,
   });
 
   @override
-  bool updateShouldNotify(_QuantityDisplayState oldWidget) {
+  bool updateShouldNotify(QuantityStateProvider oldWidget) {
     return oldWidget.state != state;
   }
 
-  static _QuantityDisplayState of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<_QuantityDisplayState>()!;
+  static QuantityStateProvider of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<QuantityStateProvider>()!;
   }
 }
 
-enum MaterialCrossFadeState {
+enum QuantityState {
   requiredNum,
   lackNum,
   craftedLackNum,
