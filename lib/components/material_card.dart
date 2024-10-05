@@ -210,6 +210,7 @@ class _MaterialQuantity extends HookConsumerWidget {
             : null,
         [uid, materialId, assetData],
       ),
+      preserveState: false,
     );
     final bagCounts = bagCountSnapshot.data;
 
