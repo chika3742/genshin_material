@@ -15,12 +15,12 @@ import "../../../components/level_slider.dart";
 import "../../../components/material_card.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
-import "../../../composables/use_periodic_timer.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/hoyolab_api.dart";
 import "../../../core/secure_storage.dart";
 import "../../../database.dart";
 import "../../../db/character_level_info_db_extension.dart";
+import "../../../db/material_bag_count_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/character_ingredients.dart";
@@ -159,13 +159,6 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       return null;
     }, [variant.value],);
 
-    final cfState = useValueNotifier(MaterialCrossFadeState.requiredNum);
-    usePeriodicTimer(const Duration(seconds: 3), (timer) {
-      if (TickerMode.of(context)) {
-        cfState.value = MaterialCrossFadeState.values[(cfState.value.index + 1) % MaterialCrossFadeState.values.length];
-      }
-    });
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -191,242 +184,237 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       body: Scrollbar(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
-          child: Builder(
-            builder: (context) {
-              return QuantityDisplayState(
-                state: cfState,
-                child: GappedColumn(
-                  gap: 16,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: QuantityTickerHandler(
+            child: GappedColumn(
+              gap: 16,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // character information
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // character information
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: GameItemInfoBox(
-                            itemImage: Image.file(
-                              variant.value.getSmallImageFile(assetData.assetDir),
-                              width: 70,
-                              height: 70,
-                            ),
+                    Expanded(
+                      child: GameItemInfoBox(
+                        itemImage: Image.file(
+                          variant.value.getSmallImageFile(assetData.assetDir),
+                          width: 70,
+                          height: 70,
+                        ),
+                        children: [
+                          // rarity
+                          RarityStars(count: character.rarity),
+                          // element
+                          Row(
                             children: [
-                              // rarity
-                              RarityStars(count: character.rarity),
-                              // element
-                              Row(
-                                children: [
-                                  Image.file(
-                                    assetData.elements[variant.value.element]!.getImageFile(assetData.assetDir),
-                                    width: 26,
-                                    height: 26,
-                                    color: Theme.of(context).colorScheme.onSurface,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(assetData.elements[variant.value.element]!.text.localized),
-                                ],
+                              Image.file(
+                                assetData.elements[variant.value.element]!.getImageFile(assetData.assetDir),
+                                width: 26,
+                                height: 26,
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
-                              // weapon type
-                              Text(assetData.weaponTypes[character.weaponType]!.name.localized),
+                              const SizedBox(width: 4),
+                              Text(assetData.elements[variant.value.element]!.text.localized),
                             ],
                           ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          // weapon type
+                          Text(assetData.weaponTypes[character.weaponType]!.name.localized),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        if (prefs.isLinkedWithHoyolab && prefs.syncCharaState)
+                          GameDataSyncIndicator(
+                            status: state.value.hoyolabSyncStatus,
+                          ),
+                        const SizedBox(height: 8),
+                        Row(
                           children: [
-                            if (prefs.isLinkedWithHoyolab && prefs.syncCharaState)
-                              GameDataSyncIndicator(
-                                status: state.value.hoyolabSyncStatus,
-                              ),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Symbols.swords),
-                                  onPressed: () {
-                                    WeaponListRoute(equipCharacterId: variant.value.id).push(context);
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Symbols.person_play),
-                                  onPressed: () {
-                                    ArtifactListRoute(equipCharacterId: variant.value.id).push(context);
-                                  },
-                                ),
-                              ],
+                            IconButton(
+                              icon: const Icon(Symbols.swords),
+                              onPressed: () {
+                                WeaponListRoute(equipCharacterId: variant.value.id).push(context);
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Symbols.person_play),
+                              onPressed: () {
+                                ArtifactListRoute(equipCharacterId: variant.value.id).push(context);
+                              },
                             ),
                           ],
                         ),
                       ],
                     ),
+                  ],
+                ),
 
-                    // character variant dropdown
-                    if (variants.length > 1)
-                      DropdownButtonFormField(
-                        value: variant.value.element,
-                        items: variants.entries.map((e) {
-                          return DropdownMenuItem(
-                            value: e.key,
-                            child: Row(
-                              children: [
-                                Image.file(
-                                  assetData.elements[e.value.element]!
-                                      .getImageFile(assetData.assetDir),
-                                  width: 25,
-                                  height: 25,
-                                  color: Theme.of(context).colorScheme.onSurface,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(assetData.elements[e.value.element]!.text.localized),
-                              ],
+                // character variant dropdown
+                if (variants.length > 1)
+                  DropdownButtonFormField(
+                    value: variant.value.element,
+                    items: variants.entries.map((e) {
+                      return DropdownMenuItem(
+                        value: e.key,
+                        child: Row(
+                          children: [
+                            Image.file(
+                              assetData.elements[e.value.element]!
+                                  .getImageFile(assetData.assetDir),
+                              width: 25,
+                              height: 25,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
-                          );
-                        }).toList(),
-                        decoration: InputDecoration(
-                          label: Text(tr.common.element),
-                          border: const OutlineInputBorder(),
+                            const SizedBox(width: 4),
+                            Text(assetData.elements[e.value.element]!.text.localized),
+                          ],
                         ),
-                        onChanged: (value) {
-                          variant.value = variants[value]!;
-                        },
-                      ),
-                    Section(
-                      heading: SectionHeading(tr.characterDetailsPage.charaLevelUpAndAscensionMaterials),
-                      child: GappedColumn(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Card(
-                            margin: EdgeInsets.zero,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: LevelSlider(
-                                levels: state.value.sliderTickLabels[Purpose.ascension]!,
-                                values: state.value.rangeValues[Purpose.ascension]!,
-                                onChanged: (values) {
-                                  // avoid overlapping slider handles
-                                  if (values.start == values.end) {
-                                    return;
-                                  }
-
-                                  state.value = state.value.copyWith(
-                                    rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = values,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          Wrap(
-                            children: _buildAscensionMaterialCards(state.value),
-                          ),
-                        ],
-                      ),
+                      );
+                    }).toList(),
+                    decoration: InputDecoration(
+                      label: Text(tr.common.element),
+                      border: const OutlineInputBorder(),
                     ),
+                    onChanged: (value) {
+                      variant.value = variants[value]!;
+                    },
+                  ),
+                Section(
+                  heading: SectionHeading(tr.characterDetailsPage.charaLevelUpAndAscensionMaterials),
+                  child: GappedColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Card(
+                        margin: EdgeInsets.zero,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: LevelSlider(
+                            levels: state.value.sliderTickLabels[Purpose.ascension]!,
+                            values: state.value.rangeValues[Purpose.ascension]!,
+                            onChanged: (values) {
+                              // avoid overlapping slider handles
+                              if (values.start == values.end) {
+                                return;
+                              }
 
-                    Section(
-                      heading: SectionHeading(tr.characterDetailsPage.talentLevelUpMaterials),
-                      child: GappedColumn(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          for (final purpose in ingredients.purposes.keys
-                              .whereNot((e) => e == Purpose.ascension))
-                            Card(
-                              margin: EdgeInsets.zero,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    LabeledCheckBox(
-                                      value: state.value.checkedTalentTypes[purpose]!,
-                                      onChanged: (value) {
-                                        state.value = state.value.copyWith(
-                                          checkedTalentTypes: {...state.value.checkedTalentTypes}..[purpose] = value!,
-                                        );
+                              state.value = state.value.copyWith(
+                                rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = values,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Wrap(
+                        children: _buildAscensionMaterialCards(state.value),
+                      ),
+                    ],
+                  ),
+                ),
 
-                                        // scroll to the talent materials section on checkbox checked
-                                        if (value == true) {
-                                          Future.delayed(const Duration(milliseconds: 200), () {
-                                            final context = state.value.talentSectionKeys[purpose]!.currentContext;
-                                            if (context?.mounted == true) {
-                                              Scrollable.ensureVisible(
-                                                context!,
-                                                duration: const Duration(milliseconds: 300),
-                                                curve: Curves.easeOutQuint,
-                                                alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
-                                              );
-                                            }
-                                          });
+                Section(
+                  heading: SectionHeading(tr.characterDetailsPage.talentLevelUpMaterials),
+                  child: GappedColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for (final purpose in ingredients.purposes.keys
+                          .whereNot((e) => e == Purpose.ascension))
+                        Card(
+                          margin: EdgeInsets.zero,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                LabeledCheckBox(
+                                  value: state.value.checkedTalentTypes[purpose]!,
+                                  onChanged: (value) {
+                                    state.value = state.value.copyWith(
+                                      checkedTalentTypes: {...state.value.checkedTalentTypes}..[purpose] = value!,
+                                    );
+
+                                    // scroll to the talent materials section on checkbox checked
+                                    if (value == true) {
+                                      Future.delayed(const Duration(milliseconds: 200), () {
+                                        final context = state.value.talentSectionKeys[purpose]!.currentContext;
+                                        if (context?.mounted == true) {
+                                          Scrollable.ensureVisible(
+                                            context!,
+                                            duration: const Duration(milliseconds: 300),
+                                            curve: Curves.easeOutQuint,
+                                            alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+                                          );
                                         }
-                                      },
-                                      child: Expanded(
-                                        child: Text.rich( // checkbox label
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: tr.talentTypes[purpose.name]!,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                ),
-                                              ),
-                                              const TextSpan(text: "  "),
-                                              TextSpan(
-                                                text: variant.value
-                                                    .talents[purpose.name]!
-                                                    .name.localized,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    AnimatedCrossFade( // talent level slider with size animation
-                                      duration: const Duration(milliseconds: 300),
-                                      crossFadeState: state.value.checkedTalentTypes[purpose]!
-                                          ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                                      firstCurve: Curves.easeOutQuint,
-                                      secondCurve: Curves.easeOutQuint,
-                                      sizeCurve: Curves.easeOutQuint,
-                                      firstChild: Container(),
-                                      secondChild: Column(
+                                      });
+                                    }
+                                  },
+                                  child: Expanded(
+                                    child: Text.rich( // checkbox label
+                                      TextSpan(
                                         children: [
-                                          const SizedBox(height: 8),
-                                          LevelSlider(
-                                            key: state.value.talentSectionKeys[purpose] ??= GlobalKey(),
-                                            levels: state.value.sliderTickLabels[purpose]!,
-                                            values: state.value.rangeValues[purpose]!,
-                                            onChanged: (values) {
-                                              if (values.start == values.end) {
-                                                return;
-                                              }
-
-                                              state.value = state.value.copyWith(
-                                                rangeValues: {...state.value.rangeValues}..[purpose] = values,
-                                              );
-                                            },
+                                          TextSpan(
+                                            text: tr.talentTypes[purpose.name]!,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
+                                          ),
+                                          const TextSpan(text: "  "),
+                                          TextSpan(
+                                            text: variant.value
+                                                .talents[purpose.name]!
+                                                .name.localized,
                                           ),
                                         ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          Wrap(
-                            children: _buildTalentMaterialCards(
-                              variant.value.talents,
-                              variant.value,
-                              state.value,
+                                AnimatedCrossFade( // talent level slider with size animation
+                                  duration: const Duration(milliseconds: 300),
+                                  crossFadeState: state.value.checkedTalentTypes[purpose]!
+                                      ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                                  firstCurve: Curves.easeOutQuint,
+                                  secondCurve: Curves.easeOutQuint,
+                                  sizeCurve: Curves.easeOutQuint,
+                                  firstChild: Container(),
+                                  secondChild: Column(
+                                    children: [
+                                      const SizedBox(height: 8),
+                                      LevelSlider(
+                                        key: state.value.talentSectionKeys[purpose] ??= GlobalKey(),
+                                        levels: state.value.sliderTickLabels[purpose]!,
+                                        values: state.value.rangeValues[purpose]!,
+                                        onChanged: (values) {
+                                          if (values.start == values.end) {
+                                            return;
+                                          }
+
+                                          state.value = state.value.copyWith(
+                                            rangeValues: {...state.value.rangeValues}..[purpose] = values,
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
+                      Wrap(
+                        children: _buildTalentMaterialCards(
+                          variant.value.talents,
+                          variant.value,
+                          state.value,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              );
-            },
+              ],
+            ),
           ),
         ),
       ),
@@ -543,7 +531,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       for (final item in calcResult.overallConsume) {
         bagCounts[item.id] = item.num - item.lackNum;
       }
-      state.value = state.value.copyWith(bagCounts: bagCounts);
+      db.updateMaterialBagCounts(uid, bagCounts);
 
       // get character info
       final charaInfo = await HoyolabApiUtils.loopUntilCharacter(
@@ -557,7 +545,6 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
         },
       );
       if (charaInfo != null) {
-        log(charaInfo.toString());
         state.value = state.value.copyWith(
           rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = LevelRangeValues(
             state.value.sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
@@ -587,7 +574,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
 
         state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.synced);
       } else {
-        state.value = state.value.copyWith(hoyolabSyncStatus: character.id == "traveler"
+        state.value = state.value.copyWith(hoyolabSyncStatus: character is CharacterGroup
             ? GameDataSyncStatus.mustBeResonatedWithStatue
             : GameDataSyncStatus.characterNotExists,);
       }
@@ -607,25 +594,6 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       checkedTalentTypes: state.value.checkedTalentTypes.map((key, value) =>
           MapEntry(key, levelsByPurpose[key] != null && levelsByPurpose[key]! < state.value.sliderTickLabels[key]!.last),),
     );
-  }
-}
-
-class QuantityDisplayState extends InheritedWidget {
-  final ValueNotifier<MaterialCrossFadeState> state;
-
-  const QuantityDisplayState({
-    super.key,
-    required this.state,
-    required super.child,
-  });
-
-  @override
-  bool updateShouldNotify(QuantityDisplayState oldWidget) {
-    return oldWidget.state != state;
-  }
-
-  static QuantityDisplayState of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<QuantityDisplayState>()!;
   }
 }
 

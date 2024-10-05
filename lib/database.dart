@@ -15,7 +15,6 @@ import "models/common.dart";
 part "database.freezed.dart";
 part "database.g.dart";
 
-
 // tables
 
 @freezed
@@ -94,6 +93,17 @@ class CharacterLevelInfoTable extends Table {
   Set<Column> get primaryKey => {uid, characterId};
 }
 
+@DataClassName("MaterialBagCount")
+class MaterialBagCountTable extends Table {
+  TextColumn get uid => text()();
+  IntColumn get hyvId => integer()();
+  IntColumn get count => integer()();
+  DateTimeColumn get lastUpdated => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column<Object>> get primaryKey => {uid, hyvId};
+}
+
 
 // converters
 
@@ -161,6 +171,7 @@ class MapConverter<T> extends TypeConverter<Map<String, T>, String> {
   BookmarkArtifactPieceDetailsTable,
   CharacterLevelInfoTable,
   BookmarkOrderRegistryTable,
+  MaterialBagCountTable,
 ],)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());

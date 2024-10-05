@@ -1,18 +1,23 @@
 import "dart:io";
+import "dart:math";
 
 import "package:assorted_layout_widgets/assorted_layout_widgets.dart";
-import "package:flutter/material.dart";
+import "package:collection/collection.dart";
+import "package:flutter/material.dart" hide Material;
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:intl/intl.dart";
 import "package:material_symbols_icons/symbols.dart";
 
+import "../composables/use_periodic_timer.dart";
 import "../core/kv_preferences.dart";
 import "../core/theme.dart";
+import "../db/material_bag_count_db_extension.dart";
 import "../models/common.dart";
-import "../pages/database/characters/character_details.dart";
+import "../providers/database_provider.dart";
 import "../providers/preferences.dart";
+import "../providers/versions.dart";
 import "../routes.dart";
 import "../ui_core/layout.dart";
 
@@ -31,7 +36,7 @@ class MaterialCard extends StatelessWidget {
   final int quantity;
 
   /// Material ID for linking to the material details.
-  final String? id;
+  final String id;
 
   final BookmarkState? bookmarkState;
 
@@ -52,7 +57,7 @@ class MaterialCard extends StatelessWidget {
     this.showName = true,
     this.rarity,
     required this.quantity,
-    this.id,
+    required this.id,
     this.bookmarkState,
     this.dailyMaterialAvailable = false,
     this.onBookmark,
@@ -92,9 +97,9 @@ class MaterialCard extends StatelessWidget {
               height: 60,
               child: InkWell(
                 borderRadius: BorderRadius.circular(8.0),
-                onTap: id != null ? () {
-                  MaterialDetailsRoute(id: id!).push(context);
-                } : null,
+                onTap: () {
+                  MaterialDetailsRoute(id: id).push(context);
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: GappedRow(
@@ -107,56 +112,9 @@ class MaterialCard extends StatelessWidget {
                       ),
                       if (dailyMaterialAvailable)
                         const Icon(Symbols.event_available, color: Colors.green, weight: 700),
-                      _QuantityCrossFade(
-                        requiredNumChild: _AnimatedQuantity(quantity),
-                        lackNumChild: lackNum != null ? Text.rich(
-                          TextSpan(
-                            children: [
-                              const WidgetSpan(
-                                child: Padding(
-                                  padding: EdgeInsets.only(bottom: 4.0),
-                                  child: Icon(
-                                    Symbols.shopping_bag,
-                                    size: 20,
-                                  ),
-                                ),
-                                alignment: PlaceholderAlignment.middle,
-                              ),
-                              TextSpan(
-                                text: "${lackNum! >= 0 ? "+" : ""}$lackNum",
-                                style: GoogleFonts.titilliumWeb(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          style: TextStyle(color: lackNum! < 0 ? Colors.red : Colors.green),
-                        ) : null,
-                        craftedLackNumChild: craftedLackNum != null ? Text.rich(
-                          TextSpan(
-                            children: [
-                              const WidgetSpan(
-                                child: Padding(
-                                  padding: EdgeInsets.only(bottom: 4.0),
-                                  child: Icon(
-                                    Symbols.orbit,
-                                    size: 20,
-                                  ),
-                                ),
-                                alignment: PlaceholderAlignment.middle,
-                              ),
-                              TextSpan(
-                                text: "${craftedLackNum! >= 0 ? "+" : ""}$craftedLackNum",
-                                style: GoogleFonts.titilliumWeb(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          style: TextStyle(color: craftedLackNum! < 0 ? Colors.red : Colors.green),
-                        ) : null,
+                      _MaterialQuantity(
+                        requiredNum: quantity,
+                        materialId: id,
                       ),
                     ],
                   ),
@@ -224,6 +182,114 @@ class _RarityCornerMarkerPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
+class _MaterialQuantity extends HookConsumerWidget {
+  final int requiredNum;
+  final String materialId;
+
+  const _MaterialQuantity({required this.requiredNum, required this.materialId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final db = ref.watch(appDatabaseProvider);
+    final uid = ref.watch(preferencesStateNotifierProvider.select((e) => e.hyvUid));
+    final assetData = ref.watch(assetDataProvider).value;
+    if (assetData == null) {
+      throw "Asset data not loaded";
+    }
+    final material = assetData.materials[materialId];
+    if (material == null) {
+      throw "Material not found: $materialId";
+    }
+
+    final craftables = useMemoized(() {
+      return assetData.materials.values
+          .where((e) => e.groupId != null &&
+              e.groupId == material.groupId &&
+              e.craftLevel! < material.craftLevel!,);
+    }, [materialId],);
+
+    final bagCountSnapshot = useStream(
+      useMemoized(
+        () => uid != null
+            ? db.watchMaterialBagCounts(uid, [material.hyvId, ...craftables.map((e) => e.hyvId)])
+            : null,
+        [uid, materialId, assetData],
+      ),
+    );
+    final bagCounts = bagCountSnapshot.data;
+
+    final bagCount = bagCounts?.firstWhereOrNull((e) => e.hyvId == material.hyvId);
+    int? lackNum;
+    int? craftedLackNum;
+    if (bagCount != null) {
+      lackNum = bagCount.count - requiredNum;
+
+      if (craftables.isNotEmpty) {
+        int craftedBagCount = bagCount.count;
+        for (final craftable in craftables) {
+          final bagCount = bagCounts!.firstWhereOrNull((e) => e.hyvId == craftable.hyvId);
+          if (bagCount != null) {
+            craftedBagCount += bagCount.count ~/ pow(3, material.craftLevel! - craftable.craftLevel!);
+          }
+        }
+        craftedLackNum = craftedBagCount - requiredNum;
+      }
+    }
+
+    return _QuantityCrossFade(
+      requiredNumChild: _AnimatedQuantity(requiredNum),
+      lackNumChild: lackNum != null ? Text.rich(
+        TextSpan(
+          children: [
+            const WidgetSpan(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 4.0),
+                child: Icon(
+                  Symbols.shopping_bag,
+                  size: 20,
+                ),
+              ),
+              alignment: PlaceholderAlignment.middle,
+            ),
+            TextSpan(
+              text: "${lackNum >= 0 ? "+" : ""}$lackNum",
+              style: GoogleFonts.titilliumWeb(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        style: TextStyle(color: lackNum < 0 ? Colors.red : Colors.green),
+      ) : null,
+      craftedLackNumChild: craftedLackNum != null ? Text.rich(
+        TextSpan(
+          children: [
+            const WidgetSpan(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 4.0),
+                child: Icon(
+                  Symbols.orbit,
+                  size: 20,
+                ),
+              ),
+              alignment: PlaceholderAlignment.middle,
+            ),
+            TextSpan(
+              text: "${craftedLackNum >= 0 ? "+" : ""}$craftedLackNum",
+              style: GoogleFonts.titilliumWeb(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        style: TextStyle(color: craftedLackNum < 0 ? Colors.red : Colors.green),
+      ) : null,
+    );
+  }
+}
+
 class _QuantityCrossFade extends HookConsumerWidget {
   final Widget requiredNumChild;
   final Widget? lackNumChild;
@@ -235,7 +301,7 @@ class _QuantityCrossFade extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var state = useValueListenable(QuantityDisplayState.of(context).state);
+    var state = useValueListenable(_QuantityDisplayState.of(context).state);
     final mode = ref.watch(preferencesStateNotifierProvider.select((e) => e.lackNumDisplayMethod));
     switch (mode) {
       case LackNumDisplayMethod.requiredNumOnly:
@@ -251,27 +317,32 @@ class _QuantityCrossFade extends HookConsumerWidget {
         // do nothing
     }
 
+    final showRequiredNum = state == MaterialCrossFadeState.requiredNum ||
+        lackNumChild == null ||
+        (craftedLackNumChild == null && state == MaterialCrossFadeState.requiredNum);
+    final showLackNum = state == MaterialCrossFadeState.lackNum ||
+        (craftedLackNumChild == null && state != MaterialCrossFadeState.requiredNum);
+    final showCraftedLackNum = state == MaterialCrossFadeState.craftedLackNum;
+
     return Stack(
       alignment: Alignment.centerLeft,
       children: [
-        AnimatedOpacity(
-          duration: _animationDuration,
-          opacity: state == MaterialCrossFadeState.requiredNum ||
-              lackNumChild == null ||
-              (craftedLackNumChild == null && state == MaterialCrossFadeState.requiredNum) ? 1 : 0,
-          child: requiredNumChild,
-        ),
-        if (lackNumChild != null)
+        if (!mode.isSingleShowMode || showRequiredNum)
           AnimatedOpacity(
             duration: _animationDuration,
-            opacity: state == MaterialCrossFadeState.lackNum ||
-                (craftedLackNumChild == null && state != MaterialCrossFadeState.requiredNum) ? 1 : 0,
+            opacity: showRequiredNum ? 1 : 0,
+            child: requiredNumChild,
+          ),
+        if (lackNumChild != null && (!mode.isSingleShowMode || showLackNum))
+          AnimatedOpacity(
+            duration: _animationDuration,
+            opacity: showLackNum ? 1 : 0,
             child: lackNumChild,
           ),
-        if (craftedLackNumChild != null)
+        if (craftedLackNumChild != null && (!mode.isSingleShowMode || showCraftedLackNum))
           AnimatedOpacity(
             duration: _animationDuration,
-            opacity: state == MaterialCrossFadeState.craftedLackNum ? 1 : 0,
+            opacity: showCraftedLackNum ? 1 : 0,
             child: craftedLackNumChild,
           ),
       ],
@@ -317,6 +388,52 @@ class _AnimatedQuantity extends HookWidget {
         ],
       ),
     );
+  }
+}
+
+/// Syncs the quantity display state on [MaterialCard].
+class QuantityTickerHandler extends HookConsumerWidget {
+  final Widget child;
+
+  const QuantityTickerHandler({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cfState = useValueNotifier(MaterialCrossFadeState.requiredNum);
+    final enabled = ref.watch(preferencesStateNotifierProvider.select((e) => e.lackNumDisplayMethod == LackNumDisplayMethod.alternate));
+    final enabledRef = useRef(enabled);
+    useValueChanged<bool, void>(enabled, (_, __) {
+      enabledRef.value = enabled;
+    });
+    usePeriodicTimer(const Duration(seconds: 3), (timer) {
+      if (TickerMode.of(context) && enabledRef.value) {
+        cfState.value = MaterialCrossFadeState.values[(cfState.value.index + 1) % MaterialCrossFadeState.values.length];
+      }
+    });
+
+    return _QuantityDisplayState(
+      state: cfState,
+      child: child,
+    );
+  }
+}
+
+
+class _QuantityDisplayState extends InheritedWidget {
+  final ValueNotifier<MaterialCrossFadeState> state;
+
+  const _QuantityDisplayState({
+    required this.state,
+    required super.child,
+  });
+
+  @override
+  bool updateShouldNotify(_QuantityDisplayState oldWidget) {
+    return oldWidget.state != state;
+  }
+
+  static _QuantityDisplayState of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<_QuantityDisplayState>()!;
   }
 }
 

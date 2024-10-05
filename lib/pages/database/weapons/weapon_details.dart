@@ -8,6 +8,7 @@ import "../../../components/effect_description.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/item_source_widget.dart";
 import "../../../components/level_slider.dart";
+import "../../../components/material_card.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
@@ -54,81 +55,83 @@ class WeaponDetailsPage extends HookWidget {
       appBar: AppBar(
         title: Text(tr.pages.weaponDetails(weapon: weapon.name.localized)),
       ),
-      body: Scrollbar(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: GappedColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            gap: 16,
-            children: [
-              GameItemInfoBox(
-                itemImage: Image.file(
-                  weapon.getImageFile(assetData.assetDir),
-                  width: 50,
-                  height: 50,
-                ),
-                children: [
-                  RarityStars(count: weapon.rarity),
-                  Text(
-                    assetData.weaponTypes[weapon.type]!.name.localized,
-                    style: Theme.of(context).textTheme.titleSmall,
+      body: QuantityTickerHandler(
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: GappedColumn(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              gap: 16,
+              children: [
+                GameItemInfoBox(
+                  itemImage: Image.file(
+                    weapon.getImageFile(assetData.assetDir),
+                    width: 50,
+                    height: 50,
                   ),
-                ],
-              ),
-
-              CharacterSelectDropdown(
-                label: tr.weaponDetailsPage.characterToEquip,
-                characters: characters,
-                value: selectedCharacterId.value,
-                onChanged: (value) {
-                  selectedCharacterId.value = value!;
-                },
-              ),
-
-              Section(
-                heading: SectionHeading(tr.weaponDetailsPage.ascension),
-                child: GappedColumn(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Card(
-                      margin: EdgeInsets.zero,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: LevelSlider(
-                          levels: sliderTickLabels,
-                          values: rangeValues.value,
-                          onChanged: (values) {
-                            // avoid overlapping slider handles
-                            if (values.start == values.end) {
-                              return;
-                            }
-
-                            rangeValues.value = values;
-                          },
-                        ),
-                      ),
-                    ),
-                    Wrap(
-                      children: _buildMaterialCards(selectedCharacterId.value, weapon, rangeValues.value),
+                    RarityStars(count: weapon.rarity),
+                    Text(
+                      assetData.weaponTypes[weapon.type]!.name.localized,
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],
                 ),
-              ),
 
-              Section(
-                heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: EffectDescription(weapon.weaponAffixDesc?.localized ?? tr.common.none),
+                CharacterSelectDropdown(
+                  label: tr.weaponDetailsPage.characterToEquip,
+                  characters: characters,
+                  value: selectedCharacterId.value,
+                  onChanged: (value) {
+                    selectedCharacterId.value = value!;
+                  },
                 ),
-              ),
 
-              if (weapon.source != null)
                 Section(
-                  heading: SectionHeading(tr.materialDetailsPage.source),
-                  child: ItemSourceWidget(weapon.source!),
+                  heading: SectionHeading(tr.weaponDetailsPage.ascension),
+                  child: GappedColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Card(
+                        margin: EdgeInsets.zero,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: LevelSlider(
+                            levels: sliderTickLabels,
+                            values: rangeValues.value,
+                            onChanged: (values) {
+                              // avoid overlapping slider handles
+                              if (values.start == values.end) {
+                                return;
+                              }
+
+                              rangeValues.value = values;
+                            },
+                          ),
+                        ),
+                      ),
+                      Wrap(
+                        children: _buildMaterialCards(selectedCharacterId.value, weapon, rangeValues.value),
+                      ),
+                    ],
+                  ),
                 ),
-            ],
+
+                Section(
+                  heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: EffectDescription(weapon.weaponAffixDesc?.localized ?? tr.common.none),
+                  ),
+                ),
+
+                if (weapon.source != null)
+                  Section(
+                    heading: SectionHeading(tr.materialDetailsPage.source),
+                    child: ItemSourceWidget(weapon.source!),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

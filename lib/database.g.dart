@@ -1741,6 +1741,276 @@ class BookmarkOrderRegistryCompanion
   }
 }
 
+class $MaterialBagCountTableTable extends MaterialBagCountTable
+    with TableInfo<$MaterialBagCountTableTable, MaterialBagCount> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MaterialBagCountTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _uidMeta = const VerificationMeta('uid');
+  @override
+  late final GeneratedColumn<String> uid = GeneratedColumn<String>(
+      'uid', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _hyvIdMeta = const VerificationMeta('hyvId');
+  @override
+  late final GeneratedColumn<int> hyvId = GeneratedColumn<int>(
+      'hyv_id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _countMeta = const VerificationMeta('count');
+  @override
+  late final GeneratedColumn<int> count = GeneratedColumn<int>(
+      'count', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _lastUpdatedMeta =
+      const VerificationMeta('lastUpdated');
+  @override
+  late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
+      'last_updated', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [uid, hyvId, count, lastUpdated];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'material_bag_count_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<MaterialBagCount> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('uid')) {
+      context.handle(
+          _uidMeta, uid.isAcceptableOrUnknown(data['uid']!, _uidMeta));
+    } else if (isInserting) {
+      context.missing(_uidMeta);
+    }
+    if (data.containsKey('hyv_id')) {
+      context.handle(
+          _hyvIdMeta, hyvId.isAcceptableOrUnknown(data['hyv_id']!, _hyvIdMeta));
+    } else if (isInserting) {
+      context.missing(_hyvIdMeta);
+    }
+    if (data.containsKey('count')) {
+      context.handle(
+          _countMeta, count.isAcceptableOrUnknown(data['count']!, _countMeta));
+    } else if (isInserting) {
+      context.missing(_countMeta);
+    }
+    if (data.containsKey('last_updated')) {
+      context.handle(
+          _lastUpdatedMeta,
+          lastUpdated.isAcceptableOrUnknown(
+              data['last_updated']!, _lastUpdatedMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {uid, hyvId};
+  @override
+  MaterialBagCount map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MaterialBagCount(
+      uid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}uid'])!,
+      hyvId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}hyv_id'])!,
+      count: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}count'])!,
+      lastUpdated: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_updated'])!,
+    );
+  }
+
+  @override
+  $MaterialBagCountTableTable createAlias(String alias) {
+    return $MaterialBagCountTableTable(attachedDatabase, alias);
+  }
+}
+
+class MaterialBagCount extends DataClass
+    implements Insertable<MaterialBagCount> {
+  final String uid;
+  final int hyvId;
+  final int count;
+  final DateTime lastUpdated;
+  const MaterialBagCount(
+      {required this.uid,
+      required this.hyvId,
+      required this.count,
+      required this.lastUpdated});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['uid'] = Variable<String>(uid);
+    map['hyv_id'] = Variable<int>(hyvId);
+    map['count'] = Variable<int>(count);
+    map['last_updated'] = Variable<DateTime>(lastUpdated);
+    return map;
+  }
+
+  MaterialBagCountCompanion toCompanion(bool nullToAbsent) {
+    return MaterialBagCountCompanion(
+      uid: Value(uid),
+      hyvId: Value(hyvId),
+      count: Value(count),
+      lastUpdated: Value(lastUpdated),
+    );
+  }
+
+  factory MaterialBagCount.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MaterialBagCount(
+      uid: serializer.fromJson<String>(json['uid']),
+      hyvId: serializer.fromJson<int>(json['hyvId']),
+      count: serializer.fromJson<int>(json['count']),
+      lastUpdated: serializer.fromJson<DateTime>(json['lastUpdated']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'uid': serializer.toJson<String>(uid),
+      'hyvId': serializer.toJson<int>(hyvId),
+      'count': serializer.toJson<int>(count),
+      'lastUpdated': serializer.toJson<DateTime>(lastUpdated),
+    };
+  }
+
+  MaterialBagCount copyWith(
+          {String? uid, int? hyvId, int? count, DateTime? lastUpdated}) =>
+      MaterialBagCount(
+        uid: uid ?? this.uid,
+        hyvId: hyvId ?? this.hyvId,
+        count: count ?? this.count,
+        lastUpdated: lastUpdated ?? this.lastUpdated,
+      );
+  MaterialBagCount copyWithCompanion(MaterialBagCountCompanion data) {
+    return MaterialBagCount(
+      uid: data.uid.present ? data.uid.value : this.uid,
+      hyvId: data.hyvId.present ? data.hyvId.value : this.hyvId,
+      count: data.count.present ? data.count.value : this.count,
+      lastUpdated:
+          data.lastUpdated.present ? data.lastUpdated.value : this.lastUpdated,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MaterialBagCount(')
+          ..write('uid: $uid, ')
+          ..write('hyvId: $hyvId, ')
+          ..write('count: $count, ')
+          ..write('lastUpdated: $lastUpdated')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(uid, hyvId, count, lastUpdated);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MaterialBagCount &&
+          other.uid == this.uid &&
+          other.hyvId == this.hyvId &&
+          other.count == this.count &&
+          other.lastUpdated == this.lastUpdated);
+}
+
+class MaterialBagCountCompanion extends UpdateCompanion<MaterialBagCount> {
+  final Value<String> uid;
+  final Value<int> hyvId;
+  final Value<int> count;
+  final Value<DateTime> lastUpdated;
+  final Value<int> rowid;
+  const MaterialBagCountCompanion({
+    this.uid = const Value.absent(),
+    this.hyvId = const Value.absent(),
+    this.count = const Value.absent(),
+    this.lastUpdated = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MaterialBagCountCompanion.insert({
+    required String uid,
+    required int hyvId,
+    required int count,
+    this.lastUpdated = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : uid = Value(uid),
+        hyvId = Value(hyvId),
+        count = Value(count);
+  static Insertable<MaterialBagCount> custom({
+    Expression<String>? uid,
+    Expression<int>? hyvId,
+    Expression<int>? count,
+    Expression<DateTime>? lastUpdated,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (uid != null) 'uid': uid,
+      if (hyvId != null) 'hyv_id': hyvId,
+      if (count != null) 'count': count,
+      if (lastUpdated != null) 'last_updated': lastUpdated,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MaterialBagCountCompanion copyWith(
+      {Value<String>? uid,
+      Value<int>? hyvId,
+      Value<int>? count,
+      Value<DateTime>? lastUpdated,
+      Value<int>? rowid}) {
+    return MaterialBagCountCompanion(
+      uid: uid ?? this.uid,
+      hyvId: hyvId ?? this.hyvId,
+      count: count ?? this.count,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (uid.present) {
+      map['uid'] = Variable<String>(uid.value);
+    }
+    if (hyvId.present) {
+      map['hyv_id'] = Variable<int>(hyvId.value);
+    }
+    if (count.present) {
+      map['count'] = Variable<int>(count.value);
+    }
+    if (lastUpdated.present) {
+      map['last_updated'] = Variable<DateTime>(lastUpdated.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MaterialBagCountCompanion(')
+          ..write('uid: $uid, ')
+          ..write('hyvId: $hyvId, ')
+          ..write('count: $count, ')
+          ..write('lastUpdated: $lastUpdated, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1757,6 +2027,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $CharacterLevelInfoTableTable(this);
   late final $BookmarkOrderRegistryTableTable bookmarkOrderRegistryTable =
       $BookmarkOrderRegistryTableTable(this);
+  late final $MaterialBagCountTableTable materialBagCountTable =
+      $MaterialBagCountTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1767,7 +2039,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         bookmarkArtifactSetDetailsTable,
         bookmarkArtifactPieceDetailsTable,
         characterLevelInfoTable,
-        bookmarkOrderRegistryTable
+        bookmarkOrderRegistryTable,
+        materialBagCountTable
       ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
@@ -3104,6 +3377,146 @@ typedef $$BookmarkOrderRegistryTableTableProcessedTableManager
         ),
         BookmarkOrderRegistry,
         PrefetchHooks Function()>;
+typedef $$MaterialBagCountTableTableCreateCompanionBuilder
+    = MaterialBagCountCompanion Function({
+  required String uid,
+  required int hyvId,
+  required int count,
+  Value<DateTime> lastUpdated,
+  Value<int> rowid,
+});
+typedef $$MaterialBagCountTableTableUpdateCompanionBuilder
+    = MaterialBagCountCompanion Function({
+  Value<String> uid,
+  Value<int> hyvId,
+  Value<int> count,
+  Value<DateTime> lastUpdated,
+  Value<int> rowid,
+});
+
+class $$MaterialBagCountTableTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $MaterialBagCountTableTable> {
+  $$MaterialBagCountTableTableFilterComposer(super.$state);
+  ColumnFilters<String> get uid => $state.composableBuilder(
+      column: $state.table.uid,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get hyvId => $state.composableBuilder(
+      column: $state.table.hyvId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get count => $state.composableBuilder(
+      column: $state.table.count,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get lastUpdated => $state.composableBuilder(
+      column: $state.table.lastUpdated,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$MaterialBagCountTableTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $MaterialBagCountTableTable> {
+  $$MaterialBagCountTableTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get uid => $state.composableBuilder(
+      column: $state.table.uid,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get hyvId => $state.composableBuilder(
+      column: $state.table.hyvId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get count => $state.composableBuilder(
+      column: $state.table.count,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get lastUpdated => $state.composableBuilder(
+      column: $state.table.lastUpdated,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class $$MaterialBagCountTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $MaterialBagCountTableTable,
+    MaterialBagCount,
+    $$MaterialBagCountTableTableFilterComposer,
+    $$MaterialBagCountTableTableOrderingComposer,
+    $$MaterialBagCountTableTableCreateCompanionBuilder,
+    $$MaterialBagCountTableTableUpdateCompanionBuilder,
+    (
+      MaterialBagCount,
+      BaseReferences<_$AppDatabase, $MaterialBagCountTableTable,
+          MaterialBagCount>
+    ),
+    MaterialBagCount,
+    PrefetchHooks Function()> {
+  $$MaterialBagCountTableTableTableManager(
+      _$AppDatabase db, $MaterialBagCountTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $$MaterialBagCountTableTableFilterComposer(
+              ComposerState(db, table)),
+          orderingComposer: $$MaterialBagCountTableTableOrderingComposer(
+              ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<String> uid = const Value.absent(),
+            Value<int> hyvId = const Value.absent(),
+            Value<int> count = const Value.absent(),
+            Value<DateTime> lastUpdated = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              MaterialBagCountCompanion(
+            uid: uid,
+            hyvId: hyvId,
+            count: count,
+            lastUpdated: lastUpdated,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String uid,
+            required int hyvId,
+            required int count,
+            Value<DateTime> lastUpdated = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              MaterialBagCountCompanion.insert(
+            uid: uid,
+            hyvId: hyvId,
+            count: count,
+            lastUpdated: lastUpdated,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$MaterialBagCountTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $MaterialBagCountTableTable,
+        MaterialBagCount,
+        $$MaterialBagCountTableTableFilterComposer,
+        $$MaterialBagCountTableTableOrderingComposer,
+        $$MaterialBagCountTableTableCreateCompanionBuilder,
+        $$MaterialBagCountTableTableUpdateCompanionBuilder,
+        (
+          MaterialBagCount,
+          BaseReferences<_$AppDatabase, $MaterialBagCountTableTable,
+              MaterialBagCount>
+        ),
+        MaterialBagCount,
+        PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3129,4 +3542,6 @@ class $AppDatabaseManager {
       get bookmarkOrderRegistryTable =>
           $$BookmarkOrderRegistryTableTableTableManager(
               _db, _db.bookmarkOrderRegistryTable);
+  $$MaterialBagCountTableTableTableManager get materialBagCountTable =>
+      $$MaterialBagCountTableTableTableManager(_db, _db.materialBagCountTable);
 }

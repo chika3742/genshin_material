@@ -63,5 +63,7 @@ enum LackNumDisplayMethod {
   alternate,
   requiredNumOnly,
   lackNumOnly,
-  craftedLackNumOnly,
+  craftedLackNumOnly;
+
+  bool get isSingleShowMode => this == requiredNumOnly || this == lackNumOnly || this == craftedLackNumOnly;
 }
