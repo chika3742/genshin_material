@@ -195,7 +195,8 @@ hoyolab:
   enableRealtimeNotesDesc: 現在の天然樹脂の数を同期できるようになります。
   syncSettings: 同期設定
   syncResin: ゲーム内の樹脂数と同期する
-  syncCharaState: ゲーム内のキャラのレベルと同期する
+  syncCharaState: ゲーム内のキャラレベルを同期する
+  syncBagCounts: ゲーム内の素材の所持数を同期する
   mustBeResonatedWithStatue: 旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。
   charaSyncSuccess: ゲームデータと同期しました
 whereToGet(map):

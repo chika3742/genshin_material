@@ -120,6 +120,14 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             } : null,
           ),
           SwitchListTile(
+            title: Text(tr.hoyolab.syncBagCounts),
+            value: prefs.syncBagCounts,
+            onChanged: prefs.isLinkedWithHoyolab ? (value) {
+              ref.read(preferencesStateNotifierProvider.notifier)
+                  .setSyncBagCounts(value);
+            } : null,
+          ),
+          SwitchListTile(
             title: Text(tr.hoyolab.syncResin),
             value: prefs.syncResin,
             onChanged: prefs.isLinkedWithHoyolab ? (value) {

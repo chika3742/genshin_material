@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 356 (178 per locale)
+/// Strings: 357 (178 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -527,7 +527,8 @@ class _StringsHoyolabJa {
 	String get enableRealtimeNotesDesc => '現在の天然樹脂の数を同期できるようになります。';
 	String get syncSettings => '同期設定';
 	String get syncResin => 'ゲーム内の樹脂数と同期する';
-	String get syncCharaState => 'ゲーム内のキャラのレベルと同期する';
+	String get syncCharaState => 'ゲーム内のキャラレベルを同期する';
+	String get syncBagCounts => 'ゲーム内の素材の所持数を同期する';
 	String get mustBeResonatedWithStatue => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
 	String get charaSyncSuccess => 'ゲームデータと同期しました';
 }
@@ -1163,7 +1164,8 @@ extension on Translations {
 			case 'hoyolab.enableRealtimeNotesDesc': return '現在の天然樹脂の数を同期できるようになります。';
 			case 'hoyolab.syncSettings': return '同期設定';
 			case 'hoyolab.syncResin': return 'ゲーム内の樹脂数と同期する';
-			case 'hoyolab.syncCharaState': return 'ゲーム内のキャラのレベルと同期する';
+			case 'hoyolab.syncCharaState': return 'ゲーム内のキャラレベルを同期する';
+			case 'hoyolab.syncBagCounts': return 'ゲーム内の素材の所持数を同期する';
 			case 'hoyolab.mustBeResonatedWithStatue': return '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
 			case 'hoyolab.charaSyncSuccess': return 'ゲームデータと同期しました';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';

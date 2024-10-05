@@ -512,26 +512,28 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       final elements = assetData.elements;
       final weaponTypes = assetData.weaponTypes;
 
-      // get bag counts
-      final calcResult = await api.batchCompute([
-        CalcComputeItem(
-          avatarId: character.hyvIds.first,
-          currentAvatarLevel: 1,
-          elementAttrId: elements[variant.element]!.hyvId,
-          targetAvatarLevel: assetData.characterIngredients.purposes[Purpose.ascension]!.levels.keys.last,
-          skills: variant.talents.values.map((e) => CalcComputeSkill(
-            id: e.idList.first,
-            currentLevel: 1,
-            targetLevel: assetData.characterIngredients.purposes[Purpose.normalAttack]!.levels.keys.last,
-          ),).toList(),
-        ),
-      ]);
+      if (prefs.syncBagCounts) {
+        // get bag counts
+        final calcResult = await api.batchCompute([
+          CalcComputeItem(
+            avatarId: character.hyvIds.first,
+            currentAvatarLevel: 1,
+            elementAttrId: elements[variant.element]!.hyvId,
+            targetAvatarLevel: assetData.characterIngredients.purposes[Purpose.ascension]!.levels.keys.last,
+            skills: variant.talents.values.map((e) => CalcComputeSkill(
+              id: e.idList.first,
+              currentLevel: 1,
+              targetLevel: assetData.characterIngredients.purposes[Purpose.normalAttack]!.levels.keys.last,
+            ),).toList(),
+          ),
+        ]);
 
-      final bagCounts = <int, int>{}; // item id (hyvId) -> count
-      for (final item in calcResult.overallConsume) {
-        bagCounts[item.id] = item.num - item.lackNum;
+        final bagCounts = <int, int>{}; // item id (hyvId) -> count
+        for (final item in calcResult.overallConsume) {
+          bagCounts[item.id] = item.num - item.lackNum;
+        }
+        await db.updateMaterialBagCounts(uid, bagCounts);
       }
-      db.updateMaterialBagCounts(uid, bagCounts);
 
       // get character info
       final charaInfo = await HoyolabApiUtils.loopUntilCharacter(

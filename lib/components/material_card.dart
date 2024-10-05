@@ -187,6 +187,7 @@ class _MaterialQuantity extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final db = ref.watch(appDatabaseProvider);
     final uid = ref.watch(preferencesStateNotifierProvider.select((e) => e.hyvUid));
+    final syncEnabled = ref.watch(preferencesStateNotifierProvider.select((e) => e.syncBagCounts));
     final assetData = ref.watch(assetDataProvider).value;
     if (assetData == null) {
       throw "Asset data not loaded";
@@ -205,10 +206,10 @@ class _MaterialQuantity extends HookConsumerWidget {
 
     final bagCountSnapshot = useStream(
       useMemoized(
-        () => uid != null
+        () => uid != null && syncEnabled
             ? db.watchMaterialBagCounts(uid, [material.hyvId, ...craftables.map((e) => e.hyvId)])
             : null,
-        [uid, materialId, assetData],
+        [uid, syncEnabled, materialId, assetData],
       ),
       preserveState: false,
     );

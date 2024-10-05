@@ -75,6 +75,11 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
+  Future<void> setSyncBagCounts(bool value) async {
+    await state.pref.setSyncBagCounts(value);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
+
   Future<void> setShowItemNameOnCard(bool value) async {
     await state.pref.setShowItemNameOnCard(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
@@ -110,6 +115,7 @@ class PreferencesState with _$PreferencesState {
     required String? hyvUid,
     required bool syncResin,
     required bool syncCharaState,
+    required bool syncBagCounts,
     required bool showItemNameOnCard,
     required GameServer dailyResetServer,
     required bool indexSheetTutorialShown,
@@ -127,6 +133,7 @@ class PreferencesState with _$PreferencesState {
       hyvUid: pref.hyvUid,
       syncResin: pref.syncResin,
       syncCharaState: pref.syncCharaState,
+      syncBagCounts: pref.syncBagCounts,
       showItemNameOnCard: pref.showItemNameOnCard,
       dailyResetServer: GameServer.values.firstWhere((e) => e.name == pref.dailyResetServer),
       indexSheetTutorialShown: pref.indexSheetTutorialShown,
