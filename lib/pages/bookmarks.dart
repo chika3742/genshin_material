@@ -7,6 +7,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
+import "../components/material_card.dart";
 import "../components/material_item.dart";
 import "../db/bookmark_db_extension.dart";
 import "../db/bookmark_order_registry_db_extension.dart";
@@ -29,7 +30,9 @@ class BookmarksPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(tr.pages.bookmarks),
       ),
-      body: const _BookmarkList(),
+      body: const QuantityTickerHandler(
+        child: _BookmarkList(),
+      ),
     );
   }
 }
@@ -44,7 +47,7 @@ class _BookmarkList extends HookConsumerWidget {
     final assetData = assetDataAsync.value!;
 
     final db = ref.watch(appDatabaseProvider);
-    final bookmarksStream = useMemoized(() => db.watchBookmarks());
+    final bookmarksStream = useMemoized(() => db.watchBookmarks(), [db]);
     final bookmarksSnapshot = useStream(bookmarksStream);
 
     final bookmarks = bookmarksSnapshot.data ?? [];
