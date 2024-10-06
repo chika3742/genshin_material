@@ -25,8 +25,6 @@ mixin _$CharacterDetailsPageState {
   Map<Purpose, GlobalKey<State<StatefulWidget>>> get talentSectionKeys =>
       throw _privateConstructorUsedError;
   Map<int, int> get bagCounts => throw _privateConstructorUsedError;
-  GameDataSyncStatus get hoyolabSyncStatus =>
-      throw _privateConstructorUsedError;
 
   /// Create a copy of _CharacterDetailsPageState
   /// with the given fields replaced by the non-null parameter values.
@@ -47,8 +45,7 @@ abstract class _$CharacterDetailsPageStateCopyWith<$Res> {
       Map<Purpose, List<int>> sliderTickLabels,
       Map<Purpose, bool> checkedTalentTypes,
       Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys,
-      Map<int, int> bagCounts,
-      GameDataSyncStatus hoyolabSyncStatus});
+      Map<int, int> bagCounts});
 }
 
 /// @nodoc
@@ -72,7 +69,6 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res,
     Object? checkedTalentTypes = null,
     Object? talentSectionKeys = null,
     Object? bagCounts = null,
-    Object? hoyolabSyncStatus = null,
   }) {
     return _then(_value.copyWith(
       rangeValues: null == rangeValues
@@ -95,10 +91,6 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res,
           ? _value.bagCounts
           : bagCounts // ignore: cast_nullable_to_non_nullable
               as Map<int, int>,
-      hoyolabSyncStatus: null == hoyolabSyncStatus
-          ? _value.hoyolabSyncStatus
-          : hoyolabSyncStatus // ignore: cast_nullable_to_non_nullable
-              as GameDataSyncStatus,
     ) as $Val);
   }
 }
@@ -117,8 +109,7 @@ abstract class _$$_CharacterDetailsPageStateImplCopyWith<$Res>
       Map<Purpose, List<int>> sliderTickLabels,
       Map<Purpose, bool> checkedTalentTypes,
       Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys,
-      Map<int, int> bagCounts,
-      GameDataSyncStatus hoyolabSyncStatus});
+      Map<int, int> bagCounts});
 }
 
 /// @nodoc
@@ -141,7 +132,6 @@ class __$$_CharacterDetailsPageStateImplCopyWithImpl<$Res>
     Object? checkedTalentTypes = null,
     Object? talentSectionKeys = null,
     Object? bagCounts = null,
-    Object? hoyolabSyncStatus = null,
   }) {
     return _then(_$_CharacterDetailsPageStateImpl(
       rangeValues: null == rangeValues
@@ -164,10 +154,6 @@ class __$$_CharacterDetailsPageStateImplCopyWithImpl<$Res>
           ? _value._bagCounts
           : bagCounts // ignore: cast_nullable_to_non_nullable
               as Map<int, int>,
-      hoyolabSyncStatus: null == hoyolabSyncStatus
-          ? _value.hoyolabSyncStatus
-          : hoyolabSyncStatus // ignore: cast_nullable_to_non_nullable
-              as GameDataSyncStatus,
     ));
   }
 }
@@ -181,8 +167,7 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
       required final Map<Purpose, bool> checkedTalentTypes,
       required final Map<Purpose, GlobalKey<State<StatefulWidget>>>
           talentSectionKeys,
-      required final Map<int, int> bagCounts,
-      this.hoyolabSyncStatus = GameDataSyncStatus.synced})
+      required final Map<int, int> bagCounts})
       : _rangeValues = rangeValues,
         _sliderTickLabels = sliderTickLabels,
         _checkedTalentTypes = checkedTalentTypes,
@@ -232,12 +217,8 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
   }
 
   @override
-  @JsonKey()
-  final GameDataSyncStatus hoyolabSyncStatus;
-
-  @override
   String toString() {
-    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys, bagCounts: $bagCounts, hoyolabSyncStatus: $hoyolabSyncStatus)';
+    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys, bagCounts: $bagCounts)';
   }
 
   @override
@@ -254,9 +235,7 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
             const DeepCollectionEquality()
                 .equals(other._talentSectionKeys, _talentSectionKeys) &&
             const DeepCollectionEquality()
-                .equals(other._bagCounts, _bagCounts) &&
-            (identical(other.hoyolabSyncStatus, hoyolabSyncStatus) ||
-                other.hoyolabSyncStatus == hoyolabSyncStatus));
+                .equals(other._bagCounts, _bagCounts));
   }
 
   @override
@@ -266,8 +245,7 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
       const DeepCollectionEquality().hash(_sliderTickLabels),
       const DeepCollectionEquality().hash(_checkedTalentTypes),
       const DeepCollectionEquality().hash(_talentSectionKeys),
-      const DeepCollectionEquality().hash(_bagCounts),
-      hoyolabSyncStatus);
+      const DeepCollectionEquality().hash(_bagCounts));
 
   /// Create a copy of _CharacterDetailsPageState
   /// with the given fields replaced by the non-null parameter values.
@@ -287,8 +265,7 @@ abstract class __CharacterDetailsPageState
           required final Map<Purpose, bool> checkedTalentTypes,
           required final Map<Purpose, GlobalKey<State<StatefulWidget>>>
               talentSectionKeys,
-          required final Map<int, int> bagCounts,
-          final GameDataSyncStatus hoyolabSyncStatus}) =
+          required final Map<int, int> bagCounts}) =
       _$_CharacterDetailsPageStateImpl;
 
   @override
@@ -301,8 +278,6 @@ abstract class __CharacterDetailsPageState
   Map<Purpose, GlobalKey<State<StatefulWidget>>> get talentSectionKeys;
   @override
   Map<int, int> get bagCounts;
-  @override
-  GameDataSyncStatus get hoyolabSyncStatus;
 
   /// Create a copy of _CharacterDetailsPageState
   /// with the given fields replaced by the non-null parameter values.

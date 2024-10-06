@@ -5,6 +5,9 @@ import "package:freezed_annotation/freezed_annotation.dart";
 
 part "resin_calculator.freezed.dart";
 
+const maxResin = 200;
+const minutesPerResinRecovery = 8;
+
 ResinCalculationResult calculateResinRecovery({
   required int currentResin,
   required DateTime baseTime,

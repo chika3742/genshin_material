@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 357 (178 per locale)
+/// Strings: 358 (179 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -271,6 +271,7 @@ class _StringsErrorsJa {
 	String get materialNotFound => '素材が見つかりません';
 	String get artifactNotFound => '聖遺物が見つかりません';
 	String get tryAgainLater => 'しばらくしてから再度お試しください。';
+	String get dbError => 'データベースエラーが発生しました。';
 }
 
 // Path: pages
@@ -1038,6 +1039,7 @@ extension on Translations {
 			case 'errors.materialNotFound': return '素材が見つかりません';
 			case 'errors.artifactNotFound': return '聖遺物が見つかりません';
 			case 'errors.tryAgainLater': return 'しばらくしてから再度お試しください。';
+			case 'errors.dbError': return 'データベースエラーが発生しました。';
 			case 'pages.characters': return 'キャラクター';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - キャラクター';
 			case 'pages.weapons': return '武器';

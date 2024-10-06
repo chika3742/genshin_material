@@ -4,6 +4,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../i18n/strings.g.dart";
 import "../ui_core/bubble.dart";
+import "../ui_core/error_messages.dart";
 
 
 class GameDataSyncIndicator extends HookWidget {
@@ -35,7 +36,7 @@ class GameDataSyncIndicator extends HookWidget {
                 ),
               );
             },
-            child: status == GameDataSyncStatus.syncing
+            child: status is _Syncing
                 ? _buildProgressIndicator()
                 : _buildStatusIcon(iconKey, context),
           ),
@@ -55,26 +56,27 @@ class GameDataSyncIndicator extends HookWidget {
 
   Widget _buildStatusIcon(GlobalKey key, BuildContext context) {
     final icon = switch (status) {
-      GameDataSyncStatus.synced => Symbols.check,
-      GameDataSyncStatus.error => Symbols.error,
-      GameDataSyncStatus.characterNotExists => Symbols.person_alert,
-      GameDataSyncStatus.mustBeResonatedWithStatue => Symbols.warning,
-      _ => throw "Invalid status: $status",
+      _Synced() => Symbols.check,
+      _Error() => Symbols.error,
+      _CharacterNotExists() => Symbols.person_alert,
+      _MustBeResonatedWithStatue() => Symbols.warning,
+      _ => throw StateError("Invalid status: $status"),
     };
     return GestureDetector(
       onTap: () {
         final message = switch (status) {
-          GameDataSyncStatus.synced => tr.hoyolab.charaSyncSuccess,
-          GameDataSyncStatus.characterNotExists => tr.hoyolab.characterDoesNotExist,
-          GameDataSyncStatus.mustBeResonatedWithStatue => tr.hoyolab.mustBeResonatedWithStatue,
-          _ => tr.hoyolab.failedToSyncGameData,
+          _Synced() => tr.hoyolab.charaSyncSuccess,
+          _CharacterNotExists() => tr.hoyolab.characterDoesNotExist,
+          _MustBeResonatedWithStatue() => tr.hoyolab.mustBeResonatedWithStatue,
+          _Error(:final error) => getErrorMessage(error, prefix: tr.hoyolab.failedToSyncGameData),
+          _ => throw StateError("Invalid status: $status"),
         };
 
         showModalBubbleText(
           context: context,
           targetKey: key,
           text: message,
-          color: status == GameDataSyncStatus.synced
+          color: status is _Synced
               ? Theme.of(context).colorScheme.surfaceContainerHighest
               : Theme.of(context).colorScheme.errorContainer,
         );
@@ -84,10 +86,42 @@ class GameDataSyncIndicator extends HookWidget {
   }
 }
 
-enum GameDataSyncStatus {
-  syncing,
-  synced,
-  error,
-  characterNotExists,
-  mustBeResonatedWithStatue,
+sealed class GameDataSyncStatus {
+  const GameDataSyncStatus._();
+
+  const factory GameDataSyncStatus.syncing() = _Syncing;
+
+  const factory GameDataSyncStatus.synced() = _Synced;
+
+  const factory GameDataSyncStatus.error({
+    required Object error,
+  }) = _Error;
+
+  const factory GameDataSyncStatus.characterNotExists() = _CharacterNotExists;
+
+  const factory GameDataSyncStatus.mustBeResonatedWithStatue() = _MustBeResonatedWithStatue;
+}
+
+class _Syncing extends GameDataSyncStatus {
+  const _Syncing() : super._();
+}
+
+class _Synced extends GameDataSyncStatus {
+  const _Synced() : super._();
+}
+
+class _Error extends GameDataSyncStatus {
+  final Object error;
+
+  const _Error({
+    required this.error,
+  }) : super._();
+}
+
+class _CharacterNotExists extends GameDataSyncStatus {
+  const _CharacterNotExists() : super._();
+}
+
+class _MustBeResonatedWithStatue extends GameDataSyncStatus {
+  const _MustBeResonatedWithStatue() : super._();
 }

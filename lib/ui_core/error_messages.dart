@@ -1,6 +1,9 @@
 import "dart:io";
 
+import "package:sqlite3/sqlite3.dart";
+
 import "../core/asset_updater.dart";
+import "../core/hoyolab_api.dart";
 import "../core/secure_storage.dart";
 import "../i18n/strings.g.dart";
 
@@ -10,6 +13,11 @@ String getErrorMessage(Object error, {String prefix = ""}) {
     AssetUpdateCheckException() => tr.errors.tryAgainLater,
     CredentialVerificationException() => tr.hoyolab.credentialVerificationFailed,
     SocketException() => tr.updates.noInternet,
+    HoyolabApiException(:final retcode, :final originalMessage) => switch (retcode) {
+      Retcode.characterDoesNotExist => tr.hoyolab.characterDoesNotExist,
+      _ => "($originalMessage)",
+    },
+    SqliteException() => tr.errors.dbError,
     _ => "",
   };
 }

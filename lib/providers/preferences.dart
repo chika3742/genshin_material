@@ -1,5 +1,3 @@
-import "dart:math";
-
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
@@ -8,7 +6,7 @@ import "../core/secure_storage.dart";
 import "../main.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
-import "../pages/tools/resin_calc.dart";
+import "../utils/resin_calculator.dart";
 
 part "preferences.freezed.dart";
 part "preferences.g.dart";
@@ -32,11 +30,13 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
   }
 
   Future<void> setResinWithRecoveryTime(int resin, int recoveryTime) async {
-    final offset = (maxResin - min<int>(resin, maxResin)) * resinRecoveryRateInMinutes * 60 - recoveryTime;
-    final baseTime = DateTime.now().subtract(Duration(seconds: offset));
-
     await state.pref.setResin(resin);
-    await state.pref.setResinBaseTime(baseTime);
+
+    if (state.pref.resinBaseTime == null || resin < maxResin) {
+      final offset = (maxResin - resin) * minutesPerResinRecovery * 60 - recoveryTime;
+      final baseTime = DateTime.now().subtract(Duration(seconds: offset));
+      await state.pref.setResinBaseTime(baseTime);
+    }
 
     state = PreferencesState.fromSharedPreferences(state.pref);
   }

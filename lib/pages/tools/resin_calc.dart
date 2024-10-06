@@ -9,16 +9,11 @@ import "package:timeago/timeago.dart" as timeago;
 import "../../components/game_data_sync_indicator.dart";
 import "../../components/list_subheader.dart";
 import "../../composables/use_periodic_timer.dart";
-import "../../core/hoyolab_api.dart";
-import "../../core/secure_storage.dart";
 import "../../i18n/strings.g.dart";
+import "../../providers/game_data_sync.dart";
 import "../../providers/preferences.dart";
 import "../../ui_core/layout.dart";
-import "../../ui_core/snack_bar.dart";
 import "../../utils/resin_calculator.dart";
-
-const maxResin = 200;
-const resinRecoveryRateInMinutes = 8;
 
 class ResinCalcPage extends HookConsumerWidget {
   const ResinCalcPage({super.key});
@@ -30,38 +25,9 @@ class ResinCalcPage extends HookConsumerWidget {
     final resinController = useTextEditingController(text: prefs.resin?.toString() ?? "");
     final resinInput = useValueListenable(resinController);
 
-    final syncStatus = useState(GameDataSyncStatus.synced);
-    Future<void> syncResin() async {
-      syncStatus.value = GameDataSyncStatus.syncing;
-
-      final api = HoyolabApi(cookie: await getHoyolabCookie(), region: prefs.hyvServer, uid: prefs.hyvUid);
-      try {
-        final dailyNote = await api.getDailyNote();
-        final currentResin = calculateCurrentResin(
-          currentResin: prefs.resin,
-          baseTime: prefs.resinBaseTime,
-          maxResin: maxResin,
-          minutesPerResin: resinRecoveryRateInMinutes,
-        );
-        if (dailyNote.currentResin < maxResin || currentResin == null || currentResin < maxResin) {
-          resinController.text = dailyNote.currentResin.toString();
-          ref.read(preferencesStateNotifierProvider.notifier)
-              .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
-        }
-
-        syncStatus.value = GameDataSyncStatus.synced;
-      } on HoyolabApiException catch (e) {
-        syncStatus.value = GameDataSyncStatus.error;
-        if (context.mounted) showSnackBar(context: context, message: e.getMessage(tr.hoyolab.failedToSyncGameData), error: true);
-      } catch (e) {
-        syncStatus.value = GameDataSyncStatus.error;
-        if (context.mounted) showSnackBar(context: context, message: tr.hoyolab.failedToSyncGameData, error: true);
-      }
-    }
-
     useEffect(() {
-      if (prefs.syncResin && prefs.isLinkedWithHoyolab) {
-        syncResin();
+      if (prefs.isLinkedWithHoyolab) {
+        ref.read(resinSyncStateNotifierProvider.notifier).syncResin();
       }
       return null;
     }, [],);
@@ -124,8 +90,12 @@ class ResinCalcPage extends HookConsumerWidget {
                         ),
                         if (prefs.syncResin && prefs.isLinkedWithHoyolab) Padding(
                           padding: const EdgeInsets.only(left: 8.0),
-                          child: GameDataSyncIndicator(
-                            status: syncStatus.value,
+                          child: Consumer(
+                            builder: (context, ref, _) {
+                              return GameDataSyncIndicator(
+                                status: ref.watch(resinSyncStateNotifierProvider),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -147,7 +117,7 @@ class ResinCalcPage extends HookConsumerWidget {
                         onChanged: prefs.isLinkedWithHoyolab ? (value) {
                           ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
                           if (value) {
-                            syncResin();
+                            ref.read(resinSyncStateNotifierProvider.notifier).syncResin();
                           }
                         } : null,
                       ),
@@ -182,7 +152,7 @@ class _CalcResultTable extends HookConsumerWidget {
         currentResin: prefs.resin!,
         baseTime: prefs.resinBaseTime!,
         maxResin: maxResin,
-        minutesPerResin: resinRecoveryRateInMinutes,
+        minutesPerResin: minutesPerResinRecovery,
       );
     }
 

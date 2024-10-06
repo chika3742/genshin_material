@@ -1,4 +1,4 @@
-import "dart:developer";
+import "dart:math";
 
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
@@ -16,22 +16,17 @@ import "../../../components/material_card.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
-import "../../../core/hoyolab_api.dart";
-import "../../../core/secure_storage.dart";
-import "../../../database.dart";
 import "../../../db/character_level_info_db_extension.dart";
-import "../../../db/material_bag_count_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/character_ingredients.dart";
 import "../../../models/common.dart";
-import "../../../models/hoyolab_api.dart";
 import "../../../models/material_bookmark_frame.dart";
 import "../../../providers/database_provider.dart";
+import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
-import "../../../ui_core/snack_bar.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
 
@@ -118,7 +113,6 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     });
 
     final prefs = ref.watch(preferencesStateNotifierProvider);
-    final db = ref.watch(appDatabaseProvider);
 
     final variant = useState(
       variants[initialVariant] ?? variants.values.first,
@@ -135,25 +129,17 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     });
 
     useEffect(() {
-      if (prefs.isLinkedWithHoyolab && prefs.syncCharaState && state.value.rangeValues.values.any((e) => e.start != e.end)) {
-        void showError(dynamic e, StackTrace st, String message) {
-          log("Failed to sync character data", error: e, stackTrace: st);
-          if (context.mounted) {
-            showSnackBar(
-              context: context,
-              message: message,
-              error: true,
-            );
-          }
-        }
-        _syncGameData(prefs, db, variant.value, state)
-            .onError<HoyolabApiException>((e, st) {
-              state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.error);
-              showError(e, st, e.getMessage(tr.hoyolab.failedToSyncGameData));
-            })
-            .catchError((e, st) {
-              state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.error);
-              showError(e, st, tr.hoyolab.failedToSyncGameData);
+      if (prefs.isLinkedWithHoyolab && state.value.rangeValues.values.any((e) => e.start != e.end)) {
+        ref.read(characterSyncStateNotifierProvider(variant.value.id).notifier)
+            .syncInGameCharacter().then((result) {
+              var newState = state.value;
+              for (final e in result.entries) {
+                newState = newState.copyWith(
+                  rangeValues: {...newState.rangeValues}..[e.key] = LevelRangeValues(e.value, max(e.value, newState.rangeValues[e.key]!.end)),
+                  checkedTalentTypes: {...newState.checkedTalentTypes}..[e.key] = e.value < newState.sliderTickLabels[e.key]!.last,
+                );
+              }
+              state.value = newState;
             });
       }
       return null;
@@ -225,8 +211,13 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         if (prefs.isLinkedWithHoyolab && prefs.syncCharaState)
-                          GameDataSyncIndicator(
-                            status: state.value.hoyolabSyncStatus,
+                          Consumer(
+                            builder: (context, ref, _) {
+                              final status = ref.watch(characterSyncStateNotifierProvider(variant.value.id));
+                              return GameDataSyncIndicator(
+                                status: status,
+                              );
+                            },
                           ),
                         const SizedBox(height: 8),
                         Row(
@@ -494,101 +485,6 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
         ).toList();
   }
 
-  Future<void> _syncGameData(
-      PreferencesState prefs,
-      AppDatabase db,
-      CharacterOrVariant variant,
-      ValueNotifier<_CharacterDetailsPageState> state,
-  ) async {
-    if (!prefs.isLinkedWithHoyolab) {
-      return;
-    }
-
-    state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.syncing);
-    try {
-      final uid = prefs.hyvUid!;
-      final api = HoyolabApi(cookie: await getHoyolabCookie(), uid: uid, region: prefs.hyvServer);
-
-      final elements = assetData.elements;
-      final weaponTypes = assetData.weaponTypes;
-
-      if (prefs.syncBagCounts) {
-        // get bag counts
-        final calcResult = await api.batchCompute([
-          CalcComputeItem(
-            avatarId: character.hyvIds.first,
-            currentAvatarLevel: 1,
-            elementAttrId: elements[variant.element]!.hyvId,
-            targetAvatarLevel: assetData.characterIngredients.purposes[Purpose.ascension]!.levels.keys.last,
-            skills: variant.talents.values.map((e) => CalcComputeSkill(
-              id: e.idList.first,
-              currentLevel: 1,
-              targetLevel: assetData.characterIngredients.purposes[Purpose.normalAttack]!.levels.keys.last,
-            ),).toList(),
-          ),
-        ]);
-
-        final bagCounts = <int, int>{}; // item id (hyvId) -> count
-        for (final item in calcResult.overallConsume) {
-          bagCounts[item.id] = item.num - item.lackNum;
-        }
-        await db.updateMaterialBagCounts(uid, bagCounts);
-      }
-
-      // get character info
-      final charaInfo = await HoyolabApiUtils.loopUntilCharacter(
-        character.hyvIds,
-            (page) {
-          return api.avatarList(
-            page,
-            elementIds: [elements[variant.element]!.hyvId],
-            weaponCatIds: [weaponTypes[character.weaponType]!.hyvId],
-          );
-        },
-      );
-      if (charaInfo != null) {
-        state.value = state.value.copyWith(
-          rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = LevelRangeValues(
-            state.value.sliderTickLabels[Purpose.ascension]!.lastWhere((e) => e <= int.parse(charaInfo.currentLevel)),
-            charaInfo.maxLevel,
-          ),
-        );
-
-        final skills = charaInfo.skills.where((element) => element.maxLevel != 1);
-        skills.forEachIndexed((index, element) {
-          final purpose = switch (index) {
-            0 => Purpose.normalAttack,
-            1 => Purpose.elementalSkill,
-            2 => Purpose.elementalBurst,
-            _ => throw "Invalid talent index",
-          };
-          state.value = state.value.copyWith(
-            rangeValues: {...state.value.rangeValues}..[purpose] = LevelRangeValues(element.currentLevel, element.maxLevel),
-            checkedTalentTypes: {...state.value.checkedTalentTypes}..[purpose] = element.currentLevel != element.maxLevel,
-          );
-        });
-
-        await db.setCharacterLevels(
-          uid,
-          variant.id,
-          state.value.rangeValues.map((key, value) => MapEntry(key, value.start)),
-        );
-
-        state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.synced);
-      } else {
-        state.value = state.value.copyWith(hoyolabSyncStatus: character is CharacterGroup
-            ? GameDataSyncStatus.mustBeResonatedWithStatue
-            : GameDataSyncStatus.characterNotExists,);
-      }
-    } on HoyolabApiException catch (e) {
-      if (e.retcode == Retcode.characterDoesNotExist) {
-        state.value = state.value.copyWith(hoyolabSyncStatus: GameDataSyncStatus.characterNotExists);
-      } else {
-        rethrow;
-      }
-    }
-  }
-
   Future<void> _updateSliderRange(Map<Purpose, int> levelsByPurpose, ValueNotifier<_CharacterDetailsPageState> state) async {
     state.value = state.value.copyWith(
       rangeValues: state.value.rangeValues.map((key, value) =>
@@ -607,7 +503,6 @@ class _CharacterDetailsPageState with _$CharacterDetailsPageState {
     required Map<Purpose, bool> checkedTalentTypes,
     required Map<Purpose, GlobalKey> talentSectionKeys,
     required Map<int, int> bagCounts,
-    @Default(GameDataSyncStatus.synced) GameDataSyncStatus hoyolabSyncStatus, // ignore: unused_element
   }) = __CharacterDetailsPageState;
 
   /// Initializes state for each purpose

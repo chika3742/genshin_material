@@ -25,10 +25,10 @@ class ComponentGalleryPage extends StatelessWidget {
                 title: "GameDataSyncIndicator",
                 child: HookBuilder(
                   builder: (context) {
-                    final status = useState(GameDataSyncStatus.syncing);
+                    final status = useState(const GameDataSyncStatus.syncing());
                     useEffect(() {
                       Future.delayed(const Duration(seconds: 2), () {
-                        status.value = GameDataSyncStatus.characterNotExists;
+                        status.value = const GameDataSyncStatus.synced();
                       });
                       return null;
                     }, const [],);

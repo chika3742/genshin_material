@@ -51,6 +51,7 @@ errors:
   materialNotFound: 素材が見つかりません
   artifactNotFound: 聖遺物が見つかりません
   tryAgainLater: しばらくしてから再度お試しください。
+  dbError: データベースエラーが発生しました。
 pages:
   characters: キャラクター
   characterDetails: $character - キャラクター
