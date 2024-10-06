@@ -24,6 +24,7 @@ class MaterialItem extends StatefulHookConsumerWidget {
   final List<Purpose>? possiblePurposeTypes;
   final List<ExpItem>? expItems;
   final List<String>? hashes;
+  final Map<int, int> bagCounts;
 
   const MaterialItem({
     super.key,
@@ -32,6 +33,7 @@ class MaterialItem extends StatefulHookConsumerWidget {
     this.possiblePurposeTypes,
     this.expItems,
     this.hashes,
+    this.bagCounts = const {},
   })  : assert(hashes != null || possiblePurposeTypes != null, "possiblePurposeTypes must be provided when hashes is null.");
 
   @override

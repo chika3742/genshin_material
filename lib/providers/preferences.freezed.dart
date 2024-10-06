@@ -25,9 +25,12 @@ mixin _$PreferencesState {
   String? get hyvUid => throw _privateConstructorUsedError;
   bool get syncResin => throw _privateConstructorUsedError;
   bool get syncCharaState => throw _privateConstructorUsedError;
+  bool get syncBagCounts => throw _privateConstructorUsedError;
   bool get showItemNameOnCard => throw _privateConstructorUsedError;
   GameServer get dailyResetServer => throw _privateConstructorUsedError;
   bool get indexSheetTutorialShown => throw _privateConstructorUsedError;
+  LackNumDisplayMethod get lackNumDisplayMethod =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -43,9 +46,11 @@ class _$PreferencesStateImpl extends _PreferencesState {
       required this.hyvUid,
       required this.syncResin,
       required this.syncCharaState,
+      required this.syncBagCounts,
       required this.showItemNameOnCard,
       required this.dailyResetServer,
-      required this.indexSheetTutorialShown})
+      required this.indexSheetTutorialShown,
+      required this.lackNumDisplayMethod})
       : super._();
 
   @override
@@ -67,15 +72,19 @@ class _$PreferencesStateImpl extends _PreferencesState {
   @override
   final bool syncCharaState;
   @override
+  final bool syncBagCounts;
+  @override
   final bool showItemNameOnCard;
   @override
   final GameServer dailyResetServer;
   @override
   final bool indexSheetTutorialShown;
+  @override
+  final LackNumDisplayMethod lackNumDisplayMethod;
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncBagCounts: $syncBagCounts, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod)';
   }
 
   @override
@@ -98,13 +107,17 @@ class _$PreferencesStateImpl extends _PreferencesState {
                 other.syncResin == syncResin) &&
             (identical(other.syncCharaState, syncCharaState) ||
                 other.syncCharaState == syncCharaState) &&
+            (identical(other.syncBagCounts, syncBagCounts) ||
+                other.syncBagCounts == syncBagCounts) &&
             (identical(other.showItemNameOnCard, showItemNameOnCard) ||
                 other.showItemNameOnCard == showItemNameOnCard) &&
             (identical(other.dailyResetServer, dailyResetServer) ||
                 other.dailyResetServer == dailyResetServer) &&
             (identical(
                     other.indexSheetTutorialShown, indexSheetTutorialShown) ||
-                other.indexSheetTutorialShown == indexSheetTutorialShown));
+                other.indexSheetTutorialShown == indexSheetTutorialShown) &&
+            (identical(other.lackNumDisplayMethod, lackNumDisplayMethod) ||
+                other.lackNumDisplayMethod == lackNumDisplayMethod));
   }
 
   @override
@@ -119,25 +132,30 @@ class _$PreferencesStateImpl extends _PreferencesState {
       hyvUid,
       syncResin,
       syncCharaState,
+      syncBagCounts,
       showItemNameOnCard,
       dailyResetServer,
-      indexSheetTutorialShown);
+      indexSheetTutorialShown,
+      lackNumDisplayMethod);
 }
 
 abstract class _PreferencesState extends PreferencesState {
   const factory _PreferencesState(
-      {required final KvPreferences pref,
-      required final int? resin,
-      required final DateTime? resinBaseTime,
-      required final String? hyvServer,
-      required final String? hyvServerName,
-      required final String? hyvUserName,
-      required final String? hyvUid,
-      required final bool syncResin,
-      required final bool syncCharaState,
-      required final bool showItemNameOnCard,
-      required final GameServer dailyResetServer,
-      required final bool indexSheetTutorialShown}) = _$PreferencesStateImpl;
+          {required final KvPreferences pref,
+          required final int? resin,
+          required final DateTime? resinBaseTime,
+          required final String? hyvServer,
+          required final String? hyvServerName,
+          required final String? hyvUserName,
+          required final String? hyvUid,
+          required final bool syncResin,
+          required final bool syncCharaState,
+          required final bool syncBagCounts,
+          required final bool showItemNameOnCard,
+          required final GameServer dailyResetServer,
+          required final bool indexSheetTutorialShown,
+          required final LackNumDisplayMethod lackNumDisplayMethod}) =
+      _$PreferencesStateImpl;
   const _PreferencesState._() : super._();
 
   @override
@@ -159,9 +177,13 @@ abstract class _PreferencesState extends PreferencesState {
   @override
   bool get syncCharaState;
   @override
+  bool get syncBagCounts;
+  @override
   bool get showItemNameOnCard;
   @override
   GameServer get dailyResetServer;
   @override
   bool get indexSheetTutorialShown;
+  @override
+  LackNumDisplayMethod get lackNumDisplayMethod;
 }

@@ -1,5 +1,6 @@
 import "dart:convert";
-import "dart:math";
+import "dart:developer";
+import "dart:math" hide log;
 import "dart:typed_data";
 
 import "package:crypto/crypto.dart";
@@ -21,14 +22,24 @@ class HoyolabApi {
   final String? region;
   final String? uid;
 
+  static const hoyolabAppVersion = "3.0.1";
+
   Map<String, String> get headers => {
+    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) miHoYoBBSOversea/$hoyolabAppVersion",
+    "Origin": "https://act.hoyolab.com",
+    "Referer": "https://act.hoyolab.com/",
+    "Accept-Encoding": "gzip, deflate, br",
+
     "Cookie": cookie!,
-    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) miHoYoBBSOversea/2.56.1",
+
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Site": "same-site",
+    "Sec-Fetch-Mode": "cors",
   };
 
   Map<String, String> get additionalHeaders => {
     "x-rpc-client_type": "2",
-    "x-rpc-app_version": "2.56.1",
+    "x-rpc-app_version": hoyolabAppVersion,
     "x-rpc-language": lang,
   };
 
@@ -71,24 +82,6 @@ class HoyolabApi {
       ),
       (obj) => HoyolabListData.fromJsonT(obj, AvatarListResultItem.fromJson),
     );
-  }
-
-  Future<AvatarDetail> avatarDetail(int avatarId) {
-    _ensureRequiredParams();
-
-    const url = "https://sg-public-api.hoyolab.com/event/calculateos/sync/avatar/detail";
-    final queryParams = {
-      "avatar_id": avatarId.toString(),
-      "uid": uid!,
-      "region": region!,
-      "lang": lang,
-    };
-    final uri = Uri.parse(url).replace(queryParameters: queryParams);
-
-    return _errorHandledThen(client.get(
-      uri,
-      headers: headers,
-    ), (obj) => AvatarDetail.fromJson(obj as Map<String, dynamic>),);
   }
 
   Future<GetUserGameRolesResult> getUserGameRoles() {
@@ -164,6 +157,35 @@ class HoyolabApi {
     );
   }
 
+  Future<CalcResult> batchCompute(List<CalcComputeItem> items) async {
+    _ensureRequiredParams();
+
+    const endpoint = "https://sg-public-api.hoyolab.com/event/calculateos/batch_compute";
+
+    log("Request body: ${jsonEncode({
+      "items": items.map((e) => e.toJson()).toList(),
+      "uid": uid,
+      "region": region,
+      "lang": lang,
+    })}");
+
+    return _errorHandledThen(
+      client.post(
+        Uri.parse(endpoint),
+        headers: {
+          ...headers,
+        },
+        body: jsonEncode({
+          "items": items.map((e) => e.toJson()).toList(),
+          "uid": uid,
+          "region": region,
+          "lang": lang,
+        }),
+      ),
+      (obj) => CalcResult.fromJson(obj as Map<String, dynamic>),
+    );
+  }
+
   String _getDsToken({String body = "", Map<String, String> queryParameters = const {}}) {
     const salt = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w"; // global region (NOT APPLICABLE FOR MAINLAND CHINA)
 
@@ -196,7 +218,7 @@ class HoyolabApi {
     return const JsonCodec().decode(utf8.decode(bytes));
   }
 
-  static Future<T> _errorHandledThen<T>(Future<http.Response> response, T Function(Object?) fromJsonT) {
+  static Future<T> _errorHandledThen<T>(Future<http.Response> response, T Function(Object? obj) fromJsonT) {
     return response.then((value) {
       final result = HoyolabApiResult.fromJson(_parseJson(value.bodyBytes), fromJsonT);
       if (result.hasError) {

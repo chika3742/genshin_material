@@ -21,6 +21,7 @@ Material _$MaterialFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Material {
   String get id => throw _privateConstructorUsedError;
+  int get hyvId => throw _privateConstructorUsedError;
   LocalizedText get name => throw _privateConstructorUsedError;
   String get jaPronunciation => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
@@ -40,6 +41,7 @@ mixin _$Material {
 class _$MaterialImpl extends _Material {
   const _$MaterialImpl(
       {required this.id,
+      required this.hyvId,
       required this.name,
       required this.jaPronunciation,
       required this.imageUrl,
@@ -57,6 +59,8 @@ class _$MaterialImpl extends _Material {
 
   @override
   final String id;
+  @override
+  final int hyvId;
   @override
   final LocalizedText name;
   @override
@@ -86,7 +90,7 @@ class _$MaterialImpl extends _Material {
 
   @override
   String toString() {
-    return 'Material(id: $id, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, category: $category, groupId: $groupId, craftLevel: $craftLevel, availableDays: $availableDays, source: $source)';
+    return 'Material(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, category: $category, groupId: $groupId, craftLevel: $craftLevel, availableDays: $availableDays, source: $source)';
   }
 
   @override
@@ -95,6 +99,7 @@ class _$MaterialImpl extends _Material {
         (other.runtimeType == runtimeType &&
             other is _$MaterialImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
                 other.jaPronunciation == jaPronunciation) &&
@@ -116,6 +121,7 @@ class _$MaterialImpl extends _Material {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      hyvId,
       name,
       jaPronunciation,
       imageUrl,
@@ -137,6 +143,7 @@ class _$MaterialImpl extends _Material {
 abstract class _Material extends Material {
   const factory _Material(
       {required final String id,
+      required final int hyvId,
       required final LocalizedText name,
       required final String jaPronunciation,
       required final String imageUrl,
@@ -153,6 +160,8 @@ abstract class _Material extends Material {
 
   @override
   String get id;
+  @override
+  int get hyvId;
   @override
   LocalizedText get name;
   @override

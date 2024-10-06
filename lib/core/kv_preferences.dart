@@ -46,6 +46,9 @@ class KvPreferences {
   bool get syncCharaState => sp.getBool("syncCharaState") ?? true;
   Future<void> setSyncCharaState(bool value) => sp.setBool("syncCharaState", value);
 
+  bool get syncBagCounts => sp.getBool("syncBagCounts") ?? true;
+  Future<void> setSyncBagCounts(bool value) => sp.setBool("syncBagCounts", value);
+
   bool get showItemNameOnCard => sp.getBool("showItemNameOnCard") ?? true;
   Future<void> setShowItemNameOnCard(bool value) => sp.setBool("showItemNameOnCard", value);
 
@@ -54,4 +57,16 @@ class KvPreferences {
 
   bool get indexSheetTutorialShown => sp.getBool("indexSheetTutorialShown") ?? false;
   Future<void> setIndexSheetTutorialShown(bool value) => sp.setBool("indexSheetTutorialShown", value);
+
+  LackNumDisplayMethod get lackNumDisplayMethod => LackNumDisplayMethod.values[sp.getInt("lackNumDisplayMethod") ?? 0];
+  Future<void> setLackNumDisplayMethod(LackNumDisplayMethod value) => sp.setInt("lackNumDisplayMethod", value.index);
+}
+
+enum LackNumDisplayMethod {
+  alternate,
+  requiredNumOnly,
+  lackNumOnly,
+  craftedLackNumOnly;
+
+  bool get isSingleShowMode => this == requiredNumOnly || this == lackNumOnly || this == craftedLackNumOnly;
 }

@@ -1,4 +1,5 @@
 import "dart:developer";
+import "dart:ui";
 
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
@@ -7,6 +8,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
+import "../components/material_card.dart";
 import "../components/material_item.dart";
 import "../db/bookmark_db_extension.dart";
 import "../db/bookmark_order_registry_db_extension.dart";
@@ -29,7 +31,9 @@ class BookmarksPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(tr.pages.bookmarks),
       ),
-      body: const _BookmarkList(),
+      body: const QuantityTickerHandler(
+        child: _BookmarkList(),
+      ),
     );
   }
 }
@@ -44,7 +48,7 @@ class _BookmarkList extends HookConsumerWidget {
     final assetData = assetDataAsync.value!;
 
     final db = ref.watch(appDatabaseProvider);
-    final bookmarksStream = useMemoized(() => db.watchBookmarks());
+    final bookmarksStream = useMemoized(() => db.watchBookmarks(), [db]);
     final bookmarksSnapshot = useStream(bookmarksStream);
 
     final bookmarks = bookmarksSnapshot.data ?? [];
@@ -67,10 +71,32 @@ class _BookmarkList extends HookConsumerWidget {
       _sortBookmarkGroups(bookmarkGroups, bookmarkOrder);
     }
 
+    // hold the state of the current context to pass to the dragging item
+    final qStateNotifier = QuantityStateProvider.of(context);
+
     return Stack(
       children: [
         ReorderableListView.builder(
           itemCount: bookmarkGroups.length,
+          proxyDecorator: (child, index, animation) {
+            // propagate [QuantityState] to dragging item (on Overlay layer)
+            return QuantityStateProvider(
+              state: qStateNotifier.state,
+              // from Flutter source
+              child: AnimatedBuilder(
+                animation: animation,
+                builder: (BuildContext context, Widget? child) {
+                  final double animValue = Curves.easeInOut.transform(animation.value);
+                  final double elevation = lerpDouble(0, 6, animValue)!;
+                  return Material(
+                    elevation: elevation,
+                    child: child,
+                  );
+                },
+                child: child,
+              ),
+            );
+          },
           onReorder: (oldIndex, newIndex) {
             if (bookmarkOrder == null) {
               return;
@@ -94,7 +120,7 @@ class _BookmarkList extends HookConsumerWidget {
             final character = assetData.characters[group.characterId];
 
             return Padding(
-              key: ValueKey(index),
+              key: Key(group.hash),
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -150,7 +176,7 @@ class _BookmarkList extends HookConsumerWidget {
                       children: [
                         for (final items in group.bookmarks.cast<BookmarkWithMaterialDetails>().groupListsBy((e) => e.materialDetails.materialId).values)
                           MaterialItem(
-                            key: Key("${group.hashCode}:${items.first.materialDetails.materialId}"),
+                            key: Key("${group.hash}:${items.first.materialDetails.materialId}"),
                             item: MaterialCardMaterial.fromBookmarks(items.map((e) => e.materialDetails).toList()),
                             usage: MaterialUsage(
                               characterId: group.characterId,

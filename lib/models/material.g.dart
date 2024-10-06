@@ -9,6 +9,7 @@ part of 'material.dart';
 _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
     _$MaterialImpl(
       id: json['id'] as String,
+      hyvId: (json['hyvId'] as num).toInt(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
@@ -27,6 +28,7 @@ _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'hyvId': instance.hyvId,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,
       'imageUrl': instance.imageUrl,

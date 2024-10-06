@@ -13,6 +13,7 @@ sealed class Material with _$Material, ImageGetter {
 
   const factory Material({
     required String id,
+    required int hyvId,
     required LocalizedText name,
     required String jaPronunciation,
     required String imageUrl,
