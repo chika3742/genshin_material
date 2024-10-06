@@ -203,14 +203,14 @@ class HoyolabApi {
   }
 
   void _ensureRequiredParams({List<HoyolabApiParams> params = HoyolabApiParams.values}) {
-    if (params.contains(HoyolabApiParams.cookie) && (cookie == null || cookie!.isEmpty)) {
-      throw ArgumentError("Missing cookie");
+    if (params.contains(HoyolabApiParams.cookie) && cookie == null) {
+      throw StateError("Missing cookie");
     }
-    if (params.contains(HoyolabApiParams.region) && (region == null || region!.isEmpty)) {
-      throw ArgumentError("Missing region");
+    if (params.contains(HoyolabApiParams.region) && region == null) {
+      throw StateError("Missing region");
     }
-    if (params.contains(HoyolabApiParams.uid) && (uid == null || uid!.isEmpty)) {
-      throw ArgumentError("Missing uid");
+    if (params.contains(HoyolabApiParams.uid) && uid == null) {
+      throw StateError("Missing uid");
     }
   }
 
