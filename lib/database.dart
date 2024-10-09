@@ -179,6 +179,11 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 1;
 
+  static Future<File> getDbFile() async {
+    final dbFolder = await getApplicationDocumentsDirectory();
+    return File(p.join(dbFolder.path, "db.sqlite"));
+  }
+
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
@@ -200,16 +205,7 @@ class AppDatabase extends _$AppDatabase {
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, "db.sqlite"));
-
-    if (kDebugMode) {
-      try {
-        await file.delete();
-      } catch (e) {
-        // db file not exist
-      }
-    }
+    final file = await AppDatabase.getDbFile();
 
     if (Platform.isAndroid) {
       await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();

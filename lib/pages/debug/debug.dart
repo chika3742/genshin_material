@@ -2,9 +2,12 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "../../components/list_tile.dart";
+import "../../database.dart";
 import "../../i18n/strings.g.dart";
 import "../../main.dart";
+import "../../providers/database_provider.dart";
 import "../../routes.dart";
+import "../../ui_core/snack_bar.dart";
 
 class DebugMenuPage extends ConsumerWidget {
   const DebugMenuPage({super.key});
@@ -22,12 +25,24 @@ class DebugMenuPage extends ConsumerWidget {
             location: DebugSharedPreferencesEditorRoute().location,
           ),
           SimpleListTile(
-            title: "Drift DB Editor",
+            title: "Drift DB Viewer",
             location: DebugDriftDbViewerRoute().location,
           ),
           SimpleListTile(
             title: "Component Gallery",
             location: DebugComponentGalleryRoute().location,
+          ),
+          SimpleListTile(
+            title: "Recreate Database",
+            onTap: () async {
+              await ref.read(appDatabaseProvider).close();
+              (await AppDatabase.getDbFile()).delete();
+              ref.invalidate(appDatabaseProvider);
+
+              if (context.mounted) {
+                showSnackBar(context: context, message: "Database recreated");
+              }
+            },
           ),
           PopupMenuListTile(
             title: const Text("Change App Language"),
