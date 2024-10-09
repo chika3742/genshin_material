@@ -6,6 +6,7 @@ import "package:material_symbols_icons/symbols.dart";
 import "../i18n/strings.g.dart";
 import "../ui_core/bubble.dart";
 import "../ui_core/layout.dart";
+import "../utils/lists.dart";
 
 class LevelSlider extends HookWidget {
   final List<int> levels;
@@ -33,8 +34,8 @@ class LevelSlider extends HookWidget {
                 height: 32,
                 child: RangeSlider(
                   values: RangeValues(
-                    levels.indexOf(values.start).toDouble(),
-                    levels.indexOf(values.end).toDouble(),
+                    levels.indexOfCeilToNearest(values.start).toDouble(),
+                    levels.indexOfCeilToNearest(values.end).toDouble(),
                   ),
                   min: 0,
                   max: levels.length - 1,

@@ -23,3 +23,10 @@ extension MapExtension<T> on Map<int, T> {
         .map((e) => callback(e.key, e.value));
   }
 }
+
+extension IndexOfCeilToNearestExtension on List<int> {
+  int indexOfCeilToNearest(int target) {
+    return indexWhere((e) => e >= target);
+  }
+}
+
