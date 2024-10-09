@@ -196,7 +196,6 @@ hoyolab:
   loginExpired: Please sign out and sign in again.
   accessPermission: Access Permission
   doYouWantToEnableRealtimeNotes: "Enable Real-Time Notes?"
-  characterDataAccess: Character Data Access
   enableRealtimeNotes: Enable Real-Time Notes
   enableRealtimeNotesDesc: You will be able to sync your current Original Resin count.
   syncSettings: Sync Settings

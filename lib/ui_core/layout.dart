@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
+
 
 class GappedColumn extends Flex {
   final double gap;
@@ -100,3 +102,20 @@ class Section extends StatelessWidget {
     );
   }
 }
+
+class FullWidth extends StatelessWidget {
+  final Widget child;
+
+  const FullWidth({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return OverflowBox(
+      maxWidth: MediaQuery.of(context).size.width,
+      fit: OverflowBoxFit.deferToChild,
+      child: child,
+    );
+  }
+}
+
+

@@ -25,6 +25,7 @@ mixin _$PreferencesState {
   String? get hyvUid => throw _privateConstructorUsedError;
   bool get syncResin => throw _privateConstructorUsedError;
   bool get syncCharaState => throw _privateConstructorUsedError;
+  bool get syncWeaponState => throw _privateConstructorUsedError;
   bool get syncBagCounts => throw _privateConstructorUsedError;
   bool get showItemNameOnCard => throw _privateConstructorUsedError;
   GameServer get dailyResetServer => throw _privateConstructorUsedError;
@@ -46,6 +47,7 @@ class _$PreferencesStateImpl extends _PreferencesState {
       required this.hyvUid,
       required this.syncResin,
       required this.syncCharaState,
+      required this.syncWeaponState,
       required this.syncBagCounts,
       required this.showItemNameOnCard,
       required this.dailyResetServer,
@@ -72,6 +74,8 @@ class _$PreferencesStateImpl extends _PreferencesState {
   @override
   final bool syncCharaState;
   @override
+  final bool syncWeaponState;
+  @override
   final bool syncBagCounts;
   @override
   final bool showItemNameOnCard;
@@ -84,7 +88,7 @@ class _$PreferencesStateImpl extends _PreferencesState {
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncBagCounts: $syncBagCounts, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, syncBagCounts: $syncBagCounts, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod)';
   }
 
   @override
@@ -107,6 +111,8 @@ class _$PreferencesStateImpl extends _PreferencesState {
                 other.syncResin == syncResin) &&
             (identical(other.syncCharaState, syncCharaState) ||
                 other.syncCharaState == syncCharaState) &&
+            (identical(other.syncWeaponState, syncWeaponState) ||
+                other.syncWeaponState == syncWeaponState) &&
             (identical(other.syncBagCounts, syncBagCounts) ||
                 other.syncBagCounts == syncBagCounts) &&
             (identical(other.showItemNameOnCard, showItemNameOnCard) ||
@@ -132,6 +138,7 @@ class _$PreferencesStateImpl extends _PreferencesState {
       hyvUid,
       syncResin,
       syncCharaState,
+      syncWeaponState,
       syncBagCounts,
       showItemNameOnCard,
       dailyResetServer,
@@ -150,6 +157,7 @@ abstract class _PreferencesState extends PreferencesState {
           required final String? hyvUid,
           required final bool syncResin,
           required final bool syncCharaState,
+          required final bool syncWeaponState,
           required final bool syncBagCounts,
           required final bool showItemNameOnCard,
           required final GameServer dailyResetServer,
@@ -176,6 +184,8 @@ abstract class _PreferencesState extends PreferencesState {
   bool get syncResin;
   @override
   bool get syncCharaState;
+  @override
+  bool get syncWeaponState;
   @override
   bool get syncBagCounts;
   @override

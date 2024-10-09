@@ -4,20 +4,22 @@ import "../database.dart";
 import "../models/common.dart";
 
 extension CharacterLevelInfoDbExtension on AppDatabase {
-  Future<int> setCharacterLevels(String uid, String characterId, Map<Purpose, int> purposes) async {
-    return await into(characterLevelInfoTable).insertOnConflictUpdate(
-      CharacterLevelInfoCompanion.insert(
-        uid: uid,
-        characterId: characterId,
-        purposes: purposes,
-      ),
+  Future<int> setCharacterState(InGameCharacterStateCompanion companion) async {
+    return await into(inGameCharacterStateTable).insertOnConflictUpdate(
+      companion,
     );
   }
 
   Future<Map<Purpose, int>?> getCharacterLevels(String uid, String characterId) async {
-    final query = select(characterLevelInfoTable)
+    final query = select(inGameCharacterStateTable)
       ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId));
     final info = await query.getSingleOrNull();
     return info?.purposes;
+  }
+
+  Stream<String?> watchCharacterWeapon(String uid, String characterId) {
+    final query = select(inGameCharacterStateTable)
+      ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId));
+    return query.watchSingleOrNull().map((event) => event?.equippedWeaponId);
   }
 }

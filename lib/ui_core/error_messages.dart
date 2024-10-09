@@ -1,6 +1,6 @@
 import "dart:io";
 
-import "package:sqlite3/sqlite3.dart";
+import "package:drift/remote.dart";
 
 import "../core/asset_updater.dart";
 import "../core/hoyolab_api.dart";
@@ -17,7 +17,7 @@ String getErrorMessage(Object error, {String prefix = ""}) {
       Retcode.characterDoesNotExist => tr.hoyolab.characterDoesNotExist,
       _ => "($originalMessage)",
     },
-    SqliteException() => tr.errors.dbError,
+    DriftRemoteException() => tr.errors.dbError,
     _ => "",
   };
 }

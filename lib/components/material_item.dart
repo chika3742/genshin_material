@@ -60,6 +60,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
               : db.watchMaterialBookmarksByHashes(widget.hashes!);
         },
         [
+          db,
           widget.usage.characterId,
           widget.item.id,
           const ListEquality().hash(widget.possiblePurposeTypes),

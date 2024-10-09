@@ -25,7 +25,7 @@ mixin _$Bookmark {
 
 /// @nodoc
 
-class _$BookmarkImpl with DiagnosticableTreeMixin implements _Bookmark {
+class _$BookmarkImpl implements _Bookmark {
   const _$BookmarkImpl(
       {required this.id,
       required this.type,
@@ -45,20 +45,8 @@ class _$BookmarkImpl with DiagnosticableTreeMixin implements _Bookmark {
   final String groupHash;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'Bookmark(id: $id, type: $type, characterId: $characterId, createdAt: $createdAt, groupHash: $groupHash)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'Bookmark'))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('type', type))
-      ..add(DiagnosticsProperty('characterId', characterId))
-      ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('groupHash', groupHash));
   }
 
   @override

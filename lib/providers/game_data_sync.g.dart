@@ -6,8 +6,8 @@ part of 'game_data_sync.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$characterSyncStateNotifierHash() =>
-    r'911747a239884fec3211248cee42d07a283f04cb';
+String _$levelBagSyncStateNotifierHash() =>
+    r'fc07de2c0fbfde36d2f82c3e8af2ed2bfcae5a65';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,39 +30,44 @@ class _SystemHash {
   }
 }
 
-abstract class _$CharacterSyncStateNotifier
+abstract class _$LevelBagSyncStateNotifier
     extends BuildlessAutoDisposeNotifier<GameDataSyncStatus> {
-  late final String variantId;
+  late final String? variantId;
+  late final String? weaponId;
 
-  GameDataSyncStatus build(
-    String variantId,
-  );
+  GameDataSyncStatus build({
+    String? variantId,
+    String? weaponId,
+  });
 }
 
-/// See also [CharacterSyncStateNotifier].
-@ProviderFor(CharacterSyncStateNotifier)
-const characterSyncStateNotifierProvider = CharacterSyncStateNotifierFamily();
+/// See also [LevelBagSyncStateNotifier].
+@ProviderFor(LevelBagSyncStateNotifier)
+const levelBagSyncStateNotifierProvider = LevelBagSyncStateNotifierFamily();
 
-/// See also [CharacterSyncStateNotifier].
-class CharacterSyncStateNotifierFamily extends Family<GameDataSyncStatus> {
-  /// See also [CharacterSyncStateNotifier].
-  const CharacterSyncStateNotifierFamily();
+/// See also [LevelBagSyncStateNotifier].
+class LevelBagSyncStateNotifierFamily extends Family<GameDataSyncStatus> {
+  /// See also [LevelBagSyncStateNotifier].
+  const LevelBagSyncStateNotifierFamily();
 
-  /// See also [CharacterSyncStateNotifier].
-  CharacterSyncStateNotifierProvider call(
-    String variantId,
-  ) {
-    return CharacterSyncStateNotifierProvider(
-      variantId,
+  /// See also [LevelBagSyncStateNotifier].
+  LevelBagSyncStateNotifierProvider call({
+    String? variantId,
+    String? weaponId,
+  }) {
+    return LevelBagSyncStateNotifierProvider(
+      variantId: variantId,
+      weaponId: weaponId,
     );
   }
 
   @override
-  CharacterSyncStateNotifierProvider getProviderOverride(
-    covariant CharacterSyncStateNotifierProvider provider,
+  LevelBagSyncStateNotifierProvider getProviderOverride(
+    covariant LevelBagSyncStateNotifierProvider provider,
   ) {
     return call(
-      provider.variantId,
+      variantId: provider.variantId,
+      weaponId: provider.weaponId,
     );
   }
 
@@ -78,31 +83,34 @@ class CharacterSyncStateNotifierFamily extends Family<GameDataSyncStatus> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'characterSyncStateNotifierProvider';
+  String? get name => r'levelBagSyncStateNotifierProvider';
 }
 
-/// See also [CharacterSyncStateNotifier].
-class CharacterSyncStateNotifierProvider
-    extends AutoDisposeNotifierProviderImpl<CharacterSyncStateNotifier,
-        GameDataSyncStatus> {
-  /// See also [CharacterSyncStateNotifier].
-  CharacterSyncStateNotifierProvider(
-    String variantId,
-  ) : this._internal(
-          () => CharacterSyncStateNotifier()..variantId = variantId,
-          from: characterSyncStateNotifierProvider,
-          name: r'characterSyncStateNotifierProvider',
+/// See also [LevelBagSyncStateNotifier].
+class LevelBagSyncStateNotifierProvider extends AutoDisposeNotifierProviderImpl<
+    LevelBagSyncStateNotifier, GameDataSyncStatus> {
+  /// See also [LevelBagSyncStateNotifier].
+  LevelBagSyncStateNotifierProvider({
+    String? variantId,
+    String? weaponId,
+  }) : this._internal(
+          () => LevelBagSyncStateNotifier()
+            ..variantId = variantId
+            ..weaponId = weaponId,
+          from: levelBagSyncStateNotifierProvider,
+          name: r'levelBagSyncStateNotifierProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$characterSyncStateNotifierHash,
-          dependencies: CharacterSyncStateNotifierFamily._dependencies,
+                  : _$levelBagSyncStateNotifierHash,
+          dependencies: LevelBagSyncStateNotifierFamily._dependencies,
           allTransitiveDependencies:
-              CharacterSyncStateNotifierFamily._allTransitiveDependencies,
+              LevelBagSyncStateNotifierFamily._allTransitiveDependencies,
           variantId: variantId,
+          weaponId: weaponId,
         );
 
-  CharacterSyncStateNotifierProvider._internal(
+  LevelBagSyncStateNotifierProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -110,70 +118,84 @@ class CharacterSyncStateNotifierProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.variantId,
+    required this.weaponId,
   }) : super.internal();
 
-  final String variantId;
+  final String? variantId;
+  final String? weaponId;
 
   @override
   GameDataSyncStatus runNotifierBuild(
-    covariant CharacterSyncStateNotifier notifier,
+    covariant LevelBagSyncStateNotifier notifier,
   ) {
     return notifier.build(
-      variantId,
+      variantId: variantId,
+      weaponId: weaponId,
     );
   }
 
   @override
-  Override overrideWith(CharacterSyncStateNotifier Function() create) {
+  Override overrideWith(LevelBagSyncStateNotifier Function() create) {
     return ProviderOverride(
       origin: this,
-      override: CharacterSyncStateNotifierProvider._internal(
-        () => create()..variantId = variantId,
+      override: LevelBagSyncStateNotifierProvider._internal(
+        () => create()
+          ..variantId = variantId
+          ..weaponId = weaponId,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         variantId: variantId,
+        weaponId: weaponId,
       ),
     );
   }
 
   @override
-  AutoDisposeNotifierProviderElement<CharacterSyncStateNotifier,
+  AutoDisposeNotifierProviderElement<LevelBagSyncStateNotifier,
       GameDataSyncStatus> createElement() {
-    return _CharacterSyncStateNotifierProviderElement(this);
+    return _LevelBagSyncStateNotifierProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is CharacterSyncStateNotifierProvider &&
-        other.variantId == variantId;
+    return other is LevelBagSyncStateNotifierProvider &&
+        other.variantId == variantId &&
+        other.weaponId == weaponId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, variantId.hashCode);
+    hash = _SystemHash.combine(hash, weaponId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin CharacterSyncStateNotifierRef
+mixin LevelBagSyncStateNotifierRef
     on AutoDisposeNotifierProviderRef<GameDataSyncStatus> {
   /// The parameter `variantId` of this provider.
-  String get variantId;
+  String? get variantId;
+
+  /// The parameter `weaponId` of this provider.
+  String? get weaponId;
 }
 
-class _CharacterSyncStateNotifierProviderElement
-    extends AutoDisposeNotifierProviderElement<CharacterSyncStateNotifier,
-        GameDataSyncStatus> with CharacterSyncStateNotifierRef {
-  _CharacterSyncStateNotifierProviderElement(super.provider);
+class _LevelBagSyncStateNotifierProviderElement
+    extends AutoDisposeNotifierProviderElement<LevelBagSyncStateNotifier,
+        GameDataSyncStatus> with LevelBagSyncStateNotifierRef {
+  _LevelBagSyncStateNotifierProviderElement(super.provider);
 
   @override
-  String get variantId =>
-      (origin as CharacterSyncStateNotifierProvider).variantId;
+  String? get variantId =>
+      (origin as LevelBagSyncStateNotifierProvider).variantId;
+  @override
+  String? get weaponId =>
+      (origin as LevelBagSyncStateNotifierProvider).weaponId;
 }
 
 String _$resinSyncStateNotifierHash() =>

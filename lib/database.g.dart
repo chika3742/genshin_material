@@ -1303,12 +1303,12 @@ class BookmarkArtifactPieceDetailsCompanion
   }
 }
 
-class $CharacterLevelInfoTableTable extends CharacterLevelInfoTable
-    with TableInfo<$CharacterLevelInfoTableTable, CharacterLevelInfo> {
+class $InGameCharacterStateTableTable extends InGameCharacterStateTable
+    with TableInfo<$InGameCharacterStateTableTable, InGameCharacterState> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $CharacterLevelInfoTableTable(this.attachedDatabase, [this._alias]);
+  $InGameCharacterStateTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _uidMeta = const VerificationMeta('uid');
   @override
   late final GeneratedColumn<String> uid = GeneratedColumn<String>(
@@ -1327,16 +1327,24 @@ class $CharacterLevelInfoTableTable extends CharacterLevelInfoTable
       purposes = GeneratedColumn<String>('purposes', aliasedName, false,
               type: DriftSqlType.string, requiredDuringInsert: true)
           .withConverter<Map<Purpose, int>>(
-              $CharacterLevelInfoTableTable.$converterpurposes);
+              $InGameCharacterStateTableTable.$converterpurposes);
+  static const VerificationMeta _equippedWeaponIdMeta =
+      const VerificationMeta('equippedWeaponId');
   @override
-  List<GeneratedColumn> get $columns => [uid, characterId, purposes];
+  late final GeneratedColumn<String> equippedWeaponId = GeneratedColumn<String>(
+      'equipped_weapon_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [uid, characterId, purposes, equippedWeaponId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'character_level_info_table';
+  static const String $name = 'in_game_character_state_table';
   @override
-  VerificationContext validateIntegrity(Insertable<CharacterLevelInfo> instance,
+  VerificationContext validateIntegrity(
+      Insertable<InGameCharacterState> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1355,41 +1363,53 @@ class $CharacterLevelInfoTableTable extends CharacterLevelInfoTable
       context.missing(_characterIdMeta);
     }
     context.handle(_purposesMeta, const VerificationResult.success());
+    if (data.containsKey('equipped_weapon_id')) {
+      context.handle(
+          _equippedWeaponIdMeta,
+          equippedWeaponId.isAcceptableOrUnknown(
+              data['equipped_weapon_id']!, _equippedWeaponIdMeta));
+    }
     return context;
   }
 
   @override
   Set<GeneratedColumn> get $primaryKey => {uid, characterId};
   @override
-  CharacterLevelInfo map(Map<String, dynamic> data, {String? tablePrefix}) {
+  InGameCharacterState map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return CharacterLevelInfo(
+    return InGameCharacterState(
       uid: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}uid'])!,
       characterId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}character_id'])!,
-      purposes: $CharacterLevelInfoTableTable.$converterpurposes.fromSql(
+      purposes: $InGameCharacterStateTableTable.$converterpurposes.fromSql(
           attachedDatabase.typeMapping
               .read(DriftSqlType.string, data['${effectivePrefix}purposes'])!),
+      equippedWeaponId: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}equipped_weapon_id']),
     );
   }
 
   @override
-  $CharacterLevelInfoTableTable createAlias(String alias) {
-    return $CharacterLevelInfoTableTable(attachedDatabase, alias);
+  $InGameCharacterStateTableTable createAlias(String alias) {
+    return $InGameCharacterStateTableTable(attachedDatabase, alias);
   }
 
   static TypeConverter<Map<Purpose, int>, String> $converterpurposes =
       const PurposeMapConverter();
 }
 
-class CharacterLevelInfo extends DataClass
-    implements Insertable<CharacterLevelInfo> {
+class InGameCharacterState extends DataClass
+    implements Insertable<InGameCharacterState> {
   final String uid;
   final String characterId;
   final Map<Purpose, int> purposes;
-  const CharacterLevelInfo(
-      {required this.uid, required this.characterId, required this.purposes});
+  final String? equippedWeaponId;
+  const InGameCharacterState(
+      {required this.uid,
+      required this.characterId,
+      required this.purposes,
+      this.equippedWeaponId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1397,26 +1417,33 @@ class CharacterLevelInfo extends DataClass
     map['character_id'] = Variable<String>(characterId);
     {
       map['purposes'] = Variable<String>(
-          $CharacterLevelInfoTableTable.$converterpurposes.toSql(purposes));
+          $InGameCharacterStateTableTable.$converterpurposes.toSql(purposes));
+    }
+    if (!nullToAbsent || equippedWeaponId != null) {
+      map['equipped_weapon_id'] = Variable<String>(equippedWeaponId);
     }
     return map;
   }
 
-  CharacterLevelInfoCompanion toCompanion(bool nullToAbsent) {
-    return CharacterLevelInfoCompanion(
+  InGameCharacterStateCompanion toCompanion(bool nullToAbsent) {
+    return InGameCharacterStateCompanion(
       uid: Value(uid),
       characterId: Value(characterId),
       purposes: Value(purposes),
+      equippedWeaponId: equippedWeaponId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(equippedWeaponId),
     );
   }
 
-  factory CharacterLevelInfo.fromJson(Map<String, dynamic> json,
+  factory InGameCharacterState.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return CharacterLevelInfo(
+    return InGameCharacterState(
       uid: serializer.fromJson<String>(json['uid']),
       characterId: serializer.fromJson<String>(json['characterId']),
       purposes: serializer.fromJson<Map<Purpose, int>>(json['purposes']),
+      equippedWeaponId: serializer.fromJson<String?>(json['equippedWeaponId']),
     );
   }
   @override
@@ -1426,88 +1453,108 @@ class CharacterLevelInfo extends DataClass
       'uid': serializer.toJson<String>(uid),
       'characterId': serializer.toJson<String>(characterId),
       'purposes': serializer.toJson<Map<Purpose, int>>(purposes),
+      'equippedWeaponId': serializer.toJson<String?>(equippedWeaponId),
     };
   }
 
-  CharacterLevelInfo copyWith(
-          {String? uid, String? characterId, Map<Purpose, int>? purposes}) =>
-      CharacterLevelInfo(
+  InGameCharacterState copyWith(
+          {String? uid,
+          String? characterId,
+          Map<Purpose, int>? purposes,
+          Value<String?> equippedWeaponId = const Value.absent()}) =>
+      InGameCharacterState(
         uid: uid ?? this.uid,
         characterId: characterId ?? this.characterId,
         purposes: purposes ?? this.purposes,
+        equippedWeaponId: equippedWeaponId.present
+            ? equippedWeaponId.value
+            : this.equippedWeaponId,
       );
-  CharacterLevelInfo copyWithCompanion(CharacterLevelInfoCompanion data) {
-    return CharacterLevelInfo(
+  InGameCharacterState copyWithCompanion(InGameCharacterStateCompanion data) {
+    return InGameCharacterState(
       uid: data.uid.present ? data.uid.value : this.uid,
       characterId:
           data.characterId.present ? data.characterId.value : this.characterId,
       purposes: data.purposes.present ? data.purposes.value : this.purposes,
+      equippedWeaponId: data.equippedWeaponId.present
+          ? data.equippedWeaponId.value
+          : this.equippedWeaponId,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('CharacterLevelInfo(')
+    return (StringBuffer('InGameCharacterState(')
           ..write('uid: $uid, ')
           ..write('characterId: $characterId, ')
-          ..write('purposes: $purposes')
+          ..write('purposes: $purposes, ')
+          ..write('equippedWeaponId: $equippedWeaponId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(uid, characterId, purposes);
+  int get hashCode => Object.hash(uid, characterId, purposes, equippedWeaponId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is CharacterLevelInfo &&
+      (other is InGameCharacterState &&
           other.uid == this.uid &&
           other.characterId == this.characterId &&
-          other.purposes == this.purposes);
+          other.purposes == this.purposes &&
+          other.equippedWeaponId == this.equippedWeaponId);
 }
 
-class CharacterLevelInfoCompanion extends UpdateCompanion<CharacterLevelInfo> {
+class InGameCharacterStateCompanion
+    extends UpdateCompanion<InGameCharacterState> {
   final Value<String> uid;
   final Value<String> characterId;
   final Value<Map<Purpose, int>> purposes;
+  final Value<String?> equippedWeaponId;
   final Value<int> rowid;
-  const CharacterLevelInfoCompanion({
+  const InGameCharacterStateCompanion({
     this.uid = const Value.absent(),
     this.characterId = const Value.absent(),
     this.purposes = const Value.absent(),
+    this.equippedWeaponId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  CharacterLevelInfoCompanion.insert({
+  InGameCharacterStateCompanion.insert({
     required String uid,
     required String characterId,
     required Map<Purpose, int> purposes,
+    this.equippedWeaponId = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : uid = Value(uid),
         characterId = Value(characterId),
         purposes = Value(purposes);
-  static Insertable<CharacterLevelInfo> custom({
+  static Insertable<InGameCharacterState> custom({
     Expression<String>? uid,
     Expression<String>? characterId,
     Expression<String>? purposes,
+    Expression<String>? equippedWeaponId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (uid != null) 'uid': uid,
       if (characterId != null) 'character_id': characterId,
       if (purposes != null) 'purposes': purposes,
+      if (equippedWeaponId != null) 'equipped_weapon_id': equippedWeaponId,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
-  CharacterLevelInfoCompanion copyWith(
+  InGameCharacterStateCompanion copyWith(
       {Value<String>? uid,
       Value<String>? characterId,
       Value<Map<Purpose, int>>? purposes,
+      Value<String?>? equippedWeaponId,
       Value<int>? rowid}) {
-    return CharacterLevelInfoCompanion(
+    return InGameCharacterStateCompanion(
       uid: uid ?? this.uid,
       characterId: characterId ?? this.characterId,
       purposes: purposes ?? this.purposes,
+      equippedWeaponId: equippedWeaponId ?? this.equippedWeaponId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1522,9 +1569,12 @@ class CharacterLevelInfoCompanion extends UpdateCompanion<CharacterLevelInfo> {
       map['character_id'] = Variable<String>(characterId.value);
     }
     if (purposes.present) {
-      map['purposes'] = Variable<String>($CharacterLevelInfoTableTable
+      map['purposes'] = Variable<String>($InGameCharacterStateTableTable
           .$converterpurposes
           .toSql(purposes.value));
+    }
+    if (equippedWeaponId.present) {
+      map['equipped_weapon_id'] = Variable<String>(equippedWeaponId.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1534,10 +1584,283 @@ class CharacterLevelInfoCompanion extends UpdateCompanion<CharacterLevelInfo> {
 
   @override
   String toString() {
-    return (StringBuffer('CharacterLevelInfoCompanion(')
+    return (StringBuffer('InGameCharacterStateCompanion(')
           ..write('uid: $uid, ')
           ..write('characterId: $characterId, ')
           ..write('purposes: $purposes, ')
+          ..write('equippedWeaponId: $equippedWeaponId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $InGameWeaponStateTableTable extends InGameWeaponStateTable
+    with TableInfo<$InGameWeaponStateTableTable, InGameWeaponState> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $InGameWeaponStateTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _uidMeta = const VerificationMeta('uid');
+  @override
+  late final GeneratedColumn<String> uid = GeneratedColumn<String>(
+      'uid', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _characterIdMeta =
+      const VerificationMeta('characterId');
+  @override
+  late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
+      'character_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _weaponIdMeta =
+      const VerificationMeta('weaponId');
+  @override
+  late final GeneratedColumn<String> weaponId = GeneratedColumn<String>(
+      'weapon_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _levelMeta = const VerificationMeta('level');
+  @override
+  late final GeneratedColumn<int> level = GeneratedColumn<int>(
+      'level', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [uid, characterId, weaponId, level];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'in_game_weapon_state_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<InGameWeaponState> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('uid')) {
+      context.handle(
+          _uidMeta, uid.isAcceptableOrUnknown(data['uid']!, _uidMeta));
+    } else if (isInserting) {
+      context.missing(_uidMeta);
+    }
+    if (data.containsKey('character_id')) {
+      context.handle(
+          _characterIdMeta,
+          characterId.isAcceptableOrUnknown(
+              data['character_id']!, _characterIdMeta));
+    } else if (isInserting) {
+      context.missing(_characterIdMeta);
+    }
+    if (data.containsKey('weapon_id')) {
+      context.handle(_weaponIdMeta,
+          weaponId.isAcceptableOrUnknown(data['weapon_id']!, _weaponIdMeta));
+    } else if (isInserting) {
+      context.missing(_weaponIdMeta);
+    }
+    if (data.containsKey('level')) {
+      context.handle(
+          _levelMeta, level.isAcceptableOrUnknown(data['level']!, _levelMeta));
+    } else if (isInserting) {
+      context.missing(_levelMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {uid, characterId, weaponId};
+  @override
+  InGameWeaponState map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return InGameWeaponState(
+      uid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}uid'])!,
+      characterId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}character_id'])!,
+      weaponId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}weapon_id'])!,
+      level: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}level'])!,
+    );
+  }
+
+  @override
+  $InGameWeaponStateTableTable createAlias(String alias) {
+    return $InGameWeaponStateTableTable(attachedDatabase, alias);
+  }
+}
+
+class InGameWeaponState extends DataClass
+    implements Insertable<InGameWeaponState> {
+  final String uid;
+  final String characterId;
+  final String weaponId;
+  final int level;
+  const InGameWeaponState(
+      {required this.uid,
+      required this.characterId,
+      required this.weaponId,
+      required this.level});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['uid'] = Variable<String>(uid);
+    map['character_id'] = Variable<String>(characterId);
+    map['weapon_id'] = Variable<String>(weaponId);
+    map['level'] = Variable<int>(level);
+    return map;
+  }
+
+  InGameWeaponStateCompanion toCompanion(bool nullToAbsent) {
+    return InGameWeaponStateCompanion(
+      uid: Value(uid),
+      characterId: Value(characterId),
+      weaponId: Value(weaponId),
+      level: Value(level),
+    );
+  }
+
+  factory InGameWeaponState.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return InGameWeaponState(
+      uid: serializer.fromJson<String>(json['uid']),
+      characterId: serializer.fromJson<String>(json['characterId']),
+      weaponId: serializer.fromJson<String>(json['weaponId']),
+      level: serializer.fromJson<int>(json['level']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'uid': serializer.toJson<String>(uid),
+      'characterId': serializer.toJson<String>(characterId),
+      'weaponId': serializer.toJson<String>(weaponId),
+      'level': serializer.toJson<int>(level),
+    };
+  }
+
+  InGameWeaponState copyWith(
+          {String? uid, String? characterId, String? weaponId, int? level}) =>
+      InGameWeaponState(
+        uid: uid ?? this.uid,
+        characterId: characterId ?? this.characterId,
+        weaponId: weaponId ?? this.weaponId,
+        level: level ?? this.level,
+      );
+  InGameWeaponState copyWithCompanion(InGameWeaponStateCompanion data) {
+    return InGameWeaponState(
+      uid: data.uid.present ? data.uid.value : this.uid,
+      characterId:
+          data.characterId.present ? data.characterId.value : this.characterId,
+      weaponId: data.weaponId.present ? data.weaponId.value : this.weaponId,
+      level: data.level.present ? data.level.value : this.level,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InGameWeaponState(')
+          ..write('uid: $uid, ')
+          ..write('characterId: $characterId, ')
+          ..write('weaponId: $weaponId, ')
+          ..write('level: $level')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(uid, characterId, weaponId, level);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is InGameWeaponState &&
+          other.uid == this.uid &&
+          other.characterId == this.characterId &&
+          other.weaponId == this.weaponId &&
+          other.level == this.level);
+}
+
+class InGameWeaponStateCompanion extends UpdateCompanion<InGameWeaponState> {
+  final Value<String> uid;
+  final Value<String> characterId;
+  final Value<String> weaponId;
+  final Value<int> level;
+  final Value<int> rowid;
+  const InGameWeaponStateCompanion({
+    this.uid = const Value.absent(),
+    this.characterId = const Value.absent(),
+    this.weaponId = const Value.absent(),
+    this.level = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  InGameWeaponStateCompanion.insert({
+    required String uid,
+    required String characterId,
+    required String weaponId,
+    required int level,
+    this.rowid = const Value.absent(),
+  })  : uid = Value(uid),
+        characterId = Value(characterId),
+        weaponId = Value(weaponId),
+        level = Value(level);
+  static Insertable<InGameWeaponState> custom({
+    Expression<String>? uid,
+    Expression<String>? characterId,
+    Expression<String>? weaponId,
+    Expression<int>? level,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (uid != null) 'uid': uid,
+      if (characterId != null) 'character_id': characterId,
+      if (weaponId != null) 'weapon_id': weaponId,
+      if (level != null) 'level': level,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  InGameWeaponStateCompanion copyWith(
+      {Value<String>? uid,
+      Value<String>? characterId,
+      Value<String>? weaponId,
+      Value<int>? level,
+      Value<int>? rowid}) {
+    return InGameWeaponStateCompanion(
+      uid: uid ?? this.uid,
+      characterId: characterId ?? this.characterId,
+      weaponId: weaponId ?? this.weaponId,
+      level: level ?? this.level,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (uid.present) {
+      map['uid'] = Variable<String>(uid.value);
+    }
+    if (characterId.present) {
+      map['character_id'] = Variable<String>(characterId.value);
+    }
+    if (weaponId.present) {
+      map['weapon_id'] = Variable<String>(weaponId.value);
+    }
+    if (level.present) {
+      map['level'] = Variable<int>(level.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InGameWeaponStateCompanion(')
+          ..write('uid: $uid, ')
+          ..write('characterId: $characterId, ')
+          ..write('weaponId: $weaponId, ')
+          ..write('level: $level, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2023,8 +2346,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $BookmarkArtifactPieceDetailsTableTable
       bookmarkArtifactPieceDetailsTable =
       $BookmarkArtifactPieceDetailsTableTable(this);
-  late final $CharacterLevelInfoTableTable characterLevelInfoTable =
-      $CharacterLevelInfoTableTable(this);
+  late final $InGameCharacterStateTableTable inGameCharacterStateTable =
+      $InGameCharacterStateTableTable(this);
+  late final $InGameWeaponStateTableTable inGameWeaponStateTable =
+      $InGameWeaponStateTableTable(this);
   late final $BookmarkOrderRegistryTableTable bookmarkOrderRegistryTable =
       $BookmarkOrderRegistryTableTable(this);
   late final $MaterialBagCountTableTable materialBagCountTable =
@@ -2038,7 +2363,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         bookmarkMaterialDetailsTable,
         bookmarkArtifactSetDetailsTable,
         bookmarkArtifactPieceDetailsTable,
-        characterLevelInfoTable,
+        inGameCharacterStateTable,
+        inGameWeaponStateTable,
         bookmarkOrderRegistryTable,
         materialBagCountTable
       ];
@@ -3141,24 +3467,26 @@ typedef $$BookmarkArtifactPieceDetailsTableTableProcessedTableManager
         ),
         BookmarkArtifactPieceDetails,
         PrefetchHooks Function({bool parentId})>;
-typedef $$CharacterLevelInfoTableTableCreateCompanionBuilder
-    = CharacterLevelInfoCompanion Function({
+typedef $$InGameCharacterStateTableTableCreateCompanionBuilder
+    = InGameCharacterStateCompanion Function({
   required String uid,
   required String characterId,
   required Map<Purpose, int> purposes,
+  Value<String?> equippedWeaponId,
   Value<int> rowid,
 });
-typedef $$CharacterLevelInfoTableTableUpdateCompanionBuilder
-    = CharacterLevelInfoCompanion Function({
+typedef $$InGameCharacterStateTableTableUpdateCompanionBuilder
+    = InGameCharacterStateCompanion Function({
   Value<String> uid,
   Value<String> characterId,
   Value<Map<Purpose, int>> purposes,
+  Value<String?> equippedWeaponId,
   Value<int> rowid,
 });
 
-class $$CharacterLevelInfoTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $CharacterLevelInfoTableTable> {
-  $$CharacterLevelInfoTableTableFilterComposer(super.$state);
+class $$InGameCharacterStateTableTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $InGameCharacterStateTableTable> {
+  $$InGameCharacterStateTableTableFilterComposer(super.$state);
   ColumnFilters<String> get uid => $state.composableBuilder(
       column: $state.table.uid,
       builder: (column, joinBuilders) =>
@@ -3175,11 +3503,16 @@ class $$CharacterLevelInfoTableTableFilterComposer
           builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
               column,
               joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get equippedWeaponId => $state.composableBuilder(
+      column: $state.table.equippedWeaponId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
-class $$CharacterLevelInfoTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $CharacterLevelInfoTableTable> {
-  $$CharacterLevelInfoTableTableOrderingComposer(super.$state);
+class $$InGameCharacterStateTableTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $InGameCharacterStateTableTable> {
+  $$InGameCharacterStateTableTableOrderingComposer(super.$state);
   ColumnOrderings<String> get uid => $state.composableBuilder(
       column: $state.table.uid,
       builder: (column, joinBuilders) =>
@@ -3194,54 +3527,63 @@ class $$CharacterLevelInfoTableTableOrderingComposer
       column: $state.table.purposes,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get equippedWeaponId => $state.composableBuilder(
+      column: $state.table.equippedWeaponId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-class $$CharacterLevelInfoTableTableTableManager extends RootTableManager<
+class $$InGameCharacterStateTableTableTableManager extends RootTableManager<
     _$AppDatabase,
-    $CharacterLevelInfoTableTable,
-    CharacterLevelInfo,
-    $$CharacterLevelInfoTableTableFilterComposer,
-    $$CharacterLevelInfoTableTableOrderingComposer,
-    $$CharacterLevelInfoTableTableCreateCompanionBuilder,
-    $$CharacterLevelInfoTableTableUpdateCompanionBuilder,
+    $InGameCharacterStateTableTable,
+    InGameCharacterState,
+    $$InGameCharacterStateTableTableFilterComposer,
+    $$InGameCharacterStateTableTableOrderingComposer,
+    $$InGameCharacterStateTableTableCreateCompanionBuilder,
+    $$InGameCharacterStateTableTableUpdateCompanionBuilder,
     (
-      CharacterLevelInfo,
-      BaseReferences<_$AppDatabase, $CharacterLevelInfoTableTable,
-          CharacterLevelInfo>
+      InGameCharacterState,
+      BaseReferences<_$AppDatabase, $InGameCharacterStateTableTable,
+          InGameCharacterState>
     ),
-    CharacterLevelInfo,
+    InGameCharacterState,
     PrefetchHooks Function()> {
-  $$CharacterLevelInfoTableTableTableManager(
-      _$AppDatabase db, $CharacterLevelInfoTableTable table)
+  $$InGameCharacterStateTableTableTableManager(
+      _$AppDatabase db, $InGameCharacterStateTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$CharacterLevelInfoTableTableFilterComposer(
+          filteringComposer: $$InGameCharacterStateTableTableFilterComposer(
               ComposerState(db, table)),
-          orderingComposer: $$CharacterLevelInfoTableTableOrderingComposer(
+          orderingComposer: $$InGameCharacterStateTableTableOrderingComposer(
               ComposerState(db, table)),
           updateCompanionCallback: ({
             Value<String> uid = const Value.absent(),
             Value<String> characterId = const Value.absent(),
             Value<Map<Purpose, int>> purposes = const Value.absent(),
+            Value<String?> equippedWeaponId = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
-              CharacterLevelInfoCompanion(
+              InGameCharacterStateCompanion(
             uid: uid,
             characterId: characterId,
             purposes: purposes,
+            equippedWeaponId: equippedWeaponId,
             rowid: rowid,
           ),
           createCompanionCallback: ({
             required String uid,
             required String characterId,
             required Map<Purpose, int> purposes,
+            Value<String?> equippedWeaponId = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
-              CharacterLevelInfoCompanion.insert(
+              InGameCharacterStateCompanion.insert(
             uid: uid,
             characterId: characterId,
             purposes: purposes,
+            equippedWeaponId: equippedWeaponId,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
@@ -3251,21 +3593,161 @@ class $$CharacterLevelInfoTableTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$CharacterLevelInfoTableTableProcessedTableManager
+typedef $$InGameCharacterStateTableTableProcessedTableManager
     = ProcessedTableManager<
         _$AppDatabase,
-        $CharacterLevelInfoTableTable,
-        CharacterLevelInfo,
-        $$CharacterLevelInfoTableTableFilterComposer,
-        $$CharacterLevelInfoTableTableOrderingComposer,
-        $$CharacterLevelInfoTableTableCreateCompanionBuilder,
-        $$CharacterLevelInfoTableTableUpdateCompanionBuilder,
+        $InGameCharacterStateTableTable,
+        InGameCharacterState,
+        $$InGameCharacterStateTableTableFilterComposer,
+        $$InGameCharacterStateTableTableOrderingComposer,
+        $$InGameCharacterStateTableTableCreateCompanionBuilder,
+        $$InGameCharacterStateTableTableUpdateCompanionBuilder,
         (
-          CharacterLevelInfo,
-          BaseReferences<_$AppDatabase, $CharacterLevelInfoTableTable,
-              CharacterLevelInfo>
+          InGameCharacterState,
+          BaseReferences<_$AppDatabase, $InGameCharacterStateTableTable,
+              InGameCharacterState>
         ),
-        CharacterLevelInfo,
+        InGameCharacterState,
+        PrefetchHooks Function()>;
+typedef $$InGameWeaponStateTableTableCreateCompanionBuilder
+    = InGameWeaponStateCompanion Function({
+  required String uid,
+  required String characterId,
+  required String weaponId,
+  required int level,
+  Value<int> rowid,
+});
+typedef $$InGameWeaponStateTableTableUpdateCompanionBuilder
+    = InGameWeaponStateCompanion Function({
+  Value<String> uid,
+  Value<String> characterId,
+  Value<String> weaponId,
+  Value<int> level,
+  Value<int> rowid,
+});
+
+class $$InGameWeaponStateTableTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $InGameWeaponStateTableTable> {
+  $$InGameWeaponStateTableTableFilterComposer(super.$state);
+  ColumnFilters<String> get uid => $state.composableBuilder(
+      column: $state.table.uid,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get characterId => $state.composableBuilder(
+      column: $state.table.characterId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get weaponId => $state.composableBuilder(
+      column: $state.table.weaponId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get level => $state.composableBuilder(
+      column: $state.table.level,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+}
+
+class $$InGameWeaponStateTableTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $InGameWeaponStateTableTable> {
+  $$InGameWeaponStateTableTableOrderingComposer(super.$state);
+  ColumnOrderings<String> get uid => $state.composableBuilder(
+      column: $state.table.uid,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get characterId => $state.composableBuilder(
+      column: $state.table.characterId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get weaponId => $state.composableBuilder(
+      column: $state.table.weaponId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get level => $state.composableBuilder(
+      column: $state.table.level,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class $$InGameWeaponStateTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $InGameWeaponStateTableTable,
+    InGameWeaponState,
+    $$InGameWeaponStateTableTableFilterComposer,
+    $$InGameWeaponStateTableTableOrderingComposer,
+    $$InGameWeaponStateTableTableCreateCompanionBuilder,
+    $$InGameWeaponStateTableTableUpdateCompanionBuilder,
+    (
+      InGameWeaponState,
+      BaseReferences<_$AppDatabase, $InGameWeaponStateTableTable,
+          InGameWeaponState>
+    ),
+    InGameWeaponState,
+    PrefetchHooks Function()> {
+  $$InGameWeaponStateTableTableTableManager(
+      _$AppDatabase db, $InGameWeaponStateTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer: $$InGameWeaponStateTableTableFilterComposer(
+              ComposerState(db, table)),
+          orderingComposer: $$InGameWeaponStateTableTableOrderingComposer(
+              ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<String> uid = const Value.absent(),
+            Value<String> characterId = const Value.absent(),
+            Value<String> weaponId = const Value.absent(),
+            Value<int> level = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              InGameWeaponStateCompanion(
+            uid: uid,
+            characterId: characterId,
+            weaponId: weaponId,
+            level: level,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String uid,
+            required String characterId,
+            required String weaponId,
+            required int level,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              InGameWeaponStateCompanion.insert(
+            uid: uid,
+            characterId: characterId,
+            weaponId: weaponId,
+            level: level,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$InGameWeaponStateTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $InGameWeaponStateTableTable,
+        InGameWeaponState,
+        $$InGameWeaponStateTableTableFilterComposer,
+        $$InGameWeaponStateTableTableOrderingComposer,
+        $$InGameWeaponStateTableTableCreateCompanionBuilder,
+        $$InGameWeaponStateTableTableUpdateCompanionBuilder,
+        (
+          InGameWeaponState,
+          BaseReferences<_$AppDatabase, $InGameWeaponStateTableTable,
+              InGameWeaponState>
+        ),
+        InGameWeaponState,
         PrefetchHooks Function()>;
 typedef $$BookmarkOrderRegistryTableTableCreateCompanionBuilder
     = BookmarkOrderRegistryCompanion Function({
@@ -3535,9 +4017,12 @@ class $AppDatabaseManager {
       get bookmarkArtifactPieceDetailsTable =>
           $$BookmarkArtifactPieceDetailsTableTableTableManager(
               _db, _db.bookmarkArtifactPieceDetailsTable);
-  $$CharacterLevelInfoTableTableTableManager get characterLevelInfoTable =>
-      $$CharacterLevelInfoTableTableTableManager(
-          _db, _db.characterLevelInfoTable);
+  $$InGameCharacterStateTableTableTableManager get inGameCharacterStateTable =>
+      $$InGameCharacterStateTableTableTableManager(
+          _db, _db.inGameCharacterStateTable);
+  $$InGameWeaponStateTableTableTableManager get inGameWeaponStateTable =>
+      $$InGameWeaponStateTableTableTableManager(
+          _db, _db.inGameWeaponStateTable);
   $$BookmarkOrderRegistryTableTableTableManager
       get bookmarkOrderRegistryTable =>
           $$BookmarkOrderRegistryTableTableTableManager(

@@ -914,52 +914,192 @@ abstract class _DailyNote implements DailyNote {
 /// @nodoc
 mixin _$CalcComputeItem {
   @JsonKey(name: "avatar_id")
-  int get avatarId => throw _privateConstructorUsedError;
+  int? get avatarId => throw _privateConstructorUsedError;
   @JsonKey(name: "avatar_level_current")
-  int get currentAvatarLevel => throw _privateConstructorUsedError;
+  int? get currentAvatarLevel => throw _privateConstructorUsedError;
   @JsonKey(name: "element_attr_id")
-  int get elementAttrId => throw _privateConstructorUsedError;
+  int? get elementAttrId => throw _privateConstructorUsedError;
   @JsonKey(name: "avatar_level_target")
-  int get targetAvatarLevel => throw _privateConstructorUsedError;
+  int? get targetAvatarLevel => throw _privateConstructorUsedError;
   @JsonKey(name: "skill_list")
-  List<CalcComputeSkill> get skills => throw _privateConstructorUsedError;
+  List<CalcComputeSkill>? get skills => throw _privateConstructorUsedError;
   CalcComputeWeapon? get weapon => throw _privateConstructorUsedError;
 
   /// Serializes this CalcComputeItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of CalcComputeItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CalcComputeItemCopyWith<CalcComputeItem> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CalcComputeItemCopyWith<$Res> {
+  factory $CalcComputeItemCopyWith(
+          CalcComputeItem value, $Res Function(CalcComputeItem) then) =
+      _$CalcComputeItemCopyWithImpl<$Res, CalcComputeItem>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "avatar_id") int? avatarId,
+      @JsonKey(name: "avatar_level_current") int? currentAvatarLevel,
+      @JsonKey(name: "element_attr_id") int? elementAttrId,
+      @JsonKey(name: "avatar_level_target") int? targetAvatarLevel,
+      @JsonKey(name: "skill_list") List<CalcComputeSkill>? skills,
+      CalcComputeWeapon? weapon});
+}
+
+/// @nodoc
+class _$CalcComputeItemCopyWithImpl<$Res, $Val extends CalcComputeItem>
+    implements $CalcComputeItemCopyWith<$Res> {
+  _$CalcComputeItemCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CalcComputeItem
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? avatarId = freezed,
+    Object? currentAvatarLevel = freezed,
+    Object? elementAttrId = freezed,
+    Object? targetAvatarLevel = freezed,
+    Object? skills = freezed,
+    Object? weapon = freezed,
+  }) {
+    return _then(_value.copyWith(
+      avatarId: freezed == avatarId
+          ? _value.avatarId
+          : avatarId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      currentAvatarLevel: freezed == currentAvatarLevel
+          ? _value.currentAvatarLevel
+          : currentAvatarLevel // ignore: cast_nullable_to_non_nullable
+              as int?,
+      elementAttrId: freezed == elementAttrId
+          ? _value.elementAttrId
+          : elementAttrId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      targetAvatarLevel: freezed == targetAvatarLevel
+          ? _value.targetAvatarLevel
+          : targetAvatarLevel // ignore: cast_nullable_to_non_nullable
+              as int?,
+      skills: freezed == skills
+          ? _value.skills
+          : skills // ignore: cast_nullable_to_non_nullable
+              as List<CalcComputeSkill>?,
+      weapon: freezed == weapon
+          ? _value.weapon
+          : weapon // ignore: cast_nullable_to_non_nullable
+              as CalcComputeWeapon?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CalcComputeItemImplCopyWith<$Res>
+    implements $CalcComputeItemCopyWith<$Res> {
+  factory _$$CalcComputeItemImplCopyWith(_$CalcComputeItemImpl value,
+          $Res Function(_$CalcComputeItemImpl) then) =
+      __$$CalcComputeItemImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "avatar_id") int? avatarId,
+      @JsonKey(name: "avatar_level_current") int? currentAvatarLevel,
+      @JsonKey(name: "element_attr_id") int? elementAttrId,
+      @JsonKey(name: "avatar_level_target") int? targetAvatarLevel,
+      @JsonKey(name: "skill_list") List<CalcComputeSkill>? skills,
+      CalcComputeWeapon? weapon});
+}
+
+/// @nodoc
+class __$$CalcComputeItemImplCopyWithImpl<$Res>
+    extends _$CalcComputeItemCopyWithImpl<$Res, _$CalcComputeItemImpl>
+    implements _$$CalcComputeItemImplCopyWith<$Res> {
+  __$$CalcComputeItemImplCopyWithImpl(
+      _$CalcComputeItemImpl _value, $Res Function(_$CalcComputeItemImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CalcComputeItem
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? avatarId = freezed,
+    Object? currentAvatarLevel = freezed,
+    Object? elementAttrId = freezed,
+    Object? targetAvatarLevel = freezed,
+    Object? skills = freezed,
+    Object? weapon = freezed,
+  }) {
+    return _then(_$CalcComputeItemImpl(
+      avatarId: freezed == avatarId
+          ? _value.avatarId
+          : avatarId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      currentAvatarLevel: freezed == currentAvatarLevel
+          ? _value.currentAvatarLevel
+          : currentAvatarLevel // ignore: cast_nullable_to_non_nullable
+              as int?,
+      elementAttrId: freezed == elementAttrId
+          ? _value.elementAttrId
+          : elementAttrId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      targetAvatarLevel: freezed == targetAvatarLevel
+          ? _value.targetAvatarLevel
+          : targetAvatarLevel // ignore: cast_nullable_to_non_nullable
+              as int?,
+      skills: freezed == skills
+          ? _value._skills
+          : skills // ignore: cast_nullable_to_non_nullable
+              as List<CalcComputeSkill>?,
+      weapon: freezed == weapon
+          ? _value.weapon
+          : weapon // ignore: cast_nullable_to_non_nullable
+              as CalcComputeWeapon?,
+    ));
+  }
 }
 
 /// @nodoc
 @JsonSerializable(createFactory: false)
 class _$CalcComputeItemImpl implements _CalcComputeItem {
   const _$CalcComputeItemImpl(
-      {@JsonKey(name: "avatar_id") required this.avatarId,
-      @JsonKey(name: "avatar_level_current") required this.currentAvatarLevel,
-      @JsonKey(name: "element_attr_id") required this.elementAttrId,
-      @JsonKey(name: "avatar_level_target") required this.targetAvatarLevel,
-      @JsonKey(name: "skill_list") required final List<CalcComputeSkill> skills,
+      {@JsonKey(name: "avatar_id") this.avatarId,
+      @JsonKey(name: "avatar_level_current") this.currentAvatarLevel,
+      @JsonKey(name: "element_attr_id") this.elementAttrId,
+      @JsonKey(name: "avatar_level_target") this.targetAvatarLevel,
+      @JsonKey(name: "skill_list") final List<CalcComputeSkill>? skills,
       this.weapon})
       : _skills = skills;
 
   @override
   @JsonKey(name: "avatar_id")
-  final int avatarId;
+  final int? avatarId;
   @override
   @JsonKey(name: "avatar_level_current")
-  final int currentAvatarLevel;
+  final int? currentAvatarLevel;
   @override
   @JsonKey(name: "element_attr_id")
-  final int elementAttrId;
+  final int? elementAttrId;
   @override
   @JsonKey(name: "avatar_level_target")
-  final int targetAvatarLevel;
-  final List<CalcComputeSkill> _skills;
+  final int? targetAvatarLevel;
+  final List<CalcComputeSkill>? _skills;
   @override
   @JsonKey(name: "skill_list")
-  List<CalcComputeSkill> get skills {
+  List<CalcComputeSkill>? get skills {
+    final value = _skills;
+    if (value == null) return null;
     if (_skills is EqualUnmodifiableListView) return _skills;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_skills);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -998,6 +1138,15 @@ class _$CalcComputeItemImpl implements _CalcComputeItem {
       const DeepCollectionEquality().hash(_skills),
       weapon);
 
+  /// Create a copy of CalcComputeItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CalcComputeItemImplCopyWith<_$CalcComputeItemImpl> get copyWith =>
+      __$$CalcComputeItemImplCopyWithImpl<_$CalcComputeItemImpl>(
+          this, _$identity);
+
   @override
   Map<String, dynamic> toJson() {
     return _$$CalcComputeItemImplToJson(
@@ -1008,32 +1157,37 @@ class _$CalcComputeItemImpl implements _CalcComputeItem {
 
 abstract class _CalcComputeItem implements CalcComputeItem {
   const factory _CalcComputeItem(
-      {@JsonKey(name: "avatar_id") required final int avatarId,
-      @JsonKey(name: "avatar_level_current")
-      required final int currentAvatarLevel,
-      @JsonKey(name: "element_attr_id") required final int elementAttrId,
-      @JsonKey(name: "avatar_level_target")
-      required final int targetAvatarLevel,
-      @JsonKey(name: "skill_list") required final List<CalcComputeSkill> skills,
+      {@JsonKey(name: "avatar_id") final int? avatarId,
+      @JsonKey(name: "avatar_level_current") final int? currentAvatarLevel,
+      @JsonKey(name: "element_attr_id") final int? elementAttrId,
+      @JsonKey(name: "avatar_level_target") final int? targetAvatarLevel,
+      @JsonKey(name: "skill_list") final List<CalcComputeSkill>? skills,
       final CalcComputeWeapon? weapon}) = _$CalcComputeItemImpl;
 
   @override
   @JsonKey(name: "avatar_id")
-  int get avatarId;
+  int? get avatarId;
   @override
   @JsonKey(name: "avatar_level_current")
-  int get currentAvatarLevel;
+  int? get currentAvatarLevel;
   @override
   @JsonKey(name: "element_attr_id")
-  int get elementAttrId;
+  int? get elementAttrId;
   @override
   @JsonKey(name: "avatar_level_target")
-  int get targetAvatarLevel;
+  int? get targetAvatarLevel;
   @override
   @JsonKey(name: "skill_list")
-  List<CalcComputeSkill> get skills;
+  List<CalcComputeSkill>? get skills;
   @override
   CalcComputeWeapon? get weapon;
+
+  /// Create a copy of CalcComputeItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CalcComputeItemImplCopyWith<_$CalcComputeItemImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1239,17 +1393,17 @@ abstract class _AvatarWeapon implements AvatarWeapon {
 mixin _$CalcComputeWeapon {
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: "max_level")
-  int get maxLevel => throw _privateConstructorUsedError;
+  int? get maxLevel => throw _privateConstructorUsedError;
   @JsonKey(name: "level_current")
   int get currentLevel => throw _privateConstructorUsedError;
   @JsonKey(name: "level_target")
   int get targetLevel => throw _privateConstructorUsedError;
   @JsonKey(name: "weapon_cat_id")
-  int get categoryId => throw _privateConstructorUsedError;
+  int? get categoryId => throw _privateConstructorUsedError;
   @JsonKey(name: "weapon_level")
   int get rarity => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get icon => throw _privateConstructorUsedError;
+  String? get icon => throw _privateConstructorUsedError;
 
   /// Serializes this CalcComputeWeapon to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1260,19 +1414,19 @@ mixin _$CalcComputeWeapon {
 class _$CalcComputeWeaponImpl implements _CalcComputeWeapon {
   const _$CalcComputeWeaponImpl(
       {required this.id,
-      @JsonKey(name: "max_level") required this.maxLevel,
+      @JsonKey(name: "max_level") this.maxLevel,
       @JsonKey(name: "level_current") required this.currentLevel,
       @JsonKey(name: "level_target") required this.targetLevel,
-      @JsonKey(name: "weapon_cat_id") required this.categoryId,
+      @JsonKey(name: "weapon_cat_id") this.categoryId,
       @JsonKey(name: "weapon_level") required this.rarity,
       required this.name,
-      required this.icon});
+      this.icon});
 
   @override
   final int id;
   @override
   @JsonKey(name: "max_level")
-  final int maxLevel;
+  final int? maxLevel;
   @override
   @JsonKey(name: "level_current")
   final int currentLevel;
@@ -1281,14 +1435,14 @@ class _$CalcComputeWeaponImpl implements _CalcComputeWeapon {
   final int targetLevel;
   @override
   @JsonKey(name: "weapon_cat_id")
-  final int categoryId;
+  final int? categoryId;
   @override
   @JsonKey(name: "weapon_level")
   final int rarity;
   @override
   final String name;
   @override
-  final String icon;
+  final String? icon;
 
   @override
   String toString() {
@@ -1330,19 +1484,19 @@ class _$CalcComputeWeaponImpl implements _CalcComputeWeapon {
 abstract class _CalcComputeWeapon implements CalcComputeWeapon {
   const factory _CalcComputeWeapon(
       {required final int id,
-      @JsonKey(name: "max_level") required final int maxLevel,
+      @JsonKey(name: "max_level") final int? maxLevel,
       @JsonKey(name: "level_current") required final int currentLevel,
       @JsonKey(name: "level_target") required final int targetLevel,
-      @JsonKey(name: "weapon_cat_id") required final int categoryId,
+      @JsonKey(name: "weapon_cat_id") final int? categoryId,
       @JsonKey(name: "weapon_level") required final int rarity,
       required final String name,
-      required final String icon}) = _$CalcComputeWeaponImpl;
+      final String? icon}) = _$CalcComputeWeaponImpl;
 
   @override
   int get id;
   @override
   @JsonKey(name: "max_level")
-  int get maxLevel;
+  int? get maxLevel;
   @override
   @JsonKey(name: "level_current")
   int get currentLevel;
@@ -1351,14 +1505,14 @@ abstract class _CalcComputeWeapon implements CalcComputeWeapon {
   int get targetLevel;
   @override
   @JsonKey(name: "weapon_cat_id")
-  int get categoryId;
+  int? get categoryId;
   @override
   @JsonKey(name: "weapon_level")
   int get rarity;
   @override
   String get name;
   @override
-  String get icon;
+  String? get icon;
 }
 
 CalcResult _$CalcResultFromJson(Map<String, dynamic> json) {

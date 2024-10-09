@@ -5,6 +5,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "../i18n/strings.g.dart";
 import "../ui_core/bubble.dart";
 import "../ui_core/error_messages.dart";
+import "../ui_core/snack_bar.dart";
 
 
 class GameDataSyncIndicator extends HookWidget {
@@ -15,6 +16,18 @@ class GameDataSyncIndicator extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final iconKey = useMemoized(() => GlobalKey(), [status]);
+
+    useValueChanged<GameDataSyncStatus, void>(status, (__, _) {
+      if (status is _Error) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showSnackBar(
+            context: context,
+            message: getErrorMessage((status as _Error).error, prefix: tr.hoyolab.failedToSyncGameData),
+            error: true,
+          );
+        });
+      }
+    });
 
     return Row(
       children: [
@@ -60,6 +73,7 @@ class GameDataSyncIndicator extends HookWidget {
       _Error() => Symbols.error,
       _CharacterNotExists() => Symbols.person_alert,
       _MustBeResonatedWithStatue() => Symbols.warning,
+      _WeaponNotEquipped() => Symbols.warning,
       _ => throw StateError("Invalid status: $status"),
     };
     return GestureDetector(
@@ -68,6 +82,7 @@ class GameDataSyncIndicator extends HookWidget {
           _Synced() => tr.hoyolab.charaSyncSuccess,
           _CharacterNotExists() => tr.hoyolab.characterDoesNotExist,
           _MustBeResonatedWithStatue() => tr.hoyolab.mustBeResonatedWithStatue,
+          _WeaponNotEquipped() => tr.hoyolab.weaponNotEquipped,
           _Error(:final error) => getErrorMessage(error, prefix: tr.hoyolab.failedToSyncGameData),
           _ => throw StateError("Invalid status: $status"),
         };
@@ -99,6 +114,8 @@ sealed class GameDataSyncStatus {
 
   const factory GameDataSyncStatus.characterNotExists() = _CharacterNotExists;
 
+  const factory GameDataSyncStatus.weaponNotEquipped() = _WeaponNotEquipped;
+
   const factory GameDataSyncStatus.mustBeResonatedWithStatue() = _MustBeResonatedWithStatue;
 }
 
@@ -120,6 +137,10 @@ class _Error extends GameDataSyncStatus {
 
 class _CharacterNotExists extends GameDataSyncStatus {
   const _CharacterNotExists() : super._();
+}
+
+class _WeaponNotEquipped extends GameDataSyncStatus {
+  const _WeaponNotEquipped() : super._();
 }
 
 class _MustBeResonatedWithStatue extends GameDataSyncStatus {

@@ -3,7 +3,6 @@ import "dart:io";
 
 import "package:drift/drift.dart";
 import "package:drift/native.dart";
-import "package:flutter/foundation.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:path/path.dart" as p;
 import "package:path_provider/path_provider.dart";
@@ -83,14 +82,26 @@ class BookmarkOrderRegistryTable extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DataClassName("CharacterLevelInfo")
-class CharacterLevelInfoTable extends Table {
+@DataClassName("InGameCharacterState")
+class InGameCharacterStateTable extends Table {
   TextColumn get uid => text()();
   TextColumn get characterId => text()();
   TextColumn get purposes => text().map(const PurposeMapConverter())();
+  TextColumn get equippedWeaponId => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {uid, characterId};
+}
+
+@DataClassName("InGameWeaponState")
+class InGameWeaponStateTable extends Table {
+  TextColumn get uid => text()();
+  TextColumn get characterId => text()();
+  TextColumn get weaponId => text()();
+  IntColumn get level => integer()();
+
+  @override
+  Set<Column<Object>>? get primaryKey => {uid, characterId, weaponId};
 }
 
 @DataClassName("MaterialBagCount")
@@ -169,7 +180,8 @@ class MapConverter<T> extends TypeConverter<Map<String, T>, String> {
   BookmarkMaterialDetailsTable,
   BookmarkArtifactSetDetailsTable,
   BookmarkArtifactPieceDetailsTable,
-  CharacterLevelInfoTable,
+  InGameCharacterStateTable,
+  InGameWeaponStateTable,
   BookmarkOrderRegistryTable,
   MaterialBagCountTable,
 ],)

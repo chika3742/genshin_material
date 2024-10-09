@@ -1,10 +1,14 @@
+import "dart:math";
+
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../../../components/center_text.dart";
 import "../../../components/character_select_dropdown.dart";
 import "../../../components/effect_description.dart";
+import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/item_source_widget.dart";
 import "../../../components/level_slider.dart";
@@ -16,12 +20,14 @@ import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/material_bookmark_frame.dart";
 import "../../../models/weapon.dart";
+import "../../../providers/game_data_sync.dart";
+import "../../../providers/preferences.dart";
 import "../../../ui_core/layout.dart";
 import "../../../utils/filtering.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
 
-class WeaponDetailsPage extends HookWidget {
+class WeaponDetailsPage extends HookConsumerWidget {
   final AssetData assetData;
   final String id;
   final CharacterId? initialSelectedCharacter;
@@ -29,7 +35,9 @@ class WeaponDetailsPage extends HookWidget {
   const WeaponDetailsPage({super.key, required this.id, required this.assetData, this.initialSelectedCharacter});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prefs = ref.watch(preferencesStateNotifierProvider);
+
     final weapon = assetData.weapons[id];
     if (weapon == null) {
       return Scaffold(
@@ -51,6 +59,17 @@ class WeaponDetailsPage extends HookWidget {
     );
     final selectedCharacterId = useState(selectedCharacterIdInit);
 
+    useEffect(() {
+      if (prefs.isLinkedWithHoyolab) {
+        ref.read(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id).notifier)
+            .syncInGameCharacter().then((value) {
+              print(value);
+              rangeValues.value = LevelRangeValues(value[Purpose.ascension]!, max(rangeValues.value.end, value[Purpose.ascension]!));
+            });
+      }
+      return null;
+    }, [selectedCharacterId.value],);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.weaponDetails(weapon: weapon.name.localized)),
@@ -63,17 +82,30 @@ class WeaponDetailsPage extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               gap: 16,
               children: [
-                GameItemInfoBox(
-                  itemImage: Image.file(
-                    weapon.getImageFile(assetData.assetDir),
-                    width: 50,
-                    height: 50,
-                  ),
+                Row(
                   children: [
-                    RarityStars(count: weapon.rarity),
-                    Text(
-                      assetData.weaponTypes[weapon.type]!.name.localized,
-                      style: Theme.of(context).textTheme.titleSmall,
+                    Expanded(
+                      child: GameItemInfoBox(
+                        itemImage: Image.file(
+                          weapon.getImageFile(assetData.assetDir),
+                          width: 50,
+                          height: 50,
+                        ),
+                        children: [
+                          RarityStars(count: weapon.rarity),
+                          Text(
+                            assetData.weaponTypes[weapon.type]!.name.localized,
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Consumer(
+                      builder: (context, ref, _) {
+                        return GameDataSyncIndicator(
+                          status: ref.watch(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id)),
+                        );
+                      },
                     ),
                   ],
                 ),

@@ -190,14 +190,14 @@ class DailyNote with _$DailyNote {
       _$DailyNoteFromJson(json);
 }
 
-@Freezed(toJson: true)
+@Freezed(toJson: true, copyWith: true)
 class CalcComputeItem with _$CalcComputeItem {
   const factory CalcComputeItem({
-    @JsonKey(name: "avatar_id") required int avatarId,
-    @JsonKey(name: "avatar_level_current") required int currentAvatarLevel,
-    @JsonKey(name: "element_attr_id") required int elementAttrId,
-    @JsonKey(name: "avatar_level_target") required int targetAvatarLevel,
-    @JsonKey(name: "skill_list") required List<CalcComputeSkill> skills,
+    @JsonKey(name: "avatar_id") int? avatarId,
+    @JsonKey(name: "avatar_level_current") int? currentAvatarLevel,
+    @JsonKey(name: "element_attr_id") int? elementAttrId,
+    @JsonKey(name: "avatar_level_target") int? targetAvatarLevel,
+    @JsonKey(name: "skill_list") List<CalcComputeSkill>? skills,
     CalcComputeWeapon? weapon,
   }) = _CalcComputeItem;
 }
@@ -231,13 +231,13 @@ class AvatarWeapon with _$AvatarWeapon {
 class CalcComputeWeapon with _$CalcComputeWeapon {
   const factory CalcComputeWeapon({
     required int id,
-    @JsonKey(name: "max_level") required int maxLevel,
+    @JsonKey(name: "max_level") int? maxLevel,
     @JsonKey(name: "level_current") required int currentLevel,
     @JsonKey(name: "level_target") required int targetLevel,
-    @JsonKey(name: "weapon_cat_id") required int categoryId,
+    @JsonKey(name: "weapon_cat_id") int? categoryId,
     @JsonKey(name: "weapon_level") required int rarity,
     required String name,
-    required String icon,
+    String? icon,
   }) = _CalcComputeWeapon;
 
   factory CalcComputeWeapon.fromWeapon(AvatarWeapon weapon, int targetLevel) =>

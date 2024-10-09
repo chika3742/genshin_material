@@ -113,9 +113,14 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     });
 
     final prefs = ref.watch(preferencesStateNotifierProvider);
+    final db = ref.watch(appDatabaseProvider);
 
     final variant = useState(
       variants[initialVariant] ?? variants.values.first,
+    );
+    final equippedWeaponId = useStream(
+      useMemoized(() => prefs.isLinkedWithHoyolab ? db.watchCharacterWeapon(prefs.hyvUid!, variant.value.id) : Stream.value(null)),
+      preserveState: false,
     );
 
     useValueChanged<CharacterOrVariant, void>(variant.value, (_, __) async {
@@ -129,8 +134,8 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     });
 
     useEffect(() {
-      if (prefs.isLinkedWithHoyolab && state.value.rangeValues.values.any((e) => e.start != e.end)) {
-        ref.read(characterSyncStateNotifierProvider(variant.value.id).notifier)
+      if (prefs.isLinkedWithHoyolab) {
+        ref.read(levelBagSyncStateNotifierProvider(variantId: variant.value.id).notifier)
             .syncInGameCharacter().then((result) {
               var newState = state.value;
               for (final e in result.entries) {
@@ -213,7 +218,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                         if (prefs.isLinkedWithHoyolab && prefs.syncCharaState)
                           Consumer(
                             builder: (context, ref, _) {
-                              final status = ref.watch(characterSyncStateNotifierProvider(variant.value.id));
+                              final status = ref.watch(levelBagSyncStateNotifierProvider(variantId: variant.value.id));
                               return GameDataSyncIndicator(
                                 status: status,
                               );
@@ -271,6 +276,27 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                       variant.value = variants[value]!;
                     },
                   ),
+
+                if (equippedWeaponId.data != null)
+                  FullWidth(
+                    child: ListTile(
+                      title: Text(tr.characterDetailsPage.equippedWeapon),
+                      subtitle: Text(assetData.weapons[equippedWeaponId.data]!.name.localized),
+                      leading: Image.file(
+                        assetData.weapons[equippedWeaponId.data]!.getImageFile(assetData.assetDir),
+                        width: 50,
+                        height: 50,
+                      ),
+                      trailing: const Icon(Symbols.chevron_right),
+                      onTap: () {
+                        WeaponDetailsRoute(
+                          id: equippedWeaponId.data!,
+                          initialSelectedCharacter: variant.value.id,
+                        ).push(context);
+                      },
+                    ),
+                  ),
+
                 Section(
                   heading: SectionHeading(tr.characterDetailsPage.charaLevelUpAndAscensionMaterials),
                   child: GappedColumn(

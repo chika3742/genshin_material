@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 358 (179 per locale)
+/// Strings: 359 (179 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -329,6 +329,7 @@ class _StringsCharacterDetailsPageJa {
 	// Translations
 	String get charaLevelUpAndAscensionMaterials => 'キャラクターLvアップ・突破素材';
 	String get talentLevelUpMaterials => '天賦Lvアップ素材';
+	String get equippedWeapon => '装備中の武器';
 }
 
 // Path: weaponDetailsPage
@@ -523,14 +524,15 @@ class _StringsHoyolabJa {
 	String get loginExpired => '一度連携を解除し、再度ログインしてください。';
 	String get accessPermission => 'アクセス許可';
 	String get doYouWantToEnableRealtimeNotes => 'リアルタイムノートを有効化しますか？';
-	String get characterDataAccess => 'キャラクターデータへのアクセス';
 	String get enableRealtimeNotes => 'リアルタイムノートの有効化';
 	String get enableRealtimeNotesDesc => '現在の天然樹脂の数を同期できるようになります。';
 	String get syncSettings => '同期設定';
 	String get syncResin => 'ゲーム内の樹脂数と同期する';
 	String get syncCharaState => 'ゲーム内のキャラレベルを同期する';
+	String get syncWeaponState => 'ゲーム内の武器レベルを同期する';
 	String get syncBagCounts => 'ゲーム内の素材の所持数を同期する';
 	String get mustBeResonatedWithStatue => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
+	String get weaponNotEquipped => 'このキャラクターはこの武器を装備していません。';
 	String get charaSyncSuccess => 'ゲームデータと同期しました';
 }
 
@@ -957,7 +959,6 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get loginExpired => 'Please sign out and sign in again.';
 	@override String get accessPermission => 'Access Permission';
 	@override String get doYouWantToEnableRealtimeNotes => 'Enable Real-Time Notes?';
-	@override String get characterDataAccess => 'Character Data Access';
 	@override String get enableRealtimeNotes => 'Enable Real-Time Notes';
 	@override String get enableRealtimeNotesDesc => 'You will be able to sync your current Original Resin count.';
 	@override String get syncSettings => 'Sync Settings';
@@ -1070,6 +1071,7 @@ extension on Translations {
 			case 'bookmarksPage.unBookmarkConfirm': return 'このブックマークを解除しますか？';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
+			case 'characterDetailsPage.equippedWeapon': return '装備中の武器';
 			case 'weaponDetailsPage.characterToEquip': return '武器を装備させるキャラクター';
 			case 'weaponDetailsPage.skillEffect': return 'スキル効果';
 			case 'weaponDetailsPage.ascension': return '武器Lvアップ・突破素材';
@@ -1161,14 +1163,15 @@ extension on Translations {
 			case 'hoyolab.loginExpired': return '一度連携を解除し、再度ログインしてください。';
 			case 'hoyolab.accessPermission': return 'アクセス許可';
 			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'リアルタイムノートを有効化しますか？';
-			case 'hoyolab.characterDataAccess': return 'キャラクターデータへのアクセス';
 			case 'hoyolab.enableRealtimeNotes': return 'リアルタイムノートの有効化';
 			case 'hoyolab.enableRealtimeNotesDesc': return '現在の天然樹脂の数を同期できるようになります。';
 			case 'hoyolab.syncSettings': return '同期設定';
 			case 'hoyolab.syncResin': return 'ゲーム内の樹脂数と同期する';
 			case 'hoyolab.syncCharaState': return 'ゲーム内のキャラレベルを同期する';
+			case 'hoyolab.syncWeaponState': return 'ゲーム内の武器レベルを同期する';
 			case 'hoyolab.syncBagCounts': return 'ゲーム内の素材の所持数を同期する';
 			case 'hoyolab.mustBeResonatedWithStatue': return '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
+			case 'hoyolab.weaponNotEquipped': return 'このキャラクターはこの武器を装備していません。';
 			case 'hoyolab.charaSyncSuccess': return 'ゲームデータと同期しました';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;
@@ -1387,7 +1390,6 @@ extension on _StringsEn {
 			case 'hoyolab.loginExpired': return 'Please sign out and sign in again.';
 			case 'hoyolab.accessPermission': return 'Access Permission';
 			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'Enable Real-Time Notes?';
-			case 'hoyolab.characterDataAccess': return 'Character Data Access';
 			case 'hoyolab.enableRealtimeNotes': return 'Enable Real-Time Notes';
 			case 'hoyolab.enableRealtimeNotesDesc': return 'You will be able to sync your current Original Resin count.';
 			case 'hoyolab.syncSettings': return 'Sync Settings';
