@@ -465,7 +465,6 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
             usage: MaterialUsage(
               characterId: character.id,
             ),
-            bagCounts: state.bagCounts,
           ),
         )
         .toList();
@@ -508,7 +507,6 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
             usage: MaterialUsage(
               characterId: variant.id,
             ),
-            bagCounts: state.bagCounts,
           ),
         ).toList();
   }
@@ -530,7 +528,6 @@ class _CharacterDetailsPageState with _$CharacterDetailsPageState {
     required Map<Purpose, List<int>> sliderTickLabels,
     required Map<Purpose, bool> checkedTalentTypes,
     required Map<Purpose, GlobalKey> talentSectionKeys,
-    required Map<int, int> bagCounts,
   }) = __CharacterDetailsPageState;
 
   /// Initializes state for each purpose
@@ -558,7 +555,6 @@ class _CharacterDetailsPageState with _$CharacterDetailsPageState {
       sliderTickLabels: sliderTickLabels,
       checkedTalentTypes: checkedTalentTypes,
       talentSectionKeys: talentSectionKeys,
-      bagCounts: {},
     );
   }
 }

@@ -1,4 +1,3 @@
-
 import "dart:io";
 import "dart:math";
 
@@ -6,7 +5,6 @@ import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 
 import "scroll_blur_effect.dart";
-
 
 class SelectBottomSheet<T> extends StatelessWidget {
   final Widget title;
@@ -135,6 +133,7 @@ class ScrollableBottomSheet extends HookWidget {
         availableHeight.value = constraints.maxHeight;
 
         return DraggableScrollableSheet(
+          minChildSize: 0,
           maxChildSize: calculatedMaxChildSize.value,
           initialChildSize: calculatedInitialChildSize.value,
           expand: false,

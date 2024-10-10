@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 363 (181 per locale)
+/// Strings: 367 (183 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -149,6 +149,12 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	String get appName => '原神素材ノート';
 	late final _StringsCommonJa common = _StringsCommonJa._(_root);
 	late final _StringsTutorialJa tutorial = _StringsTutorialJa._(_root);
+	Map<String, String> get purposes => {
+		'ascension': 'Lvアップ・突破',
+		'normalAttack': '通常攻撃',
+		'elementalSkill': '元素スキル',
+		'elementalBurst': '元素爆発',
+	};
 	Map<String, String> get talentTypes => {
 		'normalAttack': '通常攻撃',
 		'elementalSkill': '元素スキル',
@@ -1032,6 +1038,10 @@ extension on Translations {
 			case 'common.possessionNote': return 'HoYoLABと連携すると、所持状況を同期できます。';
 			case 'tutorial.indexSheet': return '目次の表示';
 			case 'tutorial.indexSheetDesc': return 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
+			case 'purposes.ascension': return 'Lvアップ・突破';
+			case 'purposes.normalAttack': return '通常攻撃';
+			case 'purposes.elementalSkill': return '元素スキル';
+			case 'purposes.elementalBurst': return '元素爆発';
 			case 'talentTypes.normalAttack': return '通常攻撃';
 			case 'talentTypes.elementalSkill': return '元素スキル';
 			case 'talentTypes.elementalBurst': return '元素爆発';

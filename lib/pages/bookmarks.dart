@@ -189,7 +189,14 @@ class _BookmarkList extends HookConsumerWidget {
                           icon: const Icon(Symbols.expand_content),
                           iconSize: 28,
                           onPressed: () {
-
+                            showModalBottomSheet(
+                              context: context,
+                              showDragHandle: true,
+                              isScrollControlled: true,
+                              builder: (context) {
+                                return _LevelBookmarkDetail(groupHash: group.hash);
+                              },
+                            );
                           },
                         ),
                       ],
@@ -305,7 +312,6 @@ class _GroupTypeText extends HookConsumerWidget {
     );
   }
 }
-
 
 class _ArtifactSetDetails extends ConsumerWidget {
   final BookmarkWithArtifactSetDetails bookmark;
@@ -437,8 +443,6 @@ class _ArtifactPieceDetails extends ConsumerWidget {
   }
 }
 
-
-
 class _ItemLinkButton extends StatelessWidget {
   final GestureTapCallback? onTap;
   final Widget? child;
@@ -457,3 +461,73 @@ class _ItemLinkButton extends StatelessWidget {
     );
   }
 }
+
+class _LevelBookmarkDetail extends StatelessWidget {
+  final String groupHash;
+
+  const _LevelBookmarkDetail({required this.groupHash});
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      maxChildSize: 0.9,
+      initialChildSize: 0.6,
+      snap: true,
+      expand: false,
+      builder: (context, scrollController) {
+        return SingleChildScrollView(
+          controller: scrollController,
+          child: HookConsumer(
+            builder: (context, ref, child) {
+              final db = ref.watch(appDatabaseProvider);
+              final assetData = ref.watch(assetDataProvider).value!;
+              final bookmarks = useStream(useMemoized(() => db.watchMaterialBookmarksByGroupHash(groupHash)));
+
+              final levels = bookmarks.data?.groupListsBy((e) => e.materialDetails.upperLevel);
+
+              if (levels == null) {
+                return const SizedBox();
+              }
+
+              return QuantityTickerHandler(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0, bottom: 16.0, right: 16.0),
+                  child: GappedColumn(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Transform.translate(
+                        offset: const Offset(-8, 0),
+                        child: SectionInnerHeading(tr.purposes[bookmarks.data!.first.materialDetails.purposeType.name]!),
+                      ),
+                      for (final level in levels.entries.sorted((a, b) => a.key.compareTo(b.key))) ...[
+                        Text("Lv. ${level.key}", style: GoogleFonts.titilliumWeb(fontSize: 20)),
+                        Wrap(
+                          children: [
+                            for (final item in level.value)
+                              MaterialItem(
+                                item: MaterialCardMaterial.fromBookmarks([item.materialDetails]),
+                                usage: MaterialUsage(
+                                  characterId: item.metadata.characterId,
+                                  weaponId: item.materialDetails.weaponId,
+                                ),
+                                expItems: item.materialDetails.weaponId == null
+                                    ? assetData.characterIngredients.expItems
+                                    : assetData.weaponIngredients.expItems,
+                                hashes: [item.materialDetails.hash],
+                              ),
+                          ],
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+

@@ -35,6 +35,11 @@ common:
 tutorial:
   indexSheet: 目次の表示
   indexSheetDesc: このボタンをタップすると、お探しの項目へ素早く移動できます。
+purposes(map):
+  ascension: Lvアップ・突破
+  normalAttack: 通常攻撃
+  elementalSkill: 元素スキル
+  elementalBurst: 元素爆発
 talentTypes(map):
   normalAttack: 通常攻撃
   elementalSkill: 元素スキル
