@@ -1,5 +1,8 @@
+import "dart:math";
+
 import "package:animations/animations.dart";
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
 
 Future<T?> showModalBubbleText<T>({
   required BuildContext context,
@@ -44,7 +47,7 @@ Future<T?> showModalBubble<T>({
 }
 
 
-class Bubble extends StatelessWidget {
+class Bubble extends HookWidget {
   final Offset targetPos;
   final Size targetSize;
   final Color? color;
@@ -60,13 +63,24 @@ class Bubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final childKey = useMemoized(() => GlobalKey());
+    final childWidth = useState<double?>(null);
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final renderBox = childKey.currentContext!.findRenderObject() as RenderBox;
+        childWidth.value = renderBox.size.width;
+      });
+      return null;
+    }, [],);
+
     return Stack(
       children: [
         Positioned(
-          right: 16,
+          right: max(16, childWidth.value != null ? MediaQuery.of(context).size.width - targetPos.dx - childWidth.value! : 16),
           top: targetPos.dy + targetSize.height
               - MediaQueryData.fromView(View.of(context)).padding.top, // safe area insets before consumption
           child: Material(
+            key: childKey,
             type: MaterialType.transparency,
             child: ConstrainedBox(
               constraints: BoxConstraints(
