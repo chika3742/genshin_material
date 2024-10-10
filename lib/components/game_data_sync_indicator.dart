@@ -30,6 +30,7 @@ class GameDataSyncIndicator extends HookWidget {
     });
 
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Icon(Symbols.sync, size: 20, color: Theme.of(context).colorScheme.secondary),
         const SizedBox(width: 4),

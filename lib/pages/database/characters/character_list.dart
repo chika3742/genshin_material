@@ -1,18 +1,21 @@
 import "package:flutter/material.dart";
-import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/character_list_item.dart";
 import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/filter_bottom_sheet.dart";
+import "../../../components/game_data_sync_indicator.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/filter_state.dart";
+import "../../../providers/miscellaneous.dart";
+import "../../../providers/preferences.dart";
 import "../../../ui_core/layout.dart";
 
-class CharacterListPage extends ConsumerWidget {
+class CharacterListPage extends HookConsumerWidget {
   final AssetData assetData;
 
   const CharacterListPage({super.key, required this.assetData});
@@ -23,6 +26,15 @@ class CharacterListPage extends ConsumerWidget {
 
     var charactersIterable = assetData.characters.values
         .whereType<CharacterWithLargeImage>();
+    if (filterState.possessionStatus != null) {
+      final ownedCharacters = ref.watch(ownedCharactersProvider);
+
+      if (ownedCharacters.value != null) {
+        charactersIterable = charactersIterable.where((e) {
+          return ownedCharacters.value!.contains(e.id) == (filterState.possessionStatus == PossessionStatus.owned);
+        });
+      }
+    }
     if (filterState.rarity != null) {
       charactersIterable = charactersIterable.where((e) => e.rarity == filterState.rarity);
     }
@@ -49,6 +61,14 @@ class CharacterListPage extends ConsumerWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: GappedRow(
                     children: [
+                      FilterChipWithMenu( // rarity
+                        selected: filterState.possessionStatus != null,
+                        label: Text(tr.common.possession),
+                        onSelected: (_) {
+                          _showFilterBottomSheet(context);
+                        },
+                      ),
+
                       FilterChipWithMenu( // rarity
                         selected: filterState.rarity != null,
                         label: Text(tr.common.rarity),
@@ -124,11 +144,39 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final prefs = ref.watch(preferencesStateNotifierProvider);
+
     return DataAssetScope(
       useScaffold: false,
       builder: (context, assetData) {
         return FilterBottomSheet(
           categories: [
+            FilteringCategory(
+              labelText: tr.common.possession,
+              items: [
+                for (final status in PossessionStatus.values)
+                  FilterChipWithIcon(
+                    selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.possessionStatus == status)),
+                    leading: Icon(status == PossessionStatus.owned ? Symbols.place_item : Symbols.hide_source),
+                    label: Text(tr.common.possessionStatus[status.name]!),
+                    onSelected: prefs.isLinkedWithHoyolab ? (selected) {
+                      ref.read(characterFilterStateNotifierProvider.notifier)
+                          .setPossessionStatus(selected ? status : null);
+                    } : null,
+                  ),
+                if (ref.watch(characterFilterStateNotifierProvider).possessionStatus != null)
+                  GameDataSyncIndicator(
+                    status: switch (ref.watch(ownedCharactersProvider)) {
+                      AsyncLoading() => const GameDataSyncStatus.syncing(),
+                      AsyncData() => const GameDataSyncStatus.synced(),
+                      AsyncError(:final error) => GameDataSyncStatus.error(error: error),
+                      _ => throw UnimplementedError(),
+                    },
+                  ),
+              ],
+            ),
+            if (!prefs.isLinkedWithHoyolab)
+              Text(tr.common.possessionNote, style: Theme.of(context).textTheme.labelMedium),
             FilteringCategory(
               labelText: tr.common.rarity,
               items: [

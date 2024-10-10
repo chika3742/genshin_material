@@ -18,6 +18,7 @@ class FilterBottomSheet extends StatelessWidget {
           child: GappedColumn(
             gap: 16,
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: categories,
           ),
         );
@@ -47,6 +48,7 @@ class FilteringCategory extends StatelessWidget {
           const SizedBox(height: 4),
           Wrap(
             spacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: items,
           ),
         ],

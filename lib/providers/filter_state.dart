@@ -13,6 +13,10 @@ class CharacterFilterStateNotifier extends _$CharacterFilterStateNotifier {
     return const CharacterFilterState();
   }
 
+  void setPossessionStatus(PossessionStatus? possessionStatus) {
+    state = state.copyWith(possessionStatus: possessionStatus);
+  }
+
   void setRarity(int? rarity) {
     state = state.copyWith(rarity: rarity);
   }
@@ -35,12 +39,18 @@ class CharacterFilterState with _$CharacterFilterState {
   const CharacterFilterState._();
 
   const factory CharacterFilterState({
+    PossessionStatus? possessionStatus,
     int? rarity,
     TeyvatElement? element,
     WeaponType? weaponType,
   }) = _CharacterFilterState;
 
-  bool get isFiltering => rarity != null || element != null || weaponType != null;
+  bool get isFiltering => possessionStatus != null || rarity != null || element != null || weaponType != null;
+}
+
+enum PossessionStatus {
+  owned,
+  notOwned,
 }
 
 @riverpod

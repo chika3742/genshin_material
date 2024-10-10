@@ -63,7 +63,6 @@ class WeaponDetailsPage extends HookConsumerWidget {
       if (prefs.isLinkedWithHoyolab) {
         ref.read(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id).notifier)
             .syncInGameCharacter().then((value) {
-              print(value);
               rangeValues.value = LevelRangeValues(value[Purpose.ascension]!, max(rangeValues.value.end, value[Purpose.ascension]!));
             });
       }

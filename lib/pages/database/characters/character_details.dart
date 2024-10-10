@@ -119,7 +119,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       variants[initialVariant] ?? variants.values.first,
     );
     final equippedWeaponId = useStream(
-      useMemoized(() => prefs.isLinkedWithHoyolab ? db.watchCharacterWeapon(prefs.hyvUid!, variant.value.id) : Stream.value(null)),
+      useMemoized(() => prefs.isLinkedWithHoyolab ? db.watchCharacterWeapon(prefs.hyvUid!, variant.value.id) : Stream.value(null), [variant.value]),
       preserveState: false,
     );
 
@@ -176,261 +176,263 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: QuantityTickerHandler(
-            child: GappedColumn(
-              gap: 16,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // character information
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: GameItemInfoBox(
-                        itemImage: Image.file(
-                          variant.value.getSmallImageFile(assetData.assetDir),
-                          width: 70,
-                          height: 70,
+            child: SafeArea(
+              child: GappedColumn(
+                gap: 16,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // character information
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: GameItemInfoBox(
+                          itemImage: Image.file(
+                            variant.value.getSmallImageFile(assetData.assetDir),
+                            width: 70,
+                            height: 70,
+                          ),
+                          children: [
+                            // rarity
+                            RarityStars(count: character.rarity),
+                            // element
+                            Row(
+                              children: [
+                                Image.file(
+                                  assetData.elements[variant.value.element]!.getImageFile(assetData.assetDir),
+                                  width: 26,
+                                  height: 26,
+                                  color: Theme.of(context).colorScheme.onSurface,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(assetData.elements[variant.value.element]!.text.localized),
+                              ],
+                            ),
+                            // weapon type
+                            Text(assetData.weaponTypes[character.weaponType]!.name.localized),
+                          ],
                         ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          // rarity
-                          RarityStars(count: character.rarity),
-                          // element
+                          if (prefs.isLinkedWithHoyolab && prefs.syncCharaState)
+                            Consumer(
+                              builder: (context, ref, _) {
+                                final status = ref.watch(levelBagSyncStateNotifierProvider(variantId: variant.value.id));
+                                return GameDataSyncIndicator(
+                                  status: status,
+                                );
+                              },
+                            ),
+                          const SizedBox(height: 8),
                           Row(
                             children: [
+                              IconButton(
+                                icon: const Icon(Symbols.swords),
+                                onPressed: () {
+                                  WeaponListRoute(equipCharacterId: variant.value.id).push(context);
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Symbols.person_play),
+                                onPressed: () {
+                                  ArtifactListRoute(equipCharacterId: variant.value.id).push(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  // character variant dropdown
+                  if (variants.length > 1)
+                    DropdownButtonFormField(
+                      value: variant.value.element,
+                      items: variants.entries.map((e) {
+                        return DropdownMenuItem(
+                          value: e.key,
+                          child: Row(
+                            children: [
                               Image.file(
-                                assetData.elements[variant.value.element]!.getImageFile(assetData.assetDir),
-                                width: 26,
-                                height: 26,
+                                assetData.elements[e.value.element]!
+                                    .getImageFile(assetData.assetDir),
+                                width: 25,
+                                height: 25,
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),
                               const SizedBox(width: 4),
-                              Text(assetData.elements[variant.value.element]!.text.localized),
+                              Text(assetData.elements[e.value.element]!.text.localized),
                             ],
                           ),
-                          // weapon type
-                          Text(assetData.weaponTypes[character.weaponType]!.name.localized),
-                        ],
+                        );
+                      }).toList(),
+                      decoration: InputDecoration(
+                        label: Text(tr.common.element),
+                        border: const OutlineInputBorder(),
                       ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        if (prefs.isLinkedWithHoyolab && prefs.syncCharaState)
-                          Consumer(
-                            builder: (context, ref, _) {
-                              final status = ref.watch(levelBagSyncStateNotifierProvider(variantId: variant.value.id));
-                              return GameDataSyncIndicator(
-                                status: status,
-                              );
-                            },
-                          ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Symbols.swords),
-                              onPressed: () {
-                                WeaponListRoute(equipCharacterId: variant.value.id).push(context);
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Symbols.person_play),
-                              onPressed: () {
-                                ArtifactListRoute(equipCharacterId: variant.value.id).push(context);
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                // character variant dropdown
-                if (variants.length > 1)
-                  DropdownButtonFormField(
-                    value: variant.value.element,
-                    items: variants.entries.map((e) {
-                      return DropdownMenuItem(
-                        value: e.key,
-                        child: Row(
-                          children: [
-                            Image.file(
-                              assetData.elements[e.value.element]!
-                                  .getImageFile(assetData.assetDir),
-                              width: 25,
-                              height: 25,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(assetData.elements[e.value.element]!.text.localized),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                    decoration: InputDecoration(
-                      label: Text(tr.common.element),
-                      border: const OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      variant.value = variants[value]!;
-                    },
-                  ),
-
-                if (equippedWeaponId.data != null)
-                  FullWidth(
-                    child: ListTile(
-                      title: Text(tr.characterDetailsPage.equippedWeapon),
-                      subtitle: Text(assetData.weapons[equippedWeaponId.data]!.name.localized),
-                      leading: Image.file(
-                        assetData.weapons[equippedWeaponId.data]!.getImageFile(assetData.assetDir),
-                        width: 50,
-                        height: 50,
-                      ),
-                      trailing: const Icon(Symbols.chevron_right),
-                      onTap: () {
-                        WeaponDetailsRoute(
-                          id: equippedWeaponId.data!,
-                          initialSelectedCharacter: variant.value.id,
-                        ).push(context);
+                      onChanged: (value) {
+                        variant.value = variants[value]!;
                       },
                     ),
-                  ),
 
-                Section(
-                  heading: SectionHeading(tr.characterDetailsPage.charaLevelUpAndAscensionMaterials),
-                  child: GappedColumn(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Card(
-                        margin: EdgeInsets.zero,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: LevelSlider(
-                            levels: state.value.sliderTickLabels[Purpose.ascension]!,
-                            values: state.value.rangeValues[Purpose.ascension]!,
-                            onChanged: (values) {
-                              // avoid overlapping slider handles
-                              if (values.start == values.end) {
-                                return;
-                              }
-
-                              state.value = state.value.copyWith(
-                                rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = values,
-                              );
-                            },
-                          ),
+                  if (equippedWeaponId.data != null)
+                    FullWidth(
+                      child: ListTile(
+                        title: Text(tr.characterDetailsPage.equippedWeapon),
+                        subtitle: Text(assetData.weapons[equippedWeaponId.data]!.name.localized),
+                        leading: Image.file(
+                          assetData.weapons[equippedWeaponId.data]!.getImageFile(assetData.assetDir),
+                          width: 50,
+                          height: 50,
                         ),
+                        trailing: const Icon(Symbols.chevron_right),
+                        onTap: () {
+                          WeaponDetailsRoute(
+                            id: equippedWeaponId.data!,
+                            initialSelectedCharacter: variant.value.id,
+                          ).push(context);
+                        },
                       ),
-                      Wrap(
-                        children: _buildAscensionMaterialCards(state.value),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
 
-                Section(
-                  heading: SectionHeading(tr.characterDetailsPage.talentLevelUpMaterials),
-                  child: GappedColumn(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      for (final purpose in ingredients.purposes.keys
-                          .whereNot((e) => e == Purpose.ascension))
+                  Section(
+                    heading: SectionHeading(tr.characterDetailsPage.charaLevelUpAndAscensionMaterials),
+                    child: GappedColumn(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Card(
                           margin: EdgeInsets.zero,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                LabeledCheckBox(
-                                  value: state.value.checkedTalentTypes[purpose]!,
-                                  onChanged: (value) {
-                                    state.value = state.value.copyWith(
-                                      checkedTalentTypes: {...state.value.checkedTalentTypes}..[purpose] = value!,
-                                    );
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: LevelSlider(
+                              levels: state.value.sliderTickLabels[Purpose.ascension]!,
+                              values: state.value.rangeValues[Purpose.ascension]!,
+                              onChanged: (values) {
+                                // avoid overlapping slider handles
+                                if (values.start == values.end) {
+                                  return;
+                                }
 
-                                    // scroll to the talent materials section on checkbox checked
-                                    if (value == true) {
-                                      Future.delayed(const Duration(milliseconds: 200), () {
-                                        final context = state.value.talentSectionKeys[purpose]!.currentContext;
-                                        if (context?.mounted == true) {
-                                          Scrollable.ensureVisible(
-                                            context!,
-                                            duration: const Duration(milliseconds: 300),
-                                            curve: Curves.easeOutQuint,
-                                            alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
-                                          );
-                                        }
-                                      });
-                                    }
-                                  },
-                                  child: Expanded(
-                                    child: Text.rich( // checkbox label
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: tr.talentTypes[purpose.name]!,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                            ),
-                                          ),
-                                          const TextSpan(text: "  "),
-                                          TextSpan(
-                                            text: variant.value
-                                                .talents[purpose.name]!
-                                                .name.localized,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                AnimatedCrossFade( // talent level slider with size animation
-                                  duration: const Duration(milliseconds: 300),
-                                  crossFadeState: state.value.checkedTalentTypes[purpose]!
-                                      ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                                  firstCurve: Curves.easeOutQuint,
-                                  secondCurve: Curves.easeOutQuint,
-                                  sizeCurve: Curves.easeOutQuint,
-                                  firstChild: Container(),
-                                  secondChild: Column(
-                                    children: [
-                                      const SizedBox(height: 8),
-                                      LevelSlider(
-                                        key: state.value.talentSectionKeys[purpose] ??= GlobalKey(),
-                                        levels: state.value.sliderTickLabels[purpose]!,
-                                        values: state.value.rangeValues[purpose]!,
-                                        onChanged: (values) {
-                                          if (values.start == values.end) {
-                                            return;
-                                          }
-
-                                          state.value = state.value.copyWith(
-                                            rangeValues: {...state.value.rangeValues}..[purpose] = values,
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                                state.value = state.value.copyWith(
+                                  rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = values,
+                                );
+                              },
                             ),
                           ),
                         ),
-                      Wrap(
-                        children: _buildTalentMaterialCards(
-                          variant.value.talents,
-                          variant.value,
-                          state.value,
+                        Wrap(
+                          children: _buildAscensionMaterialCards(state.value),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+
+                  Section(
+                    heading: SectionHeading(tr.characterDetailsPage.talentLevelUpMaterials),
+                    child: GappedColumn(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (final purpose in ingredients.purposes.keys
+                            .whereNot((e) => e == Purpose.ascension))
+                          Card(
+                            margin: EdgeInsets.zero,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  LabeledCheckBox(
+                                    value: state.value.checkedTalentTypes[purpose]!,
+                                    onChanged: (value) {
+                                      state.value = state.value.copyWith(
+                                        checkedTalentTypes: {...state.value.checkedTalentTypes}..[purpose] = value!,
+                                      );
+
+                                      // scroll to the talent materials section on checkbox checked
+                                      if (value == true) {
+                                        Future.delayed(const Duration(milliseconds: 200), () {
+                                          final context = state.value.talentSectionKeys[purpose]!.currentContext;
+                                          if (context?.mounted == true) {
+                                            Scrollable.ensureVisible(
+                                              context!,
+                                              duration: const Duration(milliseconds: 300),
+                                              curve: Curves.easeOutQuint,
+                                              alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+                                            );
+                                          }
+                                        });
+                                      }
+                                    },
+                                    child: Expanded(
+                                      child: Text.rich( // checkbox label
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: tr.talentTypes[purpose.name]!,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                            ),
+                                            const TextSpan(text: "  "),
+                                            TextSpan(
+                                              text: variant.value
+                                                  .talents[purpose.name]!
+                                                  .name.localized,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  AnimatedCrossFade( // talent level slider with size animation
+                                    duration: const Duration(milliseconds: 300),
+                                    crossFadeState: state.value.checkedTalentTypes[purpose]!
+                                        ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                                    firstCurve: Curves.easeOutQuint,
+                                    secondCurve: Curves.easeOutQuint,
+                                    sizeCurve: Curves.easeOutQuint,
+                                    firstChild: Container(),
+                                    secondChild: Column(
+                                      children: [
+                                        const SizedBox(height: 8),
+                                        LevelSlider(
+                                          key: state.value.talentSectionKeys[purpose] ??= GlobalKey(),
+                                          levels: state.value.sliderTickLabels[purpose]!,
+                                          values: state.value.rangeValues[purpose]!,
+                                          onChanged: (values) {
+                                            if (values.start == values.end) {
+                                              return;
+                                            }
+
+                                            state.value = state.value.copyWith(
+                                              rangeValues: {...state.value.rangeValues}..[purpose] = values,
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        Wrap(
+                          children: _buildTalentMaterialCards(
+                            variant.value.talents,
+                            variant.value,
+                            state.value,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -514,7 +516,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
   Future<void> _updateSliderRange(Map<Purpose, int> levelsByPurpose, ValueNotifier<_CharacterDetailsPageState> state) async {
     state.value = state.value.copyWith(
       rangeValues: state.value.rangeValues.map((key, value) =>
-          MapEntry(key, LevelRangeValues(value.start, levelsByPurpose[key] ?? value.end)),),
+          MapEntry(key, LevelRangeValues(levelsByPurpose[key] ?? value.start, value.end)),),
       checkedTalentTypes: state.value.checkedTalentTypes.map((key, value) =>
           MapEntry(key, levelsByPurpose[key] != null && levelsByPurpose[key]! < state.value.sliderTickLabels[key]!.last),),
     );

@@ -6,6 +6,22 @@ part of 'miscellaneous.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$ownedCharactersHash() => r'8a5fdcca65025a1e6768169ce9b3f0bbf65ba898';
+
+/// See also [ownedCharacters].
+@ProviderFor(ownedCharacters)
+final ownedCharactersProvider =
+    AutoDisposeFutureProvider<List<CharacterId>?>.internal(
+  ownedCharacters,
+  name: r'ownedCharactersProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$ownedCharactersHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef OwnedCharactersRef = AutoDisposeFutureProviderRef<List<CharacterId>?>;
 String _$realtimeNotesActivationStateHash() =>
     r'fe12c5df9dc88c1d710f025dc1a52f71e5e1d5af';
 

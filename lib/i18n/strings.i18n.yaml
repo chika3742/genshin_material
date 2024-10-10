@@ -27,6 +27,11 @@ common:
   none: なし
   sliderTips: スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。
   selected: "選択中: $character"
+  possession: 所持
+  possessionStatus(map):
+    owned: 所持
+    notOwned: 未所持
+  possessionNote: HoYoLABと連携すると、所持状況を同期できます。
 tutorial:
   indexSheet: 目次の表示
   indexSheetDesc: このボタンをタップすると、お探しの項目へ素早く移動できます。

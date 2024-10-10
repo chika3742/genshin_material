@@ -29,4 +29,3 @@ extension IndexOfCeilToNearestExtension on List<int> {
     return indexWhere((e) => e >= target);
   }
 }
-

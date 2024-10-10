@@ -1,8 +1,13 @@
+import "package:collection/collection.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/hoyolab_api.dart";
 import "../core/secure_storage.dart";
+import "../models/character.dart";
+import "../models/common.dart";
 import "../models/hoyolab_api.dart";
+import "preferences.dart";
+import "versions.dart";
 
 part "miscellaneous.g.dart";
 
@@ -35,4 +40,22 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
 
     state = AsyncData(value);
   }
+}
+
+@riverpod
+Future<List<CharacterId>?> ownedCharacters(OwnedCharactersRef ref) async {
+  final apiInfo = ref.watch(preferencesStateNotifierProvider.select((s) => s.isLinkedWithHoyolab ? (s.hyvServer!, s.hyvUid!) : null));
+  if (apiInfo == null) {
+    return null;
+  }
+  final assetData = ref.read(assetDataProvider).value!;
+  final avatarList =  await HoyolabApiUtils.fetchAllCharacters(apiInfo.$1, apiInfo.$2);
+  final result = <CharacterId>[];
+  for (final e in avatarList) {
+    final c = assetData.characters.values.firstWhereOrNull((c) => c is CharacterWithLargeImage && c.hyvIds.contains(e.id));
+    if (c != null) {
+      result.add(c.id);
+    }
+  }
+  return result;
 }

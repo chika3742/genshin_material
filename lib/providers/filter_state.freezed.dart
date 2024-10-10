@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CharacterFilterState {
+  PossessionStatus? get possessionStatus => throw _privateConstructorUsedError;
   int? get rarity => throw _privateConstructorUsedError;
   String? get element => throw _privateConstructorUsedError;
   String? get weaponType => throw _privateConstructorUsedError;
@@ -33,7 +34,11 @@ abstract class $CharacterFilterStateCopyWith<$Res> {
           $Res Function(CharacterFilterState) then) =
       _$CharacterFilterStateCopyWithImpl<$Res, CharacterFilterState>;
   @useResult
-  $Res call({int? rarity, String? element, String? weaponType});
+  $Res call(
+      {PossessionStatus? possessionStatus,
+      int? rarity,
+      String? element,
+      String? weaponType});
 }
 
 /// @nodoc
@@ -52,11 +57,16 @@ class _$CharacterFilterStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? possessionStatus = freezed,
     Object? rarity = freezed,
     Object? element = freezed,
     Object? weaponType = freezed,
   }) {
     return _then(_value.copyWith(
+      possessionStatus: freezed == possessionStatus
+          ? _value.possessionStatus
+          : possessionStatus // ignore: cast_nullable_to_non_nullable
+              as PossessionStatus?,
       rarity: freezed == rarity
           ? _value.rarity
           : rarity // ignore: cast_nullable_to_non_nullable
@@ -81,7 +91,11 @@ abstract class _$$CharacterFilterStateImplCopyWith<$Res>
       __$$CharacterFilterStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? rarity, String? element, String? weaponType});
+  $Res call(
+      {PossessionStatus? possessionStatus,
+      int? rarity,
+      String? element,
+      String? weaponType});
 }
 
 /// @nodoc
@@ -97,11 +111,16 @@ class __$$CharacterFilterStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? possessionStatus = freezed,
     Object? rarity = freezed,
     Object? element = freezed,
     Object? weaponType = freezed,
   }) {
     return _then(_$CharacterFilterStateImpl(
+      possessionStatus: freezed == possessionStatus
+          ? _value.possessionStatus
+          : possessionStatus // ignore: cast_nullable_to_non_nullable
+              as PossessionStatus?,
       rarity: freezed == rarity
           ? _value.rarity
           : rarity // ignore: cast_nullable_to_non_nullable
@@ -121,9 +140,12 @@ class __$$CharacterFilterStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CharacterFilterStateImpl extends _CharacterFilterState {
-  const _$CharacterFilterStateImpl({this.rarity, this.element, this.weaponType})
+  const _$CharacterFilterStateImpl(
+      {this.possessionStatus, this.rarity, this.element, this.weaponType})
       : super._();
 
+  @override
+  final PossessionStatus? possessionStatus;
   @override
   final int? rarity;
   @override
@@ -133,7 +155,7 @@ class _$CharacterFilterStateImpl extends _CharacterFilterState {
 
   @override
   String toString() {
-    return 'CharacterFilterState(rarity: $rarity, element: $element, weaponType: $weaponType)';
+    return 'CharacterFilterState(possessionStatus: $possessionStatus, rarity: $rarity, element: $element, weaponType: $weaponType)';
   }
 
   @override
@@ -141,6 +163,8 @@ class _$CharacterFilterStateImpl extends _CharacterFilterState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CharacterFilterStateImpl &&
+            (identical(other.possessionStatus, possessionStatus) ||
+                other.possessionStatus == possessionStatus) &&
             (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.element, element) || other.element == element) &&
             (identical(other.weaponType, weaponType) ||
@@ -148,7 +172,8 @@ class _$CharacterFilterStateImpl extends _CharacterFilterState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, rarity, element, weaponType);
+  int get hashCode =>
+      Object.hash(runtimeType, possessionStatus, rarity, element, weaponType);
 
   /// Create a copy of CharacterFilterState
   /// with the given fields replaced by the non-null parameter values.
@@ -163,11 +188,14 @@ class _$CharacterFilterStateImpl extends _CharacterFilterState {
 
 abstract class _CharacterFilterState extends CharacterFilterState {
   const factory _CharacterFilterState(
-      {final int? rarity,
+      {final PossessionStatus? possessionStatus,
+      final int? rarity,
       final String? element,
       final String? weaponType}) = _$CharacterFilterStateImpl;
   const _CharacterFilterState._() : super._();
 
+  @override
+  PossessionStatus? get possessionStatus;
   @override
   int? get rarity;
   @override

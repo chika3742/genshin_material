@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 359 (179 per locale)
+/// Strings: 363 (181 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -227,6 +227,12 @@ class _StringsCommonJa {
 	String get none => 'なし';
 	String get sliderTips => 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
 	String selected({required Object character}) => '選択中: ${character}';
+	String get possession => '所持';
+	Map<String, String> get possessionStatus => {
+		'owned': '所持',
+		'notOwned': '未所持',
+	};
+	String get possessionNote => 'HoYoLABと連携すると、所持状況を同期できます。';
 }
 
 // Path: tutorial
@@ -1020,6 +1026,10 @@ extension on Translations {
 			case 'common.none': return 'なし';
 			case 'common.sliderTips': return 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
 			case 'common.selected': return ({required Object character}) => '選択中: ${character}';
+			case 'common.possession': return '所持';
+			case 'common.possessionStatus.owned': return '所持';
+			case 'common.possessionStatus.notOwned': return '未所持';
+			case 'common.possessionNote': return 'HoYoLABと連携すると、所持状況を同期できます。';
 			case 'tutorial.indexSheet': return '目次の表示';
 			case 'tutorial.indexSheetDesc': return 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
 			case 'talentTypes.normalAttack': return '通常攻撃';

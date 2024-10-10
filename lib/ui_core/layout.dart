@@ -117,5 +117,3 @@ class FullWidth extends StatelessWidget {
     );
   }
 }
-
-
