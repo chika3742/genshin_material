@@ -3,7 +3,7 @@ import "package:drift/drift.dart";
 import "../database.dart";
 import "../models/common.dart";
 
-extension CharacterLevelInfoDbExtension on AppDatabase {
+extension InGameCharacterStateDbExtension on AppDatabase {
   Future<int> setCharacterState(InGameCharacterStateCompanion companion) async {
     return await into(inGameCharacterStateTable).insertOnConflictUpdate(
       companion,

@@ -2,7 +2,7 @@ import "package:drift/drift.dart";
 
 import "../database.dart";
 
-extension WeaponLevelInfoDbExtension on AppDatabase {
+extension InGameWeaponStateDbExtension on AppDatabase {
   Future<int> setWeaponLevels(String uid, String characterId, String weaponId, int level) async {
     return await into(inGameWeaponStateTable).insertOnConflictUpdate(
       InGameWeaponStateCompanion.insert(

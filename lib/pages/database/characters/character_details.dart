@@ -16,7 +16,7 @@ import "../../../components/material_card.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
-import "../../../db/character_level_info_db_extension.dart";
+import "../../../db/in_game_character_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/character_ingredients.dart";
