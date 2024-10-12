@@ -1,5 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
+import "../core/asset_cache.dart";
 import "../utils/daily_material_weekday.dart";
 import "common.dart";
 import "localized_text.dart";
@@ -35,6 +36,11 @@ sealed class Material with _$Material, ImageGetter {
 
     final currentWeekday = getCurrentDailyMaterialWeekday(server);
     return availableDays!.any((day) => day.value == currentWeekday);
+  }
+
+  int getSortPriority(AssetData assetData) {
+    final sortOrderMap = assetData.materialSortOrder;
+    return sortOrderMap["id:$id"] ?? sortOrderMap["category:$category"] ?? 0;
   }
 }
 

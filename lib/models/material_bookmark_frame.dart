@@ -45,7 +45,6 @@ class MaterialCardMaterial {
 
   int? _sum;
   Material? _material;
-  int? _sortPriority;
 
   /// Sum of all quantities (non-exp items) or exps.
   int get sum => _sum ??= levels.fold<int>(
@@ -73,16 +72,7 @@ class MaterialCardMaterial {
   }
 
   int getSortPriority(AssetData assetData) {
-    if (_sortPriority != null) {
-      return _sortPriority!;
-    }
-
-    if (isExp) {
-      return -1;
-    }
-
-    final sortOrderMap = assetData.materialSortOrder;
-    return _sortPriority = sortOrderMap["id:$id"] ?? sortOrderMap["category:${getMaterial(assetData).category}"] ?? 0;
+    return isExp ? 0 : getMaterial(assetData).getSortPriority(assetData);
   }
 
   List<String> getHashList(MaterialUsage usage) {

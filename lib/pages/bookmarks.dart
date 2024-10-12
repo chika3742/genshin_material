@@ -10,6 +10,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../components/material_card.dart";
 import "../components/material_item.dart";
+import "../core/asset_cache.dart";
 import "../db/bookmark_db_extension.dart";
 import "../db/bookmark_order_registry_db_extension.dart";
 import "../i18n/strings.g.dart";
@@ -174,7 +175,8 @@ class _BookmarkList extends HookConsumerWidget {
                     Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        for (final items in group.bookmarks.cast<BookmarkWithMaterialDetails>().groupListsBy((e) => e.materialDetails.materialId).values)
+                        for (final items in _sortBookmarks(group.bookmarks.cast<BookmarkWithMaterialDetails>(), assetData)
+                              .groupListsBy((e) => e.materialDetails.materialId).values)
                           MaterialItem(
                             key: Key("${group.hash}:${items.first.materialDetails.materialId}"),
                             item: MaterialCardMaterial.fromBookmarks(items.map((e) => e.materialDetails).toList()),
@@ -504,7 +506,7 @@ class _LevelBookmarkDetail extends StatelessWidget {
                         Text("Lv. ${level.key}", style: GoogleFonts.titilliumWeb(fontSize: 20)),
                         Wrap(
                           children: [
-                            for (final item in level.value)
+                            for (final item in _sortBookmarks(level.value, assetData))
                               MaterialItem(
                                 item: MaterialCardMaterial.fromBookmarks([item.materialDetails]),
                                 usage: MaterialUsage(
@@ -531,3 +533,22 @@ class _LevelBookmarkDetail extends StatelessWidget {
   }
 }
 
+List<BookmarkWithMaterialDetails> _sortBookmarks(List<BookmarkWithMaterialDetails> bookmarks, AssetData assetData) {
+  return bookmarks.sorted((a, b) {
+    final aMaterial = assetData.materials[a.materialDetails.materialId];
+    final bMaterial = assetData.materials[b.materialDetails.materialId];
+
+    if (aMaterial == null || bMaterial == null) {
+      return aMaterial == null ? -1 : 1;
+    }
+
+    final aPriority = aMaterial.getSortPriority(assetData);
+    final bPriority = bMaterial.getSortPriority(assetData);
+
+    if (aPriority == bPriority) {
+      return aMaterial.hyvId.compareTo(bMaterial.hyvId);
+    }
+
+    return aPriority.compareTo(bPriority);
+  });
+}
