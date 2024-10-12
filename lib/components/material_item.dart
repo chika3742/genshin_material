@@ -15,6 +15,7 @@ import "../providers/database_provider.dart";
 import "../providers/preferences.dart";
 import "../providers/versions.dart";
 import "../ui_core/layout.dart";
+import "../ui_core/snack_bar.dart";
 import "material_card.dart";
 
 /// Material item implementation.
@@ -122,6 +123,19 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
             break;
           case BookmarkState.bookmarked:
             await db.removeBookmarks(bookmarkedMaterials.data!.map((e) => e.metadata.id).toList());
+            if (context.mounted) {
+              final companions = widget.item.toCompanions(widget.usage);
+              showSnackBar(
+                context: context,
+                message: tr.materialCard.unBookmarked,
+                action: SnackBarAction(
+                  label: tr.common.undo,
+                  onPressed: () {
+                    db.addMaterialBookmarks(companions);
+                  },
+                ),
+              );
+            }
             break;
         }
       },

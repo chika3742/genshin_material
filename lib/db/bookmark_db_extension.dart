@@ -106,6 +106,13 @@ extension BookmarkDbExtension on AppDatabase {
     final groupHashes = <String>{};
     await transaction(() async {
       for (final companion in companions) {
+        if (companion is BookmarkCompanionWithMaterialDetails) {
+          final existing = await (select(bookmarkMaterialDetailsTable)
+            ..where((tbl) => tbl.hash.equals(companion.materialDetails.hash))).getSingleOrNull();
+          if (existing != null) {
+            continue;
+          }
+        }
         final bookmarkId = await into(bookmarkTable).insert(companion.metadata);
         await switch (companion) {
           BookmarkCompanionWithMaterialDetails() => into(bookmarkMaterialDetailsTable).insert(companion.materialDetails.withParentId(bookmarkId)),

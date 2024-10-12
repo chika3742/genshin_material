@@ -5,6 +5,7 @@ void showSnackBar({
   required String message,
   Duration? duration,
   bool error = false,
+  SnackBarAction? action,
 }) {
   duration ??= error ? const Duration(seconds: 10) : const Duration(seconds: 4);
   final messenger = ScaffoldMessenger.of(context);
@@ -12,6 +13,7 @@ void showSnackBar({
   messenger.showSnackBar(
     createSnackBar(
       message: message,
+      action: action,
       duration: duration,
       backgroundColor: error ? Theme.of(context).colorScheme.error : null,
       messageFontWeight: error ? FontWeight.bold : FontWeight.normal,

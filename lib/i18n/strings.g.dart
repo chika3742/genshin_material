@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 367 (183 per locale)
+/// Strings: 369 (184 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -229,6 +229,7 @@ class _StringsCommonJa {
 	String get next => '次へ';
 	String get change => '変更';
 	String get pleaseSelect => '選択してください';
+	String get undo => '元に戻す';
 	String get bookmarkSaved => 'ブックマークしました';
 	String get none => 'なし';
 	String get sliderTips => 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
@@ -381,6 +382,7 @@ class _StringsMaterialCardJa {
 	String get reBookmarkDesc => '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします';
 	String get unBookmark => 'ブックマークを解除';
 	String get unBookmarkDesc => 'この素材のブックマークを解除します';
+	String get unBookmarked => 'ブックマークを解除しました';
 }
 
 // Path: artifactsPage
@@ -1028,6 +1030,7 @@ extension on Translations {
 			case 'common.next': return '次へ';
 			case 'common.change': return '変更';
 			case 'common.pleaseSelect': return '選択してください';
+			case 'common.undo': return '元に戻す';
 			case 'common.bookmarkSaved': return 'ブックマークしました';
 			case 'common.none': return 'なし';
 			case 'common.sliderTips': return 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
@@ -1104,6 +1107,7 @@ extension on Translations {
 			case 'materialCard.reBookmarkDesc': return '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします';
 			case 'materialCard.unBookmark': return 'ブックマークを解除';
 			case 'materialCard.unBookmarkDesc': return 'この素材のブックマークを解除します';
+			case 'materialCard.unBookmarked': return 'ブックマークを解除しました';
 			case 'artifactsPage.bonusTypes.1-pc': return '1セット効果';
 			case 'artifactsPage.bonusTypes.2-pc': return '2セット効果';
 			case 'artifactsPage.bonusTypes.4-pc': return '4セット効果';

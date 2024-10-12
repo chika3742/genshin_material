@@ -23,6 +23,7 @@ common:
   next: 次へ
   change: 変更
   pleaseSelect: 選択してください
+  undo: 元に戻す
   bookmarkSaved: ブックマークしました
   none: なし
   sliderTips: スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。
@@ -111,6 +112,7 @@ materialCard:
   reBookmarkDesc: 一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします
   unBookmark: ブックマークを解除
   unBookmarkDesc: この素材のブックマークを解除します
+  unBookmarked: ブックマークを解除しました
 artifactsPage:
   bonusTypes(map):
     1-pc: 1セット効果
