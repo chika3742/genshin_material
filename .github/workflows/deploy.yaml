@@ -1,0 +1,69 @@
+name: Deploy to Stores
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - v*
+  workflow_dispatch:
+
+jobs:
+  build-attr:
+    runs-on: ubuntu-latest
+    env:
+      BUILD_NUM_OFFSET: 0
+    outputs:
+      BUILD_NUM: ${{ steps.build-attr.outputs.BUILD_NUM }}
+      BUILD_NAME: ${{ steps.build-attr.outputs.BUILD_NAME }}
+
+    steps:
+      - id: build-attr
+        run: |
+          echo "BUILD_NUM=$(($GITHUB_RUN_NUMBER + $BUILD_NUM_OFFSET))" >> $GITHUB_OUTPUT
+          # echo "BUILD_NAME=${GITHUB_REF_NAME:1}" >> $GITHUB_OUTPUT
+          echo "BUILD_NAME=1.0.0" >> $GITHUB_OUTPUT
+
+  deploy-app-store:
+    name: Deploy to App Store
+    runs-on: macos-latest
+    needs:
+      - build-attr
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install FVM
+        run: |
+          brew tap leoafarias/fvm && brew install fvm
+          fvm use
+
+      - name: Install Fastlane
+        run: bundle install
+
+      - name: Import Secrets
+        working-directory: ios
+        env:
+          APPLE_DIST_CERT_PW: ${{ secrets.APPLE_DIST_CERT_PW }}
+        run: |
+          mkdir ./secrets
+          base64 -d <<< "${{ secrets.APPLE_PROVISIONING_PROFILE_BASE64 }}" > ./secrets/Release.mobileprovision
+          base64 -d <<< "${{ secrets.APPLE_DIST_CERT_BASE64 }}" > ./secrets/dist.p12
+          base64 -d <<< "${{ secrets.ASC_AUTH_KEY_BASE64 }}" > ./secrets/ASC_AuthKey.p8
+          bundle exec fastlane import_certificates
+
+      - name: Build iOS
+        run: |
+          fvm flutter build ipa\
+            --build-number ${{ needs.build-attr.outputs.BUILD_NUM }}\
+            --build-name ${{ needs.build-attr.outputs.BUILD_NAME }}\
+            --export-options-plist ios/ExportOptions.plist
+
+      - name: Deploy to TestFlight
+        working-directory: ios
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: bundle exec fastlane upload
+
+      - name: Delete Secrets
+        if: always()
+        run: rm -rf ./ios/secrets
