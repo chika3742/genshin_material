@@ -50,11 +50,18 @@ android {
 
     signingConfigs {
         release {
-            if (localProperties.getProperty("gm.keystorePath") != null) {
-                storeFile file(localProperties.getProperty("gm.keyStorePath"))
-                storePassword localProperties.getProperty("gm.keyStorePassword")
-                keyAlias localProperties.getProperty("gm.keyAlias")
-                keyPassword localProperties.getProperty("gm.keyPassword")
+            def keyProperties = new Properties()
+            def keyPropertiesFile = rootProject.file("key.properties")
+            if (keyPropertiesFile.exists()) {
+                keyPropertiesFile.withReader("UTF-8") { reader ->
+                    keyProperties.load(reader)
+                }
+            }
+            if (keyProperties.getProperty("keyStorePath") != null) {
+                storeFile rootProject.file(keyProperties.getProperty("keyStorePath"))
+                storePassword keyProperties.getProperty("keyStorePassword")
+                keyAlias keyProperties.getProperty("keyAlias")
+                keyPassword keyProperties.getProperty("keyPassword")
             }
         }
     }

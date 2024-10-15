@@ -1,17 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_custom_tabs_android-2.0.0+1/android" />
+    <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_secure_storage-9.2.2/android" />
     <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/package_info_plus-6.0.0/android" />
+    <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/package_info_plus-8.0.2/android" />
+    <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_android-2.2.10/android" />
     <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_android-2.2.4/android" />
     <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.2/android" />
+    <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_android-2.3.2/android" />
     <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqlite3_flutter_libs-0.5.22/android" />
+    <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqlite3_flutter_libs-0.5.24/android" />
+    <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.10/android" />
     <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.2/android" />
     <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-3.16.3/android" />
+    <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-3.16.7/android" />
     <file type="web" url="file://$USER_HOME$/development/flutter/packages/flutter_tools/gradle" />
     <file type="web" url="file://$PROJECT_DIR$" />
     <file type="web" url="file://$USER_HOME$/fvm/versions/3.19.6/packages/flutter_tools/gradle" />
     <file type="web" url="file://$USER_HOME$/fvm/versions/3.19.6/packages/integration_test/android" />
+    <file type="web" url="file://$USER_HOME$/fvm/versions/3.24.3/packages/flutter_tools/gradle" />
+    <file type="web" url="file://$USER_HOME$/fvm/versions/3.24.3/packages/integration_test/android" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="Android API 34, extension level 7 Platform" project-jdk-type="Android SDK" />
 </project>

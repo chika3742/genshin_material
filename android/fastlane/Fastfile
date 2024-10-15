@@ -1,0 +1,34 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+    desc "Deploy a new version to the Google Play"
+    lane :upload do
+        Dir.chdir("../../build/app/intermediates/merged_native_libs/release/out/lib") do
+            sh("ls")
+            sh("zip -r ../../../../../../../android/native_debug_symbols.zip ./* -x *x86/*")
+        end
+        upload_to_play_store(
+            aab: "../build/app/outputs/bundle/release/app-release.aab",
+            mapping_paths: ["../build/app/outputs/mapping/release/mapping.txt", "./native_debug_symbols.zip"],
+            track: "internal",
+            skip_upload_metadata: true,
+            skip_upload_images: true,
+            skip_upload_screenshots: true,
+        )
+    end
+end
