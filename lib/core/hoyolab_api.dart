@@ -14,7 +14,7 @@ class HoyolabApi {
   HoyolabApi({this.cookie, this.region, this.uid, http.Client? client}) : client = client ?? http.Client();
 
   final http.Client client;
-  final String lang = switch (LocaleSettings.currentLocale) {
+  String get lang => switch (LocaleSettings.currentLocale) {
     AppLocale.ja => "ja-jp",
     AppLocale.en => "en-us",
   };
