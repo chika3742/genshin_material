@@ -301,20 +301,24 @@ class _QuantityCrossFade extends HookConsumerWidget {
     final alternateState = useValueListenable(QuantityStateProvider.of(context).state);
     final mode = ref.watch(preferencesStateNotifierProvider.select((e) => e.lackNumDisplayMethod));
 
-    final currentState = switch (mode) {
-      LackNumDisplayMethod.alternate => switch (alternateState) {
-        QuantityState.requiredNum => alternateState,
+    QuantityState getActualState(QuantityState state) {
+      return switch (state) {
+        QuantityState.requiredNum => state,
 
-        QuantityState.lackNum when lackNumChild != null => alternateState,
+        QuantityState.lackNum when lackNumChild != null => state,
         QuantityState.lackNum => QuantityState.requiredNum, // fallback
 
-        QuantityState.craftedLackNum when craftedLackNumChild != null => alternateState,
+        QuantityState.craftedLackNum when craftedLackNumChild != null => state,
         QuantityState.craftedLackNum when lackNumChild != null => QuantityState.lackNum, // fallback
         QuantityState.craftedLackNum => QuantityState.requiredNum, // fallback
-      },
-      LackNumDisplayMethod.requiredNumOnly => QuantityState.requiredNum,
-      LackNumDisplayMethod.lackNumOnly => QuantityState.lackNum,
-      LackNumDisplayMethod.craftedLackNumOnly => QuantityState.craftedLackNum,
+      };
+    }
+
+    final currentState = switch (mode) {
+      LackNumDisplayMethod.alternate => getActualState(alternateState),
+      LackNumDisplayMethod.requiredNumOnly => getActualState(QuantityState.requiredNum),
+      LackNumDisplayMethod.lackNumOnly => getActualState(QuantityState.lackNum),
+      LackNumDisplayMethod.craftedLackNumOnly => getActualState(QuantityState.craftedLackNum),
     };
 
     return Stack(

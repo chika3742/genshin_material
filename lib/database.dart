@@ -38,7 +38,6 @@ class BookmarkTable extends Table {
 
 @DataClassName("BookmarkMaterialDetails")
 class BookmarkMaterialDetailsTable extends Table {
-  IntColumn get id => integer().autoIncrement()();
   IntColumn get parentId => integer().references(BookmarkTable, #id, onDelete: KeyAction.cascade)();
   /// If null, this is a character material bookmark.
   TextColumn get weaponId => text().nullable()();
@@ -50,6 +49,9 @@ class BookmarkMaterialDetailsTable extends Table {
   IntColumn get upperLevel => integer()();
   TextColumn get purposeType => textEnum<Purpose>()();
   TextColumn get hash => text()();
+
+  @override
+  Set<Column<Object>>? get primaryKey => {hash};
 }
 
 @DataClassName("BookmarkArtifactSetDetails")

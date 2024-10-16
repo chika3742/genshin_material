@@ -24,7 +24,6 @@ mixin _$CharacterDetailsPageState {
       throw _privateConstructorUsedError;
   Map<Purpose, GlobalKey<State<StatefulWidget>>> get talentSectionKeys =>
       throw _privateConstructorUsedError;
-  Map<int, int> get bagCounts => throw _privateConstructorUsedError;
 
   /// Create a copy of _CharacterDetailsPageState
   /// with the given fields replaced by the non-null parameter values.
@@ -44,8 +43,7 @@ abstract class _$CharacterDetailsPageStateCopyWith<$Res> {
       {Map<Purpose, LevelRangeValues> rangeValues,
       Map<Purpose, List<int>> sliderTickLabels,
       Map<Purpose, bool> checkedTalentTypes,
-      Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys,
-      Map<int, int> bagCounts});
+      Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys});
 }
 
 /// @nodoc
@@ -68,7 +66,6 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res,
     Object? sliderTickLabels = null,
     Object? checkedTalentTypes = null,
     Object? talentSectionKeys = null,
-    Object? bagCounts = null,
   }) {
     return _then(_value.copyWith(
       rangeValues: null == rangeValues
@@ -87,10 +84,6 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res,
           ? _value.talentSectionKeys
           : talentSectionKeys // ignore: cast_nullable_to_non_nullable
               as Map<Purpose, GlobalKey<State<StatefulWidget>>>,
-      bagCounts: null == bagCounts
-          ? _value.bagCounts
-          : bagCounts // ignore: cast_nullable_to_non_nullable
-              as Map<int, int>,
     ) as $Val);
   }
 }
@@ -108,8 +101,7 @@ abstract class _$$_CharacterDetailsPageStateImplCopyWith<$Res>
       {Map<Purpose, LevelRangeValues> rangeValues,
       Map<Purpose, List<int>> sliderTickLabels,
       Map<Purpose, bool> checkedTalentTypes,
-      Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys,
-      Map<int, int> bagCounts});
+      Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys});
 }
 
 /// @nodoc
@@ -131,7 +123,6 @@ class __$$_CharacterDetailsPageStateImplCopyWithImpl<$Res>
     Object? sliderTickLabels = null,
     Object? checkedTalentTypes = null,
     Object? talentSectionKeys = null,
-    Object? bagCounts = null,
   }) {
     return _then(_$_CharacterDetailsPageStateImpl(
       rangeValues: null == rangeValues
@@ -150,10 +141,6 @@ class __$$_CharacterDetailsPageStateImplCopyWithImpl<$Res>
           ? _value._talentSectionKeys
           : talentSectionKeys // ignore: cast_nullable_to_non_nullable
               as Map<Purpose, GlobalKey<State<StatefulWidget>>>,
-      bagCounts: null == bagCounts
-          ? _value._bagCounts
-          : bagCounts // ignore: cast_nullable_to_non_nullable
-              as Map<int, int>,
     ));
   }
 }
@@ -166,13 +153,11 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
       required final Map<Purpose, List<int>> sliderTickLabels,
       required final Map<Purpose, bool> checkedTalentTypes,
       required final Map<Purpose, GlobalKey<State<StatefulWidget>>>
-          talentSectionKeys,
-      required final Map<int, int> bagCounts})
+          talentSectionKeys})
       : _rangeValues = rangeValues,
         _sliderTickLabels = sliderTickLabels,
         _checkedTalentTypes = checkedTalentTypes,
-        _talentSectionKeys = talentSectionKeys,
-        _bagCounts = bagCounts;
+        _talentSectionKeys = talentSectionKeys;
 
   final Map<Purpose, LevelRangeValues> _rangeValues;
   @override
@@ -208,17 +193,9 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
     return EqualUnmodifiableMapView(_talentSectionKeys);
   }
 
-  final Map<int, int> _bagCounts;
-  @override
-  Map<int, int> get bagCounts {
-    if (_bagCounts is EqualUnmodifiableMapView) return _bagCounts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_bagCounts);
-  }
-
   @override
   String toString() {
-    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys, bagCounts: $bagCounts)';
+    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys)';
   }
 
   @override
@@ -233,9 +210,7 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
             const DeepCollectionEquality()
                 .equals(other._checkedTalentTypes, _checkedTalentTypes) &&
             const DeepCollectionEquality()
-                .equals(other._talentSectionKeys, _talentSectionKeys) &&
-            const DeepCollectionEquality()
-                .equals(other._bagCounts, _bagCounts));
+                .equals(other._talentSectionKeys, _talentSectionKeys));
   }
 
   @override
@@ -244,8 +219,7 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
       const DeepCollectionEquality().hash(_rangeValues),
       const DeepCollectionEquality().hash(_sliderTickLabels),
       const DeepCollectionEquality().hash(_checkedTalentTypes),
-      const DeepCollectionEquality().hash(_talentSectionKeys),
-      const DeepCollectionEquality().hash(_bagCounts));
+      const DeepCollectionEquality().hash(_talentSectionKeys));
 
   /// Create a copy of _CharacterDetailsPageState
   /// with the given fields replaced by the non-null parameter values.
@@ -260,13 +234,11 @@ class _$_CharacterDetailsPageStateImpl implements __CharacterDetailsPageState {
 abstract class __CharacterDetailsPageState
     implements _CharacterDetailsPageState {
   const factory __CharacterDetailsPageState(
-          {required final Map<Purpose, LevelRangeValues> rangeValues,
-          required final Map<Purpose, List<int>> sliderTickLabels,
-          required final Map<Purpose, bool> checkedTalentTypes,
-          required final Map<Purpose, GlobalKey<State<StatefulWidget>>>
-              talentSectionKeys,
-          required final Map<int, int> bagCounts}) =
-      _$_CharacterDetailsPageStateImpl;
+      {required final Map<Purpose, LevelRangeValues> rangeValues,
+      required final Map<Purpose, List<int>> sliderTickLabels,
+      required final Map<Purpose, bool> checkedTalentTypes,
+      required final Map<Purpose, GlobalKey<State<StatefulWidget>>>
+          talentSectionKeys}) = _$_CharacterDetailsPageStateImpl;
 
   @override
   Map<Purpose, LevelRangeValues> get rangeValues;
@@ -276,8 +248,6 @@ abstract class __CharacterDetailsPageState
   Map<Purpose, bool> get checkedTalentTypes;
   @override
   Map<Purpose, GlobalKey<State<StatefulWidget>>> get talentSectionKeys;
-  @override
-  Map<int, int> get bagCounts;
 
   /// Create a copy of _CharacterDetailsPageState
   /// with the given fields replaced by the non-null parameter values.

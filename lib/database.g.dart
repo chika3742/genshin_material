@@ -206,15 +206,6 @@ class $BookmarkMaterialDetailsTableTable extends BookmarkMaterialDetailsTable
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $BookmarkMaterialDetailsTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
   static const VerificationMeta _parentIdMeta =
       const VerificationMeta('parentId');
   @override
@@ -262,16 +253,8 @@ class $BookmarkMaterialDetailsTableTable extends BookmarkMaterialDetailsTable
       'hash', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        parentId,
-        weaponId,
-        materialId,
-        quantity,
-        upperLevel,
-        purposeType,
-        hash
-      ];
+  List<GeneratedColumn> get $columns =>
+      [parentId, weaponId, materialId, quantity, upperLevel, purposeType, hash];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -283,9 +266,6 @@ class $BookmarkMaterialDetailsTableTable extends BookmarkMaterialDetailsTable
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
     if (data.containsKey('parent_id')) {
       context.handle(_parentIdMeta,
           parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta));
@@ -327,14 +307,12 @@ class $BookmarkMaterialDetailsTableTable extends BookmarkMaterialDetailsTable
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {hash};
   @override
   BookmarkMaterialDetails map(Map<String, dynamic> data,
       {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BookmarkMaterialDetails(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       parentId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}parent_id'])!,
       weaponId: attachedDatabase.typeMapping
@@ -364,7 +342,6 @@ class $BookmarkMaterialDetailsTableTable extends BookmarkMaterialDetailsTable
 
 class BookmarkMaterialDetails extends DataClass
     implements Insertable<BookmarkMaterialDetails> {
-  final int id;
   final int parentId;
 
   /// If null, this is a character material bookmark.
@@ -381,8 +358,7 @@ class BookmarkMaterialDetails extends DataClass
   final Purpose purposeType;
   final String hash;
   const BookmarkMaterialDetails(
-      {required this.id,
-      required this.parentId,
+      {required this.parentId,
       this.weaponId,
       this.materialId,
       required this.quantity,
@@ -392,7 +368,6 @@ class BookmarkMaterialDetails extends DataClass
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
     map['parent_id'] = Variable<int>(parentId);
     if (!nullToAbsent || weaponId != null) {
       map['weapon_id'] = Variable<String>(weaponId);
@@ -413,7 +388,6 @@ class BookmarkMaterialDetails extends DataClass
 
   BookmarkMaterialDetailsCompanion toCompanion(bool nullToAbsent) {
     return BookmarkMaterialDetailsCompanion(
-      id: Value(id),
       parentId: Value(parentId),
       weaponId: weaponId == null && nullToAbsent
           ? const Value.absent()
@@ -432,7 +406,6 @@ class BookmarkMaterialDetails extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BookmarkMaterialDetails(
-      id: serializer.fromJson<int>(json['id']),
       parentId: serializer.fromJson<int>(json['parentId']),
       weaponId: serializer.fromJson<String?>(json['weaponId']),
       materialId: serializer.fromJson<String?>(json['materialId']),
@@ -447,7 +420,6 @@ class BookmarkMaterialDetails extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
       'parentId': serializer.toJson<int>(parentId),
       'weaponId': serializer.toJson<String?>(weaponId),
       'materialId': serializer.toJson<String?>(materialId),
@@ -461,8 +433,7 @@ class BookmarkMaterialDetails extends DataClass
   }
 
   BookmarkMaterialDetails copyWith(
-          {int? id,
-          int? parentId,
+          {int? parentId,
           Value<String?> weaponId = const Value.absent(),
           Value<String?> materialId = const Value.absent(),
           int? quantity,
@@ -470,7 +441,6 @@ class BookmarkMaterialDetails extends DataClass
           Purpose? purposeType,
           String? hash}) =>
       BookmarkMaterialDetails(
-        id: id ?? this.id,
         parentId: parentId ?? this.parentId,
         weaponId: weaponId.present ? weaponId.value : this.weaponId,
         materialId: materialId.present ? materialId.value : this.materialId,
@@ -482,7 +452,6 @@ class BookmarkMaterialDetails extends DataClass
   BookmarkMaterialDetails copyWithCompanion(
       BookmarkMaterialDetailsCompanion data) {
     return BookmarkMaterialDetails(
-      id: data.id.present ? data.id.value : this.id,
       parentId: data.parentId.present ? data.parentId.value : this.parentId,
       weaponId: data.weaponId.present ? data.weaponId.value : this.weaponId,
       materialId:
@@ -499,7 +468,6 @@ class BookmarkMaterialDetails extends DataClass
   @override
   String toString() {
     return (StringBuffer('BookmarkMaterialDetails(')
-          ..write('id: $id, ')
           ..write('parentId: $parentId, ')
           ..write('weaponId: $weaponId, ')
           ..write('materialId: $materialId, ')
@@ -512,13 +480,12 @@ class BookmarkMaterialDetails extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, parentId, weaponId, materialId, quantity,
-      upperLevel, purposeType, hash);
+  int get hashCode => Object.hash(
+      parentId, weaponId, materialId, quantity, upperLevel, purposeType, hash);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is BookmarkMaterialDetails &&
-          other.id == this.id &&
           other.parentId == this.parentId &&
           other.weaponId == this.weaponId &&
           other.materialId == this.materialId &&
@@ -530,7 +497,6 @@ class BookmarkMaterialDetails extends DataClass
 
 class BookmarkMaterialDetailsCompanion
     extends UpdateCompanion<BookmarkMaterialDetails> {
-  final Value<int> id;
   final Value<int> parentId;
   final Value<String?> weaponId;
   final Value<String?> materialId;
@@ -538,8 +504,8 @@ class BookmarkMaterialDetailsCompanion
   final Value<int> upperLevel;
   final Value<Purpose> purposeType;
   final Value<String> hash;
+  final Value<int> rowid;
   const BookmarkMaterialDetailsCompanion({
-    this.id = const Value.absent(),
     this.parentId = const Value.absent(),
     this.weaponId = const Value.absent(),
     this.materialId = const Value.absent(),
@@ -547,9 +513,9 @@ class BookmarkMaterialDetailsCompanion
     this.upperLevel = const Value.absent(),
     this.purposeType = const Value.absent(),
     this.hash = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   BookmarkMaterialDetailsCompanion.insert({
-    this.id = const Value.absent(),
     required int parentId,
     this.weaponId = const Value.absent(),
     this.materialId = const Value.absent(),
@@ -557,13 +523,13 @@ class BookmarkMaterialDetailsCompanion
     required int upperLevel,
     required Purpose purposeType,
     required String hash,
+    this.rowid = const Value.absent(),
   })  : parentId = Value(parentId),
         quantity = Value(quantity),
         upperLevel = Value(upperLevel),
         purposeType = Value(purposeType),
         hash = Value(hash);
   static Insertable<BookmarkMaterialDetails> custom({
-    Expression<int>? id,
     Expression<int>? parentId,
     Expression<String>? weaponId,
     Expression<String>? materialId,
@@ -571,9 +537,9 @@ class BookmarkMaterialDetailsCompanion
     Expression<int>? upperLevel,
     Expression<String>? purposeType,
     Expression<String>? hash,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
       if (parentId != null) 'parent_id': parentId,
       if (weaponId != null) 'weapon_id': weaponId,
       if (materialId != null) 'material_id': materialId,
@@ -581,20 +547,20 @@ class BookmarkMaterialDetailsCompanion
       if (upperLevel != null) 'upper_level': upperLevel,
       if (purposeType != null) 'purpose_type': purposeType,
       if (hash != null) 'hash': hash,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   BookmarkMaterialDetailsCompanion copyWith(
-      {Value<int>? id,
-      Value<int>? parentId,
+      {Value<int>? parentId,
       Value<String?>? weaponId,
       Value<String?>? materialId,
       Value<int>? quantity,
       Value<int>? upperLevel,
       Value<Purpose>? purposeType,
-      Value<String>? hash}) {
+      Value<String>? hash,
+      Value<int>? rowid}) {
     return BookmarkMaterialDetailsCompanion(
-      id: id ?? this.id,
       parentId: parentId ?? this.parentId,
       weaponId: weaponId ?? this.weaponId,
       materialId: materialId ?? this.materialId,
@@ -602,15 +568,13 @@ class BookmarkMaterialDetailsCompanion
       upperLevel: upperLevel ?? this.upperLevel,
       purposeType: purposeType ?? this.purposeType,
       hash: hash ?? this.hash,
+      rowid: rowid ?? this.rowid,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
     if (parentId.present) {
       map['parent_id'] = Variable<int>(parentId.value);
     }
@@ -634,20 +598,23 @@ class BookmarkMaterialDetailsCompanion
     if (hash.present) {
       map['hash'] = Variable<String>(hash.value);
     }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
     return map;
   }
 
   @override
   String toString() {
     return (StringBuffer('BookmarkMaterialDetailsCompanion(')
-          ..write('id: $id, ')
           ..write('parentId: $parentId, ')
           ..write('weaponId: $weaponId, ')
           ..write('materialId: $materialId, ')
           ..write('quantity: $quantity, ')
           ..write('upperLevel: $upperLevel, ')
           ..write('purposeType: $purposeType, ')
-          ..write('hash: $hash')
+          ..write('hash: $hash, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -2730,7 +2697,6 @@ typedef $$BookmarkTableTableProcessedTableManager = ProcessedTableManager<
         bool bookmarkArtifactPieceDetailsTableRefs})>;
 typedef $$BookmarkMaterialDetailsTableTableCreateCompanionBuilder
     = BookmarkMaterialDetailsCompanion Function({
-  Value<int> id,
   required int parentId,
   Value<String?> weaponId,
   Value<String?> materialId,
@@ -2738,10 +2704,10 @@ typedef $$BookmarkMaterialDetailsTableTableCreateCompanionBuilder
   required int upperLevel,
   required Purpose purposeType,
   required String hash,
+  Value<int> rowid,
 });
 typedef $$BookmarkMaterialDetailsTableTableUpdateCompanionBuilder
     = BookmarkMaterialDetailsCompanion Function({
-  Value<int> id,
   Value<int> parentId,
   Value<String?> weaponId,
   Value<String?> materialId,
@@ -2749,6 +2715,7 @@ typedef $$BookmarkMaterialDetailsTableTableUpdateCompanionBuilder
   Value<int> upperLevel,
   Value<Purpose> purposeType,
   Value<String> hash,
+  Value<int> rowid,
 });
 
 final class $$BookmarkMaterialDetailsTableTableReferences
@@ -2775,11 +2742,6 @@ final class $$BookmarkMaterialDetailsTableTableReferences
 class $$BookmarkMaterialDetailsTableTableFilterComposer
     extends FilterComposer<_$AppDatabase, $BookmarkMaterialDetailsTableTable> {
   $$BookmarkMaterialDetailsTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
   ColumnFilters<String> get weaponId => $state.composableBuilder(
       column: $state.table.weaponId,
       builder: (column, joinBuilders) =>
@@ -2829,11 +2791,6 @@ class $$BookmarkMaterialDetailsTableTableOrderingComposer
     extends OrderingComposer<_$AppDatabase,
         $BookmarkMaterialDetailsTableTable> {
   $$BookmarkMaterialDetailsTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
   ColumnOrderings<String> get weaponId => $state.composableBuilder(
       column: $state.table.weaponId,
       builder: (column, joinBuilders) =>
@@ -2899,7 +2856,6 @@ class $$BookmarkMaterialDetailsTableTableTableManager extends RootTableManager<
           orderingComposer: $$BookmarkMaterialDetailsTableTableOrderingComposer(
               ComposerState(db, table)),
           updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
             Value<int> parentId = const Value.absent(),
             Value<String?> weaponId = const Value.absent(),
             Value<String?> materialId = const Value.absent(),
@@ -2907,9 +2863,9 @@ class $$BookmarkMaterialDetailsTableTableTableManager extends RootTableManager<
             Value<int> upperLevel = const Value.absent(),
             Value<Purpose> purposeType = const Value.absent(),
             Value<String> hash = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
           }) =>
               BookmarkMaterialDetailsCompanion(
-            id: id,
             parentId: parentId,
             weaponId: weaponId,
             materialId: materialId,
@@ -2917,9 +2873,9 @@ class $$BookmarkMaterialDetailsTableTableTableManager extends RootTableManager<
             upperLevel: upperLevel,
             purposeType: purposeType,
             hash: hash,
+            rowid: rowid,
           ),
           createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
             required int parentId,
             Value<String?> weaponId = const Value.absent(),
             Value<String?> materialId = const Value.absent(),
@@ -2927,9 +2883,9 @@ class $$BookmarkMaterialDetailsTableTableTableManager extends RootTableManager<
             required int upperLevel,
             required Purpose purposeType,
             required String hash,
+            Value<int> rowid = const Value.absent(),
           }) =>
               BookmarkMaterialDetailsCompanion.insert(
-            id: id,
             parentId: parentId,
             weaponId: weaponId,
             materialId: materialId,
@@ -2937,6 +2893,7 @@ class $$BookmarkMaterialDetailsTableTableTableManager extends RootTableManager<
             upperLevel: upperLevel,
             purposeType: purposeType,
             hash: hash,
+            rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (

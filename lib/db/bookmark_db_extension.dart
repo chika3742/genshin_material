@@ -85,10 +85,34 @@ extension BookmarkDbExtension on AppDatabase {
     });
   }
 
+  Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksByGroupHash(String groupHash) {
+    final query = select(bookmarkTable).join([
+      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
+    ]);
+    query.where(
+      bookmarkTable.groupHash.equals(groupHash),
+    );
+    return query.watch().map((rows) {
+      return rows.map((row) {
+        return BookmarkWithMaterialDetails(
+          metadata: row.readTable(bookmarkTable),
+          materialDetails: row.readTable(bookmarkMaterialDetailsTable),
+        );
+      }).toList();
+    });
+  }
+
   Future<void> _addBookmarks(List<BookmarkCompanionWithDetails> companions) async {
     final groupHashes = <String>{};
     await transaction(() async {
       for (final companion in companions) {
+        if (companion is BookmarkCompanionWithMaterialDetails) {
+          final existing = await (select(bookmarkMaterialDetailsTable)
+            ..where((tbl) => tbl.hash.equals(companion.materialDetails.hash))).getSingleOrNull();
+          if (existing != null) {
+            continue;
+          }
+        }
         final bookmarkId = await into(bookmarkTable).insert(companion.metadata);
         await switch (companion) {
           BookmarkCompanionWithMaterialDetails() => into(bookmarkMaterialDetailsTable).insert(companion.materialDetails.withParentId(bookmarkId)),
