@@ -16,10 +16,12 @@ import "../../../components/material_card.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
+import "../../../db/in_game_weapon_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/material_bookmark_frame.dart";
 import "../../../models/weapon.dart";
+import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";
 import "../../../ui_core/layout.dart";
@@ -59,12 +61,22 @@ class WeaponDetailsPage extends HookConsumerWidget {
     );
     final selectedCharacterId = useState(selectedCharacterIdInit);
 
+    final db = ref.watch(appDatabaseProvider);
+    final sliderRangeInitialized = useState(!prefs.isLinkedWithHoyolab); // Set to true initially when not linked
     useEffect(() {
       if (prefs.isLinkedWithHoyolab) {
         ref.read(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id).notifier)
             .syncInGameCharacter().then((value) {
-              rangeValues.value = LevelRangeValues(value[Purpose.ascension]!, max(rangeValues.value.end, value[Purpose.ascension]!));
+              if (value[Purpose.ascension] != null) {
+                rangeValues.value = LevelRangeValues(value[Purpose.ascension]!, max(rangeValues.value.end, value[Purpose.ascension]!));
+              }
             });
+        db.getWeaponLevel(prefs.hyvUid!, selectedCharacterId.value, weapon.id).then((value) {
+          if (value != null) {
+            rangeValues.value = LevelRangeValues(value, max(rangeValues.value.end, value));
+          }
+          sliderRangeInitialized.value = true;
+        });
       }
       return null;
     }, [selectedCharacterId.value],);
@@ -127,17 +139,20 @@ class WeaponDetailsPage extends HookConsumerWidget {
                         margin: EdgeInsets.zero,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: LevelSlider(
-                            levels: sliderTickLabels,
-                            values: rangeValues.value,
-                            onChanged: (values) {
-                              // avoid overlapping slider handles
-                              if (values.start == values.end) {
-                                return;
-                              }
+                          child: Visibility(
+                            visible: sliderRangeInitialized.value,
+                            child: LevelSlider(
+                              levels: sliderTickLabels,
+                              values: rangeValues.value,
+                              onChanged: (values) {
+                                // avoid overlapping slider handles
+                                if (values.start == values.end) {
+                                  return;
+                                }
 
-                              rangeValues.value = values;
-                            },
+                                rangeValues.value = values;
+                              },
+                            ),
                           ),
                         ),
                       ),
