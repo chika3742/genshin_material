@@ -13,6 +13,7 @@ import "package:timeago/timeago.dart" as timeago;
 
 import "core/provider_error_observer.dart";
 import "core/theme.dart";
+// ignore: uri_does_not_exist
 import "firebase_options.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
@@ -52,6 +53,7 @@ void main() async {
 
   // Firebase
   await Firebase.initializeApp(
+    // ignore: undefined_identifier
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
