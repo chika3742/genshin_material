@@ -1,3 +1,5 @@
+import "package:firebase_core/firebase_core.dart";
+import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -11,6 +13,7 @@ import "package:timeago/timeago.dart" as timeago;
 
 import "core/provider_error_observer.dart";
 import "core/theme.dart";
+import "firebase_options.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
 import "providers/versions.dart";
@@ -46,6 +49,17 @@ void main() async {
       yield LicenseEntryWithLineBreaks(["google_fonts"], license);
     }
   });
+
+  // Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
   runApp(
     ProviderScope(
       observers: [ProviderErrorObserver()],

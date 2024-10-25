@@ -66,6 +66,12 @@ class DebugMenuPage extends ConsumerWidget {
               ),
             ],
           ),
+          SimpleListTile(
+            title: "Test Crash",
+            onTap: () {
+              throw Exception("Test Crash");
+            },
+          ),
         ],
       ),
     );
