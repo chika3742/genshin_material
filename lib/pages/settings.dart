@@ -4,7 +4,6 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../components/list_subheader.dart";
 import "../components/list_tile.dart";
-import "../core/kv_preferences.dart";
 import "../i18n/strings.g.dart";
 import "../models/common.dart";
 import "../providers/asset_updating_state.dart";
@@ -34,29 +33,6 @@ class SettingsPage extends HookConsumerWidget {
             value: prefs.showItemNameOnCard,
             onChanged: (value) {
               ref.read(preferencesStateNotifierProvider.notifier).setShowItemNameOnCard(value!);
-            },
-          ),
-          SimpleListTile(
-            title: tr.settingsPage.lackNumDisplayMethod,
-            subtitle: tr.settingsPage.lackNumDisplayMethodValues[prefs.lackNumDisplayMethod.name],
-            onTap: () {
-              showSelectBottomSheet(
-                context: context,
-                title: Text(tr.settingsPage.lackNumDisplayMethod),
-                subtitle: Text(tr.settingsPage.lackNumDisplayMethodDesc),
-                selectedValue: prefs.lackNumDisplayMethod,
-                items: [
-                  for (final method in LackNumDisplayMethod.values)
-                    SelectBottomSheetItem(
-                      text: tr.settingsPage.lackNumDisplayMethodValues[method.name]!,
-                      value: method,
-                    ),
-                ],
-              ).then((value) {
-                if (value != null) {
-                  ref.read(preferencesStateNotifierProvider.notifier).setLackNumDisplayMethod(value);
-                }
-              });
             },
           ),
           SimpleListTile(
