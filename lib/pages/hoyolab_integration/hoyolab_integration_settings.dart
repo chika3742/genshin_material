@@ -62,6 +62,10 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
               }
             },
           ),
+          ListTile(
+            title: Text(tr.hoyolab.aboutHeading),
+            subtitle: Text(tr.hoyolab.about),
+          ),
         ],
       ) : ListView(
         children: [

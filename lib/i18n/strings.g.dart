@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 369 (184 per locale)
+/// Strings: 371 (185 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -517,6 +517,8 @@ class _StringsHoyolabJa {
 
 	// Translations
 	String get signIn => 'HoYoLABにサインイン';
+	String get aboutHeading => 'HoYoLAB連携について';
+	String get about => '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。\n\nHoYoLABの認証情報（メールアドレスやパスワードは含まない）、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。\n\nほぼ同じ仕組みを採用している他アプリにおいては、本機能の利用によって各種アカウントが停止されたという報告は1件もないようです。しかしながら、万が一本機能の利用によっていかなる損害が生じたとしても、本アプリの開発者は一切の責任を負いません。\n';
 	String get signOut => 'HoYoLABとの連携を解除';
 	String get signInNote => '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
 	String get failedToSignIn => 'HoYoLABへのサインインに失敗しました。';
@@ -1166,6 +1168,8 @@ extension on Translations {
 			case 'settingsPage.others': return 'その他';
 			case 'settingsPage.openSourceLicenses': return 'オープンソースライセンス';
 			case 'hoyolab.signIn': return 'HoYoLABにサインイン';
+			case 'hoyolab.aboutHeading': return 'HoYoLAB連携について';
+			case 'hoyolab.about': return '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。\n\nHoYoLABの認証情報（メールアドレスやパスワードは含まない）、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。\n\nほぼ同じ仕組みを採用している他アプリにおいては、本機能の利用によって各種アカウントが停止されたという報告は1件もないようです。しかしながら、万が一本機能の利用によっていかなる損害が生じたとしても、本アプリの開発者は一切の責任を負いません。\n';
 			case 'hoyolab.signOut': return 'HoYoLABとの連携を解除';
 			case 'hoyolab.signInNote': return '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
 			case 'hoyolab.failedToSignIn': return 'HoYoLABへのサインインに失敗しました。';
