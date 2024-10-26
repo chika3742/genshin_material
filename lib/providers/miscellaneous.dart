@@ -1,4 +1,5 @@
 import "package:collection/collection.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/hoyolab_api.dart";
@@ -43,7 +44,7 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
 }
 
 @riverpod
-Future<List<CharacterId>?> ownedCharacters(OwnedCharactersRef ref) async {
+Future<List<CharacterId>?> ownedCharacters(Ref ref) async {
   final apiInfo = ref.watch(preferencesStateNotifierProvider.select((s) => s.isLinkedWithHoyolab ? (s.hyvServer!, s.hyvUid!) : null));
   if (apiInfo == null) {
     return null;

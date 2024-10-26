@@ -6,7 +6,7 @@ part of 'miscellaneous.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$ownedCharactersHash() => r'8a5fdcca65025a1e6768169ce9b3f0bbf65ba898';
+String _$ownedCharactersHash() => r'84e2b7696ff524d2d462a5cad4095724071a5241';
 
 /// See also [ownedCharacters].
 @ProviderFor(ownedCharacters)
@@ -21,6 +21,8 @@ final ownedCharactersProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef OwnedCharactersRef = AutoDisposeFutureProviderRef<List<CharacterId>?>;
 String _$realtimeNotesActivationStateHash() =>
     r'fe12c5df9dc88c1d710f025dc1a52f71e5e1d5af';
@@ -40,4 +42,4 @@ final realtimeNotesActivationStateProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$RealtimeNotesActivationState = AutoDisposeAsyncNotifier<bool>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

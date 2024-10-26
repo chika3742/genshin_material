@@ -1,6 +1,7 @@
 import "dart:io";
 
 import "package:flutter/services.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:package_info_plus/package_info_plus.dart";
 import "package:path/path.dart" as path;
 import "package:riverpod_annotation/riverpod_annotation.dart";
@@ -13,26 +14,26 @@ import "../utils/unwrap_yaml_value.dart";
 part "versions.g.dart";
 
 @Riverpod(keepAlive: true)
-Future<PackageInfo> packageInfo(PackageInfoRef ref) async {
+Future<PackageInfo> packageInfo(Ref ref) async {
   return await PackageInfo.fromPlatform();
 }
 
 @riverpod
-Future<AssetData> assetData(AssetDataRef ref) async {
+Future<AssetData> assetData(Ref ref) async {
   final dataCache = AssetDataCacheProvider((await getLocalAssetDirectory()).path);
   await dataCache.load();
   return dataCache.data!;
 }
 
 @riverpod
-Future<List<ReleaseNote>> featuresReleaseNotesData(FeaturesReleaseNotesDataRef ref) async {
+Future<List<ReleaseNote>> featuresReleaseNotesData(Ref ref) async {
   final yaml = await rootBundle.loadString("assets/release_notes.yaml");
   final items = loadYamlUnwrapped<List>(yaml);
   return items.map((e) => ReleaseNote.fromJson(e)).toList();
 }
 
 @riverpod
-Future<List<ReleaseNote>> assetsReleaseNotesData(AssetsReleaseNotesDataRef ref) async {
+Future<List<ReleaseNote>> assetsReleaseNotesData(Ref ref) async {
   final assetData = await ref.watch(assetDataProvider.future);
 
   final assetPath = path.join(assetData.assetDir, "asset-release-notes.json");

@@ -6,7 +6,7 @@ part of 'versions.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$packageInfoHash() => r'9fe479523e8271f8a97e79dcdc75029c05d9c483';
+String _$packageInfoHash() => r'44d37547139567a5f03c1942c1d62ff1abb07248';
 
 /// See also [packageInfo].
 @ProviderFor(packageInfo)
@@ -19,8 +19,10 @@ final packageInfoProvider = FutureProvider<PackageInfo>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef PackageInfoRef = FutureProviderRef<PackageInfo>;
-String _$assetDataHash() => r'eb0a0544270e2d46a68433c9a75defefd676733b';
+String _$assetDataHash() => r'3c3a09ccfb30ff039d3c8da77e0737b92d1cc00b';
 
 /// See also [assetData].
 @ProviderFor(assetData)
@@ -33,9 +35,11 @@ final assetDataProvider = AutoDisposeFutureProvider<AssetData>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AssetDataRef = AutoDisposeFutureProviderRef<AssetData>;
 String _$featuresReleaseNotesDataHash() =>
-    r'8e2514976767aef0ea658dd933298209f5375942';
+    r'ca5d04dc65b42cfe39f90626b86ebf6f6cbcdaa3';
 
 /// See also [featuresReleaseNotesData].
 @ProviderFor(featuresReleaseNotesData)
@@ -50,10 +54,12 @@ final featuresReleaseNotesDataProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FeaturesReleaseNotesDataRef
     = AutoDisposeFutureProviderRef<List<ReleaseNote>>;
 String _$assetsReleaseNotesDataHash() =>
-    r'124859ed928662c840c4f4286c7296831f807b78';
+    r'3bdaa70123b85fb630ba46661fca53394c9c1eb9';
 
 /// See also [assetsReleaseNotesData].
 @ProviderFor(assetsReleaseNotesData)
@@ -68,7 +74,9 @@ final assetsReleaseNotesDataProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AssetsReleaseNotesDataRef
     = AutoDisposeFutureProviderRef<List<ReleaseNote>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
