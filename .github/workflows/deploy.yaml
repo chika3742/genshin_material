@@ -104,6 +104,7 @@ jobs:
           base64 -d <<< "${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY_BASE64 }}" > ./service_account_key.json
           base64 -d <<< "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" > ./app/google-services.json
           base64 -d <<< "${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}" > ../lib/firebase_options.dart
+          base64 -d <<< "${{ secrets.FLUTTERFIRE_FIREBASE_JSON_BASE64 }}" > ../firebase.json
 
       - name: Build Android
         run: |
