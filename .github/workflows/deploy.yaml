@@ -46,6 +46,8 @@ jobs:
           base64 -d <<< "${{ secrets.APPLE_PROVISIONING_PROFILE_BASE64 }}" > ./secrets/Release.mobileprovision
           base64 -d <<< "${{ secrets.APPLE_DIST_CERT_BASE64 }}" > ./secrets/dist.p12
           base64 -d <<< "${{ secrets.ASC_AUTH_KEY_BASE64 }}" > ./secrets/ASC_AuthKey.p8
+          base64 -d <<< "${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}" > ./Runner/GoogleService-Info.plist
+          base64 -d <<< "${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}" > ../lib/firebase_options.dart
           bundle exec fastlane import_certificates
 
       - name: Build iOS
@@ -100,6 +102,8 @@ jobs:
           base64 -d <<< "${{ secrets.ANDROID_KEY_PROPERTIES_BASE64 }}" > ./key.properties
           base64 -d <<< "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" > ./main.keystore
           base64 -d <<< "${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY_BASE64 }}" > ./service_account_key.json
+          base64 -d <<< "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" > ./app/google-services.json
+          base64 -d <<< "${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}" > ../lib/firebase_options.dart
 
       - name: Build Android
         run: |
