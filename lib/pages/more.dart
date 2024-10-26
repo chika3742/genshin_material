@@ -2,6 +2,7 @@ import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
+import "package:url_launcher/url_launcher_string.dart";
 
 import "../../../components/list_tile.dart";
 import "../../../constants/urls.dart";
@@ -53,6 +54,24 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
             location: const ReleaseNotesRoute().location,
           ),
           const Divider(),
+          SimpleListTile(
+            title: tr.morePage.github,
+            subtitle: tr.morePage.githubDesc,
+            leadingIcon: Symbols.code,
+            trailingIcon: Symbols.open_in_browser,
+            onTap: () {
+              launchCustomTab(githubUrl);
+            },
+          ),
+          SimpleListTile(
+            title: tr.morePage.buyMeACoffee,
+            subtitle: tr.morePage.buyMeACoffeeDesc,
+            leadingIcon: Symbols.coffee,
+            trailingIcon: Symbols.open_in_new,
+            onTap: () {
+              launchUrlString(koFiUrl, mode: LaunchMode.externalApplication);
+            },
+          ),
           SimpleListTile(
             title: tr.common.tos,
             leadingIcon: Symbols.gavel,

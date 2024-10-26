@@ -158,6 +158,10 @@ resinCalcPage:
 morePage:
   accountDesc: ブックマーク等をデバイス間で同期できます。
   hoyolabIntegrationSettingsDesc: HoYoLABと連携し、ゲーム内のデータと同期できます。
+  github: GitHub
+  githubDesc: 本アプリのソースコードを閲覧できます。
+  buyMeACoffee: コーヒーをおごる
+  buyMeACoffeeDesc: だいぶ喜びます。
 releaseNotesPage:
   featureUpdates: 機能更新
   assetUpdates: データ更新

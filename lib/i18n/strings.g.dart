@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 371 (185 per locale)
+/// Strings: 375 (187 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -467,6 +467,10 @@ class _StringsMorePageJa {
 	// Translations
 	String get accountDesc => 'ブックマーク等をデバイス間で同期できます。';
 	String get hoyolabIntegrationSettingsDesc => 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
+	String get github => 'GitHub';
+	String get githubDesc => '本アプリのソースコードを閲覧できます。';
+	String get buyMeACoffee => 'コーヒーをおごる';
+	String get buyMeACoffeeDesc => 'だいぶ喜びます。';
 }
 
 // Path: releaseNotesPage
@@ -1147,6 +1151,10 @@ extension on Translations {
 			case 'resinCalcPage.howToUseContent': return '現在の樹脂数を入力すると、入力した地点での時間を基準に、樹脂が全回復する時刻と、全回復するまでの時間を計算します。\n${_root.pages.hoyolabIntegrationSettings}で連携すると、現在の樹脂数を同期できるようになります。この機能を利用する場合「${_root.resinCalcPage.recoveredTime}」「${_root.resinCalcPage.wastedResin}」は、最後に樹脂を使用もしくはアイテム等で回復してから一度も同期していなかった場合には、正確に算出されませんのでご了承ください。\n';
 			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
+			case 'morePage.github': return 'GitHub';
+			case 'morePage.githubDesc': return '本アプリのソースコードを閲覧できます。';
+			case 'morePage.buyMeACoffee': return 'コーヒーをおごる';
+			case 'morePage.buyMeACoffeeDesc': return 'だいぶ喜びます。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
 			case 'settingsPage.display': return '表示';
