@@ -34,12 +34,12 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
             leadingIcon: Symbols.settings,
             location: SettingsRoute().location,
           ),
-          SimpleListTile(
-            title: tr.pages.account,
-            subtitle: tr.morePage.accountDesc,
-            leadingIcon: Symbols.account_box,
-            location: AccountRoute().location,
-          ),
+          // SimpleListTile(
+          //   title: tr.pages.account,
+          //   subtitle: tr.morePage.accountDesc,
+          //   leadingIcon: Symbols.account_box,
+          //   location: AccountRoute().location,
+          // ),
           SimpleListTile(
             title: tr.pages.hoyolabIntegrationSettings,
             subtitle: tr.morePage.hoyolabIntegrationSettingsDesc,
