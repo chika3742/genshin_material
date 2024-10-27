@@ -66,7 +66,7 @@ android {
             val keyStorePath: String? by keyProperties
             if (keyStorePath != null) {
                 storeFile = rootProject.file(keyStorePath!!)
-                storePassword = keyProperties.getProperty("storePassword")
+                storePassword = keyProperties.getProperty("keyStorePassword")
                 keyAlias = keyProperties.getProperty("keyAlias")
                 keyPassword = keyProperties.getProperty("keyPassword")
             }

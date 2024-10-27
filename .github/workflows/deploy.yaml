@@ -48,6 +48,7 @@ jobs:
           base64 -d <<< "${{ secrets.ASC_AUTH_KEY_BASE64 }}" > ./secrets/ASC_AuthKey.p8
           base64 -d <<< "${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}" > ./Runner/GoogleService-Info.plist
           base64 -d <<< "${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}" > ../lib/firebase_options.dart
+          base64 -d <<< "${{ secrets.FLUTTERFIRE_FIREBASE_JSON_BASE64 }}" > ../firebase.json
           bundle exec fastlane import_certificates
 
       - name: Build iOS
