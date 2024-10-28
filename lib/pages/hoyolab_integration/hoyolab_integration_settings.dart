@@ -56,6 +56,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
           ListTile(
             leading: const Icon(Symbols.login),
             title: Text(tr.hoyolab.signIn),
+            trailing: const Icon(Symbols.chevron_right),
             onTap: () async {
               final result =
                   await HoyolabSignInRoute().push<String>(context);
@@ -75,6 +76,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
           ListTile(
             leading: const Icon(Symbols.logout),
             title: Text(tr.hoyolab.signOut),
+            trailing: const Icon(Symbols.chevron_forward),
             onTap: () async {
               showSimpleDialog(
                 context: context,
@@ -99,6 +101,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
               }
               return Text(tr.hoyolab.current(server: prefs.hyvServerName!));
             }(),
+            trailing: const Icon(Symbols.menu_open),
             onTap: () {
               showModalBottomSheet(
                 context: context,
@@ -155,6 +158,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
           SimpleListTile(
             title: tr.hoyolab.lackNumDisplayMethod,
             subtitle: tr.hoyolab.lackNumDisplayMethodValues[prefs.lackNumDisplayMethod.name],
+            trailingIcon: Symbols.menu_open,
             onTap: () {
               showSelectBottomSheet(
                 context: context,
@@ -388,7 +392,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
       children: servers.map((server) {
         return ListTile(
           title: Text(server.name),
-          leading: selectedServer.value == server ? const Icon(Icons.check) : const SizedBox(),
+          leading: selectedServer.value == server ? const Icon(Symbols.check) : const SizedBox(),
           selected: selectedServer.value == server,
           selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           onTap: () async {

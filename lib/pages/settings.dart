@@ -38,6 +38,7 @@ class SettingsPage extends HookConsumerWidget {
           SimpleListTile(
             title: tr.settingsPage.dailyResetServer,
             subtitle: prefs.dailyResetServer.description,
+            trailingIcon: Symbols.menu_open,
             onTap: () {
               showSelectBottomSheet(
                 context: context,
@@ -80,6 +81,7 @@ class SettingsPage extends HookConsumerWidget {
           ListSubheader(tr.settingsPage.others),
           SimpleListTile(
             title: tr.settingsPage.openSourceLicenses,
+            trailingIcon: Symbols.chevron_forward,
             onTap: () {
               LicensesRoute().go(context);
             },

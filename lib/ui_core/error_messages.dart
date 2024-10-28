@@ -15,6 +15,7 @@ String getErrorMessage(Object error, {String prefix = ""}) {
     SocketException() => tr.updates.noInternet,
     HoyolabApiException(:final retcode, :final originalMessage) => switch (retcode) {
       Retcode.characterDoesNotExist => tr.hoyolab.characterDoesNotExist,
+      Retcode.dataNotPublic => tr.hoyolab.realtimeNotesNotEnabled,
       _ => "($originalMessage)",
     },
     DriftRemoteException() => tr.errors.dbError,

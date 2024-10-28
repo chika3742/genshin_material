@@ -252,6 +252,7 @@ class HoyolabApiException implements Exception {
 
 class Retcode {
   static const characterDoesNotExist = -502001;
+  static const dataNotPublic = 10102;
 }
 
 class HoyolabApiUtils {
