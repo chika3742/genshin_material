@@ -43,5 +43,7 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>CFBundleName</key>
+	<string>原神素材</string>
 </dict>
 </plist>
