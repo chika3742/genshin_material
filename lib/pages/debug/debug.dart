@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "../../components/list_tile.dart";
+import "../../core/asset_updater.dart";
 import "../../database.dart";
 import "../../i18n/strings.g.dart";
 import "../../main.dart";
@@ -70,6 +72,16 @@ class DebugMenuPage extends ConsumerWidget {
             title: "Test Crash",
             onTap: () {
               throw Exception("Test Crash");
+            },
+          ),
+          SimpleListTile(
+            title: "Copy Asset Data Path",
+            onTap: () async {
+              final path = await getLocalAssetDirectory();
+              await Clipboard.setData(ClipboardData(text: path.path));
+              if (context.mounted) {
+                showSnackBar(context: context, message: "Asset data path copied to clipboard");
+              }
             },
           ),
         ],
