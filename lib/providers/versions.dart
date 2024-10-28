@@ -1,5 +1,6 @@
 import "dart:io";
 
+import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:package_info_plus/package_info_plus.dart";
@@ -22,6 +23,9 @@ Future<PackageInfo> packageInfo(Ref ref) async {
 Future<AssetData> assetData(Ref ref) async {
   final dataCache = AssetDataCacheProvider((await getLocalAssetDirectory()).path);
   await dataCache.load();
+  ref.onDispose(() {
+    (WidgetsBinding.instance as WidgetsFlutterBinding).imageCache.clear();
+  });
   return dataCache.data!;
 }
 
