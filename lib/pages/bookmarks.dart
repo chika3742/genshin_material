@@ -75,6 +75,10 @@ class _BookmarkList extends HookConsumerWidget {
     // hold the state of the current context to pass to the dragging item
     final qStateNotifier = QuantityStateProvider.of(context);
 
+    if (bookmarksSnapshot.connectionState == ConnectionState.waiting) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return Stack(
       children: [
         ReorderableListView.builder(
