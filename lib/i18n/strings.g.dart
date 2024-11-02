@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 376 (188 per locale)
+/// Strings: 377 (188 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -239,7 +239,8 @@ class _StringsCommonJa {
 		'owned': '所持',
 		'notOwned': '未所持',
 	};
-	String get possessionNote => 'HoYoLABと連携すると、所持状況を同期できます。';
+	String get possessionNoteNotSignedIn => 'HoYoLABと連携すると、所持状況を同期できます。';
+	String get possessionNote => '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。';
 }
 
 // Path: tutorial
@@ -514,7 +515,7 @@ class _StringsHoyolabJa {
 	// Translations
 	String get signIn => 'HoYoLABにサインイン';
 	String get aboutHeading => 'HoYoLAB連携について';
-	String get about => '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。\n\nHoYoLABの認証情報（メールアドレスやパスワードは含まない）、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。\n\nほぼ同じ仕組みを採用している他アプリにおいては、本機能の利用によって各種アカウントが停止されたという報告は1件もないようです。しかしながら、万が一本機能の利用によっていかなる損害が生じたとしても、本アプリの開発者は一切の責任を負いません。\n';
+	String get about => '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。\n\nHoYoLABの認証情報、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。私も含め、それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。\n\n※本機能はグローバル版（HoYoLAB）でのみ利用可能です。中国本土版（米游社）には対応していません。\n※万が一本機能の利用によってアカウントに何らかの問題が生じた場合、本アプリの開発者は一切の責任を負いかねますので、ご了承ください。\n';
 	String get signOut => 'HoYoLABとの連携を解除';
 	String get signInNote => '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
 	String get failedToSignIn => 'HoYoLABへのサインインに失敗しました。';
@@ -1045,7 +1046,8 @@ extension on Translations {
 			case 'common.possession': return '所持';
 			case 'common.possessionStatus.owned': return '所持';
 			case 'common.possessionStatus.notOwned': return '未所持';
-			case 'common.possessionNote': return 'HoYoLABと連携すると、所持状況を同期できます。';
+			case 'common.possessionNoteNotSignedIn': return 'HoYoLABと連携すると、所持状況を同期できます。';
+			case 'common.possessionNote': return '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。';
 			case 'tutorial.indexSheet': return '目次の表示';
 			case 'tutorial.indexSheetDesc': return 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
 			case 'purposes.ascension': return 'Lvアップ・突破';
@@ -1172,7 +1174,7 @@ extension on Translations {
 			case 'settingsPage.openSourceLicenses': return 'オープンソースライセンス';
 			case 'hoyolab.signIn': return 'HoYoLABにサインイン';
 			case 'hoyolab.aboutHeading': return 'HoYoLAB連携について';
-			case 'hoyolab.about': return '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。\n\nHoYoLABの認証情報（メールアドレスやパスワードは含まない）、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。\n\nほぼ同じ仕組みを採用している他アプリにおいては、本機能の利用によって各種アカウントが停止されたという報告は1件もないようです。しかしながら、万が一本機能の利用によっていかなる損害が生じたとしても、本アプリの開発者は一切の責任を負いません。\n';
+			case 'hoyolab.about': return '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。\n\nHoYoLABの認証情報、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。私も含め、それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。\n\n※本機能はグローバル版（HoYoLAB）でのみ利用可能です。中国本土版（米游社）には対応していません。\n※万が一本機能の利用によってアカウントに何らかの問題が生じた場合、本アプリの開発者は一切の責任を負いかねますので、ご了承ください。\n';
 			case 'hoyolab.signOut': return 'HoYoLABとの連携を解除';
 			case 'hoyolab.signInNote': return '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
 			case 'hoyolab.failedToSignIn': return 'HoYoLABへのサインインに失敗しました。';

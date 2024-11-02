@@ -17,6 +17,13 @@ extension InGameCharacterStateDbExtension on AppDatabase {
     return info?.purposes;
   }
 
+  Future<List<CharacterId>> getSyncedCharacters(String uid) async {
+    final query = select(inGameCharacterStateTable)
+      ..where((tbl) => tbl.uid.equals(uid));
+    final states = await query.get();
+    return states.map((e) => e.characterId).toList();
+  }
+
   Stream<String?> watchCharacterWeapon(String uid, String characterId) {
     final query = select(inGameCharacterStateTable)
       ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId));

@@ -8,7 +8,6 @@ import "package:http/http.dart" as http;
 
 import "../i18n/strings.g.dart";
 import "../models/hoyolab_api.dart";
-import "secure_storage.dart";
 
 class HoyolabApi {
   HoyolabApi({this.cookie, this.region, this.uid, http.Client? client}) : client = client ?? http.Client();
@@ -278,27 +277,29 @@ class HoyolabApiUtils {
     return null;
   }
 
-  static Future<List<AvatarListResultItem>> fetchAllCharacters(String region, String uid) async {
-    Future<List<AvatarListResultItem>> apiCall(int page) async {
-      final result = await HoyolabApi(cookie: await getHoyolabCookie(), region: region, uid: uid).avatarList(page);
-      return result.list;
-    }
-
-    var page = 1;
-    final result = <AvatarListResultItem>[];
-    while (true) {
-      final callResult = await apiCall(page);
-
-      if (callResult.isEmpty) {
-        break;
-      }
-
-      result.addAll(callResult);
-      page++;
-    }
-
-    return result;
-  }
+  // static Future<List<AvatarListResultItem>> fetchAllCharacters(String region, String uid) async {
+  //   Future<List<AvatarListResultItem>> apiCall(int page) async {
+  //     final result = await HoyolabApi(cookie: await getHoyolabCookie(), region: region, uid: uid).avatarList(page);
+  //     return result.list;
+  //   }
+  //
+  //   var page = 1;
+  //   final result = <AvatarListResultItem>[];
+  //   while (true) {
+  //     final callResult = await apiCall(page);
+  //
+  //     if (callResult.isEmpty) {
+  //       break;
+  //     }
+  //
+  //     await Future.delayed(const Duration(milliseconds: 100));
+  //
+  //     result.addAll(callResult);
+  //     page++;
+  //   }
+  //
+  //   return result;
+  // }
 }
 
 enum HoyolabApiParams {

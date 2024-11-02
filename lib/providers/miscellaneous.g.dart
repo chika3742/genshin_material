@@ -6,7 +6,7 @@ part of 'miscellaneous.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$ownedCharactersHash() => r'84e2b7696ff524d2d462a5cad4095724071a5241';
+String _$ownedCharactersHash() => r'42a899d7e98ca583832cbeef8350e926dd76c5bc';
 
 /// See also [ownedCharacters].
 @ProviderFor(ownedCharacters)

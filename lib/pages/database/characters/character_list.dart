@@ -6,7 +6,6 @@ import "../../../components/character_list_item.dart";
 import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/filter_bottom_sheet.dart";
-import "../../../components/game_data_sync_indicator.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
@@ -164,19 +163,12 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
                           .setPossessionStatus(selected ? status : null);
                     } : null,
                   ),
-                if (ref.watch(characterFilterStateNotifierProvider).possessionStatus != null)
-                  GameDataSyncIndicator(
-                    status: switch (ref.watch(ownedCharactersProvider)) {
-                      AsyncLoading() => const GameDataSyncStatus.syncing(),
-                      AsyncData() => const GameDataSyncStatus.synced(),
-                      AsyncError(:final error) => GameDataSyncStatus.error(error: error),
-                      _ => throw UnimplementedError(),
-                    },
-                  ),
               ],
             ),
             if (!prefs.isLinkedWithHoyolab)
-              Text(tr.common.possessionNote, style: Theme.of(context).textTheme.labelMedium),
+              Text(tr.common.possessionNoteNotSignedIn, style: Theme.of(context).textTheme.labelMedium)
+            else
+              Text(tr.common.possessionNote, style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold)),
             FilteringCategory(
               labelText: tr.common.rarity,
               items: [

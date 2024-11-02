@@ -22,7 +22,7 @@ final packageInfoProvider = FutureProvider<PackageInfo>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef PackageInfoRef = FutureProviderRef<PackageInfo>;
-String _$assetDataHash() => r'3c3a09ccfb30ff039d3c8da77e0737b92d1cc00b';
+String _$assetDataHash() => r'd812d6c58883c1bb8160d4dc440ebce4f5c23a22';
 
 /// See also [assetData].
 @ProviderFor(assetData)
