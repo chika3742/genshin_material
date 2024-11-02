@@ -26,15 +26,25 @@ common:
   next: Next
   change: Change
   pleaseSelect: Please select
+  undo: Undo
   bookmarkSaved: Bookmark saved
   none: None
   sliderTips: "If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation."
-  expandAll: Expand all
-  collapseAll: Collapse all
-  schemaVersionMismatch: Cannot update assets. Please update the app.
+  selected: "Selected: $character"
+  possession: Possession
+  possessionStatus(map):
+    owned: Owned
+    notOwned: Not owned
+  possessionNoteNotSignedIn: "By linking with HoYoLAB, you can synchronize your possession status."
+  possessionNote: Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".
 tutorial:
   indexSheet: Table of contents
   indexSheetDesc: Tap this button to quickly navigate to the section you're looking for.
+purposes(map):
+  ascension: Level Up/Ascension
+  normalAttack: Normal Attack
+  elementalSkill: Elemental Skill
+  elementalBurst: Elemental Burst
 talentTypes(map):
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill
@@ -51,12 +61,12 @@ updates:
   completed: Data update completed.
   installing: Installing...
   pleaseWaitUntilComplete: Please wait until data update is complete.
-  failedToUpdate: Failed to update assets. Please try again later.
 errors:
   characterNotFound: Character not found
   materialNotFound: Material not found
   artifactNotFound: Artifact not found
   tryAgainLater: Please try again later.
+  dbError: A database error occurred.
 pages:
   characters: Characters
   characterDetails: $character - Character
@@ -90,6 +100,7 @@ bookmarksPage:
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: "Character Lv Up & Ascension Materials"
   talentLevelUpMaterials: Talent Lv Up Materials
+  equippedWeapon: Equipped Weapon
 weaponDetailsPage:
   characterToEquip: Character to Equip this Weapon
   skillEffect: Skill Effect
@@ -105,6 +116,7 @@ materialCard:
   reBookmarkDesc: "Remove the bookmark of this material once, then bookmark it again in the current slider range"
   unBookmark: Remove bookmark
   unBookmarkDesc: Remove the bookmark of this material
+  unBookmarked: Removed from bookmarks
 artifactsPage:
   bonusTypes(map):
     1-pc: 1-Pc Set Bonus
@@ -113,12 +125,6 @@ artifactsPage:
   effectList: Effect List
   kindOfEffect: Kind of Effect
   effectFilteringNote: "* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags."
-  pieceTypes(map):
-    flower: Flower of Life
-    plume: Plume of Death
-    sands: Sands of Eon
-    goblet: Goblet of Eonothem
-    circlet: Circlet of Logos
 artifactDetailsPage:
   maxRarity: Max Rarity
   bookmarkSet: Bookmark Set(s)
@@ -156,6 +162,10 @@ resinCalcPage:
 morePage:
   accountDesc: You can sync bookmarks etc. between devices.
   hoyolabIntegrationSettingsDesc: Link with HoYoLAB to sync in-game data
+  github: GitHub
+  githubDesc: "View the source code, report issues, and contribute."
+  buyMeACoffee: Buy Me a Coffee
+  buyMeACoffeeDesc: Support the developer by buying a coffee.
 releaseNotesPage:
   featureUpdates: Feature Updates
   assetUpdates: Asset Updates
@@ -172,9 +182,16 @@ settingsPage:
   reDownloadAssetsDesc: Please try this if the assets of the app are not loading properly.
   others: Others
   openSourceLicenses: Open Source Licenses
-  noUpdateAvailable: No update available.
 hoyolab:
   signIn: Sign in to HoYoLAB
+  aboutHeading: About HoYoLAB Link
+  about: |
+    By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.
+    
+    HoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.
+    
+    * This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).
+    * If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.
   signOut: Sign out from HoYoLAB
   signInNote: "* Social login is not supported. You need to sign in with your email/username and password."
   failedToSignIn: Failed to sign in to HoYoLAB
@@ -184,6 +201,7 @@ hoyolab:
   serverSelect: Server select
   current: "Current: $server"
   noServerSelected: No server selected
+  plsSelectServer: Please select a server
   userInfo: User Info
   failedToLoadServerList: Failed to load server list.
   failedToLoadGameRole: Failed to load game user info.
@@ -198,10 +216,21 @@ hoyolab:
   doYouWantToEnableRealtimeNotes: "Enable Real-Time Notes?"
   enableRealtimeNotes: Enable Real-Time Notes
   enableRealtimeNotesDesc: You will be able to sync your current Original Resin count.
+  displaySettings: Display Settings
+  lackNumDisplayMethod: How to Display Lack of Materials
+  lackNumDisplayMethodDesc: Choose how to display the lack of materials in the material cards.
+  lackNumDisplayMethodValues(map):
+    alternate: All Alternately
+    requiredNumOnly: Required Number Only
+    lackNumOnly: Lack Number Only
+    craftedLackNumOnly: Lack Number After Crafting Only
   syncSettings: Sync Settings
   syncResin: Sync In-Game Resin Count
   syncCharaState: Sync In-Game Character Levels
+  syncWeaponState: Synchronize Weapon State
+  syncBagCounts: Synchronize Bag Counts
   mustBeResonatedWithStatue: This character must be resonated with the Statue of The Seven to be able to sync game data.
+  weaponNotEquipped: This character does not equip this weapon.
   charaSyncSuccess: Successfully synced game data
 whereToGet(map):
   chests: "Chests, Quests"

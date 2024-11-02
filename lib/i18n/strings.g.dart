@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 378 (189 per locale)
+/// Strings: 399 (199 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -588,6 +588,12 @@ class _StringsEn extends Translations {
 	@override String get appName => 'Genshin Material Notebook';
 	@override late final _StringsCommonEn common = _StringsCommonEn._(_root);
 	@override late final _StringsTutorialEn tutorial = _StringsTutorialEn._(_root);
+	@override Map<String, String> get purposes => {
+		'ascension': 'Level Up/Ascension',
+		'normalAttack': 'Normal Attack',
+		'elementalSkill': 'Elemental Skill',
+		'elementalBurst': 'Elemental Burst',
+	};
 	@override Map<String, String> get talentTypes => {
 		'normalAttack': 'Normal Attack',
 		'elementalSkill': 'Elemental Skill',
@@ -680,12 +686,18 @@ class _StringsCommonEn extends _StringsCommonJa {
 	@override String get next => 'Next';
 	@override String get change => 'Change';
 	@override String get pleaseSelect => 'Please select';
+	@override String get undo => 'Undo';
 	@override String get bookmarkSaved => 'Bookmark saved';
 	@override String get none => 'None';
 	@override String get sliderTips => 'If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.';
-	@override String get expandAll => 'Expand all';
-	@override String get collapseAll => 'Collapse all';
-	@override String get schemaVersionMismatch => 'Cannot update assets. Please update the app.';
+	@override String selected({required Object character}) => 'Selected: ${character}';
+	@override String get possession => 'Possession';
+	@override Map<String, String> get possessionStatus => {
+		'owned': 'Owned',
+		'notOwned': 'Not owned',
+	};
+	@override String get possessionNoteNotSignedIn => 'By linking with HoYoLAB, you can synchronize your possession status.';
+	@override String get possessionNote => 'Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".';
 }
 
 // Path: tutorial
@@ -717,7 +729,6 @@ class _StringsUpdatesEn extends _StringsUpdatesJa {
 	@override String get completed => 'Data update completed.';
 	@override String get installing => 'Installing...';
 	@override String get pleaseWaitUntilComplete => 'Please wait until data update is complete.';
-	@override String get failedToUpdate => 'Failed to update assets. Please try again later.';
 }
 
 // Path: errors
@@ -731,6 +742,7 @@ class _StringsErrorsEn extends _StringsErrorsJa {
 	@override String get materialNotFound => 'Material not found';
 	@override String get artifactNotFound => 'Artifact not found';
 	@override String get tryAgainLater => 'Please try again later.';
+	@override String get dbError => 'A database error occurred.';
 }
 
 // Path: pages
@@ -788,6 +800,7 @@ class _StringsCharacterDetailsPageEn extends _StringsCharacterDetailsPageJa {
 	// Translations
 	@override String get charaLevelUpAndAscensionMaterials => 'Character Lv Up & Ascension Materials';
 	@override String get talentLevelUpMaterials => 'Talent Lv Up Materials';
+	@override String get equippedWeapon => 'Equipped Weapon';
 }
 
 // Path: weaponDetailsPage
@@ -827,6 +840,7 @@ class _StringsMaterialCardEn extends _StringsMaterialCardJa {
 	@override String get reBookmarkDesc => 'Remove the bookmark of this material once, then bookmark it again in the current slider range';
 	@override String get unBookmark => 'Remove bookmark';
 	@override String get unBookmarkDesc => 'Remove the bookmark of this material';
+	@override String get unBookmarked => 'Removed from bookmarks';
 }
 
 // Path: artifactsPage
@@ -844,13 +858,6 @@ class _StringsArtifactsPageEn extends _StringsArtifactsPageJa {
 	@override String get effectList => 'Effect List';
 	@override String get kindOfEffect => 'Kind of Effect';
 	@override String get effectFilteringNote => '* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags.';
-	@override Map<String, String> get pieceTypes => {
-		'flower': 'Flower of Life',
-		'plume': 'Plume of Death',
-		'sands': 'Sands of Eon',
-		'goblet': 'Goblet of Eonothem',
-		'circlet': 'Circlet of Logos',
-	};
 }
 
 // Path: artifactDetailsPage
@@ -918,6 +925,10 @@ class _StringsMorePageEn extends _StringsMorePageJa {
 	// Translations
 	@override String get accountDesc => 'You can sync bookmarks etc. between devices.';
 	@override String get hoyolabIntegrationSettingsDesc => 'Link with HoYoLAB to sync in-game data';
+	@override String get github => 'GitHub';
+	@override String get githubDesc => 'View the source code, report issues, and contribute.';
+	@override String get buyMeACoffee => 'Buy Me a Coffee';
+	@override String get buyMeACoffeeDesc => 'Support the developer by buying a coffee.';
 }
 
 // Path: releaseNotesPage
@@ -950,7 +961,6 @@ class _StringsSettingsPageEn extends _StringsSettingsPageJa {
 	@override String get reDownloadAssetsDesc => 'Please try this if the assets of the app are not loading properly.';
 	@override String get others => 'Others';
 	@override String get openSourceLicenses => 'Open Source Licenses';
-	@override String get noUpdateAvailable => 'No update available.';
 }
 
 // Path: hoyolab
@@ -961,6 +971,8 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 
 	// Translations
 	@override String get signIn => 'Sign in to HoYoLAB';
+	@override String get aboutHeading => 'About HoYoLAB Link';
+	@override String get about => 'By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.\n\nHoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.\n\n* This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).\n* If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.\n';
 	@override String get signOut => 'Sign out from HoYoLAB';
 	@override String get signInNote => '* Social login is not supported. You need to sign in with your email/username and password.';
 	@override String get failedToSignIn => 'Failed to sign in to HoYoLAB';
@@ -970,6 +982,7 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get serverSelect => 'Server select';
 	@override String current({required Object server}) => 'Current: ${server}';
 	@override String get noServerSelected => 'No server selected';
+	@override String get plsSelectServer => 'Please select a server';
 	@override String get userInfo => 'User Info';
 	@override String get failedToLoadServerList => 'Failed to load server list.';
 	@override String get failedToLoadGameRole => 'Failed to load game user info.';
@@ -984,10 +997,22 @@ class _StringsHoyolabEn extends _StringsHoyolabJa {
 	@override String get doYouWantToEnableRealtimeNotes => 'Enable Real-Time Notes?';
 	@override String get enableRealtimeNotes => 'Enable Real-Time Notes';
 	@override String get enableRealtimeNotesDesc => 'You will be able to sync your current Original Resin count.';
+	@override String get displaySettings => 'Display Settings';
+	@override String get lackNumDisplayMethod => 'How to Display Lack of Materials';
+	@override String get lackNumDisplayMethodDesc => 'Choose how to display the lack of materials in the material cards.';
+	@override Map<String, String> get lackNumDisplayMethodValues => {
+		'alternate': 'All Alternately',
+		'requiredNumOnly': 'Required Number Only',
+		'lackNumOnly': 'Lack Number Only',
+		'craftedLackNumOnly': 'Lack Number After Crafting Only',
+	};
 	@override String get syncSettings => 'Sync Settings';
 	@override String get syncResin => 'Sync In-Game Resin Count';
 	@override String get syncCharaState => 'Sync In-Game Character Levels';
+	@override String get syncWeaponState => 'Synchronize Weapon State';
+	@override String get syncBagCounts => 'Synchronize Bag Counts';
 	@override String get mustBeResonatedWithStatue => 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
+	@override String get weaponNotEquipped => 'This character does not equip this weapon.';
 	@override String get charaSyncSuccess => 'Successfully synced game data';
 }
 
@@ -1284,14 +1309,22 @@ extension on _StringsEn {
 			case 'common.next': return 'Next';
 			case 'common.change': return 'Change';
 			case 'common.pleaseSelect': return 'Please select';
+			case 'common.undo': return 'Undo';
 			case 'common.bookmarkSaved': return 'Bookmark saved';
 			case 'common.none': return 'None';
 			case 'common.sliderTips': return 'If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.';
-			case 'common.expandAll': return 'Expand all';
-			case 'common.collapseAll': return 'Collapse all';
-			case 'common.schemaVersionMismatch': return 'Cannot update assets. Please update the app.';
+			case 'common.selected': return ({required Object character}) => 'Selected: ${character}';
+			case 'common.possession': return 'Possession';
+			case 'common.possessionStatus.owned': return 'Owned';
+			case 'common.possessionStatus.notOwned': return 'Not owned';
+			case 'common.possessionNoteNotSignedIn': return 'By linking with HoYoLAB, you can synchronize your possession status.';
+			case 'common.possessionNote': return 'Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".';
 			case 'tutorial.indexSheet': return 'Table of contents';
 			case 'tutorial.indexSheetDesc': return 'Tap this button to quickly navigate to the section you\'re looking for.';
+			case 'purposes.ascension': return 'Level Up/Ascension';
+			case 'purposes.normalAttack': return 'Normal Attack';
+			case 'purposes.elementalSkill': return 'Elemental Skill';
+			case 'purposes.elementalBurst': return 'Elemental Burst';
 			case 'talentTypes.normalAttack': return 'Normal Attack';
 			case 'talentTypes.elementalSkill': return 'Elemental Skill';
 			case 'talentTypes.elementalBurst': return 'Elemental Burst';
@@ -1306,11 +1339,11 @@ extension on _StringsEn {
 			case 'updates.completed': return 'Data update completed.';
 			case 'updates.installing': return 'Installing...';
 			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
-			case 'updates.failedToUpdate': return 'Failed to update assets. Please try again later.';
 			case 'errors.characterNotFound': return 'Character not found';
 			case 'errors.materialNotFound': return 'Material not found';
 			case 'errors.artifactNotFound': return 'Artifact not found';
 			case 'errors.tryAgainLater': return 'Please try again later.';
+			case 'errors.dbError': return 'A database error occurred.';
 			case 'pages.characters': return 'Characters';
 			case 'pages.characterDetails': return ({required Object character}) => '${character} - Character';
 			case 'pages.weapons': return 'Weapons';
@@ -1341,6 +1374,7 @@ extension on _StringsEn {
 			case 'bookmarksPage.unBookmarkConfirm': return 'Remove this bookmark?';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'Character Lv Up & Ascension Materials';
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
+			case 'characterDetailsPage.equippedWeapon': return 'Equipped Weapon';
 			case 'weaponDetailsPage.characterToEquip': return 'Character to Equip this Weapon';
 			case 'weaponDetailsPage.skillEffect': return 'Skill Effect';
 			case 'weaponDetailsPage.ascension': return 'Weapon Lv Up & Ascension Materials';
@@ -1353,17 +1387,13 @@ extension on _StringsEn {
 			case 'materialCard.reBookmarkDesc': return 'Remove the bookmark of this material once, then bookmark it again in the current slider range';
 			case 'materialCard.unBookmark': return 'Remove bookmark';
 			case 'materialCard.unBookmarkDesc': return 'Remove the bookmark of this material';
+			case 'materialCard.unBookmarked': return 'Removed from bookmarks';
 			case 'artifactsPage.bonusTypes.1-pc': return '1-Pc Set Bonus';
 			case 'artifactsPage.bonusTypes.2-pc': return '2-Pc Set Bonus';
 			case 'artifactsPage.bonusTypes.4-pc': return '4-Pc Set Bonus';
 			case 'artifactsPage.effectList': return 'Effect List';
 			case 'artifactsPage.kindOfEffect': return 'Kind of Effect';
 			case 'artifactsPage.effectFilteringNote': return '* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags.';
-			case 'artifactsPage.pieceTypes.flower': return 'Flower of Life';
-			case 'artifactsPage.pieceTypes.plume': return 'Plume of Death';
-			case 'artifactsPage.pieceTypes.sands': return 'Sands of Eon';
-			case 'artifactsPage.pieceTypes.goblet': return 'Goblet of Eonothem';
-			case 'artifactsPage.pieceTypes.circlet': return 'Circlet of Logos';
 			case 'artifactDetailsPage.maxRarity': return 'Max Rarity';
 			case 'artifactDetailsPage.bookmarkSet': return 'Bookmark Set(s)';
 			case 'artifactDetailsPage.bookmarkPiece': return 'Bookmark by Piece';
@@ -1395,6 +1425,10 @@ extension on _StringsEn {
 			case 'resinCalcPage.howToUseContent': return 'Enter your current resin count to calculate the time when your resin will be fully recovered and the time remaining until full recovery based on the time you entered.\nBy linking with ${_root.pages.hoyolabIntegrationSettings}, you can synchronize your current resin count. If you use this feature, please note that "${_root.resinCalcPage.recoveredTime}" and "${_root.resinCalcPage.wastedResin}" will not be accurately calculated if you have not synchronized after using resin for the last time or recovering it with items, etc.\n';
 			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
 			case 'morePage.hoyolabIntegrationSettingsDesc': return 'Link with HoYoLAB to sync in-game data';
+			case 'morePage.github': return 'GitHub';
+			case 'morePage.githubDesc': return 'View the source code, report issues, and contribute.';
+			case 'morePage.buyMeACoffee': return 'Buy Me a Coffee';
+			case 'morePage.buyMeACoffeeDesc': return 'Support the developer by buying a coffee.';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
 			case 'settingsPage.display': return 'Display';
@@ -1409,8 +1443,9 @@ extension on _StringsEn {
 			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the assets of the app are not loading properly.';
 			case 'settingsPage.others': return 'Others';
 			case 'settingsPage.openSourceLicenses': return 'Open Source Licenses';
-			case 'settingsPage.noUpdateAvailable': return 'No update available.';
 			case 'hoyolab.signIn': return 'Sign in to HoYoLAB';
+			case 'hoyolab.aboutHeading': return 'About HoYoLAB Link';
+			case 'hoyolab.about': return 'By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.\n\nHoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.\n\n* This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).\n* If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.\n';
 			case 'hoyolab.signOut': return 'Sign out from HoYoLAB';
 			case 'hoyolab.signInNote': return '* Social login is not supported. You need to sign in with your email/username and password.';
 			case 'hoyolab.failedToSignIn': return 'Failed to sign in to HoYoLAB';
@@ -1420,6 +1455,7 @@ extension on _StringsEn {
 			case 'hoyolab.serverSelect': return 'Server select';
 			case 'hoyolab.current': return ({required Object server}) => 'Current: ${server}';
 			case 'hoyolab.noServerSelected': return 'No server selected';
+			case 'hoyolab.plsSelectServer': return 'Please select a server';
 			case 'hoyolab.userInfo': return 'User Info';
 			case 'hoyolab.failedToLoadServerList': return 'Failed to load server list.';
 			case 'hoyolab.failedToLoadGameRole': return 'Failed to load game user info.';
@@ -1434,10 +1470,20 @@ extension on _StringsEn {
 			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'Enable Real-Time Notes?';
 			case 'hoyolab.enableRealtimeNotes': return 'Enable Real-Time Notes';
 			case 'hoyolab.enableRealtimeNotesDesc': return 'You will be able to sync your current Original Resin count.';
+			case 'hoyolab.displaySettings': return 'Display Settings';
+			case 'hoyolab.lackNumDisplayMethod': return 'How to Display Lack of Materials';
+			case 'hoyolab.lackNumDisplayMethodDesc': return 'Choose how to display the lack of materials in the material cards.';
+			case 'hoyolab.lackNumDisplayMethodValues.alternate': return 'All Alternately';
+			case 'hoyolab.lackNumDisplayMethodValues.requiredNumOnly': return 'Required Number Only';
+			case 'hoyolab.lackNumDisplayMethodValues.lackNumOnly': return 'Lack Number Only';
+			case 'hoyolab.lackNumDisplayMethodValues.craftedLackNumOnly': return 'Lack Number After Crafting Only';
 			case 'hoyolab.syncSettings': return 'Sync Settings';
 			case 'hoyolab.syncResin': return 'Sync In-Game Resin Count';
 			case 'hoyolab.syncCharaState': return 'Sync In-Game Character Levels';
+			case 'hoyolab.syncWeaponState': return 'Synchronize Weapon State';
+			case 'hoyolab.syncBagCounts': return 'Synchronize Bag Counts';
 			case 'hoyolab.mustBeResonatedWithStatue': return 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
+			case 'hoyolab.weaponNotEquipped': return 'This character does not equip this weapon.';
 			case 'hoyolab.charaSyncSuccess': return 'Successfully synced game data';
 			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
