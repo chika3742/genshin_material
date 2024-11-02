@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 377 (188 per locale)
+/// Strings: 378 (189 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -525,6 +525,7 @@ class _StringsHoyolabJa {
 	String get serverSelect => 'サーバー選択';
 	String current({required Object server}) => '現在の設定: ${server}';
 	String get noServerSelected => 'サーバーが選択されていません';
+	String get plsSelectServer => 'サーバーを選択してください';
 	String get userInfo => 'ユーザー情報';
 	String get failedToLoadServerList => 'サーバーリストの読み込みに失敗しました。';
 	String get failedToLoadGameRole => 'ゲームデータの読み込みに失敗しました。';
@@ -1184,6 +1185,7 @@ extension on Translations {
 			case 'hoyolab.serverSelect': return 'サーバー選択';
 			case 'hoyolab.current': return ({required Object server}) => '現在の設定: ${server}';
 			case 'hoyolab.noServerSelected': return 'サーバーが選択されていません';
+			case 'hoyolab.plsSelectServer': return 'サーバーを選択してください';
 			case 'hoyolab.userInfo': return 'ユーザー情報';
 			case 'hoyolab.failedToLoadServerList': return 'サーバーリストの読み込みに失敗しました。';
 			case 'hoyolab.failedToLoadGameRole': return 'ゲームデータの読み込みに失敗しました。';

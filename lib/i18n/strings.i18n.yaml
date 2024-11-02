@@ -198,6 +198,7 @@ hoyolab:
   serverSelect: サーバー選択
   current: "現在の設定: $server"
   noServerSelected: サーバーが選択されていません
+  plsSelectServer: サーバーを選択してください
   userInfo: ユーザー情報
   failedToLoadServerList: サーバーリストの読み込みに失敗しました。
   failedToLoadGameRole: ゲームデータの読み込みに失敗しました。

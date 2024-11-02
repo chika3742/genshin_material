@@ -117,7 +117,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             title: Text(prefs.hyvUserName!),
             subtitle: Text("UID: ${prefs.hyvUid!}"),
           ) else ListTile(
-            title: Text(tr.hoyolab.noServerSelected),
+            title: Text(tr.hoyolab.plsSelectServer, style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
 
           ListSubheader(tr.hoyolab.syncSettings),
