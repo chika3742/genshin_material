@@ -1,10 +1,8 @@
 import "package:animations/animations.dart";
-import "package:drift/drift.dart" show Value;
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
-import "package:uuid/uuid.dart";
 
 import "../core/asset_cache.dart";
 import "../db/bookmark_db_extension.dart";
@@ -269,30 +267,18 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
     final db = ref.read(appDatabaseProvider);
 
     if (state.pieceId != null) {
-      await db.addArtifactPieceBookmark(BookmarkCompanionWithArtifactPieceDetails(
-        metadata: BookmarkCompanionWorkaround(
-          type: BookmarkType.artifactPiece,
-          characterId: state.characterId!,
-          groupHash: const Uuid().v4(),
-        ),
-        artifactPieceDetails: BookmarkArtifactPieceDetailsCompanionWithoutParent(
-          piece: state.pieceId!,
-          mainStat: Value.absentIfNull(state.mainStats.values.firstOrNull),
-          subStats: state.subStats,
-        ),
+      await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
+        characterId: state.characterId!,
+        piece: state.pieceId!,
+        mainStat: state.mainStats.values.firstOrNull,
+        subStats: state.subStats,
       ),);
     } else {
-      await db.addArtifactSetBookmark(BookmarkCompanionWithArtifactSetDetails(
-        metadata: BookmarkCompanionWorkaround(
-          type: BookmarkType.artifactSet,
-          characterId: state.characterId!,
-          groupHash: const Uuid().v4(),
-        ),
-        artifactSetDetails: BookmarkArtifactSetDetailsCompanionWithoutParent(
-          sets: [state.firstSetId!, if (state.secondSetId != null) state.secondSetId!],
-          mainStats: state.mainStats,
-          subStats: state.subStats,
-        ),
+      await db.addArtifactSetBookmark(ArtifactSetBookmarkInsertable(
+        characterId: state.characterId!,
+        sets: [state.firstSetId!, if (state.secondSetId != null) state.secondSetId!],
+        mainStats: state.mainStats,
+        subStats: state.subStats,
       ),);
     }
   }

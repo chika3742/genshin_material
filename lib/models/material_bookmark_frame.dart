@@ -1,4 +1,3 @@
-import "package:drift/drift.dart" hide JsonKey;
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
@@ -87,39 +86,19 @@ class MaterialCardMaterial {
     }).toList();
   }
 
-  List<BookmarkCompanionWithMaterialDetails> toCompanions(MaterialUsage usage) {
+  List<MaterialBookmarkInsertable> toCompanions(MaterialUsage usage) {
     return levels.map((level) {
-      final companion = BookmarkCompanionWithMaterialDetails(
-        metadata: BookmarkCompanionWorkaround(
-          type: BookmarkType.material,
-          characterId: usage.characterId,
-          groupHash: generateBookmarkGroupHash(
-            characterId: usage.characterId,
-            type: BookmarkType.material,
-            purposeType: level.purposeType,
-            weaponId: usage.weaponId,
-          ),
-        ),
-        materialDetails: BookmarkMaterialDetailsCompanionWithoutParent(
-          materialId: Value.absentIfNull(id),
-          weaponId: Value.absentIfNull(usage.weaponId),
-          purposeType: level.purposeType,
-          quantity: switch (level) {
-            _MaterialBookmarkFrame(:final quantity) => quantity,
-            MaterialBookmarkFrameExp(:final exp) => exp,
-          },
-          upperLevel: level.level,
-          hash: combineMaterialBookmarkElements(
-            usage.characterId,
-            level.purposeType,
-            usage.weaponId,
-            id,
-            level.level,
-          ),
-        ),
+      return MaterialBookmarkInsertable(
+        characterId: usage.characterId,
+        materialId: id,
+        weaponId: usage.weaponId,
+        purposeType: level.purposeType,
+        quantity: switch (level) {
+          _MaterialBookmarkFrame(:final quantity) => quantity,
+          MaterialBookmarkFrameExp(:final exp) => exp,
+        },
+        upperLevel: level.level,
       );
-
-      return companion;
     }).toList();
   }
 }

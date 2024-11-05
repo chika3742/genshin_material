@@ -102,38 +102,39 @@ extension BookmarkDbExtension on AppDatabase {
     });
   }
 
-  Future<void> _addBookmarks(List<BookmarkCompanionWithDetails> companions) async {
+  Future<void> _addBookmarks(List<BookmarkInsertable> insertables) async {
     final groupHashes = <String>{};
     await transaction(() async {
-      for (final companion in companions) {
-        if (companion is BookmarkCompanionWithMaterialDetails) {
+      for (final companion in insertables) {
+        if (companion is MaterialBookmarkInsertable) {
           final existing = await (select(bookmarkMaterialDetailsTable)
-            ..where((tbl) => tbl.hash.equals(companion.materialDetails.hash))).getSingleOrNull();
+            ..where((tbl) => tbl.hash.equals(companion.hash))).getSingleOrNull();
           if (existing != null) {
             continue;
           }
         }
-        final bookmarkId = await into(bookmarkTable).insert(companion.metadata);
-        await switch (companion) {
-          BookmarkCompanionWithMaterialDetails() => into(bookmarkMaterialDetailsTable).insert(companion.materialDetails.withParentId(bookmarkId)),
-          BookmarkCompanionWithArtifactSetDetails() => into(bookmarkArtifactSetDetailsTable).insert(companion.artifactSetDetails.withParentId(bookmarkId)),
-          BookmarkCompanionWithArtifactPieceDetails() => into(bookmarkArtifactPieceDetailsTable).insert(companion.artifactPieceDetails.withParentId(bookmarkId)),
+        final bookmarkId = await into(bookmarkTable).insert(companion.toMetadata());
+        final inserter = switch (companion) {
+          MaterialBookmarkInsertable() => into(bookmarkMaterialDetailsTable),
+          ArtifactSetBookmarkInsertable() => into(bookmarkArtifactSetDetailsTable),
+          ArtifactPieceBookmarkInsertable() => into(bookmarkArtifactPieceDetailsTable),
         };
-        groupHashes.add(companion.metadata.groupHash);
+        await inserter.insert(companion.toDetails(parentId: bookmarkId));
+        groupHashes.add(companion.groupHash);
       }
       await registerBookmarkOrderHashes(groupHashes.toList());
     });
   }
 
-  Future<void> addMaterialBookmarks(List<BookmarkCompanionWithMaterialDetails> companions) {
+  Future<void> addMaterialBookmarks(List<MaterialBookmarkInsertable> companions) {
     return _addBookmarks(companions);
   }
 
-  Future<void> addArtifactSetBookmark(BookmarkCompanionWithArtifactSetDetails companion) {
+  Future<void> addArtifactSetBookmark(ArtifactSetBookmarkInsertable companion) {
     return _addBookmarks([companion]);
   }
 
-  Future<void> addArtifactPieceBookmark(BookmarkCompanionWithArtifactPieceDetails companion) {
+  Future<void> addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable companion) {
     return _addBookmarks([companion]);
   }
 
