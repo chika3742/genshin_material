@@ -22,6 +22,8 @@ import "routes.dart";
 
 late final SharedPreferencesWithCache spInstance;
 
+const isScreenshotMode = bool.fromEnvironment("SCREENSHOT_MODE");
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   LocaleSettings.useDeviceLocale();
@@ -94,6 +96,7 @@ class MyApp extends HookConsumerWidget {
 
     return MaterialApp.router(
       title: appTitle,
+      debugShowCheckedModeBanner: !isScreenshotMode,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         extensions: [

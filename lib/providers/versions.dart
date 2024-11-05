@@ -24,7 +24,9 @@ Future<AssetData> assetData(Ref ref) async {
   final dataCache = AssetDataCacheProvider((await getLocalAssetDirectory()).path);
   await dataCache.load();
   ref.onDispose(() {
-    (WidgetsBinding.instance as WidgetsFlutterBinding).imageCache.clear();
+    if (WidgetsBinding.instance is WidgetsFlutterBinding) {
+      (WidgetsBinding.instance as WidgetsFlutterBinding).imageCache.clear();
+    }
   });
   return dataCache.data!;
 }

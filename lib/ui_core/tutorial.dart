@@ -3,9 +3,14 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:tutorial_coach_mark/tutorial_coach_mark.dart";
 
 import "../i18n/strings.g.dart";
+import "../main.dart";
 import "../providers/preferences.dart";
 
 void showIndexSheetTutorialIfNeeded(BuildContext context, GlobalKey fabKey, WidgetRef ref) {
+  if (isScreenshotMode) {
+    return;
+  }
+
   final prefs = ref.read(preferencesStateNotifierProvider);
 
   if (prefs.indexSheetTutorialShown) {
