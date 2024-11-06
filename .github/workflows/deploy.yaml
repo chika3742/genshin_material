@@ -18,7 +18,7 @@ jobs:
       - id: build-attr
         run: |
           echo "BUILD_NUM=$(($GITHUB_RUN_NUMBER + $BUILD_NUM_OFFSET))" >> $GITHUB_OUTPUT
-          echo "BUILD_NAME=${GITHUB_REF_NAME:1}" >> $GITHUB_OUTPUT
+          echo "BUILD_NAME=${GITHUB_REF_NAME:1}" | perl -nle "print $& while m/(?<=v)\d+\.\d+\.\d+/g" >> $GITHUB_OUTPUT
 
   deploy-app-store:
     name: Deploy to App Store
