@@ -18,8 +18,7 @@ jobs:
       - id: build-attr
         run: |
           echo "BUILD_NUM=$(($GITHUB_RUN_NUMBER + $BUILD_NUM_OFFSET))" >> $GITHUB_OUTPUT
-          # echo "BUILD_NAME=${GITHUB_REF_NAME:1}" >> $GITHUB_OUTPUT
-          echo "BUILD_NAME=1.0.0" >> $GITHUB_OUTPUT
+          echo "BUILD_NAME=${GITHUB_REF_NAME:1}" >> $GITHUB_OUTPUT
 
   deploy-app-store:
     name: Deploy to App Store
