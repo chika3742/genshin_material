@@ -46,7 +46,7 @@ platform :ios do
         )
         upload_to_testflight(
             skip_waiting_for_build_processing: true,
-            ipa: "../build/ios/ipa/Runner.ipa"
+            ipa: "../build/ios/ipa/GenshinMaterial.ipa"
         )
     end
 end
