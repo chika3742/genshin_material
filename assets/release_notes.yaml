@@ -1,4 +1,12 @@
-- releasedOn: 2024/01/01
-  version: 5.0.0
+# コピー用改行
+
+- releasedOn: 2024/11/07
+  version: 4.0.1
+  contents: |
+    # 不具合修正
+    - Android版において、アプリ名表示が正しくない問題の修正
+
+- releasedOn: 2024/11/07
+  version: 4.0.0
   contents: |
     # 初回リリース版
