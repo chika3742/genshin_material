@@ -111,13 +111,14 @@ class WeaponDetailsPage extends HookConsumerWidget {
                         ],
                       ),
                     ),
-                    Consumer(
-                      builder: (context, ref, _) {
-                        return GameDataSyncIndicator(
-                          status: ref.watch(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id)),
-                        );
-                      },
-                    ),
+                    if (prefs.isLinkedWithHoyolab)
+                      Consumer(
+                        builder: (context, ref, _) {
+                          return GameDataSyncIndicator(
+                            status: ref.watch(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id)),
+                          );
+                        },
+                      ),
                   ],
                 ),
 
