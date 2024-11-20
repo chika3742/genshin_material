@@ -265,7 +265,10 @@ class _GroupTypeText extends HookConsumerWidget {
           final weapon = assetData.weapons[materialDetails.weaponId]!;
           return _ItemLinkButton(
             onTap: () {
-              WeaponDetailsRoute(id: weapon.id).push(context);
+              WeaponDetailsRoute(
+                id: weapon.id,
+                initialSelectedCharacter: group.characterId,
+              ).push(context);
             },
             child: Row(
               children: [
