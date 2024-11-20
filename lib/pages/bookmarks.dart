@@ -492,10 +492,20 @@ class _LevelBookmarkDetail extends StatelessWidget {
               final assetData = ref.watch(assetDataProvider).value!;
               final bookmarks = useStream(useMemoized(() => db.watchMaterialBookmarksByGroupHash(groupHash)));
 
+              useValueChanged<bool?, void>(bookmarks.data?.isEmpty, (_, __){
+                if (bookmarks.hasData && bookmarks.data!.isEmpty) {
+                  Navigator.of(context).pop();
+                }
+              });
+
               final levels = bookmarks.data?.groupListsBy((e) => e.materialDetails.upperLevel);
 
               if (levels == null) {
                 return const SizedBox();
+              }
+
+              if (bookmarks.data!.isEmpty) {
+                return const SizedBox(width: double.infinity);
               }
 
               return QuantityTickerHandler(
