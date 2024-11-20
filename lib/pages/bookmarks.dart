@@ -134,7 +134,7 @@ class _BookmarkList extends HookConsumerWidget {
                     children: [
                       ReorderableDragStartListener(
                         index: index,
-                        child: const Icon(Symbols.drag_handle),
+                        child: const Icon(Symbols.drag_handle, size: 32),
                       ),
                       Expanded(
                         child: _ItemLinkButton(
