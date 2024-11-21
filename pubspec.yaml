@@ -52,7 +52,7 @@ dependencies:
   drift: ^2.20.0
   sqlite3_flutter_libs: ^0.5.26
   sqlite3: ^2.4.7
-  webview_flutter: ^4.9.0
+  webview_flutter: ^4.10.0
   crypto: ^3.0.6
   drift_db_viewer: ^2.1.0
   google_fonts: ^6.2.1
