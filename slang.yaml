@@ -4,3 +4,4 @@ input_file_pattern: .i18n.yaml
 translate_var: tr
 fallback_strategy: base_locale
 timestamp: false
+lazy: false

@@ -26,7 +26,7 @@ const isScreenshotMode = bool.fromEnvironment("SCREENSHOT_MODE");
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  LocaleSettings.useDeviceLocale();
+  LocaleSettings.useDeviceLocaleSync();
   await initializeDateFormatting("ja_JP", null);
   timeago.setLocaleMessages("ja", timeago.JaMessages());
   timeago.setDefaultLocale(LocaleSettings.currentLocale.languageCode);
