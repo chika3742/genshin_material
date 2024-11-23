@@ -54,7 +54,7 @@ class DebugMenuPage extends ConsumerWidget {
                 value: "en",
                 child: const Text("English"),
                 onTap: () {
-                  LocaleSettings.setLocale(AppLocale.en);
+                  LocaleSettings.setLocaleSync(AppLocale.en);
                   Restartable.restartApp(context);
                 },
               ),
@@ -62,7 +62,7 @@ class DebugMenuPage extends ConsumerWidget {
                 value: "ja",
                 child: const Text("Japanese"),
                 onTap: () {
-                  LocaleSettings.setLocale(AppLocale.ja);
+                  LocaleSettings.setLocaleSync(AppLocale.ja);
                   Restartable.restartApp(context);
                 },
               ),
