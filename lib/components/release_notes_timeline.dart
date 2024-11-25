@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:timelines/timelines.dart";
 
 import "../models/release_note.dart";
+import "../utils/semver.dart";
 import "release_note_contents.dart";
 
 class ReleaseNotesTimeline extends StatefulWidget {
@@ -21,6 +22,9 @@ class ReleaseNotesTimeline extends StatefulWidget {
 class _ReleaseNotesTimelineState extends State<ReleaseNotesTimeline> {
   final tlContentsKeys = <int, GlobalKey>{};
   Map<int, double>? tlContentsHeights;
+
+  static const _headerHeight = 64.0;
+  static const _headerMargin = EdgeInsets.all(8);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,13 @@ class _ReleaseNotesTimelineState extends State<ReleaseNotesTimeline> {
           nodePositionBuilder: (context, index) => 0.05,
           connectorStyleBuilder: (context, index) => ConnectorStyle.solidLine,
           indicatorStyleBuilder: (context, index) {
-            return index % 2 == 0 ? IndicatorStyle.dot : IndicatorStyle.outlined;
+            if (index == widget.items.length - 1) {
+              return IndicatorStyle.dot;
+            }
+
+            return isMinorVersionUpdated(widget.items[index + 1].version, widget.items[index].version)
+                ? IndicatorStyle.dot
+                : IndicatorStyle.outlined;
           },
           indicatorPositionBuilder: (context, index) {
             final widgetHeight = tlContentsHeights?[index];
@@ -53,9 +63,7 @@ class _ReleaseNotesTimelineState extends State<ReleaseNotesTimeline> {
               return 0;
             }
 
-            const top = 36;
-
-            return top / widgetHeight;
+            return (_headerMargin.top + _headerHeight / 2) / widgetHeight;
           },
           contentsBuilder: (context, index) {
             return Column(
@@ -66,10 +74,12 @@ class _ReleaseNotesTimelineState extends State<ReleaseNotesTimeline> {
                     color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  margin: const EdgeInsets.all(8),
+                  height: _headerHeight,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  margin: _headerMargin,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "${widget.versionPrefix}${widget.items[index].version}",
@@ -80,6 +90,7 @@ class _ReleaseNotesTimelineState extends State<ReleaseNotesTimeline> {
                   ),
                 ),
                 ReleaseNoteContents(contentsText: widget.items[index].contents),
+                const SizedBox(height: 16),
               ],
             );
           },

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "style_parsed_text.dart";
 
@@ -74,9 +75,13 @@ class ReleaseNoteContents extends StatelessWidget {
     return Row(
       children: [
         // leading triangle marker
-        const Icon(Icons.arrow_right, size: 32, color: Colors.greenAccent),
+        Icon(
+          Symbols.arrow_right,
+          size: 32,
+          color: Theme.of(context).colorScheme.primary,
+        ),
         Expanded(
-          child: Text(text, style: Theme.of(context).textTheme.titleLarge),
+          child: Text(text, style: const TextStyle(fontSize: 22)),
         ),
       ],
     );
