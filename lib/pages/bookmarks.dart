@@ -84,7 +84,7 @@ class _BookmarkList extends HookConsumerWidget {
         ReorderableListView.builder(
           itemCount: bookmarkGroups.length,
           proxyDecorator: (child, index, animation) {
-            // propagate [QuantityState] to dragging item (on Overlay layer)
+            // propagate QuantityState to dragging item (on Overlay layer)
             return QuantityStateProvider(
               state: qStateNotifier.state,
               // from Flutter source
@@ -136,24 +136,13 @@ class _BookmarkList extends HookConsumerWidget {
                         index: index,
                         child: const Icon(Symbols.drag_handle, size: 32),
                       ),
-                      Expanded(
-                        child: _ItemLinkButton(
-                          onTap: () {
-                            CharacterDetailsRoute(id: group.characterId).push(context);
-                          },
-                          child: Row(
-                            children: [
-                              Image.file(character!.getSmallImageFile(assetData.assetDir), width: 35, height: 35),
-                              const SizedBox(width: 8),
-                              Flexible(
-                                child: FittedBox(
-                                  child: Text(character.name.localized, style: const TextStyle(fontSize: 18)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      _ItemLinkButton(
+                        onTap: () {
+                          CharacterDetailsRoute(id: group.characterId).push(context);
+                        },
+                        child: Image.file(character!.getSmallImageFile(assetData.assetDir), width: 35, height: 35),
                       ),
+                      const Spacer(),
                       _GroupTypeText(group),
                       if (group.type == BookmarkType.material)
                         Text.rich(
