@@ -733,10 +733,10 @@ packages:
     dependency: "direct main"
     description:
       name: material_symbols_icons
-      sha256: b72bf7566d024d51627dce81b1b98539830a0e3ffbb5784989aa3e97c8493160
+      sha256: "8a57be605b8bc3fd57005eb776ede61f569214e48834258fb02ab80c7034b82c"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2784.0"
+    version: "4.2800.0"
   matrix4_transform:
     dependency: transitive
     description:
