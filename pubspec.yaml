@@ -77,7 +77,7 @@ dev_dependencies:
   freezed: ^2.5.7
   go_router_builder: ^2.7.1
   build_verify: ^3.1.0
-  json_serializable: ^6.8.0
+  json_serializable: ^6.9.0
   mockito: ^5.4.4
   drift_dev: ^2.20.1
   pigeon: ^22.6.2
