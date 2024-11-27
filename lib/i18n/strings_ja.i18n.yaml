@@ -94,6 +94,8 @@ bookmarksPage:
   sub: サブ
   unBookmark: ブックマークを解除
   unBookmarkConfirm: このブックマークを解除しますか？
+  byPurpose: 使用先
+  byMaterial: 素材
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: キャラクターLvアップ・突破素材
   talentLevelUpMaterials: 天賦Lvアップ素材
@@ -108,6 +110,8 @@ materialDetailsPage:
   availableToday: 本日入手可能
   source: 入手方法
   toTeyvatMap: テイワットマップへ
+  bagCount(rich): "現在の所持数 $count"
+  bagCountInfo: 該当するキャラクターもしくは武器の詳細ページを開くと更新されます。
 materialCard:
   reBookmark: 現在の範囲で再ブックマーク
   reBookmarkDesc: 一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします

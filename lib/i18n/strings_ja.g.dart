@@ -223,6 +223,8 @@ class TranslationsBookmarksPageJa {
 	String get sub => 'サブ';
 	String get unBookmark => 'ブックマークを解除';
 	String get unBookmarkConfirm => 'このブックマークを解除しますか？';
+	String get byPurpose => '使用先';
+	String get byMaterial => '素材';
 }
 
 // Path: characterDetailsPage
@@ -261,6 +263,11 @@ class TranslationsMaterialDetailsPageJa {
 	String get availableToday => '本日入手可能';
 	String get source => '入手方法';
 	String get toTeyvatMap => 'テイワットマップへ';
+	TextSpan bagCount({required InlineSpan count}) => TextSpan(children: [
+		const TextSpan(text: '現在の所持数 '),
+		count,
+	]);
+	String get bagCountInfo => '該当するキャラクターもしくは武器の詳細ページを開くと更新されます。';
 }
 
 // Path: materialCard
@@ -560,6 +567,8 @@ extension on Translations {
 			case 'bookmarksPage.sub': return 'サブ';
 			case 'bookmarksPage.unBookmark': return 'ブックマークを解除';
 			case 'bookmarksPage.unBookmarkConfirm': return 'このブックマークを解除しますか？';
+			case 'bookmarksPage.byPurpose': return '使用先';
+			case 'bookmarksPage.byMaterial': return '素材';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
 			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'characterDetailsPage.equippedWeapon': return '装備中の武器';
@@ -571,6 +580,11 @@ extension on Translations {
 			case 'materialDetailsPage.availableToday': return '本日入手可能';
 			case 'materialDetailsPage.source': return '入手方法';
 			case 'materialDetailsPage.toTeyvatMap': return 'テイワットマップへ';
+			case 'materialDetailsPage.bagCount': return ({required InlineSpan count}) => TextSpan(children: [
+				const TextSpan(text: '現在の所持数 '),
+				count,
+			]);
+			case 'materialDetailsPage.bagCountInfo': return '該当するキャラクターもしくは武器の詳細ページを開くと更新されます。';
 			case 'materialCard.reBookmark': return '現在の範囲で再ブックマーク';
 			case 'materialCard.reBookmarkDesc': return '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします';
 			case 'materialCard.unBookmark': return 'ブックマークを解除';

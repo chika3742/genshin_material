@@ -1,5 +1,7 @@
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/center_text.dart";
@@ -11,18 +13,22 @@ import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
+import "../../../providers/database_provider.dart";
 import "../../../routes.dart";
+import "../../../ui_core/bubble.dart";
 import "../../../ui_core/layout.dart";
 import "../../../utils/material_usage.dart";
 
-class MaterialDetailsPage extends StatelessWidget {
+class MaterialDetailsPage extends HookConsumerWidget {
   final AssetData assetData;
   final String id;
 
   const MaterialDetailsPage({super.key, required this.assetData, required this.id});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bagCountInfoKey = useMemoized(() => GlobalKey());
+
     final material = assetData.materials[id];
     if (material == null) {
       return Scaffold(
@@ -38,6 +44,7 @@ class MaterialDetailsPage extends StatelessWidget {
     );
     final weaponsUsingMaterial = getWeaponsUsingMaterial(material, assetData.weapons.values)
         .sorted((a, b) => b.rarity - a.rarity);
+    final bagCount = ref.watch(bagCountProvider(material.hyvId));
 
     return Scaffold(
       appBar: AppBar(
@@ -67,6 +74,40 @@ class MaterialDetailsPage extends StatelessWidget {
                       children: [
                         const Icon(Symbols.event_available, color: Colors.green),
                         Text(tr.materialDetailsPage.availableToday),
+                      ],
+                    ),
+                  if (bagCount.value != null)
+                    GappedRow(
+                      children: [
+                        const Icon(Symbols.shopping_bag),
+                        Text.rich(
+                          tr.materialDetailsPage.bagCount(
+                            count: TextSpan(
+                              text: bagCount.value!.toString(),
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 36,
+                          width: 36,
+                          child: IconButton(
+                            key: bagCountInfoKey,
+                            icon: const Icon(Symbols.info),
+                            iconSize: 20,
+                            onPressed: () {
+                              showModalBubbleText(
+                                context: context,
+                                targetKey: bagCountInfoKey,
+                                text: tr.materialDetailsPage.bagCountInfo,
+                              );
+                            },
+                          ),
+                        ),
                       ],
                     ),
                 ],
