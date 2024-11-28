@@ -178,7 +178,9 @@ class _BookmarkList extends HookConsumerWidget {
                               weaponId: items.first.materialDetails.weaponId,
                             ),
                             hashes: items.map((e) => e.materialDetails.hash).toList(),
-                            expItems: assetData.characterIngredients.expItems,
+                            expItems: items.first.materialDetails.weaponId == null
+                                ? assetData.characterIngredients.expItems
+                                : assetData.weaponIngredients.expItems,
                           ),
                         IconButton(
                           icon: const Icon(Symbols.expand_content),
