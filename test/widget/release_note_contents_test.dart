@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/release_note_contents.dart";
+import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../utils.dart";
 
@@ -27,7 +28,7 @@ void main() {
     expect(
       find.descendant(
         of: find.byWidget(column.children[colIndex]),
-        matching: find.byIcon(Icons.arrow_right),
+        matching: find.byIcon(Symbols.arrow_right),
       ),
       findsOne,
     ); // find heading triangle icon
