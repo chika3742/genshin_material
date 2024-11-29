@@ -17,7 +17,7 @@ class ScrollBlurEffect extends HookWidget {
     required this.scrollController,
     required this.child,
     this.maxBlurHeight = 0.15,
-    this.blurFadeHeight = 100.0,
+    this.blurFadeHeight = 80.0,
   })  : assert(maxBlurHeight >= 0.0 && maxBlurHeight <= 1.0),
         assert(blurFadeHeight >= 0);
 
@@ -55,7 +55,9 @@ class ScrollBlurEffect extends HookWidget {
           },
           child: NotificationListener<SizeChangedLayoutNotification>(
             onNotification: (notification) {
-              updateBlurHeight(blurHeightFactor);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                updateBlurHeight(blurHeightFactor);
+              });
               return false;
             },
             child: child,

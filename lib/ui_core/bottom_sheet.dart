@@ -107,54 +107,68 @@ class ScrollableBottomSheet extends HookWidget {
   Widget build(BuildContext context) {
     final contentKey = useMemoized(() => GlobalKey());
 
-    final calculatedMaxChildSize = useState(maxChildSize);
-    final calculatedInitialChildSize = useState(initialChildSize);
+    final childRenderBoxSize = useState<Size?>(null);
     final availableHeight = useRef<double?>(null);
 
+    void updateChildSize() {
+      childRenderBoxSize.value = (contentKey.currentContext?.findRenderObject() as RenderBox?)?.size;
+    }
+
     double calculateIntrinsicChildSize() {
-      final renderBox = contentKey.currentContext?.findRenderObject() as RenderBox?;
-      if (renderBox == null || availableHeight.value == null) {
+      if (childRenderBoxSize.value == null || availableHeight.value == null) {
         return maxChildSize;
       }
 
-      return min(renderBox.size.height / availableHeight.value!, maxChildSize);
+      return min(childRenderBoxSize.value!.height / availableHeight.value!, maxChildSize);
     }
+
+    final calculatedMaxChildSize = calculateIntrinsicChildSize();
+    final calculatedInitialChildSize = min(initialChildSize, calculatedMaxChildSize);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        calculatedMaxChildSize.value = calculateIntrinsicChildSize();
-        calculatedInitialChildSize.value = min(initialChildSize, calculatedMaxChildSize.value);
+        updateChildSize();
       });
       return null;
     }, [],);
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        availableHeight.value = constraints.maxHeight;
-
-        return DraggableScrollableSheet(
-          minChildSize: 0,
-          maxChildSize: calculatedMaxChildSize.value,
-          initialChildSize: calculatedInitialChildSize.value,
-          expand: false,
-          snap: true,
-          builder: (context, scrollController) {
-            return ScrollBlurEffect(
-              scrollController: scrollController,
-              child: SingleChildScrollView(
-                controller: scrollController,
-                physics: scrollController.hasClients && scrollController.position.maxScrollExtent == 0
-                    ? const NeverScrollableScrollPhysics()
-                    : null,
-                child: KeyedSubtree(
-                  key: contentKey,
-                  child: builder(context),
-                ),
-              ),
-            );
-          },
-        );
+    return NotificationListener<SizeChangedLayoutNotification>(
+      onNotification: (notification) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          updateChildSize();
+        });
+        return false;
       },
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          availableHeight.value = constraints.maxHeight;
+
+          return DraggableScrollableSheet(
+            minChildSize: 0,
+            maxChildSize: calculatedMaxChildSize,
+            initialChildSize: calculatedInitialChildSize,
+            expand: false,
+            snap: true,
+            builder: (context, scrollController) {
+              return ScrollBlurEffect(
+                scrollController: scrollController,
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  physics: scrollController.hasClients && scrollController.position.maxScrollExtent == 0
+                      ? const NeverScrollableScrollPhysics()
+                      : null,
+                  child: SizeChangedLayoutNotifier(
+                    child: KeyedSubtree(
+                      key: contentKey,
+                      child: builder(context),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
