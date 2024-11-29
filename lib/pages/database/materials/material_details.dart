@@ -1,6 +1,5 @@
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
-import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
@@ -13,7 +12,6 @@ import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
-import "../../../providers/database_provider.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
 import "../../../utils/material_usage.dart";
@@ -26,7 +24,7 @@ class MaterialDetailsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bagCountInfoKey = useMemoized(() => GlobalKey());
+    // final bagCountInfoKey = useMemoized(() => GlobalKey());
 
     final material = assetData.materials[id];
     if (material == null) {
@@ -43,7 +41,7 @@ class MaterialDetailsPage extends HookConsumerWidget {
     );
     final weaponsUsingMaterial = getWeaponsUsingMaterial(material, assetData.weapons.values)
         .sorted((a, b) => b.rarity - a.rarity);
-    final bagCount = ref.watch(bagCountProvider(material.hyvId));
+    // final bagCount = ref.watch(bagCountProvider(material.hyvId));
 
     return Scaffold(
       appBar: AppBar(
