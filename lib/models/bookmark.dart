@@ -12,14 +12,15 @@ import "common.dart";
 part "bookmark.freezed.dart";
 
 sealed class BookmarkInsertable<T> {
+  final int? metadataId;
   final CharacterId characterId;
 
-  BookmarkInsertable({required this.characterId});
+  BookmarkInsertable({this.metadataId, required this.characterId});
 
   String? _groupHash;
-  String get groupHash => _groupHash ??= groupHashInit();
+  String get groupHash => _groupHash ??= _groupHashInit();
 
-  String groupHashInit();
+  String _groupHashInit();
 
   BookmarkCompanion toMetadata();
 
@@ -34,6 +35,7 @@ class MaterialBookmarkInsertable extends BookmarkInsertable<BookmarkMaterialDeta
   final Purpose purposeType;
 
   MaterialBookmarkInsertable({
+    super.metadataId,
     required super.characterId,
     required this.weaponId,
     required this.materialId,
@@ -43,7 +45,7 @@ class MaterialBookmarkInsertable extends BookmarkInsertable<BookmarkMaterialDeta
   });
 
   @override
-  String groupHashInit() {
+  String _groupHashInit() {
     return generateBookmarkGroupHash(
       characterId: characterId,
       type: BookmarkType.material,
@@ -55,6 +57,7 @@ class MaterialBookmarkInsertable extends BookmarkInsertable<BookmarkMaterialDeta
   @override
   BookmarkCompanion toMetadata() {
     return BookmarkCompanion.insert(
+      id: Value.absentIfNull(metadataId),
       characterId: characterId,
       type: BookmarkType.material,
       groupHash: groupHash,
@@ -96,7 +99,7 @@ class ArtifactSetBookmarkInsertable extends BookmarkInsertable<BookmarkArtifactS
   });
 
   @override
-  String groupHashInit() {
+  String _groupHashInit() {
     return const Uuid().v4(); // Random hash because artifact bookmarks don't have a group
   }
 
@@ -133,7 +136,7 @@ class ArtifactPieceBookmarkInsertable extends BookmarkInsertable<BookmarkArtifac
   });
 
   @override
-  String groupHashInit() {
+  String _groupHashInit() {
     return const Uuid().v4(); // Random hash because artifact bookmarks don't have a group
   }
 

@@ -20,8 +20,19 @@ AppDatabase appDatabase(Ref ref) {
 }
 
 @riverpod
-Stream<List<BookmarkWithDetails>> bookmarks(Ref ref) {
+Stream<List<BookmarkWithDetails>> bookmarks(Ref ref, {String? groupHash, List<String>? hashes, ({String? materialId, bool hasWeapon})? materialFilter}) {
+  assert(groupHash == null || hashes == null);
+
   final db = ref.watch(appDatabaseProvider);
+  if (groupHash != null) {
+    return db.watchMaterialBookmarksByGroupHash(groupHash);
+  }
+  if (hashes != null) {
+    return db.watchMaterialBookmarksByHashes(hashes);
+  }
+  if (materialFilter != null) {
+    return db.watchMaterialBookmarksByMaterial(materialFilter.materialId, materialFilter.hasWeapon);
+  }
   return db.watchBookmarks();
 }
 

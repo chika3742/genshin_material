@@ -102,6 +102,24 @@ extension BookmarkDbExtension on AppDatabase {
     });
   }
 
+  Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksByMaterial(String? materialId, bool hasWeapon) {
+    final query = select(bookmarkTable).join([
+      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
+    ]);
+    query.where(
+      bookmarkMaterialDetailsTable.materialId.equalsNullable(materialId) &
+      bookmarkMaterialDetailsTable.weaponId.isNotNull().equals(hasWeapon),
+    );
+    return query.watch().map((rows) {
+      return rows.map((row) {
+        return BookmarkWithMaterialDetails(
+          metadata: row.readTable(bookmarkTable),
+          materialDetails: row.readTable(bookmarkMaterialDetailsTable),
+        );
+      }).toList();
+    });
+  }
+
   Future<void> _addBookmarks(List<BookmarkInsertable> insertables) async {
     final groupHashes = <String>{};
     await transaction(() async {

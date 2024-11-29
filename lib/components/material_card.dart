@@ -1,7 +1,6 @@
 import "dart:io";
 import "dart:math";
 
-import "package:assorted_layout_widgets/assorted_layout_widgets.dart";
 import "package:collection/collection.dart";
 import "package:flutter/material.dart" hide Material;
 import "package:flutter_hooks/flutter_hooks.dart";
@@ -67,10 +66,9 @@ class MaterialCard extends StatelessWidget {
       height: 60,
       child: Card(
         color: Theme.of(context).colorScheme.surfaceContainerHigh,
-        child: RowSuper(
-          mainAxisSize: MainAxisSize.min,
-          innerDistance: -8,
+        child: Stack(
           children: [
+            // rarity marker
             if (rarity != null)
               SizedBox(
                 width: 6,
@@ -82,62 +80,75 @@ class MaterialCard extends StatelessWidget {
                   ),
                 ),
               ),
-            const SizedBox(width: 16),
-            if (onSwapExpItem != null) IconButton(
-              padding: EdgeInsets.zero,
-              icon: const Icon(Symbols.swap_horiz),
-              onPressed: onSwapExpItem,
-            ),
-            SizedBox(
-              height: 60,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(8.0),
-                onTap: () {
-                  MaterialDetailsRoute(id: id).push(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: GappedRow(
-                    gap: 4,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.file(image, width: 35, height: 35),
-                      if (showName) Expanded(
-                        child: Text(name, style: const TextStyle(fontSize: 16)),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (onSwapExpItem != null) IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: const Icon(Symbols.swap_horiz),
+                  onPressed: onSwapExpItem,
+                ),
+                Flexible(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8.0),
+                    onTap: () {
+                      MaterialDetailsRoute(id: id).push(context);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: GappedRow(
+                        gap: 4,
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.file(image, width: 35, height: 35),
+                          if (showName) Flexible(
+                            child: Text(name, style: const TextStyle(fontSize: 16)),
+                          ),
+                          if (dailyMaterialAvailable)
+                            const Icon(Symbols.event_available, color: Colors.green, weight: 700),
+                          _MaterialQuantity(
+                            requiredNum: quantity,
+                            materialId: id,
+                          ),
+                          if (onBookmark == null) const SizedBox(width: 4),
+                        ],
                       ),
-                      if (dailyMaterialAvailable)
-                        const Icon(Symbols.event_available, color: Colors.green, weight: 700),
-                      _MaterialQuantity(
-                        requiredNum: quantity,
-                        materialId: id,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                if (onBookmark != null && bookmarkState != null)
+                  const SizedBox(width: 36),
+              ],
             ),
-            if (onBookmark != null && bookmarkState != null) IconTheme(
-              data: Theme.of(context).iconTheme.copyWith(
-                fill: switch (bookmarkState!) {
-                  BookmarkState.bookmarked => 1,
-                  BookmarkState.partial => 1,
-                  BookmarkState.none => 1,
-                },
-                color: switch (bookmarkState!) {
-                  BookmarkState.bookmarked => Colors.orange,
-                  BookmarkState.partial => Colors.lightGreen,
-                  BookmarkState.none => null,
-                },
-              ),
+            if (onBookmark != null && bookmarkState != null) Positioned(
+              top: 0,
+              right: 0,
+              bottom: 0,
               child: Align(
                 alignment: Alignment.center,
-                child: IconButton(
-                  icon: Icon(switch (bookmarkState!) {
-                    BookmarkState.bookmarked => Symbols.bookmark_added,
-                    BookmarkState.partial => Symbols.bookmark_remove,
-                    BookmarkState.none => Symbols.bookmark_add,
-                  },),
-                  onPressed: onBookmark,
+                child: IconTheme(
+                  data: Theme.of(context).iconTheme.copyWith(
+                    fill: switch (bookmarkState!) {
+                      BookmarkState.bookmarked => 1,
+                      BookmarkState.partial => 1,
+                      BookmarkState.none => 1,
+                    },
+                    color: switch (bookmarkState!) {
+                      BookmarkState.bookmarked => Colors.orange,
+                      BookmarkState.partial => Colors.lightGreen,
+                      BookmarkState.none => null,
+                    },
+                  ),
+                  child: IconButton(
+                    icon: Icon(switch (bookmarkState!) {
+                      BookmarkState.bookmarked => Symbols.bookmark_added,
+                      BookmarkState.partial => Symbols.bookmark_remove,
+                      BookmarkState.none => Symbols.bookmark_add,
+                    },),
+                    onPressed: onBookmark,
+                  ),
                 ),
               ),
             ),

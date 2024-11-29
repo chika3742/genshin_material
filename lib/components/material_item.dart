@@ -21,7 +21,7 @@ import "material_card.dart";
 /// Material item implementation.
 class MaterialItem extends StatefulHookConsumerWidget {
   final MaterialCardMaterial item;
-  final MaterialUsage usage;
+  final MaterialUsage? usage;
   final List<Purpose>? possiblePurposeTypes;
   final List<ExpItem>? expItems;
   final List<String>? hashes;
@@ -29,11 +29,11 @@ class MaterialItem extends StatefulHookConsumerWidget {
   const MaterialItem({
     super.key,
     required this.item,
-    required this.usage,
+    this.usage,
     this.possiblePurposeTypes,
     this.expItems,
     this.hashes,
-  })  : assert(hashes != null || possiblePurposeTypes != null, "possiblePurposeTypes must be provided when hashes is null.");
+  })  : assert(hashes != null || (possiblePurposeTypes != null && usage != null));
 
   @override
   ConsumerState<MaterialItem> createState() => _MaterialItemState();
@@ -45,14 +45,15 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
   @override
   Widget build(BuildContext context) {
     final db = ref.watch(appDatabaseProvider);
+    final prefs = ref.watch(preferencesStateNotifierProvider);
 
     final bookmarkedMaterials = useStream(
       useMemoized(
         () {
-          return widget.hashes == null
+          return widget.hashes == null && widget.usage != null
               ? db.watchMaterialBookmarksPartially(
-                  characterId: widget.usage.characterId,
-                  weaponId: widget.usage.weaponId,
+                  characterId: widget.usage!.characterId,
+                  weaponId: widget.usage!.weaponId,
                   materialId: widget.item.id,
                   purposeTypes: widget.possiblePurposeTypes!,
                 )
@@ -60,10 +61,9 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
         },
         [
           db,
-          widget.usage.characterId,
+          widget.usage,
           widget.item.id,
           const ListEquality().hash(widget.possiblePurposeTypes),
-          widget.usage.weaponId,
           widget.hashes,
         ],
       ),
@@ -105,18 +105,18 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       id: material.id,
       bookmarkState: bookmarkState,
       dailyMaterialAvailable: material.getDailyMaterialAvailable(prefs.dailyResetServer),
-      onBookmark: () async {
+      onBookmark: widget.usage != null ? () async {
         final db = ref.read(appDatabaseProvider);
 
         switch (bookmarkState) {
           case BookmarkState.none:
-            await db.addMaterialBookmarks(widget.item.toCompanions(widget.usage));
+            await db.addMaterialBookmarks(widget.item.toCompanions(widget.usage!));
             break;
           case BookmarkState.partial:
             final result = await showPartialBookmarkBottomSheet(bookmarkedMaterials.data!);
             if (result == PartialBookmarkBottomSheetResult.reBookmark) {
               await db.removeBookmarks(bookmarkedMaterials.data!.map((e) => e.metadata.id).toList());
-              await db.addMaterialBookmarks(widget.item.toCompanions(widget.usage));
+              await db.addMaterialBookmarks(widget.item.toCompanions(widget.usage!));
             } else if (result == PartialBookmarkBottomSheetResult.remove) {
               await db.removeBookmarks(bookmarkedMaterials.data!.map((e) => e.metadata.id).toList());
             }
@@ -124,7 +124,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
           case BookmarkState.bookmarked:
             await db.removeBookmarks(bookmarkedMaterials.data!.map((e) => e.metadata.id).toList());
             if (context.mounted) {
-              final companions = widget.item.toCompanions(widget.usage);
+              final companions = widget.item.toCompanions(widget.usage!);
               showSnackBar(
                 context: context,
                 message: tr.materialCard.unBookmarked,
@@ -138,7 +138,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
             }
             break;
         }
-      },
+      } : null,
       onSwapExpItem: widget.item.isExp ? () {
         setState(() {
           _currentExpItemIndex = (_currentExpItemIndex + 1) %
