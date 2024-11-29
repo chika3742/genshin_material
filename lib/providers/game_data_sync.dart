@@ -11,7 +11,6 @@ import "../core/secure_storage.dart";
 import "../database.dart";
 import "../db/in_game_character_state_db_extension.dart";
 import "../db/in_game_weapon_state_db_extension.dart";
-import "../db/material_bag_count_db_extension.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
@@ -53,68 +52,68 @@ class LevelBagSyncStateNotifier extends _$LevelBagSyncStateNotifier {
 
     state = const GameDataSyncStatus.syncing();
 
-    if (prefs.syncBagCounts) {
-      // fetch bag counts
-      try {
-        CalcComputeItem computeReq = const CalcComputeItem();
-
-        if (variantId != null) {
-          final int avatarId;
-          if (character!.hyvIds.length > 2) {
-            final result = await HoyolabApiUtils.loopUntilCharacter(
-              character.hyvIds,
-                  (page) {
-                return api.avatarList(
-                  page,
-                  elementIds: [],
-                  weaponCatIds: [assetData.weaponTypes[character.weaponType]!.hyvId],
-                );
-              },
-            );
-            avatarId = result?.id ?? character.hyvIds.first;
-          } else {
-            avatarId = character.hyvIds.first;
-          }
-          // append character info to the compute request
-          computeReq = computeReq.copyWith(
-            avatarId: avatarId,
-            currentAvatarLevel: 1,
-            elementAttrId: assetData.elements[variant!.element]!.hyvId,
-            targetAvatarLevel: assetData.characterIngredients.purposes[Purpose.ascension]!.levels.keys.last,
-            skills: variant.talents.values.map((e) => CalcComputeSkill(
-              id: e.idList.first,
-              currentLevel: 1,
-              targetLevel: assetData.characterIngredients.purposes[Purpose.normalAttack]!.levels.keys.last,
-            ),).toList(),
-          );
-        }
-        if (weaponId != null) {
-          final weapon = assetData.weapons[weaponId]!;
-          // append weapon info to the compute request
-          computeReq = computeReq.copyWith(
-            weapon: CalcComputeWeapon(
-              id: weapon.hyvId,
-              currentLevel: 1,
-              targetLevel: assetData.weaponIngredients.rarities[weapon.rarity]!.levels.keys.last,
-              rarity: weapon.rarity,
-              name: weapon.name.localized,
-            ),
-          );
-        }
-
-        final calcResult = await api.batchCompute([computeReq]);
-
-        final bagCounts = <int, int>{}; // item id (hyvId) -> count
-        for (final item in calcResult.overallConsume) {
-          bagCounts[item.id] = item.num - item.lackNum;
-        }
-        await db.updateMaterialBagCounts(prefs.hyvUid!, bagCounts);
-      } on Exception catch (e, st) {
-        state = GameDataSyncStatus.error(error: e);
-        log("Error syncing bag counts", error: e, stackTrace: st);
-        return {}; // error
-      }
-    }
+    // if (prefs.syncBagCounts) {
+    //   // fetch bag counts
+    //   try {
+    //     CalcComputeItem computeReq = const CalcComputeItem();
+    //
+    //     if (variantId != null) {
+    //       final int avatarId;
+    //       if (character!.hyvIds.length > 2) {
+    //         final result = await HoyolabApiUtils.loopUntilCharacter(
+    //           character.hyvIds,
+    //               (page) {
+    //             return api.avatarList(
+    //               page,
+    //               elementIds: [],
+    //               weaponCatIds: [assetData.weaponTypes[character.weaponType]!.hyvId],
+    //             );
+    //           },
+    //         );
+    //         avatarId = result?.id ?? character.hyvIds.first;
+    //       } else {
+    //         avatarId = character.hyvIds.first;
+    //       }
+    //       // append character info to the compute request
+    //       computeReq = computeReq.copyWith(
+    //         avatarId: avatarId,
+    //         currentAvatarLevel: 1,
+    //         elementAttrId: assetData.elements[variant!.element]!.hyvId,
+    //         targetAvatarLevel: assetData.characterIngredients.purposes[Purpose.ascension]!.levels.keys.last,
+    //         skills: variant.talents.values.map((e) => CalcComputeSkill(
+    //           id: e.idList.first,
+    //           currentLevel: 1,
+    //           targetLevel: assetData.characterIngredients.purposes[Purpose.normalAttack]!.levels.keys.last,
+    //         ),).toList(),
+    //       );
+    //     }
+    //     if (weaponId != null) {
+    //       final weapon = assetData.weapons[weaponId]!;
+    //       // append weapon info to the compute request
+    //       computeReq = computeReq.copyWith(
+    //         weapon: CalcComputeWeapon(
+    //           id: weapon.hyvId,
+    //           currentLevel: 1,
+    //           targetLevel: assetData.weaponIngredients.rarities[weapon.rarity]!.levels.keys.last,
+    //           rarity: weapon.rarity,
+    //           name: weapon.name.localized,
+    //         ),
+    //       );
+    //     }
+    //
+    //     final calcResult = await api.batchCompute([computeReq]);
+    //
+    //     final bagCounts = <int, int>{}; // item id (hyvId) -> count
+    //     for (final item in calcResult.overallConsume) {
+    //       bagCounts[item.id] = item.num - item.lackNum;
+    //     }
+    //     await db.updateMaterialBagCounts(prefs.hyvUid!, bagCounts);
+    //   } on Exception catch (e, st) {
+    //     state = GameDataSyncStatus.error(error: e);
+    //     log("Error syncing bag counts", error: e, stackTrace: st);
+    //     return {}; // error
+    //   }
+    // }
 
     if (variantId != null && (prefs.syncCharaState || prefs.syncWeaponState)) {
       // fetch character levels

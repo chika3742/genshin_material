@@ -8,16 +8,13 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../components/center_text.dart";
 import "../../components/list_subheader.dart";
-import "../../components/list_tile.dart";
 import "../../core/hoyolab_api.dart";
-import "../../core/kv_preferences.dart";
 import "../../core/secure_storage.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
 import "../../providers/miscellaneous.dart";
 import "../../providers/preferences.dart";
 import "../../routes.dart";
-import "../../ui_core/bottom_sheet.dart";
 import "../../ui_core/dialog.dart";
 import "../../ui_core/error_messages.dart";
 import "../../ui_core/layout.dart";
@@ -137,14 +134,14 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                   .setSyncWeaponState(value);
             } : null,
           ),
-          SwitchListTile(
-            title: Text(tr.hoyolab.syncBagCounts),
-            value: prefs.syncBagCounts,
-            onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateNotifierProvider.notifier)
-                  .setSyncBagCounts(value);
-            } : null,
-          ),
+          // SwitchListTile(
+          //   title: Text(tr.hoyolab.syncBagCounts),
+          //   value: prefs.syncBagCounts,
+          //   onChanged: prefs.isLinkedWithHoyolab ? (value) {
+          //     ref.read(preferencesStateNotifierProvider.notifier)
+          //         .setSyncBagCounts(value);
+          //   } : null,
+          // ),
           SwitchListTile(
             title: Text(tr.hoyolab.syncResin),
             value: prefs.syncResin,
@@ -154,31 +151,31 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             } : null,
           ),
 
-          ListSubheader(tr.hoyolab.displaySettings),
-          SimpleListTile(
-            title: tr.hoyolab.lackNumDisplayMethod,
-            subtitle: tr.hoyolab.lackNumDisplayMethodValues[prefs.lackNumDisplayMethod.name],
-            trailingIcon: Symbols.menu_open,
-            onTap: () {
-              showSelectBottomSheet(
-                context: context,
-                title: Text(tr.hoyolab.lackNumDisplayMethod),
-                subtitle: Text(tr.hoyolab.lackNumDisplayMethodDesc),
-                selectedValue: prefs.lackNumDisplayMethod,
-                items: [
-                  for (final method in LackNumDisplayMethod.values)
-                    SelectBottomSheetItem(
-                      text: tr.hoyolab.lackNumDisplayMethodValues[method.name]!,
-                      value: method,
-                    ),
-                ],
-              ).then((value) {
-                if (value != null) {
-                  ref.read(preferencesStateNotifierProvider.notifier).setLackNumDisplayMethod(value);
-                }
-              });
-            },
-          ),
+          // ListSubheader(tr.hoyolab.displaySettings),
+          // SimpleListTile(
+          //   title: tr.hoyolab.lackNumDisplayMethod,
+          //   subtitle: tr.hoyolab.lackNumDisplayMethodValues[prefs.lackNumDisplayMethod.name],
+          //   trailingIcon: Symbols.menu_open,
+          //   onTap: () {
+          //     showSelectBottomSheet(
+          //       context: context,
+          //       title: Text(tr.hoyolab.lackNumDisplayMethod),
+          //       subtitle: Text(tr.hoyolab.lackNumDisplayMethodDesc),
+          //       selectedValue: prefs.lackNumDisplayMethod,
+          //       items: [
+          //         for (final method in LackNumDisplayMethod.values)
+          //           SelectBottomSheetItem(
+          //             text: tr.hoyolab.lackNumDisplayMethodValues[method.name]!,
+          //             value: method,
+          //           ),
+          //       ],
+          //     ).then((value) {
+          //       if (value != null) {
+          //         ref.read(preferencesStateNotifierProvider.notifier).setLackNumDisplayMethod(value);
+          //       }
+          //     });
+          //   },
+          // ),
 
           ListSubheader(tr.hoyolab.accessPermission),
           // error tile

@@ -15,7 +15,6 @@ import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../providers/database_provider.dart";
 import "../../../routes.dart";
-import "../../../ui_core/bubble.dart";
 import "../../../ui_core/layout.dart";
 import "../../../utils/material_usage.dart";
 
@@ -76,40 +75,40 @@ class MaterialDetailsPage extends HookConsumerWidget {
                         Text(tr.materialDetailsPage.availableToday),
                       ],
                     ),
-                  if (bagCount.value != null)
-                    GappedRow(
-                      children: [
-                        const Icon(Symbols.shopping_bag),
-                        Text.rich(
-                          tr.materialDetailsPage.bagCount(
-                            count: TextSpan(
-                              text: bagCount.value!.toString(),
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 36,
-                          width: 36,
-                          child: IconButton(
-                            key: bagCountInfoKey,
-                            icon: const Icon(Symbols.info),
-                            iconSize: 20,
-                            onPressed: () {
-                              showModalBubbleText(
-                                context: context,
-                                targetKey: bagCountInfoKey,
-                                text: tr.materialDetailsPage.bagCountInfo,
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                  // if (bagCount.value != null)
+                  //   GappedRow(
+                  //     children: [
+                  //       const Icon(Symbols.shopping_bag),
+                  //       Text.rich(
+                  //         tr.materialDetailsPage.bagCount(
+                  //           count: TextSpan(
+                  //             text: bagCount.value!.toString(),
+                  //             style: TextStyle(
+                  //               color: Theme.of(context).colorScheme.primary,
+                  //               fontWeight: FontWeight.bold,
+                  //               fontSize: 16,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       SizedBox(
+                  //         height: 36,
+                  //         width: 36,
+                  //         child: IconButton(
+                  //           key: bagCountInfoKey,
+                  //           icon: const Icon(Symbols.info),
+                  //           iconSize: 20,
+                  //           onPressed: () {
+                  //             showModalBubbleText(
+                  //               context: context,
+                  //               targetKey: bagCountInfoKey,
+                  //               text: tr.materialDetailsPage.bagCountInfo,
+                  //             );
+                  //           },
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
                 ],
               ),
 

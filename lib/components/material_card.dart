@@ -310,7 +310,8 @@ class _QuantityCrossFade extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final alternateState = useValueListenable(QuantityStateProvider.of(context).state);
-    final mode = ref.watch(preferencesStateNotifierProvider.select((e) => e.lackNumDisplayMethod));
+    // final mode = ref.watch(preferencesStateNotifierProvider.select((e) => e.lackNumDisplayMethod));
+    const mode = LackNumDisplayMethod.requiredNumOnly;
 
     QuantityState getActualState(QuantityState state) {
       return switch (state) {
