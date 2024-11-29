@@ -19,6 +19,13 @@ updates:
         update-types:
           - major
           - minor
+      drift:
+        patterns:
+          - drift*
+          - sqlite3*
+        update-types:
+          - major
+          - minor
       patch-updates:
         update-types:
           - patch
