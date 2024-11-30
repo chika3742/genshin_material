@@ -41,7 +41,7 @@ dependencies:
   http: ^1.2.2
   archive: ^3.6.1
   animations: ^2.0.11
-  flutter_sticky_header: ^0.6.5
+  flutter_sticky_header: ^0.7.0
   flutter_hooks: ^0.20.5
   shared_preferences: ^2.3.3
   hooks_riverpod: ^2.6.1
