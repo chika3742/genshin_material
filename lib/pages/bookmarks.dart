@@ -318,8 +318,9 @@ class _MaterialGroupedBookmarkList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final assetData = ref.watch(assetDataProvider).value!;
     final bookmarks = ref.watch(bookmarksProvider()).value ?? [];
-    final bookmarkMaterials = bookmarks.whereType<BookmarkWithMaterialDetails>()
+    final bookmarkMaterials = _sortBookmarks(bookmarks.whereType<BookmarkWithMaterialDetails>(), assetData)
         .groupFoldBy<String?, List<BookmarkWithMaterialDetails>>(
           (e) => e.materialDetails.materialId ?? (e.materialDetails.weaponId != null).toString(),
           (prev, element) {
@@ -783,7 +784,7 @@ class _PurposeHeader extends ConsumerWidget {
 
 
 
-List<BookmarkWithMaterialDetails> _sortBookmarks(List<BookmarkWithMaterialDetails> bookmarks, AssetData assetData) {
+List<BookmarkWithMaterialDetails> _sortBookmarks(Iterable<BookmarkWithMaterialDetails> bookmarks, AssetData assetData) {
   return bookmarks.sorted((a, b) {
     final aMaterial = assetData.materials[a.materialDetails.materialId];
     final bMaterial = assetData.materials[b.materialDetails.materialId];
