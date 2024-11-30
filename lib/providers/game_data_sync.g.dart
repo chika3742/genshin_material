@@ -7,7 +7,7 @@ part of 'game_data_sync.dart';
 // **************************************************************************
 
 String _$levelBagSyncStateNotifierHash() =>
-    r'fc07de2c0fbfde36d2f82c3e8af2ed2bfcae5a65';
+    r'2ab9fa491f5137d74eba54e483cb4ee4b47520f4';
 
 /// Copied from Dart SDK
 class _SystemHash {

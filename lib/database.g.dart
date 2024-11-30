@@ -728,11 +728,11 @@ class $BookmarkArtifactSetDetailsTableTable
   }
 
   static TypeConverter<List<ArtifactSetId>, String> $convertersets =
-      const ListConverter();
+      const ListConverter<ArtifactSetId>();
   static TypeConverter<Map<String, StatId?>, String> $convertermainStats =
-      const MapConverter();
+      const MapConverter<StatId?>();
   static TypeConverter<List<StatId>, String> $convertersubStats =
-      const ListConverter();
+      const ListConverter<StatId>();
 }
 
 class BookmarkArtifactSetDetails extends DataClass
@@ -1059,7 +1059,7 @@ class $BookmarkArtifactPieceDetailsTableTable
   }
 
   static TypeConverter<List<StatId>, String> $convertersubStats =
-      const ListConverter();
+      const ListConverter<StatId>();
 }
 
 class BookmarkArtifactPieceDetails extends DataClass
@@ -1894,7 +1894,7 @@ class $BookmarkOrderRegistryTableTable extends BookmarkOrderRegistryTable
   }
 
   static TypeConverter<List<String>, String> $converterorder =
-      const ListConverter();
+      const ListConverter<String>();
 }
 
 class BookmarkOrderRegistry extends DataClass
@@ -2447,122 +2447,224 @@ final class $$BookmarkTableTableReferences
 }
 
 class $$BookmarkTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $BookmarkTableTable> {
-  $$BookmarkTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $BookmarkTableTable> {
+  $$BookmarkTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnWithTypeConverterFilters<BookmarkType, BookmarkType, String> get type =>
-      $state.composableBuilder(
-          column: $state.table.type,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
+      $composableBuilder(
+          column: $table.type,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 
-  ColumnFilters<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get createdAt => $state.composableBuilder(
-      column: $state.table.createdAt,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get groupHash => $state.composableBuilder(
-      column: $state.table.groupHash,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get groupHash => $composableBuilder(
+      column: $table.groupHash, builder: (column) => ColumnFilters(column));
 
-  ComposableFilter bookmarkMaterialDetailsTableRefs(
-      ComposableFilter Function(
+  Expression<bool> bookmarkMaterialDetailsTableRefs(
+      Expression<bool> Function(
               $$BookmarkMaterialDetailsTableTableFilterComposer f)
           f) {
     final $$BookmarkMaterialDetailsTableTableFilterComposer composer =
-        $state.composerBuilder(
+        $composerBuilder(
             composer: this,
             getCurrentColumn: (t) => t.id,
-            referencedTable: $state.db.bookmarkMaterialDetailsTable,
+            referencedTable: $db.bookmarkMaterialDetailsTable,
             getReferencedColumn: (t) => t.parentId,
-            builder: (joinBuilder, parentComposers) =>
-                $$BookmarkMaterialDetailsTableTableFilterComposer(ComposerState(
-                    $state.db,
-                    $state.db.bookmarkMaterialDetailsTable,
-                    joinBuilder,
-                    parentComposers)));
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$BookmarkMaterialDetailsTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.bookmarkMaterialDetailsTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 
-  ComposableFilter bookmarkArtifactSetDetailsTableRefs(
-      ComposableFilter Function(
+  Expression<bool> bookmarkArtifactSetDetailsTableRefs(
+      Expression<bool> Function(
               $$BookmarkArtifactSetDetailsTableTableFilterComposer f)
           f) {
     final $$BookmarkArtifactSetDetailsTableTableFilterComposer composer =
-        $state.composerBuilder(
+        $composerBuilder(
             composer: this,
             getCurrentColumn: (t) => t.id,
-            referencedTable: $state.db.bookmarkArtifactSetDetailsTable,
+            referencedTable: $db.bookmarkArtifactSetDetailsTable,
             getReferencedColumn: (t) => t.parentId,
-            builder: (joinBuilder, parentComposers) =>
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
                 $$BookmarkArtifactSetDetailsTableTableFilterComposer(
-                    ComposerState(
-                        $state.db,
-                        $state.db.bookmarkArtifactSetDetailsTable,
-                        joinBuilder,
-                        parentComposers)));
+                  $db: $db,
+                  $table: $db.bookmarkArtifactSetDetailsTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 
-  ComposableFilter bookmarkArtifactPieceDetailsTableRefs(
-      ComposableFilter Function(
+  Expression<bool> bookmarkArtifactPieceDetailsTableRefs(
+      Expression<bool> Function(
               $$BookmarkArtifactPieceDetailsTableTableFilterComposer f)
           f) {
     final $$BookmarkArtifactPieceDetailsTableTableFilterComposer composer =
-        $state.composerBuilder(
+        $composerBuilder(
             composer: this,
             getCurrentColumn: (t) => t.id,
-            referencedTable: $state.db.bookmarkArtifactPieceDetailsTable,
+            referencedTable: $db.bookmarkArtifactPieceDetailsTable,
             getReferencedColumn: (t) => t.parentId,
-            builder: (joinBuilder, parentComposers) =>
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
                 $$BookmarkArtifactPieceDetailsTableTableFilterComposer(
-                    ComposerState(
-                        $state.db,
-                        $state.db.bookmarkArtifactPieceDetailsTable,
-                        joinBuilder,
-                        parentComposers)));
+                  $db: $db,
+                  $table: $db.bookmarkArtifactPieceDetailsTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 }
 
 class $$BookmarkTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $BookmarkTableTable> {
-  $$BookmarkTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $BookmarkTableTable> {
+  $$BookmarkTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get createdAt => $state.composableBuilder(
-      column: $state.table.createdAt,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get groupHash => $state.composableBuilder(
-      column: $state.table.groupHash,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get groupHash => $composableBuilder(
+      column: $table.groupHash, builder: (column) => ColumnOrderings(column));
+}
+
+class $$BookmarkTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BookmarkTableTable> {
+  $$BookmarkTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<BookmarkType, String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get groupHash =>
+      $composableBuilder(column: $table.groupHash, builder: (column) => column);
+
+  Expression<T> bookmarkMaterialDetailsTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$BookmarkMaterialDetailsTableTableAnnotationComposer a)
+          f) {
+    final $$BookmarkMaterialDetailsTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.bookmarkMaterialDetailsTable,
+            getReferencedColumn: (t) => t.parentId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$BookmarkMaterialDetailsTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.bookmarkMaterialDetailsTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> bookmarkArtifactSetDetailsTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$BookmarkArtifactSetDetailsTableTableAnnotationComposer a)
+          f) {
+    final $$BookmarkArtifactSetDetailsTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.bookmarkArtifactSetDetailsTable,
+            getReferencedColumn: (t) => t.parentId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$BookmarkArtifactSetDetailsTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.bookmarkArtifactSetDetailsTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> bookmarkArtifactPieceDetailsTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer a)
+          f) {
+    final $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.bookmarkArtifactPieceDetailsTable,
+            getReferencedColumn: (t) => t.parentId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.bookmarkArtifactPieceDetailsTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$BookmarkTableTableTableManager extends RootTableManager<
@@ -2571,6 +2673,7 @@ class $$BookmarkTableTableTableManager extends RootTableManager<
     Bookmark,
     $$BookmarkTableTableFilterComposer,
     $$BookmarkTableTableOrderingComposer,
+    $$BookmarkTableTableAnnotationComposer,
     $$BookmarkTableTableCreateCompanionBuilder,
     $$BookmarkTableTableUpdateCompanionBuilder,
     (Bookmark, $$BookmarkTableTableReferences),
@@ -2583,10 +2686,12 @@ class $$BookmarkTableTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$BookmarkTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$BookmarkTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$BookmarkTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BookmarkTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BookmarkTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<BookmarkType> type = const Value.absent(),
@@ -2687,6 +2792,7 @@ typedef $$BookmarkTableTableProcessedTableManager = ProcessedTableManager<
     Bookmark,
     $$BookmarkTableTableFilterComposer,
     $$BookmarkTableTableOrderingComposer,
+    $$BookmarkTableTableAnnotationComposer,
     $$BookmarkTableTableCreateCompanionBuilder,
     $$BookmarkTableTableUpdateCompanionBuilder,
     (Bookmark, $$BookmarkTableTableReferences),
@@ -2728,8 +2834,7 @@ final class $$BookmarkMaterialDetailsTableTableReferences
       db.bookmarkTable.createAlias($_aliasNameGenerator(
           db.bookmarkMaterialDetailsTable.parentId, db.bookmarkTable.id));
 
-  $$BookmarkTableTableProcessedTableManager? get parentId {
-    if ($_item.parentId == null) return null;
+  $$BookmarkTableTableProcessedTableManager get parentId {
     final manager = $$BookmarkTableTableTableManager($_db, $_db.bookmarkTable)
         .filter((f) => f.id($_item.parentId!));
     final item = $_typedResult.readTableOrNull(_parentIdTable($_db));
@@ -2740,97 +2845,148 @@ final class $$BookmarkMaterialDetailsTableTableReferences
 }
 
 class $$BookmarkMaterialDetailsTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $BookmarkMaterialDetailsTableTable> {
-  $$BookmarkMaterialDetailsTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get weaponId => $state.composableBuilder(
-      column: $state.table.weaponId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $BookmarkMaterialDetailsTableTable> {
+  $$BookmarkMaterialDetailsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get weaponId => $composableBuilder(
+      column: $table.weaponId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get materialId => $state.composableBuilder(
-      column: $state.table.materialId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get materialId => $composableBuilder(
+      column: $table.materialId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get quantity => $state.composableBuilder(
-      column: $state.table.quantity,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<int> get quantity => $composableBuilder(
+      column: $table.quantity, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get upperLevel => $state.composableBuilder(
-      column: $state.table.upperLevel,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<int> get upperLevel => $composableBuilder(
+      column: $table.upperLevel, builder: (column) => ColumnFilters(column));
 
   ColumnWithTypeConverterFilters<Purpose, Purpose, String> get purposeType =>
-      $state.composableBuilder(
-          column: $state.table.purposeType,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
+      $composableBuilder(
+          column: $table.purposeType,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 
-  ColumnFilters<String> get hash => $state.composableBuilder(
-      column: $state.table.hash,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get hash => $composableBuilder(
+      column: $table.hash, builder: (column) => ColumnFilters(column));
 
   $$BookmarkTableTableFilterComposer get parentId {
-    final $$BookmarkTableTableFilterComposer composer = $state.composerBuilder(
+    final $$BookmarkTableTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.parentId,
-        referencedTable: $state.db.bookmarkTable,
+        referencedTable: $db.bookmarkTable,
         getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$BookmarkTableTableFilterComposer(ComposerState($state.db,
-                $state.db.bookmarkTable, joinBuilder, parentComposers)));
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BookmarkTableTableFilterComposer(
+              $db: $db,
+              $table: $db.bookmarkTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
 
 class $$BookmarkMaterialDetailsTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase,
-        $BookmarkMaterialDetailsTableTable> {
-  $$BookmarkMaterialDetailsTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get weaponId => $state.composableBuilder(
-      column: $state.table.weaponId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $BookmarkMaterialDetailsTableTable> {
+  $$BookmarkMaterialDetailsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get weaponId => $composableBuilder(
+      column: $table.weaponId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get materialId => $state.composableBuilder(
-      column: $state.table.materialId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get materialId => $composableBuilder(
+      column: $table.materialId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get quantity => $state.composableBuilder(
-      column: $state.table.quantity,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<int> get quantity => $composableBuilder(
+      column: $table.quantity, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get upperLevel => $state.composableBuilder(
-      column: $state.table.upperLevel,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<int> get upperLevel => $composableBuilder(
+      column: $table.upperLevel, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get purposeType => $state.composableBuilder(
-      column: $state.table.purposeType,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get purposeType => $composableBuilder(
+      column: $table.purposeType, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get hash => $state.composableBuilder(
-      column: $state.table.hash,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get hash => $composableBuilder(
+      column: $table.hash, builder: (column) => ColumnOrderings(column));
 
   $$BookmarkTableTableOrderingComposer get parentId {
-    final $$BookmarkTableTableOrderingComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.parentId,
-            referencedTable: $state.db.bookmarkTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder, parentComposers) =>
-                $$BookmarkTableTableOrderingComposer(ComposerState($state.db,
-                    $state.db.bookmarkTable, joinBuilder, parentComposers)));
+    final $$BookmarkTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.parentId,
+        referencedTable: $db.bookmarkTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BookmarkTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.bookmarkTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$BookmarkMaterialDetailsTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BookmarkMaterialDetailsTableTable> {
+  $$BookmarkMaterialDetailsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get weaponId =>
+      $composableBuilder(column: $table.weaponId, builder: (column) => column);
+
+  GeneratedColumn<String> get materialId => $composableBuilder(
+      column: $table.materialId, builder: (column) => column);
+
+  GeneratedColumn<int> get quantity =>
+      $composableBuilder(column: $table.quantity, builder: (column) => column);
+
+  GeneratedColumn<int> get upperLevel => $composableBuilder(
+      column: $table.upperLevel, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<Purpose, String> get purposeType =>
+      $composableBuilder(
+          column: $table.purposeType, builder: (column) => column);
+
+  GeneratedColumn<String> get hash =>
+      $composableBuilder(column: $table.hash, builder: (column) => column);
+
+  $$BookmarkTableTableAnnotationComposer get parentId {
+    final $$BookmarkTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.parentId,
+        referencedTable: $db.bookmarkTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BookmarkTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.bookmarkTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -2841,6 +2997,7 @@ class $$BookmarkMaterialDetailsTableTableTableManager extends RootTableManager<
     BookmarkMaterialDetails,
     $$BookmarkMaterialDetailsTableTableFilterComposer,
     $$BookmarkMaterialDetailsTableTableOrderingComposer,
+    $$BookmarkMaterialDetailsTableTableAnnotationComposer,
     $$BookmarkMaterialDetailsTableTableCreateCompanionBuilder,
     $$BookmarkMaterialDetailsTableTableUpdateCompanionBuilder,
     (BookmarkMaterialDetails, $$BookmarkMaterialDetailsTableTableReferences),
@@ -2851,10 +3008,15 @@ class $$BookmarkMaterialDetailsTableTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$BookmarkMaterialDetailsTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$BookmarkMaterialDetailsTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$BookmarkMaterialDetailsTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BookmarkMaterialDetailsTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BookmarkMaterialDetailsTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> parentId = const Value.absent(),
             Value<String?> weaponId = const Value.absent(),
@@ -2916,6 +3078,7 @@ class $$BookmarkMaterialDetailsTableTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
+                      dynamic,
                       dynamic>>(state) {
                 if (parentId) {
                   state = state.withJoin(
@@ -2948,6 +3111,7 @@ typedef $$BookmarkMaterialDetailsTableTableProcessedTableManager
         BookmarkMaterialDetails,
         $$BookmarkMaterialDetailsTableTableFilterComposer,
         $$BookmarkMaterialDetailsTableTableOrderingComposer,
+        $$BookmarkMaterialDetailsTableTableAnnotationComposer,
         $$BookmarkMaterialDetailsTableTableCreateCompanionBuilder,
         $$BookmarkMaterialDetailsTableTableUpdateCompanionBuilder,
         (
@@ -2983,8 +3147,7 @@ final class $$BookmarkArtifactSetDetailsTableTableReferences
       db.bookmarkTable.createAlias($_aliasNameGenerator(
           db.bookmarkArtifactSetDetailsTable.parentId, db.bookmarkTable.id));
 
-  $$BookmarkTableTableProcessedTableManager? get parentId {
-    if ($_item.parentId == null) return null;
+  $$BookmarkTableTableProcessedTableManager get parentId {
     final manager = $$BookmarkTableTableTableManager($_db, $_db.bookmarkTable)
         .filter((f) => f.id($_item.parentId!));
     final item = $_typedResult.readTableOrNull(_parentIdTable($_db));
@@ -2995,84 +3158,136 @@ final class $$BookmarkArtifactSetDetailsTableTableReferences
 }
 
 class $$BookmarkArtifactSetDetailsTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase,
-        $BookmarkArtifactSetDetailsTableTable> {
-  $$BookmarkArtifactSetDetailsTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $BookmarkArtifactSetDetailsTableTable> {
+  $$BookmarkArtifactSetDetailsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnWithTypeConverterFilters<List<ArtifactSetId>, List<ArtifactSetId>,
           String>
-      get sets => $state.composableBuilder(
-          column: $state.table.sets,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
+      get sets => $composableBuilder(
+          column: $table.sets,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 
   ColumnWithTypeConverterFilters<Map<String, StatId?>, Map<String, StatId>,
           String>
-      get mainStats => $state.composableBuilder(
-          column: $state.table.mainStats,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
+      get mainStats => $composableBuilder(
+          column: $table.mainStats,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 
   ColumnWithTypeConverterFilters<List<StatId>, List<StatId>, String>
-      get subStats => $state.composableBuilder(
-          column: $state.table.subStats,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
+      get subStats => $composableBuilder(
+          column: $table.subStats,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 
   $$BookmarkTableTableFilterComposer get parentId {
-    final $$BookmarkTableTableFilterComposer composer = $state.composerBuilder(
+    final $$BookmarkTableTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.parentId,
-        referencedTable: $state.db.bookmarkTable,
+        referencedTable: $db.bookmarkTable,
         getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$BookmarkTableTableFilterComposer(ComposerState($state.db,
-                $state.db.bookmarkTable, joinBuilder, parentComposers)));
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BookmarkTableTableFilterComposer(
+              $db: $db,
+              $table: $db.bookmarkTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
 
 class $$BookmarkArtifactSetDetailsTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase,
-        $BookmarkArtifactSetDetailsTableTable> {
-  $$BookmarkArtifactSetDetailsTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $BookmarkArtifactSetDetailsTableTable> {
+  $$BookmarkArtifactSetDetailsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get sets => $state.composableBuilder(
-      column: $state.table.sets,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get sets => $composableBuilder(
+      column: $table.sets, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get mainStats => $state.composableBuilder(
-      column: $state.table.mainStats,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get mainStats => $composableBuilder(
+      column: $table.mainStats, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get subStats => $state.composableBuilder(
-      column: $state.table.subStats,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get subStats => $composableBuilder(
+      column: $table.subStats, builder: (column) => ColumnOrderings(column));
 
   $$BookmarkTableTableOrderingComposer get parentId {
-    final $$BookmarkTableTableOrderingComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.parentId,
-            referencedTable: $state.db.bookmarkTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder, parentComposers) =>
-                $$BookmarkTableTableOrderingComposer(ComposerState($state.db,
-                    $state.db.bookmarkTable, joinBuilder, parentComposers)));
+    final $$BookmarkTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.parentId,
+        referencedTable: $db.bookmarkTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BookmarkTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.bookmarkTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$BookmarkArtifactSetDetailsTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BookmarkArtifactSetDetailsTableTable> {
+  $$BookmarkArtifactSetDetailsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<ArtifactSetId>, String> get sets =>
+      $composableBuilder(column: $table.sets, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<Map<String, StatId?>, String>
+      get mainStats => $composableBuilder(
+          column: $table.mainStats, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<StatId>, String> get subStats =>
+      $composableBuilder(column: $table.subStats, builder: (column) => column);
+
+  $$BookmarkTableTableAnnotationComposer get parentId {
+    final $$BookmarkTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.parentId,
+        referencedTable: $db.bookmarkTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BookmarkTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.bookmarkTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -3084,6 +3299,7 @@ class $$BookmarkArtifactSetDetailsTableTableTableManager
         BookmarkArtifactSetDetails,
         $$BookmarkArtifactSetDetailsTableTableFilterComposer,
         $$BookmarkArtifactSetDetailsTableTableOrderingComposer,
+        $$BookmarkArtifactSetDetailsTableTableAnnotationComposer,
         $$BookmarkArtifactSetDetailsTableTableCreateCompanionBuilder,
         $$BookmarkArtifactSetDetailsTableTableUpdateCompanionBuilder,
         (
@@ -3097,12 +3313,15 @@ class $$BookmarkArtifactSetDetailsTableTableTableManager
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
+          createFilteringComposer: () =>
               $$BookmarkArtifactSetDetailsTableTableFilterComposer(
-                  ComposerState(db, table)),
-          orderingComposer:
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
               $$BookmarkArtifactSetDetailsTableTableOrderingComposer(
-                  ComposerState(db, table)),
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BookmarkArtifactSetDetailsTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> parentId = const Value.absent(),
@@ -3153,6 +3372,7 @@ class $$BookmarkArtifactSetDetailsTableTableTableManager
                       dynamic,
                       dynamic,
                       dynamic,
+                      dynamic,
                       dynamic>>(state) {
                 if (parentId) {
                   state = state.withJoin(
@@ -3185,6 +3405,7 @@ typedef $$BookmarkArtifactSetDetailsTableTableProcessedTableManager
         BookmarkArtifactSetDetails,
         $$BookmarkArtifactSetDetailsTableTableFilterComposer,
         $$BookmarkArtifactSetDetailsTableTableOrderingComposer,
+        $$BookmarkArtifactSetDetailsTableTableAnnotationComposer,
         $$BookmarkArtifactSetDetailsTableTableCreateCompanionBuilder,
         $$BookmarkArtifactSetDetailsTableTableUpdateCompanionBuilder,
         (
@@ -3220,8 +3441,7 @@ final class $$BookmarkArtifactPieceDetailsTableTableReferences
       db.bookmarkTable.createAlias($_aliasNameGenerator(
           db.bookmarkArtifactPieceDetailsTable.parentId, db.bookmarkTable.id));
 
-  $$BookmarkTableTableProcessedTableManager? get parentId {
-    if ($_item.parentId == null) return null;
+  $$BookmarkTableTableProcessedTableManager get parentId {
     final manager = $$BookmarkTableTableTableManager($_db, $_db.bookmarkTable)
         .filter((f) => f.id($_item.parentId!));
     final item = $_typedResult.readTableOrNull(_parentIdTable($_db));
@@ -3232,78 +3452,129 @@ final class $$BookmarkArtifactPieceDetailsTableTableReferences
 }
 
 class $$BookmarkArtifactPieceDetailsTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase,
-        $BookmarkArtifactPieceDetailsTableTable> {
-  $$BookmarkArtifactPieceDetailsTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $BookmarkArtifactPieceDetailsTableTable> {
+  $$BookmarkArtifactPieceDetailsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get piece => $state.composableBuilder(
-      column: $state.table.piece,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get piece => $composableBuilder(
+      column: $table.piece, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get mainStat => $state.composableBuilder(
-      column: $state.table.mainStat,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get mainStat => $composableBuilder(
+      column: $table.mainStat, builder: (column) => ColumnFilters(column));
 
   ColumnWithTypeConverterFilters<List<StatId>, List<StatId>, String>
-      get subStats => $state.composableBuilder(
-          column: $state.table.subStats,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
+      get subStats => $composableBuilder(
+          column: $table.subStats,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 
   $$BookmarkTableTableFilterComposer get parentId {
-    final $$BookmarkTableTableFilterComposer composer = $state.composerBuilder(
+    final $$BookmarkTableTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.parentId,
-        referencedTable: $state.db.bookmarkTable,
+        referencedTable: $db.bookmarkTable,
         getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$BookmarkTableTableFilterComposer(ComposerState($state.db,
-                $state.db.bookmarkTable, joinBuilder, parentComposers)));
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BookmarkTableTableFilterComposer(
+              $db: $db,
+              $table: $db.bookmarkTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
 
 class $$BookmarkArtifactPieceDetailsTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase,
-        $BookmarkArtifactPieceDetailsTableTable> {
-  $$BookmarkArtifactPieceDetailsTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $BookmarkArtifactPieceDetailsTableTable> {
+  $$BookmarkArtifactPieceDetailsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get piece => $state.composableBuilder(
-      column: $state.table.piece,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get piece => $composableBuilder(
+      column: $table.piece, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get mainStat => $state.composableBuilder(
-      column: $state.table.mainStat,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get mainStat => $composableBuilder(
+      column: $table.mainStat, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get subStats => $state.composableBuilder(
-      column: $state.table.subStats,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get subStats => $composableBuilder(
+      column: $table.subStats, builder: (column) => ColumnOrderings(column));
 
   $$BookmarkTableTableOrderingComposer get parentId {
-    final $$BookmarkTableTableOrderingComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.parentId,
-            referencedTable: $state.db.bookmarkTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder, parentComposers) =>
-                $$BookmarkTableTableOrderingComposer(ComposerState($state.db,
-                    $state.db.bookmarkTable, joinBuilder, parentComposers)));
+    final $$BookmarkTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.parentId,
+        referencedTable: $db.bookmarkTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BookmarkTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.bookmarkTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BookmarkArtifactPieceDetailsTableTable> {
+  $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get piece =>
+      $composableBuilder(column: $table.piece, builder: (column) => column);
+
+  GeneratedColumn<String> get mainStat =>
+      $composableBuilder(column: $table.mainStat, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<StatId>, String> get subStats =>
+      $composableBuilder(column: $table.subStats, builder: (column) => column);
+
+  $$BookmarkTableTableAnnotationComposer get parentId {
+    final $$BookmarkTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.parentId,
+        referencedTable: $db.bookmarkTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BookmarkTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.bookmarkTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -3315,6 +3586,7 @@ class $$BookmarkArtifactPieceDetailsTableTableTableManager
         BookmarkArtifactPieceDetails,
         $$BookmarkArtifactPieceDetailsTableTableFilterComposer,
         $$BookmarkArtifactPieceDetailsTableTableOrderingComposer,
+        $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer,
         $$BookmarkArtifactPieceDetailsTableTableCreateCompanionBuilder,
         $$BookmarkArtifactPieceDetailsTableTableUpdateCompanionBuilder,
         (
@@ -3328,12 +3600,15 @@ class $$BookmarkArtifactPieceDetailsTableTableTableManager
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
+          createFilteringComposer: () =>
               $$BookmarkArtifactPieceDetailsTableTableFilterComposer(
-                  ComposerState(db, table)),
-          orderingComposer:
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
               $$BookmarkArtifactPieceDetailsTableTableOrderingComposer(
-                  ComposerState(db, table)),
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> parentId = const Value.absent(),
@@ -3384,6 +3659,7 @@ class $$BookmarkArtifactPieceDetailsTableTableTableManager
                       dynamic,
                       dynamic,
                       dynamic,
+                      dynamic,
                       dynamic>>(state) {
                 if (parentId) {
                   state = state.withJoin(
@@ -3416,6 +3692,7 @@ typedef $$BookmarkArtifactPieceDetailsTableTableProcessedTableManager
         BookmarkArtifactPieceDetails,
         $$BookmarkArtifactPieceDetailsTableTableFilterComposer,
         $$BookmarkArtifactPieceDetailsTableTableOrderingComposer,
+        $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer,
         $$BookmarkArtifactPieceDetailsTableTableCreateCompanionBuilder,
         $$BookmarkArtifactPieceDetailsTableTableUpdateCompanionBuilder,
         (
@@ -3442,53 +3719,73 @@ typedef $$InGameCharacterStateTableTableUpdateCompanionBuilder
 });
 
 class $$InGameCharacterStateTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $InGameCharacterStateTableTable> {
-  $$InGameCharacterStateTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get uid => $state.composableBuilder(
-      column: $state.table.uid,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $InGameCharacterStateTableTable> {
+  $$InGameCharacterStateTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get uid => $composableBuilder(
+      column: $table.uid, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnFilters(column));
 
   ColumnWithTypeConverterFilters<Map<Purpose, int>, Map<Purpose, int>, String>
-      get purposes => $state.composableBuilder(
-          column: $state.table.purposes,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
+      get purposes => $composableBuilder(
+          column: $table.purposes,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 
-  ColumnFilters<String> get equippedWeaponId => $state.composableBuilder(
-      column: $state.table.equippedWeaponId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get equippedWeaponId => $composableBuilder(
+      column: $table.equippedWeaponId,
+      builder: (column) => ColumnFilters(column));
 }
 
 class $$InGameCharacterStateTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $InGameCharacterStateTableTable> {
-  $$InGameCharacterStateTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get uid => $state.composableBuilder(
-      column: $state.table.uid,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $InGameCharacterStateTableTable> {
+  $$InGameCharacterStateTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get uid => $composableBuilder(
+      column: $table.uid, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get purposes => $state.composableBuilder(
-      column: $state.table.purposes,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get purposes => $composableBuilder(
+      column: $table.purposes, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get equippedWeaponId => $state.composableBuilder(
-      column: $state.table.equippedWeaponId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get equippedWeaponId => $composableBuilder(
+      column: $table.equippedWeaponId,
+      builder: (column) => ColumnOrderings(column));
+}
+
+class $$InGameCharacterStateTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $InGameCharacterStateTableTable> {
+  $$InGameCharacterStateTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get uid =>
+      $composableBuilder(column: $table.uid, builder: (column) => column);
+
+  GeneratedColumn<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<Map<Purpose, int>, String> get purposes =>
+      $composableBuilder(column: $table.purposes, builder: (column) => column);
+
+  GeneratedColumn<String> get equippedWeaponId => $composableBuilder(
+      column: $table.equippedWeaponId, builder: (column) => column);
 }
 
 class $$InGameCharacterStateTableTableTableManager extends RootTableManager<
@@ -3497,6 +3794,7 @@ class $$InGameCharacterStateTableTableTableManager extends RootTableManager<
     InGameCharacterState,
     $$InGameCharacterStateTableTableFilterComposer,
     $$InGameCharacterStateTableTableOrderingComposer,
+    $$InGameCharacterStateTableTableAnnotationComposer,
     $$InGameCharacterStateTableTableCreateCompanionBuilder,
     $$InGameCharacterStateTableTableUpdateCompanionBuilder,
     (
@@ -3511,10 +3809,15 @@ class $$InGameCharacterStateTableTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$InGameCharacterStateTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$InGameCharacterStateTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$InGameCharacterStateTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$InGameCharacterStateTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$InGameCharacterStateTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> uid = const Value.absent(),
             Value<String> characterId = const Value.absent(),
@@ -3557,6 +3860,7 @@ typedef $$InGameCharacterStateTableTableProcessedTableManager
         InGameCharacterState,
         $$InGameCharacterStateTableTableFilterComposer,
         $$InGameCharacterStateTableTableOrderingComposer,
+        $$InGameCharacterStateTableTableAnnotationComposer,
         $$InGameCharacterStateTableTableCreateCompanionBuilder,
         $$InGameCharacterStateTableTableUpdateCompanionBuilder,
         (
@@ -3584,51 +3888,69 @@ typedef $$InGameWeaponStateTableTableUpdateCompanionBuilder
 });
 
 class $$InGameWeaponStateTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $InGameWeaponStateTableTable> {
-  $$InGameWeaponStateTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get uid => $state.composableBuilder(
-      column: $state.table.uid,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $InGameWeaponStateTableTable> {
+  $$InGameWeaponStateTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get uid => $composableBuilder(
+      column: $table.uid, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get weaponId => $state.composableBuilder(
-      column: $state.table.weaponId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<String> get weaponId => $composableBuilder(
+      column: $table.weaponId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get level => $state.composableBuilder(
-      column: $state.table.level,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<int> get level => $composableBuilder(
+      column: $table.level, builder: (column) => ColumnFilters(column));
 }
 
 class $$InGameWeaponStateTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $InGameWeaponStateTableTable> {
-  $$InGameWeaponStateTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get uid => $state.composableBuilder(
-      column: $state.table.uid,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $InGameWeaponStateTableTable> {
+  $$InGameWeaponStateTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get uid => $composableBuilder(
+      column: $table.uid, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get characterId => $state.composableBuilder(
-      column: $state.table.characterId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get weaponId => $state.composableBuilder(
-      column: $state.table.weaponId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get weaponId => $composableBuilder(
+      column: $table.weaponId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get level => $state.composableBuilder(
-      column: $state.table.level,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<int> get level => $composableBuilder(
+      column: $table.level, builder: (column) => ColumnOrderings(column));
+}
+
+class $$InGameWeaponStateTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $InGameWeaponStateTableTable> {
+  $$InGameWeaponStateTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get uid =>
+      $composableBuilder(column: $table.uid, builder: (column) => column);
+
+  GeneratedColumn<String> get characterId => $composableBuilder(
+      column: $table.characterId, builder: (column) => column);
+
+  GeneratedColumn<String> get weaponId =>
+      $composableBuilder(column: $table.weaponId, builder: (column) => column);
+
+  GeneratedColumn<int> get level =>
+      $composableBuilder(column: $table.level, builder: (column) => column);
 }
 
 class $$InGameWeaponStateTableTableTableManager extends RootTableManager<
@@ -3637,6 +3959,7 @@ class $$InGameWeaponStateTableTableTableManager extends RootTableManager<
     InGameWeaponState,
     $$InGameWeaponStateTableTableFilterComposer,
     $$InGameWeaponStateTableTableOrderingComposer,
+    $$InGameWeaponStateTableTableAnnotationComposer,
     $$InGameWeaponStateTableTableCreateCompanionBuilder,
     $$InGameWeaponStateTableTableUpdateCompanionBuilder,
     (
@@ -3651,10 +3974,15 @@ class $$InGameWeaponStateTableTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$InGameWeaponStateTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$InGameWeaponStateTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$InGameWeaponStateTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$InGameWeaponStateTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$InGameWeaponStateTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> uid = const Value.absent(),
             Value<String> characterId = const Value.absent(),
@@ -3697,6 +4025,7 @@ typedef $$InGameWeaponStateTableTableProcessedTableManager
         InGameWeaponState,
         $$InGameWeaponStateTableTableFilterComposer,
         $$InGameWeaponStateTableTableOrderingComposer,
+        $$InGameWeaponStateTableTableAnnotationComposer,
         $$InGameWeaponStateTableTableCreateCompanionBuilder,
         $$InGameWeaponStateTableTableUpdateCompanionBuilder,
         (
@@ -3720,33 +4049,53 @@ typedef $$BookmarkOrderRegistryTableTableUpdateCompanionBuilder
 });
 
 class $$BookmarkOrderRegistryTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $BookmarkOrderRegistryTableTable> {
-  $$BookmarkOrderRegistryTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $BookmarkOrderRegistryTableTable> {
+  $$BookmarkOrderRegistryTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnWithTypeConverterFilters<List<String>, List<String>, String>
-      get order => $state.composableBuilder(
-          column: $state.table.order,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
+      get order => $composableBuilder(
+          column: $table.order,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 }
 
 class $$BookmarkOrderRegistryTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $BookmarkOrderRegistryTableTable> {
-  $$BookmarkOrderRegistryTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $BookmarkOrderRegistryTableTable> {
+  $$BookmarkOrderRegistryTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get order => $state.composableBuilder(
-      column: $state.table.order,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<String> get order => $composableBuilder(
+      column: $table.order, builder: (column) => ColumnOrderings(column));
+}
+
+class $$BookmarkOrderRegistryTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BookmarkOrderRegistryTableTable> {
+  $$BookmarkOrderRegistryTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<String>, String> get order =>
+      $composableBuilder(column: $table.order, builder: (column) => column);
 }
 
 class $$BookmarkOrderRegistryTableTableTableManager extends RootTableManager<
@@ -3755,6 +4104,7 @@ class $$BookmarkOrderRegistryTableTableTableManager extends RootTableManager<
     BookmarkOrderRegistry,
     $$BookmarkOrderRegistryTableTableFilterComposer,
     $$BookmarkOrderRegistryTableTableOrderingComposer,
+    $$BookmarkOrderRegistryTableTableAnnotationComposer,
     $$BookmarkOrderRegistryTableTableCreateCompanionBuilder,
     $$BookmarkOrderRegistryTableTableUpdateCompanionBuilder,
     (
@@ -3769,10 +4119,15 @@ class $$BookmarkOrderRegistryTableTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$BookmarkOrderRegistryTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$BookmarkOrderRegistryTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$BookmarkOrderRegistryTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BookmarkOrderRegistryTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BookmarkOrderRegistryTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<List<String>> order = const Value.absent(),
@@ -3807,6 +4162,7 @@ typedef $$BookmarkOrderRegistryTableTableProcessedTableManager
         BookmarkOrderRegistry,
         $$BookmarkOrderRegistryTableTableFilterComposer,
         $$BookmarkOrderRegistryTableTableOrderingComposer,
+        $$BookmarkOrderRegistryTableTableAnnotationComposer,
         $$BookmarkOrderRegistryTableTableCreateCompanionBuilder,
         $$BookmarkOrderRegistryTableTableUpdateCompanionBuilder,
         (
@@ -3834,51 +4190,69 @@ typedef $$MaterialBagCountTableTableUpdateCompanionBuilder
 });
 
 class $$MaterialBagCountTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $MaterialBagCountTableTable> {
-  $$MaterialBagCountTableTableFilterComposer(super.$state);
-  ColumnFilters<String> get uid => $state.composableBuilder(
-      column: $state.table.uid,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $MaterialBagCountTableTable> {
+  $$MaterialBagCountTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get uid => $composableBuilder(
+      column: $table.uid, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get hyvId => $state.composableBuilder(
-      column: $state.table.hyvId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<int> get hyvId => $composableBuilder(
+      column: $table.hyvId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get count => $state.composableBuilder(
-      column: $state.table.count,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<int> get count => $composableBuilder(
+      column: $table.count, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<DateTime> get lastUpdated => $state.composableBuilder(
-      column: $state.table.lastUpdated,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+  ColumnFilters<DateTime> get lastUpdated => $composableBuilder(
+      column: $table.lastUpdated, builder: (column) => ColumnFilters(column));
 }
 
 class $$MaterialBagCountTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $MaterialBagCountTableTable> {
-  $$MaterialBagCountTableTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get uid => $state.composableBuilder(
-      column: $state.table.uid,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+    extends Composer<_$AppDatabase, $MaterialBagCountTableTable> {
+  $$MaterialBagCountTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get uid => $composableBuilder(
+      column: $table.uid, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get hyvId => $state.composableBuilder(
-      column: $state.table.hyvId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<int> get hyvId => $composableBuilder(
+      column: $table.hyvId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get count => $state.composableBuilder(
-      column: $state.table.count,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<int> get count => $composableBuilder(
+      column: $table.count, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get lastUpdated => $state.composableBuilder(
-      column: $state.table.lastUpdated,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+  ColumnOrderings<DateTime> get lastUpdated => $composableBuilder(
+      column: $table.lastUpdated, builder: (column) => ColumnOrderings(column));
+}
+
+class $$MaterialBagCountTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MaterialBagCountTableTable> {
+  $$MaterialBagCountTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get uid =>
+      $composableBuilder(column: $table.uid, builder: (column) => column);
+
+  GeneratedColumn<int> get hyvId =>
+      $composableBuilder(column: $table.hyvId, builder: (column) => column);
+
+  GeneratedColumn<int> get count =>
+      $composableBuilder(column: $table.count, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastUpdated => $composableBuilder(
+      column: $table.lastUpdated, builder: (column) => column);
 }
 
 class $$MaterialBagCountTableTableTableManager extends RootTableManager<
@@ -3887,6 +4261,7 @@ class $$MaterialBagCountTableTableTableManager extends RootTableManager<
     MaterialBagCount,
     $$MaterialBagCountTableTableFilterComposer,
     $$MaterialBagCountTableTableOrderingComposer,
+    $$MaterialBagCountTableTableAnnotationComposer,
     $$MaterialBagCountTableTableCreateCompanionBuilder,
     $$MaterialBagCountTableTableUpdateCompanionBuilder,
     (
@@ -3901,10 +4276,15 @@ class $$MaterialBagCountTableTableTableManager extends RootTableManager<
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$MaterialBagCountTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$MaterialBagCountTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$MaterialBagCountTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MaterialBagCountTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MaterialBagCountTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> uid = const Value.absent(),
             Value<int> hyvId = const Value.absent(),
@@ -3947,6 +4327,7 @@ typedef $$MaterialBagCountTableTableProcessedTableManager
         MaterialBagCount,
         $$MaterialBagCountTableTableFilterComposer,
         $$MaterialBagCountTableTableOrderingComposer,
+        $$MaterialBagCountTableTableAnnotationComposer,
         $$MaterialBagCountTableTableCreateCompanionBuilder,
         $$MaterialBagCountTableTableUpdateCompanionBuilder,
         (
