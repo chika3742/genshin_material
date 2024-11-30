@@ -290,10 +290,10 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "99e066ce75c89d6b29903d788a7bb9369cf754f7b24bf70bf4b6d6d6b26853b9"
+      sha256: "7856d364b589d1f08986e140938578ed36ed948581fbc3bc9aef1805039ac5ab"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.6"
+    version: "2.3.7"
   db_viewer:
     dependency: transitive
     description:
@@ -306,10 +306,10 @@ packages:
     dependency: "direct main"
     description:
       name: drift
-      sha256: "15b51e0ee1970455c0c3f7e560f3ac02ecb9c04711a9657586e470b234659dba"
+      sha256: "530d6c5a79723dff418c49c0bb498360fd77c965ea234587e345826cb63ecdd2"
       url: "https://pub.dev"
     source: hosted
-    version: "2.20.0"
+    version: "2.22.0"
   drift_db_viewer:
     dependency: "direct main"
     description:
@@ -322,10 +322,10 @@ packages:
     dependency: "direct dev"
     description:
       name: drift_dev
-      sha256: b9ec6159a731288e805a44225ccbebad507dd84d52ab71352c52584f13199d2d
+      sha256: "488263d85d027333fc602eb7714125de317e8c7db064aa6c2f208a8f79139e7b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.20.1"
+    version: "2.22.0"
   fake_async:
     dependency: transitive
     description:
@@ -1146,10 +1146,10 @@ packages:
     dependency: "direct main"
     description:
       name: sqlite3
-      sha256: bb174b3ec2527f9c5f680f73a89af8149dd99782fbb56ea88ad0807c5638f2ed
+      sha256: cb7f4e9dc1b52b1fa350f7b3d41c662e75fc3d399555fa4e5efcf267e9a4fbb5
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.7"
+    version: "2.5.0"
   sqlite3_flutter_libs:
     dependency: "direct main"
     description:
@@ -1162,10 +1162,10 @@ packages:
     dependency: transitive
     description:
       name: sqlparser
-      sha256: "3be52b4968fc2f098ba735863404756d2fe3ea0729cf006a5b5612618f74ca04"
+      sha256: "4cad4b2c5f63dc9ea1a8dcffb58cf762322bea5dd8836870164a65e913bdae41"
       url: "https://pub.dev"
     source: hosted
-    version: "0.37.1"
+    version: "0.40.0"
   stack_trace:
     dependency: transitive
     description:
