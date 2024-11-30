@@ -25,6 +25,7 @@ import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";
 import "../../../ui_core/layout.dart";
+import "../../../ui_core/snack_bar.dart";
 import "../../../utils/filtering.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
@@ -66,9 +67,14 @@ class WeaponDetailsPage extends HookConsumerWidget {
     useEffect(() {
       if (prefs.isLinkedWithHoyolab) {
         ref.read(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id).notifier)
-            .syncInGameCharacter().then((value) {
-              if (value[Purpose.ascension] != null) {
-                rangeValues.value = LevelRangeValues(value[Purpose.ascension]!, max(rangeValues.value.end, value[Purpose.ascension]!));
+            .syncInGameCharacter().then((result) {
+              if (result != null) {
+                if (result.levels[Purpose.ascension] != null) {
+                  rangeValues.value = LevelRangeValues(result.levels[Purpose.ascension]!, max(rangeValues.value.end, result.levels[Purpose.ascension]!));
+                }
+                if (result.hasRemovedBookmarks && context.mounted) {
+                  showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
+                }
               }
             });
         db.getWeaponLevel(prefs.hyvUid!, selectedCharacterId.value, weapon.id).then((value) {

@@ -49,6 +49,9 @@ class KvPreferences {
   bool get syncWeaponState => sp.getBool("syncWeaponState") ?? true;
   Future<void> setSyncWeaponState(bool value) => sp.setBool("syncWeaponState", value);
 
+  bool get autoRemoveBookmarks => sp.getBool("autoRemoveBookmarks") ?? true;
+  Future<void> setAutoRemoveBookmarks(bool value) => sp.setBool("autoRemoveBookmarks", value);
+
   bool get syncBagCounts => sp.getBool("syncBagCounts") ?? true;
   Future<void> setSyncBagCounts(bool value) => sp.setBool("syncBagCounts", value);
 

@@ -122,6 +122,7 @@ class TranslationsCommonJa {
 	String get pleaseSelect => '選択してください';
 	String get undo => '元に戻す';
 	String get bookmarkSaved => 'ブックマークしました';
+	String get removedObsoleteBookmarks => '育成完了のブックマークを解除しました';
 	String get none => 'なし';
 	String get sliderTips => 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
 	String selected({required Object character}) => '選択中: ${character}';
@@ -451,6 +452,8 @@ class TranslationsHoyolabJa {
 	String get syncResin => 'ゲーム内の樹脂数と同期する';
 	String get syncCharaState => 'ゲーム内のキャラレベルを同期する';
 	String get syncWeaponState => 'ゲーム内の武器レベルを同期する';
+	String get autoRemoveBookmarks => '育成完了のブックマークを自動解除する';
+	String get autoRemoveBookmarksDesc => 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。';
 	String get syncBagCounts => 'ゲーム内の素材の所持数を同期する';
 	String get mustBeResonatedWithStatue => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
 	String get weaponNotEquipped => 'このキャラクターはこの武器を装備していません。';
@@ -506,6 +509,7 @@ extension on Translations {
 			case 'common.pleaseSelect': return '選択してください';
 			case 'common.undo': return '元に戻す';
 			case 'common.bookmarkSaved': return 'ブックマークしました';
+			case 'common.removedObsoleteBookmarks': return '育成完了のブックマークを解除しました';
 			case 'common.none': return 'なし';
 			case 'common.sliderTips': return 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
 			case 'common.selected': return ({required Object character}) => '選択中: ${character}';
@@ -683,6 +687,8 @@ extension on Translations {
 			case 'hoyolab.syncResin': return 'ゲーム内の樹脂数と同期する';
 			case 'hoyolab.syncCharaState': return 'ゲーム内のキャラレベルを同期する';
 			case 'hoyolab.syncWeaponState': return 'ゲーム内の武器レベルを同期する';
+			case 'hoyolab.autoRemoveBookmarks': return '育成完了のブックマークを自動解除する';
+			case 'hoyolab.autoRemoveBookmarksDesc': return 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。';
 			case 'hoyolab.syncBagCounts': return 'ゲーム内の素材の所持数を同期する';
 			case 'hoyolab.mustBeResonatedWithStatue': return '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
 			case 'hoyolab.weaponNotEquipped': return 'このキャラクターはこの武器を装備していません。';

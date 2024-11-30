@@ -3,12 +3,14 @@ import "dart:developer";
 import "package:collection/collection.dart";
 import "package:drift/drift.dart";
 import "package:drift/remote.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../components/game_data_sync_indicator.dart";
 import "../core/hoyolab_api.dart";
 import "../core/secure_storage.dart";
 import "../database.dart";
+import "../db/bookmark_db_extension.dart";
 import "../db/in_game_character_state_db_extension.dart";
 import "../db/in_game_weapon_state_db_extension.dart";
 import "../models/character.dart";
@@ -18,6 +20,7 @@ import "database_provider.dart";
 import "preferences.dart";
 import "versions.dart";
 
+part "game_data_sync.freezed.dart";
 part "game_data_sync.g.dart";
 
 @riverpod
@@ -27,7 +30,7 @@ class LevelBagSyncStateNotifier extends _$LevelBagSyncStateNotifier {
     return const GameDataSyncStatus.synced();
   }
 
-  Future<Map<Purpose, int>> syncInGameCharacter() async {
+  Future<GameDataSyncResult?> syncInGameCharacter() async {
     final assetData = ref.read(assetDataProvider).value!;
     final db = ref.read(appDatabaseProvider);
     final prefs = ref.read(preferencesStateNotifierProvider);
@@ -38,7 +41,7 @@ class LevelBagSyncStateNotifier extends _$LevelBagSyncStateNotifier {
     final hoyolabCookie = await getHoyolabCookie();
     if (hoyolabCookie == null) {
       state = const GameDataSyncStatus.error(error: "No hoyolab cookie");
-      return {}; // error
+      return null; // error
     }
     final api = HoyolabApi(cookie: hoyolabCookie, uid: prefs.hyvUid!, region: prefs.hyvServer!);
 
@@ -132,11 +135,12 @@ class LevelBagSyncStateNotifier extends _$LevelBagSyncStateNotifier {
       } on Exception catch (e, st) {
         state = GameDataSyncStatus.error(error: e);
         log("Error syncing character levels", error: e, stackTrace: st);
-        return {}; // error
+        return null; // error
       }
       if (charaInfo != null) {
         final characterLevels = <Purpose, int>{};
         final weaponLevels = <Purpose, int>{};
+        var hasRemovedBookmarks = false;
 
         if (prefs.syncCharaState) {
           // map character levels
@@ -162,10 +166,21 @@ class LevelBagSyncStateNotifier extends _$LevelBagSyncStateNotifier {
                 assetData.weapons.values.firstWhereOrNull((e) => e.hyvId == charaInfo!.weapon?.id)?.id,
               ),
             ),);
+
+            if (prefs.autoRemoveBookmarks) {
+              final bookmarksToRemove = await db.getObsoleteBookmarks(
+                characterId: variant.id,
+                levels: characterLevels,
+              );
+              if (bookmarksToRemove.isNotEmpty) {
+                await db.removeBookmarks(bookmarksToRemove.map((e) => e.metadata.id).toList());
+                hasRemovedBookmarks = true;
+              }
+            }
           } on DriftRemoteException catch (e, st) {
             state = GameDataSyncStatus.error(error: e);
             log("Error saving character levels", error: e, stackTrace: st);
-            return {}; // error
+            return null; // error
           }
         }
 
@@ -180,31 +195,49 @@ class LevelBagSyncStateNotifier extends _$LevelBagSyncStateNotifier {
                 weaponId!,
                 charaInfo.weapon!.currentLevel,
               );
+
+              if (prefs.autoRemoveBookmarks) {
+                final bookmarksToRemove = await db.getObsoleteBookmarks(
+                  characterId: variant.id,
+                  weaponId: weaponId,
+                  levels: weaponLevels,
+                );
+                if (bookmarksToRemove.isNotEmpty) {
+                  await db.removeBookmarks(bookmarksToRemove.map((e) => e.metadata.id).toList());
+                  hasRemovedBookmarks = true;
+                }
+              }
             } on DriftRemoteException catch (e, st) {
               state = GameDataSyncStatus.error(error: e);
               log("Error saving character levels", error: e, stackTrace: st);
-              return {}; // error
+              return null; // error
             }
           } else {
             state = const GameDataSyncStatus.weaponNotEquipped();
-            return {}; // error
+            return null; // error
           }
         }
 
         state = const GameDataSyncStatus.synced();
         if (weaponId == null) {
-          return characterLevels;
+          return GameDataSyncResult(
+            levels: characterLevels,
+            hasRemovedBookmarks: hasRemovedBookmarks,
+          );
         } else {
-          return weaponLevels;
+          return GameDataSyncResult(
+            levels: weaponLevels,
+            hasRemovedBookmarks: hasRemovedBookmarks,
+          );
         }
       } else {
         state = character is CharacterGroup
             ? const GameDataSyncStatus.mustBeResonatedWithStatue() // traveler
             : const GameDataSyncStatus.characterNotExists();
-        return {}; // error
+        return null; // error
       }
     } else {
-      return {}; // Syncing character levels not enabled
+      return null; // Syncing character levels not enabled
     }
   }
 }
@@ -246,4 +279,12 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
 
     state = const GameDataSyncStatus.synced();
   }
+}
+
+@freezed
+class GameDataSyncResult with _$GameDataSyncResult {
+  const factory GameDataSyncResult({
+    required Map<Purpose, int> levels,
+    required bool hasRemovedBookmarks,
+  }) = _GameDataSyncResult;
 }

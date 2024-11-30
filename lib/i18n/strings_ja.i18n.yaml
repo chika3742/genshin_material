@@ -25,6 +25,7 @@ common:
   pleaseSelect: 選択してください
   undo: 元に戻す
   bookmarkSaved: ブックマークしました
+  removedObsoleteBookmarks: 育成完了のブックマークを解除しました
   none: なし
   sliderTips: スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。
   selected: "選択中: $character"
@@ -229,6 +230,8 @@ hoyolab:
   syncResin: ゲーム内の樹脂数と同期する
   syncCharaState: ゲーム内のキャラレベルを同期する
   syncWeaponState: ゲーム内の武器レベルを同期する
+  autoRemoveBookmarks: 育成完了のブックマークを自動解除する
+  autoRemoveBookmarksDesc: キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。
   syncBagCounts: ゲーム内の素材の所持数を同期する
   mustBeResonatedWithStatue: 旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。
   weaponNotEquipped: このキャラクターはこの武器を装備していません。

@@ -143,6 +143,15 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
           //   } : null,
           // ),
           SwitchListTile(
+            title: Text(tr.hoyolab.autoRemoveBookmarks),
+            subtitle: Text(tr.hoyolab.autoRemoveBookmarksDesc),
+            value: prefs.autoRemoveBookmarks,
+            onChanged: prefs.isLinkedWithHoyolab ? (value) {
+              ref.read(preferencesStateNotifierProvider.notifier)
+                  .setAutoRemoveBookmarks(value);
+            } : null,
+          ),
+          SwitchListTile(
             title: Text(tr.hoyolab.syncResin),
             value: prefs.syncResin,
             onChanged: prefs.isLinkedWithHoyolab ? (value) {

@@ -27,6 +27,7 @@ import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
+import "../../../ui_core/snack_bar.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
 
@@ -137,14 +138,20 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       if (prefs.isLinkedWithHoyolab) {
         ref.read(levelBagSyncStateNotifierProvider(variantId: variant.value.id).notifier)
             .syncInGameCharacter().then((result) {
-              var newState = state.value;
-              for (final e in result.entries) {
-                newState = newState.copyWith(
-                  rangeValues: {...newState.rangeValues}..[e.key] = LevelRangeValues(e.value, max(e.value, newState.rangeValues[e.key]!.end)),
-                  checkedTalentTypes: {...newState.checkedTalentTypes}..[e.key] = e.value < newState.sliderTickLabels[e.key]!.last,
-                );
+              if (result != null) {
+                var newState = state.value;
+                for (final e in result.levels.entries) {
+                  newState = newState.copyWith(
+                    rangeValues: {...newState.rangeValues}..[e.key] = LevelRangeValues(e.value, max(e.value, newState.rangeValues[e.key]!.end)),
+                    checkedTalentTypes: {...newState.checkedTalentTypes}..[e.key] = e.value < newState.sliderTickLabels[e.key]!.last,
+                  );
+                }
+                state.value = newState;
+
+                if (result.hasRemovedBookmarks && context.mounted) {
+                  showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
+                }
               }
-              state.value = newState;
             });
       }
       return null;

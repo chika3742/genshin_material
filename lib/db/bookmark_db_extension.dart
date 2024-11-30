@@ -169,4 +169,32 @@ extension BookmarkDbExtension on AppDatabase {
       }
     });
   }
+
+  Future<List<BookmarkWithMaterialDetails>> getObsoleteBookmarks({
+    required String characterId,
+    String? weaponId,
+    required Map<Purpose, int> levels,
+  }) async {
+    if (levels.isEmpty) {
+      return [];
+    }
+    final query = select(bookmarkTable).join([
+      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
+    ]);
+    final baseExpr = bookmarkTable.characterId.equals(characterId)
+        & bookmarkTable.type.equalsValue(BookmarkType.material)
+        & bookmarkMaterialDetailsTable.weaponId.equalsNullable(weaponId);
+    final expressions = levels.entries.map((e) {
+      return bookmarkMaterialDetailsTable.purposeType.equalsValue(e.key)
+          & bookmarkMaterialDetailsTable.upperLevel.isSmallerOrEqualValue(e.value);
+    });
+    query.where(baseExpr & Expression.or(expressions));
+
+    return (await query.get()).map((row) {
+      return BookmarkWithMaterialDetails(
+        metadata: row.readTable(bookmarkTable),
+        materialDetails: row.readTable(bookmarkMaterialDetailsTable),
+      );
+    }).toList();
+  }
 }
