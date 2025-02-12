@@ -48,7 +48,7 @@ class ScrollBlurEffect extends HookWidget {
               colors: [
                 Colors.white,
                 Colors.white,
-                Colors.white.withOpacity(0),
+                Colors.white.withValues(alpha: 0),
               ],
               stops: [0.0, 1 - (maxBlurHeight * blurHeightFactor.value), 1.0],
             ).createShader(bounds);

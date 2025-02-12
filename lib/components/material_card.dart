@@ -76,7 +76,7 @@ class MaterialCard extends StatelessWidget {
                 child: CustomPaint(
                   painter: _RarityCornerMarkerPainter(
                     Theme.of(context).extension<ComponentThemeExtension>()!
-                        .getRarityColor(rarity!).withOpacity(0.8),
+                        .getRarityColor(rarity!).withValues(alpha: 0.8),
                   ),
                 ),
               ),

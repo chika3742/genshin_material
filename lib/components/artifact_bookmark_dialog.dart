@@ -330,7 +330,7 @@ class SecondArtifactChooserScreen extends HookWidget {
                     ),
                   ),
                   selected: artifactSet.id == selectedSetId,
-                  selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+                  selectedTileColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
                   onTap: () {
                     onSetSelected?.call(artifactSet.id);
                   },

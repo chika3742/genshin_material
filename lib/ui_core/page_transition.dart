@@ -11,7 +11,7 @@ Page buildTransitionedPage({
     TargetPlatform.iOS || TargetPlatform.macOS => CupertinoPage(child: child),
     _ => CustomTransitionPage(
       child: child,
-      barrierColor: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
+      barrierColor: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SharedAxisTransition(
           transitionType: SharedAxisTransitionType.horizontal,

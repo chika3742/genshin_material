@@ -357,7 +357,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.resolveWith((states) {
                       if (states.contains(WidgetState.disabled)) {
-                        return Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.6);
+                        return Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.6);
                       }
                       return Theme.of(context).colorScheme.surfaceContainerHighest;
                     }),
@@ -400,7 +400,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
           title: Text(server.name),
           leading: selectedServer.value == server ? const Icon(Symbols.check) : const SizedBox(),
           selected: selectedServer.value == server,
-          selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          selectedTileColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
           onTap: () async {
             selectedServer.value = server;
           },

@@ -34,7 +34,7 @@ Future<T?> showModalBubble<T>({
 
   return showModal<T>(
     context: context,
-    configuration: FadeSlideTransitionConfiguration(barrierColor: Colors.black54.withOpacity(0.2)),
+    configuration: FadeSlideTransitionConfiguration(barrierColor: Colors.black54.withValues(alpha: 0.2)),
     builder: (context) {
       return Bubble(
         targetPos: widgetPos,
@@ -90,7 +90,7 @@ class Bubble extends HookWidget {
                 decoration: ShapeDecoration(
                   shadows: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.black.withValues(alpha: 0.2),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),

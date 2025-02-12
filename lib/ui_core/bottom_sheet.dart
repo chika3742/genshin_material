@@ -52,7 +52,7 @@ class SelectBottomSheet<T> extends StatelessWidget {
       leading: selectedValue == item.value ? const Icon(Icons.check) : const SizedBox(),
       title: Text(item.text),
       selected: selectedValue == item.value,
-      selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      selectedTileColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
       onTap: () {
         Navigator.of(context).pop(item.value);
       },

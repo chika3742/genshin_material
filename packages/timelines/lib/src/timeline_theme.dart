@@ -164,8 +164,6 @@ class _InheritedTheme extends InheritedTheme {
 /// )
 /// ```
 /// {@end-tool}
-///
-/// {@tool snippet}
 @immutable
 class TimelineThemeData with Diagnosticable {
   /// Create a [TimelineThemeData] that's used to configure a [TimelineTheme].
