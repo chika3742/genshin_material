@@ -19,11 +19,11 @@
     <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-3.16.3/android" />
     <file type="web" url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-3.16.7/android" />
     <file type="web" url="file://$USER_HOME$/development/flutter/packages/flutter_tools/gradle" />
-    <file type="web" url="file://$PROJECT_DIR$" />
     <file type="web" url="file://$USER_HOME$/fvm/versions/3.19.6/packages/flutter_tools/gradle" />
     <file type="web" url="file://$USER_HOME$/fvm/versions/3.19.6/packages/integration_test/android" />
     <file type="web" url="file://$USER_HOME$/fvm/versions/3.24.3/packages/flutter_tools/gradle" />
     <file type="web" url="file://$USER_HOME$/fvm/versions/3.24.3/packages/integration_test/android" />
+    <file type="web" url="file://$PROJECT_DIR$" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="Android API 34, extension level 7 Platform" project-jdk-type="Android SDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="Android API 34, extension level 7 Platform" project-jdk-type="Android SDK" />
 </project>
