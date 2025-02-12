@@ -349,6 +349,21 @@ class TranslationsResinCalcPageJa {
 	String get currentResin => '現在の樹脂数';
 	String get baseTime => '入力した時刻';
 	String get fullRecoveryTime => '全回復する時刻';
+	TextSpan fullyReplenishedAt({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
+		time,
+		text('に全回復'),
+	]);
+	TextSpan recoversIn({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
+		text('あと'),
+		time,
+	]);
+	TextSpan asOf({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
+		const TextSpan(text: '('),
+		time,
+		const TextSpan(text: ' '),
+		text('現在'),
+		const TextSpan(text: ')'),
+	]);
 	String get recoveredTime => '全回復した時刻';
 	String get untilFullRecovery => '全回復まであと';
 	String get wastedResin => '無駄にした樹脂';
@@ -622,6 +637,21 @@ extension on Translations {
 			case 'resinCalcPage.currentResin': return '現在の樹脂数';
 			case 'resinCalcPage.baseTime': return '入力した時刻';
 			case 'resinCalcPage.fullRecoveryTime': return '全回復する時刻';
+			case 'resinCalcPage.fullyReplenishedAt': return ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
+				time,
+				text('に全回復'),
+			]);
+			case 'resinCalcPage.recoversIn': return ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
+				text('あと'),
+				time,
+			]);
+			case 'resinCalcPage.asOf': return ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
+				const TextSpan(text: '('),
+				time,
+				const TextSpan(text: ' '),
+				text('現在'),
+				const TextSpan(text: ')'),
+			]);
 			case 'resinCalcPage.recoveredTime': return '全回復した時刻';
 			case 'resinCalcPage.untilFullRecovery': return '全回復まであと';
 			case 'resinCalcPage.wastedResin': return '無駄にした樹脂';

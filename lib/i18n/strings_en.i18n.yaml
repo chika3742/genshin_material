@@ -28,6 +28,7 @@ common:
   pleaseSelect: Please select
   undo: Undo
   bookmarkSaved: Bookmark saved
+  removedObsoleteBookmarks: Removed bookmarks for completed ascensions.
   none: None
   sliderTips: "If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation."
   selected: "Selected: $character"
@@ -97,6 +98,8 @@ bookmarksPage:
   sub: Sub
   unBookmark: Remove bookmark
   unBookmarkConfirm: "Remove this bookmark?"
+  byPurpose: Purpose
+  byMaterial: Material
 characterDetailsPage:
   charaLevelUpAndAscensionMaterials: "Character Lv Up & Ascension Materials"
   talentLevelUpMaterials: Talent Lv Up Materials
@@ -150,6 +153,9 @@ resinCalcPage:
   currentResin: Current Resin
   baseTime: Base Time
   fullRecoveryTime: Full Recovery Time
+  fullyReplenishedAt(rich): "${text(fully replenished at)} $time"
+  recoversIn(rich): "$time ${text(left)}"
+  asOf(rich): "(${text(as of)} $time)"
   recoveredTime: Recovered Time
   untilFullRecovery: Until Full Recovery
   wastedResin: Wasted Resin
@@ -187,9 +193,7 @@ hoyolab:
   aboutHeading: About HoYoLAB Link
   about: |
     By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.
-    
     HoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.
-    
     * This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).
     * If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.
   signOut: Sign out from HoYoLAB
@@ -228,6 +232,8 @@ hoyolab:
   syncResin: Sync In-Game Resin Count
   syncCharaState: Sync In-Game Character Levels
   syncWeaponState: Synchronize Weapon State
+  autoRemoveBookmarks: Auto-remove bookmarks when opening a character or weapon page.
+  autoRemoveBookmarksDesc: Automatically remove bookmarks for completed ascensions when opening a character or weapon page.
   syncBagCounts: Synchronize Bag Counts
   mustBeResonatedWithStatue: This character must be resonated with the Statue of The Seven to be able to sync game data.
   weaponNotEquipped: This character does not equip this weapon.

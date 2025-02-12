@@ -138,6 +138,7 @@ class _TranslationsCommonEn extends TranslationsCommonJa {
 	@override String get pleaseSelect => 'Please select';
 	@override String get undo => 'Undo';
 	@override String get bookmarkSaved => 'Bookmark saved';
+	@override String get removedObsoleteBookmarks => 'Removed bookmarks for completed ascensions.';
 	@override String get none => 'None';
 	@override String get sliderTips => 'If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.';
 	@override String selected({required Object character}) => 'Selected: ${character}';
@@ -239,6 +240,8 @@ class _TranslationsBookmarksPageEn extends TranslationsBookmarksPageJa {
 	@override String get sub => 'Sub';
 	@override String get unBookmark => 'Remove bookmark';
 	@override String get unBookmarkConfirm => 'Remove this bookmark?';
+	@override String get byPurpose => 'Purpose';
+	@override String get byMaterial => 'Material';
 }
 
 // Path: characterDetailsPage
@@ -357,6 +360,23 @@ class _TranslationsResinCalcPageEn extends TranslationsResinCalcPageJa {
 	@override String get currentResin => 'Current Resin';
 	@override String get baseTime => 'Base Time';
 	@override String get fullRecoveryTime => 'Full Recovery Time';
+	@override TextSpan fullyReplenishedAt({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
+		text('fully replenished at'),
+		const TextSpan(text: ' '),
+		time,
+	]);
+	@override TextSpan recoversIn({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
+		time,
+		const TextSpan(text: ' '),
+		text('left'),
+	]);
+	@override TextSpan asOf({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
+		const TextSpan(text: '('),
+		text('as of'),
+		const TextSpan(text: ' '),
+		time,
+		const TextSpan(text: ')'),
+	]);
 	@override String get recoveredTime => 'Recovered Time';
 	@override String get untilFullRecovery => 'Until Full Recovery';
 	@override String get wastedResin => 'Wasted Resin';
@@ -422,7 +442,7 @@ class _TranslationsHoyolabEn extends TranslationsHoyolabJa {
 	// Translations
 	@override String get signIn => 'Sign in to HoYoLAB';
 	@override String get aboutHeading => 'About HoYoLAB Link';
-	@override String get about => 'By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.\n\nHoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.\n\n* This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).\n* If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.\n';
+	@override String get about => 'By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.\nHoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.\n* This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).\n* If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.\n';
 	@override String get signOut => 'Sign out from HoYoLAB';
 	@override String get signInNote => '* Social login is not supported. You need to sign in with your email/username and password.';
 	@override String get failedToSignIn => 'Failed to sign in to HoYoLAB';
@@ -460,6 +480,8 @@ class _TranslationsHoyolabEn extends TranslationsHoyolabJa {
 	@override String get syncResin => 'Sync In-Game Resin Count';
 	@override String get syncCharaState => 'Sync In-Game Character Levels';
 	@override String get syncWeaponState => 'Synchronize Weapon State';
+	@override String get autoRemoveBookmarks => 'Auto-remove bookmarks when opening a character or weapon page.';
+	@override String get autoRemoveBookmarksDesc => 'Automatically remove bookmarks for completed ascensions when opening a character or weapon page.';
 	@override String get syncBagCounts => 'Synchronize Bag Counts';
 	@override String get mustBeResonatedWithStatue => 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
 	@override String get weaponNotEquipped => 'This character does not equip this weapon.';
@@ -533,6 +555,7 @@ extension on TranslationsEn {
 			case 'common.pleaseSelect': return 'Please select';
 			case 'common.undo': return 'Undo';
 			case 'common.bookmarkSaved': return 'Bookmark saved';
+			case 'common.removedObsoleteBookmarks': return 'Removed bookmarks for completed ascensions.';
 			case 'common.none': return 'None';
 			case 'common.sliderTips': return 'If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.';
 			case 'common.selected': return ({required Object character}) => 'Selected: ${character}';
@@ -594,6 +617,8 @@ extension on TranslationsEn {
 			case 'bookmarksPage.sub': return 'Sub';
 			case 'bookmarksPage.unBookmark': return 'Remove bookmark';
 			case 'bookmarksPage.unBookmarkConfirm': return 'Remove this bookmark?';
+			case 'bookmarksPage.byPurpose': return 'Purpose';
+			case 'bookmarksPage.byMaterial': return 'Material';
 			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'Character Lv Up & Ascension Materials';
 			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
 			case 'characterDetailsPage.equippedWeapon': return 'Equipped Weapon';
@@ -638,6 +663,23 @@ extension on TranslationsEn {
 			case 'resinCalcPage.currentResin': return 'Current Resin';
 			case 'resinCalcPage.baseTime': return 'Base Time';
 			case 'resinCalcPage.fullRecoveryTime': return 'Full Recovery Time';
+			case 'resinCalcPage.fullyReplenishedAt': return ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
+				text('fully replenished at'),
+				const TextSpan(text: ' '),
+				time,
+			]);
+			case 'resinCalcPage.recoversIn': return ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
+				time,
+				const TextSpan(text: ' '),
+				text('left'),
+			]);
+			case 'resinCalcPage.asOf': return ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
+				const TextSpan(text: '('),
+				text('as of'),
+				const TextSpan(text: ' '),
+				time,
+				const TextSpan(text: ')'),
+			]);
 			case 'resinCalcPage.recoveredTime': return 'Recovered Time';
 			case 'resinCalcPage.untilFullRecovery': return 'Until Full Recovery';
 			case 'resinCalcPage.wastedResin': return 'Wasted Resin';
@@ -667,7 +709,7 @@ extension on TranslationsEn {
 			case 'settingsPage.openSourceLicenses': return 'Open Source Licenses';
 			case 'hoyolab.signIn': return 'Sign in to HoYoLAB';
 			case 'hoyolab.aboutHeading': return 'About HoYoLAB Link';
-			case 'hoyolab.about': return 'By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.\n\nHoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.\n\n* This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).\n* If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.\n';
+			case 'hoyolab.about': return 'By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.\nHoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.\n* This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).\n* If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.\n';
 			case 'hoyolab.signOut': return 'Sign out from HoYoLAB';
 			case 'hoyolab.signInNote': return '* Social login is not supported. You need to sign in with your email/username and password.';
 			case 'hoyolab.failedToSignIn': return 'Failed to sign in to HoYoLAB';
@@ -703,6 +745,8 @@ extension on TranslationsEn {
 			case 'hoyolab.syncResin': return 'Sync In-Game Resin Count';
 			case 'hoyolab.syncCharaState': return 'Sync In-Game Character Levels';
 			case 'hoyolab.syncWeaponState': return 'Synchronize Weapon State';
+			case 'hoyolab.autoRemoveBookmarks': return 'Auto-remove bookmarks when opening a character or weapon page.';
+			case 'hoyolab.autoRemoveBookmarksDesc': return 'Automatically remove bookmarks for completed ascensions when opening a character or weapon page.';
 			case 'hoyolab.syncBagCounts': return 'Synchronize Bag Counts';
 			case 'hoyolab.mustBeResonatedWithStatue': return 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
 			case 'hoyolab.weaponNotEquipped': return 'This character does not equip this weapon.';

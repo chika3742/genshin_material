@@ -107,7 +107,7 @@ class ResinCalcPage extends HookConsumerWidget {
                       ],
                     ),
 
-                    const _CalcResultTable(),
+                    const _CalcResult(),
 
                     const SizedBox(height: 8), // 24px spacing (GappedColumn)
                     ListSubheader(tr.resinCalcPage.howToUse, padding: EdgeInsets.zero),
@@ -139,12 +139,164 @@ class ResinCalcPage extends HookConsumerWidget {
   }
 }
 
-class _CalcResult extends HookWidget {
+class _CalcResult extends HookConsumerWidget {
   const _CalcResult();
 
   @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+  Widget build(BuildContext context, WidgetRef ref) {
+    // For rebuilding results every second
+    final currentTime = useState(DateTime.now());
+    usePeriodicTimer(const Duration(seconds: 1), (_) {
+      currentTime.value = DateTime.now();
+    });
+
+    final prefs = ref.watch(preferencesStateNotifierProvider);
+
+    ResinCalculationResult? calcResult;
+    if (prefs.resin != null && prefs.resinBaseTime != null) {
+      calcResult = calculateResinRecovery(
+        currentResin: prefs.resin!,
+        baseTime: prefs.resinBaseTime!,
+        maxResin: maxResin,
+        minutesPerResin: minutesPerResinRecovery,
+      );
+    }
+
+    return Row(
+      children: [
+        Image.asset("assets/img/resin.webp", width: 80, height: 80),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: calcResult?.currentResin.toString() ?? "-",
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    if (calcResult != null && calcResult.wastedResin > 0)
+                      TextSpan(
+                        text: " + ${calcResult.wastedResin.toString()}",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    const WidgetSpan(child: SizedBox(width: 16)),
+                    const TextSpan(text: " / $maxResin\n"),
+
+                    // line 2
+                    tr.resinCalcPage.fullyReplenishedAt(
+                      time: TextSpan(
+                        text: calcResult != null ? _formatDateTime(calcResult.fullyReplenishedBy) : "-",
+                      ),
+                      text: (text) => TextSpan(
+                        text: text,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    TextSpan(text: "\n"),
+
+                    // line 3
+                    calcResult != null && !calcResult.timeToFull.isNegative
+                        ? tr.resinCalcPage.recoversIn(
+                            time: _formatDuration(calcResult.timeToFull),
+                            text: (text) => TextSpan(
+                              text: text,
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          )
+                        : TextSpan(
+                            text: tr.resinCalcPage.alreadyFull,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                  ],
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              if (prefs.resinBaseTime != null)
+                Text.rich(
+                  tr.resinCalcPage.asOf(
+                    time: TextSpan(
+                      text: _formatDateTime(prefs.resinBaseTime!),
+                    ),
+                    text: (text) => TextSpan(text: text),
+                  ),
+                  textAlign: TextAlign.end,
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _formatDateTime(DateTime dateTime) {
+    final isToday = dateTime.day == DateTime.now().day;
+    final isTomorrow = dateTime.day == DateTime.now().add(const Duration(days: 1)).day;
+    final dateDisplay = () {
+      if (isToday) {
+        return "";
+      }
+      if (isTomorrow) {
+        return "${tr.resinCalcPage.tomorrow} ";
+      }
+      return "${DateFormat("MMMd", LocaleSettings.currentLocale.languageCode).format(dateTime)} ";
+    }();
+
+    return "$dateDisplay${DateFormat("jm", LocaleSettings.currentLocale.languageCode).format(dateTime)}";
+  }
+
+  InlineSpan _formatDuration(Duration duration) {
+    final parts = <InlineSpan>[];
+
+    const numTextStyle = TextStyle(fontWeight: FontWeight.bold);
+    const unitTextStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.normal);
+
+    if (duration.inHours > 0) {
+      parts.add(
+        tr.common.hours(
+          n: duration.inHours,
+          nBuilder: (n) => TextSpan(text: n.toString(), style: numTextStyle),
+          unit: (unit) => TextSpan(text: unit, style: unitTextStyle),
+        ),
+      );
+    }
+    if (duration.inMinutes > 0) {
+      parts.add(
+        tr.common.minutes(
+          n: duration.inMinutes.remainder(60),
+          nBuilder: (n) => TextSpan(text: n.toString(), style: numTextStyle),
+          unit: (unit) => TextSpan(text: unit, style: unitTextStyle),
+        ),
+      );
+    }
+    parts.add(
+      tr.common.seconds(
+        n: duration.inSeconds.remainder(60),
+        nBuilder: (n) => TextSpan(text: n.toString(), style: numTextStyle),
+        unit: (unit) => TextSpan(text: unit, style: unitTextStyle),
+      ),
+    );
+
+    return TextSpan(
+      children: List.generate(parts.length * 2 - 1, (index) {
+        if (index.isEven) {
+          return parts[index ~/ 2];
+        }
+        return const TextSpan(text: " ");
+      }),
+    );
   }
 }
 

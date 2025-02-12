@@ -152,6 +152,9 @@ resinCalcPage:
   currentResin: 現在の樹脂数
   baseTime: 入力した時刻
   fullRecoveryTime: 全回復する時刻
+  fullyReplenishedAt(rich): $time${text(に全回復)}
+  recoversIn(rich): ${text(あと)}$time
+  asOf(rich): ($time ${text(現在)})
   recoveredTime: 全回復した時刻
   untilFullRecovery: 全回復まであと
   wastedResin: 無駄にした樹脂
