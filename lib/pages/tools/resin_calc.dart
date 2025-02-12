@@ -30,7 +30,7 @@ class ResinCalcPage extends HookConsumerWidget {
         ref.read(resinSyncStateNotifierProvider.notifier).syncResin();
       }
       return null;
-    }, [],);
+    }, [prefs.syncResin],);
     useEffect(() {
       if (prefs.isLinkedWithHoyolab) {
         resinController.text = prefs.resin?.toString() ?? "";
