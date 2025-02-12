@@ -31,7 +31,8 @@ dependencies:
   material_symbols_icons: ^4.2800.2
   slang: ^4.2.1
   slang_flutter: ^4.2.0
-  timelines: ^0.1.0
+  timelines:
+    path: ./packages/timelines
   json_annotation: ^4.9.0
   yaml: ^3.1.2
   collection: ^1.18.0
