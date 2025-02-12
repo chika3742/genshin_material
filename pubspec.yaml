@@ -80,7 +80,7 @@ dev_dependencies:
   json_serializable: ^6.9.0
   mockito: ^5.4.5
   drift_dev: ^2.20.1
-  pigeon: ^22.6.2
+  pigeon: ^22.7.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
