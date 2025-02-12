@@ -2399,7 +2399,7 @@ final class $$BookmarkTableTableReferences
       get bookmarkMaterialDetailsTableRefs {
     final manager = $$BookmarkMaterialDetailsTableTableTableManager(
             $_db, $_db.bookmarkMaterialDetailsTable)
-        .filter((f) => f.parentId.id($_item.id));
+        .filter((f) => f.parentId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult
         .readTableOrNull(_bookmarkMaterialDetailsTableRefsTable($_db));
@@ -2418,7 +2418,7 @@ final class $$BookmarkTableTableReferences
       get bookmarkArtifactSetDetailsTableRefs {
     final manager = $$BookmarkArtifactSetDetailsTableTableTableManager(
             $_db, $_db.bookmarkArtifactSetDetailsTable)
-        .filter((f) => f.parentId.id($_item.id));
+        .filter((f) => f.parentId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult
         .readTableOrNull(_bookmarkArtifactSetDetailsTableRefsTable($_db));
@@ -2437,7 +2437,7 @@ final class $$BookmarkTableTableReferences
       get bookmarkArtifactPieceDetailsTableRefs {
     final manager = $$BookmarkArtifactPieceDetailsTableTableTableManager(
             $_db, $_db.bookmarkArtifactPieceDetailsTable)
-        .filter((f) => f.parentId.id($_item.id));
+        .filter((f) => f.parentId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult
         .readTableOrNull(_bookmarkArtifactPieceDetailsTableRefsTable($_db));
@@ -2744,7 +2744,8 @@ class $$BookmarkTableTableTableManager extends RootTableManager<
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (bookmarkMaterialDetailsTableRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<Bookmark, $BookmarkTableTable,
+                            BookmarkMaterialDetails>(
                         currentTable: table,
                         referencedTable: $$BookmarkTableTableReferences
                             ._bookmarkMaterialDetailsTableRefsTable(db),
@@ -2756,7 +2757,8 @@ class $$BookmarkTableTableTableManager extends RootTableManager<
                             referencedItems.where((e) => e.parentId == item.id),
                         typedResults: items),
                   if (bookmarkArtifactSetDetailsTableRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<Bookmark, $BookmarkTableTable,
+                            BookmarkArtifactSetDetails>(
                         currentTable: table,
                         referencedTable: $$BookmarkTableTableReferences
                             ._bookmarkArtifactSetDetailsTableRefsTable(db),
@@ -2768,7 +2770,8 @@ class $$BookmarkTableTableTableManager extends RootTableManager<
                             referencedItems.where((e) => e.parentId == item.id),
                         typedResults: items),
                   if (bookmarkArtifactPieceDetailsTableRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<Bookmark, $BookmarkTableTable,
+                            BookmarkArtifactPieceDetails>(
                         currentTable: table,
                         referencedTable: $$BookmarkTableTableReferences
                             ._bookmarkArtifactPieceDetailsTableRefsTable(db),
@@ -2835,8 +2838,10 @@ final class $$BookmarkMaterialDetailsTableTableReferences
           db.bookmarkMaterialDetailsTable.parentId, db.bookmarkTable.id));
 
   $$BookmarkTableTableProcessedTableManager get parentId {
+    final $_column = $_itemColumn<int>('parent_id')!;
+
     final manager = $$BookmarkTableTableTableManager($_db, $_db.bookmarkTable)
-        .filter((f) => f.id($_item.parentId!));
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_parentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -3148,8 +3153,10 @@ final class $$BookmarkArtifactSetDetailsTableTableReferences
           db.bookmarkArtifactSetDetailsTable.parentId, db.bookmarkTable.id));
 
   $$BookmarkTableTableProcessedTableManager get parentId {
+    final $_column = $_itemColumn<int>('parent_id')!;
+
     final manager = $$BookmarkTableTableTableManager($_db, $_db.bookmarkTable)
-        .filter((f) => f.id($_item.parentId!));
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_parentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -3442,8 +3449,10 @@ final class $$BookmarkArtifactPieceDetailsTableTableReferences
           db.bookmarkArtifactPieceDetailsTable.parentId, db.bookmarkTable.id));
 
   $$BookmarkTableTableProcessedTableManager get parentId {
+    final $_column = $_itemColumn<int>('parent_id')!;
+
     final manager = $$BookmarkTableTableTableManager($_db, $_db.bookmarkTable)
-        .filter((f) => f.id($_item.parentId!));
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_parentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
