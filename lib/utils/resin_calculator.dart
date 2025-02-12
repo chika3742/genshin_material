@@ -7,6 +7,7 @@ part "resin_calculator.freezed.dart";
 
 const maxResin = 200;
 const minutesPerResinRecovery = 8;
+const breakpoints = [40, 80, 120, 160];
 
 ResinCalculationResult calculateResinRecovery({
   required int currentResin,
@@ -17,14 +18,30 @@ ResinCalculationResult calculateResinRecovery({
   final fullyReplenishedBy = Clock.fixed(baseTime).fromNowBy(
     _timeToFullFromResinCount(currentResin, maxResin, minutesPerResin),
   );
-  final timeToFull = fullyReplenishedBy.difference(const Clock().now());
-  final resinDelta = const Clock().now().difference(baseTime).inMinutes ~/ minutesPerResin;
+  final timeToFull = fullyReplenishedBy.difference(clock.now());
+  final resinDelta = clock.now().difference(baseTime).inMinutes ~/ minutesPerResin;
+
+  final breakpointsResult = <ResinBreakpoint>[];
+  for (final bp in breakpoints) {
+    final fullyReplenishedBy = Clock.fixed(baseTime).fromNowBy(
+      _timeToFullFromResinCount(currentResin, bp, minutesPerResin),
+    );
+    final timeToFull = fullyReplenishedBy.difference(clock.now());
+    if (!timeToFull.isNegative) {
+      breakpointsResult.add(ResinBreakpoint(
+        resin: bp,
+        fullyReplenishedBy: fullyReplenishedBy,
+        timeToFull: timeToFull,
+      ),);
+    }
+  }
 
   return ResinCalculationResult(
     fullyReplenishedBy: fullyReplenishedBy,
     timeToFull: timeToFull,
     currentResin: math.min(currentResin + resinDelta, maxResin),
     wastedResin: math.min(currentResin, maxResin) + resinDelta - maxResin,
+    breakpoints: breakpointsResult,
   );
 }
 
@@ -55,5 +72,15 @@ class ResinCalculationResult with _$ResinCalculationResult {
     required Duration timeToFull,
     required int currentResin,
     required int wastedResin,
+    required List<ResinBreakpoint> breakpoints,
   }) = _ResinCalculationResult;
+}
+
+@freezed
+class ResinBreakpoint with _$ResinBreakpoint {
+  const factory ResinBreakpoint({
+    required int resin,
+    required DateTime fullyReplenishedBy,
+    required Duration timeToFull,
+  }) = _ResinBreakpoint;
 }

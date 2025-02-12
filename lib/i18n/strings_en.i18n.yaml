@@ -151,8 +151,11 @@ dailyPage:
   weaponMaterials: Weapon Materials
 resinCalcPage:
   currentResin: Current Resin
+  resin: Resin
   baseTime: Base Time
   fullRecoveryTime: Full Recovery Time
+  recoveryTime: Recovered At
+  untilRecovery: Recover In
   fullyReplenishedAt(rich): "${text(fully replenished at)} $time"
   recoversIn(rich): "$time ${text(left)}"
   asOf(rich): "(${text(as of)} $time)"

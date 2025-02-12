@@ -358,8 +358,11 @@ class _TranslationsResinCalcPageEn extends TranslationsResinCalcPageJa {
 
 	// Translations
 	@override String get currentResin => 'Current Resin';
+	@override String get resin => 'Resin';
 	@override String get baseTime => 'Base Time';
 	@override String get fullRecoveryTime => 'Full Recovery Time';
+	@override String get recoveryTime => 'Recovered At';
+	@override String get untilRecovery => 'Recover In';
 	@override TextSpan fullyReplenishedAt({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
 		text('fully replenished at'),
 		const TextSpan(text: ' '),
@@ -661,8 +664,11 @@ extension on TranslationsEn {
 			case 'dailyPage.talentMaterials': return 'Talent Materials';
 			case 'dailyPage.weaponMaterials': return 'Weapon Materials';
 			case 'resinCalcPage.currentResin': return 'Current Resin';
+			case 'resinCalcPage.resin': return 'Resin';
 			case 'resinCalcPage.baseTime': return 'Base Time';
 			case 'resinCalcPage.fullRecoveryTime': return 'Full Recovery Time';
+			case 'resinCalcPage.recoveryTime': return 'Recovered At';
+			case 'resinCalcPage.untilRecovery': return 'Recover In';
 			case 'resinCalcPage.fullyReplenishedAt': return ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
 				text('fully replenished at'),
 				const TextSpan(text: ' '),

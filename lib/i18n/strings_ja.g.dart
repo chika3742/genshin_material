@@ -347,8 +347,11 @@ class TranslationsResinCalcPageJa {
 
 	// Translations
 	String get currentResin => '現在の樹脂数';
+	String get resin => '樹脂数';
 	String get baseTime => '入力した時刻';
 	String get fullRecoveryTime => '全回復する時刻';
+	String get recoveryTime => '回復時刻';
+	String get untilRecovery => '回復まであと';
 	TextSpan fullyReplenishedAt({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
 		time,
 		text('に全回復'),
@@ -635,8 +638,11 @@ extension on Translations {
 			case 'dailyPage.talentMaterials': return '天賦素材';
 			case 'dailyPage.weaponMaterials': return '武器素材';
 			case 'resinCalcPage.currentResin': return '現在の樹脂数';
+			case 'resinCalcPage.resin': return '樹脂数';
 			case 'resinCalcPage.baseTime': return '入力した時刻';
 			case 'resinCalcPage.fullRecoveryTime': return '全回復する時刻';
+			case 'resinCalcPage.recoveryTime': return '回復時刻';
+			case 'resinCalcPage.untilRecovery': return '回復まであと';
 			case 'resinCalcPage.fullyReplenishedAt': return ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
 				time,
 				text('に全回復'),

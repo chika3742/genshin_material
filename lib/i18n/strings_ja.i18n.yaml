@@ -150,8 +150,11 @@ dailyPage:
   weaponMaterials: 武器素材
 resinCalcPage:
   currentResin: 現在の樹脂数
+  resin: 樹脂数
   baseTime: 入力した時刻
   fullRecoveryTime: 全回復する時刻
+  recoveryTime: 回復時刻
+  untilRecovery: 回復まであと
   fullyReplenishedAt(rich): $time${text(に全回復)}
   recoversIn(rich): ${text(あと)}$time
   asOf(rich): ($time ${text(現在)})
