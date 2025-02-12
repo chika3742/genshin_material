@@ -9,7 +9,7 @@
               <option name="generatedName" value="New Schema" />
               <option name="name" value="release-notes" />
               <option name="relativePathToSchema" value="https://raw.githubusercontent.com/chika3742/genshin_material_data_schemas/main/schemas/release-notes.yaml" />
-              <option name="schemaVersion" value="JSON Schema version 7" />
+              <option name="schemaVersion" value="JSON Schema 7" />
               <option name="patterns">
                 <list>
                   <Item>
