@@ -31,6 +31,12 @@ class ResinCalcPage extends HookConsumerWidget {
       }
       return null;
     }, [],);
+    useEffect(() {
+      if (prefs.isLinkedWithHoyolab) {
+        resinController.text = prefs.resin?.toString() ?? "";
+      }
+      return null;
+    }, [prefs.resin],);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
