@@ -30,7 +30,7 @@ class ResinCalcPage extends HookConsumerWidget {
         ref.read(resinSyncStateNotifierProvider.notifier).syncResin();
       }
       return null;
-    }, [prefs.syncResin],);
+    }, [prefs.isLinkedWithHoyolab, prefs.syncResin],);
     useEffect(() {
       if (prefs.isLinkedWithHoyolab) {
         resinController.text = prefs.resin?.toString() ?? "";
@@ -138,6 +138,16 @@ class ResinCalcPage extends HookConsumerWidget {
     );
   }
 }
+
+class _CalcResult extends HookWidget {
+  const _CalcResult();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
 
 class _CalcResultTable extends HookConsumerWidget {
   const _CalcResultTable();
