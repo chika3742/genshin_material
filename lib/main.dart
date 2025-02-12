@@ -9,7 +9,6 @@ import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:shared_preferences/shared_preferences.dart";
-import "package:timeago/timeago.dart" as timeago;
 
 import "core/provider_error_observer.dart";
 import "core/theme.dart";
@@ -28,8 +27,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   LocaleSettings.useDeviceLocaleSync();
   await initializeDateFormatting("ja_JP", null);
-  timeago.setLocaleMessages("ja", timeago.JaMessages());
-  timeago.setDefaultLocale(LocaleSettings.currentLocale.languageCode);
   // avoid plural resolver not configured warning
   // (Japanese doesn't have plural forms)
   LocaleSettings.setPluralResolver(
