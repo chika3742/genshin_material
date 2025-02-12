@@ -62,13 +62,13 @@ android {
                 keyPropertiesFile.reader(Charsets.UTF_8).use { reader ->
                     keyProperties.load(reader)
                 }
-            }
-            val keyStorePath: String? by keyProperties
-            if (keyStorePath != null) {
-                storeFile = rootProject.file(keyStorePath!!)
-                storePassword = keyProperties.getProperty("keyStorePassword")
-                keyAlias = keyProperties.getProperty("keyAlias")
-                keyPassword = keyProperties.getProperty("keyPassword")
+                val keyStorePath: String? by keyProperties
+                if (keyStorePath != null) {
+                    storeFile = rootProject.file(keyStorePath!!)
+                    storePassword = keyProperties.getProperty("keyStorePassword")
+                    keyAlias = keyProperties.getProperty("keyAlias")
+                    keyPassword = keyProperties.getProperty("keyPassword")
+                }
             }
         }
     }
