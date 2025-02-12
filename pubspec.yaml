@@ -75,7 +75,7 @@ dev_dependencies:
   custom_lint: ^0.6.5
   riverpod_lint: ^2.6.1
   freezed: ^2.5.7
-  go_router_builder: ^2.7.1
+  go_router_builder: ^2.8.0
   json_serializable: ^6.9.0
   mockito: ^5.4.5
   drift_dev: ^2.20.1
