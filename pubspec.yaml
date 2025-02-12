@@ -70,16 +70,16 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: 5.0.0
-  riverpod_generator: 2.6.1
+  riverpod_generator: 2.6.4
   build_runner: 2.4.15
-  custom_lint: 0.6.10
-  riverpod_lint: 2.6.1
-  freezed: 2.5.7
+  custom_lint: 0.7.3
+  riverpod_lint: 2.6.4
+  freezed: 2.5.8
   go_router_builder: 2.8.0
-  json_serializable: 6.9.0
+  json_serializable: 6.9.3
   mockito: 5.4.5
   drift_dev: 2.25.1
-  pigeon: 22.7.2
+  pigeon: 24.1.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
