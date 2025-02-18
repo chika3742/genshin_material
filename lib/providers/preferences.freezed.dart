@@ -33,6 +33,7 @@ mixin _$PreferencesState {
   bool get indexSheetTutorialShown => throw _privateConstructorUsedError;
   LackNumDisplayMethod get lackNumDisplayMethod =>
       throw _privateConstructorUsedError;
+  List<String> get bannerReadKeys => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -54,8 +55,10 @@ class _$PreferencesStateImpl extends _PreferencesState {
       required this.showItemNameOnCard,
       required this.dailyResetServer,
       required this.indexSheetTutorialShown,
-      required this.lackNumDisplayMethod})
-      : super._();
+      required this.lackNumDisplayMethod,
+      required final List<String> bannerReadKeys})
+      : _bannerReadKeys = bannerReadKeys,
+        super._();
 
   @override
   final KvPreferences pref;
@@ -89,10 +92,17 @@ class _$PreferencesStateImpl extends _PreferencesState {
   final bool indexSheetTutorialShown;
   @override
   final LackNumDisplayMethod lackNumDisplayMethod;
+  final List<String> _bannerReadKeys;
+  @override
+  List<String> get bannerReadKeys {
+    if (_bannerReadKeys is EqualUnmodifiableListView) return _bannerReadKeys;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_bannerReadKeys);
+  }
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagCounts: $syncBagCounts, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagCounts: $syncBagCounts, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod, bannerReadKeys: $bannerReadKeys)';
   }
 
   @override
@@ -129,7 +139,9 @@ class _$PreferencesStateImpl extends _PreferencesState {
                     other.indexSheetTutorialShown, indexSheetTutorialShown) ||
                 other.indexSheetTutorialShown == indexSheetTutorialShown) &&
             (identical(other.lackNumDisplayMethod, lackNumDisplayMethod) ||
-                other.lackNumDisplayMethod == lackNumDisplayMethod));
+                other.lackNumDisplayMethod == lackNumDisplayMethod) &&
+            const DeepCollectionEquality()
+                .equals(other._bannerReadKeys, _bannerReadKeys));
   }
 
   @override
@@ -150,28 +162,29 @@ class _$PreferencesStateImpl extends _PreferencesState {
       showItemNameOnCard,
       dailyResetServer,
       indexSheetTutorialShown,
-      lackNumDisplayMethod);
+      lackNumDisplayMethod,
+      const DeepCollectionEquality().hash(_bannerReadKeys));
 }
 
 abstract class _PreferencesState extends PreferencesState {
   const factory _PreferencesState(
-          {required final KvPreferences pref,
-          required final int? resin,
-          required final DateTime? resinBaseTime,
-          required final String? hyvServer,
-          required final String? hyvServerName,
-          required final String? hyvUserName,
-          required final String? hyvUid,
-          required final bool syncResin,
-          required final bool syncCharaState,
-          required final bool syncWeaponState,
-          required final bool autoRemoveBookmarks,
-          required final bool syncBagCounts,
-          required final bool showItemNameOnCard,
-          required final GameServer dailyResetServer,
-          required final bool indexSheetTutorialShown,
-          required final LackNumDisplayMethod lackNumDisplayMethod}) =
-      _$PreferencesStateImpl;
+      {required final KvPreferences pref,
+      required final int? resin,
+      required final DateTime? resinBaseTime,
+      required final String? hyvServer,
+      required final String? hyvServerName,
+      required final String? hyvUserName,
+      required final String? hyvUid,
+      required final bool syncResin,
+      required final bool syncCharaState,
+      required final bool syncWeaponState,
+      required final bool autoRemoveBookmarks,
+      required final bool syncBagCounts,
+      required final bool showItemNameOnCard,
+      required final GameServer dailyResetServer,
+      required final bool indexSheetTutorialShown,
+      required final LackNumDisplayMethod lackNumDisplayMethod,
+      required final List<String> bannerReadKeys}) = _$PreferencesStateImpl;
   const _PreferencesState._() : super._();
 
   @override
@@ -206,4 +219,6 @@ abstract class _PreferencesState extends PreferencesState {
   bool get indexSheetTutorialShown;
   @override
   LackNumDisplayMethod get lackNumDisplayMethod;
+  @override
+  List<String> get bannerReadKeys;
 }

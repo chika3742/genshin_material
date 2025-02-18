@@ -26,6 +26,8 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
 
   @override
   Widget build(BuildContext context) {
+    final rc = FirebaseRemoteConfig.instance;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.more),
@@ -57,6 +59,16 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
             location: const ReleaseNotesRoute().location,
           ),
           const Divider(),
+          if (rc.getBool(RemoteConfigKey.bannerShown))
+            SimpleListTile(
+              leadingIcon: Symbols.release_alert,
+              tileColor: Theme.of(context).colorScheme.primaryFixed,
+              title: rc.getString(RemoteConfigKey.bannerText),
+              trailingIcon: Symbols.open_in_browser,
+              onTap: () {
+                launchCustomTab(rc.getString(RemoteConfigKey.bannerActionUrl));
+              },
+            ),
           SimpleListTile(
             title: tr.morePage.github,
             subtitle: tr.morePage.githubDesc,

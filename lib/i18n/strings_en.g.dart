@@ -149,6 +149,7 @@ class _TranslationsCommonEn extends TranslationsCommonJa {
 	};
 	@override String get possessionNoteNotSignedIn => 'By linking with HoYoLAB, you can synchronize your possession status.';
 	@override String get possessionNote => 'Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".';
+	@override String get dismiss => 'Dismiss';
 }
 
 // Path: tutorial
@@ -567,6 +568,7 @@ extension on TranslationsEn {
 			case 'common.possessionStatus.notOwned': return 'Not owned';
 			case 'common.possessionNoteNotSignedIn': return 'By linking with HoYoLAB, you can synchronize your possession status.';
 			case 'common.possessionNote': return 'Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".';
+			case 'common.dismiss': return 'Dismiss';
 			case 'tutorial.indexSheet': return 'Table of contents';
 			case 'tutorial.indexSheetDesc': return 'Tap this button to quickly navigate to the section you\'re looking for.';
 			case 'purposes.ascension': return 'Level Up/Ascension';

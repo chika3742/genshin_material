@@ -66,6 +66,9 @@ class KvPreferences {
 
   LackNumDisplayMethod get lackNumDisplayMethod => LackNumDisplayMethod.values[sp.getInt("lackNumDisplayMethod") ?? 0];
   Future<void> setLackNumDisplayMethod(LackNumDisplayMethod value) => sp.setInt("lackNumDisplayMethod", value.index);
+
+  List<String> get bannerReadKeys => sp.getStringList("bannerReadKeys") ?? [];
+  Future<void> setBannerReadKeys(List<String> value) => sp.setStringList("bannerReadKeys", value);
 }
 
 enum LackNumDisplayMethod {

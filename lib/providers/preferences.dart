@@ -111,6 +111,14 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     await state.pref.setLackNumDisplayMethod(method);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
+
+  Future<void> addBannerReadKey(String key) async {
+    final keys = state.pref.bannerReadKeys;
+    keys.add(key);
+    await state.pref.setBannerReadKeys(keys);
+
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
 }
 
 @freezed
@@ -134,6 +142,7 @@ class PreferencesState with _$PreferencesState {
     required GameServer dailyResetServer,
     required bool indexSheetTutorialShown,
     required LackNumDisplayMethod lackNumDisplayMethod,
+    required List<String> bannerReadKeys,
   }) = _PreferencesState;
 
   factory PreferencesState.fromSharedPreferences(KvPreferences pref) {
@@ -154,6 +163,7 @@ class PreferencesState with _$PreferencesState {
       dailyResetServer: GameServer.values.firstWhere((e) => e.name == pref.dailyResetServer),
       indexSheetTutorialShown: pref.indexSheetTutorialShown,
       lackNumDisplayMethod: pref.lackNumDisplayMethod,
+      bannerReadKeys: pref.bannerReadKeys,
     );
   }
 

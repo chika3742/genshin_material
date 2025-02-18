@@ -14,6 +14,7 @@ class SimpleListTile extends StatelessWidget {
   final IconData? leadingIcon;
   final IconData? trailingIcon;
   final bool enabled;
+  final Color? tileColor;
 
   /// Exclusive with [onTap]
   final String? location;
@@ -28,6 +29,7 @@ class SimpleListTile extends StatelessWidget {
     this.leadingIcon,
     this.trailingIcon,
     this.enabled = true,
+    this.tileColor,
     this.location,
     this.onTap,
   })  : assert(location == null || onTap == null);
@@ -39,6 +41,7 @@ class SimpleListTile extends StatelessWidget {
       subtitle: subtitle != null ? Text(subtitle!) : null,
       leading: leadingIcon != null ? Icon(leadingIcon) : null,
       enabled: enabled,
+      tileColor: tileColor,
       trailing: trailingIcon != null
           ? Icon(trailingIcon)
           : location != null

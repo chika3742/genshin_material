@@ -38,6 +38,7 @@ common:
     notOwned: Not owned
   possessionNoteNotSignedIn: "By linking with HoYoLAB, you can synchronize your possession status."
   possessionNote: Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".
+  dismiss: Dismiss
 tutorial:
   indexSheet: Table of contents
   indexSheetDesc: Tap this button to quickly navigate to the section you're looking for.
