@@ -62,7 +62,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
           if (rc.getBool(RemoteConfigKey.bannerShown))
             SimpleListTile(
               leadingIcon: Symbols.release_alert,
-              tileColor: Theme.of(context).colorScheme.primaryFixed,
+              tileColor: Theme.of(context).colorScheme.primaryContainer,
               title: rc.getString(RemoteConfigKey.bannerText),
               trailingIcon: Symbols.open_in_browser,
               onTap: () {
