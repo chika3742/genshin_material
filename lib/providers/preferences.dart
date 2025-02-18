@@ -1,6 +1,8 @@
+import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../constants/remote_config_key.dart";
 import "../core/kv_preferences.dart";
 import "../core/secure_storage.dart";
 import "../main.dart";
@@ -159,5 +161,6 @@ class PreferencesState with _$PreferencesState {
       hyvServer != null &&
       hyvServerName != null &&
       hyvUserName != null &&
-      hyvUid != null;
+      hyvUid != null &&
+      FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled);
 }

@@ -1,3 +1,4 @@
+import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/material.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
@@ -6,6 +7,7 @@ import "../../../components/character_list_item.dart";
 import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/filter_bottom_sheet.dart";
+import "../../../constants/remote_config_key.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
@@ -60,13 +62,14 @@ class CharacterListPage extends HookConsumerWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: GappedRow(
                     children: [
-                      FilterChipWithMenu( // rarity
-                        selected: filterState.possessionStatus != null,
-                        label: Text(tr.common.possession),
-                        onSelected: (_) {
-                          _showFilterBottomSheet(context);
-                        },
-                      ),
+                      if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+                        FilterChipWithMenu( // possession
+                          selected: filterState.possessionStatus != null,
+                          label: Text(tr.common.possession),
+                          onSelected: (_) {
+                            _showFilterBottomSheet(context);
+                          },
+                        ),
 
                       FilterChipWithMenu( // rarity
                         selected: filterState.rarity != null,
@@ -150,25 +153,28 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
       builder: (context, assetData) {
         return FilterBottomSheet(
           categories: [
-            FilteringCategory(
-              labelText: tr.common.possession,
-              items: [
-                for (final status in PossessionStatus.values)
-                  FilterChipWithIcon(
-                    selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.possessionStatus == status)),
-                    leading: Icon(status == PossessionStatus.owned ? Symbols.place_item : Symbols.hide_source),
-                    label: Text(tr.common.possessionStatus[status.name]!),
-                    onSelected: prefs.isLinkedWithHoyolab ? (selected) {
-                      ref.read(characterFilterStateNotifierProvider.notifier)
-                          .setPossessionStatus(selected ? status : null);
-                    } : null,
-                  ),
+            if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+              ...[
+                FilteringCategory(
+                  labelText: tr.common.possession,
+                  items: [
+                    for (final status in PossessionStatus.values)
+                      FilterChipWithIcon(
+                        selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.possessionStatus == status)),
+                        leading: Icon(status == PossessionStatus.owned ? Symbols.place_item : Symbols.hide_source),
+                        label: Text(tr.common.possessionStatus[status.name]!),
+                        onSelected: prefs.isLinkedWithHoyolab ? (selected) {
+                          ref.read(characterFilterStateNotifierProvider.notifier)
+                              .setPossessionStatus(selected ? status : null);
+                        } : null,
+                      ),
+                  ],
+                ),
+                if (!prefs.isLinkedWithHoyolab)
+                  Text(tr.common.possessionNoteNotSignedIn, style: Theme.of(context).textTheme.labelMedium)
+                else
+                  Text(tr.common.possessionNote, style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold)),
               ],
-            ),
-            if (!prefs.isLinkedWithHoyolab)
-              Text(tr.common.possessionNoteNotSignedIn, style: Theme.of(context).textTheme.labelMedium)
-            else
-              Text(tr.common.possessionNote, style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold)),
             FilteringCategory(
               labelText: tr.common.rarity,
               items: [

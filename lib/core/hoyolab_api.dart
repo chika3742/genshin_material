@@ -4,13 +4,20 @@ import "dart:math" hide log;
 import "dart:typed_data";
 
 import "package:crypto/crypto.dart";
+import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:http/http.dart" as http;
 
+import "../constants/remote_config_key.dart";
 import "../i18n/strings.g.dart";
 import "../models/hoyolab_api.dart";
 
 class HoyolabApi {
-  HoyolabApi({this.cookie, this.region, this.uid, http.Client? client}) : client = client ?? http.Client();
+  HoyolabApi({this.cookie, this.region, this.uid, http.Client? client})
+      : client = client ?? http.Client() {
+    if (!FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled)) {
+      throw StateError("Hoyolab link is disabled by remote");
+    }
+  }
 
   final http.Client client;
   String get lang => switch (LocaleSettings.currentLocale) {

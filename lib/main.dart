@@ -1,5 +1,6 @@
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
+import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -10,6 +11,7 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
+import "constants/remote_config_key.dart";
 import "core/provider_error_observer.dart";
 import "core/theme.dart";
 // ignore: uri_does_not_exist
@@ -57,6 +59,17 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  final remoteConfig = FirebaseRemoteConfig.instance;
+  await remoteConfig.setConfigSettings(RemoteConfigSettings(
+    fetchTimeout: const Duration(minutes: 1),
+    minimumFetchInterval: kReleaseMode ? const Duration(hours: 12) : const Duration(minutes: 1),
+  ),);
+  await remoteConfig.setDefaults(const {
+    RemoteConfigKey.bannerShown: false,
+    RemoteConfigKey.hoyolabLinkEnabled: false,
+  });
+  await remoteConfig.fetchAndActivate();
 
   runApp(
     ProviderScope(

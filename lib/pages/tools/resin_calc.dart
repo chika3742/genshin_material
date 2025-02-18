@@ -1,3 +1,4 @@
+import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
 import "package:flutter/services.dart";
@@ -8,6 +9,7 @@ import "package:intl/intl.dart";
 import "../../components/game_data_sync_indicator.dart";
 import "../../components/list_subheader.dart";
 import "../../composables/use_periodic_timer.dart";
+import "../../constants/remote_config_key.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/game_data_sync.dart";
 import "../../providers/preferences.dart";
@@ -112,21 +114,24 @@ class ResinCalcPage extends HookConsumerWidget {
                     ListSubheader(tr.resinCalcPage.howToUse, padding: EdgeInsets.zero),
                     Text(tr.resinCalcPage.howToUseContent),
 
-                    ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
-                    OverflowBox(
-                      fit: OverflowBoxFit.deferToChild,
-                      maxWidth: MediaQuery.of(context).size.width,
-                      child: SwitchListTile(
-                        title: Text(tr.hoyolab.syncResin),
-                        value: prefs.syncResin,
-                        onChanged: prefs.isLinkedWithHoyolab ? (value) {
-                          ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
-                          if (value) {
-                            ref.read(resinSyncStateNotifierProvider.notifier).syncResin();
-                          }
-                        } : null,
-                      ),
-                    ),
+                    if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+                      ...[
+                        ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
+                        OverflowBox(
+                          fit: OverflowBoxFit.deferToChild,
+                          maxWidth: MediaQuery.of(context).size.width,
+                          child: SwitchListTile(
+                            title: Text(tr.hoyolab.syncResin),
+                            value: prefs.syncResin,
+                            onChanged: prefs.isLinkedWithHoyolab ? (value) {
+                              ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
+                              if (value) {
+                                ref.read(resinSyncStateNotifierProvider.notifier).syncResin();
+                              }
+                            } : null,
+                          ),
+                        ),
+                      ],
                   ],
                 ),
               ),

@@ -1,3 +1,4 @@
+import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
@@ -11,6 +12,7 @@ import "../../../i18n/strings.g.dart";
 import "../../../providers/versions.dart";
 import "../../../routes.dart";
 import "../../../ui_core/custom_tabs.dart";
+import "../constants/remote_config_key.dart";
 
 class MorePage extends ConsumerStatefulWidget {
   const MorePage({super.key});
@@ -41,12 +43,13 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
           //   leadingIcon: Symbols.account_box,
           //   location: AccountRoute().location,
           // ),
-          SimpleListTile(
-            title: tr.pages.hoyolabIntegrationSettings,
-            subtitle: tr.morePage.hoyolabIntegrationSettingsDesc,
-            leadingIcon: Symbols.sync,
-            location: HoyolabIntegrationSettingsRoute().location,
-          ),
+          if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+            SimpleListTile(
+              title: tr.pages.hoyolabIntegrationSettings,
+              subtitle: tr.morePage.hoyolabIntegrationSettingsDesc,
+              leadingIcon: Symbols.sync,
+              location: HoyolabIntegrationSettingsRoute().location,
+            ),
           const Divider(),
           SimpleListTile(
             title: tr.pages.releaseNotes,
