@@ -8,7 +8,7 @@ Page buildTransitionedPage({
   required Widget child,
 }) {
   return switch (Theme.of(context).platform) {
-    TargetPlatform.iOS || TargetPlatform.macOS => CupertinoPage(child: child),
+    TargetPlatform.iOS || TargetPlatform.macOS => MaterialPage(child: child),
     _ => CustomTransitionPage(
       child: child,
       barrierColor: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
