@@ -30,8 +30,8 @@ if (flutterVersionName == null) {
 
 android {
     namespace = "net.chikach.genshinmaterial"
-    compileSdk = 34
-    ndkVersion = "26.1.10909125"
+    compileSdk = 36
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -49,7 +49,7 @@ android {
     defaultConfig {
         applicationId = "net.chikach.genshinmaterial"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 36
         versionCode = flutterVersionCode.toInt()
         versionName = flutterVersionName
     }
