@@ -2,6 +2,7 @@ import "dart:async";
 import "dart:io";
 
 import "package:drift/native.dart";
+import "package:firebase_core/firebase_core.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
@@ -26,6 +27,8 @@ void main() {
 
   setUp(() {
     db = AppDatabase(NativeDatabase.memory());
+
+    Firebase.initializeApp();
   });
   tearDown(() async {
     await db.close();
