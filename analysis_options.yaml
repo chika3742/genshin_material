@@ -29,7 +29,6 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    - require_trailing_commas
     - prefer_final_fields
     - prefer_double_quotes
     - always_declare_return_types
