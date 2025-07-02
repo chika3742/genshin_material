@@ -3,6 +3,7 @@ import "dart:io";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:path/path.dart" as path;
 
+import "../main.dart";
 import "common.dart";
 import "localized_text.dart";
 
@@ -27,7 +28,7 @@ mixin CharacterWithLargeImage on Character {
   MaterialDefinitions get materials;
 
   File getImageFile(String localAssetPath) =>
-      File(path.join(localAssetPath, imageUrl));
+      File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, imageUrl));
 }
 
 mixin CharacterOrVariant on Character {
@@ -86,7 +87,7 @@ sealed class Character with _$Character, CharacterOrWeapon {
       _$CharacterFromJson(json);
 
   File getSmallImageFile(String localAssetPath) =>
-      File(path.join(localAssetPath, smallImageUrl));
+      File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, smallImageUrl));
 }
 
 @freezed

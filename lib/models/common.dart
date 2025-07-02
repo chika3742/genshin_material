@@ -2,6 +2,8 @@ import "dart:io";
 
 import "package:path/path.dart" as path;
 
+import "../main.dart";
+
 const dataSchemaVersion = 1;
 
 typedef CharacterId = String;
@@ -19,11 +21,15 @@ typedef ArtifactPieceTypeId = String;
 typedef StatId = String;
 typedef ArtifactPieceId = String;
 
+String getBlankImagePath(String localAssetPath) {
+  return path.join(localAssetPath, "img", "blank.png");
+}
+
 mixin ImageGetter {
   String get imageUrl;
 
   File getImageFile(String localAssetPath) =>
-      File(path.join(localAssetPath, imageUrl));
+      File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, imageUrl));
 }
 
 mixin CharacterOrWeapon {

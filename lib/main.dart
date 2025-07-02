@@ -1,3 +1,5 @@
+import "dart:io";
+
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:firebase_remote_config/firebase_remote_config.dart";
@@ -13,6 +15,7 @@ import "package:shared_preferences/shared_preferences.dart";
 
 import "constants/remote_config_key.dart";
 import "core/provider_error_observer.dart";
+import "core/secure_storage.dart";
 import "core/theme.dart";
 // ignore: uri_does_not_exist
 // import "firebase_options.dart";
@@ -24,6 +27,9 @@ import "routes.dart";
 late final SharedPreferencesWithCache spInstance;
 
 const isScreenshotMode = bool.fromEnvironment("SCREENSHOT_MODE");
+
+bool linkedWithHoyolab = false;
+bool get disableImages => (Platform.isIOS || Platform.isMacOS) && !linkedWithHoyolab;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +57,8 @@ void main() async {
       yield LicenseEntryWithLineBreaks(["google_fonts"], license);
     }
   });
+
+  linkedWithHoyolab = await hasHoyolabCookie();
 
   // Firebase
   await Firebase.initializeApp();
