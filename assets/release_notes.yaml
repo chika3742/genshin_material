@@ -1,5 +1,10 @@
 # コピー用改行
 
+- releasedOn: 2025/07/02
+  version: 4.3.3
+  contents: |
+    - iOS版における審査に対応するため、キャラ・武器・素材などの画像を非表示にしました。
+
 - releasedOn: 2025/05/24
   version: 4.3.2
   contents: |
