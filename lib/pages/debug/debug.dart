@@ -1,10 +1,13 @@
+import "dart:io";
+
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:path/path.dart";
+import "package:path_provider/path_provider.dart";
 
 import "../../components/list_tile.dart";
 import "../../core/asset_updater.dart";
-import "../../database.dart";
 import "../../i18n/strings.g.dart";
 import "../../main.dart";
 import "../../providers/database_provider.dart";
@@ -38,7 +41,10 @@ class DebugMenuPage extends ConsumerWidget {
             title: "Recreate Database",
             onTap: () async {
               await ref.read(appDatabaseProvider).close();
-              (await AppDatabase.getDbFile()).delete();
+              File(join(
+                (await getApplicationDocumentsDirectory()).path,
+                "db.sqlite",
+              )).delete();
               ref.invalidate(appDatabaseProvider);
 
               if (context.mounted) {
