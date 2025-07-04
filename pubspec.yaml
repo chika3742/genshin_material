@@ -46,7 +46,7 @@ dependencies:
   animations: 2.0.11
   flutter_sticky_header: 0.8.0
   flutter_hooks: 0.20.5
-  shared_preferences: 2.5.2
+  shared_preferences: 2.5.3
   hooks_riverpod: 2.6.1
   url_launcher: 6.3.1
   drift: 2.27.0
@@ -58,9 +58,9 @@ dependencies:
   uuid: 4.5.1
   tutorial_coach_mark: 1.2.12
   flutter_secure_storage: 9.2.4
-  firebase_core: 3.14.0
-  firebase_crashlytics: 4.3.7
-  firebase_remote_config: 5.4.5
+  firebase_core: 3.15.1
+  firebase_crashlytics: 4.3.9
+  firebase_remote_config: 5.4.7
 
 dev_dependencies:
   flutter_test:
@@ -70,13 +70,13 @@ dev_dependencies:
 
   flutter_lints: 5.0.0
   riverpod_generator: 2.6.5
-  build_runner: 2.5.1
+  build_runner: 2.5.4
   custom_lint: 0.7.5
   riverpod_lint: 2.6.5
   freezed: 3.0.6
   go_router_builder: 2.8.0
-  json_serializable: 6.9.3
-  mockito: 5.4.5
+  json_serializable: 6.9.5
+  mockito: 5.4.6
   drift_dev: 2.27.0
   pigeon: 24.1.1
   require_trailing_commas_custom: ^1.0.1
