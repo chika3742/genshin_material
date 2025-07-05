@@ -33,8 +33,8 @@ dependencies:
   go_router: 14.8.0
   freezed_annotation: 3.1.0
   material_symbols_icons: 4.2815.1
-  slang: 4.4.1
-  slang_flutter: 4.4.0
+  slang: 4.7.2
+  slang_flutter: 4.7.0
   timelines:
     path: ./packages/timelines
   json_annotation: 4.9.0
