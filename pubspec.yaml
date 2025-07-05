@@ -42,7 +42,7 @@ dependencies:
   package_info_plus: 8.3.0
   path_provider: 2.1.5
   http: 1.4.0
-  archive: 3.6.1
+  archive: 4.0.7
   animations: 2.0.11
   flutter_sticky_header: 0.8.0
   flutter_hooks: 0.21.2
