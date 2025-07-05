@@ -51,7 +51,7 @@ dependencies:
   url_launcher: 6.3.1
   drift: 2.27.0
   drift_flutter: 0.2.4
-  webview_flutter: 4.11.0
+  webview_flutter: 4.13.0
   crypto: 3.0.6
   drift_db_viewer: 2.1.0
   google_fonts: 6.2.1
