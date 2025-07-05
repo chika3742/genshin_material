@@ -138,7 +138,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       if (prefs.isLinkedWithHoyolab) {
         ref.read(levelBagSyncStateNotifierProvider(variantId: variant.value.id).notifier)
             .syncInGameCharacter().then((result) {
-              if (result != null) {
+              if (result != null && context.mounted) {
                 var newState = state.value;
                 for (final e in result.levels.entries) {
                   newState = newState.copyWith(
