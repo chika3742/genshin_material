@@ -26,8 +26,9 @@ updates:
         update-types:
           - major
           - minor
-      patch-updates:
+      minor-and-patch:
         update-types:
+          - minor
           - patch
   - package-ecosystem: github-actions
     directory: /
