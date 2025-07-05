@@ -44,6 +44,8 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>CFBundleName</key>
-	<string>GenshinMaterial</string>
+	<string>原神素材</string>
+    <key>CFBundleDisplayName</key>
+    <string>原神素材</string>
 </dict>
 </plist>

@@ -2,7 +2,8 @@
   "sourceLanguage" : "ja",
   "strings" : {
     "CFBundleDisplayName" : {
-      "extractionState" : "manual",
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12,14 +13,15 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
             "value" : "原神素材"
           }
         }
       }
     },
     "CFBundleName" : {
-      "extractionState" : "manual",
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -29,7 +31,7 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
             "value" : "原神素材"
           }
         }
