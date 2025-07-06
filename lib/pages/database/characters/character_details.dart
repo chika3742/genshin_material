@@ -529,7 +529,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
 }
 
 @Freezed(copyWith: true)
-class _CharacterDetailsPageState with _$CharacterDetailsPageState {
+sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
   const factory _CharacterDetailsPageState({
     required Map<Purpose, LevelRangeValues> rangeValues,
     required Map<Purpose, List<int>> sliderTickLabels,

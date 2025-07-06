@@ -91,7 +91,7 @@ sealed class Character with _$Character, CharacterOrWeapon {
 }
 
 @freezed
-class CharacterTalent with _$CharacterTalent {
+sealed class CharacterTalent with _$CharacterTalent {
   const factory CharacterTalent({
     required List<int> idList,
     required LocalizedText name,

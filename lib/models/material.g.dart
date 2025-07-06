@@ -6,8 +6,7 @@ part of 'material.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
-    _$MaterialImpl(
+_Material _$MaterialFromJson(Map<String, dynamic> json) => _Material(
       id: json['id'] as String,
       hyvId: (json['hyvId'] as num).toInt(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
@@ -25,8 +24,7 @@ _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
           : ItemSource.fromJson(json['source'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$MaterialToJson(_Material instance) => <String, dynamic>{
       'id': instance.id,
       'hyvId': instance.hyvId,
       'name': instance.name,
@@ -51,37 +49,35 @@ const _$DayOfWeekEnumMap = {
   DayOfWeek.sunday: 'sunday',
 };
 
-_$TeyvatMapItemSourceImpl _$$TeyvatMapItemSourceImplFromJson(
-        Map<String, dynamic> json) =>
-    _$TeyvatMapItemSourceImpl(
+TeyvatMapItemSource _$TeyvatMapItemSourceFromJson(Map<String, dynamic> json) =>
+    TeyvatMapItemSource(
       typeId: json['typeId'] as String,
       center: json['center'] as String?,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$TeyvatMapItemSourceImplToJson(
-        _$TeyvatMapItemSourceImpl instance) =>
+Map<String, dynamic> _$TeyvatMapItemSourceToJson(
+        TeyvatMapItemSource instance) =>
     <String, dynamic>{
       'typeId': instance.typeId,
       'center': instance.center,
       'runtimeType': instance.$type,
     };
 
-_$TextItemSourceImpl _$$TextItemSourceImplFromJson(Map<String, dynamic> json) =>
-    _$TextItemSourceImpl(
+TextItemSource _$TextItemSourceFromJson(Map<String, dynamic> json) =>
+    TextItemSource(
       text: LocalizedText.fromJson(json['text'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$TextItemSourceImplToJson(
-        _$TextItemSourceImpl instance) =>
+Map<String, dynamic> _$TextItemSourceToJson(TextItemSource instance) =>
     <String, dynamic>{
       'text': instance.text,
       'runtimeType': instance.$type,
     };
 
-_$MaterialsMetaImpl _$$MaterialsMetaImplFromJson(Map<String, dynamic> json) =>
-    _$MaterialsMetaImpl(
+_MaterialsMeta _$MaterialsMetaFromJson(Map<String, dynamic> json) =>
+    _MaterialsMeta(
       categories: (json['categories'] as Map<String, dynamic>).map(
         (k, e) =>
             MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
@@ -95,7 +91,7 @@ _$MaterialsMetaImpl _$$MaterialsMetaImplFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$$MaterialsMetaImplToJson(_$MaterialsMetaImpl instance) =>
+Map<String, dynamic> _$MaterialsMetaToJson(_MaterialsMeta instance) =>
     <String, dynamic>{
       'categories': instance.categories,
       'sortOrder': instance.sortOrder,
@@ -104,8 +100,8 @@ Map<String, dynamic> _$$MaterialsMetaImplToJson(_$MaterialsMetaImpl instance) =>
           instance.specialCharactersUsingMaterials,
     };
 
-_$DailyMaterialsImpl _$$DailyMaterialsImplFromJson(Map<String, dynamic> json) =>
-    _$DailyMaterialsImpl(
+_DailyMaterials _$DailyMaterialsFromJson(Map<String, dynamic> json) =>
+    _DailyMaterials(
       talent: (json['talent'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(
             k,
@@ -122,21 +118,20 @@ _$DailyMaterialsImpl _$$DailyMaterialsImplFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$$DailyMaterialsImplToJson(
-        _$DailyMaterialsImpl instance) =>
+Map<String, dynamic> _$DailyMaterialsToJson(_DailyMaterials instance) =>
     <String, dynamic>{
       'talent': instance.talent,
       'weapon': instance.weapon,
     };
 
-_$DailyMaterialImpl _$$DailyMaterialImplFromJson(Map<String, dynamic> json) =>
-    _$DailyMaterialImpl(
+_DailyMaterial _$DailyMaterialFromJson(Map<String, dynamic> json) =>
+    _DailyMaterial(
       description:
           LocalizedText.fromJson(json['description'] as Map<String, dynamic>),
       items: (json['items'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$DailyMaterialImplToJson(_$DailyMaterialImpl instance) =>
+Map<String, dynamic> _$DailyMaterialToJson(_DailyMaterial instance) =>
     <String, dynamic>{
       'description': instance.description,
       'items': instance.items,

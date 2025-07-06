@@ -6,9 +6,8 @@ part of 'weapon_ingredients.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$WeaponIngredientsImpl _$$WeaponIngredientsImplFromJson(
-        Map<String, dynamic> json) =>
-    _$WeaponIngredientsImpl(
+_WeaponIngredients _$WeaponIngredientsFromJson(Map<String, dynamic> json) =>
+    _WeaponIngredients(
       expItems: (json['expItems'] as List<dynamic>)
           .map((e) => ExpItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18,16 +17,15 @@ _$WeaponIngredientsImpl _$$WeaponIngredientsImplFromJson(
       ),
     );
 
-Map<String, dynamic> _$$WeaponIngredientsImplToJson(
-        _$WeaponIngredientsImpl instance) =>
+Map<String, dynamic> _$WeaponIngredientsToJson(_WeaponIngredients instance) =>
     <String, dynamic>{
       'expItems': instance.expItems,
       'rarities': instance.rarities.map((k, e) => MapEntry(k.toString(), e)),
     };
 
-_$WeaponIngredientsLevelsImpl _$$WeaponIngredientsLevelsImplFromJson(
+_WeaponIngredientsLevels _$WeaponIngredientsLevelsFromJson(
         Map<String, dynamic> json) =>
-    _$WeaponIngredientsLevelsImpl(
+    _WeaponIngredientsLevels(
       levels: (json['levels'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(
             int.parse(k),
@@ -37,8 +35,8 @@ _$WeaponIngredientsLevelsImpl _$$WeaponIngredientsLevelsImplFromJson(
       ),
     );
 
-Map<String, dynamic> _$$WeaponIngredientsLevelsImplToJson(
-        _$WeaponIngredientsLevelsImpl instance) =>
+Map<String, dynamic> _$WeaponIngredientsLevelsToJson(
+        _WeaponIngredientsLevels instance) =>
     <String, dynamic>{
       'levels': instance.levels.map((k, e) => MapEntry(k.toString(), e)),
     };

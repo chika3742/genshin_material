@@ -7,7 +7,7 @@ part "character_ingredients.freezed.dart";
 part "character_ingredients.g.dart";
 
 @freezed
-class CharacterIngredients with _$CharacterIngredients {
+sealed class CharacterIngredients with _$CharacterIngredients {
   const CharacterIngredients._();
 
   const factory CharacterIngredients({
@@ -20,7 +20,7 @@ class CharacterIngredients with _$CharacterIngredients {
 }
 
 @freezed
-class ExpItem with _$ExpItem {
+sealed class ExpItem with _$ExpItem {
   const factory ExpItem({
     required String itemId,
     required int expPerItem,
@@ -31,7 +31,7 @@ class ExpItem with _$ExpItem {
 }
 
 @freezed
-class CharacterIngredientsLevels with _$CharacterIngredientsLevels {
+sealed class CharacterIngredientsLevels with _$CharacterIngredientsLevels {
   const factory CharacterIngredientsLevels({
     required Map<int, List<Ingredient>> levels,
   }) = _CharacterIngredientsLevels;

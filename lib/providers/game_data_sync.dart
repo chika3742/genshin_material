@@ -282,7 +282,7 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
 }
 
 @freezed
-class GameDataSyncResult with _$GameDataSyncResult {
+sealed class GameDataSyncResult with _$GameDataSyncResult {
   const factory GameDataSyncResult({
     required Map<Purpose, int> levels,
     required bool hasRemovedBookmarks,

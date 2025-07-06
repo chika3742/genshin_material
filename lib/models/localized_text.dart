@@ -6,7 +6,7 @@ part "localized_text.freezed.dart";
 part "localized_text.g.dart";
 
 @freezed
-class LocalizedText with _$LocalizedText {
+sealed class LocalizedText with _$LocalizedText {
   const LocalizedText._();
 
   const factory LocalizedText({

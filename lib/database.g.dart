@@ -18,7 +18,6 @@ class $BookmarkTableTable extends BookmarkTable
       requiredDuringInsert: false,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
   late final GeneratedColumnWithTypeConverter<BookmarkType, String> type =
       GeneratedColumn<String>('type', aliasedName, false,
@@ -60,7 +59,6 @@ class $BookmarkTableTable extends BookmarkTable
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    context.handle(_typeMeta, const VerificationResult.success());
     if (data.containsKey('character_id')) {
       context.handle(
           _characterIdMeta,
@@ -239,8 +237,6 @@ class $BookmarkMaterialDetailsTableTable extends BookmarkMaterialDetailsTable
   late final GeneratedColumn<int> upperLevel = GeneratedColumn<int>(
       'upper_level', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _purposeTypeMeta =
-      const VerificationMeta('purposeType');
   @override
   late final GeneratedColumnWithTypeConverter<Purpose, String> purposeType =
       GeneratedColumn<String>('purpose_type', aliasedName, false,
@@ -296,7 +292,6 @@ class $BookmarkMaterialDetailsTableTable extends BookmarkMaterialDetailsTable
     } else if (isInserting) {
       context.missing(_upperLevelMeta);
     }
-    context.handle(_purposeTypeMeta, const VerificationResult.success());
     if (data.containsKey('hash')) {
       context.handle(
           _hashMeta, hash.isAcceptableOrUnknown(data['hash']!, _hashMeta));
@@ -647,23 +642,18 @@ class $BookmarkArtifactSetDetailsTableTable
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'REFERENCES bookmark_table (id) ON DELETE CASCADE'));
-  static const VerificationMeta _setsMeta = const VerificationMeta('sets');
   @override
   late final GeneratedColumnWithTypeConverter<List<ArtifactSetId>, String>
       sets = GeneratedColumn<String>('sets', aliasedName, false,
               type: DriftSqlType.string, requiredDuringInsert: true)
           .withConverter<List<ArtifactSetId>>(
               $BookmarkArtifactSetDetailsTableTable.$convertersets);
-  static const VerificationMeta _mainStatsMeta =
-      const VerificationMeta('mainStats');
   @override
   late final GeneratedColumnWithTypeConverter<Map<String, StatId?>, String>
       mainStats = GeneratedColumn<String>('main_stats', aliasedName, false,
               type: DriftSqlType.string, requiredDuringInsert: true)
           .withConverter<Map<String, StatId?>>(
               $BookmarkArtifactSetDetailsTableTable.$convertermainStats);
-  static const VerificationMeta _subStatsMeta =
-      const VerificationMeta('subStats');
   @override
   late final GeneratedColumnWithTypeConverter<List<StatId>, String> subStats =
       GeneratedColumn<String>('sub_stats', aliasedName, false,
@@ -693,9 +683,6 @@ class $BookmarkArtifactSetDetailsTableTable
     } else if (isInserting) {
       context.missing(_parentIdMeta);
     }
-    context.handle(_setsMeta, const VerificationResult.success());
-    context.handle(_mainStatsMeta, const VerificationResult.success());
-    context.handle(_subStatsMeta, const VerificationResult.success());
     return context;
   }
 
@@ -987,8 +974,6 @@ class $BookmarkArtifactPieceDetailsTableTable
   late final GeneratedColumn<String> mainStat = GeneratedColumn<String>(
       'main_stat', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _subStatsMeta =
-      const VerificationMeta('subStats');
   @override
   late final GeneratedColumnWithTypeConverter<List<StatId>, String> subStats =
       GeneratedColumn<String>('sub_stats', aliasedName, false,
@@ -1028,7 +1013,6 @@ class $BookmarkArtifactPieceDetailsTableTable
       context.handle(_mainStatMeta,
           mainStat.isAcceptableOrUnknown(data['main_stat']!, _mainStatMeta));
     }
-    context.handle(_subStatsMeta, const VerificationResult.success());
     return context;
   }
 
@@ -1287,8 +1271,6 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
   late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
       'character_id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _purposesMeta =
-      const VerificationMeta('purposes');
   @override
   late final GeneratedColumnWithTypeConverter<Map<Purpose, int>, String>
       purposes = GeneratedColumn<String>('purposes', aliasedName, false,
@@ -1329,7 +1311,6 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
     } else if (isInserting) {
       context.missing(_characterIdMeta);
     }
-    context.handle(_purposesMeta, const VerificationResult.success());
     if (data.containsKey('equipped_weapon_id')) {
       context.handle(
           _equippedWeaponIdMeta,
@@ -1847,7 +1828,6 @@ class $BookmarkOrderRegistryTableTable extends BookmarkOrderRegistryTable
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: const Constant("main"));
-  static const VerificationMeta _orderMeta = const VerificationMeta('order');
   @override
   late final GeneratedColumnWithTypeConverter<List<String>, String> order =
       GeneratedColumn<String>('order', aliasedName, false,
@@ -1870,7 +1850,6 @@ class $BookmarkOrderRegistryTableTable extends BookmarkOrderRegistryTable
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    context.handle(_orderMeta, const VerificationResult.success());
     return context;
   }
 

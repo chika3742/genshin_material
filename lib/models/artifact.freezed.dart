@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,45 +9,68 @@ part of 'artifact.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-ArtifactSet _$ArtifactSetFromJson(Map<String, dynamic> json) {
-  return _ArtifactSet.fromJson(json);
-}
 
 /// @nodoc
 mixin _$ArtifactSet {
-  String get id => throw _privateConstructorUsedError;
-  LocalizedText get name => throw _privateConstructorUsedError;
-  int get maxRarity => throw _privateConstructorUsedError;
-  List<String>? get tags => throw _privateConstructorUsedError;
-  Map<String, ArtifactPiece> get consistsOf =>
-      throw _privateConstructorUsedError;
-  List<ArtifactSetBonus> get bonuses => throw _privateConstructorUsedError;
+  String get id;
+  LocalizedText get name;
+  int get maxRarity;
+  List<String>? get tags;
+  Map<ArtifactPieceId, ArtifactPiece> get consistsOf;
+  List<ArtifactSetBonus> get bonuses;
 
   /// Serializes this ArtifactSet to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ArtifactSet &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.maxRarity, maxRarity) ||
+                other.maxRarity == maxRarity) &&
+            const DeepCollectionEquality().equals(other.tags, tags) &&
+            const DeepCollectionEquality()
+                .equals(other.consistsOf, consistsOf) &&
+            const DeepCollectionEquality().equals(other.bonuses, bonuses));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      maxRarity,
+      const DeepCollectionEquality().hash(tags),
+      const DeepCollectionEquality().hash(consistsOf),
+      const DeepCollectionEquality().hash(bonuses));
+
+  @override
+  String toString() {
+    return 'ArtifactSet(id: $id, name: $name, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ArtifactSetImpl implements _ArtifactSet {
-  const _$ArtifactSetImpl(
+class _ArtifactSet implements ArtifactSet {
+  const _ArtifactSet(
       {required this.id,
       required this.name,
       required this.maxRarity,
       final List<String>? tags,
-      required final Map<String, ArtifactPiece> consistsOf,
+      required final Map<ArtifactPieceId, ArtifactPiece> consistsOf,
       required final List<ArtifactSetBonus> bonuses})
       : _tags = tags,
         _consistsOf = consistsOf,
         _bonuses = bonuses;
-
-  factory _$ArtifactSetImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ArtifactSetImplFromJson(json);
+  factory _ArtifactSet.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactSetFromJson(json);
 
   @override
   final String id;
@@ -65,9 +88,9 @@ class _$ArtifactSetImpl implements _ArtifactSet {
     return EqualUnmodifiableListView(value);
   }
 
-  final Map<String, ArtifactPiece> _consistsOf;
+  final Map<ArtifactPieceId, ArtifactPiece> _consistsOf;
   @override
-  Map<String, ArtifactPiece> get consistsOf {
+  Map<ArtifactPieceId, ArtifactPiece> get consistsOf {
     if (_consistsOf is EqualUnmodifiableMapView) return _consistsOf;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_consistsOf);
@@ -82,15 +105,17 @@ class _$ArtifactSetImpl implements _ArtifactSet {
   }
 
   @override
-  String toString() {
-    return 'ArtifactSet(id: $id, name: $name, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
+  Map<String, dynamic> toJson() {
+    return _$ArtifactSetToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArtifactSetImpl &&
+            other is _ArtifactSet &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.maxRarity, maxRarity) ||
@@ -113,86 +138,26 @@ class _$ArtifactSetImpl implements _ArtifactSet {
       const DeepCollectionEquality().hash(_bonuses));
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$ArtifactSetImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ArtifactSet(id: $id, name: $name, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
   }
-}
-
-abstract class _ArtifactSet implements ArtifactSet {
-  const factory _ArtifactSet(
-      {required final String id,
-      required final LocalizedText name,
-      required final int maxRarity,
-      final List<String>? tags,
-      required final Map<String, ArtifactPiece> consistsOf,
-      required final List<ArtifactSetBonus> bonuses}) = _$ArtifactSetImpl;
-
-  factory _ArtifactSet.fromJson(Map<String, dynamic> json) =
-      _$ArtifactSetImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  LocalizedText get name;
-  @override
-  int get maxRarity;
-  @override
-  List<String>? get tags;
-  @override
-  Map<String, ArtifactPiece> get consistsOf;
-  @override
-  List<ArtifactSetBonus> get bonuses;
-}
-
-ArtifactPiece _$ArtifactPieceFromJson(Map<String, dynamic> json) {
-  return _ArtifactPiece.fromJson(json);
 }
 
 /// @nodoc
 mixin _$ArtifactPiece {
-  String get id => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
-  String get imageUrl => throw _privateConstructorUsedError;
-  LocalizedText get name => throw _privateConstructorUsedError;
+  String get id;
+  ArtifactPieceTypeId get type;
+  String get imageUrl;
+  LocalizedText get name;
 
   /// Serializes this ArtifactPiece to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ArtifactPieceImpl extends _ArtifactPiece {
-  const _$ArtifactPieceImpl(
-      {required this.id,
-      required this.type,
-      required this.imageUrl,
-      required this.name})
-      : super._();
-
-  factory _$ArtifactPieceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ArtifactPieceImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final String type;
-  @override
-  final String imageUrl;
-  @override
-  final LocalizedText name;
-
-  @override
-  String toString() {
-    return 'ArtifactPiece(id: $id, type: $type, imageUrl: $imageUrl, name: $name)';
-  }
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArtifactPieceImpl &&
+            other is ArtifactPiece &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -205,70 +170,74 @@ class _$ArtifactPieceImpl extends _ArtifactPiece {
   int get hashCode => Object.hash(runtimeType, id, type, imageUrl, name);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$ArtifactPieceImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ArtifactPiece(id: $id, type: $type, imageUrl: $imageUrl, name: $name)';
   }
-}
-
-abstract class _ArtifactPiece extends ArtifactPiece {
-  const factory _ArtifactPiece(
-      {required final String id,
-      required final String type,
-      required final String imageUrl,
-      required final LocalizedText name}) = _$ArtifactPieceImpl;
-  const _ArtifactPiece._() : super._();
-
-  factory _ArtifactPiece.fromJson(Map<String, dynamic> json) =
-      _$ArtifactPieceImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  String get type;
-  @override
-  String get imageUrl;
-  @override
-  LocalizedText get name;
-}
-
-ArtifactSetBonus _$ArtifactSetBonusFromJson(Map<String, dynamic> json) {
-  return _ArtifactSetBonus.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ArtifactSetBonus {
-  String get type => throw _privateConstructorUsedError;
-  LocalizedText get description => throw _privateConstructorUsedError;
-
-  /// Serializes this ArtifactSetBonus to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ArtifactSetBonusImpl implements _ArtifactSetBonus {
-  const _$ArtifactSetBonusImpl({required this.type, required this.description});
-
-  factory _$ArtifactSetBonusImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ArtifactSetBonusImplFromJson(json);
+class _ArtifactPiece extends ArtifactPiece {
+  const _ArtifactPiece(
+      {required this.id,
+      required this.type,
+      required this.imageUrl,
+      required this.name})
+      : super._();
+  factory _ArtifactPiece.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactPieceFromJson(json);
 
   @override
-  final String type;
+  final String id;
   @override
-  final LocalizedText description;
+  final ArtifactPieceTypeId type;
+  @override
+  final String imageUrl;
+  @override
+  final LocalizedText name;
 
   @override
-  String toString() {
-    return 'ArtifactSetBonus(type: $type, description: $description)';
+  Map<String, dynamic> toJson() {
+    return _$ArtifactPieceToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArtifactSetBonusImpl &&
+            other is _ArtifactPiece &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, type, imageUrl, name);
+
+  @override
+  String toString() {
+    return 'ArtifactPiece(id: $id, type: $type, imageUrl: $imageUrl, name: $name)';
+  }
+}
+
+/// @nodoc
+mixin _$ArtifactSetBonus {
+  String get type;
+  LocalizedText get description;
+
+  /// Serializes this ArtifactSetBonus to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ArtifactSetBonus &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.description, description) ||
                 other.description == description));
@@ -279,89 +248,136 @@ class _$ArtifactSetBonusImpl implements _ArtifactSetBonus {
   int get hashCode => Object.hash(runtimeType, type, description);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$ArtifactSetBonusImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ArtifactSetBonus(type: $type, description: $description)';
   }
-}
-
-abstract class _ArtifactSetBonus implements ArtifactSetBonus {
-  const factory _ArtifactSetBonus(
-      {required final String type,
-      required final LocalizedText description}) = _$ArtifactSetBonusImpl;
-
-  factory _ArtifactSetBonus.fromJson(Map<String, dynamic> json) =
-      _$ArtifactSetBonusImpl.fromJson;
-
-  @override
-  String get type;
-  @override
-  LocalizedText get description;
-}
-
-ArtifactsMeta _$ArtifactsMetaFromJson(Map<String, dynamic> json) {
-  return _ArtifactsMeta.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ArtifactsMeta {
-  Map<String, LocalizedText> get stats => throw _privateConstructorUsedError;
-  Map<String, ArtifactPieceType> get pieceTypes =>
-      throw _privateConstructorUsedError;
-  List<String> get possibleSubStats => throw _privateConstructorUsedError;
-  Map<String, String> get pieceSetMap => throw _privateConstructorUsedError;
-  ArtifactTagCategoriesInternal get tags => throw _privateConstructorUsedError;
-
-  /// Serializes this ArtifactsMeta to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ArtifactsMetaImpl implements _ArtifactsMeta {
-  const _$ArtifactsMetaImpl(
-      {required final Map<String, LocalizedText> stats,
-      required final Map<String, ArtifactPieceType> pieceTypes,
-      required final List<String> possibleSubStats,
-      required final Map<String, String> pieceSetMap,
+class _ArtifactSetBonus implements ArtifactSetBonus {
+  const _ArtifactSetBonus({required this.type, required this.description});
+  factory _ArtifactSetBonus.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactSetBonusFromJson(json);
+
+  @override
+  final String type;
+  @override
+  final LocalizedText description;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ArtifactSetBonusToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ArtifactSetBonus &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.description, description) ||
+                other.description == description));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, description);
+
+  @override
+  String toString() {
+    return 'ArtifactSetBonus(type: $type, description: $description)';
+  }
+}
+
+/// @nodoc
+mixin _$ArtifactsMeta {
+  Map<StatId, LocalizedText> get stats;
+  Map<ArtifactPieceTypeId, ArtifactPieceType> get pieceTypes;
+  List<StatId> get possibleSubStats;
+  Map<ArtifactPieceId, ArtifactSetId> get pieceSetMap;
+  ArtifactTagCategoriesInternal get tags;
+
+  /// Serializes this ArtifactsMeta to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ArtifactsMeta &&
+            const DeepCollectionEquality().equals(other.stats, stats) &&
+            const DeepCollectionEquality()
+                .equals(other.pieceTypes, pieceTypes) &&
+            const DeepCollectionEquality()
+                .equals(other.possibleSubStats, possibleSubStats) &&
+            const DeepCollectionEquality()
+                .equals(other.pieceSetMap, pieceSetMap) &&
+            (identical(other.tags, tags) || other.tags == tags));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(stats),
+      const DeepCollectionEquality().hash(pieceTypes),
+      const DeepCollectionEquality().hash(possibleSubStats),
+      const DeepCollectionEquality().hash(pieceSetMap),
+      tags);
+
+  @override
+  String toString() {
+    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, pieceSetMap: $pieceSetMap, tags: $tags)';
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _ArtifactsMeta implements ArtifactsMeta {
+  const _ArtifactsMeta(
+      {required final Map<StatId, LocalizedText> stats,
+      required final Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes,
+      required final List<StatId> possibleSubStats,
+      required final Map<ArtifactPieceId, ArtifactSetId> pieceSetMap,
       required this.tags})
       : _stats = stats,
         _pieceTypes = pieceTypes,
         _possibleSubStats = possibleSubStats,
         _pieceSetMap = pieceSetMap;
+  factory _ArtifactsMeta.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactsMetaFromJson(json);
 
-  factory _$ArtifactsMetaImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ArtifactsMetaImplFromJson(json);
-
-  final Map<String, LocalizedText> _stats;
+  final Map<StatId, LocalizedText> _stats;
   @override
-  Map<String, LocalizedText> get stats {
+  Map<StatId, LocalizedText> get stats {
     if (_stats is EqualUnmodifiableMapView) return _stats;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_stats);
   }
 
-  final Map<String, ArtifactPieceType> _pieceTypes;
+  final Map<ArtifactPieceTypeId, ArtifactPieceType> _pieceTypes;
   @override
-  Map<String, ArtifactPieceType> get pieceTypes {
+  Map<ArtifactPieceTypeId, ArtifactPieceType> get pieceTypes {
     if (_pieceTypes is EqualUnmodifiableMapView) return _pieceTypes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_pieceTypes);
   }
 
-  final List<String> _possibleSubStats;
+  final List<StatId> _possibleSubStats;
   @override
-  List<String> get possibleSubStats {
+  List<StatId> get possibleSubStats {
     if (_possibleSubStats is EqualUnmodifiableListView)
       return _possibleSubStats;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_possibleSubStats);
   }
 
-  final Map<String, String> _pieceSetMap;
+  final Map<ArtifactPieceId, ArtifactSetId> _pieceSetMap;
   @override
-  Map<String, String> get pieceSetMap {
+  Map<ArtifactPieceId, ArtifactSetId> get pieceSetMap {
     if (_pieceSetMap is EqualUnmodifiableMapView) return _pieceSetMap;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_pieceSetMap);
@@ -371,15 +387,17 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
   final ArtifactTagCategoriesInternal tags;
 
   @override
-  String toString() {
-    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, pieceSetMap: $pieceSetMap, tags: $tags)';
+  Map<String, dynamic> toJson() {
+    return _$ArtifactsMetaToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArtifactsMetaImpl &&
+            other is _ArtifactsMeta &&
             const DeepCollectionEquality().equals(other._stats, _stats) &&
             const DeepCollectionEquality()
                 .equals(other._pieceTypes, _pieceTypes) &&
@@ -401,69 +419,60 @@ class _$ArtifactsMetaImpl implements _ArtifactsMeta {
       tags);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$ArtifactsMetaImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, pieceSetMap: $pieceSetMap, tags: $tags)';
   }
-}
-
-abstract class _ArtifactsMeta implements ArtifactsMeta {
-  const factory _ArtifactsMeta(
-      {required final Map<String, LocalizedText> stats,
-      required final Map<String, ArtifactPieceType> pieceTypes,
-      required final List<String> possibleSubStats,
-      required final Map<String, String> pieceSetMap,
-      required final ArtifactTagCategoriesInternal tags}) = _$ArtifactsMetaImpl;
-
-  factory _ArtifactsMeta.fromJson(Map<String, dynamic> json) =
-      _$ArtifactsMetaImpl.fromJson;
-
-  @override
-  Map<String, LocalizedText> get stats;
-  @override
-  Map<String, ArtifactPieceType> get pieceTypes;
-  @override
-  List<String> get possibleSubStats;
-  @override
-  Map<String, String> get pieceSetMap;
-  @override
-  ArtifactTagCategoriesInternal get tags;
-}
-
-ArtifactPieceType _$ArtifactPieceTypeFromJson(Map<String, dynamic> json) {
-  return _ArtifactPieceType.fromJson(json);
 }
 
 /// @nodoc
 mixin _$ArtifactPieceType {
-  String get id => throw _privateConstructorUsedError;
-  LocalizedText get desc => throw _privateConstructorUsedError;
-  List<String> get possibleMainStats => throw _privateConstructorUsedError;
+  ArtifactPieceTypeId get id;
+  LocalizedText get desc;
+  List<StatId> get possibleMainStats;
 
   /// Serializes this ArtifactPieceType to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ArtifactPieceType &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.desc, desc) || other.desc == desc) &&
+            const DeepCollectionEquality()
+                .equals(other.possibleMainStats, possibleMainStats));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, desc,
+      const DeepCollectionEquality().hash(possibleMainStats));
+
+  @override
+  String toString() {
+    return 'ArtifactPieceType(id: $id, desc: $desc, possibleMainStats: $possibleMainStats)';
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
-  const _$ArtifactPieceTypeImpl(
+class _ArtifactPieceType implements ArtifactPieceType {
+  const _ArtifactPieceType(
       {required this.id,
       required this.desc,
-      required final List<String> possibleMainStats})
+      required final List<StatId> possibleMainStats})
       : _possibleMainStats = possibleMainStats;
-
-  factory _$ArtifactPieceTypeImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ArtifactPieceTypeImplFromJson(json);
+  factory _ArtifactPieceType.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactPieceTypeFromJson(json);
 
   @override
-  final String id;
+  final ArtifactPieceTypeId id;
   @override
   final LocalizedText desc;
-  final List<String> _possibleMainStats;
+  final List<StatId> _possibleMainStats;
   @override
-  List<String> get possibleMainStats {
+  List<StatId> get possibleMainStats {
     if (_possibleMainStats is EqualUnmodifiableListView)
       return _possibleMainStats;
     // ignore: implicit_dynamic_type
@@ -471,15 +480,17 @@ class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
   }
 
   @override
-  String toString() {
-    return 'ArtifactPieceType(id: $id, desc: $desc, possibleMainStats: $possibleMainStats)';
+  Map<String, dynamic> toJson() {
+    return _$ArtifactPieceTypeToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArtifactPieceTypeImpl &&
+            other is _ArtifactPieceType &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.desc, desc) || other.desc == desc) &&
             const DeepCollectionEquality()
@@ -492,66 +503,24 @@ class _$ArtifactPieceTypeImpl implements _ArtifactPieceType {
       const DeepCollectionEquality().hash(_possibleMainStats));
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$ArtifactPieceTypeImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ArtifactPieceType(id: $id, desc: $desc, possibleMainStats: $possibleMainStats)';
   }
-}
-
-abstract class _ArtifactPieceType implements ArtifactPieceType {
-  const factory _ArtifactPieceType(
-      {required final String id,
-      required final LocalizedText desc,
-      required final List<String> possibleMainStats}) = _$ArtifactPieceTypeImpl;
-
-  factory _ArtifactPieceType.fromJson(Map<String, dynamic> json) =
-      _$ArtifactPieceTypeImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  LocalizedText get desc;
-  @override
-  List<String> get possibleMainStats;
-}
-
-ArtifactStat _$ArtifactStatFromJson(Map<String, dynamic> json) {
-  return _ArtifactStat.fromJson(json);
 }
 
 /// @nodoc
 mixin _$ArtifactStat {
-  String get id => throw _privateConstructorUsedError;
-  LocalizedText get desc => throw _privateConstructorUsedError;
+  StatId get id;
+  LocalizedText get desc;
 
   /// Serializes this ArtifactStat to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ArtifactStatImpl implements _ArtifactStat {
-  const _$ArtifactStatImpl({required this.id, required this.desc});
-
-  factory _$ArtifactStatImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ArtifactStatImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final LocalizedText desc;
-
-  @override
-  String toString() {
-    return 'ArtifactStat(id: $id, desc: $desc)';
-  }
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArtifactStatImpl &&
+            other is ArtifactStat &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.desc, desc) || other.desc == desc));
   }
@@ -561,52 +530,84 @@ class _$ArtifactStatImpl implements _ArtifactStat {
   int get hashCode => Object.hash(runtimeType, id, desc);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$ArtifactStatImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ArtifactStat(id: $id, desc: $desc)';
   }
-}
-
-abstract class _ArtifactStat implements ArtifactStat {
-  const factory _ArtifactStat(
-      {required final String id,
-      required final LocalizedText desc}) = _$ArtifactStatImpl;
-
-  factory _ArtifactStat.fromJson(Map<String, dynamic> json) =
-      _$ArtifactStatImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  LocalizedText get desc;
-}
-
-ArtifactTagCategoriesInternal _$ArtifactTagCategoriesInternalFromJson(
-    Map<String, dynamic> json) {
-  return _ArtifactTagCategoriesInternal.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ArtifactTagCategoriesInternal {
-  List<ArtifactTagCategory> get categories =>
-      throw _privateConstructorUsedError;
-
-  /// Serializes this ArtifactTagCategoriesInternal to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ArtifactTagCategoriesInternalImpl
-    implements _ArtifactTagCategoriesInternal {
-  const _$ArtifactTagCategoriesInternalImpl(
+class _ArtifactStat implements ArtifactStat {
+  const _ArtifactStat({required this.id, required this.desc});
+  factory _ArtifactStat.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactStatFromJson(json);
+
+  @override
+  final StatId id;
+  @override
+  final LocalizedText desc;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ArtifactStatToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ArtifactStat &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.desc, desc) || other.desc == desc));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, desc);
+
+  @override
+  String toString() {
+    return 'ArtifactStat(id: $id, desc: $desc)';
+  }
+}
+
+/// @nodoc
+mixin _$ArtifactTagCategoriesInternal {
+  List<ArtifactTagCategory> get categories;
+
+  /// Serializes this ArtifactTagCategoriesInternal to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ArtifactTagCategoriesInternal &&
+            const DeepCollectionEquality()
+                .equals(other.categories, categories));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(categories));
+
+  @override
+  String toString() {
+    return 'ArtifactTagCategoriesInternal(categories: $categories)';
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _ArtifactTagCategoriesInternal implements ArtifactTagCategoriesInternal {
+  const _ArtifactTagCategoriesInternal(
       {required final List<ArtifactTagCategory> categories})
       : _categories = categories;
-
-  factory _$ArtifactTagCategoriesInternalImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$ArtifactTagCategoriesInternalImplFromJson(json);
+  factory _ArtifactTagCategoriesInternal.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactTagCategoriesInternalFromJson(json);
 
   final List<ArtifactTagCategory> _categories;
   @override
@@ -617,15 +618,17 @@ class _$ArtifactTagCategoriesInternalImpl
   }
 
   @override
-  String toString() {
-    return 'ArtifactTagCategoriesInternal(categories: $categories)';
+  Map<String, dynamic> toJson() {
+    return _$ArtifactTagCategoriesInternalToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArtifactTagCategoriesInternalImpl &&
+            other is _ArtifactTagCategoriesInternal &&
             const DeepCollectionEquality()
                 .equals(other._categories, _categories));
   }
@@ -636,48 +639,47 @@ class _$ArtifactTagCategoriesInternalImpl
       runtimeType, const DeepCollectionEquality().hash(_categories));
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$ArtifactTagCategoriesInternalImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ArtifactTagCategoriesInternal(categories: $categories)';
   }
-}
-
-abstract class _ArtifactTagCategoriesInternal
-    implements ArtifactTagCategoriesInternal {
-  const factory _ArtifactTagCategoriesInternal(
-          {required final List<ArtifactTagCategory> categories}) =
-      _$ArtifactTagCategoriesInternalImpl;
-
-  factory _ArtifactTagCategoriesInternal.fromJson(Map<String, dynamic> json) =
-      _$ArtifactTagCategoriesInternalImpl.fromJson;
-
-  @override
-  List<ArtifactTagCategory> get categories;
-}
-
-ArtifactTagCategory _$ArtifactTagCategoryFromJson(Map<String, dynamic> json) {
-  return _ArtifactTagCategory.fromJson(json);
 }
 
 /// @nodoc
 mixin _$ArtifactTagCategory {
-  LocalizedText get desc => throw _privateConstructorUsedError;
-  List<ArtifactTag> get items => throw _privateConstructorUsedError;
+  LocalizedText get desc;
+  List<ArtifactTag> get items;
 
   /// Serializes this ArtifactTagCategory to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ArtifactTagCategory &&
+            (identical(other.desc, desc) || other.desc == desc) &&
+            const DeepCollectionEquality().equals(other.items, items));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, desc, const DeepCollectionEquality().hash(items));
+
+  @override
+  String toString() {
+    return 'ArtifactTagCategory(desc: $desc, items: $items)';
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ArtifactTagCategoryImpl implements _ArtifactTagCategory {
-  const _$ArtifactTagCategoryImpl(
+class _ArtifactTagCategory implements ArtifactTagCategory {
+  const _ArtifactTagCategory(
       {required this.desc, required final List<ArtifactTag> items})
       : _items = items;
-
-  factory _$ArtifactTagCategoryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ArtifactTagCategoryImplFromJson(json);
+  factory _ArtifactTagCategory.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactTagCategoryFromJson(json);
 
   @override
   final LocalizedText desc;
@@ -690,15 +692,17 @@ class _$ArtifactTagCategoryImpl implements _ArtifactTagCategory {
   }
 
   @override
-  String toString() {
-    return 'ArtifactTagCategory(desc: $desc, items: $items)';
+  Map<String, dynamic> toJson() {
+    return _$ArtifactTagCategoryToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArtifactTagCategoryImpl &&
+            other is _ArtifactTagCategory &&
             (identical(other.desc, desc) || other.desc == desc) &&
             const DeepCollectionEquality().equals(other._items, _items));
   }
@@ -709,63 +713,24 @@ class _$ArtifactTagCategoryImpl implements _ArtifactTagCategory {
       runtimeType, desc, const DeepCollectionEquality().hash(_items));
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$ArtifactTagCategoryImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ArtifactTagCategory(desc: $desc, items: $items)';
   }
-}
-
-abstract class _ArtifactTagCategory implements ArtifactTagCategory {
-  const factory _ArtifactTagCategory(
-      {required final LocalizedText desc,
-      required final List<ArtifactTag> items}) = _$ArtifactTagCategoryImpl;
-
-  factory _ArtifactTagCategory.fromJson(Map<String, dynamic> json) =
-      _$ArtifactTagCategoryImpl.fromJson;
-
-  @override
-  LocalizedText get desc;
-  @override
-  List<ArtifactTag> get items;
-}
-
-ArtifactTag _$ArtifactTagFromJson(Map<String, dynamic> json) {
-  return _ArtifactTag.fromJson(json);
 }
 
 /// @nodoc
 mixin _$ArtifactTag {
-  String get id => throw _privateConstructorUsedError;
-  LocalizedText get desc => throw _privateConstructorUsedError;
+  String get id;
+  LocalizedText get desc;
 
   /// Serializes this ArtifactTag to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ArtifactTagImpl implements _ArtifactTag {
-  const _$ArtifactTagImpl({required this.id, required this.desc});
-
-  factory _$ArtifactTagImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ArtifactTagImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final LocalizedText desc;
-
-  @override
-  String toString() {
-    return 'ArtifactTag(id: $id, desc: $desc)';
-  }
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ArtifactTagImpl &&
+            other is ArtifactTag &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.desc, desc) || other.desc == desc));
   }
@@ -775,23 +740,47 @@ class _$ArtifactTagImpl implements _ArtifactTag {
   int get hashCode => Object.hash(runtimeType, id, desc);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$ArtifactTagImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ArtifactTag(id: $id, desc: $desc)';
   }
 }
 
-abstract class _ArtifactTag implements ArtifactTag {
-  const factory _ArtifactTag(
-      {required final String id,
-      required final LocalizedText desc}) = _$ArtifactTagImpl;
-
-  factory _ArtifactTag.fromJson(Map<String, dynamic> json) =
-      _$ArtifactTagImpl.fromJson;
+/// @nodoc
+@JsonSerializable()
+class _ArtifactTag implements ArtifactTag {
+  const _ArtifactTag({required this.id, required this.desc});
+  factory _ArtifactTag.fromJson(Map<String, dynamic> json) =>
+      _$ArtifactTagFromJson(json);
 
   @override
-  String get id;
+  final String id;
   @override
-  LocalizedText get desc;
+  final LocalizedText desc;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ArtifactTagToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ArtifactTag &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.desc, desc) || other.desc == desc));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, desc);
+
+  @override
+  String toString() {
+    return 'ArtifactTag(id: $id, desc: $desc)';
+  }
 }
+
+// dart format on

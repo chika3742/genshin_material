@@ -17,7 +17,7 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/bookmarks',
-              factory: $BookmarksNavRouteExtension._fromState,
+              factory: _$BookmarksNavRoute._fromState,
             ),
           ],
         ),
@@ -25,49 +25,49 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/database',
-              factory: $DatabaseNavRouteExtension._fromState,
+              factory: _$DatabaseNavRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'characters',
-                  factory: $CharacterListRouteExtension._fromState,
+                  factory: _$CharacterListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: ':id',
-                      factory: $CharacterDetailsRouteExtension._fromState,
+                      factory: _$CharacterDetailsRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'weapons',
-                  factory: $WeaponListRouteExtension._fromState,
+                  factory: _$WeaponListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: ':id',
-                      factory: $WeaponDetailsRouteExtension._fromState,
+                      factory: _$WeaponDetailsRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'materials',
-                  factory: $MaterialListRouteExtension._fromState,
+                  factory: _$MaterialListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: ':id',
-                      factory: $MaterialDetailsRouteExtension._fromState,
+                      factory: _$MaterialDetailsRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'artifacts',
-                  factory: $ArtifactListRouteExtension._fromState,
+                  factory: _$ArtifactListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'effects',
-                      factory: $ArtifactEffectListRouteExtension._fromState,
+                      factory: _$ArtifactEffectListRoute._fromState,
                     ),
                     GoRouteData.$route(
                       path: ':id',
-                      factory: $ArtifactDetailsRouteExtension._fromState,
+                      factory: _$ArtifactDetailsRoute._fromState,
                     ),
                   ],
                 ),
@@ -79,7 +79,7 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/daily',
-              factory: $DailyNavRouteExtension._fromState,
+              factory: _$DailyNavRoute._fromState,
             ),
           ],
         ),
@@ -87,11 +87,11 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/tools',
-              factory: $ToolsNavRouteExtension._fromState,
+              factory: _$ToolsNavRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'resin-calc',
-                  factory: $ResinCalcRouteExtension._fromState,
+                  factory: _$ResinCalcRoute._fromState,
                 ),
               ],
             ),
@@ -101,60 +101,59 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/more',
-              factory: $MoreNavRouteExtension._fromState,
+              factory: _$MoreNavRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'settings',
                   parentNavigatorKey: SettingsRoute.$parentNavigatorKey,
-                  factory: $SettingsRouteExtension._fromState,
+                  factory: _$SettingsRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'licenses',
                       parentNavigatorKey: LicensesRoute.$parentNavigatorKey,
-                      factory: $LicensesRouteExtension._fromState,
+                      factory: _$LicensesRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'account',
                   parentNavigatorKey: AccountRoute.$parentNavigatorKey,
-                  factory: $AccountRouteExtension._fromState,
+                  factory: _$AccountRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'release-notes',
                   parentNavigatorKey: ReleaseNotesRoute.$parentNavigatorKey,
-                  factory: $ReleaseNotesRouteExtension._fromState,
+                  factory: _$ReleaseNotesRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'hoyolab-integration',
                   parentNavigatorKey:
                       HoyolabIntegrationSettingsRoute.$parentNavigatorKey,
-                  factory: $HoyolabIntegrationSettingsRouteExtension._fromState,
+                  factory: _$HoyolabIntegrationSettingsRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'sign-in',
                       parentNavigatorKey:
                           HoyolabSignInRoute.$parentNavigatorKey,
-                      factory: $HoyolabSignInRouteExtension._fromState,
+                      factory: _$HoyolabSignInRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'debug',
-                  factory: $DebugMenuRouteExtension._fromState,
+                  factory: _$DebugMenuRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'sp-editor',
-                      factory: $DebugSharedPreferencesEditorRouteExtension
-                          ._fromState,
+                      factory: _$DebugSharedPreferencesEditorRoute._fromState,
                     ),
                     GoRouteData.$route(
                       path: 'drift-db-viewer',
-                      factory: $DebugDriftDbViewerRouteExtension._fromState,
+                      factory: _$DebugDriftDbViewerRoute._fromState,
                     ),
                     GoRouteData.$route(
                       path: 'component-gallery',
-                      factory: $DebugComponentGalleryRouteExtension._fromState,
+                      factory: _$DebugComponentGalleryRoute._fromState,
                     ),
                   ],
                 ),
@@ -169,106 +168,136 @@ extension $HomeRouteExtension on HomeRoute {
   static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
 }
 
-extension $BookmarksNavRouteExtension on BookmarksNavRoute {
+mixin _$BookmarksNavRoute on GoRouteData {
   static BookmarksNavRoute _fromState(GoRouterState state) =>
       BookmarksNavRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/bookmarks',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $DatabaseNavRouteExtension on DatabaseNavRoute {
+mixin _$DatabaseNavRoute on GoRouteData {
   static DatabaseNavRoute _fromState(GoRouterState state) => DatabaseNavRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/database',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $CharacterListRouteExtension on CharacterListRoute {
+mixin _$CharacterListRoute on GoRouteData {
   static CharacterListRoute _fromState(GoRouterState state) =>
       const CharacterListRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/database/characters',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $CharacterDetailsRouteExtension on CharacterDetailsRoute {
+mixin _$CharacterDetailsRoute on GoRouteData {
   static CharacterDetailsRoute _fromState(GoRouterState state) =>
       CharacterDetailsRoute(
         id: state.pathParameters['id']!,
         variant: state.uri.queryParameters['variant'],
       );
 
+  CharacterDetailsRoute get _self => this as CharacterDetailsRoute;
+
+  @override
   String get location => GoRouteData.$location(
-        '/database/characters/${Uri.encodeComponent(id)}',
+        '/database/characters/${Uri.encodeComponent(_self.id)}',
         queryParams: {
-          if (variant != null) 'variant': variant,
+          if (_self.variant != null) 'variant': _self.variant,
         },
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $WeaponListRouteExtension on WeaponListRoute {
+mixin _$WeaponListRoute on GoRouteData {
   static WeaponListRoute _fromState(GoRouterState state) => WeaponListRoute(
         equipCharacterId: state.uri.queryParameters['equip-character-id'],
       );
 
+  WeaponListRoute get _self => this as WeaponListRoute;
+
+  @override
   String get location => GoRouteData.$location(
         '/database/weapons',
         queryParams: {
-          if (equipCharacterId != null) 'equip-character-id': equipCharacterId,
+          if (_self.equipCharacterId != null)
+            'equip-character-id': _self.equipCharacterId,
         },
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $WeaponDetailsRouteExtension on WeaponDetailsRoute {
+mixin _$WeaponDetailsRoute on GoRouteData {
   static WeaponDetailsRoute _fromState(GoRouterState state) =>
       WeaponDetailsRoute(
         id: state.pathParameters['id']!,
@@ -276,103 +305,135 @@ extension $WeaponDetailsRouteExtension on WeaponDetailsRoute {
             state.uri.queryParameters['initial-selected-character'],
       );
 
+  WeaponDetailsRoute get _self => this as WeaponDetailsRoute;
+
+  @override
   String get location => GoRouteData.$location(
-        '/database/weapons/${Uri.encodeComponent(id)}',
+        '/database/weapons/${Uri.encodeComponent(_self.id)}',
         queryParams: {
-          if (initialSelectedCharacter != null)
-            'initial-selected-character': initialSelectedCharacter,
+          if (_self.initialSelectedCharacter != null)
+            'initial-selected-character': _self.initialSelectedCharacter,
         },
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $MaterialListRouteExtension on MaterialListRoute {
+mixin _$MaterialListRoute on GoRouteData {
   static MaterialListRoute _fromState(GoRouterState state) =>
       const MaterialListRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/database/materials',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $MaterialDetailsRouteExtension on MaterialDetailsRoute {
+mixin _$MaterialDetailsRoute on GoRouteData {
   static MaterialDetailsRoute _fromState(GoRouterState state) =>
       MaterialDetailsRoute(
         id: state.pathParameters['id']!,
       );
 
+  MaterialDetailsRoute get _self => this as MaterialDetailsRoute;
+
+  @override
   String get location => GoRouteData.$location(
-        '/database/materials/${Uri.encodeComponent(id)}',
+        '/database/materials/${Uri.encodeComponent(_self.id)}',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ArtifactListRouteExtension on ArtifactListRoute {
+mixin _$ArtifactListRoute on GoRouteData {
   static ArtifactListRoute _fromState(GoRouterState state) => ArtifactListRoute(
         equipCharacterId: state.uri.queryParameters['equip-character-id'],
       );
 
+  ArtifactListRoute get _self => this as ArtifactListRoute;
+
+  @override
   String get location => GoRouteData.$location(
         '/database/artifacts',
         queryParams: {
-          if (equipCharacterId != null) 'equip-character-id': equipCharacterId,
+          if (_self.equipCharacterId != null)
+            'equip-character-id': _self.equipCharacterId,
         },
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ArtifactEffectListRouteExtension on ArtifactEffectListRoute {
+mixin _$ArtifactEffectListRoute on GoRouteData {
   static ArtifactEffectListRoute _fromState(GoRouterState state) =>
       ArtifactEffectListRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/database/artifacts/effects',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ArtifactDetailsRouteExtension on ArtifactDetailsRoute {
+mixin _$ArtifactDetailsRoute on GoRouteData {
   static ArtifactDetailsRoute _fromState(GoRouterState state) =>
       ArtifactDetailsRoute(
         id: state.pathParameters['id']!,
@@ -380,280 +441,357 @@ extension $ArtifactDetailsRouteExtension on ArtifactDetailsRoute {
             state.uri.queryParameters['initial-selected-character'],
       );
 
+  ArtifactDetailsRoute get _self => this as ArtifactDetailsRoute;
+
+  @override
   String get location => GoRouteData.$location(
-        '/database/artifacts/${Uri.encodeComponent(id)}',
+        '/database/artifacts/${Uri.encodeComponent(_self.id)}',
         queryParams: {
-          if (initialSelectedCharacter != null)
-            'initial-selected-character': initialSelectedCharacter,
+          if (_self.initialSelectedCharacter != null)
+            'initial-selected-character': _self.initialSelectedCharacter,
         },
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $DailyNavRouteExtension on DailyNavRoute {
+mixin _$DailyNavRoute on GoRouteData {
   static DailyNavRoute _fromState(GoRouterState state) => DailyNavRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/daily',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ToolsNavRouteExtension on ToolsNavRoute {
+mixin _$ToolsNavRoute on GoRouteData {
   static ToolsNavRoute _fromState(GoRouterState state) => ToolsNavRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/tools',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ResinCalcRouteExtension on ResinCalcRoute {
+mixin _$ResinCalcRoute on GoRouteData {
   static ResinCalcRoute _fromState(GoRouterState state) => ResinCalcRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/tools/resin-calc',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $MoreNavRouteExtension on MoreNavRoute {
+mixin _$MoreNavRoute on GoRouteData {
   static MoreNavRoute _fromState(GoRouterState state) => MoreNavRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/more',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $SettingsRouteExtension on SettingsRoute {
+mixin _$SettingsRoute on GoRouteData {
   static SettingsRoute _fromState(GoRouterState state) => SettingsRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/more/settings',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $LicensesRouteExtension on LicensesRoute {
+mixin _$LicensesRoute on GoRouteData {
   static LicensesRoute _fromState(GoRouterState state) => LicensesRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/more/settings/licenses',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $AccountRouteExtension on AccountRoute {
+mixin _$AccountRoute on GoRouteData {
   static AccountRoute _fromState(GoRouterState state) => AccountRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/more/account',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ReleaseNotesRouteExtension on ReleaseNotesRoute {
+mixin _$ReleaseNotesRoute on GoRouteData {
   static ReleaseNotesRoute _fromState(GoRouterState state) => ReleaseNotesRoute(
         tabIndex: _$convertMapValue(
                 'tab-index', state.uri.queryParameters, int.parse) ??
             0,
       );
 
+  ReleaseNotesRoute get _self => this as ReleaseNotesRoute;
+
+  @override
   String get location => GoRouteData.$location(
         '/more/release-notes',
         queryParams: {
-          if (tabIndex != 0) 'tab-index': tabIndex.toString(),
+          if (_self.tabIndex != 0) 'tab-index': _self.tabIndex.toString(),
         },
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $HoyolabIntegrationSettingsRouteExtension
-    on HoyolabIntegrationSettingsRoute {
+mixin _$HoyolabIntegrationSettingsRoute on GoRouteData {
   static HoyolabIntegrationSettingsRoute _fromState(GoRouterState state) =>
       HoyolabIntegrationSettingsRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/more/hoyolab-integration',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $HoyolabSignInRouteExtension on HoyolabSignInRoute {
+mixin _$HoyolabSignInRoute on GoRouteData {
   static HoyolabSignInRoute _fromState(GoRouterState state) =>
       HoyolabSignInRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/more/hoyolab-integration/sign-in',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $DebugMenuRouteExtension on DebugMenuRoute {
+mixin _$DebugMenuRoute on GoRouteData {
   static DebugMenuRoute _fromState(GoRouterState state) => DebugMenuRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/more/debug',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $DebugSharedPreferencesEditorRouteExtension
-    on DebugSharedPreferencesEditorRoute {
+mixin _$DebugSharedPreferencesEditorRoute on GoRouteData {
   static DebugSharedPreferencesEditorRoute _fromState(GoRouterState state) =>
       DebugSharedPreferencesEditorRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/more/debug/sp-editor',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $DebugDriftDbViewerRouteExtension on DebugDriftDbViewerRoute {
+mixin _$DebugDriftDbViewerRoute on GoRouteData {
   static DebugDriftDbViewerRoute _fromState(GoRouterState state) =>
       DebugDriftDbViewerRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/more/debug/drift-db-viewer',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $DebugComponentGalleryRouteExtension on DebugComponentGalleryRoute {
+mixin _$DebugComponentGalleryRoute on GoRouteData {
   static DebugComponentGalleryRoute _fromState(GoRouterState state) =>
       DebugComponentGalleryRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/more/debug/component-gallery',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
 T? _$convertMapValue<T>(
   String key,
   Map<String, String> map,
-  T Function(String) converter,
+  T? Function(String) converter,
 ) {
   final value = map[key];
   return value == null ? null : converter(value);

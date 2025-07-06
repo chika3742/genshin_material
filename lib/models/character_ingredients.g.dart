@@ -6,9 +6,9 @@ part of 'character_ingredients.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CharacterIngredientsImpl _$$CharacterIngredientsImplFromJson(
+_CharacterIngredients _$CharacterIngredientsFromJson(
         Map<String, dynamic> json) =>
-    _$CharacterIngredientsImpl(
+    _CharacterIngredients(
       expItems: (json['expItems'] as List<dynamic>)
           .map((e) => ExpItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18,8 +18,8 @@ _$CharacterIngredientsImpl _$$CharacterIngredientsImplFromJson(
       ),
     );
 
-Map<String, dynamic> _$$CharacterIngredientsImplToJson(
-        _$CharacterIngredientsImpl instance) =>
+Map<String, dynamic> _$CharacterIngredientsToJson(
+        _CharacterIngredients instance) =>
     <String, dynamic>{
       'expItems': instance.expItems,
       'purposes':
@@ -33,21 +33,19 @@ const _$PurposeEnumMap = {
   Purpose.elementalBurst: 'elementalBurst',
 };
 
-_$ExpItemImpl _$$ExpItemImplFromJson(Map<String, dynamic> json) =>
-    _$ExpItemImpl(
+_ExpItem _$ExpItemFromJson(Map<String, dynamic> json) => _ExpItem(
       itemId: json['itemId'] as String,
       expPerItem: (json['expPerItem'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$ExpItemImplToJson(_$ExpItemImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ExpItemToJson(_ExpItem instance) => <String, dynamic>{
       'itemId': instance.itemId,
       'expPerItem': instance.expPerItem,
     };
 
-_$CharacterIngredientsLevelsImpl _$$CharacterIngredientsLevelsImplFromJson(
+_CharacterIngredientsLevels _$CharacterIngredientsLevelsFromJson(
         Map<String, dynamic> json) =>
-    _$CharacterIngredientsLevelsImpl(
+    _CharacterIngredientsLevels(
       levels: (json['levels'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(
             int.parse(k),
@@ -57,8 +55,8 @@ _$CharacterIngredientsLevelsImpl _$$CharacterIngredientsLevelsImplFromJson(
       ),
     );
 
-Map<String, dynamic> _$$CharacterIngredientsLevelsImplToJson(
-        _$CharacterIngredientsLevelsImpl instance) =>
+Map<String, dynamic> _$CharacterIngredientsLevelsToJson(
+        _CharacterIngredientsLevels instance) =>
     <String, dynamic>{
       'levels': instance.levels.map((k, e) => MapEntry(k.toString(), e)),
     };

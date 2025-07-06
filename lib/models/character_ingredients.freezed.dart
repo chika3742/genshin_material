@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,37 +9,50 @@ part of 'character_ingredients.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-CharacterIngredients _$CharacterIngredientsFromJson(Map<String, dynamic> json) {
-  return _CharacterIngredients.fromJson(json);
-}
 
 /// @nodoc
 mixin _$CharacterIngredients {
-  List<ExpItem> get expItems => throw _privateConstructorUsedError;
-  Map<Purpose, CharacterIngredientsLevels> get purposes =>
-      throw _privateConstructorUsedError;
+  List<ExpItem> get expItems;
+  Map<Purpose, CharacterIngredientsLevels> get purposes;
 
   /// Serializes this CharacterIngredients to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CharacterIngredients &&
+            const DeepCollectionEquality().equals(other.expItems, expItems) &&
+            const DeepCollectionEquality().equals(other.purposes, purposes));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(expItems),
+      const DeepCollectionEquality().hash(purposes));
+
+  @override
+  String toString() {
+    return 'CharacterIngredients(expItems: $expItems, purposes: $purposes)';
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$CharacterIngredientsImpl extends _CharacterIngredients {
-  const _$CharacterIngredientsImpl(
+class _CharacterIngredients extends CharacterIngredients {
+  const _CharacterIngredients(
       {required final List<ExpItem> expItems,
       required final Map<Purpose, CharacterIngredientsLevels> purposes})
       : _expItems = expItems,
         _purposes = purposes,
         super._();
-
-  factory _$CharacterIngredientsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CharacterIngredientsImplFromJson(json);
+  factory _CharacterIngredients.fromJson(Map<String, dynamic> json) =>
+      _$CharacterIngredientsFromJson(json);
 
   final List<ExpItem> _expItems;
   @override
@@ -58,15 +71,17 @@ class _$CharacterIngredientsImpl extends _CharacterIngredients {
   }
 
   @override
-  String toString() {
-    return 'CharacterIngredients(expItems: $expItems, purposes: $purposes)';
+  Map<String, dynamic> toJson() {
+    return _$CharacterIngredientsToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CharacterIngredientsImpl &&
+            other is _CharacterIngredients &&
             const DeepCollectionEquality().equals(other._expItems, _expItems) &&
             const DeepCollectionEquality().equals(other._purposes, _purposes));
   }
@@ -79,65 +94,24 @@ class _$CharacterIngredientsImpl extends _CharacterIngredients {
       const DeepCollectionEquality().hash(_purposes));
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$CharacterIngredientsImplToJson(
-      this,
-    );
+  String toString() {
+    return 'CharacterIngredients(expItems: $expItems, purposes: $purposes)';
   }
-}
-
-abstract class _CharacterIngredients extends CharacterIngredients {
-  const factory _CharacterIngredients(
-          {required final List<ExpItem> expItems,
-          required final Map<Purpose, CharacterIngredientsLevels> purposes}) =
-      _$CharacterIngredientsImpl;
-  const _CharacterIngredients._() : super._();
-
-  factory _CharacterIngredients.fromJson(Map<String, dynamic> json) =
-      _$CharacterIngredientsImpl.fromJson;
-
-  @override
-  List<ExpItem> get expItems;
-  @override
-  Map<Purpose, CharacterIngredientsLevels> get purposes;
-}
-
-ExpItem _$ExpItemFromJson(Map<String, dynamic> json) {
-  return _ExpItem.fromJson(json);
 }
 
 /// @nodoc
 mixin _$ExpItem {
-  String get itemId => throw _privateConstructorUsedError;
-  int get expPerItem => throw _privateConstructorUsedError;
+  String get itemId;
+  int get expPerItem;
 
   /// Serializes this ExpItem to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ExpItemImpl implements _ExpItem {
-  const _$ExpItemImpl({required this.itemId, required this.expPerItem});
-
-  factory _$ExpItemImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ExpItemImplFromJson(json);
-
-  @override
-  final String itemId;
-  @override
-  final int expPerItem;
-
-  @override
-  String toString() {
-    return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem)';
-  }
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ExpItemImpl &&
+            other is ExpItem &&
             (identical(other.itemId, itemId) || other.itemId == itemId) &&
             (identical(other.expPerItem, expPerItem) ||
                 other.expPerItem == expPerItem));
@@ -148,49 +122,84 @@ class _$ExpItemImpl implements _ExpItem {
   int get hashCode => Object.hash(runtimeType, itemId, expPerItem);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$ExpItemImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem)';
   }
-}
-
-abstract class _ExpItem implements ExpItem {
-  const factory _ExpItem(
-      {required final String itemId,
-      required final int expPerItem}) = _$ExpItemImpl;
-
-  factory _ExpItem.fromJson(Map<String, dynamic> json) = _$ExpItemImpl.fromJson;
-
-  @override
-  String get itemId;
-  @override
-  int get expPerItem;
-}
-
-CharacterIngredientsLevels _$CharacterIngredientsLevelsFromJson(
-    Map<String, dynamic> json) {
-  return _CharacterIngredientsLevels.fromJson(json);
-}
-
-/// @nodoc
-mixin _$CharacterIngredientsLevels {
-  Map<int, List<Ingredient>> get levels => throw _privateConstructorUsedError;
-
-  /// Serializes this CharacterIngredientsLevels to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$CharacterIngredientsLevelsImpl implements _CharacterIngredientsLevels {
-  const _$CharacterIngredientsLevelsImpl(
+class _ExpItem implements ExpItem {
+  const _ExpItem({required this.itemId, required this.expPerItem});
+  factory _ExpItem.fromJson(Map<String, dynamic> json) =>
+      _$ExpItemFromJson(json);
+
+  @override
+  final String itemId;
+  @override
+  final int expPerItem;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ExpItemToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ExpItem &&
+            (identical(other.itemId, itemId) || other.itemId == itemId) &&
+            (identical(other.expPerItem, expPerItem) ||
+                other.expPerItem == expPerItem));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, itemId, expPerItem);
+
+  @override
+  String toString() {
+    return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem)';
+  }
+}
+
+/// @nodoc
+mixin _$CharacterIngredientsLevels {
+  Map<int, List<Ingredient>> get levels;
+
+  /// Serializes this CharacterIngredientsLevels to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CharacterIngredientsLevels &&
+            const DeepCollectionEquality().equals(other.levels, levels));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(levels));
+
+  @override
+  String toString() {
+    return 'CharacterIngredientsLevels(levels: $levels)';
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _CharacterIngredientsLevels implements CharacterIngredientsLevels {
+  const _CharacterIngredientsLevels(
       {required final Map<int, List<Ingredient>> levels})
       : _levels = levels;
-
-  factory _$CharacterIngredientsLevelsImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$CharacterIngredientsLevelsImplFromJson(json);
+  factory _CharacterIngredientsLevels.fromJson(Map<String, dynamic> json) =>
+      _$CharacterIngredientsLevelsFromJson(json);
 
   final Map<int, List<Ingredient>> _levels;
   @override
@@ -201,15 +210,17 @@ class _$CharacterIngredientsLevelsImpl implements _CharacterIngredientsLevels {
   }
 
   @override
-  String toString() {
-    return 'CharacterIngredientsLevels(levels: $levels)';
+  Map<String, dynamic> toJson() {
+    return _$CharacterIngredientsLevelsToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CharacterIngredientsLevelsImpl &&
+            other is _CharacterIngredientsLevels &&
             const DeepCollectionEquality().equals(other._levels, _levels));
   }
 
@@ -219,22 +230,9 @@ class _$CharacterIngredientsLevelsImpl implements _CharacterIngredientsLevels {
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_levels));
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$CharacterIngredientsLevelsImplToJson(
-      this,
-    );
+  String toString() {
+    return 'CharacterIngredientsLevels(levels: $levels)';
   }
 }
 
-abstract class _CharacterIngredientsLevels
-    implements CharacterIngredientsLevels {
-  const factory _CharacterIngredientsLevels(
-          {required final Map<int, List<Ingredient>> levels}) =
-      _$CharacterIngredientsLevelsImpl;
-
-  factory _CharacterIngredientsLevels.fromJson(Map<String, dynamic> json) =
-      _$CharacterIngredientsLevelsImpl.fromJson;
-
-  @override
-  Map<int, List<Ingredient>> get levels;
-}
+// dart format on

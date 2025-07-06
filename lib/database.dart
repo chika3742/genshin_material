@@ -12,7 +12,7 @@ part "database.g.dart";
 // tables
 
 @freezed
-class Bookmark with _$Bookmark {
+sealed class Bookmark with _$Bookmark {
   const factory Bookmark({
     required int id,
     required BookmarkType type,

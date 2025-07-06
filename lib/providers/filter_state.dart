@@ -35,7 +35,7 @@ class CharacterFilterStateNotifier extends _$CharacterFilterStateNotifier {
 }
 
 @Freezed(copyWith: true)
-class CharacterFilterState with _$CharacterFilterState {
+sealed class CharacterFilterState with _$CharacterFilterState {
   const CharacterFilterState._();
 
   const factory CharacterFilterState({
@@ -74,7 +74,7 @@ class ArtifactFilterStateNotifier extends _$ArtifactFilterStateNotifier {
 }
 
 @Freezed(copyWith: true)
-class ArtifactFilterState with _$ArtifactFilterState {
+sealed class ArtifactFilterState with _$ArtifactFilterState {
   const factory ArtifactFilterState({
     @Default([])
     List<String> tags,

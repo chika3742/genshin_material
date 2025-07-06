@@ -121,7 +121,7 @@ sealed class MaterialBookmarkFrame with _$MaterialBookmarkFrame {
 }
 
 @freezed
-class MaterialUsage with _$MaterialUsage {
+sealed class MaterialUsage with _$MaterialUsage {
   const factory MaterialUsage({
     required String characterId,
     String? weaponId,

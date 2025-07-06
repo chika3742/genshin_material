@@ -7,7 +7,7 @@ part "hoyolab_api.freezed.dart";
 part "hoyolab_api.g.dart";
 
 @Freezed(genericArgumentFactories: true)
-class HoyolabApiResult<T> with _$HoyolabApiResult<T> {
+sealed class HoyolabApiResult<T> with _$HoyolabApiResult<T> {
   const HoyolabApiResult._();
 
   const factory HoyolabApiResult({
@@ -27,7 +27,7 @@ class HoyolabApiResult<T> with _$HoyolabApiResult<T> {
 }
 
 @Freezed(genericArgumentFactories: true)
-class HoyolabListData<T> with _$HoyolabListData<T> {
+sealed class HoyolabListData<T> with _$HoyolabListData<T> {
   const factory HoyolabListData({
     required List<T> list,
   }) = _HoyolabListData<T>;
@@ -41,7 +41,7 @@ class HoyolabListData<T> with _$HoyolabListData<T> {
 }
 
 @freezed
-class HyvServer with _$HyvServer {
+sealed class HyvServer with _$HyvServer {
   const factory HyvServer({
     required String region,
     required String name,
@@ -52,7 +52,7 @@ class HyvServer with _$HyvServer {
 }
 
 @freezed
-class HyvUserInfo with _$HyvUserInfo {
+sealed class HyvUserInfo with _$HyvUserInfo {
   const factory HyvUserInfo({
     @JsonKey(name: "account_name") required String accountName,
   }) = _HyvUserInfo;
@@ -62,7 +62,7 @@ class HyvUserInfo with _$HyvUserInfo {
 }
 
 @freezed
-class HyvUserGameRole with _$HyvUserGameRole {
+sealed class HyvUserGameRole with _$HyvUserGameRole {
   const factory HyvUserGameRole({
     @JsonKey(name: "game_uid") required String uid,
     required String nickname,
@@ -74,7 +74,7 @@ class HyvUserGameRole with _$HyvUserGameRole {
 }
 
 @freezed
-class AvatarListResultItem with _$AvatarListResultItem, WithId {
+sealed class AvatarListResultItem with _$AvatarListResultItem, WithId {
   const AvatarListResultItem._();
 
   const factory AvatarListResultItem({
@@ -113,7 +113,7 @@ class AvatarListResultItem with _$AvatarListResultItem, WithId {
 // }
 
 @freezed
-class AvatarSkill with _$AvatarSkill {
+sealed class AvatarSkill with _$AvatarSkill {
   const factory AvatarSkill({
     @JsonKey(name: "group_id") required int groupId,
     @JsonKey(name: "max_level") required int maxLevel,
@@ -125,7 +125,7 @@ class AvatarSkill with _$AvatarSkill {
 }
 
 @freezed
-class AvatarAuth with _$AvatarAuth {
+sealed class AvatarAuth with _$AvatarAuth {
   const factory AvatarAuth({
     @JsonKey(name: "avatar_auth") required int avatarAuth,
   }) = _AvatarAuth;
@@ -135,7 +135,7 @@ class AvatarAuth with _$AvatarAuth {
 }
 
 @freezed
-class GameRecordCard with _$GameRecordCard {
+sealed class GameRecordCard with _$GameRecordCard {
   const factory GameRecordCard({
     @JsonKey(name: "game_id", unknownEnumValue: GameType.starrail)
     required GameType gameType,
@@ -147,7 +147,7 @@ class GameRecordCard with _$GameRecordCard {
 }
 
 @freezed
-class DataSwitchMetadata with _$DataSwitchMetadata {
+sealed class DataSwitchMetadata with _$DataSwitchMetadata {
   const factory DataSwitchMetadata({
     @JsonKey(name: "switch_id", unknownEnumValue: DataSwitchType.enableBattleChronicle)
     required DataSwitchType switchId,
@@ -179,7 +179,7 @@ enum GameType {
 }
 
 @freezed
-class DailyNote with _$DailyNote {
+sealed class DailyNote with _$DailyNote {
   const factory DailyNote({
     @JsonKey(name: "current_resin") required int currentResin,
     @JsonKey(name: "resin_recovery_time") required String resinRecoveryTime,
@@ -191,7 +191,7 @@ class DailyNote with _$DailyNote {
 }
 
 @Freezed(toJson: true, copyWith: true)
-class CalcComputeItem with _$CalcComputeItem {
+sealed class CalcComputeItem with _$CalcComputeItem {
   const factory CalcComputeItem({
     @JsonKey(name: "avatar_id") int? avatarId,
     @JsonKey(name: "avatar_level_current") int? currentAvatarLevel,
@@ -203,7 +203,7 @@ class CalcComputeItem with _$CalcComputeItem {
 }
 
 @Freezed(toJson: true)
-class CalcComputeSkill with _$CalcComputeSkill {
+sealed class CalcComputeSkill with _$CalcComputeSkill {
   const factory CalcComputeSkill({
     required int id,
     @JsonKey(name: "level_current") required int currentLevel,
@@ -212,7 +212,7 @@ class CalcComputeSkill with _$CalcComputeSkill {
 }
 
 @freezed
-class AvatarWeapon with _$AvatarWeapon {
+sealed class AvatarWeapon with _$AvatarWeapon {
   const factory AvatarWeapon({
     required int id,
     @JsonKey(name: "max_level") required int maxLevel,
@@ -228,7 +228,7 @@ class AvatarWeapon with _$AvatarWeapon {
 }
 
 @Freezed(toJson: true)
-class CalcComputeWeapon with _$CalcComputeWeapon {
+sealed class CalcComputeWeapon with _$CalcComputeWeapon {
   const factory CalcComputeWeapon({
     required int id,
     @JsonKey(name: "max_level") int? maxLevel,
@@ -254,7 +254,7 @@ class CalcComputeWeapon with _$CalcComputeWeapon {
 }
 
 @freezed
-class CalcResult with _$CalcResult {
+sealed class CalcResult with _$CalcResult {
   const factory CalcResult({
     @JsonKey(name: "overall_consume") required List<CalcConsumptionItem> overallConsume,
   }) = _CalcResult;
@@ -264,7 +264,7 @@ class CalcResult with _$CalcResult {
 }
 
 @freezed
-class CalcConsumptionItem with _$CalcConsumptionItem {
+sealed class CalcConsumptionItem with _$CalcConsumptionItem {
   const factory CalcConsumptionItem({
     required int id,
     @JsonKey(name: "lack_num") required int lackNum,

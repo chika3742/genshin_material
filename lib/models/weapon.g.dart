@@ -6,7 +6,7 @@ part of 'weapon.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$WeaponImpl _$$WeaponImplFromJson(Map<String, dynamic> json) => _$WeaponImpl(
+_Weapon _$WeaponFromJson(Map<String, dynamic> json) => _Weapon(
       id: json['id'] as String,
       hyvId: (json['hyvId'] as num).toInt(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
@@ -25,8 +25,7 @@ _$WeaponImpl _$$WeaponImplFromJson(Map<String, dynamic> json) => _$WeaponImpl(
           : ItemSource.fromJson(json['source'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$WeaponImplToJson(_$WeaponImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$WeaponToJson(_Weapon instance) => <String, dynamic>{
       'id': instance.id,
       'hyvId': instance.hyvId,
       'name': instance.name,
@@ -40,8 +39,7 @@ Map<String, dynamic> _$$WeaponImplToJson(_$WeaponImpl instance) =>
       'source': instance.source,
     };
 
-_$WeaponsMetaImpl _$$WeaponsMetaImplFromJson(Map<String, dynamic> json) =>
-    _$WeaponsMetaImpl(
+_WeaponsMeta _$WeaponsMetaFromJson(Map<String, dynamic> json) => _WeaponsMeta(
       subStats: (json['subStats'] as Map<String, dynamic>).map(
         (k, e) =>
             MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
@@ -52,20 +50,19 @@ _$WeaponsMetaImpl _$$WeaponsMetaImplFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$$WeaponsMetaImplToJson(_$WeaponsMetaImpl instance) =>
+Map<String, dynamic> _$WeaponsMetaToJson(_WeaponsMeta instance) =>
     <String, dynamic>{
       'subStats': instance.subStats,
       'types': instance.types,
     };
 
-_$WeaponTypeInfoImpl _$$WeaponTypeInfoImplFromJson(Map<String, dynamic> json) =>
-    _$WeaponTypeInfoImpl(
+_WeaponTypeInfo _$WeaponTypeInfoFromJson(Map<String, dynamic> json) =>
+    _WeaponTypeInfo(
       hyvId: (json['hyvId'] as num).toInt(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$WeaponTypeInfoImplToJson(
-        _$WeaponTypeInfoImpl instance) =>
+Map<String, dynamic> _$WeaponTypeInfoToJson(_WeaponTypeInfo instance) =>
     <String, dynamic>{
       'hyvId': instance.hyvId,
       'name': instance.name,

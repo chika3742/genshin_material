@@ -101,7 +101,7 @@ class AssetUpdatingStateNotifier extends _$AssetUpdatingStateNotifier {
 }
 
 @Freezed(copyWith: true)
-class AssetUpdatingState with _$AssetUpdatingState {
+sealed class AssetUpdatingState with _$AssetUpdatingState {
   const factory AssetUpdatingState({
     @Default(AssetUpdateProgressState.none) AssetUpdateProgressState state,
     double? progress,

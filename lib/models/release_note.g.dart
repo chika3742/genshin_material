@@ -6,14 +6,13 @@ part of 'release_note.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ReleaseNoteImpl _$$ReleaseNoteImplFromJson(Map<String, dynamic> json) =>
-    _$ReleaseNoteImpl(
+_ReleaseNote _$ReleaseNoteFromJson(Map<String, dynamic> json) => _ReleaseNote(
       releasedOn: json['releasedOn'] as String,
       version: json['version'] as String,
       contents: json['contents'] as String,
     );
 
-Map<String, dynamic> _$$ReleaseNoteImplToJson(_$ReleaseNoteImpl instance) =>
+Map<String, dynamic> _$ReleaseNoteToJson(_ReleaseNote instance) =>
     <String, dynamic>{
       'releasedOn': instance.releasedOn,
       'version': instance.version,
