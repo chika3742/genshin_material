@@ -8,7 +8,7 @@ part "weapon.freezed.dart";
 part "weapon.g.dart";
 
 @freezed
-class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon {
+sealed class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon {
   const Weapon._();
 
   const factory Weapon({
@@ -30,7 +30,7 @@ class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon {
 }
 
 @freezed
-class WeaponsMeta with _$WeaponsMeta {
+sealed class WeaponsMeta with _$WeaponsMeta {
   const factory WeaponsMeta({
     required Map<WeaponSubStat, LocalizedText> subStats,
     required Map<WeaponType, WeaponTypeInfo> types,
@@ -41,7 +41,7 @@ class WeaponsMeta with _$WeaponsMeta {
 }
 
 @freezed
-class WeaponTypeInfo with _$WeaponTypeInfo {
+sealed class WeaponTypeInfo with _$WeaponTypeInfo {
   const factory WeaponTypeInfo({
     required int hyvId,
     required LocalizedText name,

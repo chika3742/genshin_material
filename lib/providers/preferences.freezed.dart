@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,37 +9,99 @@ part of 'preferences.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PreferencesState {
-  KvPreferences get pref => throw _privateConstructorUsedError;
-  int? get resin => throw _privateConstructorUsedError;
-  DateTime? get resinBaseTime => throw _privateConstructorUsedError;
-  String? get hyvServer => throw _privateConstructorUsedError;
-  String? get hyvServerName => throw _privateConstructorUsedError;
-  String? get hyvUserName => throw _privateConstructorUsedError;
-  String? get hyvUid => throw _privateConstructorUsedError;
-  bool get syncResin => throw _privateConstructorUsedError;
-  bool get syncCharaState => throw _privateConstructorUsedError;
-  bool get syncWeaponState => throw _privateConstructorUsedError;
-  bool get autoRemoveBookmarks => throw _privateConstructorUsedError;
-  bool get syncBagCounts => throw _privateConstructorUsedError;
-  bool get showItemNameOnCard => throw _privateConstructorUsedError;
-  GameServer get dailyResetServer => throw _privateConstructorUsedError;
-  bool get indexSheetTutorialShown => throw _privateConstructorUsedError;
-  LackNumDisplayMethod get lackNumDisplayMethod =>
-      throw _privateConstructorUsedError;
-  List<String> get bannerReadKeys => throw _privateConstructorUsedError;
+  KvPreferences get pref;
+  int? get resin;
+  DateTime? get resinBaseTime;
+  String? get hyvServer;
+  String? get hyvServerName;
+  String? get hyvUserName;
+  String? get hyvUid;
+  bool get syncResin;
+  bool get syncCharaState;
+  bool get syncWeaponState;
+  bool get autoRemoveBookmarks;
+  bool get syncBagCounts;
+  bool get showItemNameOnCard;
+  GameServer get dailyResetServer;
+  bool get indexSheetTutorialShown;
+  LackNumDisplayMethod get lackNumDisplayMethod;
+  List<String> get bannerReadKeys;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PreferencesState &&
+            (identical(other.pref, pref) || other.pref == pref) &&
+            (identical(other.resin, resin) || other.resin == resin) &&
+            (identical(other.resinBaseTime, resinBaseTime) ||
+                other.resinBaseTime == resinBaseTime) &&
+            (identical(other.hyvServer, hyvServer) ||
+                other.hyvServer == hyvServer) &&
+            (identical(other.hyvServerName, hyvServerName) ||
+                other.hyvServerName == hyvServerName) &&
+            (identical(other.hyvUserName, hyvUserName) ||
+                other.hyvUserName == hyvUserName) &&
+            (identical(other.hyvUid, hyvUid) || other.hyvUid == hyvUid) &&
+            (identical(other.syncResin, syncResin) ||
+                other.syncResin == syncResin) &&
+            (identical(other.syncCharaState, syncCharaState) ||
+                other.syncCharaState == syncCharaState) &&
+            (identical(other.syncWeaponState, syncWeaponState) ||
+                other.syncWeaponState == syncWeaponState) &&
+            (identical(other.autoRemoveBookmarks, autoRemoveBookmarks) ||
+                other.autoRemoveBookmarks == autoRemoveBookmarks) &&
+            (identical(other.syncBagCounts, syncBagCounts) ||
+                other.syncBagCounts == syncBagCounts) &&
+            (identical(other.showItemNameOnCard, showItemNameOnCard) ||
+                other.showItemNameOnCard == showItemNameOnCard) &&
+            (identical(other.dailyResetServer, dailyResetServer) ||
+                other.dailyResetServer == dailyResetServer) &&
+            (identical(
+                    other.indexSheetTutorialShown, indexSheetTutorialShown) ||
+                other.indexSheetTutorialShown == indexSheetTutorialShown) &&
+            (identical(other.lackNumDisplayMethod, lackNumDisplayMethod) ||
+                other.lackNumDisplayMethod == lackNumDisplayMethod) &&
+            const DeepCollectionEquality()
+                .equals(other.bannerReadKeys, bannerReadKeys));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      pref,
+      resin,
+      resinBaseTime,
+      hyvServer,
+      hyvServerName,
+      hyvUserName,
+      hyvUid,
+      syncResin,
+      syncCharaState,
+      syncWeaponState,
+      autoRemoveBookmarks,
+      syncBagCounts,
+      showItemNameOnCard,
+      dailyResetServer,
+      indexSheetTutorialShown,
+      lackNumDisplayMethod,
+      const DeepCollectionEquality().hash(bannerReadKeys));
+
+  @override
+  String toString() {
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagCounts: $syncBagCounts, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod, bannerReadKeys: $bannerReadKeys)';
+  }
 }
 
 /// @nodoc
 
-class _$PreferencesStateImpl extends _PreferencesState {
-  const _$PreferencesStateImpl(
+class _PreferencesState extends PreferencesState {
+  const _PreferencesState(
       {required this.pref,
       required this.resin,
       required this.resinBaseTime,
@@ -101,15 +163,10 @@ class _$PreferencesStateImpl extends _PreferencesState {
   }
 
   @override
-  String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagCounts: $syncBagCounts, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod, bannerReadKeys: $bannerReadKeys)';
-  }
-
-  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PreferencesStateImpl &&
+            other is _PreferencesState &&
             (identical(other.pref, pref) || other.pref == pref) &&
             (identical(other.resin, resin) || other.resin == resin) &&
             (identical(other.resinBaseTime, resinBaseTime) ||
@@ -164,61 +221,11 @@ class _$PreferencesStateImpl extends _PreferencesState {
       indexSheetTutorialShown,
       lackNumDisplayMethod,
       const DeepCollectionEquality().hash(_bannerReadKeys));
-}
-
-abstract class _PreferencesState extends PreferencesState {
-  const factory _PreferencesState(
-      {required final KvPreferences pref,
-      required final int? resin,
-      required final DateTime? resinBaseTime,
-      required final String? hyvServer,
-      required final String? hyvServerName,
-      required final String? hyvUserName,
-      required final String? hyvUid,
-      required final bool syncResin,
-      required final bool syncCharaState,
-      required final bool syncWeaponState,
-      required final bool autoRemoveBookmarks,
-      required final bool syncBagCounts,
-      required final bool showItemNameOnCard,
-      required final GameServer dailyResetServer,
-      required final bool indexSheetTutorialShown,
-      required final LackNumDisplayMethod lackNumDisplayMethod,
-      required final List<String> bannerReadKeys}) = _$PreferencesStateImpl;
-  const _PreferencesState._() : super._();
 
   @override
-  KvPreferences get pref;
-  @override
-  int? get resin;
-  @override
-  DateTime? get resinBaseTime;
-  @override
-  String? get hyvServer;
-  @override
-  String? get hyvServerName;
-  @override
-  String? get hyvUserName;
-  @override
-  String? get hyvUid;
-  @override
-  bool get syncResin;
-  @override
-  bool get syncCharaState;
-  @override
-  bool get syncWeaponState;
-  @override
-  bool get autoRemoveBookmarks;
-  @override
-  bool get syncBagCounts;
-  @override
-  bool get showItemNameOnCard;
-  @override
-  GameServer get dailyResetServer;
-  @override
-  bool get indexSheetTutorialShown;
-  @override
-  LackNumDisplayMethod get lackNumDisplayMethod;
-  @override
-  List<String> get bannerReadKeys;
+  String toString() {
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagCounts: $syncBagCounts, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod, bannerReadKeys: $bannerReadKeys)';
+  }
 }
+
+// dart format on

@@ -7,7 +7,7 @@ part "weapon_ingredients.freezed.dart";
 part "weapon_ingredients.g.dart";
 
 @freezed
-class WeaponIngredients with _$WeaponIngredients {
+sealed class WeaponIngredients with _$WeaponIngredients {
   const factory WeaponIngredients({
     required List<ExpItem> expItems,
     required Map<int, WeaponIngredientsLevels> rarities,
@@ -18,7 +18,7 @@ class WeaponIngredients with _$WeaponIngredients {
 }
 
 @freezed
-class WeaponIngredientsLevels with _$WeaponIngredientsLevels {
+sealed class WeaponIngredientsLevels with _$WeaponIngredientsLevels {
   const factory WeaponIngredientsLevels({
     required Map<int, List<Ingredient>> levels,
   }) = _WeaponIngredientsLevels;

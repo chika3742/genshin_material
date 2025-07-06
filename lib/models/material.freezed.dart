@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,37 +9,75 @@ part of 'material.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-Material _$MaterialFromJson(Map<String, dynamic> json) {
-  return _Material.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Material {
-  String get id => throw _privateConstructorUsedError;
-  int get hyvId => throw _privateConstructorUsedError;
-  LocalizedText get name => throw _privateConstructorUsedError;
-  String get jaPronunciation => throw _privateConstructorUsedError;
-  String get imageUrl => throw _privateConstructorUsedError;
-  int get rarity => throw _privateConstructorUsedError;
-  String get category => throw _privateConstructorUsedError;
-  String? get groupId => throw _privateConstructorUsedError;
-  int? get craftLevel => throw _privateConstructorUsedError;
-  List<DayOfWeek>? get availableDays => throw _privateConstructorUsedError;
-  ItemSource? get source => throw _privateConstructorUsedError;
+  String get id;
+  int get hyvId;
+  LocalizedText get name;
+  String get jaPronunciation;
+  String get imageUrl;
+  int get rarity;
+  String get category;
+  String? get groupId;
+  int? get craftLevel;
+  List<DayOfWeek>? get availableDays;
+  ItemSource? get source;
 
   /// Serializes this Material to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Material &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.rarity, rarity) || other.rarity == rarity) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.groupId, groupId) || other.groupId == groupId) &&
+            (identical(other.craftLevel, craftLevel) ||
+                other.craftLevel == craftLevel) &&
+            const DeepCollectionEquality()
+                .equals(other.availableDays, availableDays) &&
+            (identical(other.source, source) || other.source == source));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      hyvId,
+      name,
+      jaPronunciation,
+      imageUrl,
+      rarity,
+      category,
+      groupId,
+      craftLevel,
+      const DeepCollectionEquality().hash(availableDays),
+      source);
+
+  @override
+  String toString() {
+    return 'Material(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, category: $category, groupId: $groupId, craftLevel: $craftLevel, availableDays: $availableDays, source: $source)';
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$MaterialImpl extends _Material {
-  const _$MaterialImpl(
+class _Material extends Material {
+  const _Material(
       {required this.id,
       required this.hyvId,
       required this.name,
@@ -53,9 +91,8 @@ class _$MaterialImpl extends _Material {
       this.source})
       : _availableDays = availableDays,
         super._();
-
-  factory _$MaterialImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaterialImplFromJson(json);
+  factory _Material.fromJson(Map<String, dynamic> json) =>
+      _$MaterialFromJson(json);
 
   @override
   final String id;
@@ -89,15 +126,17 @@ class _$MaterialImpl extends _Material {
   final ItemSource? source;
 
   @override
-  String toString() {
-    return 'Material(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, category: $category, groupId: $groupId, craftLevel: $craftLevel, availableDays: $availableDays, source: $source)';
+  Map<String, dynamic> toJson() {
+    return _$MaterialToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MaterialImpl &&
+            other is _Material &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
             (identical(other.name, name) || other.name == name) &&
@@ -133,53 +172,9 @@ class _$MaterialImpl extends _Material {
       source);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$MaterialImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Material(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, category: $category, groupId: $groupId, craftLevel: $craftLevel, availableDays: $availableDays, source: $source)';
   }
-}
-
-abstract class _Material extends Material {
-  const factory _Material(
-      {required final String id,
-      required final int hyvId,
-      required final LocalizedText name,
-      required final String jaPronunciation,
-      required final String imageUrl,
-      required final int rarity,
-      required final String category,
-      final String? groupId,
-      final int? craftLevel,
-      final List<DayOfWeek>? availableDays,
-      final ItemSource? source}) = _$MaterialImpl;
-  const _Material._() : super._();
-
-  factory _Material.fromJson(Map<String, dynamic> json) =
-      _$MaterialImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  int get hyvId;
-  @override
-  LocalizedText get name;
-  @override
-  String get jaPronunciation;
-  @override
-  String get imageUrl;
-  @override
-  int get rarity;
-  @override
-  String get category;
-  @override
-  String? get groupId;
-  @override
-  int? get craftLevel;
-  @override
-  List<DayOfWeek>? get availableDays;
-  @override
-  ItemSource? get source;
 }
 
 ItemSource _$ItemSourceFromJson(Map<String, dynamic> json) {
@@ -198,37 +193,51 @@ ItemSource _$ItemSourceFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ItemSource {
   /// Serializes this ItemSource to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ItemSource);
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'ItemSource()';
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$TeyvatMapItemSourceImpl implements TeyvatMapItemSource {
-  const _$TeyvatMapItemSourceImpl(
+class TeyvatMapItemSource implements ItemSource {
+  const TeyvatMapItemSource(
       {required this.typeId, this.center, final String? $type})
       : $type = $type ?? 'teyvatMap';
+  factory TeyvatMapItemSource.fromJson(Map<String, dynamic> json) =>
+      _$TeyvatMapItemSourceFromJson(json);
 
-  factory _$TeyvatMapItemSourceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TeyvatMapItemSourceImplFromJson(json);
-
-  @override
   final String typeId;
-  @override
   final String? center;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
-  String toString() {
-    return 'ItemSource.teyvatMap(typeId: $typeId, center: $center)';
+  Map<String, dynamic> toJson() {
+    return _$TeyvatMapItemSourceToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TeyvatMapItemSourceImpl &&
+            other is TeyvatMapItemSource &&
             (identical(other.typeId, typeId) || other.typeId == typeId) &&
             (identical(other.center, center) || other.center == center));
   }
@@ -238,50 +247,36 @@ class _$TeyvatMapItemSourceImpl implements TeyvatMapItemSource {
   int get hashCode => Object.hash(runtimeType, typeId, center);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$TeyvatMapItemSourceImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ItemSource.teyvatMap(typeId: $typeId, center: $center)';
   }
-}
-
-abstract class TeyvatMapItemSource implements ItemSource {
-  const factory TeyvatMapItemSource(
-      {required final String typeId,
-      final String? center}) = _$TeyvatMapItemSourceImpl;
-
-  factory TeyvatMapItemSource.fromJson(Map<String, dynamic> json) =
-      _$TeyvatMapItemSourceImpl.fromJson;
-
-  String get typeId;
-  String? get center;
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$TextItemSourceImpl implements TextItemSource {
-  const _$TextItemSourceImpl({required this.text, final String? $type})
+class TextItemSource implements ItemSource {
+  const TextItemSource({required this.text, final String? $type})
       : $type = $type ?? 'text';
+  factory TextItemSource.fromJson(Map<String, dynamic> json) =>
+      _$TextItemSourceFromJson(json);
 
-  factory _$TextItemSourceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TextItemSourceImplFromJson(json);
-
-  @override
   final LocalizedText text;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
-  String toString() {
-    return 'ItemSource.text(text: $text)';
+  Map<String, dynamic> toJson() {
+    return _$TextItemSourceToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TextItemSourceImpl &&
+            other is TextItemSource &&
             (identical(other.text, text) || other.text == text));
   }
 
@@ -290,58 +285,68 @@ class _$TextItemSourceImpl implements TextItemSource {
   int get hashCode => Object.hash(runtimeType, text);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$TextItemSourceImplToJson(
-      this,
-    );
+  String toString() {
+    return 'ItemSource.text(text: $text)';
   }
-}
-
-abstract class TextItemSource implements ItemSource {
-  const factory TextItemSource({required final LocalizedText text}) =
-      _$TextItemSourceImpl;
-
-  factory TextItemSource.fromJson(Map<String, dynamic> json) =
-      _$TextItemSourceImpl.fromJson;
-
-  LocalizedText get text;
-}
-
-MaterialsMeta _$MaterialsMetaFromJson(Map<String, dynamic> json) {
-  return _MaterialsMeta.fromJson(json);
 }
 
 /// @nodoc
 mixin _$MaterialsMeta {
-  Map<String, LocalizedText> get categories =>
-      throw _privateConstructorUsedError;
-  Map<String, int> get sortOrder => throw _privateConstructorUsedError;
-  DailyMaterials get daily => throw _privateConstructorUsedError;
-  Map<String, List<String>> get specialCharactersUsingMaterials =>
-      throw _privateConstructorUsedError;
+  Map<MaterialCategoryType, LocalizedText> get categories;
+  Map<String, int> get sortOrder;
+  DailyMaterials get daily;
+  Map<MaterialId, List<CharacterId>> get specialCharactersUsingMaterials;
 
   /// Serializes this MaterialsMeta to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is MaterialsMeta &&
+            const DeepCollectionEquality()
+                .equals(other.categories, categories) &&
+            const DeepCollectionEquality().equals(other.sortOrder, sortOrder) &&
+            (identical(other.daily, daily) || other.daily == daily) &&
+            const DeepCollectionEquality().equals(
+                other.specialCharactersUsingMaterials,
+                specialCharactersUsingMaterials));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(categories),
+      const DeepCollectionEquality().hash(sortOrder),
+      daily,
+      const DeepCollectionEquality().hash(specialCharactersUsingMaterials));
+
+  @override
+  String toString() {
+    return 'MaterialsMeta(categories: $categories, sortOrder: $sortOrder, daily: $daily, specialCharactersUsingMaterials: $specialCharactersUsingMaterials)';
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$MaterialsMetaImpl implements _MaterialsMeta {
-  const _$MaterialsMetaImpl(
-      {required final Map<String, LocalizedText> categories,
+class _MaterialsMeta implements MaterialsMeta {
+  const _MaterialsMeta(
+      {required final Map<MaterialCategoryType, LocalizedText> categories,
       required final Map<String, int> sortOrder,
       required this.daily,
-      required final Map<String, List<String>> specialCharactersUsingMaterials})
+      required final Map<MaterialId, List<CharacterId>>
+          specialCharactersUsingMaterials})
       : _categories = categories,
         _sortOrder = sortOrder,
         _specialCharactersUsingMaterials = specialCharactersUsingMaterials;
+  factory _MaterialsMeta.fromJson(Map<String, dynamic> json) =>
+      _$MaterialsMetaFromJson(json);
 
-  factory _$MaterialsMetaImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaterialsMetaImplFromJson(json);
-
-  final Map<String, LocalizedText> _categories;
+  final Map<MaterialCategoryType, LocalizedText> _categories;
   @override
-  Map<String, LocalizedText> get categories {
+  Map<MaterialCategoryType, LocalizedText> get categories {
     if (_categories is EqualUnmodifiableMapView) return _categories;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_categories);
@@ -357,9 +362,9 @@ class _$MaterialsMetaImpl implements _MaterialsMeta {
 
   @override
   final DailyMaterials daily;
-  final Map<String, List<String>> _specialCharactersUsingMaterials;
+  final Map<MaterialId, List<CharacterId>> _specialCharactersUsingMaterials;
   @override
-  Map<String, List<String>> get specialCharactersUsingMaterials {
+  Map<MaterialId, List<CharacterId>> get specialCharactersUsingMaterials {
     if (_specialCharactersUsingMaterials is EqualUnmodifiableMapView)
       return _specialCharactersUsingMaterials;
     // ignore: implicit_dynamic_type
@@ -367,15 +372,17 @@ class _$MaterialsMetaImpl implements _MaterialsMeta {
   }
 
   @override
-  String toString() {
-    return 'MaterialsMeta(categories: $categories, sortOrder: $sortOrder, daily: $daily, specialCharactersUsingMaterials: $specialCharactersUsingMaterials)';
+  Map<String, dynamic> toJson() {
+    return _$MaterialsMetaToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MaterialsMetaImpl &&
+            other is _MaterialsMeta &&
             const DeepCollectionEquality()
                 .equals(other._categories, _categories) &&
             const DeepCollectionEquality()
@@ -396,60 +403,51 @@ class _$MaterialsMetaImpl implements _MaterialsMeta {
       const DeepCollectionEquality().hash(_specialCharactersUsingMaterials));
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$MaterialsMetaImplToJson(
-      this,
-    );
+  String toString() {
+    return 'MaterialsMeta(categories: $categories, sortOrder: $sortOrder, daily: $daily, specialCharactersUsingMaterials: $specialCharactersUsingMaterials)';
   }
-}
-
-abstract class _MaterialsMeta implements MaterialsMeta {
-  const factory _MaterialsMeta(
-      {required final Map<String, LocalizedText> categories,
-      required final Map<String, int> sortOrder,
-      required final DailyMaterials daily,
-      required final Map<String, List<String>>
-          specialCharactersUsingMaterials}) = _$MaterialsMetaImpl;
-
-  factory _MaterialsMeta.fromJson(Map<String, dynamic> json) =
-      _$MaterialsMetaImpl.fromJson;
-
-  @override
-  Map<String, LocalizedText> get categories;
-  @override
-  Map<String, int> get sortOrder;
-  @override
-  DailyMaterials get daily;
-  @override
-  Map<String, List<String>> get specialCharactersUsingMaterials;
-}
-
-DailyMaterials _$DailyMaterialsFromJson(Map<String, dynamic> json) {
-  return _DailyMaterials.fromJson(json);
 }
 
 /// @nodoc
 mixin _$DailyMaterials {
-  Map<String, List<DailyMaterial>> get talent =>
-      throw _privateConstructorUsedError;
-  Map<String, List<DailyMaterial>> get weapon =>
-      throw _privateConstructorUsedError;
+  Map<String, List<DailyMaterial>> get talent;
+  Map<String, List<DailyMaterial>> get weapon;
 
   /// Serializes this DailyMaterials to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DailyMaterials &&
+            const DeepCollectionEquality().equals(other.talent, talent) &&
+            const DeepCollectionEquality().equals(other.weapon, weapon));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(talent),
+      const DeepCollectionEquality().hash(weapon));
+
+  @override
+  String toString() {
+    return 'DailyMaterials(talent: $talent, weapon: $weapon)';
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$DailyMaterialsImpl implements _DailyMaterials {
-  const _$DailyMaterialsImpl(
+class _DailyMaterials implements DailyMaterials {
+  const _DailyMaterials(
       {required final Map<String, List<DailyMaterial>> talent,
       required final Map<String, List<DailyMaterial>> weapon})
       : _talent = talent,
         _weapon = weapon;
-
-  factory _$DailyMaterialsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DailyMaterialsImplFromJson(json);
+  factory _DailyMaterials.fromJson(Map<String, dynamic> json) =>
+      _$DailyMaterialsFromJson(json);
 
   final Map<String, List<DailyMaterial>> _talent;
   @override
@@ -468,15 +466,17 @@ class _$DailyMaterialsImpl implements _DailyMaterials {
   }
 
   @override
-  String toString() {
-    return 'DailyMaterials(talent: $talent, weapon: $weapon)';
+  Map<String, dynamic> toJson() {
+    return _$DailyMaterialsToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DailyMaterialsImpl &&
+            other is _DailyMaterials &&
             const DeepCollectionEquality().equals(other._talent, _talent) &&
             const DeepCollectionEquality().equals(other._weapon, _weapon));
   }
@@ -489,50 +489,48 @@ class _$DailyMaterialsImpl implements _DailyMaterials {
       const DeepCollectionEquality().hash(_weapon));
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$DailyMaterialsImplToJson(
-      this,
-    );
+  String toString() {
+    return 'DailyMaterials(talent: $talent, weapon: $weapon)';
   }
-}
-
-abstract class _DailyMaterials implements DailyMaterials {
-  const factory _DailyMaterials(
-          {required final Map<String, List<DailyMaterial>> talent,
-          required final Map<String, List<DailyMaterial>> weapon}) =
-      _$DailyMaterialsImpl;
-
-  factory _DailyMaterials.fromJson(Map<String, dynamic> json) =
-      _$DailyMaterialsImpl.fromJson;
-
-  @override
-  Map<String, List<DailyMaterial>> get talent;
-  @override
-  Map<String, List<DailyMaterial>> get weapon;
-}
-
-DailyMaterial _$DailyMaterialFromJson(Map<String, dynamic> json) {
-  return _DailyMaterial.fromJson(json);
 }
 
 /// @nodoc
 mixin _$DailyMaterial {
-  LocalizedText get description => throw _privateConstructorUsedError;
-  List<String> get items => throw _privateConstructorUsedError;
+  LocalizedText get description;
+  List<String> get items;
 
   /// Serializes this DailyMaterial to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DailyMaterial &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality().equals(other.items, items));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, description, const DeepCollectionEquality().hash(items));
+
+  @override
+  String toString() {
+    return 'DailyMaterial(description: $description, items: $items)';
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$DailyMaterialImpl implements _DailyMaterial {
-  const _$DailyMaterialImpl(
+class _DailyMaterial implements DailyMaterial {
+  const _DailyMaterial(
       {required this.description, required final List<String> items})
       : _items = items;
-
-  factory _$DailyMaterialImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DailyMaterialImplFromJson(json);
+  factory _DailyMaterial.fromJson(Map<String, dynamic> json) =>
+      _$DailyMaterialFromJson(json);
 
   @override
   final LocalizedText description;
@@ -545,15 +543,17 @@ class _$DailyMaterialImpl implements _DailyMaterial {
   }
 
   @override
-  String toString() {
-    return 'DailyMaterial(description: $description, items: $items)';
+  Map<String, dynamic> toJson() {
+    return _$DailyMaterialToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DailyMaterialImpl &&
+            other is _DailyMaterial &&
             (identical(other.description, description) ||
                 other.description == description) &&
             const DeepCollectionEquality().equals(other._items, _items));
@@ -565,23 +565,9 @@ class _$DailyMaterialImpl implements _DailyMaterial {
       runtimeType, description, const DeepCollectionEquality().hash(_items));
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$DailyMaterialImplToJson(
-      this,
-    );
+  String toString() {
+    return 'DailyMaterial(description: $description, items: $items)';
   }
 }
 
-abstract class _DailyMaterial implements DailyMaterial {
-  const factory _DailyMaterial(
-      {required final LocalizedText description,
-      required final List<String> items}) = _$DailyMaterialImpl;
-
-  factory _DailyMaterial.fromJson(Map<String, dynamic> json) =
-      _$DailyMaterialImpl.fromJson;
-
-  @override
-  LocalizedText get description;
-  @override
-  List<String> get items;
-}
+// dart format on

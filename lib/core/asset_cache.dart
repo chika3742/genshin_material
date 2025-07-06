@@ -114,7 +114,7 @@ class AssetDataCacheProvider {
 }
 
 @Freezed(copyWith: false)
-class AssetData with _$AssetData {
+sealed class AssetData with _$AssetData {
   const factory AssetData({
     required String assetDir,
     required AssetReleaseVersion version,

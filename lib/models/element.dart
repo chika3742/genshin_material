@@ -9,7 +9,7 @@ part "element.freezed.dart";
 part "element.g.dart";
 
 @freezed
-class Element with _$Element {
+sealed class Element with _$Element {
   const Element._();
 
   const factory Element({

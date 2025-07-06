@@ -66,7 +66,7 @@ Duration _timeToFullFromResinCount(int currentResin, int maxResin, int minutesPe
 }
 
 @freezed
-class ResinCalculationResult with _$ResinCalculationResult {
+sealed class ResinCalculationResult with _$ResinCalculationResult {
   const factory ResinCalculationResult({
     required DateTime fullyReplenishedBy,
     required Duration timeToFull,
@@ -77,7 +77,7 @@ class ResinCalculationResult with _$ResinCalculationResult {
 }
 
 @freezed
-class ResinBreakpoint with _$ResinBreakpoint {
+sealed class ResinBreakpoint with _$ResinBreakpoint {
   const factory ResinBreakpoint({
     required int resin,
     required DateTime fullyReplenishedBy,

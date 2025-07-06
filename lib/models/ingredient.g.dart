@@ -6,9 +6,8 @@ part of 'ingredient.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$IngredientByTypeImpl _$$IngredientByTypeImplFromJson(
-        Map<String, dynamic> json) =>
-    _$IngredientByTypeImpl(
+IngredientByType _$IngredientByTypeFromJson(Map<String, dynamic> json) =>
+    IngredientByType(
       type: json['type'] as String,
       quantity: (json['quantity'] as num).toInt(),
       craftLevel: (json['craftLevel'] as num?)?.toInt(),
@@ -19,8 +18,7 @@ _$IngredientByTypeImpl _$$IngredientByTypeImplFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$IngredientByTypeImplToJson(
-        _$IngredientByTypeImpl instance) =>
+Map<String, dynamic> _$IngredientByTypeToJson(IngredientByType instance) =>
     <String, dynamic>{
       'type': instance.type,
       'quantity': instance.quantity,
@@ -29,28 +27,28 @@ Map<String, dynamic> _$$IngredientByTypeImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$IngredientExpImpl _$$IngredientExpImplFromJson(Map<String, dynamic> json) =>
-    _$IngredientExpImpl(
+IngredientExp _$IngredientExpFromJson(Map<String, dynamic> json) =>
+    IngredientExp(
       exp: (json['exp'] as num).toInt(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$IngredientExpImplToJson(_$IngredientExpImpl instance) =>
+Map<String, dynamic> _$IngredientExpToJson(IngredientExp instance) =>
     <String, dynamic>{
       'exp': instance.exp,
       'runtimeType': instance.$type,
     };
 
-_$IngredientWithFixedIdImpl _$$IngredientWithFixedIdImplFromJson(
+IngredientWithFixedId _$IngredientWithFixedIdFromJson(
         Map<String, dynamic> json) =>
-    _$IngredientWithFixedIdImpl(
+    IngredientWithFixedId(
       itemId: json['itemId'] as String,
       quantity: (json['quantity'] as num).toInt(),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$IngredientWithFixedIdImplToJson(
-        _$IngredientWithFixedIdImpl instance) =>
+Map<String, dynamic> _$IngredientWithFixedIdToJson(
+        IngredientWithFixedId instance) =>
     <String, dynamic>{
       'itemId': instance.itemId,
       'quantity': instance.quantity,

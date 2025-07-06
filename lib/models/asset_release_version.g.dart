@@ -6,9 +6,8 @@ part of 'asset_release_version.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AssetReleaseVersionImpl _$$AssetReleaseVersionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$AssetReleaseVersionImpl(
+_AssetReleaseVersion _$AssetReleaseVersionFromJson(Map<String, dynamic> json) =>
+    _AssetReleaseVersion(
       createdAt: DateTime.parse(json['createdAt'] as String),
       dataVersion: json['dataVersion'] as String,
       channel: $enumDecode(_$AssetChannelEnumMap, json['channel']),
@@ -16,8 +15,8 @@ _$AssetReleaseVersionImpl _$$AssetReleaseVersionImplFromJson(
       schemaVersion: (json['schemaVersion'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$AssetReleaseVersionImplToJson(
-        _$AssetReleaseVersionImpl instance) =>
+Map<String, dynamic> _$AssetReleaseVersionToJson(
+        _AssetReleaseVersion instance) =>
     <String, dynamic>{
       'createdAt': instance.createdAt.toIso8601String(),
       'dataVersion': instance.dataVersion,

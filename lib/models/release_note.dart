@@ -4,7 +4,7 @@ part "release_note.freezed.dart";
 part "release_note.g.dart";
 
 @freezed
-class ReleaseNote with _$ReleaseNote {
+sealed class ReleaseNote with _$ReleaseNote {
   const factory ReleaseNote({
     required String releasedOn,
     required String version,

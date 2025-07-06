@@ -60,7 +60,7 @@ sealed class ItemSource with _$ItemSource {
 }
 
 @freezed
-class MaterialsMeta with _$MaterialsMeta {
+sealed class MaterialsMeta with _$MaterialsMeta {
   const factory MaterialsMeta({
     required Map<MaterialCategoryType, LocalizedText> categories,
     required Map<String, int> sortOrder,
@@ -73,7 +73,7 @@ class MaterialsMeta with _$MaterialsMeta {
 }
 
 @freezed
-class DailyMaterials with _$DailyMaterials {
+sealed class DailyMaterials with _$DailyMaterials {
   const factory DailyMaterials({
     required Map<String, List<DailyMaterial>> talent,
     required Map<String, List<DailyMaterial>> weapon,
@@ -84,7 +84,7 @@ class DailyMaterials with _$DailyMaterials {
 }
 
 @freezed
-class DailyMaterial with _$DailyMaterial {
+sealed class DailyMaterial with _$DailyMaterial {
   const factory DailyMaterial({
     required LocalizedText description,
     required List<String> items,

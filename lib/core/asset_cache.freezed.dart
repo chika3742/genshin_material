@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,68 +9,132 @@ part of 'asset_cache.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AssetData {
-  String get assetDir => throw _privateConstructorUsedError;
-  AssetReleaseVersion get version => throw _privateConstructorUsedError;
-  Map<String, Character> get characters => throw _privateConstructorUsedError;
-  CharacterIngredients get characterIngredients =>
-      throw _privateConstructorUsedError;
-  Map<String, Weapon> get weapons => throw _privateConstructorUsedError;
-  WeaponIngredients get weaponIngredients => throw _privateConstructorUsedError;
-  Map<String, LocalizedText> get weaponSubStats =>
-      throw _privateConstructorUsedError;
-  Map<String, WeaponTypeInfo> get weaponTypes =>
-      throw _privateConstructorUsedError;
-  Map<String, Element> get elements => throw _privateConstructorUsedError;
-  Map<String, Material> get materials => throw _privateConstructorUsedError;
-  Map<String, LocalizedText> get materialCategories =>
-      throw _privateConstructorUsedError;
-  Map<String, int> get materialSortOrder => throw _privateConstructorUsedError;
-  DailyMaterials get dailyMaterials => throw _privateConstructorUsedError;
-  Map<String, ArtifactSet> get artifactSets =>
-      throw _privateConstructorUsedError;
-  Map<String, ArtifactPieceType> get artifactPieceTypes =>
-      throw _privateConstructorUsedError;
-  Map<String, List<String>> get specialCharactersUsingMaterials =>
-      throw _privateConstructorUsedError;
-  Map<String, LocalizedText> get stats => throw _privateConstructorUsedError;
-  List<String> get artifactPossibleSubStats =>
-      throw _privateConstructorUsedError;
-  Map<String, String> get artifactPieceSetMap =>
-      throw _privateConstructorUsedError;
-  List<ArtifactTagCategory> get artifactTags =>
-      throw _privateConstructorUsedError;
+  String get assetDir;
+  AssetReleaseVersion get version;
+  Map<CharacterId, Character> get characters;
+  CharacterIngredients get characterIngredients;
+  Map<WeaponId, Weapon> get weapons;
+  WeaponIngredients get weaponIngredients;
+  Map<WeaponSubStat, LocalizedText> get weaponSubStats;
+  Map<WeaponType, WeaponTypeInfo> get weaponTypes;
+  Map<TeyvatElement, Element> get elements;
+  Map<MaterialId, Material> get materials;
+  Map<MaterialCategoryType, LocalizedText> get materialCategories;
+  Map<String, int> get materialSortOrder;
+  DailyMaterials get dailyMaterials;
+  Map<ArtifactSetId, ArtifactSet> get artifactSets;
+  Map<ArtifactPieceTypeId, ArtifactPieceType> get artifactPieceTypes;
+  Map<MaterialId, List<CharacterId>> get specialCharactersUsingMaterials;
+  Map<StatId, LocalizedText> get stats;
+  List<StatId> get artifactPossibleSubStats;
+  Map<ArtifactPieceId, ArtifactSetId> get artifactPieceSetMap;
+  List<ArtifactTagCategory> get artifactTags;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AssetData &&
+            (identical(other.assetDir, assetDir) ||
+                other.assetDir == assetDir) &&
+            (identical(other.version, version) || other.version == version) &&
+            const DeepCollectionEquality()
+                .equals(other.characters, characters) &&
+            (identical(other.characterIngredients, characterIngredients) ||
+                other.characterIngredients == characterIngredients) &&
+            const DeepCollectionEquality().equals(other.weapons, weapons) &&
+            (identical(other.weaponIngredients, weaponIngredients) ||
+                other.weaponIngredients == weaponIngredients) &&
+            const DeepCollectionEquality()
+                .equals(other.weaponSubStats, weaponSubStats) &&
+            const DeepCollectionEquality()
+                .equals(other.weaponTypes, weaponTypes) &&
+            const DeepCollectionEquality().equals(other.elements, elements) &&
+            const DeepCollectionEquality().equals(other.materials, materials) &&
+            const DeepCollectionEquality()
+                .equals(other.materialCategories, materialCategories) &&
+            const DeepCollectionEquality()
+                .equals(other.materialSortOrder, materialSortOrder) &&
+            (identical(other.dailyMaterials, dailyMaterials) ||
+                other.dailyMaterials == dailyMaterials) &&
+            const DeepCollectionEquality()
+                .equals(other.artifactSets, artifactSets) &&
+            const DeepCollectionEquality()
+                .equals(other.artifactPieceTypes, artifactPieceTypes) &&
+            const DeepCollectionEquality().equals(
+                other.specialCharactersUsingMaterials,
+                specialCharactersUsingMaterials) &&
+            const DeepCollectionEquality().equals(other.stats, stats) &&
+            const DeepCollectionEquality().equals(
+                other.artifactPossibleSubStats, artifactPossibleSubStats) &&
+            const DeepCollectionEquality()
+                .equals(other.artifactPieceSetMap, artifactPieceSetMap) &&
+            const DeepCollectionEquality()
+                .equals(other.artifactTags, artifactTags));
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        assetDir,
+        version,
+        const DeepCollectionEquality().hash(characters),
+        characterIngredients,
+        const DeepCollectionEquality().hash(weapons),
+        weaponIngredients,
+        const DeepCollectionEquality().hash(weaponSubStats),
+        const DeepCollectionEquality().hash(weaponTypes),
+        const DeepCollectionEquality().hash(elements),
+        const DeepCollectionEquality().hash(materials),
+        const DeepCollectionEquality().hash(materialCategories),
+        const DeepCollectionEquality().hash(materialSortOrder),
+        dailyMaterials,
+        const DeepCollectionEquality().hash(artifactSets),
+        const DeepCollectionEquality().hash(artifactPieceTypes),
+        const DeepCollectionEquality().hash(specialCharactersUsingMaterials),
+        const DeepCollectionEquality().hash(stats),
+        const DeepCollectionEquality().hash(artifactPossibleSubStats),
+        const DeepCollectionEquality().hash(artifactPieceSetMap),
+        const DeepCollectionEquality().hash(artifactTags)
+      ]);
+
+  @override
+  String toString() {
+    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieceSetMap: $artifactPieceSetMap, artifactTags: $artifactTags)';
+  }
 }
 
 /// @nodoc
 
-class _$AssetDataImpl implements _AssetData {
-  const _$AssetDataImpl(
+class _AssetData implements AssetData {
+  const _AssetData(
       {required this.assetDir,
       required this.version,
-      required final Map<String, Character> characters,
+      required final Map<CharacterId, Character> characters,
       required this.characterIngredients,
-      required final Map<String, Weapon> weapons,
+      required final Map<WeaponId, Weapon> weapons,
       required this.weaponIngredients,
-      required final Map<String, LocalizedText> weaponSubStats,
-      required final Map<String, WeaponTypeInfo> weaponTypes,
-      required final Map<String, Element> elements,
-      required final Map<String, Material> materials,
-      required final Map<String, LocalizedText> materialCategories,
+      required final Map<WeaponSubStat, LocalizedText> weaponSubStats,
+      required final Map<WeaponType, WeaponTypeInfo> weaponTypes,
+      required final Map<TeyvatElement, Element> elements,
+      required final Map<MaterialId, Material> materials,
+      required final Map<MaterialCategoryType, LocalizedText>
+          materialCategories,
       required final Map<String, int> materialSortOrder,
       required this.dailyMaterials,
-      required final Map<String, ArtifactSet> artifactSets,
-      required final Map<String, ArtifactPieceType> artifactPieceTypes,
-      required final Map<String, List<String>> specialCharactersUsingMaterials,
-      required final Map<String, LocalizedText> stats,
-      required final List<String> artifactPossibleSubStats,
-      required final Map<String, String> artifactPieceSetMap,
+      required final Map<ArtifactSetId, ArtifactSet> artifactSets,
+      required final Map<ArtifactPieceTypeId, ArtifactPieceType>
+          artifactPieceTypes,
+      required final Map<MaterialId, List<CharacterId>>
+          specialCharactersUsingMaterials,
+      required final Map<StatId, LocalizedText> stats,
+      required final List<StatId> artifactPossibleSubStats,
+      required final Map<ArtifactPieceId, ArtifactSetId> artifactPieceSetMap,
       required final List<ArtifactTagCategory> artifactTags})
       : _characters = characters,
         _weapons = weapons,
@@ -92,9 +156,9 @@ class _$AssetDataImpl implements _AssetData {
   final String assetDir;
   @override
   final AssetReleaseVersion version;
-  final Map<String, Character> _characters;
+  final Map<CharacterId, Character> _characters;
   @override
-  Map<String, Character> get characters {
+  Map<CharacterId, Character> get characters {
     if (_characters is EqualUnmodifiableMapView) return _characters;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_characters);
@@ -102,9 +166,9 @@ class _$AssetDataImpl implements _AssetData {
 
   @override
   final CharacterIngredients characterIngredients;
-  final Map<String, Weapon> _weapons;
+  final Map<WeaponId, Weapon> _weapons;
   @override
-  Map<String, Weapon> get weapons {
+  Map<WeaponId, Weapon> get weapons {
     if (_weapons is EqualUnmodifiableMapView) return _weapons;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_weapons);
@@ -112,41 +176,41 @@ class _$AssetDataImpl implements _AssetData {
 
   @override
   final WeaponIngredients weaponIngredients;
-  final Map<String, LocalizedText> _weaponSubStats;
+  final Map<WeaponSubStat, LocalizedText> _weaponSubStats;
   @override
-  Map<String, LocalizedText> get weaponSubStats {
+  Map<WeaponSubStat, LocalizedText> get weaponSubStats {
     if (_weaponSubStats is EqualUnmodifiableMapView) return _weaponSubStats;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_weaponSubStats);
   }
 
-  final Map<String, WeaponTypeInfo> _weaponTypes;
+  final Map<WeaponType, WeaponTypeInfo> _weaponTypes;
   @override
-  Map<String, WeaponTypeInfo> get weaponTypes {
+  Map<WeaponType, WeaponTypeInfo> get weaponTypes {
     if (_weaponTypes is EqualUnmodifiableMapView) return _weaponTypes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_weaponTypes);
   }
 
-  final Map<String, Element> _elements;
+  final Map<TeyvatElement, Element> _elements;
   @override
-  Map<String, Element> get elements {
+  Map<TeyvatElement, Element> get elements {
     if (_elements is EqualUnmodifiableMapView) return _elements;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_elements);
   }
 
-  final Map<String, Material> _materials;
+  final Map<MaterialId, Material> _materials;
   @override
-  Map<String, Material> get materials {
+  Map<MaterialId, Material> get materials {
     if (_materials is EqualUnmodifiableMapView) return _materials;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_materials);
   }
 
-  final Map<String, LocalizedText> _materialCategories;
+  final Map<MaterialCategoryType, LocalizedText> _materialCategories;
   @override
-  Map<String, LocalizedText> get materialCategories {
+  Map<MaterialCategoryType, LocalizedText> get materialCategories {
     if (_materialCategories is EqualUnmodifiableMapView)
       return _materialCategories;
     // ignore: implicit_dynamic_type
@@ -164,52 +228,52 @@ class _$AssetDataImpl implements _AssetData {
 
   @override
   final DailyMaterials dailyMaterials;
-  final Map<String, ArtifactSet> _artifactSets;
+  final Map<ArtifactSetId, ArtifactSet> _artifactSets;
   @override
-  Map<String, ArtifactSet> get artifactSets {
+  Map<ArtifactSetId, ArtifactSet> get artifactSets {
     if (_artifactSets is EqualUnmodifiableMapView) return _artifactSets;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_artifactSets);
   }
 
-  final Map<String, ArtifactPieceType> _artifactPieceTypes;
+  final Map<ArtifactPieceTypeId, ArtifactPieceType> _artifactPieceTypes;
   @override
-  Map<String, ArtifactPieceType> get artifactPieceTypes {
+  Map<ArtifactPieceTypeId, ArtifactPieceType> get artifactPieceTypes {
     if (_artifactPieceTypes is EqualUnmodifiableMapView)
       return _artifactPieceTypes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_artifactPieceTypes);
   }
 
-  final Map<String, List<String>> _specialCharactersUsingMaterials;
+  final Map<MaterialId, List<CharacterId>> _specialCharactersUsingMaterials;
   @override
-  Map<String, List<String>> get specialCharactersUsingMaterials {
+  Map<MaterialId, List<CharacterId>> get specialCharactersUsingMaterials {
     if (_specialCharactersUsingMaterials is EqualUnmodifiableMapView)
       return _specialCharactersUsingMaterials;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_specialCharactersUsingMaterials);
   }
 
-  final Map<String, LocalizedText> _stats;
+  final Map<StatId, LocalizedText> _stats;
   @override
-  Map<String, LocalizedText> get stats {
+  Map<StatId, LocalizedText> get stats {
     if (_stats is EqualUnmodifiableMapView) return _stats;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_stats);
   }
 
-  final List<String> _artifactPossibleSubStats;
+  final List<StatId> _artifactPossibleSubStats;
   @override
-  List<String> get artifactPossibleSubStats {
+  List<StatId> get artifactPossibleSubStats {
     if (_artifactPossibleSubStats is EqualUnmodifiableListView)
       return _artifactPossibleSubStats;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_artifactPossibleSubStats);
   }
 
-  final Map<String, String> _artifactPieceSetMap;
+  final Map<ArtifactPieceId, ArtifactSetId> _artifactPieceSetMap;
   @override
-  Map<String, String> get artifactPieceSetMap {
+  Map<ArtifactPieceId, ArtifactSetId> get artifactPieceSetMap {
     if (_artifactPieceSetMap is EqualUnmodifiableMapView)
       return _artifactPieceSetMap;
     // ignore: implicit_dynamic_type
@@ -225,15 +289,10 @@ class _$AssetDataImpl implements _AssetData {
   }
 
   @override
-  String toString() {
-    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieceSetMap: $artifactPieceSetMap, artifactTags: $artifactTags)';
-  }
-
-  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AssetDataImpl &&
+            other is _AssetData &&
             (identical(other.assetDir, assetDir) ||
                 other.assetDir == assetDir) &&
             (identical(other.version, version) || other.version == version) &&
@@ -297,69 +356,11 @@ class _$AssetDataImpl implements _AssetData {
         const DeepCollectionEquality().hash(_artifactPieceSetMap),
         const DeepCollectionEquality().hash(_artifactTags)
       ]);
-}
-
-abstract class _AssetData implements AssetData {
-  const factory _AssetData(
-      {required final String assetDir,
-      required final AssetReleaseVersion version,
-      required final Map<String, Character> characters,
-      required final CharacterIngredients characterIngredients,
-      required final Map<String, Weapon> weapons,
-      required final WeaponIngredients weaponIngredients,
-      required final Map<String, LocalizedText> weaponSubStats,
-      required final Map<String, WeaponTypeInfo> weaponTypes,
-      required final Map<String, Element> elements,
-      required final Map<String, Material> materials,
-      required final Map<String, LocalizedText> materialCategories,
-      required final Map<String, int> materialSortOrder,
-      required final DailyMaterials dailyMaterials,
-      required final Map<String, ArtifactSet> artifactSets,
-      required final Map<String, ArtifactPieceType> artifactPieceTypes,
-      required final Map<String, List<String>> specialCharactersUsingMaterials,
-      required final Map<String, LocalizedText> stats,
-      required final List<String> artifactPossibleSubStats,
-      required final Map<String, String> artifactPieceSetMap,
-      required final List<ArtifactTagCategory> artifactTags}) = _$AssetDataImpl;
 
   @override
-  String get assetDir;
-  @override
-  AssetReleaseVersion get version;
-  @override
-  Map<String, Character> get characters;
-  @override
-  CharacterIngredients get characterIngredients;
-  @override
-  Map<String, Weapon> get weapons;
-  @override
-  WeaponIngredients get weaponIngredients;
-  @override
-  Map<String, LocalizedText> get weaponSubStats;
-  @override
-  Map<String, WeaponTypeInfo> get weaponTypes;
-  @override
-  Map<String, Element> get elements;
-  @override
-  Map<String, Material> get materials;
-  @override
-  Map<String, LocalizedText> get materialCategories;
-  @override
-  Map<String, int> get materialSortOrder;
-  @override
-  DailyMaterials get dailyMaterials;
-  @override
-  Map<String, ArtifactSet> get artifactSets;
-  @override
-  Map<String, ArtifactPieceType> get artifactPieceTypes;
-  @override
-  Map<String, List<String>> get specialCharactersUsingMaterials;
-  @override
-  Map<String, LocalizedText> get stats;
-  @override
-  List<String> get artifactPossibleSubStats;
-  @override
-  Map<String, String> get artifactPieceSetMap;
-  @override
-  List<ArtifactTagCategory> get artifactTags;
+  String toString() {
+    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieceSetMap: $artifactPieceSetMap, artifactTags: $artifactTags)';
+  }
 }
+
+// dart format on

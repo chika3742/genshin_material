@@ -8,7 +8,7 @@ part "artifact.freezed.dart";
 part "artifact.g.dart";
 
 @freezed
-class ArtifactSet with _$ArtifactSet {
+sealed class ArtifactSet with _$ArtifactSet {
   const factory ArtifactSet({
     required String id,
     required LocalizedText name,
@@ -23,7 +23,7 @@ class ArtifactSet with _$ArtifactSet {
 }
 
 @freezed
-class ArtifactPiece with _$ArtifactPiece, ImageGetter {
+sealed class ArtifactPiece with _$ArtifactPiece, ImageGetter {
   const ArtifactPiece._();
 
   const factory ArtifactPiece({
@@ -57,7 +57,7 @@ class ArtifactPiece with _$ArtifactPiece, ImageGetter {
 }
 
 @freezed
-class ArtifactSetBonus with _$ArtifactSetBonus {
+sealed class ArtifactSetBonus with _$ArtifactSetBonus {
   const factory ArtifactSetBonus({
     required String type,
     required LocalizedText description,
@@ -68,7 +68,7 @@ class ArtifactSetBonus with _$ArtifactSetBonus {
 }
 
 @freezed
-class ArtifactsMeta with _$ArtifactsMeta {
+sealed class ArtifactsMeta with _$ArtifactsMeta {
   const factory ArtifactsMeta({
     required Map<StatId, LocalizedText> stats,
     required Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes,
@@ -82,7 +82,7 @@ class ArtifactsMeta with _$ArtifactsMeta {
 }
 
 @freezed
-class ArtifactPieceType with _$ArtifactPieceType {
+sealed class ArtifactPieceType with _$ArtifactPieceType {
   const factory ArtifactPieceType({
     required ArtifactPieceTypeId id,
     required LocalizedText desc,
@@ -94,7 +94,7 @@ class ArtifactPieceType with _$ArtifactPieceType {
 }
 
 @freezed
-class ArtifactStat with _$ArtifactStat {
+sealed class ArtifactStat with _$ArtifactStat {
   const factory ArtifactStat({
     required StatId id,
     required LocalizedText desc,
@@ -105,7 +105,7 @@ class ArtifactStat with _$ArtifactStat {
 }
 
 @freezed
-class ArtifactTagCategoriesInternal with _$ArtifactTagCategoriesInternal {
+sealed class ArtifactTagCategoriesInternal with _$ArtifactTagCategoriesInternal {
   const factory ArtifactTagCategoriesInternal({
     required List<ArtifactTagCategory> categories,
   }) = _ArtifactTagCategoriesInternal;
@@ -115,7 +115,7 @@ class ArtifactTagCategoriesInternal with _$ArtifactTagCategoriesInternal {
 }
 
 @freezed
-class ArtifactTagCategory with _$ArtifactTagCategory {
+sealed class ArtifactTagCategory with _$ArtifactTagCategory {
   const factory ArtifactTagCategory({
     required LocalizedText desc,
     required List<ArtifactTag> items,
@@ -126,7 +126,7 @@ class ArtifactTagCategory with _$ArtifactTagCategory {
 }
 
 @freezed
-class ArtifactTag with _$ArtifactTag {
+sealed class ArtifactTag with _$ArtifactTag {
   const factory ArtifactTag({
     required String id,
     required LocalizedText desc,

@@ -179,7 +179,7 @@ sealed class BookmarkWithDetails with _$BookmarkWithDetails {
 }
 
 @freezed
-class BookmarkGroup with _$BookmarkGroup {
+sealed class BookmarkGroup with _$BookmarkGroup {
   const BookmarkGroup._();
 
   const factory BookmarkGroup({

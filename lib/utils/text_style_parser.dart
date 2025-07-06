@@ -110,7 +110,7 @@ class ParsingFragment {
 }
 
 @Freezed(copyWith: false)
-class Fragment with _$Fragment {
+sealed class Fragment with _$Fragment {
   const factory Fragment({
     required FragmentType type,
     required String text,

@@ -6,18 +6,18 @@ part of 'hoyolab_api.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$HoyolabApiResultImpl<T> _$$HoyolabApiResultImplFromJson<T>(
+_HoyolabApiResult<T> _$HoyolabApiResultFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) =>
-    _$HoyolabApiResultImpl<T>(
+    _HoyolabApiResult<T>(
       retcode: (json['retcode'] as num).toInt(),
       message: json['message'] as String,
       data: _$nullableGenericFromJson(json['data'], fromJsonT),
     );
 
-Map<String, dynamic> _$$HoyolabApiResultImplToJson<T>(
-  _$HoyolabApiResultImpl<T> instance,
+Map<String, dynamic> _$HoyolabApiResultToJson<T>(
+  _HoyolabApiResult<T> instance,
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{
@@ -38,63 +38,59 @@ Object? _$nullableGenericToJson<T>(
 ) =>
     input == null ? null : toJson(input);
 
-_$HoyolabListDataImpl<T> _$$HoyolabListDataImplFromJson<T>(
+_HoyolabListData<T> _$HoyolabListDataFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) =>
-    _$HoyolabListDataImpl<T>(
+    _HoyolabListData<T>(
       list: (json['list'] as List<dynamic>).map(fromJsonT).toList(),
     );
 
-Map<String, dynamic> _$$HoyolabListDataImplToJson<T>(
-  _$HoyolabListDataImpl<T> instance,
+Map<String, dynamic> _$HoyolabListDataToJson<T>(
+  _HoyolabListData<T> instance,
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{
       'list': instance.list.map(toJsonT).toList(),
     };
 
-_$HyvServerImpl _$$HyvServerImplFromJson(Map<String, dynamic> json) =>
-    _$HyvServerImpl(
+_HyvServer _$HyvServerFromJson(Map<String, dynamic> json) => _HyvServer(
       region: json['region'] as String,
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$$HyvServerImplToJson(_$HyvServerImpl instance) =>
+Map<String, dynamic> _$HyvServerToJson(_HyvServer instance) =>
     <String, dynamic>{
       'region': instance.region,
       'name': instance.name,
     };
 
-_$HyvUserInfoImpl _$$HyvUserInfoImplFromJson(Map<String, dynamic> json) =>
-    _$HyvUserInfoImpl(
+_HyvUserInfo _$HyvUserInfoFromJson(Map<String, dynamic> json) => _HyvUserInfo(
       accountName: json['account_name'] as String,
     );
 
-Map<String, dynamic> _$$HyvUserInfoImplToJson(_$HyvUserInfoImpl instance) =>
+Map<String, dynamic> _$HyvUserInfoToJson(_HyvUserInfo instance) =>
     <String, dynamic>{
       'account_name': instance.accountName,
     };
 
-_$HyvUserGameRoleImpl _$$HyvUserGameRoleImplFromJson(
-        Map<String, dynamic> json) =>
-    _$HyvUserGameRoleImpl(
+_HyvUserGameRole _$HyvUserGameRoleFromJson(Map<String, dynamic> json) =>
+    _HyvUserGameRole(
       uid: json['game_uid'] as String,
       nickname: json['nickname'] as String,
       level: (json['level'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$HyvUserGameRoleImplToJson(
-        _$HyvUserGameRoleImpl instance) =>
+Map<String, dynamic> _$HyvUserGameRoleToJson(_HyvUserGameRole instance) =>
     <String, dynamic>{
       'game_uid': instance.uid,
       'nickname': instance.nickname,
       'level': instance.level,
     };
 
-_$AvatarListResultItemImpl _$$AvatarListResultItemImplFromJson(
+_AvatarListResultItem _$AvatarListResultItemFromJson(
         Map<String, dynamic> json) =>
-    _$AvatarListResultItemImpl(
+    _AvatarListResultItem(
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       currentLevel: json['level_current'] as String,
@@ -107,8 +103,8 @@ _$AvatarListResultItemImpl _$$AvatarListResultItemImplFromJson(
           : AvatarWeapon.fromJson(json['weapon'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$AvatarListResultItemImplToJson(
-        _$AvatarListResultItemImpl instance) =>
+Map<String, dynamic> _$AvatarListResultItemToJson(
+        _AvatarListResultItem instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -118,32 +114,30 @@ Map<String, dynamic> _$$AvatarListResultItemImplToJson(
       'weapon': instance.weapon,
     };
 
-_$AvatarSkillImpl _$$AvatarSkillImplFromJson(Map<String, dynamic> json) =>
-    _$AvatarSkillImpl(
+_AvatarSkill _$AvatarSkillFromJson(Map<String, dynamic> json) => _AvatarSkill(
       groupId: (json['group_id'] as num).toInt(),
       maxLevel: (json['max_level'] as num).toInt(),
       currentLevel: (json['level_current'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$AvatarSkillImplToJson(_$AvatarSkillImpl instance) =>
+Map<String, dynamic> _$AvatarSkillToJson(_AvatarSkill instance) =>
     <String, dynamic>{
       'group_id': instance.groupId,
       'max_level': instance.maxLevel,
       'level_current': instance.currentLevel,
     };
 
-_$AvatarAuthImpl _$$AvatarAuthImplFromJson(Map<String, dynamic> json) =>
-    _$AvatarAuthImpl(
+_AvatarAuth _$AvatarAuthFromJson(Map<String, dynamic> json) => _AvatarAuth(
       avatarAuth: (json['avatar_auth'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$AvatarAuthImplToJson(_$AvatarAuthImpl instance) =>
+Map<String, dynamic> _$AvatarAuthToJson(_AvatarAuth instance) =>
     <String, dynamic>{
       'avatar_auth': instance.avatarAuth,
     };
 
-_$GameRecordCardImpl _$$GameRecordCardImplFromJson(Map<String, dynamic> json) =>
-    _$GameRecordCardImpl(
+_GameRecordCard _$GameRecordCardFromJson(Map<String, dynamic> json) =>
+    _GameRecordCard(
       gameType: $enumDecode(_$GameTypeEnumMap, json['game_id'],
           unknownValue: GameType.starrail),
       dataSwitches: (json['data_switches'] as List<dynamic>)
@@ -151,8 +145,7 @@ _$GameRecordCardImpl _$$GameRecordCardImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$GameRecordCardImplToJson(
-        _$GameRecordCardImpl instance) =>
+Map<String, dynamic> _$GameRecordCardToJson(_GameRecordCard instance) =>
     <String, dynamic>{
       'game_id': _$GameTypeEnumMap[instance.gameType]!,
       'data_switches': instance.dataSwitches,
@@ -164,16 +157,14 @@ const _$GameTypeEnumMap = {
   GameType.houkai3rd: 1,
 };
 
-_$DataSwitchMetadataImpl _$$DataSwitchMetadataImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DataSwitchMetadataImpl(
+_DataSwitchMetadata _$DataSwitchMetadataFromJson(Map<String, dynamic> json) =>
+    _DataSwitchMetadata(
       switchId: $enumDecode(_$DataSwitchTypeEnumMap, json['switch_id'],
           unknownValue: DataSwitchType.enableBattleChronicle),
       isPublic: json['is_public'] as bool,
     );
 
-Map<String, dynamic> _$$DataSwitchMetadataImplToJson(
-        _$DataSwitchMetadataImpl instance) =>
+Map<String, dynamic> _$DataSwitchMetadataToJson(_DataSwitchMetadata instance) =>
     <String, dynamic>{
       'switch_id': _$DataSwitchTypeEnumMap[instance.switchId]!,
       'is_public': instance.isPublic,
@@ -186,22 +177,20 @@ const _$DataSwitchTypeEnumMap = {
   DataSwitchType.enableRealtimeNotes: 3,
 };
 
-_$DailyNoteImpl _$$DailyNoteImplFromJson(Map<String, dynamic> json) =>
-    _$DailyNoteImpl(
+_DailyNote _$DailyNoteFromJson(Map<String, dynamic> json) => _DailyNote(
       currentResin: (json['current_resin'] as num).toInt(),
       resinRecoveryTime: json['resin_recovery_time'] as String,
       currentHomeCoin: (json['current_home_coin'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$DailyNoteImplToJson(_$DailyNoteImpl instance) =>
+Map<String, dynamic> _$DailyNoteToJson(_DailyNote instance) =>
     <String, dynamic>{
       'current_resin': instance.currentResin,
       'resin_recovery_time': instance.resinRecoveryTime,
       'current_home_coin': instance.currentHomeCoin,
     };
 
-Map<String, dynamic> _$$CalcComputeItemImplToJson(
-        _$CalcComputeItemImpl instance) =>
+Map<String, dynamic> _$CalcComputeItemToJson(_CalcComputeItem instance) =>
     <String, dynamic>{
       'avatar_id': instance.avatarId,
       'avatar_level_current': instance.currentAvatarLevel,
@@ -211,16 +200,15 @@ Map<String, dynamic> _$$CalcComputeItemImplToJson(
       'weapon': instance.weapon,
     };
 
-Map<String, dynamic> _$$CalcComputeSkillImplToJson(
-        _$CalcComputeSkillImpl instance) =>
+Map<String, dynamic> _$CalcComputeSkillToJson(_CalcComputeSkill instance) =>
     <String, dynamic>{
       'id': instance.id,
       'level_current': instance.currentLevel,
       'level_target': instance.targetLevel,
     };
 
-_$AvatarWeaponImpl _$$AvatarWeaponImplFromJson(Map<String, dynamic> json) =>
-    _$AvatarWeaponImpl(
+_AvatarWeapon _$AvatarWeaponFromJson(Map<String, dynamic> json) =>
+    _AvatarWeapon(
       id: (json['id'] as num).toInt(),
       maxLevel: (json['max_level'] as num).toInt(),
       currentLevel: (json['level_current'] as num).toInt(),
@@ -230,7 +218,7 @@ _$AvatarWeaponImpl _$$AvatarWeaponImplFromJson(Map<String, dynamic> json) =>
       icon: json['icon'] as String,
     );
 
-Map<String, dynamic> _$$AvatarWeaponImplToJson(_$AvatarWeaponImpl instance) =>
+Map<String, dynamic> _$AvatarWeaponToJson(_AvatarWeapon instance) =>
     <String, dynamic>{
       'id': instance.id,
       'max_level': instance.maxLevel,
@@ -241,8 +229,7 @@ Map<String, dynamic> _$$AvatarWeaponImplToJson(_$AvatarWeaponImpl instance) =>
       'icon': instance.icon,
     };
 
-Map<String, dynamic> _$$CalcComputeWeaponImplToJson(
-        _$CalcComputeWeaponImpl instance) =>
+Map<String, dynamic> _$CalcComputeWeaponToJson(_CalcComputeWeapon instance) =>
     <String, dynamic>{
       'id': instance.id,
       'max_level': instance.maxLevel,
@@ -254,28 +241,26 @@ Map<String, dynamic> _$$CalcComputeWeaponImplToJson(
       'icon': instance.icon,
     };
 
-_$CalcResultImpl _$$CalcResultImplFromJson(Map<String, dynamic> json) =>
-    _$CalcResultImpl(
+_CalcResult _$CalcResultFromJson(Map<String, dynamic> json) => _CalcResult(
       overallConsume: (json['overall_consume'] as List<dynamic>)
           .map((e) => CalcConsumptionItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$CalcResultImplToJson(_$CalcResultImpl instance) =>
+Map<String, dynamic> _$CalcResultToJson(_CalcResult instance) =>
     <String, dynamic>{
       'overall_consume': instance.overallConsume,
     };
 
-_$CalcConsumptionItemImpl _$$CalcConsumptionItemImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CalcConsumptionItemImpl(
+_CalcConsumptionItem _$CalcConsumptionItemFromJson(Map<String, dynamic> json) =>
+    _CalcConsumptionItem(
       id: (json['id'] as num).toInt(),
       lackNum: (json['lack_num'] as num).toInt(),
       num: (json['num'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$CalcConsumptionItemImplToJson(
-        _$CalcConsumptionItemImpl instance) =>
+Map<String, dynamic> _$CalcConsumptionItemToJson(
+        _CalcConsumptionItem instance) =>
     <String, dynamic>{
       'id': instance.id,
       'lack_num': instance.lackNum,

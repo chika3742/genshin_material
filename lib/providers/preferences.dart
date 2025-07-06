@@ -122,7 +122,7 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
 }
 
 @freezed
-class PreferencesState with _$PreferencesState {
+sealed class PreferencesState with _$PreferencesState {
   const PreferencesState._();
 
   const factory PreferencesState({
