@@ -215,9 +215,9 @@ class AssetUpdater {
 
   Future<void> _unzipRelease(String zipPath, String destDir) async {
     final inputStream = InputFileStream(zipPath);
-    final archive = ZipDecoder().decodeBuffer(inputStream);
+    final archive = ZipDecoder().decodeStream(inputStream);
 
-    await extractArchiveToDiskAsync(archive, destDir, asyncWrite: true);
+    await extractArchiveToDisk(archive, destDir);
   }
 
   Future<void> _cleanupPaths(List<String> paths) async {
