@@ -18,14 +18,18 @@ updates:
           - slang*
         update-types:
           - major
-          - minor
       drift:
         patterns:
           - drift*
-          - sqlite3*
+        exclude-patterns:
+          - drift_db_viewer
         update-types:
           - major
-          - minor
+      go-router:
+        patterns:
+          - go_router*
+        update-types:
+          - major
       minor-and-patch:
         update-types:
           - minor
