@@ -20,7 +20,7 @@ Page buildTransitionedPage({
           child: child,
         );
       },
-    )
+    ),
   };
 }
 
