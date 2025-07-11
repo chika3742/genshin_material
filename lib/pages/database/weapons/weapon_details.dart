@@ -65,11 +65,10 @@ class WeaponDetailsPage extends HookConsumerWidget {
       selectedCharacterId: selectedCharacterIdInit,
     ));
 
-    final db = ref.watch(appDatabaseProvider);
     final sliderRangeInitialized = useState(!prefs.isLinkedWithHoyolab); // Set to true initially when not linked
     useEffect(() {
       if (prefs.isLinkedWithHoyolab) {
-        ref.read(levelBagSyncStateNotifierProvider(variantId: state.value.selectedCharacterId, weaponId: weapon.id).notifier)
+        ref.read(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id).notifier)
             .syncInGameCharacter().then((result) {
               if (result != null) {
                 for (final e in result.levels.entries) {
@@ -84,7 +83,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
                 }
               }
             });
-        db.getWeaponLevel(prefs.hyvUid!, state.value.selectedCharacterId, weapon.id).then((value) {
+        db.getWeaponLevel(prefs.hyvUid!, selectedCharacterId.value, weapon.id).then((value) {
           if (value != null) {
             state.value = state.value.copyWithDrv(LevelRangeValues(
               value,
@@ -131,7 +130,10 @@ class WeaponDetailsPage extends HookConsumerWidget {
                       Consumer(
                         builder: (context, ref, _) {
                           return GameDataSyncIndicator(
-                            status: ref.watch(levelBagSyncStateNotifierProvider(variantId: state.value.selectedCharacterId, weaponId: weapon.id)),
+                            status: ref.watch(gameDataSyncStateProvider(
+                              variantId: state.value.selectedCharacterId,
+                              weaponId: weapon.id,
+                            )),
                           );
                         },
                       ),

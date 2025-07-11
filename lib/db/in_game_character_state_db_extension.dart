@@ -10,11 +10,10 @@ extension InGameCharacterStateDbExtension on AppDatabase {
     );
   }
 
-  Future<Map<Purpose, int>?> getCharacterLevels(String uid, String characterId) async {
+  Future<InGameCharacterState?> getCharacterState(String uid, String characterId) {
     final query = select(inGameCharacterStateTable)
       ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId));
-    final info = await query.getSingleOrNull();
-    return info?.purposes;
+    return query.getSingleOrNull();
   }
 
   Future<List<CharacterId>> getSyncedCharacters(String uid) async {
@@ -22,11 +21,5 @@ extension InGameCharacterStateDbExtension on AppDatabase {
       ..where((tbl) => tbl.uid.equals(uid));
     final states = await query.get();
     return states.map((e) => e.characterId).toList();
-  }
-
-  Stream<String?> watchCharacterWeapon(String uid, String characterId) {
-    final query = select(inGameCharacterStateTable)
-      ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId));
-    return query.watchSingleOrNull().map((event) => event?.equippedWeaponId);
   }
 }

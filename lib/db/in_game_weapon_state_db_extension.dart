@@ -14,10 +14,9 @@ extension InGameWeaponStateDbExtension on AppDatabase {
     );
   }
 
-  Future<int?> getWeaponLevel(String uid, String characterId, String weaponId) async {
+  Future<InGameWeaponState?> getWeaponState(String uid, String characterId, String weaponId) {
     final query = select(inGameWeaponStateTable)
       ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId) & tbl.weaponId.equals(weaponId));
-    final info = await query.getSingleOrNull();
-    return info?.level;
+    return query.getSingleOrNull();
   }
 }
