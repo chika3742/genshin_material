@@ -474,7 +474,7 @@ class _GameDataSyncStateProviderElement
 }
 
 String _$gameDataSyncCachedHash() =>
-    r'e7d57802dab4abf71287f2fbcfce1ba367b07ea0';
+    r'e90b088e95c23f96b54b8c1ef5d05778afb79b43';
 
 abstract class _$GameDataSyncCached
     extends BuildlessAutoDisposeAsyncNotifier<GameDataSyncResult?> {

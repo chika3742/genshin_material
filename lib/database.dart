@@ -94,7 +94,7 @@ sealed class InGameState extends DataClass {
   final DateTime lastUpdated;
 }
 
-@DataClassName.custom(name: "InGameCharacterState", extending: InGameState)
+@DataClassName.custom(name: "InGameCharacterState", implementing: [InGameState])
 class InGameCharacterStateTable extends Table {
   TextColumn get uid => text()();
   TextColumn get characterId => text()();
@@ -106,12 +106,12 @@ class InGameCharacterStateTable extends Table {
   Set<Column> get primaryKey => {uid, characterId};
 }
 
-@DataClassName.custom(name: "InGameWeaponState", extending: InGameState)
+@DataClassName.custom(name: "InGameWeaponState", implementing: [InGameState])
 class InGameWeaponStateTable extends Table {
   TextColumn get uid => text()();
   TextColumn get characterId => text()();
   TextColumn get weaponId => text()();
-  IntColumn get level => integer()();
+  TextColumn get purposes => text().map(const PurposeMapConverter())();
   DateTimeColumn get lastUpdated => dateTime().withDefault(currentDateAndTime)();
 
   @override
@@ -222,6 +222,9 @@ class AppDatabase extends _$AppDatabase {
           await m.alterTable(TableMigration(
             schema.inGameWeaponStateTable,
             columnTransformer: {
+              schema.inGameWeaponStateTable.purposes: Variable.withString('{"ascension": ')
+                  + const CustomExpression("level")
+                  + Variable.withString("}"),
               schema.inGameWeaponStateTable.lastUpdated:
                 currentDateAndTime.modify(DateTimeModifier.minutes(-5)),
             },

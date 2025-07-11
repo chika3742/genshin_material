@@ -1,9 +1,12 @@
 // dart format width=80
 // ignore_for_file: unused_local_variable, unused_import
+import "dart:convert";
+
 import "package:drift/drift.dart";
 import "package:drift_dev/api/migrations_native.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
+import "package:genshin_material/models/common.dart";
 
 import "../../utils.dart";
 import "generated/schema.dart";
@@ -46,16 +49,6 @@ void main() {
             purposes: "{}",
           ),
         ];
-    final expectedNewInGameCharacterStateTableData =
-        <v2.InGameCharacterStateTableData>[
-          v2.InGameCharacterStateTableData(
-            uid: "foo",
-            characterId: "bar",
-            purposes: "{}",
-            lastUpdated: DateTime.now().subtract(Duration(minutes: 5)),
-          ),
-        ];
-
     final oldInGameWeaponStateTableData = <v1.InGameWeaponStateTableData>[
       v1.InGameWeaponStateTableData(
         uid: "foo",
@@ -64,15 +57,25 @@ void main() {
         level: 0,
       ),
     ];
+
+    final expectedNewInGameCharacterStateTableData =
+    <v2.InGameCharacterStateTableData>[
+      v2.InGameCharacterStateTableData(
+        uid: "foo",
+        characterId: "bar",
+        purposes: "{}",
+        lastUpdated: DateTime.now().subtract(Duration(minutes: 5)),
+      ),
+    ];
     final expectedNewInGameWeaponStateTableData =
         <v2.InGameWeaponStateTableData>[
           v2.InGameWeaponStateTableData(
             uid: "foo",
             characterId: "bar",
             weaponId: "baz",
-            level: 0,
+            purposes: '{"ascension": 0}',
             lastUpdated: DateTime.now().subtract(Duration(minutes: 5)),
-          )
+          ),
         ];
 
     await verifier.testWithDataIntegrity(
