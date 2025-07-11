@@ -4,6 +4,7 @@ import "package:drift/drift.dart";
 import "package:drift_flutter/drift_flutter.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 
+import "database.steps.dart";
 import "models/common.dart";
 
 part "database.freezed.dart";
@@ -85,6 +86,7 @@ class InGameCharacterStateTable extends Table {
   TextColumn get characterId => text()();
   TextColumn get purposes => text().map(const PurposeMapConverter())();
   TextColumn get equippedWeaponId => text().nullable()();
+  DateTimeColumn get lastUpdated => dateTime().withDefault(currentDateAndTime)();
 
   @override
   Set<Column> get primaryKey => {uid, characterId};
@@ -96,6 +98,7 @@ class InGameWeaponStateTable extends Table {
   TextColumn get characterId => text()();
   TextColumn get weaponId => text()();
   IntColumn get level => integer()();
+  DateTimeColumn get lastUpdated => dateTime().withDefault(currentDateAndTime)();
 
   @override
   Set<Column<Object>>? get primaryKey => {uid, characterId, weaponId};
@@ -186,13 +189,31 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   static const dbName = "db";
 
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
+      onUpgrade: stepByStep(
+        from1To2: (m, schema) async {
+          await m.alterTable(TableMigration(
+            schema.inGameCharacterStateTable,
+            columnTransformer: {
+              schema.inGameCharacterStateTable.lastUpdated:
+                currentDateAndTime.modify(DateTimeModifier.minutes(-5)),
+            },
+          ));
+          await m.alterTable(TableMigration(
+            schema.inGameWeaponStateTable,
+            columnTransformer: {
+              schema.inGameWeaponStateTable.lastUpdated:
+                currentDateAndTime.modify(DateTimeModifier.minutes(-5)),
+            },
+          ));
+        },
+      ),
       beforeOpen: (details) async {
         // enable foreign keys
         await customStatement("PRAGMA foreign_keys = ON");
