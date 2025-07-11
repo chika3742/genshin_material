@@ -61,30 +61,20 @@ class WeaponDetailsPage extends HookConsumerWidget {
     );
     final selectedCharacterId = useState(selectedCharacterIdInit);
 
-    final db = ref.watch(appDatabaseProvider);
     final sliderRangeInitialized = useState(!prefs.isLinkedWithHoyolab); // Set to true initially when not linked
-    useEffect(() {
-      if (prefs.isLinkedWithHoyolab) {
-        ref.read(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id).notifier)
-            .syncInGameCharacter().then((result) {
-              if (result != null) {
-                if (result.levels[Purpose.ascension] != null) {
-                  rangeValues.value = LevelRangeValues(result.levels[Purpose.ascension]!, max(rangeValues.value.end, result.levels[Purpose.ascension]!));
-                }
-                if (result.hasRemovedBookmarks && context.mounted) {
-                  showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
-                }
-              }
-            });
-        db.getWeaponLevel(prefs.hyvUid!, selectedCharacterId.value, weapon.id).then((value) {
-          if (value != null) {
-            rangeValues.value = LevelRangeValues(value, max(rangeValues.value.end, value));
-          }
-          sliderRangeInitialized.value = true;
-        });
-      }
-      return null;
-    }, [selectedCharacterId.value],);
+
+    ref.listen(gameDataSyncCachedProvider(
+      variantId: selectedCharacterId.value,
+      weaponId: weapon.id,
+    ), (_, result) {
+      if (result.value?.levels?[Purpose.ascension] == null) return;
+
+      rangeValues.value = LevelRangeValues(
+        result.value!.levels![Purpose.ascension]!,
+        max(rangeValues.value.end, result.value!.levels![Purpose.ascension]!),
+      );
+      sliderRangeInitialized.value = true;
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -120,7 +110,10 @@ class WeaponDetailsPage extends HookConsumerWidget {
                       Consumer(
                         builder: (context, ref, _) {
                           return GameDataSyncIndicator(
-                            status: ref.watch(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id)),
+                            status: ref.watch(gameDataSyncStateProvider(
+                              variantId: selectedCharacterId.value,
+                              weaponId: weapon.id,
+                            )),
                           );
                         },
                       ),
