@@ -16,16 +16,13 @@ import "../../../components/material_card.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
-import "../../../db/in_game_weapon_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/material_bookmark_frame.dart";
 import "../../../models/weapon.dart";
-import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";
 import "../../../ui_core/layout.dart";
-import "../../../ui_core/snack_bar.dart";
 import "../../../utils/filtering.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
@@ -52,6 +49,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
     final levelsEntry = assetData.weaponIngredients
         .rarities[weapon.rarity]!;
     final rangeValues = useState(LevelRangeValues(1, levelsEntry.levels.keys.last));
+    final lackNums = useState(<String, int>{});
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
     final selectedCharacterIdInit = useMemoized(
@@ -74,6 +72,15 @@ class WeaponDetailsPage extends HookConsumerWidget {
         max(rangeValues.value.end, result.value!.levels![Purpose.ascension]!),
       );
       sliderRangeInitialized.value = true;
+    });
+
+    ref.listen(bagLackNumProvider(
+      variantId: selectedCharacterId.value,
+      weaponId: weapon.id,
+    ), (_, result) {
+      if (!result.hasValue) return;
+
+      lackNums.value = result.value!;
     });
 
     return Scaffold(
@@ -157,7 +164,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
                         ),
                       ),
                       Wrap(
-                        children: _buildMaterialCards(selectedCharacterId.value, weapon, rangeValues.value),
+                        children: _buildMaterialCards(selectedCharacterId.value, weapon, rangeValues.value, lackNums.value),
                       ),
                     ],
                   ),
@@ -184,10 +191,32 @@ class WeaponDetailsPage extends HookConsumerWidget {
     );
   }
 
-  List<Widget> _buildMaterialCards(String characterId, Weapon weapon, LevelRangeValues levelRange) {
+  List<Widget> _buildMaterialCards(String characterId, Weapon weapon, LevelRangeValues levelRange, Map<String, int> lackNums) {
+    final items = _getCardMaterials(weapon, levelRange);
+    final fullMaterials = useMemoized(() => _getCardMaterials(weapon));
+
+    const defaultExpItemId = "mystic-enhancement-ore";
+
+    return sortMaterials(items, assetData).map(
+          (item) => MaterialItem(
+        item: item,
+        possiblePurposeTypes: const [Purpose.ascension],
+        expItems: assetData.weaponIngredients.expItems,
+        lackNum: lackNums[item.id ?? defaultExpItemId] != null
+            ? lackNums[item.id ?? defaultExpItemId]! - (fullMaterials.firstWhere((e) => e.id == item.id).sum - item.sum)
+            : null,
+        usage: MaterialUsage(
+          characterId: characterId,
+          weaponId: weapon.id,
+        ),
+      ),
+    ).toList();
+  }
+
+  List<MaterialCardMaterial> _getCardMaterials(Weapon weapon, [LevelRangeValues? levelRange]) {
     final mbFrames = assetData.weaponIngredients.rarities[weapon.rarity]!.levels
         .mapInLevelRange(
-      levelRange,
+      levelRange ?? LevelRangeValues(1, assetData.weaponIngredients.rarities[weapon.rarity]!.levels.keys.last),
       (key, value) {
         return toMaterialBookmarkFrames(
           level: key,
@@ -199,17 +228,6 @@ class WeaponDetailsPage extends HookConsumerWidget {
       },
     ).flattened.toList();
     final items = mergeMaterialBookmarkFrames(mbFrames);
-
-    return sortMaterials(items, assetData).map(
-          (item) => MaterialItem(
-        item: item,
-        possiblePurposeTypes: const [Purpose.ascension],
-        expItems: assetData.weaponIngredients.expItems,
-        usage: MaterialUsage(
-          characterId: characterId,
-          weaponId: weapon.id,
-        ),
-      ),
-    ).toList();
+    return items;
   }
 }

@@ -7,6 +7,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../components/game_data_sync_indicator.dart";
+import "../core/asset_cache.dart";
 import "../core/hoyolab_api.dart";
 import "../core/secure_storage.dart";
 import "../database.dart";
@@ -15,6 +16,7 @@ import "../db/in_game_weapon_state_db_extension.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
+import "../models/weapon.dart";
 import "database_provider.dart";
 import "preferences.dart";
 import "versions.dart";
@@ -144,30 +146,47 @@ Future<GameDataSyncResult> gameDataSync(Ref ref, { required String variantId, St
   }
 }
 
-/// If character does not exist, return null.
-Map<Purpose, int> _toCharacterLevels(AvatarListResultItem charaInfo) {
-  final result = <Purpose, int>{};
+@riverpod
+Future<Map<String, int>> bagLackNum(Ref ref, { required String variantId, String? weaponId }) async {
+  final assetData = ref.watch(assetDataProvider).value;
+  final prefs = ref.watch(preferencesStateNotifierProvider);
+  final hoyolabCookie = await getHoyolabCookie();
 
-  result[Purpose.ascension] = int.parse(charaInfo.currentLevel);
+  if (prefs.hyvServer == null || prefs.hyvUid == null || hoyolabCookie == null) {
+    throw StateError("Hoyolab server, uid, or cookie is not set");
+  }
+  if (assetData == null) {
+    throw StateError("Asset data is not loaded");
+  }
 
-  final skills = charaInfo.skills.where((element) => element.maxLevel != 1);
-  skills.forEachIndexed((index, element) {
-    final purpose = switch (index) {
-      0 => Purpose.normalAttack,
-      1 => Purpose.elementalSkill,
-      2 => Purpose.elementalBurst,
-      _ => throw "Invalid talent index",
-    };
-    result[purpose] = element.currentLevel;
-  });
+  final api = HoyolabApi(
+    cookie: hoyolabCookie,
+    uid: prefs.hyvUid!,
+    region: prefs.hyvServer!,
+  );
 
-  return result;
+  final (character, variant) = _extractCharacter(assetData.characters, variantId);
+
+  // fetch material lack numbers
+  final calcResult = await HoyolabApi.queue.run(() => _computeBag(
+    api: api,
+    assetData: assetData,
+    ids: character.hyvIds,
+    variant: variant,
+    weaponId: weaponId,
+  ));
+
+  return Map.fromEntries(calcResult!.overallConsume.map((e) {
+    final materialId = assetData.materials.entries.firstWhere((m) => m.value.hyvId == e.id).key;
+    return MapEntry(materialId, e.lackNum);
+  }));
 }
 
 @riverpod
 GameDataSyncStatus gameDataSyncState(Ref ref, { required String variantId, String? weaponId }) {
   final snapshots = [
     ref.watch(gameDataSyncProvider(variantId: variantId, weaponId: weaponId)),
+    ref.watch(bagLackNumProvider(variantId: variantId, weaponId: weaponId)),
   ];
 
   final syncResult = snapshots.first.value as GameDataSyncResult?;
@@ -233,6 +252,108 @@ sealed class GameDataSyncResult with _$GameDataSyncResult {
     Object? error,
     @Default(false) bool isStale,
   }) = _GameDataSyncResult;
+}
+
+/// If character does not exist, return null.
+Map<Purpose, int> _toCharacterLevels(AvatarListResultItem charaInfo) {
+  final result = <Purpose, int>{};
+
+  result[Purpose.ascension] = int.parse(charaInfo.currentLevel);
+
+  final skills = charaInfo.skills.where((element) => element.maxLevel != 1);
+  skills.forEachIndexed((index, element) {
+    final purpose = switch (index) {
+      0 => Purpose.normalAttack,
+      1 => Purpose.elementalSkill,
+      2 => Purpose.elementalBurst,
+      _ => throw "Invalid talent index",
+    };
+    result[purpose] = element.currentLevel;
+  });
+
+  return result;
+}
+
+Future<CalcResult?> _computeBag({
+  required HoyolabApi api,
+  required AssetData assetData,
+  required List<int> ids,
+  required CharacterOrVariant variant,
+  String? weaponId,
+}) async {
+  final avatarId = await _determineAvatarId(
+    api: api,
+    ids: ids,
+    weaponTypeFilter: assetData.weaponTypes[variant.weaponType]!.hyvId,
+  );
+
+  final computeReq = _createCalcComputeRequest(
+    variant: variant,
+    assetData: assetData,
+    avatarId: avatarId,
+    weapon: weaponId != null ? assetData.weapons[weaponId] : null,
+  );
+
+  return await api.batchCompute([computeReq]);
+}
+
+CalcComputeItem _createCalcComputeRequest({
+  required CharacterOrVariant variant,
+  required AssetData assetData,
+  required int avatarId,
+  Weapon? weapon,
+}) {
+  CalcComputeItem item = const CalcComputeItem();
+
+  // append character info to the compute request
+  item = item.copyWith(
+    avatarId: avatarId,
+    currentAvatarLevel: 1,
+    elementAttrId: assetData.elements[variant.element]!.hyvId,
+    targetAvatarLevel: assetData.characterIngredients.purposes[Purpose.ascension]!.levels.keys.last,
+    skills: variant.talents.values.map((e) => CalcComputeSkill(
+      id: e.idList.first,
+      currentLevel: 1,
+      targetLevel: assetData.characterIngredients.purposes[Purpose.normalAttack]!.levels.keys.last,
+    )).toList(),
+  );
+
+  if (weapon != null) {
+    // append weapon info to the compute request
+    item = item.copyWith(
+      weapon: CalcComputeWeapon(
+        id: weapon.hyvId,
+        currentLevel: 1,
+        targetLevel: assetData.weaponIngredients.rarities[weapon.rarity]!.levels.keys.last,
+        rarity: weapon.rarity,
+        name: weapon.name.localized,
+      ),
+    );
+  }
+
+  return item;
+}
+
+Future<int> _determineAvatarId({
+  required HoyolabApi api,
+  required List<int> ids,
+  required int weaponTypeFilter,
+}) async {
+  if (ids.length > 2) {
+    final result = await HoyolabApiUtils.loopUntilCharacter(
+      ids,
+          (page) {
+        return api.avatarList(
+          page,
+          elementIds: [],
+          weaponCatIds: [weaponTypeFilter],
+        );
+      },
+    );
+    return result?.id ?? ids.first;
+  } else {
+    return ids.first;
+  }
 }
 
 (CharacterWithLargeImage character, CharacterOrVariant variant) _extractCharacter(

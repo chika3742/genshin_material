@@ -176,7 +176,155 @@ class _GameDataSyncProviderElement
   String? get weaponId => (origin as GameDataSyncProvider).weaponId;
 }
 
-String _$gameDataSyncStateHash() => r'4388195eeb5e3676229c30ce10c6c440113e5807';
+String _$bagLackNumHash() => r'0d37f9b2de8fd8d5f59f049ac0f9585ec4f33bba';
+
+/// See also [bagLackNum].
+@ProviderFor(bagLackNum)
+const bagLackNumProvider = BagLackNumFamily();
+
+/// See also [bagLackNum].
+class BagLackNumFamily extends Family<AsyncValue<Map<String, int>>> {
+  /// See also [bagLackNum].
+  const BagLackNumFamily();
+
+  /// See also [bagLackNum].
+  BagLackNumProvider call({
+    required String variantId,
+    String? weaponId,
+  }) {
+    return BagLackNumProvider(
+      variantId: variantId,
+      weaponId: weaponId,
+    );
+  }
+
+  @override
+  BagLackNumProvider getProviderOverride(
+    covariant BagLackNumProvider provider,
+  ) {
+    return call(
+      variantId: provider.variantId,
+      weaponId: provider.weaponId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'bagLackNumProvider';
+}
+
+/// See also [bagLackNum].
+class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
+  /// See also [bagLackNum].
+  BagLackNumProvider({
+    required String variantId,
+    String? weaponId,
+  }) : this._internal(
+          (ref) => bagLackNum(
+            ref as BagLackNumRef,
+            variantId: variantId,
+            weaponId: weaponId,
+          ),
+          from: bagLackNumProvider,
+          name: r'bagLackNumProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$bagLackNumHash,
+          dependencies: BagLackNumFamily._dependencies,
+          allTransitiveDependencies:
+              BagLackNumFamily._allTransitiveDependencies,
+          variantId: variantId,
+          weaponId: weaponId,
+        );
+
+  BagLackNumProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.variantId,
+    required this.weaponId,
+  }) : super.internal();
+
+  final String variantId;
+  final String? weaponId;
+
+  @override
+  Override overrideWith(
+    FutureOr<Map<String, int>> Function(BagLackNumRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: BagLackNumProvider._internal(
+        (ref) => create(ref as BagLackNumRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        variantId: variantId,
+        weaponId: weaponId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Map<String, int>> createElement() {
+    return _BagLackNumProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is BagLackNumProvider &&
+        other.variantId == variantId &&
+        other.weaponId == weaponId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, variantId.hashCode);
+    hash = _SystemHash.combine(hash, weaponId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin BagLackNumRef on AutoDisposeFutureProviderRef<Map<String, int>> {
+  /// The parameter `variantId` of this provider.
+  String get variantId;
+
+  /// The parameter `weaponId` of this provider.
+  String? get weaponId;
+}
+
+class _BagLackNumProviderElement
+    extends AutoDisposeFutureProviderElement<Map<String, int>>
+    with BagLackNumRef {
+  _BagLackNumProviderElement(super.provider);
+
+  @override
+  String get variantId => (origin as BagLackNumProvider).variantId;
+  @override
+  String? get weaponId => (origin as BagLackNumProvider).weaponId;
+}
+
+String _$gameDataSyncStateHash() => r'dc6efdfd52ddf17b99f6e0e0680b5b0698869681';
 
 /// See also [gameDataSyncState].
 @ProviderFor(gameDataSyncState)
