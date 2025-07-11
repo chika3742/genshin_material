@@ -115,7 +115,7 @@ final class Schema2 extends i0.VersionedSchema {
           _column_17,
           _column_2,
           _column_21,
-          _column_22,
+          _column_18,
           _column_20,
         ],
         attachedDatabase: database,
@@ -130,8 +130,8 @@ final class Schema2 extends i0.VersionedSchema {
           'PRIMARY KEY(id)',
         ],
         columns: [
+          _column_22,
           _column_23,
-          _column_24,
         ],
         attachedDatabase: database,
       ),
@@ -146,8 +146,8 @@ final class Schema2 extends i0.VersionedSchema {
         ],
         columns: [
           _column_17,
+          _column_24,
           _column_25,
-          _column_26,
           _column_20,
         ],
         attachedDatabase: database,
@@ -314,8 +314,8 @@ class Shape5 extends i0.VersionedTable {
       columnsByName['character_id']! as i1.GeneratedColumn<String>;
   i1.GeneratedColumn<String> get weaponId =>
       columnsByName['weapon_id']! as i1.GeneratedColumn<String>;
-  i1.GeneratedColumn<int> get level =>
-      columnsByName['level']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get purposes =>
+      columnsByName['purposes']! as i1.GeneratedColumn<String>;
   i1.GeneratedColumn<DateTime> get lastUpdated =>
       columnsByName['last_updated']! as i1.GeneratedColumn<DateTime>;
 }
@@ -323,9 +323,6 @@ class Shape5 extends i0.VersionedTable {
 i1.GeneratedColumn<String> _column_21(String aliasedName) =>
     i1.GeneratedColumn<String>('weapon_id', aliasedName, false,
         type: i1.DriftSqlType.string);
-i1.GeneratedColumn<int> _column_22(String aliasedName) =>
-    i1.GeneratedColumn<int>('level', aliasedName, false,
-        type: i1.DriftSqlType.int);
 
 class Shape6 extends i0.VersionedTable {
   Shape6({required super.source, required super.alias}) : super.aliased();
@@ -335,11 +332,11 @@ class Shape6 extends i0.VersionedTable {
       columnsByName['order']! as i1.GeneratedColumn<String>;
 }
 
-i1.GeneratedColumn<String> _column_23(String aliasedName) =>
+i1.GeneratedColumn<String> _column_22(String aliasedName) =>
     i1.GeneratedColumn<String>('id', aliasedName, false,
         type: i1.DriftSqlType.string,
         defaultValue: const CustomExpression('\'main\''));
-i1.GeneratedColumn<String> _column_24(String aliasedName) =>
+i1.GeneratedColumn<String> _column_23(String aliasedName) =>
     i1.GeneratedColumn<String>('order', aliasedName, false,
         type: i1.DriftSqlType.string);
 
@@ -355,10 +352,10 @@ class Shape7 extends i0.VersionedTable {
       columnsByName['last_updated']! as i1.GeneratedColumn<DateTime>;
 }
 
-i1.GeneratedColumn<int> _column_25(String aliasedName) =>
+i1.GeneratedColumn<int> _column_24(String aliasedName) =>
     i1.GeneratedColumn<int>('hyv_id', aliasedName, false,
         type: i1.DriftSqlType.int);
-i1.GeneratedColumn<int> _column_26(String aliasedName) =>
+i1.GeneratedColumn<int> _column_25(String aliasedName) =>
     i1.GeneratedColumn<int>('count', aliasedName, false,
         type: i1.DriftSqlType.int);
 i0.MigrationStepWithVersion migrationSteps({

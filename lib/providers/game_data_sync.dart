@@ -42,10 +42,7 @@ class GameDataSyncCached extends _$GameDataSyncCached {
     if (stateCache != null) {
       state = AsyncValue.data(GameDataSyncResult(
         isStale: true,
-        levels: switch (stateCache) {
-          InGameCharacterState(:final purposes) => purposes,
-          InGameWeaponState(:final level) => {Purpose.ascension: level},
-        },
+        levels: stateCache.purposes,
         equippedWeaponId: switch (stateCache) {
           InGameCharacterState(:final equippedWeaponId) => equippedWeaponId,
           _ => null,
