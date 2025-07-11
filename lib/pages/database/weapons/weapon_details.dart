@@ -17,14 +17,13 @@ import "../../../components/material_card.dart";
 import "../../../components/material_slider.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
-import "../../../db/in_game_weapon_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
-import "../../../providers/database_provider.dart";
+import "../../../models/material_bookmark_frame.dart";
+import "../../../models/weapon.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";
 import "../../../ui_core/layout.dart";
-import "../../../ui_core/snack_bar.dart";
 import "../../../utils/filtering.dart";
 
 part "weapon_details.freezed.dart";
@@ -53,6 +52,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
       rarity: weapon.rarity,
       purpose: Purpose.ascension,
     );
+    final lackNums = useState(<String, int>{});
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
     final selectedCharacterIdInit = useMemoized(
@@ -95,6 +95,15 @@ class WeaponDetailsPage extends HookConsumerWidget {
       }
       return null;
     }, [state.value.selectedCharacterId]);
+
+    ref.listen(bagLackNumProvider(
+      variantId: selectedCharacterId.value,
+      weaponId: weapon.id,
+    ), (_, result) {
+      if (!result.hasValue) return;
+
+      lackNums.value = result.value!;
+    });
 
     return Scaffold(
       appBar: AppBar(

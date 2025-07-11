@@ -16,7 +16,6 @@ import "../../../components/material_slider.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../db/bookmark_db_extension.dart";
-import "../../../db/in_game_character_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
@@ -145,6 +144,14 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
         );
       }
       state.value = newState;
+    });
+
+    ref.listen(bagLackNumProvider(variantId: variant.value.id), (_, result) {
+      if (!result.hasValue) return;
+
+      state.value = state.value.copyWith(
+        lackNums: result.value!,
+      );
     });
 
     return Scaffold(

@@ -1,7 +1,5 @@
 import "dart:io";
-import "dart:math";
 
-import "package:collection/collection.dart";
 import "package:flutter/material.dart" hide Material;
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -12,11 +10,7 @@ import "package:material_symbols_icons/symbols.dart";
 import "../composables/use_periodic_timer.dart";
 import "../core/kv_preferences.dart";
 import "../core/theme.dart";
-import "../db/material_bag_count_db_extension.dart";
 import "../models/common.dart";
-import "../providers/database_provider.dart";
-import "../providers/preferences.dart";
-import "../providers/versions.dart";
 import "../routes.dart";
 import "../ui_core/layout.dart";
 
@@ -33,6 +27,8 @@ class MaterialCard extends StatelessWidget {
   final int? rarity;
 
   final int quantity;
+
+  final int? lackNum;
 
   /// Material ID for linking to the material details.
   final String id;
@@ -54,6 +50,7 @@ class MaterialCard extends StatelessWidget {
     this.rarity,
     required this.quantity,
     required this.id,
+    this.lackNum,
     this.bookmarkState,
     this.dailyMaterialAvailable = false,
     this.onBookmark,
@@ -110,7 +107,7 @@ class MaterialCard extends StatelessWidget {
                             const Icon(Symbols.event_available, color: Colors.green, weight: 700),
                           _MaterialQuantity(
                             requiredNum: quantity,
-                            materialId: id,
+                            lackNum: lackNum,
                           ),
                           if (onBookmark == null) const SizedBox(width: 4),
                         ],
@@ -190,63 +187,15 @@ class _RarityCornerMarkerPainter extends CustomPainter {
 
 class _MaterialQuantity extends HookConsumerWidget {
   final int requiredNum;
-  final String materialId;
+  final int? lackNum;
 
-  const _MaterialQuantity({required this.requiredNum, required this.materialId});
+  const _MaterialQuantity({required this.requiredNum, this.lackNum});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(preferencesStateNotifierProvider.select((e) => e.hyvUid));
-    final syncEnabled = ref.watch(preferencesStateNotifierProvider.select((e) => e.syncBagCounts));
-    final assetData = ref.watch(assetDataProvider).value;
-    if (assetData == null) {
-      throw "Asset data not loaded";
-    }
-    final material = assetData.materials[materialId];
-    if (material == null) {
-      throw "Material not found: $materialId";
-    }
-
-    final craftables = useMemoized(() {
-      return assetData.materials.values
-          .where((e) => e.groupId != null &&
-              e.groupId == material.groupId &&
-              e.craftLevel! < material.craftLevel!,);
-    }, [materialId],);
-
-    final bagCountSnapshot = useStream(
-      useMemoized(
-        () => uid != null && syncEnabled
-            ? db.watchMaterialBagCounts(uid, [material.hyvId, ...craftables.map((e) => e.hyvId)])
-            : null,
-        [uid, syncEnabled, materialId, assetData],
-      ),
-      preserveState: false,
-    );
-    final bagCounts = bagCountSnapshot.data;
-
-    final bagCount = bagCounts?.firstWhereOrNull((e) => e.hyvId == material.hyvId);
-    int? lackNum;
-    int? craftedLackNum;
-    if (bagCount != null) {
-      lackNum = bagCount.count - requiredNum;
-
-      if (craftables.isNotEmpty) {
-        int craftedBagCount = bagCount.count;
-        for (final craftable in craftables) {
-          final bagCount = bagCounts!.firstWhereOrNull((e) => e.hyvId == craftable.hyvId);
-          if (bagCount != null) {
-            craftedBagCount += bagCount.count ~/ pow(3, material.craftLevel! - craftable.craftLevel!);
-          }
-        }
-        craftedLackNum = craftedBagCount - requiredNum;
-      }
-    }
-
     return _QuantityCrossFade(
       requiredNumChild: _AnimatedQuantity(requiredNum),
-      lackNumChild: lackNum != null ? Text.rich(
+      craftedLackNumChild: lackNum != null ? Text.rich(
         TextSpan(
           children: [
             const WidgetSpan(
@@ -259,40 +208,28 @@ class _MaterialQuantity extends HookConsumerWidget {
               ),
               alignment: PlaceholderAlignment.middle,
             ),
-            TextSpan(
-              text: "${lackNum >= 0 ? "+" : ""}$lackNum",
+            if (lackNum! > 0) TextSpan(
+              text: "-$lackNum",
               style: GoogleFonts.titilliumWeb(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
-            ),
-          ],
-        ),
-        style: TextStyle(color: lackNum < 0 ? Colors.red : Colors.green),
-      ) : null,
-      craftedLackNumChild: craftedLackNum != null ? Text.rich(
-        TextSpan(
-          children: [
-            const WidgetSpan(
+            )
+            else WidgetSpan(
               child: Padding(
                 padding: EdgeInsets.only(bottom: 4.0),
                 child: Icon(
-                  Symbols.orbit,
-                  size: 20,
+                  Symbols.check,
+                  size: 24,
+                  weight: 900,
+                  color: Colors.green,
                 ),
               ),
               alignment: PlaceholderAlignment.middle,
             ),
-            TextSpan(
-              text: "${craftedLackNum >= 0 ? "+" : ""}$craftedLackNum",
-              style: GoogleFonts.titilliumWeb(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
           ],
         ),
-        style: TextStyle(color: craftedLackNum < 0 ? Colors.red : Colors.green),
+        style: TextStyle(color: lackNum! > 0 ? Colors.red : Colors.green),
       ) : null,
     );
   }
@@ -311,7 +248,7 @@ class _QuantityCrossFade extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final alternateState = useValueListenable(QuantityStateProvider.of(context).state);
     // final mode = ref.watch(preferencesStateNotifierProvider.select((e) => e.lackNumDisplayMethod));
-    const mode = LackNumDisplayMethod.requiredNumOnly;
+    const mode = LackNumDisplayMethod.alternate;
 
     QuantityState getActualState(QuantityState state) {
       return switch (state) {
@@ -327,7 +264,7 @@ class _QuantityCrossFade extends HookConsumerWidget {
     }
 
     final currentState = switch (mode) {
-      LackNumDisplayMethod.alternate => getActualState(alternateState),
+      LackNumDisplayMethod.alternate => getActualState(alternateState % 2 == 0 ? QuantityState.requiredNum : QuantityState.craftedLackNum),
       LackNumDisplayMethod.requiredNumOnly => getActualState(QuantityState.requiredNum),
       LackNumDisplayMethod.lackNumOnly => getActualState(QuantityState.lackNum),
       LackNumDisplayMethod.craftedLackNumOnly => getActualState(QuantityState.craftedLackNum),
@@ -408,15 +345,10 @@ class QuantityTickerHandler extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cfState = useValueNotifier(QuantityState.requiredNum);
-    final enabled = ref.watch(preferencesStateNotifierProvider.select((e) => e.lackNumDisplayMethod == LackNumDisplayMethod.alternate));
-    final enabledRef = useRef(enabled);
-    useValueChanged<bool, void>(enabled, (_, __) {
-      enabledRef.value = enabled;
-    });
+    final cfState = useValueNotifier(0);
     usePeriodicTimer(const Duration(seconds: 3), (timer) {
-      if (TickerMode.of(context) && enabledRef.value) {
-        cfState.value = QuantityState.values[(cfState.value.index + 1) % QuantityState.values.length];
+      if (TickerMode.of(context)) {
+        cfState.value = cfState.value + 1;
       }
     });
 
@@ -428,7 +360,7 @@ class QuantityTickerHandler extends HookConsumerWidget {
 }
 
 class QuantityStateProvider extends InheritedWidget {
-  final ValueNotifier<QuantityState> state;
+  final ValueNotifier<int> state;
 
   const QuantityStateProvider({
     super.key,

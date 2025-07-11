@@ -478,6 +478,7 @@ class TranslationsHoyolabJa {
 	String get syncBagCounts => 'ゲーム内の素材の所持数を同期する';
 	String get mustBeResonatedWithStatue => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
 	String get weaponNotEquipped => 'このキャラクターはこの武器を装備していません。';
+	String get unknownError => '不明なエラーが発生しました。';
 	String get charaSyncSuccess => 'ゲームデータと同期しました';
 }
 
@@ -732,6 +733,7 @@ extension on Translations {
 			case 'hoyolab.syncBagCounts': return 'ゲーム内の素材の所持数を同期する';
 			case 'hoyolab.mustBeResonatedWithStatue': return '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
 			case 'hoyolab.weaponNotEquipped': return 'このキャラクターはこの武器を装備していません。';
+			case 'hoyolab.unknownError': return '不明なエラーが発生しました。';
 			case 'hoyolab.charaSyncSuccess': return 'ゲームデータと同期しました';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;
