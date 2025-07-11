@@ -33,7 +33,7 @@ dependencies:
   go_router: 16.0.0
   freezed_annotation: 3.1.0
   material_symbols_icons: 4.2815.1
-  slang: 4.7.2
+  slang: 4.7.3
   slang_flutter: 4.7.0
   timelines:
     path: ./packages/timelines
@@ -48,7 +48,7 @@ dependencies:
   flutter_hooks: 0.21.2
   shared_preferences: 2.5.3
   hooks_riverpod: 2.6.1
-  url_launcher: 6.3.1
+  url_launcher: 6.3.2
   drift: 2.27.0
   drift_flutter: 0.2.4
   webview_flutter: 4.13.0
@@ -79,7 +79,7 @@ dev_dependencies:
   mockito: 5.4.6
   drift_dev: 2.27.0
   pigeon: 25.5.0
-  require_trailing_commas_custom: ^1.0.1
+  require_trailing_commas_custom: ^1.0.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
