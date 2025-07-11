@@ -80,7 +80,21 @@ class BookmarkOrderRegistryTable extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DataClassName("InGameCharacterState")
+sealed class InGameState extends DataClass {
+  const InGameState({
+    required this.uid,
+    required this.characterId,
+    required this.purposes,
+    required this.lastUpdated,
+  });
+
+  final String uid;
+  final String characterId;
+  final Map<Purpose, int> purposes;
+  final DateTime lastUpdated;
+}
+
+@DataClassName.custom(name: "InGameCharacterState", extending: InGameState)
 class InGameCharacterStateTable extends Table {
   TextColumn get uid => text()();
   TextColumn get characterId => text()();
@@ -92,7 +106,7 @@ class InGameCharacterStateTable extends Table {
   Set<Column> get primaryKey => {uid, characterId};
 }
 
-@DataClassName("InGameWeaponState")
+@DataClassName.custom(name: "InGameWeaponState", extending: InGameState)
 class InGameWeaponStateTable extends Table {
   TextColumn get uid => text()();
   TextColumn get characterId => text()();
