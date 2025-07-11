@@ -1363,7 +1363,7 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
       const PurposeMapConverter();
 }
 
-class InGameCharacterState extends DataClass
+class InGameCharacterState extends InGameState
     implements Insertable<InGameCharacterState> {
   final String uid;
   final String characterId;
@@ -1692,7 +1692,7 @@ class $InGameWeaponStateTableTable extends InGameWeaponStateTable
   }
 }
 
-class InGameWeaponState extends DataClass
+class InGameWeaponState extends InGameState
     implements Insertable<InGameWeaponState> {
   final String uid;
   final String characterId;
