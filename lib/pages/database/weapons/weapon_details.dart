@@ -17,10 +17,13 @@ import "../../../components/material_card.dart";
 import "../../../components/material_slider.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
+import "../../../database.dart";
+import "../../../db/in_game_weapon_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/material_bookmark_frame.dart";
 import "../../../models/weapon.dart";
+import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";
 import "../../../ui_core/layout.dart";
@@ -29,23 +32,77 @@ import "../../../utils/filtering.dart";
 part "weapon_details.freezed.dart";
 
 class WeaponDetailsPage extends HookConsumerWidget {
+  const WeaponDetailsPage({
+    super.key,
+    required this.id,
+    required this.assetData,
+    this.initialSelectedCharacter,
+  });
+
   final AssetData assetData;
   final String id;
   final CharacterId? initialSelectedCharacter;
 
-  const WeaponDetailsPage({super.key, required this.id, required this.assetData, this.initialSelectedCharacter});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(preferencesStateNotifierProvider);
-
     final weapon = assetData.weapons[id];
     if (weapon == null) {
       return Scaffold(
         appBar: AppBar(),
-        body: const CenterText("Weapon not found"),
+        body: CenterText(tr.errors.weaponNotFound),
       );
     }
+
+    final db = ref.watch(appDatabaseProvider);
+    final (uid, syncWeaponState) = ref.watch(preferencesStateNotifierProvider
+        .select((e) => (e.hyvUid, e.syncWeaponState)));
+
+    final characters = useMemoized(() =>
+        filterCharactersByWeaponType(assetData.characters.values, weapon.type));
+    final initialCharacterId = initialSelectedCharacter != null && characters.any((e) => e.id == initialSelectedCharacter)
+        ? initialSelectedCharacter!
+        : characters.first.id;
+
+    final wsResult = useMemoized(() => uid != null
+        ? db.getWeaponState(uid, initialCharacterId, id)
+        : Future.value(null));
+    final wsSnapshot = useFuture(wsResult);
+
+    // loading
+    if (uid != null && syncWeaponState && wsSnapshot.connectionState != ConnectionState.done) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    return WeaponDetailsPageContents(
+      weapon: weapon,
+      assetData: assetData,
+      initialSelectedCharacter: initialCharacterId,
+      initialWeaponState: wsSnapshot.data,
+    );
+  }
+}
+
+
+class WeaponDetailsPageContents extends HookConsumerWidget {
+  final AssetData assetData;
+  final Weapon weapon;
+  final CharacterId initialSelectedCharacter;
+  final InGameWeaponState? initialWeaponState;
+
+  const WeaponDetailsPageContents({
+    super.key,
+    required this.weapon,
+    required this.assetData,
+    required this.initialSelectedCharacter,
+    this.initialWeaponState,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prefs = ref.watch(preferencesStateNotifierProvider);
 
     final ingredients = assetData.weaponIngredients;
     final levelsEntry = ingredients.getLevels(
@@ -55,46 +112,22 @@ class WeaponDetailsPage extends HookConsumerWidget {
     final lackNums = useState(<String, int>{});
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
-    final selectedCharacterIdInit = useMemoized(
-      () => initialSelectedCharacter != null && characters.any((e) => e.id == initialSelectedCharacter)
-            ? initialSelectedCharacter!
-            : characters.first.id,
-    );
-    final state = useState(_WeaponDetailsPageState.init(
-      rangeValues: LevelRangeValues(1, levelsEntry.levels.keys.last),
-      selectedCharacterId: selectedCharacterIdInit,
-    ));
+    final selectedCharacterId = useState(initialSelectedCharacter);
 
-    final sliderRangeInitialized = useState(!prefs.isLinkedWithHoyolab); // Set to true initially when not linked
-    useEffect(() {
-      if (prefs.isLinkedWithHoyolab) {
-        ref.read(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id).notifier)
-            .syncInGameCharacter().then((result) {
-              if (result != null) {
-                for (final e in result.levels.entries) {
-                  final purpose = e.key;
-                  state.value = state.value.copyWithDrv(LevelRangeValues(
-                    e.value,
-                    max(state.value.rangeValues[purpose]?.end ?? e.value, e.value),
-                  ));
-                }
-                if (result.hasRemovedBookmarks && context.mounted) {
-                  showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
-                }
-              }
-            });
-        db.getWeaponLevel(prefs.hyvUid!, selectedCharacterId.value, weapon.id).then((value) {
-          if (value != null) {
-            state.value = state.value.copyWithDrv(LevelRangeValues(
-              value,
-              max(state.value.defaultRangeValues.end, value),
-            ));
-          }
-          sliderRangeInitialized.value = true;
-        });
+    ref.listen(gameDataSyncCachedProvider(
+      variantId: selectedCharacterId.value,
+      weaponId: weapon.id,
+    ), (_, result) {
+      if (result.value?.levels != null) {
+        for (final e in result.value!.levels!.entries) {
+          final purpose = e.key;
+          state.value = state.value.copyWithDrv(LevelRangeValues(
+            e.value,
+            max(state.value.rangeValues[purpose]?.end ?? e.value, e.value),
+          ));
+        }
       }
-      return null;
-    }, [state.value.selectedCharacterId]);
+    });
 
     ref.listen(bagLackNumProvider(
       variantId: selectedCharacterId.value,

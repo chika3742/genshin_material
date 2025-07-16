@@ -62,6 +62,7 @@ updates:
   pleaseWaitUntilComplete: データ更新が完了するまでお待ちください。
 errors:
   characterNotFound: キャラクターが見つかりません
+  weaponNotFound: 武器が見つかりません
   materialNotFound: 素材が見つかりません
   artifactNotFound: 聖遺物が見つかりません
   tryAgainLater: しばらくしてから再度お試しください。

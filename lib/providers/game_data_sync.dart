@@ -24,6 +24,8 @@ import "versions.dart";
 part "game_data_sync.freezed.dart";
 part "game_data_sync.g.dart";
 
+const _fetchTtl = Duration(minutes: 3);
+
 @riverpod
 class GameDataSyncCached extends _$GameDataSyncCached {
   @override
@@ -34,22 +36,28 @@ class GameDataSyncCached extends _$GameDataSyncCached {
     if (uid == null) return null;
 
     final stateCache = switch (weaponId) {
-      null => await db.getCharacterState(variantId, uid),
+      null => await db.getCharacterState(uid, variantId),
       final String weaponId => await db.getWeaponState(uid, variantId, weaponId),
     };
 
     // return cached data
     if (stateCache != null) {
+      final isObsolete = stateCache.lastUpdated.isBefore(DateTime.now().subtract(_fetchTtl));
+
       state = AsyncValue.data(GameDataSyncResult(
-        isStale: true,
+        isStale: isObsolete,
         levels: stateCache.purposes,
         equippedWeaponId: switch (stateCache) {
           InGameCharacterState(:final equippedWeaponId) => equippedWeaponId,
           _ => null,
         },
       ));
+      if (!isObsolete) {
+        return state.value!;
+      }
     }
 
+    // fetch from server
     state = AsyncValue.data(await ref.watch(gameDataSyncProvider(
       variantId: variantId,
       weaponId: weaponId,
@@ -57,15 +65,18 @@ class GameDataSyncCached extends _$GameDataSyncCached {
 
     final levels = state.value?.levels;
     if (levels == null) {
+      // error
       return state.value!;
     }
 
+    // save cache
     if (weaponId == null) {
       await db.setCharacterState(InGameCharacterStateCompanion.insert(
         characterId: variantId,
         uid: uid,
         equippedWeaponId: Value.absentIfNull(state.value!.equippedWeaponId),
         purposes: levels,
+        lastUpdated: Value(DateTime.now()),
       ));
     } else {
       await db.setWeaponLevels(uid, variantId, weaponId, levels[Purpose.ascension] ?? 1);
@@ -80,6 +91,8 @@ Future<GameDataSyncResult> gameDataSync(Ref ref, { required String variantId, St
   final assetData = ref.watch(assetDataProvider).value;
   final (uid, server) = ref.watch(preferencesStateNotifierProvider.select((e) => (e.hyvUid, e.hyvServer)));
   final hoyolabCookie = await getHoyolabCookie();
+
+  print("evaluated gameDataSync");
 
   if (uid == null || server == null || hoyolabCookie == null) {
     return GameDataSyncResult(
@@ -182,11 +195,13 @@ Future<Map<String, int>> bagLackNum(Ref ref, { required String variantId, String
 @riverpod
 GameDataSyncStatus gameDataSyncState(Ref ref, { required String variantId, String? weaponId }) {
   final snapshots = [
-    ref.watch(gameDataSyncProvider(variantId: variantId, weaponId: weaponId)),
+    ref.watch(gameDataSyncCachedProvider(variantId: variantId, weaponId: weaponId)),
     ref.watch(bagLackNumProvider(variantId: variantId, weaponId: weaponId)),
   ];
 
   final syncResult = snapshots.first.value as GameDataSyncResult?;
+
+  print(syncResult);
 
   if (snapshots.any((snapshot) => snapshot.isLoading) || syncResult?.isStale == true) {
     return const GameDataSyncStatus.syncing();
