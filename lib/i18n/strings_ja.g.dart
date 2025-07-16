@@ -177,6 +177,7 @@ class TranslationsErrorsJa {
 
 	// Translations
 	String get characterNotFound => 'キャラクターが見つかりません';
+	String get weaponNotFound => '武器が見つかりません';
 	String get materialNotFound => '素材が見つかりません';
 	String get artifactNotFound => '聖遺物が見つかりません';
 	String get tryAgainLater => 'しばらくしてから再度お試しください。';
@@ -562,6 +563,7 @@ extension on Translations {
 			case 'updates.installing': return 'インストールしています...';
 			case 'updates.pleaseWaitUntilComplete': return 'データ更新が完了するまでお待ちください。';
 			case 'errors.characterNotFound': return 'キャラクターが見つかりません';
+			case 'errors.weaponNotFound': return '武器が見つかりません';
 			case 'errors.materialNotFound': return '素材が見つかりません';
 			case 'errors.artifactNotFound': return '聖遺物が見つかりません';
 			case 'errors.tryAgainLater': return 'しばらくしてから再度お試しください。';

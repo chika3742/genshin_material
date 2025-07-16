@@ -16,7 +16,9 @@ import "../../../components/material_card.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
+import "../../../database.dart";
 import "../../../db/bookmark_db_extension.dart";
+import "../../../db/in_game_character_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/character_ingredients.dart";
@@ -55,23 +57,29 @@ class CharacterDetailsPage extends HookConsumerWidget {
       _ => throw UnsupportedError("Unsupported character type: $characterOrVariant"),
     } as CharacterWithLargeImage;
 
-    final characterLevels = ref.watch(gameDataSyncCachedProvider(
-      variantId: characterOrVariant is CharacterGroup ? characterOrVariant.variantIds.first : id,
-    ));
+    final db = ref.watch(appDatabaseProvider);
+    final (uid, syncCharaState) = ref.watch(preferencesStateNotifierProvider
+        .select((e) => (e.hyvUid, e.syncCharaState)));
 
-    if (characterLevels.hasValue) {
-      return _CharacterDetailsPageContents(
-        character: character,
-        assetData: assetData,
-        initialVariant: characterOrVariant is CharacterVariant ? characterOrVariant.element : null,
-        initialCharacterLevels: characterLevels.value!.levels,
-      );
-    } else {
+    final csResult = useMemoized(() => uid != null
+        ? db.getCharacterState(uid, character.id)
+        : Future.value(null));
+    final csSnapshot = useFuture(csResult);
+
+    // loading
+    if (uid != null && syncCharaState && csSnapshot.connectionState != ConnectionState.done) {
       return Scaffold(
         appBar: AppBar(),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
+
+    return _CharacterDetailsPageContents(
+      character: character,
+      assetData: assetData,
+      initialVariant: characterOrVariant is CharacterVariant ? characterOrVariant.element : null,
+      initialCharacterState: csSnapshot.data,
+    );
   }
 }
 
@@ -79,20 +87,20 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
   final CharacterWithLargeImage character;
   final AssetData assetData;
   final String? initialVariant;
-  final Map<Purpose, int>? initialCharacterLevels;
+  final InGameCharacterState? initialCharacterState;
 
   const _CharacterDetailsPageContents({
     required this.character,
     required this.assetData,
     this.initialVariant,
-    this.initialCharacterLevels,
+    this.initialCharacterState,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = useState(useMemoized(() => _CharacterDetailsPageState.init(
       ingredients: assetData.characterIngredients,
-      initialCharacterLevels: initialCharacterLevels,
+      initialCharacterState: initialCharacterState,
     )));
 
     final character = this.character; // for type guard
@@ -545,7 +553,7 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
   /// Initializes state for each purpose
   factory _CharacterDetailsPageState.init({
     required CharacterIngredients ingredients,
-    Map<Purpose, int>? initialCharacterLevels,
+    InGameCharacterState? initialCharacterState,
   }) {
     final sliderTickLabels = <Purpose, List<int>>{};
     final rangeValues = <Purpose, LevelRangeValues>{};
@@ -554,7 +562,7 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
 
     for (final purpose in ingredients.purposes.keys) {
       final levels = ingredients.purposes[purpose]!.levels;
-      final initialSliderLowerRange = initialCharacterLevels?[purpose] ?? 1;
+      final initialSliderLowerRange = initialCharacterState?.purposes[purpose] ?? 1;
 
       sliderTickLabels[purpose] = [1, ...levels.keys];
       rangeValues[purpose] = LevelRangeValues(initialSliderLowerRange, levels.keys.last);
@@ -568,7 +576,7 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
       checkedTalentTypes: checkedTalentTypes,
       talentSectionKeys: talentSectionKeys,
       lackNums: {},
-      equippedWeaponId: null,
+      equippedWeaponId: initialCharacterState?.equippedWeaponId,
     );
   }
 }

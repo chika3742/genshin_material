@@ -6,7 +6,7 @@ part of 'game_data_sync.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$gameDataSyncHash() => r'0e2f544f694314e04bb6cd1e4d3c21738b04cabb';
+String _$gameDataSyncHash() => r'28f68ce0b120f82d7be8dd9aadc13286d865a5db';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -324,7 +324,7 @@ class _BagLackNumProviderElement
   String? get weaponId => (origin as BagLackNumProvider).weaponId;
 }
 
-String _$gameDataSyncStateHash() => r'dc6efdfd52ddf17b99f6e0e0680b5b0698869681';
+String _$gameDataSyncStateHash() => r'fe68f6db8e9d2fe933253603ffe0d211e8d225eb';
 
 /// See also [gameDataSyncState].
 @ProviderFor(gameDataSyncState)
@@ -474,7 +474,7 @@ class _GameDataSyncStateProviderElement
 }
 
 String _$gameDataSyncCachedHash() =>
-    r'e90b088e95c23f96b54b8c1ef5d05778afb79b43';
+    r'8a352058e41f66a1625be3578a9b89eaec44cbd4';
 
 abstract class _$GameDataSyncCached
     extends BuildlessAutoDisposeAsyncNotifier<GameDataSyncResult?> {
