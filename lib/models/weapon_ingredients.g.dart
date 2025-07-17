@@ -26,6 +26,9 @@ Map<String, dynamic> _$WeaponIngredientsToJson(_WeaponIngredients instance) =>
 _WeaponIngredientsLevels _$WeaponIngredientsLevelsFromJson(
         Map<String, dynamic> json) =>
     _WeaponIngredientsLevels(
+      sliderTicks: (json['sliderTicks'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
       levels: (json['levels'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(
             int.parse(k),
@@ -38,5 +41,6 @@ _WeaponIngredientsLevels _$WeaponIngredientsLevelsFromJson(
 Map<String, dynamic> _$WeaponIngredientsLevelsToJson(
         _WeaponIngredientsLevels instance) =>
     <String, dynamic>{
+      'sliderTicks': instance.sliderTicks,
       'levels': instance.levels.map((k, e) => MapEntry(k.toString(), e)),
     };

@@ -1,4 +1,7 @@
+import "dart:math";
+
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:material_symbols_icons/symbols.dart";
@@ -10,12 +13,14 @@ import "../utils/lists.dart";
 
 class LevelSlider extends HookWidget {
   final List<int> levels;
+  final List<int> ticks;
   final LevelRangeValues values;
   final void Function(LevelRangeValues values)? onChanged;
 
   const LevelSlider({
     super.key,
     required this.levels,
+    required this.ticks,
     required this.values,
     this.onChanged,
   });
@@ -34,18 +39,18 @@ class LevelSlider extends HookWidget {
                 height: 32,
                 child: RangeSlider(
                   values: RangeValues(
-                    levels.indexOfCeilToNearest(values.start).toDouble(),
-                    levels.indexOfCeilToNearest(values.end).toDouble(),
+                    ticks.indexOfCeilToNearest(values.start).toDouble(),
+                    ticks.indexOfCeilToNearest(values.end).toDouble(),
                   ),
                   min: 0,
-                  max: levels.length - 1,
-                  divisions: levels.length - 1,
+                  max: ticks.length - 1,
+                  divisions: ticks.length - 1,
                   labels: RangeLabels("${tr.common.currentLevel}: ${values.start}", "${tr.common.goalLevel}: ${values.end}"),
                   onChanged: (values) {
                     onChanged?.call(
                       LevelRangeValues(
-                        levels[values.start.toInt()],
-                        levels[values.end.toInt()],
+                        ticks[values.start.toInt()],
+                        ticks[values.end.toInt()],
                       ),
                     );
                   },
@@ -65,7 +70,7 @@ class LevelSlider extends HookWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: levels.map((e) {
+          children: ticks.map((e) {
             return SizedBox(
               width: 24,
               child: Text(
@@ -81,6 +86,33 @@ class LevelSlider extends HookWidget {
   Widget _buildLevelIndicators() {
     final context = useContext();
     final helpButtonKey = useMemoized(() => GlobalKey());
+    final currLvController = useTextEditingController(text: values.start.toString());
+    final tgLvController = useTextEditingController(text: values.end.toString());
+    final currLvError = useState(false);
+    final tgLvError = useState(false);
+
+    useEffect(() {
+      currLvController.text = values.start.toString();
+      tgLvController.text = values.end.toString();
+      return null;
+    }, [values.start, values.end]);
+
+    bool validateValue(bool current, String value) {
+      final parsedNewValue = int.tryParse(value);
+      if (parsedNewValue == null) {
+        return false;
+      }
+
+      final minOrMax = current ? min(levels.last, values.end) : max(levels.first, values.start);
+
+      if ((current && parsedNewValue > minOrMax) || (!current && parsedNewValue < minOrMax)) {
+        return false;
+      }
+      if (!levels.contains(parsedNewValue)) {
+        return false;
+      }
+      return true;
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -96,11 +128,24 @@ class LevelSlider extends HookWidget {
                     text: "Lv.",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  TextSpan(
-                    text: values.start.toString(),
-                    style: GoogleFonts.titilliumWeb(
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.baseline,
+                    baseline: TextBaseline.alphabetic,
+                    child: _buildLevelField(
+                      controller: currLvController,
                       fontSize: 24,
-                      fontWeight: FontWeight.w600,
+                      error: currLvError.value,
+                      onChanged: (value) {
+                        if (validateValue(true, value)) {
+                          currLvError.value = false;
+                          onChanged?.call(LevelRangeValues(
+                            int.tryParse(value) ?? values.start,
+                            values.end,
+                          ));
+                        } else {
+                          currLvError.value = true;
+                        }
+                      },
                     ),
                   ),
                 ],
@@ -117,12 +162,25 @@ class LevelSlider extends HookWidget {
                     text: "Lv.",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  TextSpan(
-                    text: values.end.toString(),
-                    style: GoogleFonts.titilliumWeb(
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.baseline,
+                    baseline: TextBaseline.alphabetic,
+                    child: _buildLevelField(
+                      controller: tgLvController,
                       fontSize: 34,
-                      fontWeight: FontWeight.w600,
-                    ),
+                      error: tgLvError.value,
+                      onChanged: (value) {
+                        if (validateValue(false, value)) {
+                          tgLvError.value = false;
+                          onChanged?.call(LevelRangeValues(
+                            values.start,
+                            int.tryParse(value) ?? values.end,
+                          ));
+                        } else {
+                          tgLvError.value = true;
+                        }
+                      },
+                    )
                   ),
                 ],
               ),
@@ -141,6 +199,68 @@ class LevelSlider extends HookWidget {
             ),
           ],
         ),
+    );
+  }
+
+  Widget _buildLevelField({
+    TextEditingController? controller,
+    double? fontSize,
+    bool error = false,
+    ValueChanged<String>? onChanged,
+  }) {
+    // calculate text size to adjust the field size
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: "00",
+        style: GoogleFonts.titilliumWeb(
+          fontSize: fontSize,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      textAlign: TextAlign.start,
+      textDirection: TextDirection.ltr,
+    )..layout(
+      minWidth: 0,
+      maxWidth: 150,
+    );
+
+    final focusNode = useMemoized(() {
+      final focusNode = FocusNode();
+      focusNode.addListener(() {
+        // select all text when the field is focused
+        if (focusNode.hasFocus) {
+          controller?.selection = TextSelection(
+            baseOffset: 0,
+            extentOffset: controller.text.length,
+          );
+        }
+      });
+      return focusNode;
+    });
+
+    return SizedBox(
+      width: textPainter.size.width + 8,
+      height: textPainter.size.height + 8,
+      child: TextField(
+        controller: controller,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(2),
+        ],
+        style: GoogleFonts.titilliumWeb(
+          fontSize: fontSize,
+          fontWeight: FontWeight.w600,
+        ),
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+          error: error ? SizedBox() : null,
+        ),
+        onChanged: onChanged,
+        onTapOutside: (event) {
+          // blur the field when tapping outside
+          focusNode.unfocus();
+        },
+        focusNode: focusNode,
+      ),
     );
   }
 }

@@ -100,6 +100,8 @@ class _WeaponIngredients implements WeaponIngredients {
 
 /// @nodoc
 mixin _$WeaponIngredientsLevels {
+//TODO: 戻す
+  List<int>? get sliderTicks;
   Map<int, List<Ingredient>> get levels;
 
   /// Serializes this WeaponIngredientsLevels to a JSON map.
@@ -110,17 +112,21 @@ mixin _$WeaponIngredientsLevels {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is WeaponIngredientsLevels &&
+            const DeepCollectionEquality()
+                .equals(other.sliderTicks, sliderTicks) &&
             const DeepCollectionEquality().equals(other.levels, levels));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(levels));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(sliderTicks),
+      const DeepCollectionEquality().hash(levels));
 
   @override
   String toString() {
-    return 'WeaponIngredientsLevels(levels: $levels)';
+    return 'WeaponIngredientsLevels(sliderTicks: $sliderTicks, levels: $levels)';
   }
 }
 
@@ -128,10 +134,24 @@ mixin _$WeaponIngredientsLevels {
 @JsonSerializable()
 class _WeaponIngredientsLevels implements WeaponIngredientsLevels {
   const _WeaponIngredientsLevels(
-      {required final Map<int, List<Ingredient>> levels})
-      : _levels = levels;
+      {required final List<int>? sliderTicks,
+      required final Map<int, List<Ingredient>> levels})
+      : _sliderTicks = sliderTicks,
+        _levels = levels;
   factory _WeaponIngredientsLevels.fromJson(Map<String, dynamic> json) =>
       _$WeaponIngredientsLevelsFromJson(json);
+
+//TODO: 戻す
+  final List<int>? _sliderTicks;
+//TODO: 戻す
+  @override
+  List<int>? get sliderTicks {
+    final value = _sliderTicks;
+    if (value == null) return null;
+    if (_sliderTicks is EqualUnmodifiableListView) return _sliderTicks;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   final Map<int, List<Ingredient>> _levels;
   @override
@@ -153,17 +173,21 @@ class _WeaponIngredientsLevels implements WeaponIngredientsLevels {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _WeaponIngredientsLevels &&
+            const DeepCollectionEquality()
+                .equals(other._sliderTicks, _sliderTicks) &&
             const DeepCollectionEquality().equals(other._levels, _levels));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_levels));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_sliderTicks),
+      const DeepCollectionEquality().hash(_levels));
 
   @override
   String toString() {
-    return 'WeaponIngredientsLevels(levels: $levels)';
+    return 'WeaponIngredientsLevels(sliderTicks: $sliderTicks, levels: $levels)';
   }
 }
 
