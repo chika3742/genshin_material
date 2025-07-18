@@ -25,6 +25,18 @@ class LevelSlider extends HookWidget {
     this.onChanged,
   });
 
+  static const double _sliderHeight = 32.0;
+  static const double _sliderLabelSpacing = 20.0;
+  static const double _sliderLabelHorizontalPadding = 24.0;
+  static const double _sliderLabelHeight = 24.0;
+  static const double _levelIndicatorHorizontalPadding = 16.0;
+  static const double _levelIndicatorGap = 4.0;
+  static const int _levelFieldMaxLength = 2;
+  static const double _levelFieldHorizontalPadding = 8.0;
+  static const double _levelFieldVerticalPadding = 4.0;
+  static const double _currentLevelFieldFontSize = 24.0;
+  static const double _targetLevelFieldFontSize = 34.0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,9 +46,9 @@ class LevelSlider extends HookWidget {
           alignment: Alignment.bottomCenter,
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
+              padding: const EdgeInsets.only(bottom: _sliderLabelSpacing),
               child: SizedBox(
-                height: 32,
+                height: _sliderHeight,
                 child: RangeSlider(
                   values: RangeValues(
                     ticks.indexOfCeilToNearest(values.start).toDouble(),
@@ -60,10 +72,10 @@ class LevelSlider extends HookWidget {
               ),
             ),
             Positioned(
-              left: 24,
-              right: 24,
+              left: _sliderLabelHorizontalPadding,
+              right: _sliderLabelHorizontalPadding,
               bottom: 0,
-              height: 24,
+              height: _sliderLabelHeight,
               child: _buildSliderLabels(),
             ),
           ],
@@ -119,9 +131,9 @@ class LevelSlider extends HookWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: _levelIndicatorHorizontalPadding),
       child: GappedRow(
-        gap: 4,
+        gap: _levelIndicatorGap,
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
         children: [
@@ -137,7 +149,7 @@ class LevelSlider extends HookWidget {
                   baseline: TextBaseline.alphabetic,
                   child: _buildLevelField(
                     controller: currLvController,
-                    fontSize: 24,
+                    fontSize: _currentLevelFieldFontSize,
                     error: currLvError.value,
                     onChanged: (value) {
                       if (validateValue(true, value)) {
@@ -164,7 +176,7 @@ class LevelSlider extends HookWidget {
             ),
           ),
           Transform.translate(
-            offset: const Offset(0, 4),
+            offset: const Offset(0, 4.0),
             child: const Icon(Symbols.double_arrow),
           ),
           Text.rich(
@@ -179,7 +191,7 @@ class LevelSlider extends HookWidget {
                   baseline: TextBaseline.alphabetic,
                   child: _buildLevelField(
                     controller: tgLvController,
-                    fontSize: 34,
+                    fontSize: _targetLevelFieldFontSize,
                     error: tgLvError.value,
                     onChanged: (value) {
                       if (validateValue(false, value)) {
@@ -260,12 +272,12 @@ class LevelSlider extends HookWidget {
     });
 
     return SizedBox(
-      width: textPainter.size.width + 8,
-      height: textPainter.size.height + 4,
+      width: textPainter.size.width + _levelFieldHorizontalPadding,
+      height: textPainter.size.height + _levelFieldVerticalPadding,
       child: TextField(
         controller: controller,
         inputFormatters: [
-          LengthLimitingTextInputFormatter(2),
+          LengthLimitingTextInputFormatter(_levelFieldMaxLength),
         ],
         style: GoogleFonts.titilliumWeb(
           fontSize: fontSize,
