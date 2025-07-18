@@ -148,8 +148,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
                           child: Visibility(
                             visible: sliderRangeInitialized.value,
                             child: LevelSlider(
-                              //TODO: 戻す
-                            ticks: levelsEntry.sliderTicks!,
+                              ticks: levelsEntry.sliderTicks,
                             levels: [1, ...levelsEntry.levels.keys],
                               values: rangeValues.value,
                               onChanged: (values) {

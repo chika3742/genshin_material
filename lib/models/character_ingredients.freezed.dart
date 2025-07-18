@@ -168,8 +168,7 @@ class _ExpItem implements ExpItem {
 
 /// @nodoc
 mixin _$CharacterIngredientsLevels {
-//TODO: 戻す
-  List<int>? get sliderTicks;
+  List<int> get sliderTicks;
   Map<int, List<Ingredient>> get levels;
 
   /// Serializes this CharacterIngredientsLevels to a JSON map.
@@ -202,23 +201,19 @@ mixin _$CharacterIngredientsLevels {
 @JsonSerializable()
 class _CharacterIngredientsLevels implements CharacterIngredientsLevels {
   const _CharacterIngredientsLevels(
-      {required final List<int>? sliderTicks,
+      {required final List<int> sliderTicks,
       required final Map<int, List<Ingredient>> levels})
       : _sliderTicks = sliderTicks,
         _levels = levels;
   factory _CharacterIngredientsLevels.fromJson(Map<String, dynamic> json) =>
       _$CharacterIngredientsLevelsFromJson(json);
 
-//TODO: 戻す
-  final List<int>? _sliderTicks;
-//TODO: 戻す
+  final List<int> _sliderTicks;
   @override
-  List<int>? get sliderTicks {
-    final value = _sliderTicks;
-    if (value == null) return null;
+  List<int> get sliderTicks {
     if (_sliderTicks is EqualUnmodifiableListView) return _sliderTicks;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_sliderTicks);
   }
 
   final Map<int, List<Ingredient>> _levels;

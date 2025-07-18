@@ -100,8 +100,7 @@ class _WeaponIngredients implements WeaponIngredients {
 
 /// @nodoc
 mixin _$WeaponIngredientsLevels {
-//TODO: 戻す
-  List<int>? get sliderTicks;
+  List<int> get sliderTicks;
   Map<int, List<Ingredient>> get levels;
 
   /// Serializes this WeaponIngredientsLevels to a JSON map.
@@ -134,23 +133,19 @@ mixin _$WeaponIngredientsLevels {
 @JsonSerializable()
 class _WeaponIngredientsLevels implements WeaponIngredientsLevels {
   const _WeaponIngredientsLevels(
-      {required final List<int>? sliderTicks,
+      {required final List<int> sliderTicks,
       required final Map<int, List<Ingredient>> levels})
       : _sliderTicks = sliderTicks,
         _levels = levels;
   factory _WeaponIngredientsLevels.fromJson(Map<String, dynamic> json) =>
       _$WeaponIngredientsLevelsFromJson(json);
 
-//TODO: 戻す
-  final List<int>? _sliderTicks;
-//TODO: 戻す
+  final List<int> _sliderTicks;
   @override
-  List<int>? get sliderTicks {
-    final value = _sliderTicks;
-    if (value == null) return null;
+  List<int> get sliderTicks {
     if (_sliderTicks is EqualUnmodifiableListView) return _sliderTicks;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_sliderTicks);
   }
 
   final Map<int, List<Ingredient>> _levels;

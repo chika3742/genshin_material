@@ -33,8 +33,7 @@ sealed class ExpItem with _$ExpItem {
 @freezed
 sealed class CharacterIngredientsLevels with _$CharacterIngredientsLevels {
   const factory CharacterIngredientsLevels({
-    //TODO: 戻す
-    required List<int>? sliderTicks,
+    required List<int> sliderTicks,
     required Map<int, List<Ingredient>> levels,
   }) = _CharacterIngredientsLevels;
 
