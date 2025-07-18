@@ -59,7 +59,13 @@ class LevelSlider extends HookWidget {
                 ),
               ),
             ),
-            _buildSliderLabels(),
+            Positioned(
+              left: 24,
+              right: 24,
+              bottom: 0,
+              height: 24,
+              child: _buildSliderLabels(),
+            ),
           ],
         ),
         _buildLevelIndicators(),
@@ -67,20 +73,11 @@ class LevelSlider extends HookWidget {
     );
   }
 
-  Padding _buildSliderLabels() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: ticks.map((e) {
-          return SizedBox(
-            width: 24,
-            child: Text(
-              e.toString(),
-              textAlign: TextAlign.center,
-            ),
-          );
-        }).toList(growable: false),
+  Widget _buildSliderLabels() {
+    return CustomPaint(
+      painter: SliderLabelPainter(
+        context: useContext(),
+        ticks: ticks,
       ),
     );
   }
@@ -295,4 +292,34 @@ class LevelRangeValues {
   final int end;
 
   const LevelRangeValues(this.start, this.end);
+}
+
+class SliderLabelPainter extends CustomPainter {
+  const SliderLabelPainter({required this.ticks, required this.context});
+
+  final List<int> ticks;
+  final BuildContext context;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final painter = TextPainter(
+      textDirection: TextDirection.ltr,
+    );
+
+    for (final tick in ticks) {
+      final textSpan = TextSpan(
+        text: tick.toString(),
+        style: Theme.of(context).textTheme.bodyMedium,
+      );
+      painter.text = textSpan;
+      painter.layout();
+
+      final offsetX = (ticks.indexOf(tick) * size.width / (ticks.length - 1)) -
+          (painter.width / 2);
+      painter.paint(canvas, Offset(offsetX, (size.height - painter.height) / 2));
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
