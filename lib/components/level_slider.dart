@@ -45,7 +45,9 @@ class LevelSlider extends HookWidget {
                   min: 0,
                   max: ticks.length - 1,
                   divisions: ticks.length - 1,
-                  labels: RangeLabels("${tr.common.currentLevel}: ${values.start}", "${tr.common.goalLevel}: ${values.end}"),
+                  labels: RangeLabels(
+                      "${tr.common.currentLevel}: ${values.start}",
+                      "${tr.common.goalLevel}: ${values.end}"),
                   onChanged: (values) {
                     onChanged?.call(
                       LevelRangeValues(
@@ -67,27 +69,29 @@ class LevelSlider extends HookWidget {
 
   Padding _buildSliderLabels() {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: ticks.map((e) {
-            return SizedBox(
-              width: 24,
-              child: Text(
-                e.toString(),
-                textAlign: TextAlign.center,
-              ),
-            );
-          }).toList(growable: false),
-        ),
-      );
+      padding: const EdgeInsets.symmetric(horizontal: 14.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: ticks.map((e) {
+          return SizedBox(
+            width: 24,
+            child: Text(
+              e.toString(),
+              textAlign: TextAlign.center,
+            ),
+          );
+        }).toList(growable: false),
+      ),
+    );
   }
 
   Widget _buildLevelIndicators() {
     final context = useContext();
     final helpButtonKey = useMemoized(() => GlobalKey());
-    final currLvController = useTextEditingController(text: values.start.toString());
-    final tgLvController = useTextEditingController(text: values.end.toString());
+    final currLvController =
+        useTextEditingController(text: values.start.toString());
+    final tgLvController =
+        useTextEditingController(text: values.end.toString());
     final currLvError = useState(false);
     final tgLvError = useState(false);
 
@@ -103,9 +107,12 @@ class LevelSlider extends HookWidget {
         return false;
       }
 
-      final minOrMax = current ? min(levels.last, values.end) : max(levels.first, values.start);
+      final minOrMax = current
+          ? min(levels.last, values.end)
+          : max(levels.first, values.start);
 
-      if ((current && parsedNewValue > minOrMax) || (!current && parsedNewValue < minOrMax)) {
+      if ((current && parsedNewValue >= minOrMax) ||
+          (!current && parsedNewValue <= minOrMax)) {
         return false;
       }
       if (!levels.contains(parsedNewValue)) {
@@ -117,88 +124,104 @@ class LevelSlider extends HookWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: GappedRow(
-          gap: 4,
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: "Lv.",
-                    style: Theme.of(context).textTheme.bodyLarge,
+        gap: 4,
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: "Lv.",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                WidgetSpan(
+                  alignment: PlaceholderAlignment.baseline,
+                  baseline: TextBaseline.alphabetic,
+                  child: _buildLevelField(
+                    controller: currLvController,
+                    fontSize: 24,
+                    error: currLvError.value,
+                    onChanged: (value) {
+                      if (validateValue(true, value)) {
+                        currLvError.value = false;
+                        onChanged?.call(LevelRangeValues(
+                          int.tryParse(value) ?? values.start,
+                          values.end,
+                        ));
+                      } else {
+                        currLvError.value = true;
+                      }
+                    },
+                    onBlur: () {
+                      // reset value to the last valid value if current value is
+                      // invalid
+                      if (!validateValue(true, currLvController.text)) {
+                        currLvController.text = values.start.toString();
+                        currLvError.value = false;
+                      }
+                    },
                   ),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.baseline,
-                    baseline: TextBaseline.alphabetic,
-                    child: _buildLevelField(
-                      controller: currLvController,
-                      fontSize: 24,
-                      error: currLvError.value,
-                      onChanged: (value) {
-                        if (validateValue(true, value)) {
-                          currLvError.value = false;
-                          onChanged?.call(LevelRangeValues(
-                            int.tryParse(value) ?? values.start,
-                            values.end,
-                          ));
-                        } else {
-                          currLvError.value = true;
-                        }
-                      },
-                    ),
+                ),
+              ],
+            ),
+          ),
+          Transform.translate(
+            offset: const Offset(0, 4),
+            child: const Icon(Symbols.double_arrow),
+          ),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: "Lv.",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                WidgetSpan(
+                  alignment: PlaceholderAlignment.baseline,
+                  baseline: TextBaseline.alphabetic,
+                  child: _buildLevelField(
+                    controller: tgLvController,
+                    fontSize: 34,
+                    error: tgLvError.value,
+                    onChanged: (value) {
+                      if (validateValue(false, value)) {
+                        tgLvError.value = false;
+                        onChanged?.call(LevelRangeValues(
+                          values.start,
+                          int.tryParse(value) ?? values.end,
+                        ));
+                      } else {
+                        tgLvError.value = true;
+                      }
+                    },
+                    onBlur: () {
+                      // reset value to the last valid value if current value is
+                      // invalid
+                      if (!validateValue(false, tgLvController.text)) {
+                        tgLvController.text = values.end.toString();
+                        tgLvError.value = false;
+                      }
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Transform.translate(
-              offset: const Offset(0, 4),
-              child: const Icon(Symbols.double_arrow),
-            ),
-            Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: "Lv.",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.baseline,
-                    baseline: TextBaseline.alphabetic,
-                    child: _buildLevelField(
-                      controller: tgLvController,
-                      fontSize: 34,
-                      error: tgLvError.value,
-                      onChanged: (value) {
-                        if (validateValue(false, value)) {
-                          tgLvError.value = false;
-                          onChanged?.call(LevelRangeValues(
-                            values.start,
-                            int.tryParse(value) ?? values.end,
-                          ));
-                        } else {
-                          tgLvError.value = true;
-                        }
-                      },
-                    )
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            IconButton(
-              key: helpButtonKey,
-              icon: const Icon(Symbols.help),
-              onPressed: () {
-                showModalBubbleText(
-                  context: context,
-                  targetKey: helpButtonKey,
-                  text: tr.common.sliderTips,
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+          const Spacer(),
+          IconButton(
+            key: helpButtonKey,
+            icon: const Icon(Symbols.help),
+            onPressed: () {
+              showModalBubbleText(
+                context: context,
+                targetKey: helpButtonKey,
+                text: tr.common.sliderTips,
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -207,6 +230,7 @@ class LevelSlider extends HookWidget {
     double? fontSize,
     bool error = false,
     ValueChanged<String>? onChanged,
+    VoidCallback? onBlur,
   }) {
     // calculate text size to adjust the field size
     final textPainter = TextPainter(
@@ -220,9 +244,9 @@ class LevelSlider extends HookWidget {
       textAlign: TextAlign.start,
       textDirection: TextDirection.ltr,
     )..layout(
-      minWidth: 0,
-      maxWidth: 150,
-    );
+        minWidth: 0,
+        maxWidth: 150,
+      );
 
     final focusNode = useMemoized(() {
       final focusNode = FocusNode();
@@ -240,7 +264,7 @@ class LevelSlider extends HookWidget {
 
     return SizedBox(
       width: textPainter.size.width + 8,
-      height: textPainter.size.height + 8,
+      height: textPainter.size.height + 4,
       child: TextField(
         controller: controller,
         inputFormatters: [
@@ -258,6 +282,7 @@ class LevelSlider extends HookWidget {
         onTapOutside: (event) {
           // blur the field when tapping outside
           focusNode.unfocus();
+          onBlur?.call();
         },
         focusNode: focusNode,
       ),
