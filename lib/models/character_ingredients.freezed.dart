@@ -168,6 +168,7 @@ class _ExpItem implements ExpItem {
 
 /// @nodoc
 mixin _$CharacterIngredientsLevels {
+  List<int> get sliderTicks;
   Map<int, List<Ingredient>> get levels;
 
   /// Serializes this CharacterIngredientsLevels to a JSON map.
@@ -178,17 +179,21 @@ mixin _$CharacterIngredientsLevels {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CharacterIngredientsLevels &&
+            const DeepCollectionEquality()
+                .equals(other.sliderTicks, sliderTicks) &&
             const DeepCollectionEquality().equals(other.levels, levels));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(levels));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(sliderTicks),
+      const DeepCollectionEquality().hash(levels));
 
   @override
   String toString() {
-    return 'CharacterIngredientsLevels(levels: $levels)';
+    return 'CharacterIngredientsLevels(sliderTicks: $sliderTicks, levels: $levels)';
   }
 }
 
@@ -196,10 +201,20 @@ mixin _$CharacterIngredientsLevels {
 @JsonSerializable()
 class _CharacterIngredientsLevels implements CharacterIngredientsLevels {
   const _CharacterIngredientsLevels(
-      {required final Map<int, List<Ingredient>> levels})
-      : _levels = levels;
+      {required final List<int> sliderTicks,
+      required final Map<int, List<Ingredient>> levels})
+      : _sliderTicks = sliderTicks,
+        _levels = levels;
   factory _CharacterIngredientsLevels.fromJson(Map<String, dynamic> json) =>
       _$CharacterIngredientsLevelsFromJson(json);
+
+  final List<int> _sliderTicks;
+  @override
+  List<int> get sliderTicks {
+    if (_sliderTicks is EqualUnmodifiableListView) return _sliderTicks;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sliderTicks);
+  }
 
   final Map<int, List<Ingredient>> _levels;
   @override
@@ -221,17 +236,21 @@ class _CharacterIngredientsLevels implements CharacterIngredientsLevels {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _CharacterIngredientsLevels &&
+            const DeepCollectionEquality()
+                .equals(other._sliderTicks, _sliderTicks) &&
             const DeepCollectionEquality().equals(other._levels, _levels));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_levels));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_sliderTicks),
+      const DeepCollectionEquality().hash(_levels));
 
   @override
   String toString() {
-    return 'CharacterIngredientsLevels(levels: $levels)';
+    return 'CharacterIngredientsLevels(sliderTicks: $sliderTicks, levels: $levels)';
   }
 }
 

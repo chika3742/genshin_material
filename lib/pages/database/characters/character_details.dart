@@ -316,6 +316,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: LevelSlider(
                               levels: state.value.sliderTickLabels[Purpose.ascension]!,
+                              ticks: ingredients.purposes[Purpose.ascension]!.sliderTicks,
                               values: state.value.rangeValues[Purpose.ascension]!,
                               onChanged: (values) {
                                 // avoid overlapping slider handles
@@ -409,6 +410,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                                         const SizedBox(height: 8),
                                         LevelSlider(
                                           key: state.value.talentSectionKeys[purpose] ??= GlobalKey(),
+                                          ticks: ingredients.purposes[purpose]!.sliderTicks,
                                           levels: state.value.sliderTickLabels[purpose]!,
                                           values: state.value.rangeValues[purpose]!,
                                           onChanged: (values) {

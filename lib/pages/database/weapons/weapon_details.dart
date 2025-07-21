@@ -49,10 +49,9 @@ class WeaponDetailsPage extends HookConsumerWidget {
       );
     }
 
-    final levels = assetData.weaponIngredients
-        .rarities[weapon.rarity]!.levels;
-    final sliderTickLabels = [1, ...levels.keys];
-    final rangeValues = useState(LevelRangeValues(1, levels.keys.last));
+    final levelsEntry = assetData.weaponIngredients
+        .rarities[weapon.rarity]!;
+    final rangeValues = useState(LevelRangeValues(1, levelsEntry.levels.keys.last));
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
     final selectedCharacterIdInit = useMemoized(
@@ -149,7 +148,8 @@ class WeaponDetailsPage extends HookConsumerWidget {
                           child: Visibility(
                             visible: sliderRangeInitialized.value,
                             child: LevelSlider(
-                              levels: sliderTickLabels,
+                              ticks: levelsEntry.sliderTicks,
+                            levels: [1, ...levelsEntry.levels.keys],
                               values: rangeValues.value,
                               onChanged: (values) {
                                 // avoid overlapping slider handles

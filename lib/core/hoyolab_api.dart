@@ -264,6 +264,8 @@ class Retcode {
 class HoyolabApiUtils {
   const HoyolabApiUtils._();
 
+  /// Loops through the pages of the API call until a character with the
+  /// specified IDs is found.
   static Future<T?> loopUntilCharacter<T extends WithId>(List<int> characterIds, Future<HoyolabListData<T>> Function(int page) apiCall) async {
     var page = 1;
     while (true) {

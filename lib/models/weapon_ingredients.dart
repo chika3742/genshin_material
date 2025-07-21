@@ -20,6 +20,7 @@ sealed class WeaponIngredients with _$WeaponIngredients {
 @freezed
 sealed class WeaponIngredientsLevels with _$WeaponIngredientsLevels {
   const factory WeaponIngredientsLevels({
+    required List<int> sliderTicks,
     required Map<int, List<Ingredient>> levels,
   }) = _WeaponIngredientsLevels;
 
