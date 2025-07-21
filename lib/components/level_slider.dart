@@ -306,7 +306,9 @@ class LevelSlider extends HookWidget {
                 ),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  error: error ? SizedBox() : null,
+                  error: error
+                      ? SizedBox() // only for changing the field color
+                      : null,
                 ),
                 onChanged: onChanged,
                 onTapOutside: (event) {
