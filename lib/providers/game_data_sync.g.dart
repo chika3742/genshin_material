@@ -6,7 +6,7 @@ part of 'game_data_sync.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$gameDataSyncHash() => r'28f68ce0b120f82d7be8dd9aadc13286d865a5db';
+String _$gameDataSyncHash() => r'dd5652c2f1d46c18495a2dee00edc9372467ec7f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,29 +29,29 @@ class _SystemHash {
   }
 }
 
-/// See also [gameDataSync].
-@ProviderFor(gameDataSync)
-const gameDataSyncProvider = GameDataSyncFamily();
+/// See also [_gameDataSync].
+@ProviderFor(_gameDataSync)
+const _gameDataSyncProvider = _GameDataSyncFamily();
 
-/// See also [gameDataSync].
-class GameDataSyncFamily extends Family<AsyncValue<GameDataSyncResult>> {
-  /// See also [gameDataSync].
-  const GameDataSyncFamily();
+/// See also [_gameDataSync].
+class _GameDataSyncFamily extends Family<AsyncValue<GameDataSyncResult>> {
+  /// See also [_gameDataSync].
+  const _GameDataSyncFamily();
 
-  /// See also [gameDataSync].
-  GameDataSyncProvider call({
+  /// See also [_gameDataSync].
+  _GameDataSyncProvider call({
     required String variantId,
     String? weaponId,
   }) {
-    return GameDataSyncProvider(
+    return _GameDataSyncProvider(
       variantId: variantId,
       weaponId: weaponId,
     );
   }
 
   @override
-  GameDataSyncProvider getProviderOverride(
-    covariant GameDataSyncProvider provider,
+  _GameDataSyncProvider getProviderOverride(
+    covariant _GameDataSyncProvider provider,
   ) {
     return call(
       variantId: provider.variantId,
@@ -71,36 +71,36 @@ class GameDataSyncFamily extends Family<AsyncValue<GameDataSyncResult>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'gameDataSyncProvider';
+  String? get name => r'_gameDataSyncProvider';
 }
 
-/// See also [gameDataSync].
-class GameDataSyncProvider
+/// See also [_gameDataSync].
+class _GameDataSyncProvider
     extends AutoDisposeFutureProvider<GameDataSyncResult> {
-  /// See also [gameDataSync].
-  GameDataSyncProvider({
+  /// See also [_gameDataSync].
+  _GameDataSyncProvider({
     required String variantId,
     String? weaponId,
   }) : this._internal(
-          (ref) => gameDataSync(
-            ref as GameDataSyncRef,
+          (ref) => _gameDataSync(
+            ref as _GameDataSyncRef,
             variantId: variantId,
             weaponId: weaponId,
           ),
-          from: gameDataSyncProvider,
-          name: r'gameDataSyncProvider',
+          from: _gameDataSyncProvider,
+          name: r'_gameDataSyncProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
                   : _$gameDataSyncHash,
-          dependencies: GameDataSyncFamily._dependencies,
+          dependencies: _GameDataSyncFamily._dependencies,
           allTransitiveDependencies:
-              GameDataSyncFamily._allTransitiveDependencies,
+              _GameDataSyncFamily._allTransitiveDependencies,
           variantId: variantId,
           weaponId: weaponId,
         );
 
-  GameDataSyncProvider._internal(
+  _GameDataSyncProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -116,12 +116,12 @@ class GameDataSyncProvider
 
   @override
   Override overrideWith(
-    FutureOr<GameDataSyncResult> Function(GameDataSyncRef provider) create,
+    FutureOr<GameDataSyncResult> Function(_GameDataSyncRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: GameDataSyncProvider._internal(
-        (ref) => create(ref as GameDataSyncRef),
+      override: _GameDataSyncProvider._internal(
+        (ref) => create(ref as _GameDataSyncRef),
         from: from,
         name: null,
         dependencies: null,
@@ -140,7 +140,7 @@ class GameDataSyncProvider
 
   @override
   bool operator ==(Object other) {
-    return other is GameDataSyncProvider &&
+    return other is _GameDataSyncProvider &&
         other.variantId == variantId &&
         other.weaponId == weaponId;
   }
@@ -157,7 +157,7 @@ class GameDataSyncProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin GameDataSyncRef on AutoDisposeFutureProviderRef<GameDataSyncResult> {
+mixin _GameDataSyncRef on AutoDisposeFutureProviderRef<GameDataSyncResult> {
   /// The parameter `variantId` of this provider.
   String get variantId;
 
@@ -167,13 +167,13 @@ mixin GameDataSyncRef on AutoDisposeFutureProviderRef<GameDataSyncResult> {
 
 class _GameDataSyncProviderElement
     extends AutoDisposeFutureProviderElement<GameDataSyncResult>
-    with GameDataSyncRef {
+    with _GameDataSyncRef {
   _GameDataSyncProviderElement(super.provider);
 
   @override
-  String get variantId => (origin as GameDataSyncProvider).variantId;
+  String get variantId => (origin as _GameDataSyncProvider).variantId;
   @override
-  String? get weaponId => (origin as GameDataSyncProvider).weaponId;
+  String? get weaponId => (origin as _GameDataSyncProvider).weaponId;
 }
 
 String _$bagLackNumHash() => r'0d37f9b2de8fd8d5f59f049ac0f9585ec4f33bba';
@@ -324,7 +324,7 @@ class _BagLackNumProviderElement
   String? get weaponId => (origin as BagLackNumProvider).weaponId;
 }
 
-String _$gameDataSyncStateHash() => r'fe68f6db8e9d2fe933253603ffe0d211e8d225eb';
+String _$gameDataSyncStateHash() => r'40caa2965ec97f05b9327db465db1de93535c785';
 
 /// See also [gameDataSyncState].
 @ProviderFor(gameDataSyncState)
@@ -474,7 +474,7 @@ class _GameDataSyncStateProviderElement
 }
 
 String _$gameDataSyncCachedHash() =>
-    r'8a352058e41f66a1625be3578a9b89eaec44cbd4';
+    r'bfa127abae77bd64c1de7ee1d86c49d15bae2a1b';
 
 abstract class _$GameDataSyncCached
     extends BuildlessAutoDisposeAsyncNotifier<GameDataSyncResult?> {

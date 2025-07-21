@@ -58,7 +58,7 @@ class GameDataSyncCached extends _$GameDataSyncCached {
     }
 
     // fetch from server
-    state = AsyncValue.data(await ref.watch(gameDataSyncProvider(
+    state = AsyncValue.data(await ref.watch(_gameDataSyncProvider(
       variantId: variantId,
       weaponId: weaponId,
     ).future));
@@ -87,12 +87,10 @@ class GameDataSyncCached extends _$GameDataSyncCached {
 }
 
 @riverpod
-Future<GameDataSyncResult> gameDataSync(Ref ref, { required String variantId, String? weaponId }) async {
+Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, String? weaponId }) async {
   final assetData = ref.watch(assetDataProvider).value;
   final (uid, server) = ref.watch(preferencesStateNotifierProvider.select((e) => (e.hyvUid, e.hyvServer)));
   final hoyolabCookie = await getHoyolabCookie();
-
-  print("evaluated gameDataSync");
 
   if (uid == null || server == null || hoyolabCookie == null) {
     return GameDataSyncResult(
@@ -200,8 +198,6 @@ GameDataSyncStatus gameDataSyncState(Ref ref, { required String variantId, Strin
   ];
 
   final syncResult = snapshots.first.value as GameDataSyncResult?;
-
-  print(syncResult);
 
   if (snapshots.any((snapshot) => snapshot.isLoading) || syncResult?.isStale == true) {
     return const GameDataSyncStatus.syncing();

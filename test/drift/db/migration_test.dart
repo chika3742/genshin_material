@@ -2,6 +2,7 @@
 // ignore_for_file: unused_local_variable, unused_import
 import "dart:convert";
 
+import "package:clock/clock.dart";
 import "package:drift/drift.dart";
 import "package:drift_dev/api/migrations_native.dart";
 import "package:flutter_test/flutter_test.dart";
@@ -41,14 +42,15 @@ void main() {
   });
 
   test("migration from v1 to v2 does not corrupt data", () async {
-    final oldInGameCharacterStateTableData =
-        <v1.InGameCharacterStateTableData>[
-          v1.InGameCharacterStateTableData(
-            uid: "foo",
-            characterId: "bar",
-            purposes: "{}",
-          ),
-        ];
+    final fixedTimestamp = DateTime(2020, 1, 1, 0, 0, 0);
+
+    final oldInGameCharacterStateTableData = <v1.InGameCharacterStateTableData>[
+      v1.InGameCharacterStateTableData(
+        uid: "foo",
+        characterId: "bar",
+        purposes: "{}",
+      ),
+    ];
     final oldInGameWeaponStateTableData = <v1.InGameWeaponStateTableData>[
       v1.InGameWeaponStateTableData(
         uid: "foo",
@@ -59,43 +61,45 @@ void main() {
     ];
 
     final expectedNewInGameCharacterStateTableData =
-    <v2.InGameCharacterStateTableData>[
+        <v2.InGameCharacterStateTableData>[
       v2.InGameCharacterStateTableData(
         uid: "foo",
         characterId: "bar",
         purposes: "{}",
-        lastUpdated: DateTime.now().subtract(Duration(minutes: 5)),
+        lastUpdated: fixedTimestamp.subtract(Duration(minutes: 5)),
       ),
     ];
     final expectedNewInGameWeaponStateTableData =
         <v2.InGameWeaponStateTableData>[
-          v2.InGameWeaponStateTableData(
-            uid: "foo",
-            characterId: "bar",
-            weaponId: "baz",
-            purposes: '{"ascension": 0}',
-            lastUpdated: DateTime.now().subtract(Duration(minutes: 5)),
-          ),
-        ];
+      v2.InGameWeaponStateTableData(
+        uid: "foo",
+        characterId: "bar",
+        weaponId: "baz",
+        purposes: '{"ascension": 0}',
+        lastUpdated: fixedTimestamp.subtract(Duration(minutes: 5)),
+      ),
+    ];
 
-    await verifier.testWithDataIntegrity(
-      oldVersion: 1,
-      newVersion: 2,
-      createOld: v1.DatabaseAtV1.new,
-      createNew: v2.DatabaseAtV2.new,
-      openTestedDatabase: AppDatabase.new,
-      createItems: (batch, oldDb) {
-        batch.insertAll(
-            oldDb.inGameCharacterStateTable, oldInGameCharacterStateTableData);
-        batch.insertAll(
-            oldDb.inGameWeaponStateTable, oldInGameWeaponStateTableData);
-      },
-      validateItems: (newDb) async {
-        expect((await newDb.select(newDb.inGameCharacterStateTable).get())[0].lastUpdated,
-            closeToDateTime(expectedNewInGameCharacterStateTableData[0].lastUpdated, Duration(seconds: 1)));
-        expect((await newDb.select(newDb.inGameWeaponStateTable).get())[0].lastUpdated,
-            closeToDateTime(expectedNewInGameWeaponStateTableData[0].lastUpdated, Duration(seconds: 1)));
-      },
-    );
+    await withClock(Clock.fixed(fixedTimestamp), () async {
+      await verifier.testWithDataIntegrity(
+        oldVersion: 1,
+        newVersion: 2,
+        createOld: v1.DatabaseAtV1.new,
+        createNew: v2.DatabaseAtV2.new,
+        openTestedDatabase: AppDatabase.new,
+        createItems: (batch, oldDb) {
+          batch.insertAll(
+              oldDb.inGameCharacterStateTable, oldInGameCharacterStateTableData);
+          batch.insertAll(
+              oldDb.inGameWeaponStateTable, oldInGameWeaponStateTableData);
+        },
+        validateItems: (newDb) async {
+          expect((await newDb.select(newDb.inGameCharacterStateTable).get())[0].lastUpdated,
+              expectedNewInGameCharacterStateTableData[0].lastUpdated);
+          expect((await newDb.select(newDb.inGameWeaponStateTable).get())[0].lastUpdated,
+              expectedNewInGameWeaponStateTableData[0].lastUpdated);
+        },
+      );
+    });
   });
 }

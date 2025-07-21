@@ -1,5 +1,6 @@
 import "dart:convert";
 
+import "package:clock/clock.dart";
 import "package:drift/drift.dart";
 import "package:drift_flutter/drift_flutter.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
@@ -216,17 +217,20 @@ class AppDatabase extends _$AppDatabase {
             schema.inGameCharacterStateTable,
             columnTransformer: {
               schema.inGameCharacterStateTable.lastUpdated:
-                currentDateAndTime.modify(DateTimeModifier.minutes(-5)),
+                  Variable.withDateTime(clock.now())
+                      .modify(DateTimeModifier.minutes(-5)),
             },
           ));
           await m.alterTable(TableMigration(
             schema.inGameWeaponStateTable,
             columnTransformer: {
-              schema.inGameWeaponStateTable.purposes: Variable.withString('{"ascension": ')
-                  + const CustomExpression("level")
-                  + Variable.withString("}"),
+              schema.inGameWeaponStateTable.purposes:
+                  Variable.withString('{"ascension": ') +
+                      const CustomExpression("level") +
+                      Variable.withString("}"),
               schema.inGameWeaponStateTable.lastUpdated:
-                currentDateAndTime.modify(DateTimeModifier.minutes(-5)),
+                  Variable.withDateTime(clock.now())
+                      .modify(DateTimeModifier.minutes(-5)),
             },
           ));
         },
