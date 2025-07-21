@@ -11,6 +11,43 @@ import "../ui_core/bubble.dart";
 import "../ui_core/layout.dart";
 import "../utils/lists.dart";
 
+class LevelRangeValues {
+  final int start;
+  final int end;
+
+  const LevelRangeValues(this.start, this.end);
+}
+
+class SliderLabelPainter extends CustomPainter {
+  const SliderLabelPainter({required this.ticks, required this.context});
+
+  final List<int> ticks;
+  final BuildContext context;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final painter = TextPainter(
+      textDirection: TextDirection.ltr,
+    );
+
+    for (final tick in ticks) {
+      final textSpan = TextSpan(
+        text: tick.toString(),
+        style: Theme.of(context).textTheme.bodyMedium,
+      );
+      painter.text = textSpan;
+      painter.layout();
+
+      final offsetX = (ticks.indexOf(tick) * size.width / (ticks.length - 1)) -
+          (painter.width / 2);
+      painter.paint(canvas, Offset(offsetX, (size.height - painter.height) / 2));
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
 class LevelSlider extends HookWidget {
   final List<int> levels;
   final List<int> ticks;
@@ -137,85 +174,57 @@ class LevelSlider extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
         children: [
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: "Lv.",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                WidgetSpan(
-                  alignment: PlaceholderAlignment.baseline,
-                  baseline: TextBaseline.alphabetic,
-                  child: _buildLevelField(
-                    controller: currLvController,
-                    fontSize: _currentLevelFieldFontSize,
-                    error: currLvError.value,
-                    onChanged: (value) {
-                      if (validateValue(true, value)) {
-                        currLvError.value = false;
-                        onChanged?.call(LevelRangeValues(
-                          int.tryParse(value) ?? values.start,
-                          values.end,
-                        ));
-                      } else {
-                        currLvError.value = true;
-                      }
-                    },
-                    onBlur: () {
-                      // reset value to the last valid value if current value is
-                      // invalid
-                      if (!validateValue(true, currLvController.text)) {
-                        currLvController.text = values.start.toString();
-                        currLvError.value = false;
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
+          _buildLevelField(
+            controller: currLvController,
+            fontSize: _currentLevelFieldFontSize,
+            error: currLvError.value,
+            onChanged: (value) {
+              if (validateValue(true, value)) {
+                currLvError.value = false;
+                onChanged?.call(LevelRangeValues(
+                  int.tryParse(value) ?? values.start,
+                  values.end,
+                ));
+              } else {
+                currLvError.value = true;
+              }
+            },
+            onBlur: () {
+              // reset value to the last valid value if current value is
+              // invalid
+              if (!validateValue(true, currLvController.text)) {
+                currLvController.text = values.start.toString();
+                currLvError.value = false;
+              }
+            },
           ),
           Transform.translate(
             offset: const Offset(0, 4.0),
             child: const Icon(Symbols.double_arrow),
           ),
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: "Lv.",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                WidgetSpan(
-                  alignment: PlaceholderAlignment.baseline,
-                  baseline: TextBaseline.alphabetic,
-                  child: _buildLevelField(
-                    controller: tgLvController,
-                    fontSize: _targetLevelFieldFontSize,
-                    error: tgLvError.value,
-                    onChanged: (value) {
-                      if (validateValue(false, value)) {
-                        tgLvError.value = false;
-                        onChanged?.call(LevelRangeValues(
-                          values.start,
-                          int.tryParse(value) ?? values.end,
-                        ));
-                      } else {
-                        tgLvError.value = true;
-                      }
-                    },
-                    onBlur: () {
-                      // reset value to the last valid value if current value is
-                      // invalid
-                      if (!validateValue(false, tgLvController.text)) {
-                        tgLvController.text = values.end.toString();
-                        tgLvError.value = false;
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
+          _buildLevelField(
+            controller: tgLvController,
+            fontSize: _targetLevelFieldFontSize,
+            error: tgLvError.value,
+            onChanged: (value) {
+              if (validateValue(false, value)) {
+                tgLvError.value = false;
+                onChanged?.call(LevelRangeValues(
+                  values.start,
+                  int.tryParse(value) ?? values.end,
+                ));
+              } else {
+                tgLvError.value = true;
+              }
+            },
+            onBlur: () {
+              // reset value to the last valid value if current value is
+              // invalid
+              if (!validateValue(false, tgLvController.text)) {
+                tgLvController.text = values.end.toString();
+                tgLvError.value = false;
+              }
+            },
           ),
           const Spacer(),
           IconButton(
@@ -241,6 +250,8 @@ class LevelSlider extends HookWidget {
     ValueChanged<String>? onChanged,
     VoidCallback? onBlur,
   }) {
+    final context = useContext();
+
     // calculate text size to adjust the field size
     final textPainter = TextPainter(
       text: TextSpan(
@@ -271,67 +282,44 @@ class LevelSlider extends HookWidget {
       return focusNode;
     });
 
-    return SizedBox(
-      width: textPainter.size.width + _levelFieldHorizontalPadding,
-      height: textPainter.size.height + _levelFieldVerticalPadding,
-      child: TextField(
-        controller: controller,
-        inputFormatters: [
-          LengthLimitingTextInputFormatter(_levelFieldMaxLength),
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: "Lv.",
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: SizedBox(
+              width: textPainter.size.width + _levelFieldHorizontalPadding,
+              height: textPainter.size.height + _levelFieldVerticalPadding,
+              child: TextField(
+                controller: controller,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(_levelFieldMaxLength),
+                ],
+                style: GoogleFonts.titilliumWeb(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  error: error ? SizedBox() : null,
+                ),
+                onChanged: onChanged,
+                onTapOutside: (event) {
+                  // blur the field when tapping outside
+                  focusNode.unfocus();
+                  onBlur?.call();
+                },
+                focusNode: focusNode,
+              ),
+            ),
+          ),
         ],
-        style: GoogleFonts.titilliumWeb(
-          fontSize: fontSize,
-          fontWeight: FontWeight.w600,
-        ),
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          error: error ? SizedBox() : null,
-        ),
-        onChanged: onChanged,
-        onTapOutside: (event) {
-          // blur the field when tapping outside
-          focusNode.unfocus();
-          onBlur?.call();
-        },
-        focusNode: focusNode,
       ),
     );
   }
-}
-
-class LevelRangeValues {
-  final int start;
-  final int end;
-
-  const LevelRangeValues(this.start, this.end);
-}
-
-class SliderLabelPainter extends CustomPainter {
-  const SliderLabelPainter({required this.ticks, required this.context});
-
-  final List<int> ticks;
-  final BuildContext context;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final painter = TextPainter(
-      textDirection: TextDirection.ltr,
-    );
-
-    for (final tick in ticks) {
-      final textSpan = TextSpan(
-        text: tick.toString(),
-        style: Theme.of(context).textTheme.bodyMedium,
-      );
-      painter.text = textSpan;
-      painter.layout();
-
-      final offsetX = (ticks.indexOf(tick) * size.width / (ticks.length - 1)) -
-          (painter.width / 2);
-      painter.paint(canvas, Offset(offsetX, (size.height - painter.height) / 2));
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
