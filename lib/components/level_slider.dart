@@ -147,26 +147,6 @@ class LevelSlider extends HookWidget {
       return null;
     }, [values.start, values.end]);
 
-    bool validateValue(bool current, String value) {
-      final parsedNewValue = int.tryParse(value);
-      if (parsedNewValue == null) {
-        return false;
-      }
-
-      final minOrMax = current
-          ? min(levels.last, values.end)
-          : max(levels.first, values.start);
-
-      if ((current && parsedNewValue >= minOrMax) ||
-          (!current && parsedNewValue <= minOrMax)) {
-        return false;
-      }
-      if (!levels.contains(parsedNewValue)) {
-        return false;
-      }
-      return true;
-    }
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: _levelIndicatorHorizontalPadding),
       child: GappedRow(
@@ -179,7 +159,7 @@ class LevelSlider extends HookWidget {
             fontSize: _currentLevelFieldFontSize,
             error: currLvError.value,
             onChanged: (value) {
-              if (validateValue(true, value)) {
+              if (validateCurrentLevel(value)) {
                 currLvError.value = false;
                 onChanged?.call(LevelRangeValues(
                   int.tryParse(value) ?? values.start,
@@ -192,7 +172,7 @@ class LevelSlider extends HookWidget {
             onBlur: () {
               // reset value to the last valid value if current value is
               // invalid
-              if (!validateValue(true, currLvController.text)) {
+              if (!validateCurrentLevel(currLvController.text)) {
                 currLvController.text = values.start.toString();
                 currLvError.value = false;
               }
@@ -207,7 +187,7 @@ class LevelSlider extends HookWidget {
             fontSize: _targetLevelFieldFontSize,
             error: tgLvError.value,
             onChanged: (value) {
-              if (validateValue(false, value)) {
+              if (validateTargetLevel(value)) {
                 tgLvError.value = false;
                 onChanged?.call(LevelRangeValues(
                   values.start,
@@ -220,7 +200,7 @@ class LevelSlider extends HookWidget {
             onBlur: () {
               // reset value to the last valid value if current value is
               // invalid
-              if (!validateValue(false, tgLvController.text)) {
+              if (!validateTargetLevel(tgLvController.text)) {
                 tgLvController.text = values.end.toString();
                 tgLvError.value = false;
               }
@@ -241,6 +221,36 @@ class LevelSlider extends HookWidget {
         ],
       ),
     );
+  }
+
+  bool validateCurrentLevel(String value) {
+    final parsedNewValue = int.tryParse(value);
+    if (parsedNewValue == null) {
+      return false;
+    }
+
+    final maxLevel = min(levels.last, values.end);
+
+    // current level must not equal to the target level
+    if (parsedNewValue >= maxLevel || !levels.contains(parsedNewValue)) {
+      return false;
+    }
+    return true;
+  }
+
+  bool validateTargetLevel(String value) {
+    final parsedNewValue = int.tryParse(value);
+    if (parsedNewValue == null) {
+      return false;
+    }
+
+    final minLevel = max(levels.first, values.start);
+
+    // target level must not equal to the current level
+    if (parsedNewValue <= minLevel || !levels.contains(parsedNewValue)) {
+      return false;
+    }
+    return true;
   }
 
   Widget _buildLevelField({
@@ -307,7 +317,7 @@ class LevelSlider extends HookWidget {
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   error: error
-                      ? SizedBox() // only for changing the field color
+                      ? const SizedBox.shrink() // only for changing the field color; don't want to show an error message
                       : null,
                 ),
                 onChanged: onChanged,
