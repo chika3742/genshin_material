@@ -129,10 +129,10 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       }
     });
 
-    ref.listen(bagLackNumProvider(
+    ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(
       variantId: selectedCharacterId.value,
       weaponId: weapon.id,
-    ), (_, result) {
+    )), (_, result) {
       if (!result.hasValue) return;
 
       lackNums.value = result.value!;

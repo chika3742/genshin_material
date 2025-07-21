@@ -154,7 +154,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       state.value = newState;
     });
 
-    ref.listen(bagLackNumProvider(variantId: variant.value.id), (_, result) {
+    ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id)), (_, result) {
       if (!result.hasValue) return;
 
       state.value = state.value.copyWith(

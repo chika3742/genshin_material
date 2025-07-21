@@ -29,3 +29,38 @@ extension IndexOfCeilToNearestExtension on List<int> {
     return indexWhere((e) => e >= target);
   }
 }
+
+/// A list wrapper that provides deep equal operators for lists of type [T].
+///
+/// This class is used for parameters passed to Providers that require a
+/// consistent == operator.
+class EqualityList<T> extends ListMixin<T> {
+  static const _listEquality = ListEquality();
+
+  final List<T> _list;
+
+  EqualityList(this._list);
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! EqualityList<T>) return false;
+    return _listEquality.equals(_list, other._list);
+  }
+
+  @override
+  int get hashCode => _listEquality.hash(_list);
+
+  @override
+  int get length => _list.length;
+
+  @override
+  set length(int newLength) {
+    _list.length = newLength;
+  }
+
+  @override
+  T operator [](int index) => _list[index];
+
+  @override
+  void operator []=(int index, T value) => _list[index] = value;
+}

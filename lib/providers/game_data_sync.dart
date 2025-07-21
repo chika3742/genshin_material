@@ -17,6 +17,7 @@ import "../models/character.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "../models/weapon.dart";
+import "../utils/lists.dart";
 import "database_provider.dart";
 import "preferences.dart";
 import "versions.dart";
@@ -25,6 +26,42 @@ part "game_data_sync.freezed.dart";
 part "game_data_sync.g.dart";
 
 const _fetchTtl = Duration(minutes: 3);
+
+/// Represents a character for game data synchronization, including the variant ID
+/// and an optional equipped weapon ID.
+///
+/// This class is used to encapsulate the minimal information required to identify
+/// a character and its equipped weapon (if any) for synchronization purposes.
+@freezed
+sealed class GameDataSyncCharacter with _$GameDataSyncCharacter {
+  const factory GameDataSyncCharacter({
+    required String variantId,
+    String? weaponId,
+  }) = _GameDataSyncCharacter;
+
+  /// Creates an [EqualityList] containing a single [GameDataSyncCharacter] instance
+  /// with the given parameters.
+  ///
+  /// This is a convenience method for constructing a list with one character,
+  /// useful for APIs or providers that expect an [EqualityList] of characters.
+  static EqualityList<GameDataSyncCharacter> single({
+    required String variantId,
+    String? weaponId,
+  }) {
+    return EqualityList([
+      GameDataSyncCharacter(variantId: variantId, weaponId: weaponId),
+    ]);
+  }
+}
+
+@freezed
+sealed class _ComputeBagRequestItem with _$ComputeBagRequestItem {
+  const factory _ComputeBagRequestItem({
+    required List<int> ids,
+    required CharacterOrVariant variant,
+    String? weaponId,
+  }) = __ComputeBagRequestItem;
+}
 
 @riverpod
 class GameDataSyncCached extends _$GameDataSyncCached {
@@ -155,7 +192,7 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
 }
 
 @riverpod
-Future<Map<String, int>> bagLackNum(Ref ref, { required String variantId, String? weaponId }) async {
+Future<Map<String, int>> bagLackNum(Ref ref, List<GameDataSyncCharacter> entries) async {
   final assetData = ref.watch(assetDataProvider).value;
   final prefs = ref.watch(preferencesStateNotifierProvider);
   final hoyolabCookie = await getHoyolabCookie();
@@ -173,15 +210,20 @@ Future<Map<String, int>> bagLackNum(Ref ref, { required String variantId, String
     region: prefs.hyvServer!,
   );
 
-  final (character, variant) = _extractCharacter(assetData.characters, variantId);
+  final requests = entries.map((e) {
+    final (character, variant) = _extractCharacter(assetData.characters, e.variantId);
+    return _ComputeBagRequestItem(
+      ids: character.hyvIds,
+      variant: variant,
+      weaponId: e.weaponId,
+    );
+  }).toList();
 
   // fetch material lack numbers
   final calcResult = await HoyolabApi.queue.run(() => _computeBag(
     api: api,
     assetData: assetData,
-    ids: character.hyvIds,
-    variant: variant,
-    weaponId: weaponId,
+    requests: requests,
   ));
 
   return Map.fromEntries(calcResult!.overallConsume.map((e) {
@@ -194,7 +236,7 @@ Future<Map<String, int>> bagLackNum(Ref ref, { required String variantId, String
 GameDataSyncStatus gameDataSyncState(Ref ref, { required String variantId, String? weaponId }) {
   final snapshots = [
     ref.watch(gameDataSyncCachedProvider(variantId: variantId, weaponId: weaponId)),
-    ref.watch(bagLackNumProvider(variantId: variantId, weaponId: weaponId)),
+    ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variantId, weaponId: weaponId))),
   ];
 
   final syncResult = snapshots.first.value as GameDataSyncResult?;
@@ -285,24 +327,28 @@ Map<Purpose, int> _toCharacterLevels(AvatarListResultItem charaInfo) {
 Future<CalcResult?> _computeBag({
   required HoyolabApi api,
   required AssetData assetData,
-  required List<int> ids,
-  required CharacterOrVariant variant,
-  String? weaponId,
+  required List<_ComputeBagRequestItem> requests,
 }) async {
-  final avatarId = await _determineAvatarId(
-    api: api,
-    ids: ids,
-    weaponTypeFilter: assetData.weaponTypes[variant.weaponType]!.hyvId,
-  );
+  final apiRequests = <CalcComputeItem>[];
 
-  final computeReq = _createCalcComputeRequest(
-    variant: variant,
-    assetData: assetData,
-    avatarId: avatarId,
-    weapon: weaponId != null ? assetData.weapons[weaponId] : null,
-  );
+  for (final item in requests) {
+    final avatarId = await _determineAvatarId(
+      api: api,
+      ids: item.ids,
+      weaponTypeFilter: assetData.weaponTypes[item.variant.weaponType]!.hyvId,
+    );
 
-  return await api.batchCompute([computeReq]);
+    final computeReq = _createCalcComputeRequest(
+      variant: item.variant,
+      assetData: assetData,
+      avatarId: avatarId,
+      weapon: item.weaponId != null ? assetData.weapons[item.weaponId] : null,
+    );
+
+    apiRequests.add(computeReq);
+  }
+
+  return await api.batchCompute(apiRequests);
 }
 
 CalcComputeItem _createCalcComputeRequest({

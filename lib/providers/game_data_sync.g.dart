@@ -176,7 +176,7 @@ class _GameDataSyncProviderElement
   String? get weaponId => (origin as _GameDataSyncProvider).weaponId;
 }
 
-String _$bagLackNumHash() => r'0d37f9b2de8fd8d5f59f049ac0f9585ec4f33bba';
+String _$bagLackNumHash() => r'af236a3160853c0e56d0a47d1a41de506b0b9b4d';
 
 /// See also [bagLackNum].
 @ProviderFor(bagLackNum)
@@ -188,13 +188,11 @@ class BagLackNumFamily extends Family<AsyncValue<Map<String, int>>> {
   const BagLackNumFamily();
 
   /// See also [bagLackNum].
-  BagLackNumProvider call({
-    required String variantId,
-    String? weaponId,
-  }) {
+  BagLackNumProvider call(
+    List<GameDataSyncCharacter> entries,
+  ) {
     return BagLackNumProvider(
-      variantId: variantId,
-      weaponId: weaponId,
+      entries,
     );
   }
 
@@ -203,8 +201,7 @@ class BagLackNumFamily extends Family<AsyncValue<Map<String, int>>> {
     covariant BagLackNumProvider provider,
   ) {
     return call(
-      variantId: provider.variantId,
-      weaponId: provider.weaponId,
+      provider.entries,
     );
   }
 
@@ -226,14 +223,12 @@ class BagLackNumFamily extends Family<AsyncValue<Map<String, int>>> {
 /// See also [bagLackNum].
 class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
   /// See also [bagLackNum].
-  BagLackNumProvider({
-    required String variantId,
-    String? weaponId,
-  }) : this._internal(
+  BagLackNumProvider(
+    List<GameDataSyncCharacter> entries,
+  ) : this._internal(
           (ref) => bagLackNum(
             ref as BagLackNumRef,
-            variantId: variantId,
-            weaponId: weaponId,
+            entries,
           ),
           from: bagLackNumProvider,
           name: r'bagLackNumProvider',
@@ -244,8 +239,7 @@ class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
           dependencies: BagLackNumFamily._dependencies,
           allTransitiveDependencies:
               BagLackNumFamily._allTransitiveDependencies,
-          variantId: variantId,
-          weaponId: weaponId,
+          entries: entries,
         );
 
   BagLackNumProvider._internal(
@@ -255,12 +249,10 @@ class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.variantId,
-    required this.weaponId,
+    required this.entries,
   }) : super.internal();
 
-  final String variantId;
-  final String? weaponId;
+  final List<GameDataSyncCharacter> entries;
 
   @override
   Override overrideWith(
@@ -275,8 +267,7 @@ class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        variantId: variantId,
-        weaponId: weaponId,
+        entries: entries,
       ),
     );
   }
@@ -288,16 +279,13 @@ class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
 
   @override
   bool operator ==(Object other) {
-    return other is BagLackNumProvider &&
-        other.variantId == variantId &&
-        other.weaponId == weaponId;
+    return other is BagLackNumProvider && other.entries == entries;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, variantId.hashCode);
-    hash = _SystemHash.combine(hash, weaponId.hashCode);
+    hash = _SystemHash.combine(hash, entries.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -306,11 +294,8 @@ class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 mixin BagLackNumRef on AutoDisposeFutureProviderRef<Map<String, int>> {
-  /// The parameter `variantId` of this provider.
-  String get variantId;
-
-  /// The parameter `weaponId` of this provider.
-  String? get weaponId;
+  /// The parameter `entries` of this provider.
+  List<GameDataSyncCharacter> get entries;
 }
 
 class _BagLackNumProviderElement
@@ -319,12 +304,11 @@ class _BagLackNumProviderElement
   _BagLackNumProviderElement(super.provider);
 
   @override
-  String get variantId => (origin as BagLackNumProvider).variantId;
-  @override
-  String? get weaponId => (origin as BagLackNumProvider).weaponId;
+  List<GameDataSyncCharacter> get entries =>
+      (origin as BagLackNumProvider).entries;
 }
 
-String _$gameDataSyncStateHash() => r'40caa2965ec97f05b9327db465db1de93535c785';
+String _$gameDataSyncStateHash() => r'58fb6cab5ad0adbc07330133cef84d52c4aa8f72';
 
 /// See also [gameDataSyncState].
 @ProviderFor(gameDataSyncState)
