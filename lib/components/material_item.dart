@@ -25,6 +25,7 @@ class MaterialItem extends StatefulHookConsumerWidget {
   final List<Purpose>? possiblePurposeTypes;
   final List<ExpItem>? expItems;
   final List<String>? hashes;
+  final int? lackNum;
 
   const MaterialItem({
     super.key,
@@ -33,6 +34,7 @@ class MaterialItem extends StatefulHookConsumerWidget {
     this.possiblePurposeTypes,
     this.expItems,
     this.hashes,
+    this.lackNum,
   })  : assert(hashes != null || (possiblePurposeTypes != null && usage != null));
 
   @override
@@ -102,6 +104,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       showName: ref.watch(preferencesStateNotifierProvider).showItemNameOnCard,
       rarity: material.rarity,
       quantity: quantity,
+      lackNum: _currentExpItemIndex == 0 ? widget.lackNum : null, // Only show lackNum for the first exp item
       id: material.id,
       bookmarkState: bookmarkState,
       dailyMaterialAvailable: material.getDailyMaterialAvailable(prefs.dailyResetServer),

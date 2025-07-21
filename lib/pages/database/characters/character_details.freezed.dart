@@ -18,6 +18,8 @@ mixin _$CharacterDetailsPageState {
   Map<Purpose, List<int>> get sliderTickLabels;
   Map<Purpose, bool> get checkedTalentTypes;
   Map<Purpose, GlobalKey> get talentSectionKeys;
+  Map<String, int> get lackNums;
+  String? get equippedWeaponId;
 
   /// Create a copy of _CharacterDetailsPageState
   /// with the given fields replaced by the non-null parameter values.
@@ -40,7 +42,10 @@ mixin _$CharacterDetailsPageState {
             const DeepCollectionEquality()
                 .equals(other.checkedTalentTypes, checkedTalentTypes) &&
             const DeepCollectionEquality()
-                .equals(other.talentSectionKeys, talentSectionKeys));
+                .equals(other.talentSectionKeys, talentSectionKeys) &&
+            const DeepCollectionEquality().equals(other.lackNums, lackNums) &&
+            (identical(other.equippedWeaponId, equippedWeaponId) ||
+                other.equippedWeaponId == equippedWeaponId));
   }
 
   @override
@@ -49,11 +54,13 @@ mixin _$CharacterDetailsPageState {
       const DeepCollectionEquality().hash(rangeValues),
       const DeepCollectionEquality().hash(sliderTickLabels),
       const DeepCollectionEquality().hash(checkedTalentTypes),
-      const DeepCollectionEquality().hash(talentSectionKeys));
+      const DeepCollectionEquality().hash(talentSectionKeys),
+      const DeepCollectionEquality().hash(lackNums),
+      equippedWeaponId);
 
   @override
   String toString() {
-    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys)';
+    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys, lackNums: $lackNums, equippedWeaponId: $equippedWeaponId)';
   }
 }
 
@@ -67,7 +74,9 @@ abstract mixin class _$CharacterDetailsPageStateCopyWith<$Res> {
       {Map<Purpose, LevelRangeValues> rangeValues,
       Map<Purpose, List<int>> sliderTickLabels,
       Map<Purpose, bool> checkedTalentTypes,
-      Map<Purpose, GlobalKey> talentSectionKeys});
+      Map<Purpose, GlobalKey> talentSectionKeys,
+      Map<String, int> lackNums,
+      String? equippedWeaponId});
 }
 
 /// @nodoc
@@ -87,6 +96,8 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res>
     Object? sliderTickLabels = null,
     Object? checkedTalentTypes = null,
     Object? talentSectionKeys = null,
+    Object? lackNums = null,
+    Object? equippedWeaponId = freezed,
   }) {
     return _then(_self.copyWith(
       rangeValues: null == rangeValues
@@ -105,6 +116,14 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res>
           ? _self.talentSectionKeys
           : talentSectionKeys // ignore: cast_nullable_to_non_nullable
               as Map<Purpose, GlobalKey>,
+      lackNums: null == lackNums
+          ? _self.lackNums
+          : lackNums // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      equippedWeaponId: freezed == equippedWeaponId
+          ? _self.equippedWeaponId
+          : equippedWeaponId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -116,11 +135,14 @@ class __CharacterDetailsPageState implements _CharacterDetailsPageState {
       {required final Map<Purpose, LevelRangeValues> rangeValues,
       required final Map<Purpose, List<int>> sliderTickLabels,
       required final Map<Purpose, bool> checkedTalentTypes,
-      required final Map<Purpose, GlobalKey> talentSectionKeys})
+      required final Map<Purpose, GlobalKey> talentSectionKeys,
+      required final Map<String, int> lackNums,
+      required this.equippedWeaponId})
       : _rangeValues = rangeValues,
         _sliderTickLabels = sliderTickLabels,
         _checkedTalentTypes = checkedTalentTypes,
-        _talentSectionKeys = talentSectionKeys;
+        _talentSectionKeys = talentSectionKeys,
+        _lackNums = lackNums;
 
   final Map<Purpose, LevelRangeValues> _rangeValues;
   @override
@@ -156,6 +178,17 @@ class __CharacterDetailsPageState implements _CharacterDetailsPageState {
     return EqualUnmodifiableMapView(_talentSectionKeys);
   }
 
+  final Map<String, int> _lackNums;
+  @override
+  Map<String, int> get lackNums {
+    if (_lackNums is EqualUnmodifiableMapView) return _lackNums;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_lackNums);
+  }
+
+  @override
+  final String? equippedWeaponId;
+
   /// Create a copy of _CharacterDetailsPageState
   /// with the given fields replaced by the non-null parameter values.
   @override
@@ -177,7 +210,10 @@ class __CharacterDetailsPageState implements _CharacterDetailsPageState {
             const DeepCollectionEquality()
                 .equals(other._checkedTalentTypes, _checkedTalentTypes) &&
             const DeepCollectionEquality()
-                .equals(other._talentSectionKeys, _talentSectionKeys));
+                .equals(other._talentSectionKeys, _talentSectionKeys) &&
+            const DeepCollectionEquality().equals(other._lackNums, _lackNums) &&
+            (identical(other.equippedWeaponId, equippedWeaponId) ||
+                other.equippedWeaponId == equippedWeaponId));
   }
 
   @override
@@ -186,11 +222,13 @@ class __CharacterDetailsPageState implements _CharacterDetailsPageState {
       const DeepCollectionEquality().hash(_rangeValues),
       const DeepCollectionEquality().hash(_sliderTickLabels),
       const DeepCollectionEquality().hash(_checkedTalentTypes),
-      const DeepCollectionEquality().hash(_talentSectionKeys));
+      const DeepCollectionEquality().hash(_talentSectionKeys),
+      const DeepCollectionEquality().hash(_lackNums),
+      equippedWeaponId);
 
   @override
   String toString() {
-    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys)';
+    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys, lackNums: $lackNums, equippedWeaponId: $equippedWeaponId)';
   }
 }
 
@@ -207,7 +245,9 @@ abstract mixin class _$_CharacterDetailsPageStateCopyWith<$Res>
       {Map<Purpose, LevelRangeValues> rangeValues,
       Map<Purpose, List<int>> sliderTickLabels,
       Map<Purpose, bool> checkedTalentTypes,
-      Map<Purpose, GlobalKey> talentSectionKeys});
+      Map<Purpose, GlobalKey> talentSectionKeys,
+      Map<String, int> lackNums,
+      String? equippedWeaponId});
 }
 
 /// @nodoc
@@ -227,6 +267,8 @@ class __$_CharacterDetailsPageStateCopyWithImpl<$Res>
     Object? sliderTickLabels = null,
     Object? checkedTalentTypes = null,
     Object? talentSectionKeys = null,
+    Object? lackNums = null,
+    Object? equippedWeaponId = freezed,
   }) {
     return _then(__CharacterDetailsPageState(
       rangeValues: null == rangeValues
@@ -245,6 +287,14 @@ class __$_CharacterDetailsPageStateCopyWithImpl<$Res>
           ? _self._talentSectionKeys
           : talentSectionKeys // ignore: cast_nullable_to_non_nullable
               as Map<Purpose, GlobalKey>,
+      lackNums: null == lackNums
+          ? _self._lackNums
+          : lackNums // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      equippedWeaponId: freezed == equippedWeaponId
+          ? _self.equippedWeaponId
+          : equippedWeaponId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

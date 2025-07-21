@@ -241,6 +241,7 @@ hoyolab:
   syncBagCounts: Synchronize Bag Counts
   mustBeResonatedWithStatue: This character must be resonated with the Statue of The Seven to be able to sync game data.
   weaponNotEquipped: This character does not equip this weapon.
+  unknownError: An unknown error occurred.
   charaSyncSuccess: Successfully synced game data
 whereToGet(map):
   chests: "Chests, Quests"

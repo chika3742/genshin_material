@@ -177,6 +177,7 @@ class TranslationsErrorsJa {
 
 	// Translations
 	String get characterNotFound => 'キャラクターが見つかりません';
+	String get weaponNotFound => '武器が見つかりません';
 	String get materialNotFound => '素材が見つかりません';
 	String get artifactNotFound => '聖遺物が見つかりません';
 	String get tryAgainLater => 'しばらくしてから再度お試しください。';
@@ -478,6 +479,7 @@ class TranslationsHoyolabJa {
 	String get syncBagCounts => 'ゲーム内の素材の所持数を同期する';
 	String get mustBeResonatedWithStatue => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
 	String get weaponNotEquipped => 'このキャラクターはこの武器を装備していません。';
+	String get unknownError => '不明なエラーが発生しました。';
 	String get charaSyncSuccess => 'ゲームデータと同期しました';
 }
 
@@ -561,6 +563,7 @@ extension on Translations {
 			case 'updates.installing': return 'インストールしています...';
 			case 'updates.pleaseWaitUntilComplete': return 'データ更新が完了するまでお待ちください。';
 			case 'errors.characterNotFound': return 'キャラクターが見つかりません';
+			case 'errors.weaponNotFound': return '武器が見つかりません';
 			case 'errors.materialNotFound': return '素材が見つかりません';
 			case 'errors.artifactNotFound': return '聖遺物が見つかりません';
 			case 'errors.tryAgainLater': return 'しばらくしてから再度お試しください。';
@@ -732,6 +735,7 @@ extension on Translations {
 			case 'hoyolab.syncBagCounts': return 'ゲーム内の素材の所持数を同期する';
 			case 'hoyolab.mustBeResonatedWithStatue': return '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
 			case 'hoyolab.weaponNotEquipped': return 'このキャラクターはこの武器を装備していません。';
+			case 'hoyolab.unknownError': return '不明なエラーが発生しました。';
 			case 'hoyolab.charaSyncSuccess': return 'ゲームデータと同期しました';
 			case 'whereToGet.chests': return '宝箱、任務報酬など';
 			default: return null;

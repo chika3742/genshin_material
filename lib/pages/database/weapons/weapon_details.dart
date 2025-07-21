@@ -16,6 +16,7 @@ import "../../../components/material_card.dart";
 import "../../../components/material_item.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
+import "../../../database.dart";
 import "../../../db/in_game_weapon_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
@@ -25,66 +26,111 @@ import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";
 import "../../../ui_core/layout.dart";
-import "../../../ui_core/snack_bar.dart";
 import "../../../utils/filtering.dart";
 import "../../../utils/ingredients_converter.dart";
 import "../../../utils/lists.dart";
 
 class WeaponDetailsPage extends HookConsumerWidget {
+  const WeaponDetailsPage({
+    super.key,
+    required this.id,
+    required this.assetData,
+    this.initialSelectedCharacter,
+  });
+
   final AssetData assetData;
   final String id;
   final CharacterId? initialSelectedCharacter;
 
-  const WeaponDetailsPage({super.key, required this.id, required this.assetData, this.initialSelectedCharacter});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final weapon = assetData.weapons[id];
+    if (weapon == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: CenterText(tr.errors.weaponNotFound),
+      );
+    }
+
+    final db = ref.watch(appDatabaseProvider);
+    final (uid, syncWeaponState) = ref.watch(preferencesStateNotifierProvider
+        .select((e) => (e.hyvUid, e.syncWeaponState)));
+
+    final characters = useMemoized(() =>
+        filterCharactersByWeaponType(assetData.characters.values, weapon.type));
+    final initialCharacterId = initialSelectedCharacter != null && characters.any((e) => e.id == initialSelectedCharacter)
+        ? initialSelectedCharacter!
+        : characters.first.id;
+
+    final wsResult = useMemoized(() => uid != null
+        ? db.getWeaponState(uid, initialCharacterId, id)
+        : Future.value(null));
+    final wsSnapshot = useFuture(wsResult);
+
+    // loading
+    if (uid != null && syncWeaponState && wsSnapshot.connectionState != ConnectionState.done) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    return WeaponDetailsPageContents(
+      weapon: weapon,
+      assetData: assetData,
+      initialSelectedCharacter: initialCharacterId,
+      initialWeaponState: wsSnapshot.data,
+    );
+  }
+}
+
+
+class WeaponDetailsPageContents extends HookConsumerWidget {
+  final AssetData assetData;
+  final Weapon weapon;
+  final CharacterId initialSelectedCharacter;
+  final InGameWeaponState? initialWeaponState;
+
+  const WeaponDetailsPageContents({
+    super.key,
+    required this.weapon,
+    required this.assetData,
+    required this.initialSelectedCharacter,
+    this.initialWeaponState,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.watch(preferencesStateNotifierProvider);
 
-    final weapon = assetData.weapons[id];
-    if (weapon == null) {
-      return Scaffold(
-        appBar: AppBar(),
-        body: const CenterText("Weapon not found"),
-      );
-    }
-
     final levelsEntry = assetData.weaponIngredients
         .rarities[weapon.rarity]!;
-    final rangeValues = useState(LevelRangeValues(1, levelsEntry.levels.keys.last));
+    final rangeValues = useState(LevelRangeValues(initialWeaponState?.purposes[Purpose.ascension] ?? 1, levelsEntry.levels.keys.last));
+    final lackNums = useState(<String, int>{});
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
-    final selectedCharacterIdInit = useMemoized(
-      () => initialSelectedCharacter != null && characters.any((e) => e.id == initialSelectedCharacter)
-            ? initialSelectedCharacter!
-            : characters.first.id,
-    );
-    final selectedCharacterId = useState(selectedCharacterIdInit);
+    final selectedCharacterId = useState(initialSelectedCharacter);
 
-    final db = ref.watch(appDatabaseProvider);
-    final sliderRangeInitialized = useState(!prefs.isLinkedWithHoyolab); // Set to true initially when not linked
-    useEffect(() {
-      if (prefs.isLinkedWithHoyolab) {
-        ref.read(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id).notifier)
-            .syncInGameCharacter().then((result) {
-              if (result != null) {
-                if (result.levels[Purpose.ascension] != null) {
-                  rangeValues.value = LevelRangeValues(result.levels[Purpose.ascension]!, max(rangeValues.value.end, result.levels[Purpose.ascension]!));
-                }
-                if (result.hasRemovedBookmarks && context.mounted) {
-                  showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
-                }
-              }
-            });
-        db.getWeaponLevel(prefs.hyvUid!, selectedCharacterId.value, weapon.id).then((value) {
-          if (value != null) {
-            rangeValues.value = LevelRangeValues(value, max(rangeValues.value.end, value));
-          }
-          sliderRangeInitialized.value = true;
-        });
-      }
-      return null;
-    }, [selectedCharacterId.value],);
+    ref.listen(gameDataSyncCachedProvider(
+      variantId: selectedCharacterId.value,
+      weaponId: weapon.id,
+    ), (_, result) {
+      if (result.value?.levels?[Purpose.ascension] == null) return;
+
+      rangeValues.value = LevelRangeValues(
+        result.value!.levels![Purpose.ascension]!,
+        max(rangeValues.value.end, result.value!.levels![Purpose.ascension]!),
+      );
+    });
+
+    ref.listen(bagLackNumProvider(
+      variantId: selectedCharacterId.value,
+      weaponId: weapon.id,
+    ), (_, result) {
+      if (!result.hasValue) return;
+
+      lackNums.value = result.value!;
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -120,7 +166,10 @@ class WeaponDetailsPage extends HookConsumerWidget {
                       Consumer(
                         builder: (context, ref, _) {
                           return GameDataSyncIndicator(
-                            status: ref.watch(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id)),
+                            status: ref.watch(gameDataSyncStateProvider(
+                              variantId: selectedCharacterId.value,
+                              weaponId: weapon.id,
+                            )),
                           );
                         },
                       ),
@@ -145,26 +194,23 @@ class WeaponDetailsPage extends HookConsumerWidget {
                         margin: EdgeInsets.zero,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Visibility(
-                            visible: sliderRangeInitialized.value,
-                            child: LevelSlider(
-                              ticks: levelsEntry.sliderTicks,
+                          child: LevelSlider(
+                            ticks: levelsEntry.sliderTicks,
                             levels: [1, ...levelsEntry.levels.keys],
-                              values: rangeValues.value,
-                              onChanged: (values) {
-                                // avoid overlapping slider handles
-                                if (values.start == values.end) {
-                                  return;
-                                }
+                            values: rangeValues.value,
+                            onChanged: (values) {
+                              // avoid overlapping slider handles
+                              if (values.start == values.end) {
+                                return;
+                              }
 
-                                rangeValues.value = values;
-                              },
-                            ),
+                              rangeValues.value = values;
+                            },
                           ),
                         ),
                       ),
                       Wrap(
-                        children: _buildMaterialCards(selectedCharacterId.value, weapon, rangeValues.value),
+                        children: _buildMaterialCards(selectedCharacterId.value, weapon, rangeValues.value, lackNums.value),
                       ),
                     ],
                   ),
@@ -191,10 +237,32 @@ class WeaponDetailsPage extends HookConsumerWidget {
     );
   }
 
-  List<Widget> _buildMaterialCards(String characterId, Weapon weapon, LevelRangeValues levelRange) {
+  List<Widget> _buildMaterialCards(String characterId, Weapon weapon, LevelRangeValues levelRange, Map<String, int> lackNums) {
+    final items = _getCardMaterials(weapon, levelRange);
+    final fullMaterials = useMemoized(() => _getCardMaterials(weapon));
+
+    const defaultExpItemId = "mystic-enhancement-ore";
+
+    return sortMaterials(items, assetData).map(
+          (item) => MaterialItem(
+        item: item,
+        possiblePurposeTypes: const [Purpose.ascension],
+        expItems: assetData.weaponIngredients.expItems,
+        lackNum: lackNums[item.id ?? defaultExpItemId] != null
+            ? lackNums[item.id ?? defaultExpItemId]! - (fullMaterials.firstWhere((e) => e.id == item.id).sum - item.sum)
+            : null,
+        usage: MaterialUsage(
+          characterId: characterId,
+          weaponId: weapon.id,
+        ),
+      ),
+    ).toList();
+  }
+
+  List<MaterialCardMaterial> _getCardMaterials(Weapon weapon, [LevelRangeValues? levelRange]) {
     final mbFrames = assetData.weaponIngredients.rarities[weapon.rarity]!.levels
         .mapInLevelRange(
-      levelRange,
+      levelRange ?? LevelRangeValues(1, assetData.weaponIngredients.rarities[weapon.rarity]!.levels.keys.last),
       (key, value) {
         return toMaterialBookmarkFrames(
           level: key,
@@ -206,17 +274,6 @@ class WeaponDetailsPage extends HookConsumerWidget {
       },
     ).flattened.toList();
     final items = mergeMaterialBookmarkFrames(mbFrames);
-
-    return sortMaterials(items, assetData).map(
-          (item) => MaterialItem(
-        item: item,
-        possiblePurposeTypes: const [Purpose.ascension],
-        expItems: assetData.weaponIngredients.expItems,
-        usage: MaterialUsage(
-          characterId: characterId,
-          weaponId: weapon.id,
-        ),
-      ),
-    ).toList();
+    return items;
   }
 }

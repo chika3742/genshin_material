@@ -3,6 +3,7 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../i18n/strings.g.dart";
+import "../providers/game_data_sync.dart";
 import "../ui_core/bubble.dart";
 import "../ui_core/error_messages.dart";
 import "../ui_core/snack_bar.dart";
@@ -110,7 +111,7 @@ sealed class GameDataSyncStatus {
   const factory GameDataSyncStatus.synced() = _Synced;
 
   const factory GameDataSyncStatus.error({
-    required Object error,
+    required Object? error,
   }) = _Error;
 
   const factory GameDataSyncStatus.characterNotExists() = _CharacterNotExists;
@@ -118,6 +119,15 @@ sealed class GameDataSyncStatus {
   const factory GameDataSyncStatus.weaponNotEquipped() = _WeaponNotEquipped;
 
   const factory GameDataSyncStatus.mustBeResonatedWithStatue() = _MustBeResonatedWithStatue;
+
+  static GameDataSyncStatus fromErrorType(GameDataSyncErrorType type, [Object? error]) {
+    return switch (type) {
+      GameDataSyncErrorType.characterDoesNotExist => const GameDataSyncStatus.characterNotExists(),
+      GameDataSyncErrorType.mustBeResonatedWithStatue => const GameDataSyncStatus.mustBeResonatedWithStatue(),
+      GameDataSyncErrorType.weaponNotEquipped => const GameDataSyncStatus.weaponNotEquipped(),
+      GameDataSyncErrorType.unknown => GameDataSyncStatus.error(error: error),
+    };
+  }
 }
 
 class _Syncing extends GameDataSyncStatus {
@@ -129,7 +139,7 @@ class _Synced extends GameDataSyncStatus {
 }
 
 class _Error extends GameDataSyncStatus {
-  final Object error;
+  final Object? error;
 
   const _Error({
     required this.error,

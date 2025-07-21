@@ -170,13 +170,15 @@ extension BookmarkDbExtension on AppDatabase {
     });
   }
 
-  Future<List<BookmarkWithMaterialDetails>> getObsoleteBookmarks({
+  /// Deletes obsolete bookmarks based on the provided character ID, weapon ID,
+  /// and levels. Returns true if any bookmarks were deleted.
+  Future<bool> deleteObsoleteBookmarks({
     required String characterId,
     String? weaponId,
     required Map<Purpose, int> levels,
   }) async {
     if (levels.isEmpty) {
-      return [];
+      return false;
     }
     final query = select(bookmarkTable).join([
       leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
@@ -190,11 +192,11 @@ extension BookmarkDbExtension on AppDatabase {
     });
     query.where(baseExpr & Expression.or(expressions));
 
-    return (await query.get()).map((row) {
-      return BookmarkWithMaterialDetails(
-        metadata: row.readTable(bookmarkTable),
-        materialDetails: row.readTable(bookmarkMaterialDetailsTable),
-      );
-    }).toList();
+    final toDelete = await query.get();
+    if (toDelete.isEmpty) {
+      return false;
+    }
+    await removeBookmarks(toDelete.map((e) => e.readTable(bookmarkTable).id).toList());
+    return true;
   }
 }

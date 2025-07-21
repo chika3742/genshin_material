@@ -7,7 +7,7 @@ import "../core/hoyolab_api.dart";
 import "../core/secure_storage.dart";
 import "../i18n/strings.g.dart";
 
-String getErrorMessage(Object error, {String prefix = ""}) {
+String getErrorMessage(Object? error, {String prefix = ""}) {
   return prefix + switch (error) {
     SchemaVersionMismatchException() => tr.updates.schemaVersionMismatch,
     AssetUpdateCheckException() => tr.errors.tryAgainLater,
