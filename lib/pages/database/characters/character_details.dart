@@ -124,7 +124,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     );
 
     ref.listen(gameDataSyncCachedProvider(variantId: variant.value.id), (_, result) {
-      if (!result.hasValue) return;
+      if (result.valueOrNull == null) return;
 
       var newState = state.value;
       if (result.value!.levels != null) {
@@ -155,7 +155,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     });
 
     ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id)), (_, result) {
-      if (!result.hasValue) return;
+      if (result.valueOrNull == null) return;
 
       state.value = state.value.copyWith(
         lackNums: result.value!,

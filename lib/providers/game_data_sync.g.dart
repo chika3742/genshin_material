@@ -176,14 +176,14 @@ class _GameDataSyncProviderElement
   String? get weaponId => (origin as _GameDataSyncProvider).weaponId;
 }
 
-String _$bagLackNumHash() => r'af236a3160853c0e56d0a47d1a41de506b0b9b4d';
+String _$bagLackNumHash() => r'b5cb77ddcc99174e088a2dd8c74295068a1680bf';
 
 /// See also [bagLackNum].
 @ProviderFor(bagLackNum)
 const bagLackNumProvider = BagLackNumFamily();
 
 /// See also [bagLackNum].
-class BagLackNumFamily extends Family<AsyncValue<Map<String, int>>> {
+class BagLackNumFamily extends Family<AsyncValue<Map<String, int>?>> {
   /// See also [bagLackNum].
   const BagLackNumFamily();
 
@@ -221,7 +221,7 @@ class BagLackNumFamily extends Family<AsyncValue<Map<String, int>>> {
 }
 
 /// See also [bagLackNum].
-class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
+class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>?> {
   /// See also [bagLackNum].
   BagLackNumProvider(
     List<GameDataSyncCharacter> entries,
@@ -256,7 +256,7 @@ class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
 
   @override
   Override overrideWith(
-    FutureOr<Map<String, int>> Function(BagLackNumRef provider) create,
+    FutureOr<Map<String, int>?> Function(BagLackNumRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -273,7 +273,7 @@ class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<Map<String, int>> createElement() {
+  AutoDisposeFutureProviderElement<Map<String, int>?> createElement() {
     return _BagLackNumProviderElement(this);
   }
 
@@ -293,13 +293,13 @@ class BagLackNumProvider extends AutoDisposeFutureProvider<Map<String, int>> {
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin BagLackNumRef on AutoDisposeFutureProviderRef<Map<String, int>> {
+mixin BagLackNumRef on AutoDisposeFutureProviderRef<Map<String, int>?> {
   /// The parameter `entries` of this provider.
   List<GameDataSyncCharacter> get entries;
 }
 
 class _BagLackNumProviderElement
-    extends AutoDisposeFutureProviderElement<Map<String, int>>
+    extends AutoDisposeFutureProviderElement<Map<String, int>?>
     with BagLackNumRef {
   _BagLackNumProviderElement(super.provider);
 

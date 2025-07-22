@@ -133,7 +133,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       variantId: selectedCharacterId.value,
       weaponId: weapon.id,
     )), (_, result) {
-      if (!result.hasValue) return;
+      if (result.valueOrNull == null) return;
 
       lackNums.value = result.value!;
     });

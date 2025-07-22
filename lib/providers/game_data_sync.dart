@@ -192,13 +192,14 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
 }
 
 @riverpod
-Future<Map<String, int>> bagLackNum(Ref ref, List<GameDataSyncCharacter> entries) async {
+Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entries) async {
   final assetData = ref.watch(assetDataProvider).value;
   final prefs = ref.watch(preferencesStateNotifierProvider);
   final hoyolabCookie = await getHoyolabCookie();
 
   if (prefs.hyvServer == null || prefs.hyvUid == null || hoyolabCookie == null) {
-    throw StateError("Hoyolab server, uid, or cookie is not set");
+    log("Hoyolab server, uid, or cookie is not set");
+    return null;
   }
   if (assetData == null) {
     throw StateError("Asset data is not loaded");
