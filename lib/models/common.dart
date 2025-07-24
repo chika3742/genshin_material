@@ -4,7 +4,7 @@ import "package:path/path.dart" as path;
 
 import "../main.dart";
 
-const dataSchemaVersion = 1;
+const dataSchemaVersion = 2;
 
 typedef CharacterId = String;
 typedef WeaponId = String;
@@ -34,6 +34,7 @@ mixin ImageGetter {
 
 mixin CharacterOrWeapon {
   String get id;
+  int get rarity;
   MaterialDefinitions get materials;
 }
 

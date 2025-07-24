@@ -3,14 +3,14 @@ import "package:collection/collection.dart";
 import "../components/level_slider.dart";
 import "../core/asset_cache.dart";
 import "../models/common.dart";
-import "../models/ingredient.dart";
+import "../models/ingredients.dart";
 import "../models/material_bookmark_frame.dart";
 
 String? getConcreteItemId(Ingredient ingredient, CharacterOrWeapon characterOrWeapon, AssetData assetData) {
   return switch (ingredient) {
     IngredientByType() => () {
-        if (ingredient.specificCharacters?.containsKey(characterOrWeapon.id) == true) {
-          return ingredient.specificCharacters?[characterOrWeapon.id];
+        if (ingredient.targetSpecific?.containsKey(characterOrWeapon.id) == true) {
+          return ingredient.targetSpecific?[characterOrWeapon.id];
         }
 
         final definition = characterOrWeapon.materials[ingredient.type];

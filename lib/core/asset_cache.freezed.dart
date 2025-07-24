@@ -17,9 +17,9 @@ mixin _$AssetData {
   String get assetDir;
   AssetReleaseVersion get version;
   Map<CharacterId, Character> get characters;
-  CharacterIngredients get characterIngredients;
+  IngredientConfigurations get characterIngredients;
   Map<WeaponId, Weapon> get weapons;
-  WeaponIngredients get weaponIngredients;
+  IngredientConfigurations get weaponIngredients;
   Map<WeaponSubStat, LocalizedText> get weaponSubStats;
   Map<WeaponType, WeaponTypeInfo> get weaponTypes;
   Map<TeyvatElement, Element> get elements;
@@ -165,7 +165,7 @@ class _AssetData implements AssetData {
   }
 
   @override
-  final CharacterIngredients characterIngredients;
+  final IngredientConfigurations characterIngredients;
   final Map<WeaponId, Weapon> _weapons;
   @override
   Map<WeaponId, Weapon> get weapons {
@@ -175,7 +175,7 @@ class _AssetData implements AssetData {
   }
 
   @override
-  final WeaponIngredients weaponIngredients;
+  final IngredientConfigurations weaponIngredients;
   final Map<WeaponSubStat, LocalizedText> _weaponSubStats;
   @override
   Map<WeaponSubStat, LocalizedText> get weaponSubStats {

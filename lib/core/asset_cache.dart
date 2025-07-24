@@ -7,13 +7,12 @@ import "package:path/path.dart" as path;
 import "../models/artifact.dart";
 import "../models/asset_release_version.dart";
 import "../models/character.dart";
-import "../models/character_ingredients.dart";
 import "../models/common.dart";
 import "../models/element.dart";
+import "../models/ingredients.dart";
 import "../models/localized_text.dart";
 import "../models/material.dart";
 import "../models/weapon.dart";
-import "../models/weapon_ingredients.dart";
 import "asset_updater.dart";
 import "data_parsing_exception.dart";
 
@@ -53,7 +52,7 @@ class AssetDataCacheProvider {
           Character.fromJson(value),
         );
       }),
-      characterIngredients: CharacterIngredients.fromJson(
+      characterIngredients: IngredientConfigurations.fromJson(
         await _loadJson<Map<String, dynamic>>("character-ingredients.json"),
       ),
       weapons: (await _loadJson<Map<String, dynamic>>("weapons.json")).map((key, value) {
@@ -62,7 +61,7 @@ class AssetDataCacheProvider {
           Weapon.fromJson(value),
         );
       }),
-      weaponIngredients: WeaponIngredients.fromJson(
+      weaponIngredients: IngredientConfigurations.fromJson(
         await _loadJson<Map<String, dynamic>>("weapon-ingredients.json"),
       ),
       weaponSubStats: weaponsMeta.subStats,
@@ -119,9 +118,9 @@ sealed class AssetData with _$AssetData {
     required String assetDir,
     required AssetReleaseVersion version,
     required Map<CharacterId, Character> characters,
-    required CharacterIngredients characterIngredients,
+    required IngredientConfigurations characterIngredients,
     required Map<WeaponId, Weapon> weapons,
-    required WeaponIngredients weaponIngredients,
+    required IngredientConfigurations weaponIngredients,
     required Map<WeaponSubStat, LocalizedText> weaponSubStats,
     required Map<WeaponType, WeaponTypeInfo> weaponTypes,
     required Map<TeyvatElement, Element> elements,
