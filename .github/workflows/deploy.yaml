@@ -31,10 +31,8 @@ jobs:
       - name: Set Xcode to 16.2
         run: sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
 
-      - name: Install FVM
-        run: |
-          brew tap leoafarias/fvm && brew install fvm
-          fvm use
+      - name: Init Flutter SDK
+        uses: chika3742/setup-fvm@v3
 
       - name: Install Fastlane
         run: bundle install
@@ -82,10 +80,8 @@ jobs:
       - name: Setup Homebrew
         uses: Homebrew/actions/setup-homebrew@master
 
-      - name: Install FVM
-        run: |
-          brew tap leoafarias/fvm && brew install fvm
-          fvm use
+      - name: Init Flutter SDK
+        uses: chika3742/setup-fvm@v3
 
       - uses: actions/setup-java@v4 # for android build
         with:

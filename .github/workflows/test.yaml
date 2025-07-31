@@ -16,40 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get Flutter version
-        id: get_flutter_version
-        run: echo "FLUTTER_VERSION=`jq -r '.flutter' .fvmrc`" >> $GITHUB_OUTPUT
-
-      - name: Cache Flutter SDK
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/fvm/versions/${{ steps.get_flutter_version.outputs.FLUTTER_VERSION }}
-            ~/fvm/cache.git
-          key: ${{ runner.os }}-flutter-${{ steps.get_flutter_version.outputs.FLUTTER_VERSION }}
-          save-always: true
-
-      - name: Cache Pub cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-cache-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-cache-
-          save-always: true
-
-      - name: Install FVM
-        run: curl -fsSL https://fvm.app/install.sh | bash
-
-      - name: Install Flutter SDK
-        run: fvm install
-
-      - name: Install dependencies
-        run: fvm flutter pub get
+      - name: Init Flutter SDK
+        uses: chika3742/setup-fvm@v3
 
       - name: Lint
         id: lint
-        run: fvm flutter analyze
+        run: |
+          fvm flutter analyze
+          fvm dart run custom_lint
 
       - name: Test
         if: ${{ !cancelled() && contains(fromJSON('["success", "failure"]'), steps.lint.outcome) }}
