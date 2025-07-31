@@ -202,12 +202,3 @@ class MaterialSlider extends HookConsumerWidget {
         .toList();
   }
 }
-
-/**
- *
- * 入力データ
- * ※assetDataはその場で取得可能
- * - IngredientConfiguration 該当するタイプのもの
- * - targetId 対象のID
- * - sliderのpurpose(list)
- */
