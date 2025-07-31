@@ -29,6 +29,7 @@ mixin _$Character {
   LocalizedText get name;
   String get jaPronunciation;
   String get smallImageUrl;
+  int get rarity;
   WeaponType get weaponType;
   MaterialDefinitions get materials;
 
@@ -46,6 +47,7 @@ mixin _$Character {
                 other.jaPronunciation == jaPronunciation) &&
             (identical(other.smallImageUrl, smallImageUrl) ||
                 other.smallImageUrl == smallImageUrl) &&
+            (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.weaponType, weaponType) ||
                 other.weaponType == weaponType) &&
             const DeepCollectionEquality().equals(other.materials, materials));
@@ -59,12 +61,13 @@ mixin _$Character {
       name,
       jaPronunciation,
       smallImageUrl,
+      rarity,
       weaponType,
       const DeepCollectionEquality().hash(materials));
 
   @override
   String toString() {
-    return 'Character(id: $id, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, weaponType: $weaponType, materials: $materials)';
+    return 'Character(id: $id, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, materials: $materials)';
   }
 }
 
@@ -109,6 +112,7 @@ class ListedCharacter extends Character
   final String imageUrl;
   @override
   final String smallImageUrl;
+  @override
   final int rarity;
   @override
   final WeaponType weaponType;
@@ -222,6 +226,7 @@ class CharacterGroup extends Character with CharacterWithLargeImage {
   final String imageUrl;
   @override
   final String smallImageUrl;
+  @override
   final int rarity;
   @override
   final WeaponType weaponType;
@@ -303,6 +308,7 @@ class CharacterVariant extends Character with CharacterOrVariant {
       required this.name,
       required this.jaPronunciation,
       required this.smallImageUrl,
+      required this.rarity,
       required this.element,
       required this.weaponType,
       required final Talents talents,
@@ -324,6 +330,8 @@ class CharacterVariant extends Character with CharacterOrVariant {
   final String jaPronunciation;
   @override
   final String smallImageUrl;
+  @override
+  final int rarity;
   final TeyvatElement element;
   @override
   final WeaponType weaponType;
@@ -365,6 +373,7 @@ class CharacterVariant extends Character with CharacterOrVariant {
                 other.jaPronunciation == jaPronunciation) &&
             (identical(other.smallImageUrl, smallImageUrl) ||
                 other.smallImageUrl == smallImageUrl) &&
+            (identical(other.rarity, rarity) || other.rarity == rarity) &&
             (identical(other.element, element) || other.element == element) &&
             (identical(other.weaponType, weaponType) ||
                 other.weaponType == weaponType) &&
@@ -382,6 +391,7 @@ class CharacterVariant extends Character with CharacterOrVariant {
       name,
       jaPronunciation,
       smallImageUrl,
+      rarity,
       element,
       weaponType,
       const DeepCollectionEquality().hash(_talents),
@@ -389,7 +399,7 @@ class CharacterVariant extends Character with CharacterOrVariant {
 
   @override
   String toString() {
-    return 'Character.variant(id: $id, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, element: $element, weaponType: $weaponType, talents: $talents, materials: $materials)';
+    return 'Character.variant(id: $id, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, element: $element, weaponType: $weaponType, talents: $talents, materials: $materials)';
   }
 }
 

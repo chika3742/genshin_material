@@ -77,6 +77,7 @@ sealed class Character with _$Character, CharacterOrWeapon {
     required LocalizedText name,
     required String jaPronunciation,
     required String smallImageUrl,
+    required int rarity,
     required TeyvatElement element,
     required WeaponType weaponType,
     required Talents talents,
