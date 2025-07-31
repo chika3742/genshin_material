@@ -84,6 +84,7 @@ CharacterVariant _$CharacterVariantFromJson(Map<String, dynamic> json) =>
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
       smallImageUrl: json['smallImageUrl'] as String,
+      rarity: (json['rarity'] as num).toInt(),
       element: json['element'] as String,
       weaponType: json['weaponType'] as String,
       talents: (json['talents'] as Map<String, dynamic>).map(
@@ -101,6 +102,7 @@ Map<String, dynamic> _$CharacterVariantToJson(CharacterVariant instance) =>
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,
       'smallImageUrl': instance.smallImageUrl,
+      'rarity': instance.rarity,
       'element': instance.element,
       'weaponType': instance.weaponType,
       'talents': instance.talents,

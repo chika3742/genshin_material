@@ -10,26 +10,22 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "../../../components/center_text.dart";
 import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
-import "../../../components/labeled_check_box.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/material_card.dart";
-import "../../../components/material_item.dart";
+import "../../../components/material_slider.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../db/in_game_character_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
-import "../../../models/character_ingredients.dart";
 import "../../../models/common.dart";
-import "../../../models/material_bookmark_frame.dart";
+import "../../../models/ingredients.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
-import "../../../utils/ingredients_converter.dart";
-import "../../../utils/lists.dart";
 
 part "character_details.freezed.dart";
 
@@ -93,12 +89,14 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final character = this.character; // for type guard
+
     final state = useState(useMemoized(() => _CharacterDetailsPageState.init(
       ingredients: assetData.characterIngredients,
+      rarity: character.rarity,
       initialCharacterLevels: initialCharacterLevels,
-    ),),);
+    )));
 
-    final character = this.character; // for type guard
     final ingredients = assetData.characterIngredients;
 
     final variants = useMemoized<Map<String, CharacterOrVariant>>(() {
@@ -126,11 +124,12 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
 
     useValueChanged<CharacterOrVariant, void>(variant.value, (_, __) async {
       if (prefs.isLinkedWithHoyolab) {
-        final db = ref.read(appDatabaseProvider);
-        final levelsByPurpose = await db.getCharacterLevels(prefs.hyvUid!, variant.value.id);
-        if (levelsByPurpose != null) {
-          _updateSliderRange(levelsByPurpose, state);
-        }
+        // TODO: variantが変更された際のスライダー初期化およびキャッシュ取得（本当に必要？）
+        // final db = ref.read(appDatabaseProvider);
+        // final levelsByPurpose = await db.getCharacterLevels(prefs.hyvUid!, variant.value.id);
+        // if (levelsByPurpose != null) {
+        //   _updateSliderRange(levelsByPurpose, state);
+        // }
       }
     });
 
@@ -141,9 +140,10 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
               if (result != null && context.mounted) {
                 var newState = state.value;
                 for (final e in result.levels.entries) {
+                  final ingLevels = ingredients.getLevels(rarity: character.rarity, purpose: e.key);
                   newState = newState.copyWith(
                     rangeValues: {...newState.rangeValues}..[e.key] = LevelRangeValues(e.value, max(e.value, newState.rangeValues[e.key]!.end)),
-                    checkedTalentTypes: {...newState.checkedTalentTypes}..[e.key] = e.value < newState.sliderTickLabels[e.key]!.last,
+                    checkedTalentTypes: {...newState.checkedTalentTypes}..[e.key] = e.value < ingLevels.levels.keys.last,
                   );
                 }
                 state.value = newState;
@@ -305,141 +305,50 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                       ),
                     ),
 
-                  Section(
-                    heading: SectionHeading(tr.characterDetailsPage.charaLevelUpAndAscensionMaterials),
-                    child: GappedColumn(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Card(
-                          margin: EdgeInsets.zero,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: LevelSlider(
-                              levels: state.value.sliderTickLabels[Purpose.ascension]!,
-                              ticks: ingredients.purposes[Purpose.ascension]!.sliderTicks,
-                              values: state.value.rangeValues[Purpose.ascension]!,
-                              onChanged: (values) {
-                                // avoid overlapping slider handles
-                                if (values.start == values.end) {
-                                  return;
-                                }
-
-                                state.value = state.value.copyWith(
-                                  rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = values,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        Wrap(
-                          children: _buildAscensionMaterialCards(state.value),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  Section(
-                    heading: SectionHeading(tr.characterDetailsPage.talentLevelUpMaterials),
-                    child: GappedColumn(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        for (final purpose in ingredients.purposes.keys
-                            .whereNot((e) => e == Purpose.ascension))
-                          Card(
-                            margin: EdgeInsets.zero,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
+                  for (final slider in ingredients.sliders)
+                    Section(
+                      heading: SectionHeading(slider.title.localized),
+                      child: MaterialSlider(
+                        ingredientConf: ingredients,
+                        purposes: slider.purposes,
+                        target: switch (slider.preferredTargetType) {
+                          PreferredTargetType.group => character,
+                          PreferredTargetType.variant || null => variant.value,
+                        },
+                        ranges: UnmodifiableMapView(state.value.rangeValues),
+                        labelBuilder: (context, purpose) {
+                          if (purpose != Purpose.ascension) {
+                            return Text.rich( // checkbox label
+                              TextSpan(
                                 children: [
-                                  LabeledCheckBox(
-                                    value: state.value.checkedTalentTypes[purpose]!,
-                                    onChanged: (value) {
-                                      state.value = state.value.copyWith(
-                                        checkedTalentTypes: {...state.value.checkedTalentTypes}..[purpose] = value!,
-                                      );
-
-                                      // scroll to the talent materials section on checkbox checked
-                                      if (value == true) {
-                                        Future.delayed(const Duration(milliseconds: 200), () {
-                                          final context = state.value.talentSectionKeys[purpose]!.currentContext;
-                                          if (context?.mounted == true) {
-                                            Scrollable.ensureVisible(
-                                              context!,
-                                              duration: const Duration(milliseconds: 300),
-                                              curve: Curves.easeOutQuint,
-                                              alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
-                                            );
-                                          }
-                                        });
-                                      }
-                                    },
-                                    child: Expanded(
-                                      child: Text.rich( // checkbox label
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: tr.talentTypes[purpose.name]!,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                              ),
-                                            ),
-                                            const TextSpan(text: "  "),
-                                            TextSpan(
-                                              text: variant.value
-                                                  .talents[purpose.name]!
-                                                  .name.localized,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                  TextSpan(
+                                    text: tr.talentTypes[purpose.name]!,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary,
                                     ),
                                   ),
-                                  AnimatedCrossFade( // talent level slider with size animation
-                                    duration: const Duration(milliseconds: 300),
-                                    crossFadeState: state.value.checkedTalentTypes[purpose]!
-                                        ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                                    firstCurve: Curves.easeOutQuint,
-                                    secondCurve: Curves.easeOutQuint,
-                                    sizeCurve: Curves.easeOutQuint,
-                                    firstChild: Container(),
-                                    secondChild: Column(
-                                      children: [
-                                        const SizedBox(height: 8),
-                                        LevelSlider(
-                                          key: state.value.talentSectionKeys[purpose] ??= GlobalKey(),
-                                          ticks: ingredients.purposes[purpose]!.sliderTicks,
-                                          levels: state.value.sliderTickLabels[purpose]!,
-                                          values: state.value.rangeValues[purpose]!,
-                                          onChanged: (values) {
-                                            if (values.start == values.end) {
-                                              return;
-                                            }
-
-                                            state.value = state.value.copyWith(
-                                              rangeValues: {...state.value.rangeValues}..[purpose] = values,
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
+                                  const TextSpan(text: "  "),
+                                  TextSpan(
+                                    text: variant.value
+                                        .talents[purpose.name]!
+                                        .name.localized,
                                   ),
                                 ],
                               ),
-                            ),
-                          ),
-                        Wrap(
-                          children: _buildTalentMaterialCards(
-                            variant.value.talents,
-                            variant.value,
-                            state.value,
-                          ),
-                        ),
-                      ],
+                            );
+                          }
+                          return null; // no label for ascension
+                        },
+                        onRangesChanged: (value) {
+                          state.value = state.value.copyWith(
+                            rangeValues: value,
+                          );
+                        },
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -448,112 +357,30 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       ),
     );
   }
-
-  List<Widget> _buildAscensionMaterialCards(_CharacterDetailsPageState state) {
-    final mbFrames = assetData.characterIngredients.purposes[Purpose.ascension]!.levels.mapInLevelRange(
-      state.rangeValues[Purpose.ascension]!,
-      (key, value) {
-        return toMaterialBookmarkFrames(
-          level: key,
-          ingredients: value,
-          purposeType: Purpose.ascension,
-          characterOrWeapon: character,
-          assetData: assetData,
-        );
-      },
-    ).flattened.toList();
-    final items = mergeMaterialBookmarkFrames(mbFrames);
-
-    return sortMaterials(items, assetData)
-        .map(
-          (item) => MaterialItem(
-            key: ValueKey(item.id),
-            item: item,
-            possiblePurposeTypes: const [Purpose.ascension],
-            expItems: assetData.characterIngredients.expItems,
-            usage: MaterialUsage(
-              characterId: character.id,
-            ),
-          ),
-        )
-        .toList();
-  }
-
-  List<Widget> _buildTalentMaterialCards(
-    Talents talents,
-    CharacterOrVariant variant,
-    _CharacterDetailsPageState state,
-  ) {
-    final mbFrames = <MaterialBookmarkFrame>[];
-    for (final talentType in talents.keys) {
-      if (state.checkedTalentTypes[Purpose.fromTalentType(talentType)]!) {
-        mbFrames.addAll(
-          assetData.characterIngredients.purposes[Purpose.fromTalentType(talentType)]!.levels.mapInLevelRange(
-            state.rangeValues[Purpose.fromTalentType(talentType)]!,
-                (key, value) {
-              return toMaterialBookmarkFrames(
-                level: key,
-                ingredients: value,
-                purposeType: Purpose.fromTalentType(talentType),
-                characterOrWeapon: variant,
-                assetData: assetData,
-              );
-            },
-          ).flattened,
-        );
-      }
-    }
-    final items = mergeMaterialBookmarkFrames(mbFrames);
-
-    return sortMaterials(items, assetData)
-        .map(
-          (item) => MaterialItem(
-            key: ValueKey(item.id),
-            item: item,
-            possiblePurposeTypes:
-                talents.keys.map(Purpose.fromTalentType).toList(),
-            expItems: assetData.characterIngredients.expItems,
-            usage: MaterialUsage(
-              characterId: variant.id,
-            ),
-          ),
-        ).toList();
-  }
-
-  Future<void> _updateSliderRange(Map<Purpose, int> levelsByPurpose, ValueNotifier<_CharacterDetailsPageState> state) async {
-    state.value = state.value.copyWith(
-      rangeValues: state.value.rangeValues.map((key, value) =>
-          MapEntry(key, LevelRangeValues(levelsByPurpose[key] ?? value.start, value.end)),),
-      checkedTalentTypes: state.value.checkedTalentTypes.map((key, value) =>
-          MapEntry(key, levelsByPurpose[key] != null && levelsByPurpose[key]! < state.value.sliderTickLabels[key]!.last),),
-    );
-  }
 }
 
 @Freezed(copyWith: true)
 sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
   const factory _CharacterDetailsPageState({
     required Map<Purpose, LevelRangeValues> rangeValues,
-    required Map<Purpose, List<int>> sliderTickLabels,
     required Map<Purpose, bool> checkedTalentTypes,
     required Map<Purpose, GlobalKey> talentSectionKeys,
   }) = __CharacterDetailsPageState;
 
   /// Initializes state for each purpose
   factory _CharacterDetailsPageState.init({
-    required CharacterIngredients ingredients,
+    required IngredientConfigurations ingredients,
+    required int rarity,
     Map<Purpose, int>? initialCharacterLevels,
   }) {
-    final sliderTickLabels = <Purpose, List<int>>{};
     final rangeValues = <Purpose, LevelRangeValues>{};
     final checkedTalentTypes = <Purpose, bool>{};
     final talentSectionKeys = <Purpose, GlobalKey>{};
 
-    for (final purpose in ingredients.purposes.keys) {
-      final levels = ingredients.purposes[purpose]!.levels;
+    for (final purpose in ingredients.rarities[rarity]!.purposes.keys) {
+      final levels = ingredients.getLevels(rarity: rarity, purpose: purpose).levels;
       final initialSliderLowerRange = initialCharacterLevels?[purpose] ?? 1;
 
-      sliderTickLabels[purpose] = [1, ...levels.keys];
       rangeValues[purpose] = LevelRangeValues(initialSliderLowerRange, levels.keys.last);
       checkedTalentTypes[purpose] = initialSliderLowerRange < levels.keys.last;
       talentSectionKeys[purpose] = GlobalKey();
@@ -561,7 +388,6 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
 
     return _CharacterDetailsPageState(
       rangeValues: rangeValues,
-      sliderTickLabels: sliderTickLabels,
       checkedTalentTypes: checkedTalentTypes,
       talentSectionKeys: talentSectionKeys,
     );

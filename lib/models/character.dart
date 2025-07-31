@@ -21,6 +21,7 @@ mixin CharacterWithLargeImage on Character {
   @override
   LocalizedText get name;
   String get imageUrl;
+  @override
   int get rarity;
   @override
   WeaponType get weaponType;
@@ -77,6 +78,7 @@ sealed class Character with _$Character, CharacterOrWeapon {
     required LocalizedText name,
     required String jaPronunciation,
     required String smallImageUrl,
+    required int rarity,
     required TeyvatElement element,
     required WeaponType weaponType,
     required Talents talents,

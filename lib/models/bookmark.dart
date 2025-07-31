@@ -195,12 +195,24 @@ sealed class BookmarkGroup with _$BookmarkGroup {
     assert(bookmarks.every((e) => e.metadata.groupHash == bookmarks.first.metadata.groupHash), "All bookmarks should have the same group hash");
 
     LevelRangeValues? levelRange;
-    if (bookmarks.first.metadata.type == BookmarkType.material) {
+    final sample = bookmarks.first;
+    if (sample is BookmarkWithMaterialDetails) {
       final levels = bookmarks.cast<BookmarkWithMaterialDetails>()
           .sorted((a, b) => a.materialDetails.upperLevel - b.materialDetails.upperLevel);
-      final levelTicks = assetData.characterIngredients.purposes[levels.first.materialDetails.purposeType]!.levels.keys.toList();
+      final ingredients = switch(sample.materialDetails.weaponId) {
+        null => assetData.characterIngredients.getLevels(
+          rarity: assetData.characters[bookmarks.first.metadata.characterId]!.rarity,
+          purpose: sample.materialDetails.purposeType,
+        ),
+        _ => assetData.weaponIngredients.getLevels(
+          rarity: assetData.weapons[sample.materialDetails.weaponId]!.rarity,
+          purpose: sample.materialDetails.purposeType,
+        ),
+      };
+      final levelTicks = ingredients.levels.keys.toList();
+      final upperLevelIndex = levelTicks.indexOf(levels.first.materialDetails.upperLevel);
       levelRange = LevelRangeValues(
-        levelTicks.indexOf(levels.first.materialDetails.upperLevel) >= 1 ? levelTicks[levelTicks.indexOf(levels.first.materialDetails.upperLevel) - 1] : 1,
+        upperLevelIndex >= 1 ? levelTicks[upperLevelIndex - 1] : 1,
         levels.last.materialDetails.upperLevel,
       );
     }

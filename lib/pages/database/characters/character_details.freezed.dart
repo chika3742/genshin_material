@@ -15,7 +15,6 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CharacterDetailsPageState {
   Map<Purpose, LevelRangeValues> get rangeValues;
-  Map<Purpose, List<int>> get sliderTickLabels;
   Map<Purpose, bool> get checkedTalentTypes;
   Map<Purpose, GlobalKey> get talentSectionKeys;
 
@@ -36,8 +35,6 @@ mixin _$CharacterDetailsPageState {
             const DeepCollectionEquality()
                 .equals(other.rangeValues, rangeValues) &&
             const DeepCollectionEquality()
-                .equals(other.sliderTickLabels, sliderTickLabels) &&
-            const DeepCollectionEquality()
                 .equals(other.checkedTalentTypes, checkedTalentTypes) &&
             const DeepCollectionEquality()
                 .equals(other.talentSectionKeys, talentSectionKeys));
@@ -47,13 +44,12 @@ mixin _$CharacterDetailsPageState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(rangeValues),
-      const DeepCollectionEquality().hash(sliderTickLabels),
       const DeepCollectionEquality().hash(checkedTalentTypes),
       const DeepCollectionEquality().hash(talentSectionKeys));
 
   @override
   String toString() {
-    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys)';
+    return '_CharacterDetailsPageState(rangeValues: $rangeValues, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys)';
   }
 }
 
@@ -65,7 +61,6 @@ abstract mixin class _$CharacterDetailsPageStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<Purpose, LevelRangeValues> rangeValues,
-      Map<Purpose, List<int>> sliderTickLabels,
       Map<Purpose, bool> checkedTalentTypes,
       Map<Purpose, GlobalKey> talentSectionKeys});
 }
@@ -84,7 +79,6 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? rangeValues = null,
-    Object? sliderTickLabels = null,
     Object? checkedTalentTypes = null,
     Object? talentSectionKeys = null,
   }) {
@@ -93,10 +87,6 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res>
           ? _self.rangeValues
           : rangeValues // ignore: cast_nullable_to_non_nullable
               as Map<Purpose, LevelRangeValues>,
-      sliderTickLabels: null == sliderTickLabels
-          ? _self.sliderTickLabels
-          : sliderTickLabels // ignore: cast_nullable_to_non_nullable
-              as Map<Purpose, List<int>>,
       checkedTalentTypes: null == checkedTalentTypes
           ? _self.checkedTalentTypes
           : checkedTalentTypes // ignore: cast_nullable_to_non_nullable
@@ -114,11 +104,9 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res>
 class __CharacterDetailsPageState implements _CharacterDetailsPageState {
   const __CharacterDetailsPageState(
       {required final Map<Purpose, LevelRangeValues> rangeValues,
-      required final Map<Purpose, List<int>> sliderTickLabels,
       required final Map<Purpose, bool> checkedTalentTypes,
       required final Map<Purpose, GlobalKey> talentSectionKeys})
       : _rangeValues = rangeValues,
-        _sliderTickLabels = sliderTickLabels,
         _checkedTalentTypes = checkedTalentTypes,
         _talentSectionKeys = talentSectionKeys;
 
@@ -128,14 +116,6 @@ class __CharacterDetailsPageState implements _CharacterDetailsPageState {
     if (_rangeValues is EqualUnmodifiableMapView) return _rangeValues;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_rangeValues);
-  }
-
-  final Map<Purpose, List<int>> _sliderTickLabels;
-  @override
-  Map<Purpose, List<int>> get sliderTickLabels {
-    if (_sliderTickLabels is EqualUnmodifiableMapView) return _sliderTickLabels;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_sliderTickLabels);
   }
 
   final Map<Purpose, bool> _checkedTalentTypes;
@@ -173,8 +153,6 @@ class __CharacterDetailsPageState implements _CharacterDetailsPageState {
             const DeepCollectionEquality()
                 .equals(other._rangeValues, _rangeValues) &&
             const DeepCollectionEquality()
-                .equals(other._sliderTickLabels, _sliderTickLabels) &&
-            const DeepCollectionEquality()
                 .equals(other._checkedTalentTypes, _checkedTalentTypes) &&
             const DeepCollectionEquality()
                 .equals(other._talentSectionKeys, _talentSectionKeys));
@@ -184,13 +162,12 @@ class __CharacterDetailsPageState implements _CharacterDetailsPageState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_rangeValues),
-      const DeepCollectionEquality().hash(_sliderTickLabels),
       const DeepCollectionEquality().hash(_checkedTalentTypes),
       const DeepCollectionEquality().hash(_talentSectionKeys));
 
   @override
   String toString() {
-    return '_CharacterDetailsPageState(rangeValues: $rangeValues, sliderTickLabels: $sliderTickLabels, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys)';
+    return '_CharacterDetailsPageState(rangeValues: $rangeValues, checkedTalentTypes: $checkedTalentTypes, talentSectionKeys: $talentSectionKeys)';
   }
 }
 
@@ -205,7 +182,6 @@ abstract mixin class _$_CharacterDetailsPageStateCopyWith<$Res>
   @useResult
   $Res call(
       {Map<Purpose, LevelRangeValues> rangeValues,
-      Map<Purpose, List<int>> sliderTickLabels,
       Map<Purpose, bool> checkedTalentTypes,
       Map<Purpose, GlobalKey> talentSectionKeys});
 }
@@ -224,7 +200,6 @@ class __$_CharacterDetailsPageStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? rangeValues = null,
-    Object? sliderTickLabels = null,
     Object? checkedTalentTypes = null,
     Object? talentSectionKeys = null,
   }) {
@@ -233,10 +208,6 @@ class __$_CharacterDetailsPageStateCopyWithImpl<$Res>
           ? _self._rangeValues
           : rangeValues // ignore: cast_nullable_to_non_nullable
               as Map<Purpose, LevelRangeValues>,
-      sliderTickLabels: null == sliderTickLabels
-          ? _self._sliderTickLabels
-          : sliderTickLabels // ignore: cast_nullable_to_non_nullable
-              as Map<Purpose, List<int>>,
       checkedTalentTypes: null == checkedTalentTypes
           ? _self._checkedTalentTypes
           : checkedTalentTypes // ignore: cast_nullable_to_non_nullable

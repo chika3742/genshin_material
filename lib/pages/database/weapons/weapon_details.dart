@@ -3,6 +3,7 @@ import "dart:math";
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../../../components/center_text.dart";
@@ -13,22 +14,20 @@ import "../../../components/game_item_info_box.dart";
 import "../../../components/item_source_widget.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/material_card.dart";
-import "../../../components/material_item.dart";
+import "../../../components/material_slider.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../db/in_game_weapon_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
-import "../../../models/material_bookmark_frame.dart";
-import "../../../models/weapon.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";
 import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
 import "../../../utils/filtering.dart";
-import "../../../utils/ingredients_converter.dart";
-import "../../../utils/lists.dart";
+
+part "weapon_details.freezed.dart";
 
 class WeaponDetailsPage extends HookConsumerWidget {
   final AssetData assetData;
@@ -49,9 +48,11 @@ class WeaponDetailsPage extends HookConsumerWidget {
       );
     }
 
-    final levelsEntry = assetData.weaponIngredients
-        .rarities[weapon.rarity]!;
-    final rangeValues = useState(LevelRangeValues(1, levelsEntry.levels.keys.last));
+    final ingredients = assetData.weaponIngredients;
+    final levelsEntry = ingredients.getLevels(
+      rarity: weapon.rarity,
+      purpose: Purpose.ascension,
+    );
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
     final selectedCharacterIdInit = useMemoized(
@@ -59,32 +60,42 @@ class WeaponDetailsPage extends HookConsumerWidget {
             ? initialSelectedCharacter!
             : characters.first.id,
     );
-    final selectedCharacterId = useState(selectedCharacterIdInit);
+    final state = useState(_WeaponDetailsPageState.init(
+      rangeValues: LevelRangeValues(1, levelsEntry.levels.keys.last),
+      selectedCharacterId: selectedCharacterIdInit,
+    ));
 
     final db = ref.watch(appDatabaseProvider);
     final sliderRangeInitialized = useState(!prefs.isLinkedWithHoyolab); // Set to true initially when not linked
     useEffect(() {
       if (prefs.isLinkedWithHoyolab) {
-        ref.read(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id).notifier)
+        ref.read(levelBagSyncStateNotifierProvider(variantId: state.value.selectedCharacterId, weaponId: weapon.id).notifier)
             .syncInGameCharacter().then((result) {
               if (result != null) {
-                if (result.levels[Purpose.ascension] != null) {
-                  rangeValues.value = LevelRangeValues(result.levels[Purpose.ascension]!, max(rangeValues.value.end, result.levels[Purpose.ascension]!));
+                for (final e in result.levels.entries) {
+                  final purpose = e.key;
+                  state.value = state.value.copyWithDrv(LevelRangeValues(
+                    e.value,
+                    max(state.value.rangeValues[purpose]?.end ?? e.value, e.value),
+                  ));
                 }
                 if (result.hasRemovedBookmarks && context.mounted) {
                   showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
                 }
               }
             });
-        db.getWeaponLevel(prefs.hyvUid!, selectedCharacterId.value, weapon.id).then((value) {
+        db.getWeaponLevel(prefs.hyvUid!, state.value.selectedCharacterId, weapon.id).then((value) {
           if (value != null) {
-            rangeValues.value = LevelRangeValues(value, max(rangeValues.value.end, value));
+            state.value = state.value.copyWithDrv(LevelRangeValues(
+              value,
+              max(state.value.defaultRangeValues.end, value),
+            ));
           }
           sliderRangeInitialized.value = true;
         });
       }
       return null;
-    }, [selectedCharacterId.value],);
+    }, [state.value.selectedCharacterId]);
 
     return Scaffold(
       appBar: AppBar(
@@ -120,7 +131,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
                       Consumer(
                         builder: (context, ref, _) {
                           return GameDataSyncIndicator(
-                            status: ref.watch(levelBagSyncStateNotifierProvider(variantId: selectedCharacterId.value, weaponId: weapon.id)),
+                            status: ref.watch(levelBagSyncStateNotifierProvider(variantId: state.value.selectedCharacterId, weaponId: weapon.id)),
                           );
                         },
                       ),
@@ -130,45 +141,30 @@ class WeaponDetailsPage extends HookConsumerWidget {
                 CharacterSelectDropdown(
                   label: tr.weaponDetailsPage.characterToEquip,
                   characters: characters,
-                  value: selectedCharacterId.value,
+                  value: state.value.selectedCharacterId,
                   onChanged: (value) {
-                    selectedCharacterId.value = value!;
+                    state.value = state.value.copyWith(
+                      selectedCharacterId: value!,
+                    );
                   },
                 ),
 
-                Section(
-                  heading: SectionHeading(tr.weaponDetailsPage.ascension),
-                  child: GappedColumn(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Card(
-                        margin: EdgeInsets.zero,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Visibility(
-                            visible: sliderRangeInitialized.value,
-                            child: LevelSlider(
-                              ticks: levelsEntry.sliderTicks,
-                            levels: [1, ...levelsEntry.levels.keys],
-                              values: rangeValues.value,
-                              onChanged: (values) {
-                                // avoid overlapping slider handles
-                                if (values.start == values.end) {
-                                  return;
-                                }
-
-                                rangeValues.value = values;
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                      Wrap(
-                        children: _buildMaterialCards(selectedCharacterId.value, weapon, rangeValues.value),
-                      ),
-                    ],
+                for (final slider in ingredients.sliders)
+                  Section(
+                    heading: SectionHeading(slider.title.localized),
+                    child: MaterialSlider(
+                      ingredientConf: ingredients,
+                      purposes: slider.purposes,
+                      target: weapon,
+                      characterId: state.value.selectedCharacterId,
+                      ranges: UnmodifiableMapView(state.value.rangeValues),
+                      onRangesChanged: (value) {
+                        state.value = state.value.copyWith(
+                          rangeValues: value,
+                        );
+                      },
+                    ),
                   ),
-                ),
 
                 Section(
                   heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
@@ -190,33 +186,38 @@ class WeaponDetailsPage extends HookConsumerWidget {
       ),
     );
   }
+}
 
-  List<Widget> _buildMaterialCards(String characterId, Weapon weapon, LevelRangeValues levelRange) {
-    final mbFrames = assetData.weaponIngredients.rarities[weapon.rarity]!.levels
-        .mapInLevelRange(
-      levelRange,
-      (key, value) {
-        return toMaterialBookmarkFrames(
-          level: key,
-          ingredients: value,
-          purposeType: Purpose.ascension,
-          characterOrWeapon: weapon,
-          assetData: assetData,
-        );
+@Freezed(copyWith: true)
+sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
+  const _WeaponDetailsPageState._();
+
+  const factory _WeaponDetailsPageState({
+    required Map<Purpose, LevelRangeValues> rangeValues,
+    required CharacterId selectedCharacterId,
+  }) = __WeaponDetailsPageState;
+
+  factory _WeaponDetailsPageState.init({
+    required LevelRangeValues rangeValues,
+    required CharacterId selectedCharacterId,
+  }) {
+    return _WeaponDetailsPageState(
+      rangeValues: {
+        Purpose.ascension: rangeValues,
       },
-    ).flattened.toList();
-    final items = mergeMaterialBookmarkFrames(mbFrames);
+      selectedCharacterId: selectedCharacterId,
+    );
+  }
 
-    return sortMaterials(items, assetData).map(
-          (item) => MaterialItem(
-        item: item,
-        possiblePurposeTypes: const [Purpose.ascension],
-        expItems: assetData.weaponIngredients.expItems,
-        usage: MaterialUsage(
-          characterId: characterId,
-          weaponId: weapon.id,
-        ),
-      ),
-    ).toList();
+  LevelRangeValues get defaultRangeValues {
+    return rangeValues[Purpose.ascension]!;
+  }
+
+  /// Copy with default range values
+  _WeaponDetailsPageState copyWithDrv(LevelRangeValues rangeValues) {
+    return copyWith(rangeValues: {
+      ...this.rangeValues,
+      Purpose.ascension: rangeValues,
+    });
   }
 }
