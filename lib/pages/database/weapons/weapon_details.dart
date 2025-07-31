@@ -109,7 +109,11 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       rarity: weapon.rarity,
       purpose: Purpose.ascension,
     );
-    final lackNums = useState(<String, int>{});
+
+    final state = useState(_WeaponDetailsPageState.init(
+      rangeValues: LevelRangeValues(1, levelsEntry.levels.keys.last),
+      selectedCharacterId: initialSelectedCharacter,
+    ));
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
     final selectedCharacterId = useState(initialSelectedCharacter);
@@ -135,7 +139,9 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
     )), (_, result) {
       if (result.valueOrNull == null) return;
 
-      lackNums.value = result.value!;
+      state.value = state.value.copyWith(
+        lackNums: result.value!,
+      );
     });
 
     return Scaffold(
@@ -239,6 +245,7 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
   const factory _WeaponDetailsPageState({
     required Map<Purpose, LevelRangeValues> rangeValues,
     required CharacterId selectedCharacterId,
+    required Map<String, int> lackNums,
   }) = __WeaponDetailsPageState;
 
   factory _WeaponDetailsPageState.init({
@@ -250,6 +257,7 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
         Purpose.ascension: rangeValues,
       },
       selectedCharacterId: selectedCharacterId,
+      lackNums: {},
     );
   }
 

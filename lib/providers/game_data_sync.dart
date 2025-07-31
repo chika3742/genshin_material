@@ -360,26 +360,40 @@ CalcComputeItem _createCalcComputeRequest({
 }) {
   CalcComputeItem item = const CalcComputeItem();
 
+  final ascensionTargetLv = assetData.characterIngredients.getLevels(
+    rarity: variant.rarity,
+    purpose: Purpose.ascension,
+  ).levels.keys.last;
+  final skillsTargetLv = assetData.characterIngredients.getLevels(
+    rarity: variant.rarity,
+    purpose: Purpose.normalAttack,
+  ).levels.keys.last;
+
   // append character info to the compute request
   item = item.copyWith(
     avatarId: avatarId,
     currentAvatarLevel: 1,
     elementAttrId: assetData.elements[variant.element]!.hyvId,
-    targetAvatarLevel: assetData.characterIngredients.purposes[Purpose.ascension]!.levels.keys.last,
+    targetAvatarLevel: ascensionTargetLv,
     skills: variant.talents.values.map((e) => CalcComputeSkill(
       id: e.idList.first,
       currentLevel: 1,
-      targetLevel: assetData.characterIngredients.purposes[Purpose.normalAttack]!.levels.keys.last,
+      targetLevel: skillsTargetLv,
     )).toList(),
   );
 
   if (weapon != null) {
+    final weaponTargetLv = assetData.weaponIngredients.getLevels(
+      rarity: weapon.rarity,
+      purpose: Purpose.ascension,
+    ).levels.keys.last;
+
     // append weapon info to the compute request
     item = item.copyWith(
       weapon: CalcComputeWeapon(
         id: weapon.hyvId,
         currentLevel: 1,
-        targetLevel: assetData.weaponIngredients.rarities[weapon.rarity]!.levels.keys.last,
+        targetLevel: weaponTargetLv,
         rarity: weapon.rarity,
         name: weapon.name.localized,
       ),
