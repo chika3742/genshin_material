@@ -1,3 +1,5 @@
+import "dart:developer";
+
 import "package:collection/collection.dart";
 
 import "../components/level_slider.dart";
@@ -15,7 +17,8 @@ String? getConcreteItemId(Ingredient ingredient, CharacterOrWeapon characterOrWe
 
       final definition = characterOrWeapon.materials[ingredient.type];
       if (definition == null) {
-        return null; // If no definition is found, treat this item as zero quantity.
+        log("Warning: No material definition found for type ${ingredient.type} in ${characterOrWeapon.id}");
+        return null;
       }
 
       final [defType, expr] = definition.split(":");
