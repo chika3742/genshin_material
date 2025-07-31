@@ -164,7 +164,7 @@ class LevelSlider extends HookWidget {
             fontSize: _currentLevelFieldFontSize,
             error: currLvError.value,
             onChanged: (value) {
-              if (validateCurrentLevel(value)) {
+              if (_validateCurrentLevel(value)) {
                 currLvError.value = false;
                 onChanged?.call(LevelRangeValues(
                   int.parse(value),
@@ -177,7 +177,7 @@ class LevelSlider extends HookWidget {
             onBlur: () {
               // reset value to the last valid value if current value is
               // invalid
-              if (!validateCurrentLevel(currLvController.text)) {
+              if (!_validateCurrentLevel(currLvController.text)) {
                 // reset level to the last valid value
                 currLvController.text = values.start.toString();
                 currLvError.value = false;
@@ -193,7 +193,7 @@ class LevelSlider extends HookWidget {
             fontSize: _targetLevelFieldFontSize,
             error: tgLvError.value,
             onChanged: (value) {
-              if (validateTargetLevel(value)) {
+              if (_validateTargetLevel(value)) {
                 tgLvError.value = false;
                 onChanged?.call(LevelRangeValues(
                   values.start,
@@ -206,7 +206,7 @@ class LevelSlider extends HookWidget {
             onBlur: () {
               // reset value to the last valid value if current value is
               // invalid
-              if (!validateTargetLevel(tgLvController.text)) {
+              if (!_validateTargetLevel(tgLvController.text)) {
                 // reset level to the last valid value
                 tgLvController.text = values.end.toString();
                 tgLvError.value = false;
@@ -230,7 +230,11 @@ class LevelSlider extends HookWidget {
     );
   }
 
-  bool validateCurrentLevel(String value) {
+  bool _isValidLevel(int level) {
+    return !ticks.contains(level) && !levels.contains(level);
+  }
+
+  bool _validateCurrentLevel(String value) {
     final parsedNewValue = int.tryParse(value);
     if (parsedNewValue == null) {
       return false;
@@ -238,14 +242,14 @@ class LevelSlider extends HookWidget {
 
     final maxLevel = min(levels.last, values.end);
 
-    // current level must not greater than the target level
-    if (parsedNewValue >= maxLevel || (!ticks.contains(parsedNewValue) && !levels.contains(parsedNewValue))) {
+    // current level must not be greater than the target level
+    if (parsedNewValue >= maxLevel || !_isValidLevel(parsedNewValue)) {
       return false;
     }
     return true;
   }
 
-  bool validateTargetLevel(String value) {
+  bool _validateTargetLevel(String value) {
     final parsedNewValue = int.tryParse(value);
     if (parsedNewValue == null) {
       return false;
@@ -253,8 +257,8 @@ class LevelSlider extends HookWidget {
 
     final minLevel = max(levels.first, values.start);
 
-    // target level must not less than or equal to the current level
-    if (parsedNewValue <= minLevel || !levels.contains(parsedNewValue)) {
+    // target level must not be less than or equal to the current level
+    if (parsedNewValue <= minLevel || !_isValidLevel(parsedNewValue)) {
       return false;
     }
     return true;
