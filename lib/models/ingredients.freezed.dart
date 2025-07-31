@@ -260,6 +260,7 @@ class IngredientWithFixedId implements Ingredient {
 mixin _$SliderEntry {
   LocalizedText get title;
   List<Purpose> get purposes;
+  PreferredTargetType? get preferredTargetType;
 
   /// Serializes this SliderEntry to a JSON map.
   Map<String, dynamic> toJson();
@@ -270,17 +271,19 @@ mixin _$SliderEntry {
         (other.runtimeType == runtimeType &&
             other is SliderEntry &&
             (identical(other.title, title) || other.title == title) &&
-            const DeepCollectionEquality().equals(other.purposes, purposes));
+            const DeepCollectionEquality().equals(other.purposes, purposes) &&
+            (identical(other.preferredTargetType, preferredTargetType) ||
+                other.preferredTargetType == preferredTargetType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, title, const DeepCollectionEquality().hash(purposes));
+  int get hashCode => Object.hash(runtimeType, title,
+      const DeepCollectionEquality().hash(purposes), preferredTargetType);
 
   @override
   String toString() {
-    return 'SliderEntry(title: $title, purposes: $purposes)';
+    return 'SliderEntry(title: $title, purposes: $purposes, preferredTargetType: $preferredTargetType)';
   }
 }
 
@@ -288,7 +291,9 @@ mixin _$SliderEntry {
 @JsonSerializable()
 class _SliderEntry implements SliderEntry {
   const _SliderEntry(
-      {required this.title, required final List<Purpose> purposes})
+      {required this.title,
+      required final List<Purpose> purposes,
+      this.preferredTargetType})
       : _purposes = purposes;
   factory _SliderEntry.fromJson(Map<String, dynamic> json) =>
       _$SliderEntryFromJson(json);
@@ -304,6 +309,9 @@ class _SliderEntry implements SliderEntry {
   }
 
   @override
+  final PreferredTargetType? preferredTargetType;
+
+  @override
   Map<String, dynamic> toJson() {
     return _$SliderEntryToJson(
       this,
@@ -316,17 +324,19 @@ class _SliderEntry implements SliderEntry {
         (other.runtimeType == runtimeType &&
             other is _SliderEntry &&
             (identical(other.title, title) || other.title == title) &&
-            const DeepCollectionEquality().equals(other._purposes, _purposes));
+            const DeepCollectionEquality().equals(other._purposes, _purposes) &&
+            (identical(other.preferredTargetType, preferredTargetType) ||
+                other.preferredTargetType == preferredTargetType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, title, const DeepCollectionEquality().hash(_purposes));
+  int get hashCode => Object.hash(runtimeType, title,
+      const DeepCollectionEquality().hash(_purposes), preferredTargetType);
 
   @override
   String toString() {
-    return 'SliderEntry(title: $title, purposes: $purposes)';
+    return 'SliderEntry(title: $title, purposes: $purposes, preferredTargetType: $preferredTargetType)';
   }
 }
 

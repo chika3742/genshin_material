@@ -69,12 +69,16 @@ _SliderEntry _$SliderEntryFromJson(Map<String, dynamic> json) => _SliderEntry(
       purposes: (json['purposes'] as List<dynamic>)
           .map((e) => $enumDecode(_$PurposeEnumMap, e))
           .toList(),
+      preferredTargetType: $enumDecodeNullable(
+          _$PreferredTargetTypeEnumMap, json['preferredTargetType']),
     );
 
 Map<String, dynamic> _$SliderEntryToJson(_SliderEntry instance) =>
     <String, dynamic>{
       'title': instance.title,
       'purposes': instance.purposes.map((e) => _$PurposeEnumMap[e]!).toList(),
+      'preferredTargetType':
+          _$PreferredTargetTypeEnumMap[instance.preferredTargetType],
     };
 
 const _$PurposeEnumMap = {
@@ -82,6 +86,11 @@ const _$PurposeEnumMap = {
   Purpose.normalAttack: 'normalAttack',
   Purpose.elementalSkill: 'elementalSkill',
   Purpose.elementalBurst: 'elementalBurst',
+};
+
+const _$PreferredTargetTypeEnumMap = {
+  PreferredTargetType.group: 'group',
+  PreferredTargetType.variant: 'variant',
 };
 
 _IngredientLevels _$IngredientLevelsFromJson(Map<String, dynamic> json) =>

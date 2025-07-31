@@ -9,30 +9,30 @@ import "../models/material_bookmark_frame.dart";
 String? getConcreteItemId(Ingredient ingredient, CharacterOrWeapon characterOrWeapon, AssetData assetData) {
   return switch (ingredient) {
     IngredientByType() => () {
-        if (ingredient.targetSpecific?.containsKey(characterOrWeapon.id) == true) {
-          return ingredient.targetSpecific?[characterOrWeapon.id];
-        }
+      if (ingredient.targetSpecific?.containsKey(characterOrWeapon.id) == true) {
+        return ingredient.targetSpecific?[characterOrWeapon.id];
+      }
 
-        final definition = characterOrWeapon.materials[ingredient.type];
-        if (definition == null) {
-          throw "Unknown type: ${ingredient.type}";
-        }
+      final definition = characterOrWeapon.materials[ingredient.type];
+      if (definition == null) {
+        return null;
+      }
 
-        final [defType, expr] = definition.split(":");
-        if (defType == "id") {
-          return expr;
-        }
-        if (defType == "group") {
-          final material = assetData.materials.values
-              .firstWhereOrNull(
-                (e) => e.groupId == expr && e.craftLevel == ingredient.craftLevel,
-              );
-          assert(material != null, "No material found for group id $expr and craft level ${ingredient.craftLevel}");
-          return material!.id;
-        }
+      final [defType, expr] = definition.split(":");
+      if (defType == "id") {
+        return expr;
+      }
+      if (defType == "group") {
+        final material = assetData.materials.values
+            .firstWhereOrNull(
+              (e) => e.groupId == expr && e.craftLevel == ingredient.craftLevel,
+            );
+        assert(material != null, "No material found for group id $expr and craft level ${ingredient.craftLevel}");
+        return material!.id;
+      }
 
-        throw "Unknown type: $defType";
-      }(),
+      throw "Unknown type: $defType";
+    }(),
     IngredientWithFixedId(:final itemId) => itemId,
     _ => "exp",
   };

@@ -21,6 +21,7 @@ mixin CharacterWithLargeImage on Character {
   @override
   LocalizedText get name;
   String get imageUrl;
+  @override
   int get rarity;
   @override
   WeaponType get weaponType;

@@ -39,11 +39,17 @@ sealed class Ingredient with _$Ingredient {
       _$IngredientFromJson(json);
 }
 
+enum PreferredTargetType {
+  group,
+  variant,
+}
+
 @freezed
 sealed class SliderEntry with _$SliderEntry {
   const factory SliderEntry({
     required LocalizedText title,
     required List<Purpose> purposes,
+    PreferredTargetType? preferredTargetType,
   }) = _SliderEntry;
 
   factory SliderEntry.fromJson(Map<String, dynamic> json) =>
