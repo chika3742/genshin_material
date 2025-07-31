@@ -15,7 +15,7 @@ String? getConcreteItemId(Ingredient ingredient, CharacterOrWeapon characterOrWe
 
       final definition = characterOrWeapon.materials[ingredient.type];
       if (definition == null) {
-        return null;
+        return null; // If no definition is found, treat this item as zero quantity.
       }
 
       final [defType, expr] = definition.split(":");
