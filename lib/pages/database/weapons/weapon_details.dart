@@ -76,7 +76,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
                   final purpose = e.key;
                   state.value = state.value.copyWithDrv(LevelRangeValues(
                     e.value,
-                    max(state.value.rangeValues[purpose]!.end, e.value),
+                    max(state.value.rangeValues[purpose]?.end ?? e.value, e.value),
                   ));
                 }
                 if (result.hasRemovedBookmarks && context.mounted) {
