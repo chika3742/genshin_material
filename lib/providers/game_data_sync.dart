@@ -27,6 +27,9 @@ part "game_data_sync.g.dart";
 
 const _fetchTtl = Duration(minutes: 3);
 
+/// Item id to lack numbers.
+typedef ItemLackNums = Map<String, int>;
+
 /// Represents a character for game data synchronization, including the variant ID
 /// and an optional equipped weapon ID.
 ///

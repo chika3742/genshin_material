@@ -13,7 +13,6 @@ import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/item_source_widget.dart";
 import "../../../components/level_slider.dart";
-import "../../../components/material_card.dart";
 import "../../../components/material_slider.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
@@ -21,7 +20,6 @@ import "../../../database.dart";
 import "../../../db/in_game_weapon_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
-import "../../../models/material_bookmark_frame.dart";
 import "../../../models/weapon.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
@@ -148,89 +146,88 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(tr.pages.weaponDetails(weapon: weapon.name.localized)),
       ),
-      body: QuantityTickerHandler(
-        child: Scrollbar(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: GappedColumn(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              gap: 16,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: GameItemInfoBox(
-                        itemImage: Image.file(
-                          weapon.getImageFile(assetData.assetDir),
-                          width: 50,
-                          height: 50,
+      body: Scrollbar(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: GappedColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            gap: 16,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: GameItemInfoBox(
+                      itemImage: Image.file(
+                        weapon.getImageFile(assetData.assetDir),
+                        width: 50,
+                        height: 50,
+                      ),
+                      children: [
+                        RarityStars(count: weapon.rarity),
+                        Text(
+                          assetData.weaponTypes[weapon.type]!.name.localized,
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
-                        children: [
-                          RarityStars(count: weapon.rarity),
-                          Text(
-                            assetData.weaponTypes[weapon.type]!.name.localized,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
-                    if (prefs.isLinkedWithHoyolab)
-                      Consumer(
-                        builder: (context, ref, _) {
-                          return GameDataSyncIndicator(
-                            status: ref.watch(gameDataSyncStateProvider(
-                              variantId: state.value.selectedCharacterId,
-                              weaponId: weapon.id,
-                            )),
-                          );
-                        },
-                      ),
-                  ],
-                ),
-
-                CharacterSelectDropdown(
-                  label: tr.weaponDetailsPage.characterToEquip,
-                  characters: characters,
-                  value: state.value.selectedCharacterId,
-                  onChanged: (value) {
-                    state.value = state.value.copyWith(
-                      selectedCharacterId: value!,
-                    );
-                  },
-                ),
-
-                for (final slider in ingredients.sliders)
-                  Section(
-                    heading: SectionHeading(slider.title.localized),
-                    child: MaterialSlider(
-                      ingredientConf: ingredients,
-                      purposes: slider.purposes,
-                      target: weapon,
-                      characterId: state.value.selectedCharacterId,
-                      ranges: UnmodifiableMapView(state.value.rangeValues),
-                      onRangesChanged: (value) {
-                        state.value = state.value.copyWith(
-                          rangeValues: value,
+                  ),
+                  if (prefs.isLinkedWithHoyolab)
+                    Consumer(
+                      builder: (context, ref, _) {
+                        return GameDataSyncIndicator(
+                          status: ref.watch(gameDataSyncStateProvider(
+                            variantId: state.value.selectedCharacterId,
+                            weaponId: weapon.id,
+                          )),
                         );
                       },
                     ),
-                  ),
+                ],
+              ),
 
+              CharacterSelectDropdown(
+                label: tr.weaponDetailsPage.characterToEquip,
+                characters: characters,
+                value: state.value.selectedCharacterId,
+                onChanged: (value) {
+                  state.value = state.value.copyWith(
+                    selectedCharacterId: value!,
+                  );
+                },
+              ),
+
+              for (final slider in ingredients.sliders)
                 Section(
-                  heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: EffectDescription(weapon.weaponAffixDesc?.localized ?? tr.common.none),
+                  heading: SectionHeading(slider.title.localized),
+                  child: MaterialSlider(
+                    ingredientConf: ingredients,
+                    purposes: slider.purposes,
+                    target: weapon,
+                    characterId: state.value.selectedCharacterId,
+                    ranges: UnmodifiableMapView(state.value.rangeValues),
+                    lackNums: state.value.lackNums,
+                    onRangesChanged: (value) {
+                      state.value = state.value.copyWith(
+                        rangeValues: value,
+                      );
+                    },
                   ),
                 ),
 
-                if (weapon.source != null)
-                  Section(
-                    heading: SectionHeading(tr.materialDetailsPage.source),
-                    child: ItemSourceWidget(weapon.source!),
-                  ),
-              ],
-            ),
+              Section(
+                heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: EffectDescription(weapon.weaponAffixDesc?.localized ?? tr.common.none),
+                ),
+              ),
+
+              if (weapon.source != null)
+                Section(
+                  heading: SectionHeading(tr.materialDetailsPage.source),
+                  child: ItemSourceWidget(weapon.source!),
+                ),
+            ],
           ),
         ),
       ),

@@ -187,175 +187,174 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       body: Scrollbar(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
-          child: QuantityTickerHandler(
-            child: SafeArea(
-              child: GappedColumn(
-                gap: 16,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // character information
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: GameItemInfoBox(
-                          itemImage: Image.file(
-                            variant.value.getSmallImageFile(assetData.assetDir),
-                            width: 70,
-                            height: 70,
-                          ),
-                          children: [
-                            // rarity
-                            RarityStars(count: character.rarity),
-                            // element
-                            Row(
-                              children: [
-                                Image.file(
-                                  assetData.elements[variant.value.element]!.getImageFile(assetData.assetDir),
-                                  width: 26,
-                                  height: 26,
-                                  color: Theme.of(context).colorScheme.onSurface,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(assetData.elements[variant.value.element]!.text.localized),
-                              ],
-                            ),
-                            // weapon type
-                            Text(assetData.weaponTypes[character.weaponType]!.name.localized),
-                          ],
+          child: SafeArea(
+            child: GappedColumn(
+              gap: 16,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // character information
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: GameItemInfoBox(
+                        itemImage: Image.file(
+                          variant.value.getSmallImageFile(assetData.assetDir),
+                          width: 70,
+                          height: 70,
                         ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          if (prefs.isLinkedWithHoyolab && prefs.syncCharaState)
-                            Consumer(
-                              builder: (context, ref, _) {
-                                final state = ref.watch(gameDataSyncStateProvider(variantId: variant.value.id));
-                                return GameDataSyncIndicator(
-                                  status: state,
-                                );
-                              },
-                            ),
-                          const SizedBox(height: 8),
+                          // rarity
+                          RarityStars(count: character.rarity),
+                          // element
                           Row(
                             children: [
-                              IconButton(
-                                icon: const Icon(Symbols.swords),
-                                onPressed: () {
-                                  WeaponListRoute(equipCharacterId: variant.value.id).push(context);
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(Symbols.person_play),
-                                onPressed: () {
-                                  ArtifactListRoute(equipCharacterId: variant.value.id).push(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  // character variant dropdown
-                  if (variants.length > 1)
-                    DropdownButtonFormField(
-                      value: variant.value.element,
-                      items: variants.entries.map((e) {
-                        return DropdownMenuItem(
-                          value: e.key,
-                          child: Row(
-                            children: [
                               Image.file(
-                                assetData.elements[e.value.element]!
-                                    .getImageFile(assetData.assetDir),
-                                width: 25,
-                                height: 25,
+                                assetData.elements[variant.value.element]!.getImageFile(assetData.assetDir),
+                                width: 26,
+                                height: 26,
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),
                               const SizedBox(width: 4),
-                              Text(assetData.elements[e.value.element]!.text.localized),
+                              Text(assetData.elements[variant.value.element]!.text.localized),
                             ],
                           ),
-                        );
-                      }).toList(),
-                      decoration: InputDecoration(
-                        label: Text(tr.common.element),
-                        border: const OutlineInputBorder(),
+                          // weapon type
+                          Text(assetData.weaponTypes[character.weaponType]!.name.localized),
+                        ],
                       ),
-                      onChanged: (value) {
-                        variant.value = variants[value]!;
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        if (prefs.isLinkedWithHoyolab && prefs.syncCharaState)
+                          Consumer(
+                            builder: (context, ref, _) {
+                              final state = ref.watch(gameDataSyncStateProvider(variantId: variant.value.id));
+                              return GameDataSyncIndicator(
+                                status: state,
+                              );
+                            },
+                          ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Symbols.swords),
+                              onPressed: () {
+                                WeaponListRoute(equipCharacterId: variant.value.id).push(context);
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Symbols.person_play),
+                              onPressed: () {
+                                ArtifactListRoute(equipCharacterId: variant.value.id).push(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
+                // character variant dropdown
+                if (variants.length > 1)
+                  DropdownButtonFormField(
+                    value: variant.value.element,
+                    items: variants.entries.map((e) {
+                      return DropdownMenuItem(
+                        value: e.key,
+                        child: Row(
+                          children: [
+                            Image.file(
+                              assetData.elements[e.value.element]!
+                                  .getImageFile(assetData.assetDir),
+                              width: 25,
+                              height: 25,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(assetData.elements[e.value.element]!.text.localized),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                    decoration: InputDecoration(
+                      label: Text(tr.common.element),
+                      border: const OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      variant.value = variants[value]!;
+                    },
+                  ),
+
+                if (state.value.equippedWeaponId != null)
+                  FullWidth(
+                    child: ListTile(
+                      title: Text(tr.characterDetailsPage.equippedWeapon),
+                      subtitle: Text(assetData.weapons[state.value.equippedWeaponId]!.name.localized),
+                      leading: Image.file(
+                        assetData.weapons[state.value.equippedWeaponId]!.getImageFile(assetData.assetDir),
+                        width: 50,
+                        height: 50,
+                      ),
+                      trailing: const Icon(Symbols.chevron_right),
+                      onTap: () {
+                        WeaponDetailsRoute(
+                          id: state.value.equippedWeaponId!,
+                          initialSelectedCharacter: variant.value.id,
+                        ).push(context);
                       },
                     ),
+                  ),
 
-                  if (state.value.equippedWeaponId != null)
-                    FullWidth(
-                      child: ListTile(
-                        title: Text(tr.characterDetailsPage.equippedWeapon),
-                        subtitle: Text(assetData.weapons[state.value.equippedWeaponId]!.name.localized),
-                        leading: Image.file(
-                          assetData.weapons[state.value.equippedWeaponId]!.getImageFile(assetData.assetDir),
-                          width: 50,
-                          height: 50,
-                        ),
-                        trailing: const Icon(Symbols.chevron_right),
-                        onTap: () {
-                          WeaponDetailsRoute(
-                            id: state.value.equippedWeaponId!,
-                            initialSelectedCharacter: variant.value.id,
-                          ).push(context);
-                        },
-                      ),
-                    ),
-
-                  for (final slider in ingredients.sliders)
-                    Section(
-                      heading: SectionHeading(slider.title.localized),
-                      child: MaterialSlider(
-                        ingredientConf: ingredients,
-                        purposes: slider.purposes,
-                        target: switch (slider.preferredTargetType) {
-                          PreferredTargetType.group => character,
-                          PreferredTargetType.variant || null => variant.value,
-                        },
-                        ranges: UnmodifiableMapView(state.value.rangeValues),
-                        labelBuilder: (context, purpose) {
-                          if (purpose != Purpose.ascension) {
-                            return Text.rich( // checkbox label
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: tr.talentTypes[purpose.name]!,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary,
-                                    ),
+                for (final slider in ingredients.sliders)
+                  Section(
+                    heading: SectionHeading(slider.title.localized),
+                    child: MaterialSlider(
+                      ingredientConf: ingredients,
+                      purposes: slider.purposes,
+                      lackNums: state.value.lackNums,
+                      target: switch (slider.preferredTargetType) {
+                        PreferredTargetType.group => character,
+                        PreferredTargetType.variant || null => variant.value,
+                      },
+                      ranges: UnmodifiableMapView(state.value.rangeValues),
+                      labelBuilder: (context, purpose) {
+                        if (purpose != Purpose.ascension) {
+                          return Text.rich( // checkbox label
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: tr.talentTypes[purpose.name]!,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primary,
                                   ),
-                                  const TextSpan(text: "  "),
-                                  TextSpan(
-                                    text: variant.value
-                                        .talents[purpose.name]!
-                                        .name.localized,
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                          return null; // no label for ascension
-                        },
-                        onRangesChanged: (value) {
-                          state.value = state.value.copyWith(
-                            rangeValues: value,
+                                ),
+                                const TextSpan(text: "  "),
+                                TextSpan(
+                                  text: variant.value
+                                      .talents[purpose.name]!
+                                      .name.localized,
+                                ),
+                              ],
+                            ),
                           );
-                        },
-                      ),
+                        }
+                        return null; // no label for ascension
+                      },
+                      onRangesChanged: (value) {
+                        state.value = state.value.copyWith(
+                          rangeValues: value,
+                        );
+                      },
                     ),
-                ],
-              ),
+                  ),
+              ],
             ),
           ),
         ),
