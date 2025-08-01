@@ -11,6 +11,7 @@ sealed class ExpItem with _$ExpItem {
   const factory ExpItem({
     required String itemId,
     required int expPerItem,
+    @Default(false) bool isDefault,
   }) = _ExpItem;
 
   factory ExpItem.fromJson(Map<String, dynamic> json) =>
@@ -86,7 +87,6 @@ sealed class IngredientConfigurations with _$IngredientConfigurations {
     required Map<int, IngredientPurposes> rarities,
     required List<SliderEntry> sliders,
     required Map<String, IngredientLevels> ingredientTables,
-    required String defaultExpItemId,
   }) = _IngredientConfigurations;
 
   factory IngredientConfigurations.fromJson(Map<String, dynamic> json) =>

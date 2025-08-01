@@ -9,11 +9,13 @@ part of 'ingredients.dart';
 _ExpItem _$ExpItemFromJson(Map<String, dynamic> json) => _ExpItem(
       itemId: json['itemId'] as String,
       expPerItem: (json['expPerItem'] as num).toInt(),
+      isDefault: json['isDefault'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ExpItemToJson(_ExpItem instance) => <String, dynamic>{
       'itemId': instance.itemId,
       'expPerItem': instance.expPerItem,
+      'isDefault': instance.isDefault,
     };
 
 IngredientByType _$IngredientByTypeFromJson(Map<String, dynamic> json) =>
@@ -143,7 +145,6 @@ _IngredientConfigurations _$IngredientConfigurationsFromJson(
         (k, e) =>
             MapEntry(k, IngredientLevels.fromJson(e as Map<String, dynamic>)),
       ),
-      defaultExpItemId: json['defaultExpItemId'] as String,
     );
 
 Map<String, dynamic> _$IngredientConfigurationsToJson(
@@ -153,5 +154,4 @@ Map<String, dynamic> _$IngredientConfigurationsToJson(
       'rarities': instance.rarities.map((k, e) => MapEntry(k.toString(), e)),
       'sliders': instance.sliders,
       'ingredientTables': instance.ingredientTables,
-      'defaultExpItemId': instance.defaultExpItemId,
     };

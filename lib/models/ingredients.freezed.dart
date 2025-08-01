@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$ExpItem {
   String get itemId;
   int get expPerItem;
+  bool get isDefault;
 
   /// Serializes this ExpItem to a JSON map.
   Map<String, dynamic> toJson();
@@ -27,23 +28,26 @@ mixin _$ExpItem {
             other is ExpItem &&
             (identical(other.itemId, itemId) || other.itemId == itemId) &&
             (identical(other.expPerItem, expPerItem) ||
-                other.expPerItem == expPerItem));
+                other.expPerItem == expPerItem) &&
+            (identical(other.isDefault, isDefault) ||
+                other.isDefault == isDefault));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, itemId, expPerItem);
+  int get hashCode => Object.hash(runtimeType, itemId, expPerItem, isDefault);
 
   @override
   String toString() {
-    return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem)';
+    return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem, isDefault: $isDefault)';
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _ExpItem implements ExpItem {
-  const _ExpItem({required this.itemId, required this.expPerItem});
+  const _ExpItem(
+      {required this.itemId, required this.expPerItem, this.isDefault = false});
   factory _ExpItem.fromJson(Map<String, dynamic> json) =>
       _$ExpItemFromJson(json);
 
@@ -51,6 +55,9 @@ class _ExpItem implements ExpItem {
   final String itemId;
   @override
   final int expPerItem;
+  @override
+  @JsonKey()
+  final bool isDefault;
 
   @override
   Map<String, dynamic> toJson() {
@@ -66,16 +73,18 @@ class _ExpItem implements ExpItem {
             other is _ExpItem &&
             (identical(other.itemId, itemId) || other.itemId == itemId) &&
             (identical(other.expPerItem, expPerItem) ||
-                other.expPerItem == expPerItem));
+                other.expPerItem == expPerItem) &&
+            (identical(other.isDefault, isDefault) ||
+                other.isDefault == isDefault));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, itemId, expPerItem);
+  int get hashCode => Object.hash(runtimeType, itemId, expPerItem, isDefault);
 
   @override
   String toString() {
-    return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem)';
+    return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem, isDefault: $isDefault)';
   }
 }
 
@@ -502,7 +511,6 @@ mixin _$IngredientConfigurations {
   Map<int, IngredientPurposes> get rarities;
   List<SliderEntry> get sliders;
   Map<String, IngredientLevels> get ingredientTables;
-  String get defaultExpItemId;
 
   /// Serializes this IngredientConfigurations to a JSON map.
   Map<String, dynamic> toJson();
@@ -516,9 +524,7 @@ mixin _$IngredientConfigurations {
             const DeepCollectionEquality().equals(other.rarities, rarities) &&
             const DeepCollectionEquality().equals(other.sliders, sliders) &&
             const DeepCollectionEquality()
-                .equals(other.ingredientTables, ingredientTables) &&
-            (identical(other.defaultExpItemId, defaultExpItemId) ||
-                other.defaultExpItemId == defaultExpItemId));
+                .equals(other.ingredientTables, ingredientTables));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -528,12 +534,11 @@ mixin _$IngredientConfigurations {
       const DeepCollectionEquality().hash(expItems),
       const DeepCollectionEquality().hash(rarities),
       const DeepCollectionEquality().hash(sliders),
-      const DeepCollectionEquality().hash(ingredientTables),
-      defaultExpItemId);
+      const DeepCollectionEquality().hash(ingredientTables));
 
   @override
   String toString() {
-    return 'IngredientConfigurations(expItems: $expItems, rarities: $rarities, sliders: $sliders, ingredientTables: $ingredientTables, defaultExpItemId: $defaultExpItemId)';
+    return 'IngredientConfigurations(expItems: $expItems, rarities: $rarities, sliders: $sliders, ingredientTables: $ingredientTables)';
   }
 }
 
@@ -544,8 +549,7 @@ class _IngredientConfigurations extends IngredientConfigurations {
       {required final List<ExpItem> expItems,
       required final Map<int, IngredientPurposes> rarities,
       required final List<SliderEntry> sliders,
-      required final Map<String, IngredientLevels> ingredientTables,
-      required this.defaultExpItemId})
+      required final Map<String, IngredientLevels> ingredientTables})
       : _expItems = expItems,
         _rarities = rarities,
         _sliders = sliders,
@@ -587,9 +591,6 @@ class _IngredientConfigurations extends IngredientConfigurations {
   }
 
   @override
-  final String defaultExpItemId;
-
-  @override
   Map<String, dynamic> toJson() {
     return _$IngredientConfigurationsToJson(
       this,
@@ -605,9 +606,7 @@ class _IngredientConfigurations extends IngredientConfigurations {
             const DeepCollectionEquality().equals(other._rarities, _rarities) &&
             const DeepCollectionEquality().equals(other._sliders, _sliders) &&
             const DeepCollectionEquality()
-                .equals(other._ingredientTables, _ingredientTables) &&
-            (identical(other.defaultExpItemId, defaultExpItemId) ||
-                other.defaultExpItemId == defaultExpItemId));
+                .equals(other._ingredientTables, _ingredientTables));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -617,12 +616,11 @@ class _IngredientConfigurations extends IngredientConfigurations {
       const DeepCollectionEquality().hash(_expItems),
       const DeepCollectionEquality().hash(_rarities),
       const DeepCollectionEquality().hash(_sliders),
-      const DeepCollectionEquality().hash(_ingredientTables),
-      defaultExpItemId);
+      const DeepCollectionEquality().hash(_ingredientTables));
 
   @override
   String toString() {
-    return 'IngredientConfigurations(expItems: $expItems, rarities: $rarities, sliders: $sliders, ingredientTables: $ingredientTables, defaultExpItemId: $defaultExpItemId)';
+    return 'IngredientConfigurations(expItems: $expItems, rarities: $rarities, sliders: $sliders, ingredientTables: $ingredientTables)';
   }
 }
 
