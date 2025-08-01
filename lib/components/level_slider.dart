@@ -231,7 +231,7 @@ class LevelSlider extends HookWidget {
   }
 
   bool _isValidLevel(int level) {
-    return !ticks.contains(level) && !levels.contains(level);
+    return ticks.contains(level) || levels.contains(level);
   }
 
   bool _validateCurrentLevel(String value) {
