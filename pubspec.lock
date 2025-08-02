@@ -1060,6 +1060,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  signed_spacing_flex:
+    dependency: "direct main"
+    description:
+      name: signed_spacing_flex
+      sha256: dc8d938ab52cbdc43d2997b934c349849f6a463e193c0463963ded3806bd309d
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   sky_engine:
     dependency: transitive
     description: flutter

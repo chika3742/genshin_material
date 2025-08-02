@@ -62,6 +62,7 @@ updates:
   pleaseWaitUntilComplete: データ更新が完了するまでお待ちください。
 errors:
   characterNotFound: キャラクターが見つかりません
+  weaponNotFound: 武器が見つかりません
   materialNotFound: 素材が見つかりません
   artifactNotFound: 聖遺物が見つかりません
   tryAgainLater: しばらくしてから再度お試しください。
@@ -242,6 +243,7 @@ hoyolab:
   syncBagCounts: ゲーム内の素材の所持数を同期する
   mustBeResonatedWithStatue: 旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。
   weaponNotEquipped: このキャラクターはこの武器を装備していません。
+  unknownError: 不明なエラーが発生しました。
   charaSyncSuccess: ゲームデータと同期しました
 whereToGet(map):
   chests: 宝箱、任務報酬など

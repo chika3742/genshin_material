@@ -10,6 +10,7 @@ import "../models/common.dart";
 import "../models/ingredients.dart";
 import "../models/material_bookmark_frame.dart";
 import "../models/weapon.dart";
+import "../providers/game_data_sync.dart";
 import "../providers/versions.dart";
 import "../utils/ingredients_converter.dart";
 import "../utils/lists.dart";
@@ -31,6 +32,7 @@ class MaterialSlider extends HookConsumerWidget {
     required this.purposes,
     required this.ranges,
     this.labelBuilder,
+    this.lackNums,
     required this.onRangesChanged,
   });
 
@@ -43,6 +45,7 @@ class MaterialSlider extends HookConsumerWidget {
   final UnmodifiableMapView<Purpose, LevelRangeValues> ranges;
   final LabelWidgetBuilder? labelBuilder;
   final ValueChanged<Map<Purpose, LevelRangeValues>> onRangesChanged;
+  final ItemLackNums? lackNums;
 
   bool get showActiveCheckbox => purposes.length >= 2;
 
@@ -162,6 +165,11 @@ class MaterialSlider extends HookConsumerWidget {
     required AssetData assetData,
     required List<Purpose> activeSliders,
   }) {
+    final fullQuantities = useMemoized(
+      () => _calculateFullQuantities(assetData),
+      [purposes, target, ingredientConf],
+    );
+
     final mbFrames = <MaterialBookmarkFrame>[];
     for (final purpose in purposes) {
       if (activeSliders.contains(purpose)) {
@@ -193,6 +201,7 @@ class MaterialSlider extends HookConsumerWidget {
             item: item,
             possiblePurposeTypes: purposes,
             expItems: assetData.characterIngredients.expItems,
+            lackNum: _calculateLackNum(item.id, fullQuantities[item.id], item.sum),
             usage: MaterialUsage(
               characterId: target is Character ? target.id : characterId!,
               weaponId: target is Weapon ? target.id : null,
@@ -200,5 +209,47 @@ class MaterialSlider extends HookConsumerWidget {
           ),
         )
         .toList();
+  }
+
+  /// Returns Item id to full quantity map. Null item id represents an exp item.
+  Map<String?, int> _calculateFullQuantities(AssetData assetData) {
+    final frames = purposes.map((purpose) => ingredientConf
+        .getLevels(rarity: target.rarity, purpose: purpose)
+        .levels
+        .entries
+        .map(
+      (e) {
+        return toMaterialBookmarkFrames(
+          level: e.key,
+          ingredients: e.value,
+          purposeType: purpose,
+          characterOrWeapon: target,
+          assetData: assetData,
+        );
+      },
+    ).flattened).flattened.toList();
+    final items = mergeMaterialBookmarkFrames(frames);
+    return Map.fromEntries(items.map((item) => MapEntry(item.id, item.sum)));
+  }
+
+  int? _calculateLackNum(String? itemId, int? fullQuantity, int currentQuantity) {
+    if (fullQuantity == null) {
+      return null;
+    }
+    if (itemId == null) {
+      final expItem = ingredientConf.expItems.firstWhere((e) => e.isDefault);
+      final lackNum = lackNums?[expItem.itemId];
+      if (lackNum == null) {
+        return null;
+      }
+      // fullQuantity and currentQuantity is the total exp needed and lackNum is the number of exp
+      // items needed.
+      return lackNum - ((fullQuantity - currentQuantity) / expItem.expPerItem).ceil();
+    }
+    final lackNum = lackNums?[itemId];
+    if (lackNum == null) {
+      return null;
+    }
+    return lackNum - (fullQuantity - currentQuantity);
   }
 }

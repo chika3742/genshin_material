@@ -1,9 +1,11 @@
 import "dart:convert";
 
+import "package:clock/clock.dart";
 import "package:drift/drift.dart";
 import "package:drift_flutter/drift_flutter.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 
+import "database.steps.dart";
 import "models/common.dart";
 
 part "database.freezed.dart";
@@ -79,23 +81,39 @@ class BookmarkOrderRegistryTable extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-@DataClassName("InGameCharacterState")
+sealed class InGameState extends DataClass {
+  const InGameState({
+    required this.uid,
+    required this.characterId,
+    required this.purposes,
+    required this.lastUpdated,
+  });
+
+  final String uid;
+  final String characterId;
+  final Map<Purpose, int> purposes;
+  final DateTime lastUpdated;
+}
+
+@DataClassName.custom(name: "InGameCharacterState", implementing: [InGameState])
 class InGameCharacterStateTable extends Table {
   TextColumn get uid => text()();
   TextColumn get characterId => text()();
   TextColumn get purposes => text().map(const PurposeMapConverter())();
   TextColumn get equippedWeaponId => text().nullable()();
+  DateTimeColumn get lastUpdated => dateTime().withDefault(currentDateAndTime)();
 
   @override
   Set<Column> get primaryKey => {uid, characterId};
 }
 
-@DataClassName("InGameWeaponState")
+@DataClassName.custom(name: "InGameWeaponState", implementing: [InGameState])
 class InGameWeaponStateTable extends Table {
   TextColumn get uid => text()();
   TextColumn get characterId => text()();
   TextColumn get weaponId => text()();
-  IntColumn get level => integer()();
+  TextColumn get purposes => text().map(const PurposeMapConverter())();
+  DateTimeColumn get lastUpdated => dateTime().withDefault(currentDateAndTime)();
 
   @override
   Set<Column<Object>>? get primaryKey => {uid, characterId, weaponId};
@@ -186,13 +204,37 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   static const dbName = "db";
 
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
+      onUpgrade: stepByStep(
+        from1To2: (m, schema) async {
+          await m.alterTable(TableMigration(
+            schema.inGameCharacterStateTable,
+            columnTransformer: {
+              schema.inGameCharacterStateTable.lastUpdated:
+                  Variable.withDateTime(clock.now())
+                      .modify(DateTimeModifier.minutes(-5)),
+            },
+          ));
+          await m.alterTable(TableMigration(
+            schema.inGameWeaponStateTable,
+            columnTransformer: {
+              schema.inGameWeaponStateTable.purposes:
+                  Variable.withString('{"ascension": ') +
+                      const CustomExpression("level") +
+                      Variable.withString("}"),
+              schema.inGameWeaponStateTable.lastUpdated:
+                  Variable.withDateTime(clock.now())
+                      .modify(DateTimeModifier.minutes(-5)),
+            },
+          ));
+        },
+      ),
       beforeOpen: (details) async {
         // enable foreign keys
         await customStatement("PRAGMA foreign_keys = ON");

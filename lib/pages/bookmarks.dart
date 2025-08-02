@@ -1,5 +1,4 @@
 import "dart:developer";
-import "dart:ui";
 
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
@@ -9,7 +8,6 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../components/center_text.dart";
-import "../components/material_card.dart";
 import "../components/material_item.dart";
 import "../core/asset_cache.dart";
 import "../db/bookmark_db_extension.dart";
@@ -52,14 +50,12 @@ class BookmarksPage extends HookConsumerWidget {
       body: switch(bookmarks) {
         AsyncLoading() => const Center(child: CircularProgressIndicator()),
         AsyncData(:final value) when value.isEmpty => CenterText(tr.bookmarksPage.noBookmarks),
-        AsyncData() => QuantityTickerHandler(
-          child: TabBarView(
-            controller: tabController,
-            children: const [
-              _PurposeGroupedBookmarkList(),
-              _MaterialGroupedBookmarkList(),
-            ],
-          ),
+        AsyncData() => TabBarView(
+          controller: tabController,
+          children: const [
+            _PurposeGroupedBookmarkList(),
+            _MaterialGroupedBookmarkList(),
+          ],
         ),
         AsyncError(:final error) => CenterText(getErrorMessage(error)),
         _ => throw "Unexpected state",
@@ -98,33 +94,11 @@ class _PurposeGroupedBookmarkList extends ConsumerWidget {
       _sortBookmarkGroups(bookmarkGroups, bookmarkOrder);
     }
 
-    // hold the state of the current context to pass to the dragging item
-    final qStateNotifier = QuantityStateProvider.of(context);
-
     return Stack(
       children: [
         ReorderableListView.builder(
           itemCount: bookmarkGroups.length,
           padding: const EdgeInsets.only(top: 8),
-          proxyDecorator: (child, index, animation) {
-            // propagate QuantityState to dragging item (on Overlay layer)
-            return QuantityStateProvider(
-              state: qStateNotifier.state,
-              // from Flutter source
-              child: AnimatedBuilder(
-                animation: animation,
-                builder: (BuildContext context, Widget? child) {
-                  final double animValue = Curves.easeInOut.transform(animation.value);
-                  final double elevation = lerpDouble(0, 6, animValue)!;
-                  return Material(
-                    elevation: elevation,
-                    child: child,
-                  );
-                },
-                child: child,
-              ),
-            );
-          },
           onReorder: (oldIndex, newIndex) {
             if (bookmarkOrder == null) {
               return;
@@ -593,38 +567,36 @@ class _LevelBookmarkDetail extends StatelessWidget {
 
             final levels = bookmarks.groupListsBy((e) => e.materialDetails.upperLevel);
 
-            return QuantityTickerHandler(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, bottom: 16.0, right: 16.0),
-                child: GappedColumn(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Transform.translate(
-                      offset: const Offset(-8, 0),
-                      child: SectionInnerHeading(tr.purposes[bookmarks.first.materialDetails.purposeType.name]!),
-                    ),
-                    for (final level in levels.entries.sorted((a, b) => a.key.compareTo(b.key))) ...[
-                      Text("Lv. ${level.key}", style: GoogleFonts.titilliumWeb(fontSize: 20)),
-                      Wrap(
-                        children: [
-                          for (final item in _sortBookmarks(level.value, assetData))
-                            MaterialItem(
-                              item: MaterialCardMaterial.fromBookmarks([item.materialDetails]),
-                              usage: MaterialUsage(
-                                characterId: item.metadata.characterId,
-                                weaponId: item.materialDetails.weaponId,
-                              ),
-                              expItems: item.materialDetails.weaponId == null
-                                  ? assetData.characterIngredients.expItems
-                                  : assetData.weaponIngredients.expItems,
-                              hashes: [item.materialDetails.hash],
+            return Padding(
+              padding: const EdgeInsets.only(left: 16.0, bottom: 16.0, right: 16.0),
+              child: GappedColumn(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Transform.translate(
+                    offset: const Offset(-8, 0),
+                    child: SectionInnerHeading(tr.purposes[bookmarks.first.materialDetails.purposeType.name]!),
+                  ),
+                  for (final level in levels.entries.sorted((a, b) => a.key.compareTo(b.key))) ...[
+                    Text("Lv. ${level.key}", style: GoogleFonts.titilliumWeb(fontSize: 20)),
+                    Wrap(
+                      children: [
+                        for (final item in _sortBookmarks(level.value, assetData))
+                          MaterialItem(
+                            item: MaterialCardMaterial.fromBookmarks([item.materialDetails]),
+                            usage: MaterialUsage(
+                              characterId: item.metadata.characterId,
+                              weaponId: item.materialDetails.weaponId,
                             ),
-                        ],
-                      ),
-                    ],
+                            expItems: item.materialDetails.weaponId == null
+                                ? assetData.characterIngredients.expItems
+                                : assetData.weaponIngredients.expItems,
+                            hashes: [item.materialDetails.hash],
+                          ),
+                      ],
+                    ),
                   ],
-                ),
+                ],
               ),
             );
           },
@@ -674,63 +646,61 @@ class _MaterialBookmarkDetail extends StatelessWidget {
               },
             ).values.map((e) => BookmarkGroup.fromBookmarks(e, assetData)).toList();
 
-            return QuantityTickerHandler(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, bottom: 16.0, right: 16.0),
-                child: GappedColumn(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    MaterialItem(
-                      item: MaterialCardMaterial.fromBookmarks(bookmarks.map((e) => e.materialDetails).toList()),
-                      hashes: bookmarks.map((e) => e.materialDetails.hash).toList(),
-                      expItems: bookmarks.first.materialDetails.weaponId == null
-                          ? assetData.characterIngredients.expItems
-                          : assetData.weaponIngredients.expItems,
-                    ),
-                    for (final group in groups) ...[
-                      _PurposeHeader(group: group),
-                      for (final bookmark in group.bookmarks.cast<BookmarkWithMaterialDetails>()
-                          .sorted((a, b) => a.materialDetails.upperLevel - b.materialDetails.upperLevel))
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 70,
-                                child: Text.rich(TextSpan(
-                                  children: [
-                                    const TextSpan(text: "Lv. ", style: TextStyle(fontSize: 18)),
-                                    TextSpan(
-                                      text: bookmark.materialDetails.upperLevel
-                                          .toString(),
-                                      style: GoogleFonts.titilliumWeb(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 24,
-                                      ),
+            return Padding(
+              padding: const EdgeInsets.only(left: 16.0, bottom: 16.0, right: 16.0),
+              child: GappedColumn(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  MaterialItem(
+                    item: MaterialCardMaterial.fromBookmarks(bookmarks.map((e) => e.materialDetails).toList()),
+                    hashes: bookmarks.map((e) => e.materialDetails.hash).toList(),
+                    expItems: bookmarks.first.materialDetails.weaponId == null
+                        ? assetData.characterIngredients.expItems
+                        : assetData.weaponIngredients.expItems,
+                  ),
+                  for (final group in groups) ...[
+                    _PurposeHeader(group: group),
+                    for (final bookmark in group.bookmarks.cast<BookmarkWithMaterialDetails>()
+                        .sorted((a, b) => a.materialDetails.upperLevel - b.materialDetails.upperLevel))
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 70,
+                              child: Text.rich(TextSpan(
+                                children: [
+                                  const TextSpan(text: "Lv. ", style: TextStyle(fontSize: 18)),
+                                  TextSpan(
+                                    text: bookmark.materialDetails.upperLevel
+                                        .toString(),
+                                    style: GoogleFonts.titilliumWeb(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24,
                                     ),
-                                  ],
-                                ),),
-                              ),
-                              Flexible(
-                                child: MaterialItem(
-                                  item: MaterialCardMaterial.fromBookmarks([bookmark.materialDetails]),
-                                  usage: MaterialUsage(
-                                    characterId: bookmark.metadata.characterId,
-                                    weaponId: bookmark.materialDetails.weaponId,
                                   ),
-                                  expItems: bookmark.materialDetails.weaponId == null
-                                      ? assetData.characterIngredients.expItems
-                                      : assetData.weaponIngredients.expItems,
-                                  hashes: [bookmark.materialDetails.hash],
+                                ],
+                              ),),
+                            ),
+                            Flexible(
+                              child: MaterialItem(
+                                item: MaterialCardMaterial.fromBookmarks([bookmark.materialDetails]),
+                                usage: MaterialUsage(
+                                  characterId: bookmark.metadata.characterId,
+                                  weaponId: bookmark.materialDetails.weaponId,
                                 ),
+                                expItems: bookmark.materialDetails.weaponId == null
+                                    ? assetData.characterIngredients.expItems
+                                    : assetData.weaponIngredients.expItems,
+                                hashes: [bookmark.materialDetails.hash],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                    ],
+                      ),
                   ],
-                ),
+                ],
               ),
             );
           },

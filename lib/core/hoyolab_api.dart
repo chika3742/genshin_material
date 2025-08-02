@@ -1,3 +1,5 @@
+import "dart:async";
+import "dart:collection";
 import "dart:convert";
 import "dart:developer";
 import "dart:math" hide log;
@@ -10,6 +12,8 @@ import "package:http/http.dart" as http;
 import "../constants/remote_config_key.dart";
 import "../i18n/strings.g.dart";
 import "../models/hoyolab_api.dart";
+
+const maxBatchComputeItems = 8;
 
 class HoyolabApi {
   HoyolabApi({this.cookie, this.region, this.uid, http.Client? client})
@@ -29,7 +33,11 @@ class HoyolabApi {
   final String? region;
   final String? uid;
 
-  static const hoyolabAppVersion = "3.0.1";
+  static const hoyolabAppVersion = "3.12.0";
+
+  static final queue = ApiRequestQueue(
+    interval: const Duration(milliseconds: 500),
+  );
 
   Map<String, String> get headers => {
     "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) miHoYoBBSOversea/$hoyolabAppVersion",
@@ -169,12 +177,18 @@ class HoyolabApi {
 
     const endpoint = "https://sg-public-api.hoyolab.com/event/calculateos/batch_compute";
 
-    log("Request body: ${jsonEncode({
+    final body = jsonEncode({
       "items": items.map((e) => e.toJson()).toList(),
       "uid": uid,
       "region": region,
       "lang": lang,
-    })}");
+    });
+
+    if (items.length > maxBatchComputeItems) {
+      throw ArgumentError("Batch compute items cannot exceed $maxBatchComputeItems items.");
+    }
+
+    log("Request body: $body");
 
     return _errorHandledThen(
       client.post(
@@ -182,12 +196,7 @@ class HoyolabApi {
         headers: {
           ...headers,
         },
-        body: jsonEncode({
-          "items": items.map((e) => e.toJson()).toList(),
-          "uid": uid,
-          "region": region,
-          "lang": lang,
-        }),
+        body: body,
       ),
       (obj) => CalcResult.fromJson(obj as Map<String, dynamic>),
     );
@@ -285,34 +294,51 @@ class HoyolabApiUtils {
 
     return null;
   }
-
-  // static Future<List<AvatarListResultItem>> fetchAllCharacters(String region, String uid) async {
-  //   Future<List<AvatarListResultItem>> apiCall(int page) async {
-  //     final result = await HoyolabApi(cookie: await getHoyolabCookie(), region: region, uid: uid).avatarList(page);
-  //     return result.list;
-  //   }
-  //
-  //   var page = 1;
-  //   final result = <AvatarListResultItem>[];
-  //   while (true) {
-  //     final callResult = await apiCall(page);
-  //
-  //     if (callResult.isEmpty) {
-  //       break;
-  //     }
-  //
-  //     await Future.delayed(const Duration(milliseconds: 100));
-  //
-  //     result.addAll(callResult);
-  //     page++;
-  //   }
-  //
-  //   return result;
-  // }
 }
 
 enum HoyolabApiParams {
   cookie,
   region,
   uid,
+}
+
+class ApiRequestQueue {
+  ApiRequestQueue({required this.interval});
+
+  final Duration interval;
+  final Queue<Future<void> Function()> _queue = Queue();
+  bool _isProcessing = false;
+  DateTime? _lastRun;
+
+  Future<T> run<T>(FutureOr<T> Function() action) async {
+    final completer = Completer<T>();
+    _queue.add(() async {
+      try {
+        final result = await action();
+        completer.complete(result);
+      } catch (e, st) {
+        completer.completeError(e, st);
+      }
+    });
+
+    if (!_isProcessing) {
+      _processQueue();
+    }
+
+    return completer.future;
+  }
+
+  Future<void> _processQueue() async {
+    _isProcessing = true;
+    while (_queue.isNotEmpty) {
+      final now = DateTime.now();
+      if (_lastRun != null && now.difference(_lastRun!) < interval) {
+        await Future.delayed(interval - now.difference(_lastRun!));
+      }
+      final task = _queue.removeFirst();
+      await task();
+      _lastRun = DateTime.now();
+    }
+    _isProcessing = false;
+  }
 }

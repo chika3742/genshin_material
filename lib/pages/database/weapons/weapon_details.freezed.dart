@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$WeaponDetailsPageState {
   Map<Purpose, LevelRangeValues> get rangeValues;
   CharacterId get selectedCharacterId;
+  Map<String, int> get lackNums;
 
   /// Create a copy of _WeaponDetailsPageState
   /// with the given fields replaced by the non-null parameter values.
@@ -33,16 +34,20 @@ mixin _$WeaponDetailsPageState {
             const DeepCollectionEquality()
                 .equals(other.rangeValues, rangeValues) &&
             (identical(other.selectedCharacterId, selectedCharacterId) ||
-                other.selectedCharacterId == selectedCharacterId));
+                other.selectedCharacterId == selectedCharacterId) &&
+            const DeepCollectionEquality().equals(other.lackNums, lackNums));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(rangeValues), selectedCharacterId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(rangeValues),
+      selectedCharacterId,
+      const DeepCollectionEquality().hash(lackNums));
 
   @override
   String toString() {
-    return '_WeaponDetailsPageState(rangeValues: $rangeValues, selectedCharacterId: $selectedCharacterId)';
+    return '_WeaponDetailsPageState(rangeValues: $rangeValues, selectedCharacterId: $selectedCharacterId, lackNums: $lackNums)';
   }
 }
 
@@ -54,7 +59,8 @@ abstract mixin class _$WeaponDetailsPageStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<Purpose, LevelRangeValues> rangeValues,
-      CharacterId selectedCharacterId});
+      CharacterId selectedCharacterId,
+      Map<String, int> lackNums});
 }
 
 /// @nodoc
@@ -72,6 +78,7 @@ class __$WeaponDetailsPageStateCopyWithImpl<$Res>
   $Res call({
     Object? rangeValues = null,
     Object? selectedCharacterId = null,
+    Object? lackNums = null,
   }) {
     return _then(_self.copyWith(
       rangeValues: null == rangeValues
@@ -82,6 +89,10 @@ class __$WeaponDetailsPageStateCopyWithImpl<$Res>
           ? _self.selectedCharacterId
           : selectedCharacterId // ignore: cast_nullable_to_non_nullable
               as CharacterId,
+      lackNums: null == lackNums
+          ? _self.lackNums
+          : lackNums // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
     ));
   }
 }
@@ -91,8 +102,10 @@ class __$WeaponDetailsPageStateCopyWithImpl<$Res>
 class __WeaponDetailsPageState extends _WeaponDetailsPageState {
   const __WeaponDetailsPageState(
       {required final Map<Purpose, LevelRangeValues> rangeValues,
-      required this.selectedCharacterId})
+      required this.selectedCharacterId,
+      required final Map<String, int> lackNums})
       : _rangeValues = rangeValues,
+        _lackNums = lackNums,
         super._();
 
   final Map<Purpose, LevelRangeValues> _rangeValues;
@@ -105,6 +118,13 @@ class __WeaponDetailsPageState extends _WeaponDetailsPageState {
 
   @override
   final CharacterId selectedCharacterId;
+  final Map<String, int> _lackNums;
+  @override
+  Map<String, int> get lackNums {
+    if (_lackNums is EqualUnmodifiableMapView) return _lackNums;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_lackNums);
+  }
 
   /// Create a copy of _WeaponDetailsPageState
   /// with the given fields replaced by the non-null parameter values.
@@ -123,16 +143,20 @@ class __WeaponDetailsPageState extends _WeaponDetailsPageState {
             const DeepCollectionEquality()
                 .equals(other._rangeValues, _rangeValues) &&
             (identical(other.selectedCharacterId, selectedCharacterId) ||
-                other.selectedCharacterId == selectedCharacterId));
+                other.selectedCharacterId == selectedCharacterId) &&
+            const DeepCollectionEquality().equals(other._lackNums, _lackNums));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_rangeValues), selectedCharacterId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_rangeValues),
+      selectedCharacterId,
+      const DeepCollectionEquality().hash(_lackNums));
 
   @override
   String toString() {
-    return '_WeaponDetailsPageState(rangeValues: $rangeValues, selectedCharacterId: $selectedCharacterId)';
+    return '_WeaponDetailsPageState(rangeValues: $rangeValues, selectedCharacterId: $selectedCharacterId, lackNums: $lackNums)';
   }
 }
 
@@ -146,7 +170,8 @@ abstract mixin class _$_WeaponDetailsPageStateCopyWith<$Res>
   @useResult
   $Res call(
       {Map<Purpose, LevelRangeValues> rangeValues,
-      CharacterId selectedCharacterId});
+      CharacterId selectedCharacterId,
+      Map<String, int> lackNums});
 }
 
 /// @nodoc
@@ -164,6 +189,7 @@ class __$_WeaponDetailsPageStateCopyWithImpl<$Res>
   $Res call({
     Object? rangeValues = null,
     Object? selectedCharacterId = null,
+    Object? lackNums = null,
   }) {
     return _then(__WeaponDetailsPageState(
       rangeValues: null == rangeValues
@@ -174,6 +200,10 @@ class __$_WeaponDetailsPageStateCopyWithImpl<$Res>
           ? _self.selectedCharacterId
           : selectedCharacterId // ignore: cast_nullable_to_non_nullable
               as CharacterId,
+      lackNums: null == lackNums
+          ? _self._lackNums
+          : lackNums // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
     ));
   }
 }

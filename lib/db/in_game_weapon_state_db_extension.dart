@@ -1,6 +1,7 @@
 import "package:drift/drift.dart";
 
 import "../database.dart";
+import "../models/common.dart";
 
 extension InGameWeaponStateDbExtension on AppDatabase {
   Future<int> setWeaponLevels(String uid, String characterId, String weaponId, int level) async {
@@ -9,15 +10,14 @@ extension InGameWeaponStateDbExtension on AppDatabase {
         uid: uid,
         characterId: characterId,
         weaponId: weaponId,
-        level: level,
+        purposes: { Purpose.ascension: level },
       ),
     );
   }
 
-  Future<int?> getWeaponLevel(String uid, String characterId, String weaponId) async {
+  Future<InGameWeaponState?> getWeaponState(String uid, String characterId, String weaponId) {
     final query = select(inGameWeaponStateTable)
       ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId) & tbl.weaponId.equals(weaponId));
-    final info = await query.getSingleOrNull();
-    return info?.level;
+    return query.getSingleOrNull();
   }
 }

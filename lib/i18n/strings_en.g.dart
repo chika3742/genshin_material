@@ -492,6 +492,7 @@ class _TranslationsHoyolabEn extends TranslationsHoyolabJa {
 	@override String get syncBagCounts => 'Synchronize Bag Counts';
 	@override String get mustBeResonatedWithStatue => 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
 	@override String get weaponNotEquipped => 'This character does not equip this weapon.';
+	@override String get unknownError => 'An unknown error occurred.';
 	@override String get charaSyncSuccess => 'Successfully synced game data';
 }
 
@@ -761,6 +762,7 @@ extension on TranslationsEn {
 			case 'hoyolab.syncBagCounts': return 'Synchronize Bag Counts';
 			case 'hoyolab.mustBeResonatedWithStatue': return 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
 			case 'hoyolab.weaponNotEquipped': return 'This character does not equip this weapon.';
+			case 'hoyolab.unknownError': return 'An unknown error occurred.';
 			case 'hoyolab.charaSyncSuccess': return 'Successfully synced game data';
 			case 'whereToGet.chests': return 'Chests, Quests';
 			default: return null;
