@@ -11,7 +11,6 @@ import "../../../components/center_text.dart";
 import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/level_slider.dart";
-import "../../../components/material_card.dart";
 import "../../../components/material_slider.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
