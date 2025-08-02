@@ -13,6 +13,8 @@ import "../constants/remote_config_key.dart";
 import "../i18n/strings.g.dart";
 import "../models/hoyolab_api.dart";
 
+const maxBatchComputeItems = 8;
+
 class HoyolabApi {
   HoyolabApi({this.cookie, this.region, this.uid, http.Client? client})
       : client = client ?? http.Client() {
@@ -182,8 +184,8 @@ class HoyolabApi {
       "lang": lang,
     });
 
-    if (items.length > 8) {
-      throw ArgumentError("Batch compute items cannot exceed 8 items.");
+    if (items.length > maxBatchComputeItems) {
+      throw ArgumentError("Batch compute items cannot exceed $maxBatchComputeItems items.");
     }
 
     log("Request body: $body");
