@@ -320,7 +320,7 @@ Map<Purpose, int> _toCharacterLevels(AvatarListResultItem charaInfo) {
       0 => Purpose.normalAttack,
       1 => Purpose.elementalSkill,
       2 => Purpose.elementalBurst,
-      _ => throw "Invalid talent index",
+      _ => throw ArgumentError("Invalid talent index"),
     };
     result[purpose] = element.currentLevel;
   });
