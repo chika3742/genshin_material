@@ -53,10 +53,12 @@ jobs:
 
       - name: Build iOS
         run: |
+          asset_channel=$([[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] && echo "prod" || echo "dev")
           fvm flutter build ipa\
             --build-number ${{ needs.build-attr.outputs.BUILD_NUM }}\
             --build-name ${{ needs.build-attr.outputs.BUILD_NAME }}\
-            --export-options-plist ios/ExportOptions.plist
+            --export-options-plist ios/ExportOptions.plist\
+            --dart-define=ASSET_CHANNEL=$asset_channel
 
       - name: Deploy to TestFlight
         working-directory: ios
@@ -106,9 +108,11 @@ jobs:
 
       - name: Build Android
         run: |
+          asset_channel=$([[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] && echo "prod" || echo "dev")
           fvm flutter build appbundle\
             --build-number ${{ needs.build-attr.outputs.BUILD_NUM }}\
-            --build-name ${{ needs.build-attr.outputs.BUILD_NAME }}
+            --build-name ${{ needs.build-attr.outputs.BUILD_NAME }}\
+            --dart-define=ASSET_CHANNEL=$asset_channel
 
       - name: Deploy to Play Store
         working-directory: android

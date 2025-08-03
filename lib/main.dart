@@ -27,6 +27,10 @@ import "routes.dart";
 late final SharedPreferencesWithCache spInstance;
 
 const isScreenshotMode = bool.fromEnvironment("SCREENSHOT_MODE");
+const assetChannel = String.fromEnvironment(
+  "ASSET_CHANNEL",
+  defaultValue: kReleaseMode ? "prod" : "dev",
+);
 
 bool linkedWithHoyolab = false;
 bool get disableImages => (Platform.isIOS || Platform.isMacOS) && !linkedWithHoyolab;

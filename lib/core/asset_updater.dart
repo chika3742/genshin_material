@@ -11,6 +11,7 @@ import "package:path_provider/path_provider.dart";
 import "package:uuid/uuid.dart";
 
 import "../constants/urls.dart";
+import "../main.dart";
 import "../models/asset_release_version.dart";
 import "../models/common.dart";
 import "asset_cache.dart";
@@ -37,7 +38,7 @@ class AssetUpdater {
   /// Checks for updates and sets [foundUpdate] if an update is available.
   /// When [force] is true, it will always sets [foundUpdate] to the latest release.
   Future<void> checkForUpdate({bool force = false}) async {
-    final releases = await _fetchAssetRelease(kReleaseMode ? "prod" : "dev");
+    final releases = await _fetchAssetRelease(assetChannel);
     final latestRelease = releases.reduce((value, element) =>
     value.createdAt.isAfter(element.createdAt) ? value : element,);
 
