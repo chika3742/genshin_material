@@ -176,6 +176,8 @@ morePage:
   githubDesc: 本アプリのソースコードを閲覧できます。
   buyMeACoffee: コーヒーをおごる
   buyMeACoffeeDesc: だいぶ喜びます。
+  x: X（告知用）
+  xDesc: 本アプリに関するお知らせを掲載しています。
 releaseNotesPage:
   featureUpdates: 機能更新
   assetUpdates: データ更新

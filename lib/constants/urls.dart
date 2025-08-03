@@ -11,3 +11,5 @@ const teyvatMapUrl = "https://act.hoyolab.com/ys/app/interactive-map/#/map/2";
 const githubUrl = "https://github.com/chika3742/genshin_material";
 
 const koFiUrl = "https://ko-fi.com/chika3742";
+
+const officialXUrl = "https://x.com/gms_material";

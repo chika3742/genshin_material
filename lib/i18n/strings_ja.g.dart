@@ -393,6 +393,8 @@ class TranslationsMorePageJa {
 	String get githubDesc => '本アプリのソースコードを閲覧できます。';
 	String get buyMeACoffee => 'コーヒーをおごる';
 	String get buyMeACoffeeDesc => 'だいぶ喜びます。';
+	String get x => 'X（告知用）';
+	String get xDesc => '本アプリに関するお知らせを掲載しています。';
 }
 
 // Path: releaseNotesPage
@@ -678,6 +680,8 @@ extension on Translations {
 			case 'morePage.githubDesc': return '本アプリのソースコードを閲覧できます。';
 			case 'morePage.buyMeACoffee': return 'コーヒーをおごる';
 			case 'morePage.buyMeACoffeeDesc': return 'だいぶ喜びます。';
+			case 'morePage.x': return 'X（告知用）';
+			case 'morePage.xDesc': return '本アプリに関するお知らせを掲載しています。';
 			case 'releaseNotesPage.featureUpdates': return '機能更新';
 			case 'releaseNotesPage.assetUpdates': return 'データ更新';
 			case 'settingsPage.display': return '表示';

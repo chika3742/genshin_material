@@ -12,6 +12,7 @@ class SimpleListTile extends StatelessWidget {
   final String? title;
   final String? subtitle;
   final IconData? leadingIcon;
+  final Widget? leading;
   final IconData? trailingIcon;
   final bool enabled;
   final Color? tileColor;
@@ -27,19 +28,22 @@ class SimpleListTile extends StatelessWidget {
     this.title,
     this.subtitle,
     this.leadingIcon,
+    this.leading,
     this.trailingIcon,
     this.enabled = true,
     this.tileColor,
     this.location,
     this.onTap,
-  })  : assert(location == null || onTap == null);
+  })  : assert(location == null || onTap == null),
+        assert(leadingIcon == null || leading == null,
+          "Leading icon and leading widget cannot be both set");
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: title != null ? Text(title!) : null,
       subtitle: subtitle != null ? Text(subtitle!) : null,
-      leading: leadingIcon != null ? Icon(leadingIcon) : null,
+      leading: leading ?? (leadingIcon != null ? Icon(leadingIcon) : null),
       enabled: enabled,
       tileColor: tileColor,
       trailing: trailingIcon != null

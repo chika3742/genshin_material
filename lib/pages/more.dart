@@ -2,6 +2,7 @@ import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:flutter_svg/flutter_svg.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 import "package:url_launcher/url_launcher_string.dart";
 
@@ -69,6 +70,21 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
                 launchCustomTab(rc.getString(RemoteConfigKey.bannerActionUrl));
               },
             ),
+          SimpleListTile(
+            title: tr.morePage.x,
+            subtitle: tr.morePage.xDesc,
+            leading: SvgPicture.asset(
+              "assets/vectors/X_logo.svg",
+              width: 20,
+              height: 20,
+              colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.onSurface, BlendMode.srcIn),
+            ),
+            trailingIcon: Symbols.open_in_new,
+            onTap: () {
+              launchUrlString(officialXUrl, mode: LaunchMode.externalApplication);
+            },
+          ),
           SimpleListTile(
             title: tr.morePage.github,
             subtitle: tr.morePage.githubDesc,

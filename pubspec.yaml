@@ -62,6 +62,7 @@ dependencies:
   firebase_crashlytics: 4.3.9
   firebase_remote_config: 5.4.7
   signed_spacing_flex: ^1.1.0
+  flutter_svg: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -107,6 +108,7 @@ flutter:
     - assets/
     - assets/google_fonts/
     - assets/img/
+    - assets/vectors/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
