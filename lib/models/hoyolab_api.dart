@@ -80,7 +80,7 @@ sealed class AvatarListResultItem with _$AvatarListResultItem, WithId {
   const factory AvatarListResultItem({
     required int id,
     required String name,
-    @JsonKey(name: "level_current") required String currentLevel,
+    @JsonKey(name: "level_current") required int currentLevel,
     @JsonKey(name: "max_level") required int maxLevel,
     @JsonKey(name: "skill_list") required List<AvatarSkill> skills,
     AvatarWeapon? weapon,

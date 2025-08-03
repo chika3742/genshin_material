@@ -308,7 +308,7 @@ class _BagLackNumProviderElement
       (origin as BagLackNumProvider).entries;
 }
 
-String _$gameDataSyncStateHash() => r'58fb6cab5ad0adbc07330133cef84d52c4aa8f72';
+String _$gameDataSyncStateHash() => r'41c876c4390a8315522ace0cf86343f0f891e50a';
 
 /// See also [gameDataSyncState].
 @ProviderFor(gameDataSyncState)

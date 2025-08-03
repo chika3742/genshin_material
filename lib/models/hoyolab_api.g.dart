@@ -93,7 +93,7 @@ _AvatarListResultItem _$AvatarListResultItemFromJson(
     _AvatarListResultItem(
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
-      currentLevel: json['level_current'] as String,
+      currentLevel: (json['level_current'] as num).toInt(),
       maxLevel: (json['max_level'] as num).toInt(),
       skills: (json['skill_list'] as List<dynamic>)
           .map((e) => AvatarSkill.fromJson(e as Map<String, dynamic>))

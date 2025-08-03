@@ -243,7 +243,7 @@ GameDataSyncStatus gameDataSyncState(Ref ref, { required String variantId, Strin
     ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variantId, weaponId: weaponId))),
   ];
 
-  final syncResult = snapshots.first.value as GameDataSyncResult?;
+  final syncResult = snapshots.first.valueOrNull as GameDataSyncResult?;
 
   if (snapshots.any((snapshot) => snapshot.isLoading) || syncResult?.isStale == true) {
     return const GameDataSyncStatus.syncing();
@@ -312,7 +312,7 @@ sealed class GameDataSyncResult with _$GameDataSyncResult {
 Map<Purpose, int> _toCharacterLevels(AvatarListResultItem charaInfo) {
   final result = <Purpose, int>{};
 
-  result[Purpose.ascension] = int.parse(charaInfo.currentLevel);
+  result[Purpose.ascension] = charaInfo.currentLevel;
 
   final skills = charaInfo.skills.where((element) => element.maxLevel != 1);
   skills.forEachIndexed((index, element) {

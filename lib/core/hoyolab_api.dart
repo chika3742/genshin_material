@@ -80,7 +80,7 @@ class HoyolabApi {
   Future<AvatarListResult> avatarList(int page, {List<int> elementIds = const [], List<int> weaponCatIds = const []}) {
     _ensureRequiredParams();
 
-    const url = "https://sg-public-api.hoyolab.com/event/e20200928calculate/v1/avatar/list";
+    const url = "https://sg-public-api.hoyolab.com/event/e20200928calculate/v1/sync/avatar/list";
     return _errorHandledThen(
       client.post(
         Uri.parse(url),

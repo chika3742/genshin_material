@@ -363,7 +363,7 @@ mixin _$AvatarListResultItem {
   int get id;
   String get name;
   @JsonKey(name: "level_current")
-  String get currentLevel;
+  int get currentLevel;
   @JsonKey(name: "max_level")
   int get maxLevel;
   @JsonKey(name: "skill_list")
@@ -420,7 +420,7 @@ class _AvatarListResultItem extends AvatarListResultItem {
   final String name;
   @override
   @JsonKey(name: "level_current")
-  final String currentLevel;
+  final int currentLevel;
   @override
   @JsonKey(name: "max_level")
   final int maxLevel;
