@@ -119,6 +119,14 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
               launchCustomTab(privacyPolicyUrl);
             },
           ),
+          SimpleListTile(
+            title: tr.settingsPage.openSourceLicenses,
+            leadingIcon: Symbols.license,
+            trailingIcon: Symbols.chevron_forward,
+            onTap: () {
+              LicensesRoute().go(context);
+            },
+          ),
           if (!kReleaseMode) SimpleListTile(
             title: "Debug Menu",
             location: DebugMenuRoute().location,

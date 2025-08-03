@@ -8,7 +8,6 @@ import "../i18n/strings.g.dart";
 import "../models/common.dart";
 import "../providers/asset_updating_state.dart";
 import "../providers/preferences.dart";
-import "../routes.dart";
 import "../ui_core/bottom_sheet.dart";
 
 class SettingsPage extends HookConsumerWidget {
@@ -76,14 +75,6 @@ class SettingsPage extends HookConsumerWidget {
             enabled: !updatingState.state.isBusy,
             onTap: () {
               ref.read(assetUpdatingStateNotifierProvider.notifier).checkForUpdate(silent: false, force: true);
-            },
-          ),
-          ListSubheader(tr.settingsPage.others),
-          SimpleListTile(
-            title: tr.settingsPage.openSourceLicenses,
-            trailingIcon: Symbols.chevron_forward,
-            onTap: () {
-              LicensesRoute().go(context);
             },
           ),
         ],

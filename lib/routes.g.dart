@@ -107,13 +107,6 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                   path: 'settings',
                   parentNavigatorKey: SettingsRoute.$parentNavigatorKey,
                   factory: _$SettingsRoute._fromState,
-                  routes: [
-                    GoRouteData.$route(
-                      path: 'licenses',
-                      parentNavigatorKey: LicensesRoute.$parentNavigatorKey,
-                      factory: _$LicensesRoute._fromState,
-                    ),
-                  ],
                 ),
                 GoRouteData.$route(
                   path: 'account',
@@ -138,6 +131,11 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                       factory: _$HoyolabSignInRoute._fromState,
                     ),
                   ],
+                ),
+                GoRouteData.$route(
+                  path: 'licenses',
+                  parentNavigatorKey: LicensesRoute.$parentNavigatorKey,
+                  factory: _$LicensesRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'debug',
@@ -576,28 +574,6 @@ mixin _$SettingsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$LicensesRoute on GoRouteData {
-  static LicensesRoute _fromState(GoRouterState state) => LicensesRoute();
-
-  @override
-  String get location => GoRouteData.$location(
-        '/more/settings/licenses',
-      );
-
-  @override
-  void go(BuildContext context) => context.go(location);
-
-  @override
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  @override
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  @override
-  void replace(BuildContext context) => context.replace(location);
-}
-
 mixin _$AccountRoute on GoRouteData {
   static AccountRoute _fromState(GoRouterState state) => AccountRoute();
 
@@ -681,6 +657,28 @@ mixin _$HoyolabSignInRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
         '/more/hoyolab-integration/sign-in',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$LicensesRoute on GoRouteData {
+  static LicensesRoute _fromState(GoRouterState state) => LicensesRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/more/licenses',
       );
 
   @override

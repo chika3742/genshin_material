@@ -98,19 +98,18 @@ part "routes.g.dart";
         TypedGoRoute<MoreNavRoute>(
           path: "/more",
           routes: [
-            TypedGoRoute<SettingsRoute>(path: "settings", routes: [
-              TypedGoRoute<LicensesRoute>(path: "licenses"),
-            ],),
+            TypedGoRoute<SettingsRoute>(path: "settings"),
             TypedGoRoute<AccountRoute>(path: "account"),
             TypedGoRoute<ReleaseNotesRoute>(path: "release-notes"),
             TypedGoRoute<HoyolabIntegrationSettingsRoute>(path: "hoyolab-integration", routes: [
               TypedGoRoute<HoyolabSignInRoute>(path: "sign-in"),
-            ],),
+            ]),
+            TypedGoRoute<LicensesRoute>(path: "licenses"),
             TypedGoRoute<DebugMenuRoute>(path: "debug", routes: [
               TypedGoRoute<DebugSharedPreferencesEditorRoute>(path: "sp-editor"),
               TypedGoRoute<DebugDriftDbViewerRoute>(path: "drift-db-viewer"),
               TypedGoRoute<DebugComponentGalleryRoute>(path: "component-gallery"),
-            ],),
+            ]),
           ],
         ),
       ],
