@@ -11,6 +11,7 @@ import "../../components/list_subheader.dart";
 import "../../core/hoyolab_api.dart";
 import "../../core/secure_storage.dart";
 import "../../i18n/strings.g.dart";
+import "../../main.dart";
 import "../../models/hoyolab_api.dart";
 import "../../providers/miscellaneous.dart";
 import "../../providers/preferences.dart";
@@ -60,6 +61,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
               if (result != null && context.mounted) {
                 await _signInToHoyolab(result);
                 isSignedIn.value = await hasHoyolabCookie();
+                linkedWithHoyolab = isSignedIn.value;
               }
             },
           ),
