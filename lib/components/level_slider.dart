@@ -325,6 +325,7 @@ class LevelSlider extends HookWidget {
               height: textPainter.size.height + _levelFieldVerticalPadding,
               child: TextField(
                 controller: controller,
+                keyboardType: TextInputType.number,
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(_levelFieldMaxLength),
                 ],
