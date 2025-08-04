@@ -103,14 +103,11 @@ bookmarksPage:
   byPurpose: Purpose
   byMaterial: Material
 characterDetailsPage: 
-  charaLevelUpAndAscensionMaterials: Character Lv Up & Ascension Materials
-  talentLevelUpMaterials: Talent Lv Up Materials
   equippedWeapon: Equipped Weapon
 weaponDetailsPage: 
   characterToEquip: Character to Equip this Weapon
   skillEffect: Skill Effect
-  ascension: Weapon Lv Up & Ascension Materials
-materialDetailsPage: 
+materialDetailsPage:
   charactersUsing: Characters Using This Material
   weaponsUsing: Weapons Using This Material
   availableToday: Available Today
@@ -154,15 +151,12 @@ dailyPage:
 resinCalcPage: 
   currentResin: Current Resin
   resin: Resin
-  baseTime: Base Time
-  fullRecoveryTime: Full Recovery Time
   recoveryTime: Recovered At
   untilRecovery: Recover In
   fullyReplenishedAt(rich): ${text(fully replenished at)} $time
   recoversIn(rich): $time ${text(left)}
   asOf(rich): (${text(as of)} $time)
   recoveredTime: Recovered Time
-  untilFullRecovery: Until Full Recovery
   wastedResin: Wasted Resin
   tomorrow: Tomorrow
   alreadyFull: Already fully recovered
@@ -193,7 +187,6 @@ settingsPage:
   checkAssetUpdateDesc: Check for updates to the app's assets.
   reDownloadAssets: Re-download Assets
   reDownloadAssetsDesc: Please try this if the assets of the app are not loading properly.
-  others: Others
   openSourceLicenses: Open Source Licenses
 hoyolab: 
   signIn: Sign in to HoYoLAB
@@ -227,21 +220,12 @@ hoyolab:
   doYouWantToEnableRealtimeNotes: Enable Real-Time Notes?
   enableRealtimeNotes: Enable Real-Time Notes
   enableRealtimeNotesDesc: You will be able to sync your current Original Resin count.
-  displaySettings: Display Settings
-  lackNumDisplayMethod: How to Display Lack of Materials
-  lackNumDisplayMethodDesc: Choose how to display the lack of materials in the material cards.
-  lackNumDisplayMethodValues(map): 
-    alternate: All Alternately
-    requiredNumOnly: Required Number Only
-    lackNumOnly: Lack Number Only
-    craftedLackNumOnly: Lack Number After Crafting Only
   syncSettings: Sync Settings
   syncResin: Sync In-Game Resin Count
   syncCharaState: Sync In-Game Character Levels
   syncWeaponState: Synchronize Weapon State
   autoRemoveBookmarks: Auto-remove bookmarks when opening a character or weapon page.
   autoRemoveBookmarksDesc: Automatically remove bookmarks for completed ascensions when opening a character or weapon page.
-  syncBagCounts: Synchronize Bag Counts
   mustBeResonatedWithStatue: This character must be resonated with the Statue of The Seven to be able to sync game data.
   weaponNotEquipped: This character does not equip this weapon.
   unknownError: An unknown error occurred.

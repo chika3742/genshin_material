@@ -256,8 +256,6 @@ class _TranslationsCharacterDetailsPageEn extends TranslationsCharacterDetailsPa
 	final TranslationsEn _root; // ignore: unused_field
 
 	// Translations
-	@override String get charaLevelUpAndAscensionMaterials => 'Character Lv Up & Ascension Materials';
-	@override String get talentLevelUpMaterials => 'Talent Lv Up Materials';
 	@override String get equippedWeapon => 'Equipped Weapon';
 }
 
@@ -270,7 +268,6 @@ class _TranslationsWeaponDetailsPageEn extends TranslationsWeaponDetailsPageJa {
 	// Translations
 	@override String get characterToEquip => 'Character to Equip this Weapon';
 	@override String get skillEffect => 'Skill Effect';
-	@override String get ascension => 'Weapon Lv Up & Ascension Materials';
 }
 
 // Path: materialDetailsPage
@@ -364,8 +361,6 @@ class _TranslationsResinCalcPageEn extends TranslationsResinCalcPageJa {
 	// Translations
 	@override String get currentResin => 'Current Resin';
 	@override String get resin => 'Resin';
-	@override String get baseTime => 'Base Time';
-	@override String get fullRecoveryTime => 'Full Recovery Time';
 	@override String get recoveryTime => 'Recovered At';
 	@override String get untilRecovery => 'Recover In';
 	@override TextSpan fullyReplenishedAt({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
@@ -386,7 +381,6 @@ class _TranslationsResinCalcPageEn extends TranslationsResinCalcPageJa {
 		const TextSpan(text: ')'),
 	]);
 	@override String get recoveredTime => 'Recovered Time';
-	@override String get untilFullRecovery => 'Until Full Recovery';
 	@override String get wastedResin => 'Wasted Resin';
 	@override String get tomorrow => 'Tomorrow';
 	@override String get alreadyFull => 'Already fully recovered';
@@ -439,7 +433,6 @@ class _TranslationsSettingsPageEn extends TranslationsSettingsPageJa {
 	@override String get checkAssetUpdateDesc => 'Check for updates to the app\'s assets.';
 	@override String get reDownloadAssets => 'Re-download Assets';
 	@override String get reDownloadAssetsDesc => 'Please try this if the assets of the app are not loading properly.';
-	@override String get others => 'Others';
 	@override String get openSourceLicenses => 'Open Source Licenses';
 }
 
@@ -477,22 +470,12 @@ class _TranslationsHoyolabEn extends TranslationsHoyolabJa {
 	@override String get doYouWantToEnableRealtimeNotes => 'Enable Real-Time Notes?';
 	@override String get enableRealtimeNotes => 'Enable Real-Time Notes';
 	@override String get enableRealtimeNotesDesc => 'You will be able to sync your current Original Resin count.';
-	@override String get displaySettings => 'Display Settings';
-	@override String get lackNumDisplayMethod => 'How to Display Lack of Materials';
-	@override String get lackNumDisplayMethodDesc => 'Choose how to display the lack of materials in the material cards.';
-	@override Map<String, String> get lackNumDisplayMethodValues => {
-		'alternate': 'All Alternately',
-		'requiredNumOnly': 'Required Number Only',
-		'lackNumOnly': 'Lack Number Only',
-		'craftedLackNumOnly': 'Lack Number After Crafting Only',
-	};
 	@override String get syncSettings => 'Sync Settings';
 	@override String get syncResin => 'Sync In-Game Resin Count';
 	@override String get syncCharaState => 'Sync In-Game Character Levels';
 	@override String get syncWeaponState => 'Synchronize Weapon State';
 	@override String get autoRemoveBookmarks => 'Auto-remove bookmarks when opening a character or weapon page.';
 	@override String get autoRemoveBookmarksDesc => 'Automatically remove bookmarks for completed ascensions when opening a character or weapon page.';
-	@override String get syncBagCounts => 'Synchronize Bag Counts';
 	@override String get mustBeResonatedWithStatue => 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
 	@override String get weaponNotEquipped => 'This character does not equip this weapon.';
 	@override String get unknownError => 'An unknown error occurred.';
@@ -632,12 +615,9 @@ extension on TranslationsEn {
 			case 'bookmarksPage.unBookmarkConfirm': return 'Remove this bookmark?';
 			case 'bookmarksPage.byPurpose': return 'Purpose';
 			case 'bookmarksPage.byMaterial': return 'Material';
-			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'Character Lv Up & Ascension Materials';
-			case 'characterDetailsPage.talentLevelUpMaterials': return 'Talent Lv Up Materials';
 			case 'characterDetailsPage.equippedWeapon': return 'Equipped Weapon';
 			case 'weaponDetailsPage.characterToEquip': return 'Character to Equip this Weapon';
 			case 'weaponDetailsPage.skillEffect': return 'Skill Effect';
-			case 'weaponDetailsPage.ascension': return 'Weapon Lv Up & Ascension Materials';
 			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
 			case 'materialDetailsPage.weaponsUsing': return 'Weapons Using This Material';
 			case 'materialDetailsPage.availableToday': return 'Available Today';
@@ -675,8 +655,6 @@ extension on TranslationsEn {
 			case 'dailyPage.weaponMaterials': return 'Weapon Materials';
 			case 'resinCalcPage.currentResin': return 'Current Resin';
 			case 'resinCalcPage.resin': return 'Resin';
-			case 'resinCalcPage.baseTime': return 'Base Time';
-			case 'resinCalcPage.fullRecoveryTime': return 'Full Recovery Time';
 			case 'resinCalcPage.recoveryTime': return 'Recovered At';
 			case 'resinCalcPage.untilRecovery': return 'Recover In';
 			case 'resinCalcPage.fullyReplenishedAt': return ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
@@ -697,7 +675,6 @@ extension on TranslationsEn {
 				const TextSpan(text: ')'),
 			]);
 			case 'resinCalcPage.recoveredTime': return 'Recovered Time';
-			case 'resinCalcPage.untilFullRecovery': return 'Until Full Recovery';
 			case 'resinCalcPage.wastedResin': return 'Wasted Resin';
 			case 'resinCalcPage.tomorrow': return 'Tomorrow';
 			case 'resinCalcPage.alreadyFull': return 'Already fully recovered';
@@ -723,7 +700,6 @@ extension on TranslationsEn {
 			case 'settingsPage.checkAssetUpdateDesc': return 'Check for updates to the app\'s assets.';
 			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
 			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the assets of the app are not loading properly.';
-			case 'settingsPage.others': return 'Others';
 			case 'settingsPage.openSourceLicenses': return 'Open Source Licenses';
 			case 'hoyolab.signIn': return 'Sign in to HoYoLAB';
 			case 'hoyolab.aboutHeading': return 'About HoYoLAB Link';
@@ -752,20 +728,12 @@ extension on TranslationsEn {
 			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'Enable Real-Time Notes?';
 			case 'hoyolab.enableRealtimeNotes': return 'Enable Real-Time Notes';
 			case 'hoyolab.enableRealtimeNotesDesc': return 'You will be able to sync your current Original Resin count.';
-			case 'hoyolab.displaySettings': return 'Display Settings';
-			case 'hoyolab.lackNumDisplayMethod': return 'How to Display Lack of Materials';
-			case 'hoyolab.lackNumDisplayMethodDesc': return 'Choose how to display the lack of materials in the material cards.';
-			case 'hoyolab.lackNumDisplayMethodValues.alternate': return 'All Alternately';
-			case 'hoyolab.lackNumDisplayMethodValues.requiredNumOnly': return 'Required Number Only';
-			case 'hoyolab.lackNumDisplayMethodValues.lackNumOnly': return 'Lack Number Only';
-			case 'hoyolab.lackNumDisplayMethodValues.craftedLackNumOnly': return 'Lack Number After Crafting Only';
 			case 'hoyolab.syncSettings': return 'Sync Settings';
 			case 'hoyolab.syncResin': return 'Sync In-Game Resin Count';
 			case 'hoyolab.syncCharaState': return 'Sync In-Game Character Levels';
 			case 'hoyolab.syncWeaponState': return 'Synchronize Weapon State';
 			case 'hoyolab.autoRemoveBookmarks': return 'Auto-remove bookmarks when opening a character or weapon page.';
 			case 'hoyolab.autoRemoveBookmarksDesc': return 'Automatically remove bookmarks for completed ascensions when opening a character or weapon page.';
-			case 'hoyolab.syncBagCounts': return 'Synchronize Bag Counts';
 			case 'hoyolab.mustBeResonatedWithStatue': return 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
 			case 'hoyolab.weaponNotEquipped': return 'This character does not equip this weapon.';
 			case 'hoyolab.unknownError': return 'An unknown error occurred.';

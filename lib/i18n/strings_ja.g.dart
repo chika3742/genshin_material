@@ -239,8 +239,6 @@ class TranslationsCharacterDetailsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get charaLevelUpAndAscensionMaterials => 'キャラクターLvアップ・突破素材';
-	String get talentLevelUpMaterials => '天賦Lvアップ素材';
 	String get equippedWeapon => '装備中の武器';
 }
 
@@ -253,7 +251,6 @@ class TranslationsWeaponDetailsPageJa {
 	// Translations
 	String get characterToEquip => '武器を装備させるキャラクター';
 	String get skillEffect => 'スキル効果';
-	String get ascension => '武器Lvアップ・突破素材';
 }
 
 // Path: materialDetailsPage
@@ -268,11 +265,6 @@ class TranslationsMaterialDetailsPageJa {
 	String get availableToday => '本日入手可能';
 	String get source => '入手方法';
 	String get toTeyvatMap => 'テイワットマップへ';
-	TextSpan bagCount({required InlineSpan count}) => TextSpan(children: [
-		const TextSpan(text: '現在の所持数 '),
-		count,
-	]);
-	String get bagCountInfo => '該当するキャラクターもしくは武器の詳細ページを開くと更新されます。';
 }
 
 // Path: materialCard
@@ -352,8 +344,6 @@ class TranslationsResinCalcPageJa {
 	// Translations
 	String get currentResin => '現在の樹脂数';
 	String get resin => '樹脂数';
-	String get baseTime => '入力した時刻';
-	String get fullRecoveryTime => '全回復する時刻';
 	String get recoveryTime => '回復時刻';
 	String get untilRecovery => '回復まであと';
 	TextSpan fullyReplenishedAt({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
@@ -372,7 +362,6 @@ class TranslationsResinCalcPageJa {
 		const TextSpan(text: ')'),
 	]);
 	String get recoveredTime => '全回復した時刻';
-	String get untilFullRecovery => '全回復まであと';
 	String get wastedResin => '無駄にした樹脂';
 	String get tomorrow => '明日';
 	String get alreadyFull => 'すでに全回復しました';
@@ -425,7 +414,6 @@ class TranslationsSettingsPageJa {
 	String get checkAssetUpdateDesc => 'アプリ内データのアップデートをチェックします。';
 	String get reDownloadAssets => 'アセットデータを再ダウンロード';
 	String get reDownloadAssetsDesc => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
-	String get others => 'その他';
 	String get openSourceLicenses => 'オープンソースライセンス';
 }
 
@@ -463,22 +451,12 @@ class TranslationsHoyolabJa {
 	String get doYouWantToEnableRealtimeNotes => 'リアルタイムノートを有効化しますか？';
 	String get enableRealtimeNotes => 'リアルタイムノートの有効化';
 	String get enableRealtimeNotesDesc => '現在の天然樹脂の数を同期できるようになります。';
-	String get displaySettings => '表示設定';
-	String get lackNumDisplayMethod => 'バッグ内不足数の表示方法';
-	String get lackNumDisplayMethodDesc => '素材の不足数をどのように表示するか選択します。';
-	Map<String, String> get lackNumDisplayMethodValues => {
-		'alternate': 'すべて交互に表示',
-		'requiredNumOnly': '必要数のみ表示',
-		'lackNumOnly': '不足数のみ表示',
-		'craftedLackNumOnly': '合成後の不足数のみ表示',
-	};
 	String get syncSettings => '同期設定';
 	String get syncResin => 'ゲーム内の樹脂数と同期する';
 	String get syncCharaState => 'ゲーム内のキャラレベルを同期する';
 	String get syncWeaponState => 'ゲーム内の武器レベルを同期する';
 	String get autoRemoveBookmarks => '育成完了のブックマークを自動解除する';
 	String get autoRemoveBookmarksDesc => 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。';
-	String get syncBagCounts => 'ゲーム内の素材の所持数を同期する';
 	String get mustBeResonatedWithStatue => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
 	String get weaponNotEquipped => 'このキャラクターはこの武器を装備していません。';
 	String get unknownError => '不明なエラーが発生しました。';
@@ -600,22 +578,14 @@ extension on Translations {
 			case 'bookmarksPage.unBookmarkConfirm': return 'このブックマークを解除しますか？';
 			case 'bookmarksPage.byPurpose': return '使用先';
 			case 'bookmarksPage.byMaterial': return '素材';
-			case 'characterDetailsPage.charaLevelUpAndAscensionMaterials': return 'キャラクターLvアップ・突破素材';
-			case 'characterDetailsPage.talentLevelUpMaterials': return '天賦Lvアップ素材';
 			case 'characterDetailsPage.equippedWeapon': return '装備中の武器';
 			case 'weaponDetailsPage.characterToEquip': return '武器を装備させるキャラクター';
 			case 'weaponDetailsPage.skillEffect': return 'スキル効果';
-			case 'weaponDetailsPage.ascension': return '武器Lvアップ・突破素材';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
 			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
 			case 'materialDetailsPage.availableToday': return '本日入手可能';
 			case 'materialDetailsPage.source': return '入手方法';
 			case 'materialDetailsPage.toTeyvatMap': return 'テイワットマップへ';
-			case 'materialDetailsPage.bagCount': return ({required InlineSpan count}) => TextSpan(children: [
-				const TextSpan(text: '現在の所持数 '),
-				count,
-			]);
-			case 'materialDetailsPage.bagCountInfo': return '該当するキャラクターもしくは武器の詳細ページを開くと更新されます。';
 			case 'materialCard.reBookmark': return '現在の範囲で再ブックマーク';
 			case 'materialCard.reBookmarkDesc': return '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします';
 			case 'materialCard.unBookmark': return 'ブックマークを解除';
@@ -648,8 +618,6 @@ extension on Translations {
 			case 'dailyPage.weaponMaterials': return '武器素材';
 			case 'resinCalcPage.currentResin': return '現在の樹脂数';
 			case 'resinCalcPage.resin': return '樹脂数';
-			case 'resinCalcPage.baseTime': return '入力した時刻';
-			case 'resinCalcPage.fullRecoveryTime': return '全回復する時刻';
 			case 'resinCalcPage.recoveryTime': return '回復時刻';
 			case 'resinCalcPage.untilRecovery': return '回復まであと';
 			case 'resinCalcPage.fullyReplenishedAt': return ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
@@ -668,7 +636,6 @@ extension on Translations {
 				const TextSpan(text: ')'),
 			]);
 			case 'resinCalcPage.recoveredTime': return '全回復した時刻';
-			case 'resinCalcPage.untilFullRecovery': return '全回復まであと';
 			case 'resinCalcPage.wastedResin': return '無駄にした樹脂';
 			case 'resinCalcPage.tomorrow': return '明日';
 			case 'resinCalcPage.alreadyFull': return 'すでに全回復しました';
@@ -694,7 +661,6 @@ extension on Translations {
 			case 'settingsPage.checkAssetUpdateDesc': return 'アプリ内データのアップデートをチェックします。';
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
-			case 'settingsPage.others': return 'その他';
 			case 'settingsPage.openSourceLicenses': return 'オープンソースライセンス';
 			case 'hoyolab.signIn': return 'HoYoLABにサインイン';
 			case 'hoyolab.aboutHeading': return 'HoYoLAB連携について';
@@ -723,20 +689,12 @@ extension on Translations {
 			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'リアルタイムノートを有効化しますか？';
 			case 'hoyolab.enableRealtimeNotes': return 'リアルタイムノートの有効化';
 			case 'hoyolab.enableRealtimeNotesDesc': return '現在の天然樹脂の数を同期できるようになります。';
-			case 'hoyolab.displaySettings': return '表示設定';
-			case 'hoyolab.lackNumDisplayMethod': return 'バッグ内不足数の表示方法';
-			case 'hoyolab.lackNumDisplayMethodDesc': return '素材の不足数をどのように表示するか選択します。';
-			case 'hoyolab.lackNumDisplayMethodValues.alternate': return 'すべて交互に表示';
-			case 'hoyolab.lackNumDisplayMethodValues.requiredNumOnly': return '必要数のみ表示';
-			case 'hoyolab.lackNumDisplayMethodValues.lackNumOnly': return '不足数のみ表示';
-			case 'hoyolab.lackNumDisplayMethodValues.craftedLackNumOnly': return '合成後の不足数のみ表示';
 			case 'hoyolab.syncSettings': return '同期設定';
 			case 'hoyolab.syncResin': return 'ゲーム内の樹脂数と同期する';
 			case 'hoyolab.syncCharaState': return 'ゲーム内のキャラレベルを同期する';
 			case 'hoyolab.syncWeaponState': return 'ゲーム内の武器レベルを同期する';
 			case 'hoyolab.autoRemoveBookmarks': return '育成完了のブックマークを自動解除する';
 			case 'hoyolab.autoRemoveBookmarksDesc': return 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。';
-			case 'hoyolab.syncBagCounts': return 'ゲーム内の素材の所持数を同期する';
 			case 'hoyolab.mustBeResonatedWithStatue': return '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
 			case 'hoyolab.weaponNotEquipped': return 'このキャラクターはこの武器を装備していません。';
 			case 'hoyolab.unknownError': return '不明なエラーが発生しました。';
