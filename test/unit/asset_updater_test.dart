@@ -76,7 +76,7 @@ void main() {
           schemaVersion: 1,
         ),
       ];
-      return http.Response(JsonCodec().encode(data), 200);
+      return http.Response(jsonEncode(data), 200);
     });
 
     AssetUpdater updater = AssetUpdater(
