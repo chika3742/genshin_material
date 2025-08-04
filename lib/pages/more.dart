@@ -8,12 +8,12 @@ import "package:url_launcher/url_launcher_string.dart";
 
 import "../../../components/list_tile.dart";
 import "../../../constants/urls.dart";
-import "../../../core/handle_error.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../providers/versions.dart";
 import "../../../routes.dart";
 import "../../../ui_core/custom_tabs.dart";
 import "../constants/remote_config_key.dart";
+import "../core/errors.dart";
 
 class MorePage extends ConsumerStatefulWidget {
   const MorePage({super.key});

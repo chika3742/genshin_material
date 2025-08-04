@@ -3,6 +3,7 @@ import "dart:io";
 import "package:drift/remote.dart";
 
 import "../core/asset_updater.dart";
+import "../core/errors.dart";
 import "../core/hoyolab_api.dart";
 import "../core/secure_storage.dart";
 import "../i18n/strings.g.dart";
@@ -19,6 +20,7 @@ String getErrorMessage(Object? error, {String prefix = ""}) {
       _ => "($originalMessage)",
     },
     DriftRemoteException() => tr.errors.dbError,
+    NoCompatibleAssetException() => tr.updates.noCompatibleAsset,
     _ => "",
   };
 }

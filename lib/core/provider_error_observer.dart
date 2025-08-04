@@ -1,6 +1,6 @@
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
-import "handle_error.dart";
+import "errors.dart";
 
 class ProviderErrorObserver extends ProviderObserver {
   @override

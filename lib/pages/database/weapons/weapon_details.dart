@@ -100,8 +100,6 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(preferencesStateNotifierProvider);
-
     final ingredients = assetData.weaponIngredients;
     final levelsEntry = ingredients.getLevels(
       rarity: weapon.rarity,
