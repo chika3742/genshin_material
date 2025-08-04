@@ -20,11 +20,13 @@ class ReleaseNoteContents extends StatelessWidget {
 
     final lines = contentsText.split("\n");
 
+    int lineNumber = 0;
     for (final line in lines) {
       if (line.isNotEmpty) {
-        widgets.add(buildLine(context, line));
+        widgets.add(buildLine(context, line, isFirstLine: lineNumber == 0));
         widgets.add(const SizedBox(height: 4));
       }
+      lineNumber++;
     }
 
     if (widgets.isNotEmpty) {
@@ -34,11 +36,11 @@ class ReleaseNoteContents extends StatelessWidget {
     return widgets;
   }
 
-  Widget buildLine(BuildContext context, String line) {
+  Widget buildLine(BuildContext context, String line, { bool isFirstLine = false }) {
     final parsedLine = parseLine(line);
 
     return switch (parsedLine.type) {
-      LineType.heading => buildHeading(context, parsedLine.text),
+      LineType.heading => buildHeading(context, parsedLine.text, insertTopPadding: !isFirstLine),
       LineType.listItem => buildListItem(context, parsedLine.text),
       LineType.indentedListItem =>
         buildListItem(context, parsedLine.text, indented: true),
@@ -71,19 +73,29 @@ class ReleaseNoteContents extends StatelessWidget {
     throw "Could not detect line type";
   }
 
-  Widget buildHeading(BuildContext context, String text) {
-    return Row(
-      children: [
-        // leading triangle marker
-        Icon(
-          Symbols.arrow_right,
-          size: 32,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        Expanded(
-          child: Text(text, style: const TextStyle(fontSize: 22)),
-        ),
-      ],
+  Widget buildHeading(BuildContext context, String text, { bool insertTopPadding = true }) {
+    return Padding(
+      padding: EdgeInsets.only(top: insertTopPadding ? 16.0 : 0.0),
+      child: Row(
+        children: [
+          // leading triangle marker
+          Icon(
+            Symbols.arrow_right,
+            size: 32,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
