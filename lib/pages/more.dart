@@ -78,7 +78,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
               width: 20,
               height: 20,
               colorFilter: ColorFilter.mode(
-                  Theme.of(context).colorScheme.onSurface, BlendMode.srcIn),
+                  Theme.of(context).colorScheme.onSurfaceVariant, BlendMode.srcIn),
             ),
             trailingIcon: Symbols.open_in_new,
             onTap: () {
