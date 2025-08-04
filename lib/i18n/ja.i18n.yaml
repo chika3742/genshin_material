@@ -55,6 +55,7 @@ updates:
   failedToInstall: データ更新のインストールに失敗しました。
   failedToCheck: データ更新の確認に失敗しました。
   schemaVersionMismatch: アプリを最新版にアップデートしてください。
+  noCompatibleAsset: アプリを最新版にアップデートしてください。
   noInternet: インターネット接続をご確認ください。
   noUpdateAvailable: アップデートはありません
   completed: 更新が完了しました。

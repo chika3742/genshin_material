@@ -4,6 +4,7 @@ import "dart:developer";
 import "dart:io";
 
 import "package:archive/archive_io.dart";
+import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/foundation.dart";
 import "package:http/http.dart" as http;
 import "package:path/path.dart" as path;
@@ -13,12 +14,18 @@ import "package:uuid/uuid.dart";
 import "../constants/urls.dart";
 import "../main.dart";
 import "../models/asset_release_version.dart";
-import "../models/common.dart";
+import "../models/common.dart" as common;
 import "asset_cache.dart";
+import "errors.dart";
 
 class AssetUpdater {
-  AssetUpdater({required this.assetDir, this.tempDir, http.Client? httpClient})
-      : httpClient = httpClient ?? http.Client();
+  AssetUpdater({
+    required this.assetDir,
+    this.tempDir,
+    http.Client? httpClient,
+    int? dataSchemaVersion,
+  })  : httpClient = httpClient ?? http.Client(),
+        dataSchemaVersion = dataSchemaVersion ?? common.dataSchemaVersion;
 
   static const allowedResourceOrigins = ["https://matnote-assets.chikach.net"];
 
@@ -32,15 +39,35 @@ class AssetUpdater {
   bool isUpdateChecked = false;
   AssetReleaseVersion? foundUpdate;
   File? downloadFile;
+  final int dataSchemaVersion;
 
   bool get isUpdateAvailable => isUpdateChecked && foundUpdate != null;
 
+
   /// Checks for updates and sets [foundUpdate] if an update is available.
   /// When [force] is true, it will always sets [foundUpdate] to the latest release.
-  Future<void> checkForUpdate({bool force = false}) async {
+  Future<void> checkForUpdate({bool force = false, int? minimumSchemaVersion}) async {
     final releases = await _fetchAssetRelease(assetChannel);
-    final latestRelease = releases.reduce((value, element) =>
-    value.createdAt.isAfter(element.createdAt) ? value : element,);
+
+    minimumSchemaVersion ??= FirebaseRemoteConfig.instance.getInt("minimum_asset_schema_version");
+
+    final latestRelease = releases.fold<AssetReleaseVersion?>(null, (prev, element) {
+      // ignore minimumSchemaVersion when force download mode
+      if ((!force && element.schemaVersion < minimumSchemaVersion!)
+          || element.schemaVersion != dataSchemaVersion) {
+        // Skip releases which are lower than minimum or higher than current
+        // schema version
+        return prev;
+      }
+      if (prev == null) {
+        return element; // First element
+      }
+      return element.createdAt.isAfter(prev.createdAt) ? element : prev;
+    });
+
+    if (latestRelease == null) {
+      throw NoCompatibleAssetException();
+    }
 
     if (force) {
       foundUpdate = latestRelease;

@@ -162,6 +162,7 @@ class TranslationsUpdatesJa {
 	String get failedToInstall => 'データ更新のインストールに失敗しました。';
 	String get failedToCheck => 'データ更新の確認に失敗しました。';
 	String get schemaVersionMismatch => 'アプリを最新版にアップデートしてください。';
+	String get noCompatibleAsset => 'アプリを最新版にアップデートしてください。';
 	String get noInternet => 'インターネット接続をご確認ください。';
 	String get noUpdateAvailable => 'アップデートはありません';
 	String get completed => '更新が完了しました。';
@@ -538,6 +539,7 @@ extension on Translations {
 			case 'updates.failedToInstall': return 'データ更新のインストールに失敗しました。';
 			case 'updates.failedToCheck': return 'データ更新の確認に失敗しました。';
 			case 'updates.schemaVersionMismatch': return 'アプリを最新版にアップデートしてください。';
+			case 'updates.noCompatibleAsset': return 'アプリを最新版にアップデートしてください。';
 			case 'updates.noInternet': return 'インターネット接続をご確認ください。';
 			case 'updates.noUpdateAvailable': return 'アップデートはありません';
 			case 'updates.completed': return '更新が完了しました。';
