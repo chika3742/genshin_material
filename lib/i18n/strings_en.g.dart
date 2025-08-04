@@ -194,6 +194,7 @@ class _TranslationsErrorsEn extends TranslationsErrorsJa {
 
 	// Translations
 	@override String get characterNotFound => 'Character not found';
+	@override String get weaponNotFound => 'Weapon not found';
 	@override String get materialNotFound => 'Material not found';
 	@override String get artifactNotFound => 'Artifact not found';
 	@override String get tryAgainLater => 'Please try again later.';
@@ -406,6 +407,8 @@ class _TranslationsMorePageEn extends TranslationsMorePageJa {
 	@override String get githubDesc => 'View the source code, report issues, and contribute.';
 	@override String get buyMeACoffee => 'Buy Me a Coffee';
 	@override String get buyMeACoffeeDesc => 'Support the developer by buying a coffee.';
+	@override String get x => 'X (for announcements)';
+	@override String get xDesc => 'Notices related to this app are posted here.';
 }
 
 // Path: releaseNotesPage
@@ -594,6 +597,7 @@ extension on TranslationsEn {
 			case 'updates.installing': return 'Installing...';
 			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
 			case 'errors.characterNotFound': return 'Character not found';
+			case 'errors.weaponNotFound': return 'Weapon not found';
 			case 'errors.materialNotFound': return 'Material not found';
 			case 'errors.artifactNotFound': return 'Artifact not found';
 			case 'errors.tryAgainLater': return 'Please try again later.';
@@ -705,6 +709,8 @@ extension on TranslationsEn {
 			case 'morePage.githubDesc': return 'View the source code, report issues, and contribute.';
 			case 'morePage.buyMeACoffee': return 'Buy Me a Coffee';
 			case 'morePage.buyMeACoffeeDesc': return 'Support the developer by buying a coffee.';
+			case 'morePage.x': return 'X (for announcements)';
+			case 'morePage.xDesc': return 'Notices related to this app are posted here.';
 			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
 			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
 			case 'settingsPage.display': return 'Display';
