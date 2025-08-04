@@ -4,6 +4,7 @@ import "dart:developer";
 import "dart:io";
 
 import "package:archive/archive_io.dart";
+import "package:firebase_core/firebase_core.dart";
 import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/foundation.dart";
 import "package:http/http.dart" as http;
@@ -49,7 +50,9 @@ class AssetUpdater {
   Future<void> checkForUpdate({bool force = false, int? minimumSchemaVersion}) async {
     final releases = await _fetchAssetRelease(assetChannel);
 
-    minimumSchemaVersion ??= FirebaseRemoteConfig.instance.getInt("minimum_asset_schema_version");
+    minimumSchemaVersion ??= Firebase.apps.isNotEmpty
+        ? FirebaseRemoteConfig.instance.getInt("minimum_asset_schema_version")
+        : 0;
 
     final latestRelease = releases.fold<AssetReleaseVersion?>(null, (prev, element) {
       // ignore minimumSchemaVersion when force download mode

@@ -35,6 +35,7 @@ void main() {
       assetDir: Directory.current.path,
       tempDir: Directory.systemTemp.path,
       httpClient: client,
+      dataSchemaVersion: 0,
     );
     await updater.checkForUpdate();
     expect(updater.isUpdateAvailable, true);
