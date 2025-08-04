@@ -171,17 +171,20 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  if (prefs.isLinkedWithHoyolab)
-                    Consumer(
-                      builder: (context, ref, _) {
-                        return GameDataSyncIndicator(
-                          status: ref.watch(gameDataSyncStateProvider(
-                            variantId: state.value.selectedCharacterId,
-                            weaponId: weapon.id,
-                          )),
-                        );
-                      },
-                    ),
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final syncStatus = ref.watch(gameDataSyncStateProvider(
+                          variantId: state.value.selectedCharacterId,
+                          weaponId: weapon.id,
+                        ));
+                      return Visibility(
+                        visible: syncStatus != null,
+                        child: GameDataSyncIndicator(
+                          status: syncStatus!,
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
 

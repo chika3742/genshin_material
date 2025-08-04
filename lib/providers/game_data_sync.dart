@@ -72,8 +72,13 @@ class GameDataSyncCached extends _$GameDataSyncCached {
   Future<GameDataSyncResult?> build({ required String variantId, String? weaponId }) async {
     final db = ref.watch(appDatabaseProvider);
     final uid = ref.watch(preferencesStateNotifierProvider.select((e) => e.hyvUid));
+    if (uid == null) return null; // uid is not set
 
-    if (uid == null) return null;
+    final syncState = ref.watch(preferencesStateNotifierProvider
+        .select((e) => weaponId == null ? e.syncCharaState : e.syncWeaponState));
+    if (!syncState) {
+      return null; // sync level is disabled
+    }
 
     final stateCache = switch (weaponId) {
       null => await db.getCharacterState(uid, variantId),
@@ -197,12 +202,16 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
 @riverpod
 Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entries) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final prefs = ref.watch(preferencesStateNotifierProvider);
+  final (hyvUid, hyvServer, syncBagLackNums) = ref.watch(preferencesStateNotifierProvider
+      .select((s) => (s.hyvUid, s.hyvServer, s.syncBagLackNums)));
   final hoyolabCookie = await getHoyolabCookie();
 
-  if (prefs.hyvServer == null || prefs.hyvUid == null || hoyolabCookie == null) {
+  if (hyvServer == null || hyvUid == null || hoyolabCookie == null) {
     log("Hoyolab server, uid, or cookie is not set");
     return null;
+  }
+  if (!syncBagLackNums) {
+    return null; // bag lack number sync is disabled
   }
   if (assetData == null) {
     throw StateError("Asset data is not loaded");
@@ -210,8 +219,8 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
 
   final api = HoyolabApi(
     cookie: hoyolabCookie,
-    uid: prefs.hyvUid!,
-    region: prefs.hyvServer!,
+    uid: hyvUid,
+    region: hyvServer,
   );
 
   final requests = entries.map((e) {
@@ -237,7 +246,7 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
 }
 
 @riverpod
-GameDataSyncStatus gameDataSyncState(Ref ref, { required String variantId, String? weaponId }) {
+GameDataSyncStatus? gameDataSyncState(Ref ref, { required String variantId, String? weaponId }) {
   final snapshots = [
     ref.watch(gameDataSyncCachedProvider(variantId: variantId, weaponId: weaponId)),
     ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variantId, weaponId: weaponId))),
@@ -246,13 +255,18 @@ GameDataSyncStatus gameDataSyncState(Ref ref, { required String variantId, Strin
   final syncResult = snapshots.first.valueOrNull as GameDataSyncResult?;
 
   if (snapshots.any((snapshot) => snapshot.isLoading) || syncResult?.isStale == true) {
-    return const GameDataSyncStatus.syncing();
+    return const GameDataSyncStatus.syncing(); // in progress
   }
   if (snapshots.any((snapshot) => snapshot.hasError)) {
+    // an unknown error occurred
     return GameDataSyncStatus.error(error: snapshots.map((e) => e.error));
   }
   if (syncResult?.errorType != null) {
+    // an error occurred during sync
     return GameDataSyncStatus.fromErrorType(syncResult!.errorType!, syncResult.error);
+  }
+  if (snapshots.every((e) => e.hasValue && e.value == null)) {
+    return null; // sync is disabled or no data available
   }
 
   return GameDataSyncStatus.synced();

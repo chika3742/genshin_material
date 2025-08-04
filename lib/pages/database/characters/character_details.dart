@@ -226,15 +226,14 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        if (prefs.isLinkedWithHoyolab && prefs.syncCharaState)
-                          Consumer(
-                            builder: (context, ref, _) {
-                              final state = ref.watch(gameDataSyncStateProvider(variantId: variant.value.id));
-                              return GameDataSyncIndicator(
-                                status: state,
-                              );
-                            },
-                          ),
+                        Consumer(
+                          builder: (context, ref, _) {
+                            final state = ref.watch(gameDataSyncStateProvider(variantId: variant.value.id));
+                            return state != null ? GameDataSyncIndicator(
+                              status: state,
+                            ) : SizedBox();
+                          },
+                        ),
                         const SizedBox(height: 8),
                         Row(
                           children: [

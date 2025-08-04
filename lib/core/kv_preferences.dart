@@ -52,8 +52,8 @@ class KvPreferences {
   bool get autoRemoveBookmarks => sp.getBool("autoRemoveBookmarks") ?? true;
   Future<void> setAutoRemoveBookmarks(bool value) => sp.setBool("autoRemoveBookmarks", value);
 
-  bool get syncBagCounts => sp.getBool("syncBagCounts") ?? true;
-  Future<void> setSyncBagCounts(bool value) => sp.setBool("syncBagCounts", value);
+  bool get syncBagLackNums => sp.getBool("syncBagLackNums") ?? true;
+  Future<void> setSyncBagLackNums(bool value) => sp.setBool("syncBagLackNums", value);
 
   bool get showItemNameOnCard => sp.getBool("showItemNameOnCard") ?? true;
   Future<void> setShowItemNameOnCard(bool value) => sp.setBool("showItemNameOnCard", value);

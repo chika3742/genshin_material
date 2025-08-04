@@ -87,8 +87,8 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
-  Future<void> setSyncBagCounts(bool value) async {
-    await state.pref.setSyncBagCounts(value);
+  Future<void> setSyncBagLackNums(bool value) async {
+    await state.pref.setSyncBagLackNums(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
@@ -137,7 +137,7 @@ sealed class PreferencesState with _$PreferencesState {
     required bool syncCharaState,
     required bool syncWeaponState,
     required bool autoRemoveBookmarks,
-    required bool syncBagCounts,
+    required bool syncBagLackNums,
     required bool showItemNameOnCard,
     required GameServer dailyResetServer,
     required bool indexSheetTutorialShown,
@@ -158,7 +158,7 @@ sealed class PreferencesState with _$PreferencesState {
       syncCharaState: pref.syncCharaState,
       syncWeaponState: pref.syncWeaponState,
       autoRemoveBookmarks: pref.autoRemoveBookmarks,
-      syncBagCounts: pref.syncBagCounts,
+      syncBagLackNums: pref.syncBagLackNums,
       showItemNameOnCard: pref.showItemNameOnCard,
       dailyResetServer: GameServer.values.firstWhere((e) => e.name == pref.dailyResetServer),
       indexSheetTutorialShown: pref.indexSheetTutorialShown,

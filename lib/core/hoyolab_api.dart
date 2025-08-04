@@ -195,6 +195,7 @@ class HoyolabApi {
         Uri.parse(endpoint),
         headers: {
           ...headers,
+          "x-rpc-cal_type": "0",
         },
         body: body,
       ),

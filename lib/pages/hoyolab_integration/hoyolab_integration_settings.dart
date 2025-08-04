@@ -136,14 +136,14 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                   .setSyncWeaponState(value);
             } : null,
           ),
-          // SwitchListTile(
-          //   title: Text(tr.hoyolab.syncBagCounts),
-          //   value: prefs.syncBagCounts,
-          //   onChanged: prefs.isLinkedWithHoyolab ? (value) {
-          //     ref.read(preferencesStateNotifierProvider.notifier)
-          //         .setSyncBagCounts(value);
-          //   } : null,
-          // ),
+          SwitchListTile(
+            title: Text(tr.hoyolab.syncBagLackNums),
+            value: prefs.syncBagLackNums,
+            onChanged: prefs.isLinkedWithHoyolab ? (value) {
+              ref.read(preferencesStateNotifierProvider.notifier)
+                  .setSyncBagLackNums(value);
+            } : null,
+          ),
           SwitchListTile(
             title: Text(tr.hoyolab.autoRemoveBookmarks),
             subtitle: Text(tr.hoyolab.autoRemoveBookmarksDesc),
@@ -161,33 +161,6 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                   .setSyncResin(value);
             } : null,
           ),
-
-          // ListSubheader(tr.hoyolab.displaySettings),
-          // SimpleListTile(
-          //   title: tr.hoyolab.lackNumDisplayMethod,
-          //   subtitle: tr.hoyolab.lackNumDisplayMethodValues[prefs.lackNumDisplayMethod.name],
-          //   trailingIcon: Symbols.menu_open,
-          //   onTap: () {
-          //     showSelectBottomSheet(
-          //       context: context,
-          //       title: Text(tr.hoyolab.lackNumDisplayMethod),
-          //       subtitle: Text(tr.hoyolab.lackNumDisplayMethodDesc),
-          //       selectedValue: prefs.lackNumDisplayMethod,
-          //       items: [
-          //         for (final method in LackNumDisplayMethod.values)
-          //           SelectBottomSheetItem(
-          //             text: tr.hoyolab.lackNumDisplayMethodValues[method.name]!,
-          //             value: method,
-          //           ),
-          //       ],
-          //     ).then((value) {
-          //       if (value != null) {
-          //         ref.read(preferencesStateNotifierProvider.notifier).setLackNumDisplayMethod(value);
-          //       }
-          //     });
-          //   },
-          // ),
-
           ListSubheader(tr.hoyolab.accessPermission),
           // error tile
           if (isRealtimeNotesEnabled.hasError) Padding(

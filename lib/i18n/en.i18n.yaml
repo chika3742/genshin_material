@@ -107,7 +107,7 @@ characterDetailsPage:
 weaponDetailsPage: 
   characterToEquip: Character to Equip this Weapon
   skillEffect: Skill Effect
-materialDetailsPage:
+materialDetailsPage: 
   charactersUsing: Characters Using This Material
   weaponsUsing: Weapons Using This Material
   availableToday: Available Today
@@ -221,10 +221,11 @@ hoyolab:
   enableRealtimeNotes: Enable Real-Time Notes
   enableRealtimeNotesDesc: You will be able to sync your current Original Resin count.
   syncSettings: Sync Settings
-  syncResin: Sync In-Game Resin Count
-  syncCharaState: Sync In-Game Character Levels
-  syncWeaponState: Synchronize Weapon State
-  autoRemoveBookmarks: Auto-remove bookmarks when opening a character or weapon page.
+  syncResin: Sync resin count
+  syncCharaState: Sync character levels
+  syncWeaponState: Sync weapon levels
+  syncBagLackNums: Sync bag shortage numbers
+  autoRemoveBookmarks: Auto remove bookmarks
   autoRemoveBookmarksDesc: Automatically remove bookmarks for completed ascensions when opening a character or weapon page.
   mustBeResonatedWithStatue: This character must be resonated with the Statue of The Seven to be able to sync game data.
   weaponNotEquipped: This character does not equip this weapon.

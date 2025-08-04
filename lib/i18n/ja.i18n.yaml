@@ -220,9 +220,10 @@ hoyolab:
   enableRealtimeNotes: リアルタイムノートの有効化
   enableRealtimeNotesDesc: 現在の天然樹脂の数を同期できるようになります。
   syncSettings: 同期設定
-  syncResin: ゲーム内の樹脂数と同期する
+  syncResin: ゲーム内の樹脂数を同期する
   syncCharaState: ゲーム内のキャラレベルを同期する
   syncWeaponState: ゲーム内の武器レベルを同期する
+  syncBagLackNums: ゲーム内のバッグ不足数を同期する
   autoRemoveBookmarks: 育成完了のブックマークを自動解除する
   autoRemoveBookmarksDesc: キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。
   mustBeResonatedWithStatue: 旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。

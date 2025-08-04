@@ -176,7 +176,7 @@ class _GameDataSyncProviderElement
   String? get weaponId => (origin as _GameDataSyncProvider).weaponId;
 }
 
-String _$bagLackNumHash() => r'b5cb77ddcc99174e088a2dd8c74295068a1680bf';
+String _$bagLackNumHash() => r'7587b7e6733d3b49e21c4fc7cc682192e901b8d6';
 
 /// See also [bagLackNum].
 @ProviderFor(bagLackNum)
@@ -308,14 +308,14 @@ class _BagLackNumProviderElement
       (origin as BagLackNumProvider).entries;
 }
 
-String _$gameDataSyncStateHash() => r'41c876c4390a8315522ace0cf86343f0f891e50a';
+String _$gameDataSyncStateHash() => r'850a4af5c83baf57fbb35442f614700cc1c2405e';
 
 /// See also [gameDataSyncState].
 @ProviderFor(gameDataSyncState)
 const gameDataSyncStateProvider = GameDataSyncStateFamily();
 
 /// See also [gameDataSyncState].
-class GameDataSyncStateFamily extends Family<GameDataSyncStatus> {
+class GameDataSyncStateFamily extends Family<GameDataSyncStatus?> {
   /// See also [gameDataSyncState].
   const GameDataSyncStateFamily();
 
@@ -357,7 +357,7 @@ class GameDataSyncStateFamily extends Family<GameDataSyncStatus> {
 
 /// See also [gameDataSyncState].
 class GameDataSyncStateProvider
-    extends AutoDisposeProvider<GameDataSyncStatus> {
+    extends AutoDisposeProvider<GameDataSyncStatus?> {
   /// See also [gameDataSyncState].
   GameDataSyncStateProvider({
     required String variantId,
@@ -397,7 +397,7 @@ class GameDataSyncStateProvider
 
   @override
   Override overrideWith(
-    GameDataSyncStatus Function(GameDataSyncStateRef provider) create,
+    GameDataSyncStatus? Function(GameDataSyncStateRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -415,7 +415,7 @@ class GameDataSyncStateProvider
   }
 
   @override
-  AutoDisposeProviderElement<GameDataSyncStatus> createElement() {
+  AutoDisposeProviderElement<GameDataSyncStatus?> createElement() {
     return _GameDataSyncStateProviderElement(this);
   }
 
@@ -438,7 +438,7 @@ class GameDataSyncStateProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin GameDataSyncStateRef on AutoDisposeProviderRef<GameDataSyncStatus> {
+mixin GameDataSyncStateRef on AutoDisposeProviderRef<GameDataSyncStatus?> {
   /// The parameter `variantId` of this provider.
   String get variantId;
 
@@ -447,7 +447,7 @@ mixin GameDataSyncStateRef on AutoDisposeProviderRef<GameDataSyncStatus> {
 }
 
 class _GameDataSyncStateProviderElement
-    extends AutoDisposeProviderElement<GameDataSyncStatus>
+    extends AutoDisposeProviderElement<GameDataSyncStatus?>
     with GameDataSyncStateRef {
   _GameDataSyncStateProviderElement(super.provider);
 
@@ -458,7 +458,7 @@ class _GameDataSyncStateProviderElement
 }
 
 String _$gameDataSyncCachedHash() =>
-    r'bfa127abae77bd64c1de7ee1d86c49d15bae2a1b';
+    r'5f929a117d7bb02b399b7fefa0a399b9f7f03de6';
 
 abstract class _$GameDataSyncCached
     extends BuildlessAutoDisposeAsyncNotifier<GameDataSyncResult?> {

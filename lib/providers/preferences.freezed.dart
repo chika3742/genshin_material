@@ -25,7 +25,7 @@ mixin _$PreferencesState {
   bool get syncCharaState;
   bool get syncWeaponState;
   bool get autoRemoveBookmarks;
-  bool get syncBagCounts;
+  bool get syncBagLackNums;
   bool get showItemNameOnCard;
   GameServer get dailyResetServer;
   bool get indexSheetTutorialShown;
@@ -56,8 +56,8 @@ mixin _$PreferencesState {
                 other.syncWeaponState == syncWeaponState) &&
             (identical(other.autoRemoveBookmarks, autoRemoveBookmarks) ||
                 other.autoRemoveBookmarks == autoRemoveBookmarks) &&
-            (identical(other.syncBagCounts, syncBagCounts) ||
-                other.syncBagCounts == syncBagCounts) &&
+            (identical(other.syncBagLackNums, syncBagLackNums) ||
+                other.syncBagLackNums == syncBagLackNums) &&
             (identical(other.showItemNameOnCard, showItemNameOnCard) ||
                 other.showItemNameOnCard == showItemNameOnCard) &&
             (identical(other.dailyResetServer, dailyResetServer) ||
@@ -85,7 +85,7 @@ mixin _$PreferencesState {
       syncCharaState,
       syncWeaponState,
       autoRemoveBookmarks,
-      syncBagCounts,
+      syncBagLackNums,
       showItemNameOnCard,
       dailyResetServer,
       indexSheetTutorialShown,
@@ -94,7 +94,7 @@ mixin _$PreferencesState {
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagCounts: $syncBagCounts, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod, bannerReadKeys: $bannerReadKeys)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagLackNums: $syncBagLackNums, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod, bannerReadKeys: $bannerReadKeys)';
   }
 }
 
@@ -113,7 +113,7 @@ class _PreferencesState extends PreferencesState {
       required this.syncCharaState,
       required this.syncWeaponState,
       required this.autoRemoveBookmarks,
-      required this.syncBagCounts,
+      required this.syncBagLackNums,
       required this.showItemNameOnCard,
       required this.dailyResetServer,
       required this.indexSheetTutorialShown,
@@ -145,7 +145,7 @@ class _PreferencesState extends PreferencesState {
   @override
   final bool autoRemoveBookmarks;
   @override
-  final bool syncBagCounts;
+  final bool syncBagLackNums;
   @override
   final bool showItemNameOnCard;
   @override
@@ -186,8 +186,8 @@ class _PreferencesState extends PreferencesState {
                 other.syncWeaponState == syncWeaponState) &&
             (identical(other.autoRemoveBookmarks, autoRemoveBookmarks) ||
                 other.autoRemoveBookmarks == autoRemoveBookmarks) &&
-            (identical(other.syncBagCounts, syncBagCounts) ||
-                other.syncBagCounts == syncBagCounts) &&
+            (identical(other.syncBagLackNums, syncBagLackNums) ||
+                other.syncBagLackNums == syncBagLackNums) &&
             (identical(other.showItemNameOnCard, showItemNameOnCard) ||
                 other.showItemNameOnCard == showItemNameOnCard) &&
             (identical(other.dailyResetServer, dailyResetServer) ||
@@ -215,7 +215,7 @@ class _PreferencesState extends PreferencesState {
       syncCharaState,
       syncWeaponState,
       autoRemoveBookmarks,
-      syncBagCounts,
+      syncBagLackNums,
       showItemNameOnCard,
       dailyResetServer,
       indexSheetTutorialShown,
@@ -224,7 +224,7 @@ class _PreferencesState extends PreferencesState {
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagCounts: $syncBagCounts, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod, bannerReadKeys: $bannerReadKeys)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagLackNums: $syncBagLackNums, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod, bannerReadKeys: $bannerReadKeys)';
   }
 }
 

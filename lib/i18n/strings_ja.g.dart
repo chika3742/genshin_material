@@ -452,9 +452,10 @@ class TranslationsHoyolabJa {
 	String get enableRealtimeNotes => 'リアルタイムノートの有効化';
 	String get enableRealtimeNotesDesc => '現在の天然樹脂の数を同期できるようになります。';
 	String get syncSettings => '同期設定';
-	String get syncResin => 'ゲーム内の樹脂数と同期する';
+	String get syncResin => 'ゲーム内の樹脂数を同期する';
 	String get syncCharaState => 'ゲーム内のキャラレベルを同期する';
 	String get syncWeaponState => 'ゲーム内の武器レベルを同期する';
+	String get syncBagLackNums => 'ゲーム内のバッグ不足数を同期する';
 	String get autoRemoveBookmarks => '育成完了のブックマークを自動解除する';
 	String get autoRemoveBookmarksDesc => 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。';
 	String get mustBeResonatedWithStatue => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
@@ -690,9 +691,10 @@ extension on Translations {
 			case 'hoyolab.enableRealtimeNotes': return 'リアルタイムノートの有効化';
 			case 'hoyolab.enableRealtimeNotesDesc': return '現在の天然樹脂の数を同期できるようになります。';
 			case 'hoyolab.syncSettings': return '同期設定';
-			case 'hoyolab.syncResin': return 'ゲーム内の樹脂数と同期する';
+			case 'hoyolab.syncResin': return 'ゲーム内の樹脂数を同期する';
 			case 'hoyolab.syncCharaState': return 'ゲーム内のキャラレベルを同期する';
 			case 'hoyolab.syncWeaponState': return 'ゲーム内の武器レベルを同期する';
+			case 'hoyolab.syncBagLackNums': return 'ゲーム内のバッグ不足数を同期する';
 			case 'hoyolab.autoRemoveBookmarks': return '育成完了のブックマークを自動解除する';
 			case 'hoyolab.autoRemoveBookmarksDesc': return 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。';
 			case 'hoyolab.mustBeResonatedWithStatue': return '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
