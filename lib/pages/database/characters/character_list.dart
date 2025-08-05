@@ -21,6 +21,8 @@ class CharacterListPage extends HookConsumerWidget {
 
   const CharacterListPage({super.key, required this.assetData});
 
+  static const alwaysOwnedCharacters = ["traveler"];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filterState = ref.watch(characterFilterStateNotifierProvider);
@@ -31,8 +33,13 @@ class CharacterListPage extends HookConsumerWidget {
       final ownedCharacters = ref.watch(ownedCharactersProvider);
 
       if (ownedCharacters.value != null) {
+        bool isCharacterOwned(String id, PossessionStatus? filterStatus, List<String> ownedIds) {
+          if (filterStatus == null) return true;
+          final isOwned = ownedIds.contains(id) || alwaysOwnedCharacters.contains(id);
+          return filterStatus == PossessionStatus.owned ? isOwned : !isOwned;
+        }
         charactersIterable = charactersIterable.where((e) {
-          return ownedCharacters.value!.contains(e.id) == (filterState.possessionStatus == PossessionStatus.owned);
+          return isCharacterOwned(e.id, filterState.possessionStatus, ownedCharacters.value!);
         });
       }
     }
