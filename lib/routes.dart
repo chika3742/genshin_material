@@ -369,7 +369,7 @@ class FurnishingSetListRoute extends GoRouteData with _$FurnishingSetListRoute {
         useScaffold: true,
         builder: (context, assetData) {
           return FurnishingSetListPage(assetData: assetData);
-        }
+        },
       ),
     );
   }

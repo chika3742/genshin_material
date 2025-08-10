@@ -37,7 +37,7 @@ class ItemSourceWidget extends StatelessWidget {
               ),
           ],
         ),
-      )
+      ),
     };
   }
 }

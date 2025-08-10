@@ -1,5 +1,3 @@
-import "dart:math";
-
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
@@ -14,7 +12,7 @@ import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/furnishing_set.dart";
-import "../../../ui_core/bottom_sheet.dart";
+import "../../../ui_core/list_index_bottom_sheet.dart";
 import "../../../ui_core/tutorial.dart";
 
 typedef FurnishingSetsGrouped = Map<FurnishingSetTypeId, List<FurnishingSet>>;
@@ -65,7 +63,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
             ),
             ...assetData.furnishingSetTypes.entries.map((e) {
               final typeId = e.key;
-              final categoryText = e.value.title.localized;
+              final categoryText = e.value.localized;
               final sets = furnishingSetsGrouped[typeId] ?? [];
 
               return SliverStickyHeader.builder(
@@ -83,7 +81,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
                   ),
                 ),
               );
-            })
+            }),
           ],
         ),
       ),
@@ -95,41 +93,21 @@ class FurnishingSetListPage extends HookConsumerWidget {
     ScrollController scrollController,
     FurnishingSetsGrouped furnishingSetsGrouped,
   ) async {
-    final result = await showListIndexBottomSheet(
+    await showListIndexBottomSheetWithScroll(
       context: context,
       items: assetData.furnishingSetTypes.entries.map((e) {
         final typeId = e.key;
-        final items = furnishingSetsGrouped[typeId]!;
+        final entries = furnishingSetsGrouped[typeId]!;
 
         return ListIndexItem(
-          image: items.first.getImageFile(assetData.assetDir),
           title: e.value.localized,
+          image: entries.first.getImageFile(assetData.assetDir),
           value: typeId,
+          itemCount: entries.length,
         );
       }).toList(),
+      scrollController: scrollController,
+      headerOffset: listTileHeight, // the height of the link to furnishing list page
     );
-    if (result != null) {
-      final offset = _getHeaderScrollOffset(furnishingSetsGrouped, result);
-      scrollController.animateTo(
-        min(offset, scrollController.position.maxScrollExtent),
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOutQuint,
-      );
-    }
-  }
-
-  double _getHeaderScrollOffset(
-    FurnishingSetsGrouped furnishingSetsGrouped,
-    FurnishingSetTypeId typeId,
-  ) {
-    double offset = 0.0;
-    for (final e in assetData.furnishingSetTypes.keys) {
-      if (e == typeId) {
-        return offset;
-      }
-      offset += stickyListHeaderHeight + (listTileHeight * furnishingSetsGrouped[e]!.length)
-        + listTileHeight; // height of furnishing list link at the top
-    }
-    return offset;
   }
 }

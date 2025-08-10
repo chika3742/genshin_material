@@ -1,4 +1,3 @@
-import "dart:math";
 
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
@@ -9,13 +8,11 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../../../components/list_tile.dart";
 import "../../../components/sticky_list_header.dart";
-import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
-import "../../../models/weapon.dart";
 import "../../../routes.dart";
-import "../../../ui_core/bottom_sheet.dart";
+import "../../../ui_core/list_index_bottom_sheet.dart";
 import "../../../ui_core/tutorial.dart";
 
 class WeaponListPage extends HookConsumerWidget {
@@ -34,6 +31,19 @@ class WeaponListPage extends HookConsumerWidget {
           .map((key, value) => MapEntry(key, value.sorted((a, b) => b.rarity - a.rarity))),
       [assetData.weapons],
     );
+    final listIndexItems = useMemoized(() {
+      return assetData.weaponTypes.entries.map((e) {
+        final typeId = e.key;
+        final entries = weaponsGroupedByType[typeId]!;
+
+        return ListIndexItem(
+          title: e.value.name.localized,
+          image: entries.first.getImageFile(assetData.assetDir),
+          value: typeId,
+          itemCount: entries.length,
+        );
+      }).toList();
+    }, [assetData.weapons]);
 
     useEffect(() {
       Future.delayed(const Duration(milliseconds: 350), () {
@@ -44,7 +54,10 @@ class WeaponListPage extends HookConsumerWidget {
 
     double initialScrollOffset = 0;
     if (equipCharacter != null) {
-      initialScrollOffset = _getHeaderScrollOffset(weaponsGroupedByType, assetData.characters[equipCharacter]!.weaponType);
+      initialScrollOffset = getIndexScrollOffset(
+        listIndexItems,
+        assetData.characters[equipCharacter]!.weaponType,
+      );
     }
     final scrollController = useScrollController(initialScrollOffset: initialScrollOffset);
 
@@ -62,7 +75,7 @@ class WeaponListPage extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
         onPressed: () {
-          _showIndexSheet(context, scrollController, weaponsGroupedByType);
+          _showIndexSheet(context, scrollController, listIndexItems);
         },
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
@@ -104,38 +117,15 @@ class WeaponListPage extends HookConsumerWidget {
     );
   }
 
-  Future<void> _showIndexSheet(BuildContext context, ScrollController scrollController, Map<WeaponType, List<Weapon>> weaponsGroupedByType) async {
-    final result = await showListIndexBottomSheet(
+  Future<void> _showIndexSheet(
+    BuildContext context,
+    ScrollController scrollController,
+    List<ListIndexItem> items,
+  ) async {
+    await showListIndexBottomSheetWithScroll(
       context: context,
-      items: assetData.weaponTypes.entries.map((e) {
-        final typeId = e.key;
-        final items = weaponsGroupedByType[typeId]!;
-
-        return ListIndexItem(
-          title: e.value.name.localized,
-          image: items.first.getImageFile(assetData.assetDir),
-          value: typeId,
-        );
-      }).toList(),
+      items: items,
+      scrollController: scrollController,
     );
-    if (result != null) {
-      final offset = _getHeaderScrollOffset(weaponsGroupedByType, result);
-      scrollController.animateTo(
-        min(offset, scrollController.position.maxScrollExtent),
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOutQuint,
-      );
-    }
-  }
-
-  double _getHeaderScrollOffset(Map<WeaponType, List<Weapon>> weaponsGroupedByType, WeaponType weaponType) {
-    double offset = 0.0;
-    for (final e in assetData.weaponTypes.keys) {
-      if (e == weaponType) {
-        return offset;
-      }
-      offset += stickyListHeaderHeight + (listTileHeight * weaponsGroupedByType[e]!.length);
-    }
-    return offset;
   }
 }
