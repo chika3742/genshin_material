@@ -16,6 +16,10 @@ import "pages/database/artifacts/artifact_list.dart";
 import "pages/database/characters/character_details.dart";
 import "pages/database/characters/character_list.dart";
 import "pages/database/database.dart";
+import "pages/database/furnishing_sets/furnishing_set_details.dart";
+import "pages/database/furnishing_sets/furnishing_set_list.dart";
+import "pages/database/furnishing_sets/furnishings/furnishing_details.dart";
+import "pages/database/furnishing_sets/furnishings/furnishing_list.dart";
 import "pages/database/materials/material_details.dart";
 import "pages/database/materials/material_list.dart";
 import "pages/database/weapons/weapon_details.dart";
@@ -72,6 +76,15 @@ part "routes.g.dart";
               routes: [
                 TypedGoRoute<ArtifactEffectListRoute>(path: "effects"),
                 TypedGoRoute<ArtifactDetailsRoute>(path: ":id"),
+              ],
+            ),
+            TypedGoRoute<FurnishingSetListRoute>(
+              path: "furnishing-sets",
+              routes: [
+                TypedGoRoute<FurnishingSetDetailsRoute>(path: ":id"),
+                TypedGoRoute<FurnishingListRoute>(path: "furnishings", routes: [
+                  TypedGoRoute<FurnishingDetailsRoute>(path: ":id"),
+                ]),
               ],
             ),
           ],
@@ -341,6 +354,54 @@ class ArtifactDetailsRoute extends GoRouteData with _$ArtifactDetailsRoute {
           );
         },
       ),
+    );
+  }
+}
+
+class FurnishingSetListRoute extends GoRouteData with _$FurnishingSetListRoute {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: FurnishingSetListPage(),
+    );
+  }
+}
+
+class FurnishingSetDetailsRoute extends GoRouteData with _$FurnishingSetDetailsRoute {
+  final String id;
+
+  const FurnishingSetDetailsRoute({required this.id});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: FurnishingSetDetailsPage(),
+    );
+  }
+}
+
+class FurnishingListRoute extends GoRouteData with _$FurnishingListRoute {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: FurnishingListPage(),
+    );
+  }
+}
+
+class FurnishingDetailsRoute extends GoRouteData with _$FurnishingDetailsRoute {
+  final String id;
+
+  const FurnishingDetailsRoute({required this.id});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: FurnishingDetailsPage(),
     );
   }
 }
