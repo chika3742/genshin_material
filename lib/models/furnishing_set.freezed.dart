@@ -111,68 +111,8 @@ class _Furnishing extends Furnishing {
 }
 
 /// @nodoc
-mixin _$FurnishingSetType {
-  LocalizedText get title;
-
-  /// Serializes this FurnishingSetType to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is FurnishingSetType &&
-            (identical(other.title, title) || other.title == title));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, title);
-
-  @override
-  String toString() {
-    return 'FurnishingSetType(title: $title)';
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _FurnishingSetType implements FurnishingSetType {
-  const _FurnishingSetType({required this.title});
-  factory _FurnishingSetType.fromJson(Map<String, dynamic> json) =>
-      _$FurnishingSetTypeFromJson(json);
-
-  @override
-  final LocalizedText title;
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$FurnishingSetTypeToJson(
-      this,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _FurnishingSetType &&
-            (identical(other.title, title) || other.title == title));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, title);
-
-  @override
-  String toString() {
-    return 'FurnishingSetType(title: $title)';
-  }
-}
-
-/// @nodoc
 mixin _$FurnishingSetMeta {
-  Map<String, FurnishingSetType> get setTypes;
+  Map<FurnishingSetTypeId, LocalizedText> get setTypes;
 
   /// Serializes this FurnishingSetMeta to a JSON map.
   Map<String, dynamic> toJson();
@@ -200,14 +140,14 @@ mixin _$FurnishingSetMeta {
 @JsonSerializable()
 class _FurnishingSetMeta implements FurnishingSetMeta {
   const _FurnishingSetMeta(
-      {required final Map<String, FurnishingSetType> setTypes})
+      {required final Map<FurnishingSetTypeId, LocalizedText> setTypes})
       : _setTypes = setTypes;
   factory _FurnishingSetMeta.fromJson(Map<String, dynamic> json) =>
       _$FurnishingSetMetaFromJson(json);
 
-  final Map<String, FurnishingSetType> _setTypes;
+  final Map<FurnishingSetTypeId, LocalizedText> _setTypes;
   @override
-  Map<String, FurnishingSetType> get setTypes {
+  Map<FurnishingSetTypeId, LocalizedText> get setTypes {
     if (_setTypes is EqualUnmodifiableMapView) return _setTypes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_setTypes);

@@ -102,8 +102,8 @@ class FurnishingSetListPage extends HookConsumerWidget {
         final items = furnishingSetsGrouped[typeId]!;
 
         return ListIndexItem(
-          title: e.value.title.localized,
           image: items.first.getImageFile(assetData.assetDir),
+          title: e.value.localized,
           value: typeId,
         );
       }).toList(),

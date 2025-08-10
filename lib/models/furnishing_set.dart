@@ -25,19 +25,9 @@ sealed class Furnishing with _$Furnishing, ImageGetter {
 }
 
 @freezed
-sealed class FurnishingSetType with _$FurnishingSetType {
-  const factory FurnishingSetType({
-    required LocalizedText title,
-  }) = _FurnishingSetType;
-
-  factory FurnishingSetType.fromJson(Map<String, dynamic> json) =>
-      _$FurnishingSetTypeFromJson(json);
-}
-
-@freezed
 sealed class FurnishingSetMeta with _$FurnishingSetMeta {
   const factory FurnishingSetMeta({
-    required Map<String, FurnishingSetType> setTypes,
+    required Map<FurnishingSetTypeId, LocalizedText> setTypes,
   }) = _FurnishingSetMeta;
 
   factory FurnishingSetMeta.fromJson(Map<String, dynamic> json) =>

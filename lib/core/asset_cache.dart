@@ -130,6 +130,6 @@ sealed class AssetData with _$AssetData {
     required List<ArtifactTagCategory> artifactTags,
     required Map<FurnishingSetId, FurnishingSet> furnishingSets,
     required Map<FurnishingId, Furnishing> furnishings,
-    required Map<String, FurnishingSetType> furnishingSetTypes,
+    required Map<FurnishingSetTypeId, LocalizedText> furnishingSetTypes,
   }) = _AssetData;
 }

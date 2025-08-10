@@ -36,7 +36,7 @@ mixin _$AssetData {
   List<ArtifactTagCategory> get artifactTags;
   Map<FurnishingSetId, FurnishingSet> get furnishingSets;
   Map<FurnishingId, Furnishing> get furnishings;
-  Map<String, FurnishingSetType> get furnishingSetTypes;
+  Map<FurnishingSetTypeId, LocalizedText> get furnishingSetTypes;
 
   @override
   bool operator ==(Object other) {
@@ -150,7 +150,8 @@ class _AssetData implements AssetData {
       required final List<ArtifactTagCategory> artifactTags,
       required final Map<FurnishingSetId, FurnishingSet> furnishingSets,
       required final Map<FurnishingId, Furnishing> furnishings,
-      required final Map<String, FurnishingSetType> furnishingSetTypes})
+      required final Map<FurnishingSetTypeId, LocalizedText>
+          furnishingSetTypes})
       : _characters = characters,
         _weapons = weapons,
         _weaponSubStats = weaponSubStats,
@@ -322,9 +323,9 @@ class _AssetData implements AssetData {
     return EqualUnmodifiableMapView(_furnishings);
   }
 
-  final Map<String, FurnishingSetType> _furnishingSetTypes;
+  final Map<FurnishingSetTypeId, LocalizedText> _furnishingSetTypes;
   @override
-  Map<String, FurnishingSetType> get furnishingSetTypes {
+  Map<FurnishingSetTypeId, LocalizedText> get furnishingSetTypes {
     if (_furnishingSetTypes is EqualUnmodifiableMapView)
       return _furnishingSetTypes;
     // ignore: implicit_dynamic_type

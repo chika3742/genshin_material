@@ -27,21 +27,11 @@ Map<String, dynamic> _$FurnishingToJson(_Furnishing instance) =>
       'source': instance.source,
     };
 
-_FurnishingSetType _$FurnishingSetTypeFromJson(Map<String, dynamic> json) =>
-    _FurnishingSetType(
-      title: LocalizedText.fromJson(json['title'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$FurnishingSetTypeToJson(_FurnishingSetType instance) =>
-    <String, dynamic>{
-      'title': instance.title,
-    };
-
 _FurnishingSetMeta _$FurnishingSetMetaFromJson(Map<String, dynamic> json) =>
     _FurnishingSetMeta(
       setTypes: (json['setTypes'] as Map<String, dynamic>).map(
         (k, e) =>
-            MapEntry(k, FurnishingSetType.fromJson(e as Map<String, dynamic>)),
+            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
       ),
     );
 
