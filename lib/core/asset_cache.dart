@@ -1,8 +1,4 @@
-import "dart:convert";
-import "dart:io";
-
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:path/path.dart" as path;
 
 import "../models/artifact.dart";
 import "../models/asset_release_version.dart";
@@ -13,8 +9,7 @@ import "../models/ingredients.dart";
 import "../models/localized_text.dart";
 import "../models/material.dart";
 import "../models/weapon.dart";
-import "asset_updater.dart";
-import "data_parsing_exception.dart";
+import "asset_loader.dart";
 
 part "asset_cache.freezed.dart";
 
@@ -27,52 +22,53 @@ class AssetDataCacheProvider {
   AssetData? data;
 
   Future<void> load() async {
-    version = await AssetUpdater(assetDir: assetDir).getCurrentVersion();
+    final loader = AssetLoader(assetDir: assetDir);
+    version = await loader.getCurrentVersion();
 
     if (version == null) {
       throw StateError("No available asset is installed.");
     }
 
     final weaponsMeta = WeaponsMeta.fromJson(
-      await _loadJson<Map<String, dynamic>>("weapons-meta.json"),
+      await loader.loadJson<Map<String, dynamic>>("weapons-meta.json"),
     );
     final materialsMeta = MaterialsMeta.fromJson(
-      await _loadJson<Map<String, dynamic>>("materials-meta.json"),
+      await loader.loadJson<Map<String, dynamic>>("materials-meta.json"),
     );
     final artifactsMeta = ArtifactsMeta.fromJson(
-      await _loadJson<Map<String, dynamic>>("artifacts-meta.json"),
+      await loader.loadJson<Map<String, dynamic>>("artifacts-meta.json"),
     );
 
     data = AssetData(
       assetDir: assetDir,
       version: version!,
-      characters: (await _loadJson<Map<String, dynamic>>("characters.json")).map((key, value) {
+      characters: (await loader.loadJson<Map<String, dynamic>>("characters.json")).map((key, value) {
         return MapEntry(
           key,
           Character.fromJson(value),
         );
       }),
       characterIngredients: IngredientConfigurations.fromJson(
-        await _loadJson<Map<String, dynamic>>("character-ingredients.json"),
+        await loader.loadJson<Map<String, dynamic>>("character-ingredients.json"),
       ),
-      weapons: (await _loadJson<Map<String, dynamic>>("weapons.json")).map((key, value) {
+      weapons: (await loader.loadJson<Map<String, dynamic>>("weapons.json")).map((key, value) {
         return MapEntry(
           key,
           Weapon.fromJson(value),
         );
       }),
       weaponIngredients: IngredientConfigurations.fromJson(
-        await _loadJson<Map<String, dynamic>>("weapon-ingredients.json"),
+        await loader.loadJson<Map<String, dynamic>>("weapon-ingredients.json"),
       ),
       weaponSubStats: weaponsMeta.subStats,
       weaponTypes: weaponsMeta.types,
-      elements: (await _loadJson<Map<String, dynamic>>("elements.json")).map((key, value) {
+      elements: (await loader.loadJson<Map<String, dynamic>>("elements.json")).map((key, value) {
         return MapEntry(
           key,
           Element.fromJson(value),
         );
       }),
-      materials: (await _loadJson<Map<String, dynamic>>("materials.json")).map((key, value) {
+      materials: (await loader.loadJson<Map<String, dynamic>>("materials.json")).map((key, value) {
         return MapEntry(
           key,
           Material.fromJson(value),
@@ -82,7 +78,7 @@ class AssetDataCacheProvider {
       materialSortOrder: materialsMeta.sortOrder,
       dailyMaterials: materialsMeta.daily,
       specialCharactersUsingMaterials: materialsMeta.specialCharactersUsingMaterials,
-      artifactSets: (await _loadJson<Map<String, dynamic>>("artifact-sets.json")).map((key, value) {
+      artifactSets: (await loader.loadJson<Map<String, dynamic>>("artifact-sets.json")).map((key, value) {
         return MapEntry(
           key,
           ArtifactSet.fromJson(value),
@@ -94,21 +90,6 @@ class AssetDataCacheProvider {
       artifactPieceSetMap: artifactsMeta.pieceSetMap,
       artifactTags: artifactsMeta.tags.categories,
     );
-  }
-
-  /// Reads data asset file and parses JSON.
-  Future<RootT> _loadJson<RootT>(String filename) async {
-    final filePath = path.join(assetDir, "data/$filename");
-    final jsonString = await File(filePath).readAsString();
-    final parsed = jsonDecode(jsonString);
-    // assert root type
-    if (parsed is! RootT) {
-      throw DataParsingException(
-        assetName: filename,
-        message: "Root type is not $RootT.",
-      );
-    }
-    return parsed;
   }
 }
 

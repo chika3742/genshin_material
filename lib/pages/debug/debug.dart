@@ -83,8 +83,8 @@ class DebugMenuPage extends ConsumerWidget {
           SimpleListTile(
             title: "Copy Asset Data Path",
             onTap: () async {
-              final path = await getLocalAssetDirectory();
-              await Clipboard.setData(ClipboardData(text: path.path));
+              final path = getCurrentAssetDirectoryPath(await getAssetsDirectoryPath());
+              await Clipboard.setData(ClipboardData(text: path));
               if (context.mounted) {
                 showSnackBar(context: context, message: "Asset data path copied to clipboard");
               }

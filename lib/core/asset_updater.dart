@@ -17,20 +17,23 @@ import "../main.dart";
 import "../models/asset_release_version.dart";
 import "../models/common.dart" as common;
 import "asset_cache.dart";
+import "asset_loader.dart";
 import "errors.dart";
 
 class AssetUpdater {
   AssetUpdater({
-    required this.assetDir,
+    required this.assetsDir,
     this.tempDir,
     http.Client? httpClient,
     int? dataSchemaVersion,
   })  : httpClient = httpClient ?? http.Client(),
-        dataSchemaVersion = dataSchemaVersion ?? common.dataSchemaVersion;
+        dataSchemaVersion = dataSchemaVersion ?? common.dataSchemaVersion,
+        currentAssetDir = getCurrentAssetDirectoryPath(assetsDir);
 
   static const allowedResourceOrigins = ["https://matnote-assets.chikach.net"];
 
-  final String assetDir;
+  final String assetsDir;
+  final String currentAssetDir;
   final String? tempDir;
   final http.Client httpClient;
 
@@ -80,7 +83,8 @@ class AssetUpdater {
 
     AssetReleaseVersion? currentVersion;
     try {
-      currentVersion = await getCurrentVersion();
+      currentVersion = await AssetLoader(assetDir: currentAssetDir)
+          .getCurrentVersion();
     } catch (e) {
       log("Failed to get current version", error: e);
     }
@@ -95,16 +99,6 @@ class AssetUpdater {
     }
 
     isUpdateChecked = true;
-  }
-
-  Future<AssetReleaseVersion?> getCurrentVersion() async {
-    final versionFile = File(path.join(assetDir, "version.json"));
-    if (!await versionFile.exists()) {
-      return null;
-    }
-
-    return AssetReleaseVersion.fromJson(
-        const JsonDecoder().convert(await versionFile.readAsString()),);
   }
 
   Future<void> downloadUpdate() async {
@@ -140,8 +134,7 @@ class AssetUpdater {
       throw "downloadUpdate() must be called successfully.";
     }
 
-    final extractDir = path.join(
-        FileSystemEntity.parentOf(assetDir), const Uuid().v4(),);
+    final extractDir = path.join(assetsDir, const Uuid().v4());
     try {
       await _unzipRelease(downloadFile!.path, extractDir);
     } catch (e) {
@@ -161,9 +154,9 @@ class AssetUpdater {
     }
 
     // Installation successful, update symlink and clean up previous asset
-    final pathCtx = path.Context(current: FileSystemEntity.parentOf(assetDir));
-    final prevAssetPath = await Link(assetDir).exists() ? pathCtx.absolute(await Link(assetDir).target()) : null;
-    await _updateSymlink(assetDir, extractDir);
+    final pathCtx = path.Context(current: assetsDir);
+    final prevAssetPath = await Link(currentAssetDir).exists() ? pathCtx.absolute(await Link(currentAssetDir).target()) : null;
+    await _updateSymlink(currentAssetDir, extractDir);
     if (prevAssetPath != null && await Directory(prevAssetPath).exists()) {
       await Directory(prevAssetPath).delete(recursive: true);
     }
@@ -271,13 +264,15 @@ class AssetUpdater {
   }
 }
 
-Future<Directory> getLocalAssetDirectory() async {
+Future<String> getAssetsDirectoryPath() async {
   final applicationSupportDir = await getApplicationSupportDirectory();
-  return Directory(
-    path.join(
-      applicationSupportDir.path, "assets", "current",
-    ),
+  return path.join(
+    applicationSupportDir.path, "assets",
   );
+}
+
+String getCurrentAssetDirectoryPath(String assetsDir) {
+  return path.join(assetsDir, "current");
 }
 
 enum AssetUpdateProgressState {

@@ -21,7 +21,7 @@ Future<PackageInfo> packageInfo(Ref ref) async {
 
 @riverpod
 Future<AssetData> assetData(Ref ref) async {
-  final dataCache = AssetDataCacheProvider((await getLocalAssetDirectory()).path);
+  final dataCache = AssetDataCacheProvider(getCurrentAssetDirectoryPath(await getAssetsDirectoryPath()));
   await dataCache.load();
   ref.onDispose(() {
     if (WidgetsBinding.instance is WidgetsFlutterBinding) {
