@@ -20,6 +20,8 @@ typedef MaterialCategoryType = String;
 typedef ArtifactPieceTypeId = String;
 typedef StatId = String;
 typedef ArtifactPieceId = String;
+typedef FurnishingId = String;
+typedef FurnishingSetId = String;
 
 String getBlankImagePath(String localAssetPath) {
   return path.join(localAssetPath, "img", "blank.png");
