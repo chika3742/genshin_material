@@ -10,6 +10,7 @@ import "package:genshin_material/models/asset_release_version.dart";
 import "package:http/http.dart" as http;
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
+import "package:path/path.dart" as path;
 
 import "asset_updater_test.mocks.dart";
 
@@ -18,7 +19,8 @@ void main() {
   tearDown(() async {
     // clear temporary file
     try {
-      await File("${Directory.current.path}/version.json").delete();
+      await Directory(getCurrentAssetDirectoryPath(Directory.current.path))
+          .delete(recursive: true);
     } on PathNotFoundException {
       // File does not exist
     }
@@ -32,7 +34,7 @@ void main() {
       return http.Response('[{"createdAt": "2024-01-01T00:00:00Z", "dataVersion": "test", "channel": "dev", "distUrl": "", "schemaVersion": 0}]', 200);
     });
     final updater = AssetUpdater(
-      assetDir: Directory.current.path,
+      assetsDir: Directory.current.path,
       tempDir: Directory.systemTemp.path,
       httpClient: client,
       dataSchemaVersion: 0,
@@ -43,7 +45,8 @@ void main() {
     WidgetsFlutterBinding.ensureInitialized();
 
     // current version is same as latest
-    await File("${Directory.current.path}/version.json")
+    await Directory(updater.currentAssetDir).create(recursive: true);
+    await File(path.join(updater.currentAssetDir, "version.json"))
         .writeAsString('{"createdAt": "2024-01-01T00:00:00Z", "dataVersion": "test", "channel": "dev", "distUrl": "", "schemaVersion": 0}');
     await updater.checkForUpdate();
     expect(updater.isUpdateAvailable, false);
@@ -80,7 +83,7 @@ void main() {
     });
 
     AssetUpdater updater = AssetUpdater(
-      assetDir: Directory.current.path,
+      assetsDir: Directory.current.path,
       tempDir: Directory.systemTemp.path,
       httpClient: client,
       dataSchemaVersion: 0,
@@ -92,7 +95,7 @@ void main() {
     expect(updater.foundUpdate?.dataVersion, "test1");
 
     updater = AssetUpdater(
-      assetDir: Directory.current.path,
+      assetsDir: Directory.current.path,
       tempDir: Directory.systemTemp.path,
       httpClient: client,
       dataSchemaVersion: 1,

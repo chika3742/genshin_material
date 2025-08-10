@@ -26,7 +26,7 @@ class AssetUpdatingStateNotifier extends _$AssetUpdatingStateNotifier {
     _updateState(AssetUpdateProgressState.checkingForUpdate);
 
     final updater = AssetUpdater(
-      assetDir: (await getLocalAssetDirectory()).path,
+      assetsDir: await getAssetsDirectoryPath(),
       tempDir: (await getTemporaryDirectory()).path,
     );
 
