@@ -27,6 +27,29 @@ Map<String, dynamic> _$FurnishingToJson(_Furnishing instance) =>
       'source': instance.source,
     };
 
+_FurnishingSetType _$FurnishingSetTypeFromJson(Map<String, dynamic> json) =>
+    _FurnishingSetType(
+      title: LocalizedText.fromJson(json['title'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$FurnishingSetTypeToJson(_FurnishingSetType instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+    };
+
+_FurnishingSetMeta _$FurnishingSetMetaFromJson(Map<String, dynamic> json) =>
+    _FurnishingSetMeta(
+      setTypes: (json['setTypes'] as Map<String, dynamic>).map(
+        (k, e) =>
+            MapEntry(k, FurnishingSetType.fromJson(e as Map<String, dynamic>)),
+      ),
+    );
+
+Map<String, dynamic> _$FurnishingSetMetaToJson(_FurnishingSetMeta instance) =>
+    <String, dynamic>{
+      'setTypes': instance.setTypes,
+    };
+
 _FurnishingSetComponent _$FurnishingSetComponentFromJson(
         Map<String, dynamic> json) =>
     _FurnishingSetComponent(
@@ -48,7 +71,7 @@ _FurnishingSet _$FurnishingSetFromJson(Map<String, dynamic> json) =>
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
-      type: $enumDecode(_$FurnishingSetTypeEnumMap, json['type']),
+      type: json['type'] as String,
       favoriteCharacterHyvIds:
           (json['favoriteCharacterHyvIds'] as List<dynamic>)
               .map((e) => (e as num).toInt())
@@ -66,14 +89,7 @@ Map<String, dynamic> _$FurnishingSetToJson(_FurnishingSet instance) =>
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,
       'imageUrl': instance.imageUrl,
-      'type': _$FurnishingSetTypeEnumMap[instance.type]!,
+      'type': instance.type,
       'favoriteCharacterHyvIds': instance.favoriteCharacterHyvIds,
       'consistsOf': instance.consistsOf,
     };
-
-const _$FurnishingSetTypeEnumMap = {
-  FurnishingSetType.outdoorSet: 'outdoorSet',
-  FurnishingSetType.outdoorGiftSet: 'outdoorGiftSet',
-  FurnishingSetType.indoorSet: 'indoorSet',
-  FurnishingSetType.indoorGiftSet: 'indoorGiftSet',
-};

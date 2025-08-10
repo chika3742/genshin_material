@@ -77,6 +77,10 @@ pages:
   materialDetails: $material - 素材
   artifacts: 聖遺物
   artifactDetails: $artifact - 聖遺物
+  furnishingSets: 調度品セット
+  furnishingSetDetails: $furnishingSet - 調度品セット
+  furnishings: 調度品
+  furnishingDetails: $furnishing - 調度品
   settings: 設定
   account: アカウント
   releaseNotes: 更新履歴
@@ -140,6 +144,8 @@ artifactDetailsPage:
   subStats: サブステータス
   unspecified: 指定しない
   nSet: $nセット
+furnishingSetsPage:
+  furnishingList: 調度品一覧
 dailyPage:
   mondayAndThursday: 月/木
   tuesdayAndFriday: 火/金

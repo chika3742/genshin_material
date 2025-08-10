@@ -63,7 +63,7 @@ class SimpleListTile extends StatelessWidget {
 class GameItemListTile extends StatelessWidget {
   final File image;
   final String name;
-  final int rarity;
+  final int? rarity;
   final bool rounded;
   final void Function()? onTap;
 
@@ -71,7 +71,7 @@ class GameItemListTile extends StatelessWidget {
     super.key,
     required this.image,
     required this.name,
-    required this.rarity,
+    this.rarity,
     this.rounded = false,
     this.onTap,
   });
@@ -90,28 +90,30 @@ class GameItemListTile extends StatelessWidget {
           ),
         ),
         title: Text(name),
-        trailing: Container(
-          width: 48,
-          height: 30,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Theme.of(context)
-                  .extension<ComponentThemeExtension>()!
-                  .getRarityColor(rarity),
-            ),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Text(
-            "★$rarity",
-            style: TextStyle(
-              fontSize: 14,
-              color: Theme.of(context)
-                  .extension<ComponentThemeExtension>()!
-                  .getRarityColor(rarity),
-            ),
-          ),
-        ),
+        trailing: rarity != null
+            ? Container(
+                width: 48,
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context)
+                        .extension<ComponentThemeExtension>()!
+                        .getRarityColor(rarity!),
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Text(
+                  "★$rarity",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context)
+                        .extension<ComponentThemeExtension>()!
+                        .getRarityColor(rarity!),
+                  ),
+                ),
+              )
+            : null,
         shape: rounded ? RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ) : null,

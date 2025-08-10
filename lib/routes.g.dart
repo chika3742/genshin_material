@@ -486,7 +486,7 @@ mixin _$ArtifactDetailsRoute on GoRouteData {
 
 mixin _$FurnishingSetListRoute on GoRouteData {
   static FurnishingSetListRoute _fromState(GoRouterState state) =>
-      FurnishingSetListRoute();
+      const FurnishingSetListRoute();
 
   @override
   String get location => GoRouteData.$location(
@@ -536,7 +536,7 @@ mixin _$FurnishingSetDetailsRoute on GoRouteData {
 
 mixin _$FurnishingListRoute on GoRouteData {
   static FurnishingListRoute _fromState(GoRouterState state) =>
-      FurnishingListRoute();
+      const FurnishingListRoute();
 
   @override
   String get location => GoRouteData.$location(

@@ -52,14 +52,15 @@ mixin _$Furnishing {
 
 /// @nodoc
 @JsonSerializable()
-class _Furnishing implements Furnishing {
+class _Furnishing extends Furnishing {
   const _Furnishing(
       {required this.id,
       required this.hyvId,
       required this.name,
       required this.jaPronunciation,
       required this.imageUrl,
-      this.source});
+      this.source})
+      : super._();
   factory _Furnishing.fromJson(Map<String, dynamic> json) =>
       _$FurnishingFromJson(json);
 
@@ -106,6 +107,135 @@ class _Furnishing implements Furnishing {
   @override
   String toString() {
     return 'Furnishing(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, source: $source)';
+  }
+}
+
+/// @nodoc
+mixin _$FurnishingSetType {
+  LocalizedText get title;
+
+  /// Serializes this FurnishingSetType to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FurnishingSetType &&
+            (identical(other.title, title) || other.title == title));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, title);
+
+  @override
+  String toString() {
+    return 'FurnishingSetType(title: $title)';
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _FurnishingSetType implements FurnishingSetType {
+  const _FurnishingSetType({required this.title});
+  factory _FurnishingSetType.fromJson(Map<String, dynamic> json) =>
+      _$FurnishingSetTypeFromJson(json);
+
+  @override
+  final LocalizedText title;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FurnishingSetTypeToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FurnishingSetType &&
+            (identical(other.title, title) || other.title == title));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, title);
+
+  @override
+  String toString() {
+    return 'FurnishingSetType(title: $title)';
+  }
+}
+
+/// @nodoc
+mixin _$FurnishingSetMeta {
+  Map<String, FurnishingSetType> get setTypes;
+
+  /// Serializes this FurnishingSetMeta to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FurnishingSetMeta &&
+            const DeepCollectionEquality().equals(other.setTypes, setTypes));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(setTypes));
+
+  @override
+  String toString() {
+    return 'FurnishingSetMeta(setTypes: $setTypes)';
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _FurnishingSetMeta implements FurnishingSetMeta {
+  const _FurnishingSetMeta(
+      {required final Map<String, FurnishingSetType> setTypes})
+      : _setTypes = setTypes;
+  factory _FurnishingSetMeta.fromJson(Map<String, dynamic> json) =>
+      _$FurnishingSetMetaFromJson(json);
+
+  final Map<String, FurnishingSetType> _setTypes;
+  @override
+  Map<String, FurnishingSetType> get setTypes {
+    if (_setTypes is EqualUnmodifiableMapView) return _setTypes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_setTypes);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FurnishingSetMetaToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FurnishingSetMeta &&
+            const DeepCollectionEquality().equals(other._setTypes, _setTypes));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_setTypes));
+
+  @override
+  String toString() {
+    return 'FurnishingSetMeta(setTypes: $setTypes)';
   }
 }
 
@@ -186,7 +316,7 @@ mixin _$FurnishingSet {
   LocalizedText get name;
   String get jaPronunciation;
   String get imageUrl;
-  FurnishingSetType get type;
+  String get type;
   List<int> get favoriteCharacterHyvIds;
   List<FurnishingSetComponent> get consistsOf;
 
@@ -233,7 +363,7 @@ mixin _$FurnishingSet {
 
 /// @nodoc
 @JsonSerializable()
-class _FurnishingSet implements FurnishingSet {
+class _FurnishingSet extends FurnishingSet {
   const _FurnishingSet(
       {required this.id,
       required this.hyvId,
@@ -244,7 +374,8 @@ class _FurnishingSet implements FurnishingSet {
       required final List<int> favoriteCharacterHyvIds,
       required final List<FurnishingSetComponent> consistsOf})
       : _favoriteCharacterHyvIds = favoriteCharacterHyvIds,
-        _consistsOf = consistsOf;
+        _consistsOf = consistsOf,
+        super._();
   factory _FurnishingSet.fromJson(Map<String, dynamic> json) =>
       _$FurnishingSetFromJson(json);
 
@@ -259,7 +390,7 @@ class _FurnishingSet implements FurnishingSet {
   @override
   final String imageUrl;
   @override
-  final FurnishingSetType type;
+  final String type;
   final List<int> _favoriteCharacterHyvIds;
   @override
   List<int> get favoriteCharacterHyvIds {

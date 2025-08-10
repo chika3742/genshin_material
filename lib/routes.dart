@@ -359,11 +359,18 @@ class ArtifactDetailsRoute extends GoRouteData with _$ArtifactDetailsRoute {
 }
 
 class FurnishingSetListRoute extends GoRouteData with _$FurnishingSetListRoute {
+  const FurnishingSetListRoute();
+
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: FurnishingSetListPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return FurnishingSetListPage(assetData: assetData);
+        }
+      ),
     );
   }
 }
@@ -383,6 +390,8 @@ class FurnishingSetDetailsRoute extends GoRouteData with _$FurnishingSetDetailsR
 }
 
 class FurnishingListRoute extends GoRouteData with _$FurnishingListRoute {
+  const FurnishingListRoute();
+
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(

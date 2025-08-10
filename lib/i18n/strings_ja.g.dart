@@ -63,6 +63,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsMaterialCardJa materialCard = TranslationsMaterialCardJa.internal(_root);
 	late final TranslationsArtifactsPageJa artifactsPage = TranslationsArtifactsPageJa.internal(_root);
 	late final TranslationsArtifactDetailsPageJa artifactDetailsPage = TranslationsArtifactDetailsPageJa.internal(_root);
+	late final TranslationsFurnishingSetsPageJa furnishingSetsPage = TranslationsFurnishingSetsPageJa.internal(_root);
 	late final TranslationsDailyPageJa dailyPage = TranslationsDailyPageJa.internal(_root);
 	late final TranslationsResinCalcPageJa resinCalcPage = TranslationsResinCalcPageJa.internal(_root);
 	late final TranslationsMorePageJa morePage = TranslationsMorePageJa.internal(_root);
@@ -200,6 +201,10 @@ class TranslationsPagesJa {
 	String materialDetails({required Object material}) => '${material} - 素材';
 	String get artifacts => '聖遺物';
 	String artifactDetails({required Object artifact}) => '${artifact} - 聖遺物';
+	String get furnishingSets => '調度品セット';
+	String furnishingSetDetails({required Object furnishingSet}) => '${furnishingSet} - 調度品セット';
+	String get furnishings => '調度品';
+	String furnishingDetails({required Object furnishing}) => '${furnishing} - 調度品';
 	String get settings => '設定';
 	String get account => 'アカウント';
 	String get releaseNotes => '更新履歴';
@@ -320,6 +325,16 @@ class TranslationsArtifactDetailsPageJa {
 	String get subStats => 'サブステータス';
 	String get unspecified => '指定しない';
 	String nSet({required Object n}) => '${n}セット';
+}
+
+// Path: furnishingSetsPage
+class TranslationsFurnishingSetsPageJa {
+	TranslationsFurnishingSetsPageJa.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get furnishingList => '調度品一覧';
 }
 
 // Path: dailyPage
@@ -559,6 +574,10 @@ extension on Translations {
 			case 'pages.materialDetails': return ({required Object material}) => '${material} - 素材';
 			case 'pages.artifacts': return '聖遺物';
 			case 'pages.artifactDetails': return ({required Object artifact}) => '${artifact} - 聖遺物';
+			case 'pages.furnishingSets': return '調度品セット';
+			case 'pages.furnishingSetDetails': return ({required Object furnishingSet}) => '${furnishingSet} - 調度品セット';
+			case 'pages.furnishings': return '調度品';
+			case 'pages.furnishingDetails': return ({required Object furnishing}) => '${furnishing} - 調度品';
 			case 'pages.settings': return '設定';
 			case 'pages.account': return 'アカウント';
 			case 'pages.releaseNotes': return '更新履歴';
@@ -614,6 +633,7 @@ extension on Translations {
 			case 'artifactDetailsPage.subStats': return 'サブステータス';
 			case 'artifactDetailsPage.unspecified': return '指定しない';
 			case 'artifactDetailsPage.nSet': return ({required Object n}) => '${n}セット';
+			case 'furnishingSetsPage.furnishingList': return '調度品一覧';
 			case 'dailyPage.mondayAndThursday': return '月/木';
 			case 'dailyPage.tuesdayAndFriday': return '火/金';
 			case 'dailyPage.wednesdayAndSaturday': return '水/土';

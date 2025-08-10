@@ -1,5 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
+import "common.dart";
 import "localized_text.dart";
 import "material.dart";
 
@@ -7,7 +8,9 @@ part "furnishing_set.freezed.dart";
 part "furnishing_set.g.dart";
 
 @freezed
-sealed class Furnishing with _$Furnishing {
+sealed class Furnishing with _$Furnishing, ImageGetter {
+  const Furnishing._();
+
   const factory Furnishing({
     required String id,
     required int hyvId,
@@ -21,11 +24,24 @@ sealed class Furnishing with _$Furnishing {
       _$FurnishingFromJson(json);
 }
 
-enum FurnishingSetType {
-  outdoorSet,
-  outdoorGiftSet,
-  indoorSet,
-  indoorGiftSet,
+@freezed
+sealed class FurnishingSetType with _$FurnishingSetType {
+  const factory FurnishingSetType({
+    required LocalizedText title,
+  }) = _FurnishingSetType;
+
+  factory FurnishingSetType.fromJson(Map<String, dynamic> json) =>
+      _$FurnishingSetTypeFromJson(json);
+}
+
+@freezed
+sealed class FurnishingSetMeta with _$FurnishingSetMeta {
+  const factory FurnishingSetMeta({
+    required Map<String, FurnishingSetType> setTypes,
+  }) = _FurnishingSetMeta;
+
+  factory FurnishingSetMeta.fromJson(Map<String, dynamic> json) =>
+      _$FurnishingSetMetaFromJson(json);
 }
 
 @freezed
@@ -40,14 +56,16 @@ sealed class FurnishingSetComponent with _$FurnishingSetComponent {
 }
 
 @freezed
-sealed class FurnishingSet with _$FurnishingSet {
+sealed class FurnishingSet with _$FurnishingSet, ImageGetter {
+  const FurnishingSet._();
+
   const factory FurnishingSet({
     required String id,
     required int hyvId,
     required LocalizedText name,
     required String jaPronunciation,
     required String imageUrl,
-    required FurnishingSetType type,
+    required String type,
     required List<int> favoriteCharacterHyvIds,
     required List<FurnishingSetComponent> consistsOf,
   }) = _FurnishingSet;

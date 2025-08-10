@@ -36,6 +36,11 @@ class DatabasePage extends StatelessWidget {
             leadingIcon: Symbols.person_play,
             location: const ArtifactListRoute().location,
           ),
+          SimpleListTile(
+            title: tr.pages.furnishingSets,
+            leadingIcon: Symbols.chair,
+            location: const FurnishingSetListRoute().location,
+          ),
         ],
       ),
     );

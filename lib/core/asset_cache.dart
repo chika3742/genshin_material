@@ -39,6 +39,9 @@ class AssetDataCacheProvider {
     final artifactsMeta = ArtifactsMeta.fromJson(
       await loader.loadJson<Map<String, dynamic>>("artifacts-meta.json"),
     );
+    final furnishingSetMeta = FurnishingSetMeta.fromJson(
+      await loader.loadJson<Map<String, dynamic>>("furnishings-meta.json"),
+    );
 
     data = AssetData(
       assetDir: assetDir,
@@ -88,6 +91,7 @@ class AssetDataCacheProvider {
         await loader.loadJson<Map<String, dynamic>>("furnishing-sets.json"),
         FurnishingSet.fromJson,
       ),
+      furnishingSetTypes: furnishingSetMeta.setTypes,
     );
   }
 
@@ -126,5 +130,6 @@ sealed class AssetData with _$AssetData {
     required List<ArtifactTagCategory> artifactTags,
     required Map<FurnishingSetId, FurnishingSet> furnishingSets,
     required Map<FurnishingId, Furnishing> furnishings,
+    required Map<String, FurnishingSetType> furnishingSetTypes,
   }) = _AssetData;
 }
