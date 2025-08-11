@@ -3,10 +3,11 @@ import "package:drift/drift.dart";
 import "../database.dart";
 
 extension FurnishingDbExtension on AppDatabase {
-  Stream<int> watchFurnishingCraftCount(String setId, String furnishingId) {
+  Stream<List<FurnishingCraftCount>> watchFurnishingCraftCounts(String setId) {
     return managers.furnishingCraftCountTable
-        .filter((f) => f.setId.equals(setId) & f.furnishingId.equals(furnishingId))
-        .watchSingleOrNull().map((e) => e?.count ?? 0);
+        .filter((f) => f.setId.equals(setId))
+        .watch()
+        .distinct();
   }
 
   Future<void> updateFurnishingCraftCount(String setId, String furnishingId, int count) {
@@ -21,5 +22,22 @@ extension FurnishingDbExtension on AppDatabase {
     return managers.furnishingCraftCountTable
         .filter((f) => f.setId.equals(setId))
         .delete();
+  }
+
+  Stream<bool> watchFurnishingSetBookmark(String setId) {
+    return managers.furnishingSetBookmarkTable
+        .filter((f) => f.setId.equals(setId))
+        .watchSingleOrNull().map((e) => e != null)
+        .distinct();
+  }
+
+  Future<void> setFurnishingSetBookmark(String setId, bool isBookmarked) {
+    if (isBookmarked) {
+      return managers.furnishingSetBookmarkTable.create((o) => o(setId: setId));
+    } else {
+      return managers.furnishingSetBookmarkTable
+          .filter((f) => f.setId.equals(setId))
+          .delete();
+    }
   }
 }
