@@ -130,6 +130,24 @@ class MaterialBagCountTable extends Table {
   Set<Column<Object>> get primaryKey => {uid, hyvId};
 }
 
+@DataClassName("FurnishingCraftCount")
+class FurnishingCraftCountTable extends Table {
+  TextColumn get furnishingId => text()();
+  TextColumn get setId => text()();
+  IntColumn get count => integer()();
+
+  @override
+  Set<Column<Object>>? get primaryKey => {furnishingId, setId};
+}
+
+@DataClassName("FurnishingSetBookmark")
+class FurnishingSetBookmarkTable extends Table {
+  TextColumn get setId => text()();
+
+  @override
+  Set<Column<Object>>? get primaryKey => {setId};
+}
+
 
 // converters
 
@@ -199,12 +217,14 @@ class MapConverter<T> extends TypeConverter<Map<String, T>, String> {
   InGameWeaponStateTable,
   BookmarkOrderRegistryTable,
   MaterialBagCountTable,
-],)
+  FurnishingCraftCountTable,
+  FurnishingSetBookmarkTable,
+])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   static const dbName = "db";
 
@@ -233,6 +253,9 @@ class AppDatabase extends _$AppDatabase {
                       .modify(DateTimeModifier.minutes(-5)),
             },
           ));
+        },
+        from2To3: (m, schema) async {
+          await m.createAll();
         },
       ),
       beforeOpen: (details) async {
