@@ -27,17 +27,7 @@ class ItemSourceWidget extends StatelessWidget {
             ),
           ),
       TextItemSource(:final text) => Text(text.localized),
-      SourceListItemSource(:final list) => FullWidth(
-        child: Column(
-          children: [
-            for (final item in list)
-              SimpleListTile(
-                title: item.localized,
-                leadingIcon: Symbols.info,
-              ),
-          ],
-        ),
-      ),
+      SourceListItemSource(:final list) => Text(list.map((e) => e.localized).join("\n")),
     };
   }
 }

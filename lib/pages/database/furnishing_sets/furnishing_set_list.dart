@@ -12,6 +12,7 @@ import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/furnishing_set.dart";
+import "../../../routes.dart";
 import "../../../ui_core/list_index_bottom_sheet.dart";
 import "../../../ui_core/tutorial.dart";
 
@@ -59,6 +60,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
               child: SimpleListTile(
                 title: tr.furnishingSetsPage.furnishingList,
                 trailingIcon: Symbols.chevron_right,
+                location: const FurnishingListRoute().location,
               ),
             ),
             ...assetData.furnishingSetTypes.entries.map((e) {
@@ -75,6 +77,9 @@ class FurnishingSetListPage extends HookConsumerWidget {
                       return GameItemListTile(
                         image: set.getImageFile(assetData.assetDir),
                         name: set.name.localized,
+                        onTap: () {
+                          FurnishingSetDetailsRoute(id: set.id).push(context);
+                        },
                       );
                     },
                     childCount: sets.length,

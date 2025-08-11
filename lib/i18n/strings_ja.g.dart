@@ -335,6 +335,13 @@ class TranslationsFurnishingSetsPageJa {
 
 	// Translations
 	String get furnishingList => '調度品一覧';
+	String get type => '種類';
+	String get image => '画像';
+	String get name => '名前';
+	String get requiredQuantity => '必要数';
+	String get source => '入手方法';
+	String get canBeScrolledHorizontally => '左右にスクロールできます';
+	String get favoredBy => 'この調度品セットが好きなキャラクター';
 }
 
 // Path: dailyPage
@@ -634,6 +641,13 @@ extension on Translations {
 			case 'artifactDetailsPage.unspecified': return '指定しない';
 			case 'artifactDetailsPage.nSet': return ({required Object n}) => '${n}セット';
 			case 'furnishingSetsPage.furnishingList': return '調度品一覧';
+			case 'furnishingSetsPage.type': return '種類';
+			case 'furnishingSetsPage.image': return '画像';
+			case 'furnishingSetsPage.name': return '名前';
+			case 'furnishingSetsPage.requiredQuantity': return '必要数';
+			case 'furnishingSetsPage.source': return '入手方法';
+			case 'furnishingSetsPage.canBeScrolledHorizontally': return '左右にスクロールできます';
+			case 'furnishingSetsPage.favoredBy': return 'この調度品セットが好きなキャラクター';
 			case 'dailyPage.mondayAndThursday': return '月/木';
 			case 'dailyPage.tuesdayAndFriday': return '火/金';
 			case 'dailyPage.wednesdayAndSaturday': return '水/土';

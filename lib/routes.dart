@@ -81,10 +81,10 @@ part "routes.g.dart";
             TypedGoRoute<FurnishingSetListRoute>(
               path: "furnishing-sets",
               routes: [
-                TypedGoRoute<FurnishingSetDetailsRoute>(path: ":id"),
                 TypedGoRoute<FurnishingListRoute>(path: "furnishings", routes: [
                   TypedGoRoute<FurnishingDetailsRoute>(path: ":id"),
                 ]),
+                TypedGoRoute<FurnishingSetDetailsRoute>(path: ":id"),
               ],
             ),
           ],
@@ -384,7 +384,12 @@ class FurnishingSetDetailsRoute extends GoRouteData with _$FurnishingSetDetailsR
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: FurnishingSetDetailsPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return FurnishingSetDetailsPage(id: id, assetData: assetData);
+        }
+      ),
     );
   }
 }
