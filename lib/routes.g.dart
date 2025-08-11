@@ -76,10 +76,6 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                   factory: _$FurnishingSetListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
-                      path: ':id',
-                      factory: _$FurnishingSetDetailsRoute._fromState,
-                    ),
-                    GoRouteData.$route(
                       path: 'furnishings',
                       factory: _$FurnishingListRoute._fromState,
                       routes: [
@@ -88,6 +84,10 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                           factory: _$FurnishingDetailsRoute._fromState,
                         ),
                       ],
+                    ),
+                    GoRouteData.$route(
+                      path: ':id',
+                      factory: _$FurnishingSetDetailsRoute._fromState,
                     ),
                   ],
                 ),
@@ -507,33 +507,6 @@ mixin _$FurnishingSetListRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$FurnishingSetDetailsRoute on GoRouteData {
-  static FurnishingSetDetailsRoute _fromState(GoRouterState state) =>
-      FurnishingSetDetailsRoute(
-        id: state.pathParameters['id']!,
-      );
-
-  FurnishingSetDetailsRoute get _self => this as FurnishingSetDetailsRoute;
-
-  @override
-  String get location => GoRouteData.$location(
-        '/database/furnishing-sets/${Uri.encodeComponent(_self.id)}',
-      );
-
-  @override
-  void go(BuildContext context) => context.go(location);
-
-  @override
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  @override
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  @override
-  void replace(BuildContext context) => context.replace(location);
-}
-
 mixin _$FurnishingListRoute on GoRouteData {
   static FurnishingListRoute _fromState(GoRouterState state) =>
       const FurnishingListRoute();
@@ -568,6 +541,33 @@ mixin _$FurnishingDetailsRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
         '/database/furnishing-sets/furnishings/${Uri.encodeComponent(_self.id)}',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$FurnishingSetDetailsRoute on GoRouteData {
+  static FurnishingSetDetailsRoute _fromState(GoRouterState state) =>
+      FurnishingSetDetailsRoute(
+        id: state.pathParameters['id']!,
+      );
+
+  FurnishingSetDetailsRoute get _self => this as FurnishingSetDetailsRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+        '/database/furnishing-sets/${Uri.encodeComponent(_self.id)}',
       );
 
   @override
