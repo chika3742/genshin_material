@@ -388,7 +388,7 @@ class FurnishingSetDetailsRoute extends GoRouteData with _$FurnishingSetDetailsR
         useScaffold: true,
         builder: (context, assetData) {
           return FurnishingSetDetailsPage(id: id, assetData: assetData);
-        }
+        },
       ),
     );
   }

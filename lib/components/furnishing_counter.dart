@@ -21,38 +21,50 @@ class FurnishingCounter extends StatelessWidget {
     return Row(
       children: [
         IconButton(
+          visualDensity: VisualDensity.compact,
           icon: Icon(Symbols.remove),
-          onPressed: () {
+          onPressed: currentCount > 0 ? () {
             onChanged(max(0, currentCount - 1));
-          },
+          } : null,
         ),
-        Text.rich(TextSpan(
-          children: [
-            TextSpan(
-              text: currentCount.toString(),
-              style: TextStyle(
-                fontSize: 24,
-              ),
-            ),
-            TextSpan(text: "/"),
-            TextSpan(text: requiredCount.toString()),
-            TextSpan(text: "(${currentCount - requiredCount})"),
-          ],
-          style: GoogleFonts.titilliumWeb(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2,
+        AnimatedDefaultTextStyle(
+          duration: Durations.short4,
+          style: TextStyle(
             color: currentCount >= requiredCount
-                ? Theme.of(context).colorScheme.primary
+                ? Theme.of(context).colorScheme.tertiary
                 : Theme.of(context).colorScheme.error,
           ),
-        )),
-        IconButton(
-          icon: Icon(Symbols.add),
-          onPressed: () {
-            onChanged(min(requiredCount, currentCount + 1));
-          },
+          child: Text.rich(TextSpan(
+            children: [
+              TextSpan(
+                text: currentCount.toString(),
+                style: TextStyle(
+                  fontSize: 24,
+                ),
+              ),
+              TextSpan(text: "/"),
+              TextSpan(text: requiredCount.toString()),
+              TextSpan(text: "(${currentCount - requiredCount})"),
+            ],
+            style: GoogleFonts.titilliumWeb(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 2,
+            ),
+          )),
         ),
+        if (currentCount < requiredCount)
+          IconButton(
+            icon: Icon(Symbols.add),
+            onPressed: currentCount < requiredCount ? () {
+              onChanged(min(requiredCount, currentCount + 1));
+            } : null,
+          )
+        else
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0),
+            child: Icon(Symbols.check, color: Colors.green, weight: 800),
+          ),
       ],
     );
   }

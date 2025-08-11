@@ -341,6 +341,8 @@ class TranslationsFurnishingSetsPageJa {
 	String get requiredQuantity => '必要数';
 	String get source => '入手方法';
 	String get canBeScrolledHorizontally => '左右にスクロールできます';
+	String get resetCraftCount => '作成数をリセット';
+	String get resetCraftCountConfirm => 'セット内の調度品の作成数をすべてリセットしますか？';
 	String get favoredBy => 'この調度品セットが好きなキャラクター';
 }
 
@@ -647,6 +649,8 @@ extension on Translations {
 			case 'furnishingSetsPage.requiredQuantity': return '必要数';
 			case 'furnishingSetsPage.source': return '入手方法';
 			case 'furnishingSetsPage.canBeScrolledHorizontally': return '左右にスクロールできます';
+			case 'furnishingSetsPage.resetCraftCount': return '作成数をリセット';
+			case 'furnishingSetsPage.resetCraftCountConfirm': return 'セット内の調度品の作成数をすべてリセットしますか？';
 			case 'furnishingSetsPage.favoredBy': return 'この調度品セットが好きなキャラクター';
 			case 'dailyPage.mondayAndThursday': return '月/木';
 			case 'dailyPage.tuesdayAndFriday': return '火/金';

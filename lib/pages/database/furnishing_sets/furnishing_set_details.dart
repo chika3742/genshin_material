@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
-import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/center_text.dart";
@@ -9,13 +9,16 @@ import "../../../components/furnishing_counter.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/item_source_widget.dart";
 import "../../../core/asset_cache.dart";
+import "../../../db/furnishing_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
+import "../../../providers/database_provider.dart";
 import "../../../routes.dart";
+import "../../../ui_core/dialog.dart";
 import "../../../ui_core/layout.dart";
 
-class FurnishingSetDetailsPage extends HookWidget {
+class FurnishingSetDetailsPage extends HookConsumerWidget {
   final AssetData assetData;
   final FurnishingSetId id;
 
@@ -29,10 +32,11 @@ class FurnishingSetDetailsPage extends HookWidget {
   static const tableColumnSpacing = 32.0;
   static const tableDataRowMinHeight = 70.0;
   static const tableDataRowMaxHeight = tableDataRowMinHeight;
-  static const tableImageWidth = 48;
+  static const tableImageWidth = 44.0;
+  static const tableItemNameMaxWidthRatio = 0.35;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final set = assetData.furnishingSets[id];
     if (set == null) {
       return Scaffold(
@@ -112,6 +116,10 @@ class FurnishingSetDetailsPage extends HookWidget {
                       ),
                       DataColumn(
                         label: Text(tr.furnishingSetsPage.name),
+                        columnWidth: MinColumnWidth(
+                          FixedColumnWidth(MediaQuery.of(context).size.width * tableItemNameMaxWidthRatio),
+                          IntrinsicColumnWidth(),
+                        ),
                       ),
                       DataColumn(
                         label: Text(tr.furnishingSetsPage.requiredQuantity),
@@ -139,10 +147,17 @@ class FurnishingSetDetailsPage extends HookWidget {
                             DataCell(
                               Consumer(
                                 builder: (context, ref, child) {
+                                  final count = ref.watch(
+                                    furnishingCraftCountProvider(set.id, component.furnishing.id),
+                                  );
                                   return FurnishingCounter(
                                     requiredCount: component.quantity,
-                                    currentCount: 0,
-                                    onChanged: (value) {},
+                                    currentCount: count.valueOrNull ?? 0,
+                                    onChanged: (value) {
+                                      ref.read(appDatabaseProvider).updateFurnishingCraftCount(
+                                        set.id, component.furnishing.id, value,
+                                      );
+                                    },
                                   );
                                 },
                               ),
@@ -155,6 +170,11 @@ class FurnishingSetDetailsPage extends HookWidget {
                     ],
                   ),
                 ),
+              ),
+              OutlinedButton.icon(
+                icon: Icon(Symbols.reset_settings),
+                label: Text(tr.furnishingSetsPage.resetCraftCount),
+                onPressed: () => _showResetCraftCountDialog(context, ref),
               ),
 
               ...charactersFavored.isNotEmpty ? [
@@ -169,6 +189,20 @@ class FurnishingSetDetailsPage extends HookWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showResetCraftCountDialog(BuildContext context, WidgetRef ref) {
+    showSimpleDialog(
+      context: context,
+      title: tr.furnishingSetsPage.resetCraftCount,
+      content: tr.furnishingSetsPage.resetCraftCountConfirm,
+      onOkPressed: () {
+        if (ref.context.mounted) {
+          ref.read(appDatabaseProvider).resetFurnishingCraftCounts(id);
+        }
+      },
+      showCancel: true,
     );
   }
 }

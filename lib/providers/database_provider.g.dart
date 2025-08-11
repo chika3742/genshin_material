@@ -225,5 +225,153 @@ final bookmarkOrderProvider = AutoDisposeStreamProvider<List<String>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef BookmarkOrderRef = AutoDisposeStreamProviderRef<List<String>>;
+String _$furnishingCraftCountHash() =>
+    r'd5ad7c07d72514538b73c64477d0569cc434ae86';
+
+/// See also [furnishingCraftCount].
+@ProviderFor(furnishingCraftCount)
+const furnishingCraftCountProvider = FurnishingCraftCountFamily();
+
+/// See also [furnishingCraftCount].
+class FurnishingCraftCountFamily extends Family<AsyncValue<int>> {
+  /// See also [furnishingCraftCount].
+  const FurnishingCraftCountFamily();
+
+  /// See also [furnishingCraftCount].
+  FurnishingCraftCountProvider call(
+    String setId,
+    String furnishingId,
+  ) {
+    return FurnishingCraftCountProvider(
+      setId,
+      furnishingId,
+    );
+  }
+
+  @override
+  FurnishingCraftCountProvider getProviderOverride(
+    covariant FurnishingCraftCountProvider provider,
+  ) {
+    return call(
+      provider.setId,
+      provider.furnishingId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'furnishingCraftCountProvider';
+}
+
+/// See also [furnishingCraftCount].
+class FurnishingCraftCountProvider extends AutoDisposeStreamProvider<int> {
+  /// See also [furnishingCraftCount].
+  FurnishingCraftCountProvider(
+    String setId,
+    String furnishingId,
+  ) : this._internal(
+          (ref) => furnishingCraftCount(
+            ref as FurnishingCraftCountRef,
+            setId,
+            furnishingId,
+          ),
+          from: furnishingCraftCountProvider,
+          name: r'furnishingCraftCountProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$furnishingCraftCountHash,
+          dependencies: FurnishingCraftCountFamily._dependencies,
+          allTransitiveDependencies:
+              FurnishingCraftCountFamily._allTransitiveDependencies,
+          setId: setId,
+          furnishingId: furnishingId,
+        );
+
+  FurnishingCraftCountProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.setId,
+    required this.furnishingId,
+  }) : super.internal();
+
+  final String setId;
+  final String furnishingId;
+
+  @override
+  Override overrideWith(
+    Stream<int> Function(FurnishingCraftCountRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: FurnishingCraftCountProvider._internal(
+        (ref) => create(ref as FurnishingCraftCountRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        setId: setId,
+        furnishingId: furnishingId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<int> createElement() {
+    return _FurnishingCraftCountProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FurnishingCraftCountProvider &&
+        other.setId == setId &&
+        other.furnishingId == furnishingId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, setId.hashCode);
+    hash = _SystemHash.combine(hash, furnishingId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin FurnishingCraftCountRef on AutoDisposeStreamProviderRef<int> {
+  /// The parameter `setId` of this provider.
+  String get setId;
+
+  /// The parameter `furnishingId` of this provider.
+  String get furnishingId;
+}
+
+class _FurnishingCraftCountProviderElement
+    extends AutoDisposeStreamProviderElement<int> with FurnishingCraftCountRef {
+  _FurnishingCraftCountProviderElement(super.provider);
+
+  @override
+  String get setId => (origin as FurnishingCraftCountProvider).setId;
+  @override
+  String get furnishingId =>
+      (origin as FurnishingCraftCountProvider).furnishingId;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

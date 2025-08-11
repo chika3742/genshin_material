@@ -4,6 +4,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 import "../database.dart";
 import "../db/bookmark_db_extension.dart";
 import "../db/bookmark_order_registry_db_extension.dart";
+import "../db/furnishing_db_extension.dart";
 import "../models/bookmark.dart";
 
 part "database_provider.g.dart";
@@ -38,4 +39,10 @@ Stream<List<BookmarkWithDetails>> bookmarks(Ref ref, {String? groupHash, List<St
 Stream<List<String>> bookmarkOrder(Ref ref) {
   final db = ref.watch(appDatabaseProvider);
   return db.watchBookmarkOrder();
+}
+
+@riverpod
+Stream<int> furnishingCraftCount(Ref ref, String setId, String furnishingId) {
+  final db = ref.watch(appDatabaseProvider);
+  return db.watchFurnishingCraftCount(setId, furnishingId).distinct();
 }
