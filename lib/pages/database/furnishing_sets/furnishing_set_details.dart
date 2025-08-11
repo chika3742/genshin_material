@@ -18,7 +18,7 @@ import "../../../routes.dart";
 import "../../../ui_core/dialog.dart";
 import "../../../ui_core/layout.dart";
 
-class FurnishingSetDetailsPage extends HookConsumerWidget {
+class FurnishingSetDetailsPage extends ConsumerWidget {
   final AssetData assetData;
   final FurnishingSetId id;
 
@@ -50,11 +50,9 @@ class FurnishingSetDetailsPage extends HookConsumerWidget {
       quantity: e.quantity,
     ));
 
-    final charactersFavored = useMemoized(() {
-      return assetData.characters.values.where((e) {
-        return e is ListedCharacter
-            && e.hyvIds.any((id) => set.favoriteCharacterHyvIds.contains(id));
-      });
+    final charactersFavored = assetData.characters.values.where((e) {
+      return e is ListedCharacter
+          && e.hyvIds.any((id) => set.favoriteCharacterHyvIds.contains(id));
     });
 
     return Scaffold(
@@ -81,6 +79,7 @@ class FurnishingSetDetailsPage extends HookConsumerWidget {
                 ],
               ),
 
+              // scroll hint text
               Row(
                 spacing: 8,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -145,14 +144,14 @@ class FurnishingSetDetailsPage extends HookConsumerWidget {
                               Text(component.furnishing.name.localized),
                             ),
                             DataCell(
-                              Consumer(
-                                builder: (context, ref, child) {
-                                  final count = ref.watch(
-                                    furnishingCraftCountProvider(set.id, component.furnishing.id),
-                                  );
+                              HookConsumer(
+                                builder: (context, ref, _) {
+                                  final db = ref.watch(appDatabaseProvider);
+                                  final count = useStream(
+                                      db.watchFurnishingCraftCount(set.id, component.furnishing.id));
                                   return FurnishingCounter(
                                     requiredCount: component.quantity,
-                                    currentCount: count.valueOrNull ?? 0,
+                                    currentCount: count.data ?? 0,
                                     onChanged: (value) {
                                       ref.read(appDatabaseProvider).updateFurnishingCraftCount(
                                         set.id, component.furnishing.id, value,
