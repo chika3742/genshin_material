@@ -58,7 +58,9 @@ class SectionHeading extends StatelessWidget {
       padding: EdgeInsets.only(left: indent),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.titleMedium,
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
       ),
     );
   }
