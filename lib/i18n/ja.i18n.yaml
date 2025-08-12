@@ -108,6 +108,7 @@ bookmarksPage:
   allFurnishingsAreCrafted: すべての調度品が作成済みです
 characterDetailsPage:
   equippedWeapon: 装備中の武器
+  favoriteFurnishingSets: 好きな調度品セット
 weaponDetailsPage:
   characterToEquip: 武器を装備させるキャラクター
   skillEffect: スキル効果

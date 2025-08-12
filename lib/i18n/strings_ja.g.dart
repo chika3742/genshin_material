@@ -248,6 +248,7 @@ class TranslationsCharacterDetailsPageJa {
 
 	// Translations
 	String get equippedWeapon => '装備中の武器';
+	String get favoriteFurnishingSets => '好きな調度品セット';
 }
 
 // Path: weaponDetailsPage
@@ -616,6 +617,7 @@ extension on Translations {
 			case 'bookmarksPage.furnishings': return '調度品';
 			case 'bookmarksPage.allFurnishingsAreCrafted': return 'すべての調度品が作成済みです';
 			case 'characterDetailsPage.equippedWeapon': return '装備中の武器';
+			case 'characterDetailsPage.favoriteFurnishingSets': return '好きな調度品セット';
 			case 'weaponDetailsPage.characterToEquip': return '武器を装備させるキャラクター';
 			case 'weaponDetailsPage.skillEffect': return 'スキル効果';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';

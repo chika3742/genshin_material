@@ -8,6 +8,11 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "../constants/dimens.dart";
 import "../core/theme.dart";
 
+enum RoutingStrategy {
+  go,
+  push,
+}
+
 class SimpleListTile extends StatelessWidget {
   final String? title;
   final String? subtitle;
@@ -16,6 +21,7 @@ class SimpleListTile extends StatelessWidget {
   final IconData? trailingIcon;
   final bool enabled;
   final Color? tileColor;
+  final RoutingStrategy routingStrategy;
 
   /// Exclusive with [onTap]
   final String? location;
@@ -33,6 +39,7 @@ class SimpleListTile extends StatelessWidget {
     this.enabled = true,
     this.tileColor,
     this.location,
+    this.routingStrategy = RoutingStrategy.go,
     this.onTap,
   })  : assert(location == null || onTap == null),
         assert(leadingIcon == null || leading == null,
@@ -53,7 +60,13 @@ class SimpleListTile extends StatelessWidget {
               : null,
       onTap: location != null
           ? () {
-              context.go(location!);
+              switch (routingStrategy) {
+                case RoutingStrategy.go:
+                  context.go(location!);
+                  break;
+                case RoutingStrategy.push:
+                  context.push(location!);
+              }
             }
           : onTap,
     );
