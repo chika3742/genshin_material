@@ -33,7 +33,7 @@ class FurnishingTable extends HookConsumerWidget {
   static const tableColumnSpacing = 32.0;
   static const tableDataRowMinHeight = 70.0;
   static const tableDataRowMaxHeight = tableDataRowMinHeight;
-  static const tableImageWidth = 44.0;
+  static const tableImageSize = 44.0;
   static const tableItemNameMaxWidthRatio = 0.35;
 
   @override
@@ -56,7 +56,7 @@ class FurnishingTable extends HookConsumerWidget {
           DataColumn(
             label: Text(tr.furnishingSetsPage.image),
             columnWidth: FixedColumnWidth(
-              tableImageWidth
+              tableImageSize
                   + tableHorizontalMargin
                   + (tableColumnSpacing / 2),
             ),
@@ -82,6 +82,7 @@ class FurnishingTable extends HookConsumerWidget {
                 DataCell(
                   Image.file(
                     item.furnishing.getImageFile(assetData.assetDir),
+                    height: tableImageSize,
                   ),
                   onTap: () {
                     FurnishingDetailsRoute(id: item.furnishing.id)
