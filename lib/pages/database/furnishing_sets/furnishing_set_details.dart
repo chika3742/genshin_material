@@ -28,6 +28,8 @@ class FurnishingSetDetailsPage extends ConsumerWidget {
     required this.assetData,
   });
 
+  static const furnishingSetImageWidth = 90.0;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final set = assetData.furnishingSets[id];
@@ -58,7 +60,10 @@ class FurnishingSetDetailsPage extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: GameItemInfoBox(
-                      itemImage: Image.file(set.getImageFile(assetData.assetDir), width: 90),
+                      itemImage: Image.file(
+                        set.getImageFile(assetData.assetDir),
+                        width: furnishingSetImageWidth,
+                      ),
                       children: [
                         Text.rich(TextSpan(children: [
                           TextSpan(

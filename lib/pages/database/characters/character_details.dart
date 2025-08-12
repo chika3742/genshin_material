@@ -14,6 +14,7 @@ import "../../../components/level_slider.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/material_slider.dart";
 import "../../../components/rarity_stars.dart";
+import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../database.dart";
 import "../../../db/bookmark_db_extension.dart";
@@ -355,7 +356,10 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                         .any((id) => character.hyvIds.contains(id))).map((e) {
                       return FullWidth(
                         child: SimpleListTile(
-                          leading: Image.file(e.getImageFile(assetData.assetDir), width: 70),
+                          leading: Image.file(
+                            e.getImageFile(assetData.assetDir),
+                            width: listTileFurnishingSetImageWidth,
+                          ),
                           title: e.name.localized,
                           location: FurnishingSetDetailsRoute(id: e.id).location,
                           routingStrategy: RoutingStrategy.push,

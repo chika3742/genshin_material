@@ -10,6 +10,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "../components/center_text.dart";
 import "../components/furnishing_counter.dart";
 import "../components/material_item.dart";
+import "../constants/dimens.dart";
 import "../core/asset_cache.dart";
 import "../db/bookmark_db_extension.dart";
 import "../db/bookmark_order_registry_db_extension.dart";
@@ -806,7 +807,7 @@ class _FurnishingBookmarkList extends HookConsumerWidget {
               controller: controller,
               leading: Image.file(
                 set.getImageFile(assetData.assetDir),
-                width: 70,
+                width: listTileFurnishingSetImageWidth,
               ),
               title: Text(set.name.localized),
               trailing: Row(
