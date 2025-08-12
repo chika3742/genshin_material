@@ -49,7 +49,7 @@ class FurnishingCounter extends StatelessWidget {
               TextSpan(text: "/"),
               TextSpan(text: requiredCount.toString()),
               if (currentCount < requiredCount)
-                TextSpan(text: "(${currentCount - requiredCount})"),
+                TextSpan(text: "(-${requiredCount - currentCount})"),
             ],
             style: GoogleFonts.titilliumWeb(
               fontSize: 20,
