@@ -2272,8 +2272,14 @@ class FurnishingSetBookmarkTable extends Table
   late final GeneratedColumn<String> setId = GeneratedColumn<String>(
       'set_id', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: const CustomExpression(
+          'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)'));
   @override
-  List<GeneratedColumn> get $columns => [setId];
+  List<GeneratedColumn> get $columns => [setId, createdAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -2288,6 +2294,8 @@ class FurnishingSetBookmarkTable extends Table
     return FurnishingSetBookmarkTableData(
       setId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}set_id'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
     );
   }
 
@@ -2300,17 +2308,21 @@ class FurnishingSetBookmarkTable extends Table
 class FurnishingSetBookmarkTableData extends DataClass
     implements Insertable<FurnishingSetBookmarkTableData> {
   final String setId;
-  const FurnishingSetBookmarkTableData({required this.setId});
+  final DateTime createdAt;
+  const FurnishingSetBookmarkTableData(
+      {required this.setId, required this.createdAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['set_id'] = Variable<String>(setId);
+    map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
 
   FurnishingSetBookmarkTableDataCompanion toCompanion(bool nullToAbsent) {
     return FurnishingSetBookmarkTableDataCompanion(
       setId: Value(setId),
+      createdAt: Value(createdAt),
     );
   }
 
@@ -2319,6 +2331,7 @@ class FurnishingSetBookmarkTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return FurnishingSetBookmarkTableData(
       setId: serializer.fromJson<String>(json['setId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
   @override
@@ -2326,62 +2339,75 @@ class FurnishingSetBookmarkTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'setId': serializer.toJson<String>(setId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
 
-  FurnishingSetBookmarkTableData copyWith({String? setId}) =>
+  FurnishingSetBookmarkTableData copyWith(
+          {String? setId, DateTime? createdAt}) =>
       FurnishingSetBookmarkTableData(
         setId: setId ?? this.setId,
+        createdAt: createdAt ?? this.createdAt,
       );
   FurnishingSetBookmarkTableData copyWithCompanion(
       FurnishingSetBookmarkTableDataCompanion data) {
     return FurnishingSetBookmarkTableData(
       setId: data.setId.present ? data.setId.value : this.setId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
 
   @override
   String toString() {
     return (StringBuffer('FurnishingSetBookmarkTableData(')
-          ..write('setId: $setId')
+          ..write('setId: $setId, ')
+          ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => setId.hashCode;
+  int get hashCode => Object.hash(setId, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is FurnishingSetBookmarkTableData && other.setId == this.setId);
+      (other is FurnishingSetBookmarkTableData &&
+          other.setId == this.setId &&
+          other.createdAt == this.createdAt);
 }
 
 class FurnishingSetBookmarkTableDataCompanion
     extends UpdateCompanion<FurnishingSetBookmarkTableData> {
   final Value<String> setId;
+  final Value<DateTime> createdAt;
   final Value<int> rowid;
   const FurnishingSetBookmarkTableDataCompanion({
     this.setId = const Value.absent(),
+    this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   FurnishingSetBookmarkTableDataCompanion.insert({
     required String setId,
+    this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : setId = Value(setId);
   static Insertable<FurnishingSetBookmarkTableData> custom({
     Expression<String>? setId,
+    Expression<DateTime>? createdAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (setId != null) 'set_id': setId,
+      if (createdAt != null) 'created_at': createdAt,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
   FurnishingSetBookmarkTableDataCompanion copyWith(
-      {Value<String>? setId, Value<int>? rowid}) {
+      {Value<String>? setId, Value<DateTime>? createdAt, Value<int>? rowid}) {
     return FurnishingSetBookmarkTableDataCompanion(
       setId: setId ?? this.setId,
+      createdAt: createdAt ?? this.createdAt,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2391,6 +2417,9 @@ class FurnishingSetBookmarkTableDataCompanion
     final map = <String, Expression>{};
     if (setId.present) {
       map['set_id'] = Variable<String>(setId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -2402,6 +2431,7 @@ class FurnishingSetBookmarkTableDataCompanion
   String toString() {
     return (StringBuffer('FurnishingSetBookmarkTableDataCompanion(')
           ..write('setId: $setId, ')
+          ..write('createdAt: $createdAt, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();

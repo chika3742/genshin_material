@@ -143,6 +143,7 @@ class FurnishingCraftCountTable extends Table {
 @DataClassName("FurnishingSetBookmark")
 class FurnishingSetBookmarkTable extends Table {
   TextColumn get setId => text()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
   @override
   Set<Column<Object>>? get primaryKey => {setId};

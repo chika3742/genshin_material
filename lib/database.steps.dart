@@ -536,6 +536,7 @@ final class Schema3 extends i0.VersionedSchema {
         ],
         columns: [
           _column_27,
+          _column_3,
         ],
         attachedDatabase: database,
       ),
@@ -563,6 +564,8 @@ class Shape9 extends i0.VersionedTable {
   Shape9({required super.source, required super.alias}) : super.aliased();
   i1.GeneratedColumn<String> get setId =>
       columnsByName['set_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<DateTime> get createdAt =>
+      columnsByName['created_at']! as i1.GeneratedColumn<DateTime>;
 }
 
 i0.MigrationStepWithVersion migrationSteps({
