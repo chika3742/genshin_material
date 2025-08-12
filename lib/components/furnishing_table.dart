@@ -106,7 +106,9 @@ class FurnishingTable extends HookConsumerWidget {
                   ),
                 ),
                 DataCell(
-                  ItemSourceWidget(item.furnishing.source!),
+                  item.furnishing.source != null
+                      ? ItemSourceWidget(item.furnishing.source!)
+                      : SizedBox.shrink(),
                 ),
               ],
             ),
