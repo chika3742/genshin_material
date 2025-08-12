@@ -74,12 +74,13 @@ class FurnishingSetListPage extends HookConsumerWidget {
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
                       final set = sets[index];
-                      return GameItemListTile(
-                        image: set.getImageFile(assetData.assetDir),
-                        name: set.name.localized,
-                        onTap: () {
-                          FurnishingSetDetailsRoute(id: set.id).push(context);
-                        },
+                      return SimpleListTile(
+                        leading: Image.file(
+                          set.getImageFile(assetData.assetDir),
+                          width: listTileFurnishingSetImageWidth,
+                        ),
+                        title: set.name.localized,
+                        location: FurnishingSetDetailsRoute(id: set.id).location,
                       );
                     },
                     childCount: sets.length,
