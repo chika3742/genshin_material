@@ -41,12 +41,23 @@ class ListIndexBottomSheet<T> extends StatelessWidget {
   }
 }
 
+/// Represents an item in the ListIndexBottomSheet.
+///
+/// [T] is the type of the value associated with the item.
 class ListIndexItem<T> {
+  /// The value returned when this item is selected.
   final T value;
+  /// The display title of the item.
   final String title;
+  /// The image file shown as the leading icon.
   final File image;
+  /// The number of sub-items this item represents.
+  ///
+  /// Used for scroll offset calculations to determine how much space occupies
+  /// in the list, especially when animating to a specific index.
   final int itemCount;
 
+  /// Creates a [ListIndexItem] with the given properties.
   const ListIndexItem({
     required this.value,
     required this.title,
