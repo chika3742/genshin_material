@@ -401,7 +401,12 @@ class FurnishingListRoute extends GoRouteData with _$FurnishingListRoute {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: FurnishingListPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, _) {
+          return FurnishingListPage();
+        },
+      ),
     );
   }
 }
@@ -415,7 +420,12 @@ class FurnishingDetailsRoute extends GoRouteData with _$FurnishingDetailsRoute {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
       context: context,
-      child: FurnishingDetailsPage(),
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, _) {
+          return FurnishingDetailsPage(id: id);
+        },
+      ),
     );
   }
 }

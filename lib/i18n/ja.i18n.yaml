@@ -160,6 +160,7 @@ furnishingSetsPage:
   favoredBy: この調度品セットが好きなキャラクター
   addedToBookmarks: ブックマークしました
   removedFromBookmarks: ブックマークを解除しました
+  furnishingSetsUsingThisFurnishing: この調度品を使用する調度品セット
 dailyPage:
   mondayAndThursday: 月/木
   tuesdayAndFriday: 火/金

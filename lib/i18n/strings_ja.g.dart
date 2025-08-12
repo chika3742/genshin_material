@@ -349,6 +349,7 @@ class TranslationsFurnishingSetsPageJa {
 	String get favoredBy => 'この調度品セットが好きなキャラクター';
 	String get addedToBookmarks => 'ブックマークしました';
 	String get removedFromBookmarks => 'ブックマークを解除しました';
+	String get furnishingSetsUsingThisFurnishing => 'この調度品を使用する調度品セット';
 }
 
 // Path: dailyPage
@@ -662,6 +663,7 @@ extension on Translations {
 			case 'furnishingSetsPage.favoredBy': return 'この調度品セットが好きなキャラクター';
 			case 'furnishingSetsPage.addedToBookmarks': return 'ブックマークしました';
 			case 'furnishingSetsPage.removedFromBookmarks': return 'ブックマークを解除しました';
+			case 'furnishingSetsPage.furnishingSetsUsingThisFurnishing': return 'この調度品を使用する調度品セット';
 			case 'dailyPage.mondayAndThursday': return '月/木';
 			case 'dailyPage.tuesdayAndFriday': return '火/金';
 			case 'dailyPage.wednesdayAndSaturday': return '水/土';

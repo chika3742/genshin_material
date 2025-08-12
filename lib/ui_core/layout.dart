@@ -46,6 +46,27 @@ class GappedRow extends Flex {
   );
 }
 
+class Main extends StatelessWidget {
+  final List<Widget> children;
+  final double spacing;
+
+  const Main({
+    super.key,
+    required this.children,
+    this.spacing = 32.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: spacing,
+      children: children,
+    );
+  }
+}
+
+
 class SectionHeading extends StatelessWidget {
   final String text;
   final double indent;
