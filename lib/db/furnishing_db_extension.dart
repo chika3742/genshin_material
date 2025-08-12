@@ -31,6 +31,12 @@ extension FurnishingDbExtension on AppDatabase {
         .distinct();
   }
 
+  Stream<List<FurnishingSetBookmark>> watchFurnishingSetBookmarks() {
+    return managers.furnishingSetBookmarkTable
+        .orderBy((o) => o.createdAt.asc())
+        .watch();
+  }
+
   Future<void> setFurnishingSetBookmark(String setId, bool isBookmarked) {
     if (isBookmarked) {
       return managers.furnishingSetBookmarkTable.create((o) => o(setId: setId));
@@ -39,5 +45,14 @@ extension FurnishingDbExtension on AppDatabase {
           .filter((f) => f.setId.equals(setId))
           .delete();
     }
+  }
+
+  Future<Future<void> Function()> removeFurnishingSetBookmark(FurnishingSetBookmark bookmark) async {
+    await managers.furnishingSetBookmarkTable
+        .filter((f) => f.setId.equals(bookmark.setId))
+        .delete();
+    return () {
+      return into(furnishingSetBookmarkTable).insert(bookmark);
+    };
   }
 }

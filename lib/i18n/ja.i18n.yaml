@@ -104,6 +104,8 @@ bookmarksPage:
   unBookmarkConfirm: このブックマークを解除しますか？
   byPurpose: 使用先
   byMaterial: 素材
+  furnishings: 調度品
+  allFurnishingsAreCrafted: すべての調度品が作成済みです
 characterDetailsPage:
   equippedWeapon: 装備中の武器
 weaponDetailsPage:
@@ -149,12 +151,14 @@ furnishingSetsPage:
   type: 種類
   image: 画像
   name: 名前
-  requiredQuantity: 必要数
+  requiredQuantity: 必要数 (長押しで一括変更)
   source: 入手方法
   canBeScrolledHorizontally: 左右にスクロールできます
   resetCraftCount: 作成数をリセット
   resetCraftCountConfirm: セット内の調度品の作成数をすべてリセットしますか？
   favoredBy: この調度品セットが好きなキャラクター
+  addedToBookmarks: ブックマークしました
+  removedFromBookmarks: ブックマークを解除しました
 dailyPage:
   mondayAndThursday: 月/木
   tuesdayAndFriday: 火/金

@@ -8,6 +8,7 @@ import "../../../components/character_small_card.dart";
 import "../../../components/furnishing_table.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../core/asset_cache.dart";
+import "../../../core/theme.dart";
 import "../../../db/furnishing_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
@@ -15,6 +16,7 @@ import "../../../models/common.dart";
 import "../../../providers/database_provider.dart";
 import "../../../ui_core/dialog.dart";
 import "../../../ui_core/layout.dart";
+import "../../../ui_core/snack_bar.dart";
 
 class FurnishingSetDetailsPage extends ConsumerWidget {
   final AssetData assetData;
@@ -52,16 +54,50 @@ class FurnishingSetDetailsPage extends ConsumerWidget {
             spacing: 16,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GameItemInfoBox(
-                itemImage: Image.file(set.getImageFile(assetData.assetDir), width: 90),
+              Row(
                 children: [
-                  Text.rich(TextSpan(children: [
-                    TextSpan(
-                      text: "${tr.furnishingSetsPage.type}  ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  Expanded(
+                    child: GameItemInfoBox(
+                      itemImage: Image.file(set.getImageFile(assetData.assetDir), width: 90),
+                      children: [
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                            text: "${tr.furnishingSetsPage.type}  ",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: assetData.furnishingSetTypes[set.type]!.localized),
+                        ])),
+                      ],
                     ),
-                    TextSpan(text: assetData.furnishingSetTypes[set.type]!.localized),
-                  ])),
+                  ),
+                  HookConsumer(
+                    builder: (context, ref, child) {
+                      final db = ref.watch(appDatabaseProvider);
+                      final isBookmarkedSnapshot = useStream(
+                          db.watchFurnishingSetBookmark(set.id));
+                      final isBookmarked = isBookmarkedSnapshot.data ?? false;
+                      return IconButton(
+                        icon: Icon(
+                          isBookmarked ? Symbols.bookmark_remove : Symbols.bookmark_add,
+                          fill: isBookmarked ? 1.0 : 0.0,
+                          color: isBookmarked
+                              ? Theme.of(context).extension<ComponentThemeExtension>()!.starColor
+                              : null,
+                        ),
+                        onPressed: () {
+                          db.setFurnishingSetBookmark(set.id, !isBookmarked);
+                          if (context.mounted && isBookmarkedSnapshot.hasData) {
+                            showSnackBar(
+                              context: context,
+                              message: isBookmarked
+                                  ? tr.furnishingSetsPage.removedFromBookmarks
+                                  : tr.furnishingSetsPage.addedToBookmarks,
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
                 ],
               ),
 

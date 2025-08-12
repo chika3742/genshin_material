@@ -19,6 +19,7 @@ class FurnishingCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
           visualDensity: VisualDensity.compact,
@@ -26,6 +27,9 @@ class FurnishingCounter extends StatelessWidget {
           onPressed: currentCount > 0 ? () {
             onChanged(max(0, currentCount - 1));
           } : null,
+          onLongPress: () {
+            onChanged(0);
+          },
         ),
         AnimatedDefaultTextStyle(
           duration: Durations.short4,
@@ -60,6 +64,9 @@ class FurnishingCounter extends StatelessWidget {
             onPressed: currentCount < requiredCount ? () {
               onChanged(min(requiredCount, currentCount + 1));
             } : null,
+            onLongPress: () {
+              onChanged(requiredCount);
+            },
           )
         else
           Padding(

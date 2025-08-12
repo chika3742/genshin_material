@@ -236,6 +236,8 @@ class TranslationsBookmarksPageJa {
 	String get unBookmarkConfirm => 'このブックマークを解除しますか？';
 	String get byPurpose => '使用先';
 	String get byMaterial => '素材';
+	String get furnishings => '調度品';
+	String get allFurnishingsAreCrafted => 'すべての調度品が作成済みです';
 }
 
 // Path: characterDetailsPage
@@ -338,12 +340,14 @@ class TranslationsFurnishingSetsPageJa {
 	String get type => '種類';
 	String get image => '画像';
 	String get name => '名前';
-	String get requiredQuantity => '必要数';
+	String get requiredQuantity => '必要数 (長押しで一括変更)';
 	String get source => '入手方法';
 	String get canBeScrolledHorizontally => '左右にスクロールできます';
 	String get resetCraftCount => '作成数をリセット';
 	String get resetCraftCountConfirm => 'セット内の調度品の作成数をすべてリセットしますか？';
 	String get favoredBy => 'この調度品セットが好きなキャラクター';
+	String get addedToBookmarks => 'ブックマークしました';
+	String get removedFromBookmarks => 'ブックマークを解除しました';
 }
 
 // Path: dailyPage
@@ -609,6 +613,8 @@ extension on Translations {
 			case 'bookmarksPage.unBookmarkConfirm': return 'このブックマークを解除しますか？';
 			case 'bookmarksPage.byPurpose': return '使用先';
 			case 'bookmarksPage.byMaterial': return '素材';
+			case 'bookmarksPage.furnishings': return '調度品';
+			case 'bookmarksPage.allFurnishingsAreCrafted': return 'すべての調度品が作成済みです';
 			case 'characterDetailsPage.equippedWeapon': return '装備中の武器';
 			case 'weaponDetailsPage.characterToEquip': return '武器を装備させるキャラクター';
 			case 'weaponDetailsPage.skillEffect': return 'スキル効果';
@@ -646,12 +652,14 @@ extension on Translations {
 			case 'furnishingSetsPage.type': return '種類';
 			case 'furnishingSetsPage.image': return '画像';
 			case 'furnishingSetsPage.name': return '名前';
-			case 'furnishingSetsPage.requiredQuantity': return '必要数';
+			case 'furnishingSetsPage.requiredQuantity': return '必要数 (長押しで一括変更)';
 			case 'furnishingSetsPage.source': return '入手方法';
 			case 'furnishingSetsPage.canBeScrolledHorizontally': return '左右にスクロールできます';
 			case 'furnishingSetsPage.resetCraftCount': return '作成数をリセット';
 			case 'furnishingSetsPage.resetCraftCountConfirm': return 'セット内の調度品の作成数をすべてリセットしますか？';
 			case 'furnishingSetsPage.favoredBy': return 'この調度品セットが好きなキャラクター';
+			case 'furnishingSetsPage.addedToBookmarks': return 'ブックマークしました';
+			case 'furnishingSetsPage.removedFromBookmarks': return 'ブックマークを解除しました';
 			case 'dailyPage.mondayAndThursday': return '月/木';
 			case 'dailyPage.tuesdayAndFriday': return '火/金';
 			case 'dailyPage.wednesdayAndSaturday': return '水/土';
