@@ -16,6 +16,10 @@ import "pages/database/artifacts/artifact_list.dart";
 import "pages/database/characters/character_details.dart";
 import "pages/database/characters/character_list.dart";
 import "pages/database/database.dart";
+import "pages/database/furnishing_sets/furnishing_set_details.dart";
+import "pages/database/furnishing_sets/furnishing_set_list.dart";
+import "pages/database/furnishing_sets/furnishings/furnishing_details.dart";
+import "pages/database/furnishing_sets/furnishings/furnishing_list.dart";
 import "pages/database/materials/material_details.dart";
 import "pages/database/materials/material_list.dart";
 import "pages/database/weapons/weapon_details.dart";
@@ -72,6 +76,15 @@ part "routes.g.dart";
               routes: [
                 TypedGoRoute<ArtifactEffectListRoute>(path: "effects"),
                 TypedGoRoute<ArtifactDetailsRoute>(path: ":id"),
+              ],
+            ),
+            TypedGoRoute<FurnishingSetListRoute>(
+              path: "furnishing-sets",
+              routes: [
+                TypedGoRoute<FurnishingListRoute>(path: "furnishings", routes: [
+                  TypedGoRoute<FurnishingDetailsRoute>(path: ":id"),
+                ]),
+                TypedGoRoute<FurnishingSetDetailsRoute>(path: ":id"),
               ],
             ),
           ],
@@ -339,6 +352,78 @@ class ArtifactDetailsRoute extends GoRouteData with _$ArtifactDetailsRoute {
             id: id,
             initialSelectedCharacter: initialSelectedCharacter,
           );
+        },
+      ),
+    );
+  }
+}
+
+class FurnishingSetListRoute extends GoRouteData with _$FurnishingSetListRoute {
+  const FurnishingSetListRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return FurnishingSetListPage(assetData: assetData);
+        },
+      ),
+    );
+  }
+}
+
+class FurnishingSetDetailsRoute extends GoRouteData with _$FurnishingSetDetailsRoute {
+  final String id;
+
+  const FurnishingSetDetailsRoute({required this.id});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return FurnishingSetDetailsPage(id: id, assetData: assetData);
+        },
+      ),
+    );
+  }
+}
+
+class FurnishingListRoute extends GoRouteData with _$FurnishingListRoute {
+  const FurnishingListRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, _) {
+          return FurnishingListPage();
+        },
+      ),
+    );
+  }
+}
+
+class FurnishingDetailsRoute extends GoRouteData with _$FurnishingDetailsRoute {
+  final String id;
+
+  const FurnishingDetailsRoute({required this.id});
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, _) {
+          return FurnishingDetailsPage(id: id);
         },
       ),
     );

@@ -5,6 +5,7 @@ import "../models/asset_release_version.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../models/element.dart";
+import "../models/furnishing_set.dart";
 import "../models/ingredients.dart";
 import "../models/localized_text.dart";
 import "../models/material.dart";
@@ -38,58 +39,69 @@ class AssetDataCacheProvider {
     final artifactsMeta = ArtifactsMeta.fromJson(
       await loader.loadJson<Map<String, dynamic>>("artifacts-meta.json"),
     );
+    final furnishingSetMeta = FurnishingSetMeta.fromJson(
+      await loader.loadJson<Map<String, dynamic>>("furnishings-meta.json"),
+    );
 
     data = AssetData(
       assetDir: assetDir,
       version: version!,
-      characters: (await loader.loadJson<Map<String, dynamic>>("characters.json")).map((key, value) {
-        return MapEntry(
-          key,
-          Character.fromJson(value),
-        );
-      }),
+      characters: _parseMap(
+        await loader.loadJson<Map<String, dynamic>>("characters.json"),
+        Character.fromJson,
+      ),
       characterIngredients: IngredientConfigurations.fromJson(
         await loader.loadJson<Map<String, dynamic>>("character-ingredients.json"),
       ),
-      weapons: (await loader.loadJson<Map<String, dynamic>>("weapons.json")).map((key, value) {
-        return MapEntry(
-          key,
-          Weapon.fromJson(value),
-        );
-      }),
+      weapons: _parseMap(
+        await loader.loadJson<Map<String, dynamic>>("weapons.json"),
+        Weapon.fromJson,
+      ),
       weaponIngredients: IngredientConfigurations.fromJson(
         await loader.loadJson<Map<String, dynamic>>("weapon-ingredients.json"),
       ),
       weaponSubStats: weaponsMeta.subStats,
       weaponTypes: weaponsMeta.types,
-      elements: (await loader.loadJson<Map<String, dynamic>>("elements.json")).map((key, value) {
-        return MapEntry(
-          key,
-          Element.fromJson(value),
-        );
-      }),
-      materials: (await loader.loadJson<Map<String, dynamic>>("materials.json")).map((key, value) {
-        return MapEntry(
-          key,
-          Material.fromJson(value),
-        );
-      }),
+      elements: _parseMap(
+        await loader.loadJson<Map<String, dynamic>>("elements.json"),
+        Element.fromJson,
+      ),
+      materials: _parseMap(
+        await loader.loadJson<Map<String, dynamic>>("materials.json"),
+        Material.fromJson,
+      ),
       materialCategories: materialsMeta.categories,
       materialSortOrder: materialsMeta.sortOrder,
       dailyMaterials: materialsMeta.daily,
       specialCharactersUsingMaterials: materialsMeta.specialCharactersUsingMaterials,
-      artifactSets: (await loader.loadJson<Map<String, dynamic>>("artifact-sets.json")).map((key, value) {
-        return MapEntry(
-          key,
-          ArtifactSet.fromJson(value),
-        );
-      }),
+      artifactSets: _parseMap(
+        await loader.loadJson<Map<String, dynamic>>("artifact-sets.json"),
+        ArtifactSet.fromJson,
+      ),
       artifactPieceTypes: artifactsMeta.pieceTypes,
       stats: artifactsMeta.stats,
       artifactPossibleSubStats: artifactsMeta.possibleSubStats,
       artifactPieceSetMap: artifactsMeta.pieceSetMap,
       artifactTags: artifactsMeta.tags.categories,
+      furnishings: _parseMap(
+        await loader.loadJson<Map<String, dynamic>>("furnishings.json"),
+        Furnishing.fromJson,
+      ),
+      furnishingSets: _parseMap(
+        await loader.loadJson<Map<String, dynamic>>("furnishing-sets.json"),
+        FurnishingSet.fromJson,
+      ),
+      furnishingSetTypes: furnishingSetMeta.setTypes,
     );
+  }
+
+  Map<K, V> _parseMap<K, V>(Map<K, dynamic> map, V Function(Map<K, dynamic>) fromJson) {
+    return map.map((key, value) {
+      return MapEntry(
+        key,
+        fromJson(value),
+      );
+    });
   }
 }
 
@@ -116,5 +128,8 @@ sealed class AssetData with _$AssetData {
     required List<StatId> artifactPossibleSubStats,
     required Map<ArtifactPieceId, ArtifactSetId> artifactPieceSetMap,
     required List<ArtifactTagCategory> artifactTags,
+    required Map<FurnishingSetId, FurnishingSet> furnishingSets,
+    required Map<FurnishingId, Furnishing> furnishings,
+    required Map<FurnishingSetTypeId, LocalizedText> furnishingSetTypes,
   }) = _AssetData;
 }

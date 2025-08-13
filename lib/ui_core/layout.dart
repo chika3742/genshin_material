@@ -46,6 +46,27 @@ class GappedRow extends Flex {
   );
 }
 
+class Main extends StatelessWidget {
+  final List<Widget> children;
+  final double spacing;
+
+  const Main({
+    super.key,
+    required this.children,
+    this.spacing = 32.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      spacing: spacing,
+      children: children,
+    );
+  }
+}
+
+
 class SectionHeading extends StatelessWidget {
   final String text;
   final double indent;
@@ -58,7 +79,9 @@ class SectionHeading extends StatelessWidget {
       padding: EdgeInsets.only(left: indent),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.titleMedium,
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
       ),
     );
   }
@@ -85,18 +108,20 @@ class SectionInnerHeading extends StatelessWidget {
 
 /// A section of the screen with a heading and a child widget.
 class Section extends StatelessWidget {
-  final Widget heading;
+  final Widget? heading;
   final Widget child;
 
-  const Section({super.key, required this.heading, required this.child});
+  const Section({super.key, this.heading, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        heading,
-        const SizedBox(height: 8),
+        if (heading != null) ...[
+          heading!,
+          const SizedBox(height: 8),
+        ],
         child,
       ],
     );

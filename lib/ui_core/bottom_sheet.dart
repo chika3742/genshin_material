@@ -1,4 +1,3 @@
-import "dart:io";
 import "dart:math";
 
 import "package:flutter/material.dart";
@@ -171,62 +170,4 @@ class ScrollableBottomSheet extends HookWidget {
       ),
     );
   }
-}
-
-class ListIndexBottomSheet<T> extends StatelessWidget {
-  final List<ListIndexItem<T>> items;
-
-  const ListIndexBottomSheet({
-    super.key,
-    required this.items,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ScrollableBottomSheet(
-      maxChildSize: 0.8,
-      initialChildSize: 0.8,
-      builder: (context) {
-        return Column(
-          children: [
-            for (final item in items)
-              ListTile(
-                leading: Image.file(
-                  item.image,
-                  width: 36,
-                  height: 36,
-                ),
-                title: Text(item.title),
-                onTap: () {
-                  Navigator.pop(context, item.value);
-                },
-              ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class ListIndexItem<T> {
-  final T value;
-  final String title;
-  final File image;
-
-  const ListIndexItem({
-    required this.value,
-    required this.title,
-    required this.image,
-  });
-}
-
-Future<T?> showListIndexBottomSheet<T>({required BuildContext context, required List<ListIndexItem<T>> items}) {
-  return showModalBottomSheet<T>(
-    context: context,
-    showDragHandle: true,
-    isScrollControlled: true,
-    builder: (_) {
-      return ListIndexBottomSheet<T>(items: items);
-    },
-  );
 }

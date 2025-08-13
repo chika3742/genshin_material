@@ -55,6 +55,10 @@ sealed class ItemSource with _$ItemSource {
     required LocalizedText text,
   }) = TextItemSource;
 
+  const factory ItemSource.sourceList({
+    required List<LocalizedText> list,
+  }) = SourceListItemSource;
+
   factory ItemSource.fromJson(Map<String, dynamic> json) =>
       _$ItemSourceFromJson(json);
 }

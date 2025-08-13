@@ -71,6 +71,26 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                     ),
                   ],
                 ),
+                GoRouteData.$route(
+                  path: 'furnishing-sets',
+                  factory: _$FurnishingSetListRoute._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: 'furnishings',
+                      factory: _$FurnishingListRoute._fromState,
+                      routes: [
+                        GoRouteData.$route(
+                          path: ':id',
+                          factory: _$FurnishingDetailsRoute._fromState,
+                        ),
+                      ],
+                    ),
+                    GoRouteData.$route(
+                      path: ':id',
+                      factory: _$FurnishingSetDetailsRoute._fromState,
+                    ),
+                  ],
+                ),
               ],
             ),
           ],
@@ -448,6 +468,106 @@ mixin _$ArtifactDetailsRoute on GoRouteData {
           if (_self.initialSelectedCharacter != null)
             'initial-selected-character': _self.initialSelectedCharacter,
         },
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$FurnishingSetListRoute on GoRouteData {
+  static FurnishingSetListRoute _fromState(GoRouterState state) =>
+      const FurnishingSetListRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/database/furnishing-sets',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$FurnishingListRoute on GoRouteData {
+  static FurnishingListRoute _fromState(GoRouterState state) =>
+      const FurnishingListRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/database/furnishing-sets/furnishings',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$FurnishingDetailsRoute on GoRouteData {
+  static FurnishingDetailsRoute _fromState(GoRouterState state) =>
+      FurnishingDetailsRoute(
+        id: state.pathParameters['id']!,
+      );
+
+  FurnishingDetailsRoute get _self => this as FurnishingDetailsRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+        '/database/furnishing-sets/furnishings/${Uri.encodeComponent(_self.id)}',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$FurnishingSetDetailsRoute on GoRouteData {
+  static FurnishingSetDetailsRoute _fromState(GoRouterState state) =>
+      FurnishingSetDetailsRoute(
+        id: state.pathParameters['id']!,
+      );
+
+  FurnishingSetDetailsRoute get _self => this as FurnishingSetDetailsRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+        '/database/furnishing-sets/${Uri.encodeComponent(_self.id)}',
       );
 
   @override

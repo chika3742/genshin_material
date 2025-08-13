@@ -76,6 +76,22 @@ Map<String, dynamic> _$TextItemSourceToJson(TextItemSource instance) =>
       'runtimeType': instance.$type,
     };
 
+SourceListItemSource _$SourceListItemSourceFromJson(
+        Map<String, dynamic> json) =>
+    SourceListItemSource(
+      list: (json['list'] as List<dynamic>)
+          .map((e) => LocalizedText.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$SourceListItemSourceToJson(
+        SourceListItemSource instance) =>
+    <String, dynamic>{
+      'list': instance.list,
+      'runtimeType': instance.$type,
+    };
+
 _MaterialsMeta _$MaterialsMetaFromJson(Map<String, dynamic> json) =>
     _MaterialsMeta(
       categories: (json['categories'] as Map<String, dynamic>).map(

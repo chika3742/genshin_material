@@ -1,4 +1,3 @@
-import "dart:math";
 
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
@@ -9,13 +8,12 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../../../components/list_tile.dart";
 import "../../../components/sticky_list_header.dart";
-import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/material.dart" as models;
 import "../../../routes.dart";
-import "../../../ui_core/bottom_sheet.dart";
+import "../../../ui_core/list_index_bottom_sheet.dart";
 import "../../../ui_core/tutorial.dart";
 
 class MaterialListPage extends HookConsumerWidget {
@@ -89,35 +87,20 @@ class MaterialListPage extends HookConsumerWidget {
   }
 
   Future<void> _showIndexSheet(BuildContext context, ScrollController scrollController, Map<MaterialCategoryType, List<models.Material>> materialsGroupedByCategory) async {
-    final result = await showListIndexBottomSheet(
+    await showListIndexBottomSheetWithScroll(
       context: context,
       items: assetData.materialCategories.entries.map((e) {
         final categoryId = e.key;
+        final entries = materialsGroupedByCategory[categoryId];
 
         return ListIndexItem(
           title: e.value.localized,
-          image: materialsGroupedByCategory[categoryId]!.first.getImageFile(assetData.assetDir),
+          image: entries!.first.getImageFile(assetData.assetDir),
           value: categoryId,
+          itemCount: entries.length,
         );
       }).toList(),
+      scrollController: scrollController,
     );
-    if (result != null) {
-      _scrollToMaterialCategory(scrollController, materialsGroupedByCategory, result);
-    }
-  }
-
-  void _scrollToMaterialCategory(ScrollController scrollController, Map<MaterialCategoryType, List<models.Material>> materialsGroupedByCategory, MaterialCategoryType category) {
-    double offset = 0.0;
-    for (final e in assetData.materialCategories.keys) {
-      if (e == category) {
-        scrollController.animateTo(
-          min(offset, scrollController.position.maxScrollExtent),
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOutQuint,
-        );
-        break;
-      }
-      offset += stickyListHeaderHeight + (listTileHeight * (materialsGroupedByCategory[e]?.length ?? 0));
-    }
   }
 }

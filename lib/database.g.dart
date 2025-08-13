@@ -2368,6 +2368,437 @@ class MaterialBagCountCompanion extends UpdateCompanion<MaterialBagCount> {
   }
 }
 
+class $FurnishingCraftCountTableTable extends FurnishingCraftCountTable
+    with TableInfo<$FurnishingCraftCountTableTable, FurnishingCraftCount> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FurnishingCraftCountTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _furnishingIdMeta =
+      const VerificationMeta('furnishingId');
+  @override
+  late final GeneratedColumn<String> furnishingId = GeneratedColumn<String>(
+      'furnishing_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _setIdMeta = const VerificationMeta('setId');
+  @override
+  late final GeneratedColumn<String> setId = GeneratedColumn<String>(
+      'set_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _countMeta = const VerificationMeta('count');
+  @override
+  late final GeneratedColumn<int> count = GeneratedColumn<int>(
+      'count', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [furnishingId, setId, count];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'furnishing_craft_count_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<FurnishingCraftCount> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('furnishing_id')) {
+      context.handle(
+          _furnishingIdMeta,
+          furnishingId.isAcceptableOrUnknown(
+              data['furnishing_id']!, _furnishingIdMeta));
+    } else if (isInserting) {
+      context.missing(_furnishingIdMeta);
+    }
+    if (data.containsKey('set_id')) {
+      context.handle(
+          _setIdMeta, setId.isAcceptableOrUnknown(data['set_id']!, _setIdMeta));
+    } else if (isInserting) {
+      context.missing(_setIdMeta);
+    }
+    if (data.containsKey('count')) {
+      context.handle(
+          _countMeta, count.isAcceptableOrUnknown(data['count']!, _countMeta));
+    } else if (isInserting) {
+      context.missing(_countMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {furnishingId, setId};
+  @override
+  FurnishingCraftCount map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FurnishingCraftCount(
+      furnishingId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}furnishing_id'])!,
+      setId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}set_id'])!,
+      count: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}count'])!,
+    );
+  }
+
+  @override
+  $FurnishingCraftCountTableTable createAlias(String alias) {
+    return $FurnishingCraftCountTableTable(attachedDatabase, alias);
+  }
+}
+
+class FurnishingCraftCount extends DataClass
+    implements Insertable<FurnishingCraftCount> {
+  final String furnishingId;
+  final String setId;
+  final int count;
+  const FurnishingCraftCount(
+      {required this.furnishingId, required this.setId, required this.count});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['furnishing_id'] = Variable<String>(furnishingId);
+    map['set_id'] = Variable<String>(setId);
+    map['count'] = Variable<int>(count);
+    return map;
+  }
+
+  FurnishingCraftCountCompanion toCompanion(bool nullToAbsent) {
+    return FurnishingCraftCountCompanion(
+      furnishingId: Value(furnishingId),
+      setId: Value(setId),
+      count: Value(count),
+    );
+  }
+
+  factory FurnishingCraftCount.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FurnishingCraftCount(
+      furnishingId: serializer.fromJson<String>(json['furnishingId']),
+      setId: serializer.fromJson<String>(json['setId']),
+      count: serializer.fromJson<int>(json['count']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'furnishingId': serializer.toJson<String>(furnishingId),
+      'setId': serializer.toJson<String>(setId),
+      'count': serializer.toJson<int>(count),
+    };
+  }
+
+  FurnishingCraftCount copyWith(
+          {String? furnishingId, String? setId, int? count}) =>
+      FurnishingCraftCount(
+        furnishingId: furnishingId ?? this.furnishingId,
+        setId: setId ?? this.setId,
+        count: count ?? this.count,
+      );
+  FurnishingCraftCount copyWithCompanion(FurnishingCraftCountCompanion data) {
+    return FurnishingCraftCount(
+      furnishingId: data.furnishingId.present
+          ? data.furnishingId.value
+          : this.furnishingId,
+      setId: data.setId.present ? data.setId.value : this.setId,
+      count: data.count.present ? data.count.value : this.count,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FurnishingCraftCount(')
+          ..write('furnishingId: $furnishingId, ')
+          ..write('setId: $setId, ')
+          ..write('count: $count')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(furnishingId, setId, count);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FurnishingCraftCount &&
+          other.furnishingId == this.furnishingId &&
+          other.setId == this.setId &&
+          other.count == this.count);
+}
+
+class FurnishingCraftCountCompanion
+    extends UpdateCompanion<FurnishingCraftCount> {
+  final Value<String> furnishingId;
+  final Value<String> setId;
+  final Value<int> count;
+  final Value<int> rowid;
+  const FurnishingCraftCountCompanion({
+    this.furnishingId = const Value.absent(),
+    this.setId = const Value.absent(),
+    this.count = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  FurnishingCraftCountCompanion.insert({
+    required String furnishingId,
+    required String setId,
+    required int count,
+    this.rowid = const Value.absent(),
+  })  : furnishingId = Value(furnishingId),
+        setId = Value(setId),
+        count = Value(count);
+  static Insertable<FurnishingCraftCount> custom({
+    Expression<String>? furnishingId,
+    Expression<String>? setId,
+    Expression<int>? count,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (furnishingId != null) 'furnishing_id': furnishingId,
+      if (setId != null) 'set_id': setId,
+      if (count != null) 'count': count,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  FurnishingCraftCountCompanion copyWith(
+      {Value<String>? furnishingId,
+      Value<String>? setId,
+      Value<int>? count,
+      Value<int>? rowid}) {
+    return FurnishingCraftCountCompanion(
+      furnishingId: furnishingId ?? this.furnishingId,
+      setId: setId ?? this.setId,
+      count: count ?? this.count,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (furnishingId.present) {
+      map['furnishing_id'] = Variable<String>(furnishingId.value);
+    }
+    if (setId.present) {
+      map['set_id'] = Variable<String>(setId.value);
+    }
+    if (count.present) {
+      map['count'] = Variable<int>(count.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FurnishingCraftCountCompanion(')
+          ..write('furnishingId: $furnishingId, ')
+          ..write('setId: $setId, ')
+          ..write('count: $count, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $FurnishingSetBookmarkTableTable extends FurnishingSetBookmarkTable
+    with TableInfo<$FurnishingSetBookmarkTableTable, FurnishingSetBookmark> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FurnishingSetBookmarkTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _setIdMeta = const VerificationMeta('setId');
+  @override
+  late final GeneratedColumn<String> setId = GeneratedColumn<String>(
+      'set_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [setId, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'furnishing_set_bookmark_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<FurnishingSetBookmark> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('set_id')) {
+      context.handle(
+          _setIdMeta, setId.isAcceptableOrUnknown(data['set_id']!, _setIdMeta));
+    } else if (isInserting) {
+      context.missing(_setIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {setId};
+  @override
+  FurnishingSetBookmark map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FurnishingSetBookmark(
+      setId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}set_id'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+    );
+  }
+
+  @override
+  $FurnishingSetBookmarkTableTable createAlias(String alias) {
+    return $FurnishingSetBookmarkTableTable(attachedDatabase, alias);
+  }
+}
+
+class FurnishingSetBookmark extends DataClass
+    implements Insertable<FurnishingSetBookmark> {
+  final String setId;
+  final DateTime createdAt;
+  const FurnishingSetBookmark({required this.setId, required this.createdAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['set_id'] = Variable<String>(setId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  FurnishingSetBookmarkCompanion toCompanion(bool nullToAbsent) {
+    return FurnishingSetBookmarkCompanion(
+      setId: Value(setId),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory FurnishingSetBookmark.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FurnishingSetBookmark(
+      setId: serializer.fromJson<String>(json['setId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'setId': serializer.toJson<String>(setId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  FurnishingSetBookmark copyWith({String? setId, DateTime? createdAt}) =>
+      FurnishingSetBookmark(
+        setId: setId ?? this.setId,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  FurnishingSetBookmark copyWithCompanion(FurnishingSetBookmarkCompanion data) {
+    return FurnishingSetBookmark(
+      setId: data.setId.present ? data.setId.value : this.setId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FurnishingSetBookmark(')
+          ..write('setId: $setId, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(setId, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FurnishingSetBookmark &&
+          other.setId == this.setId &&
+          other.createdAt == this.createdAt);
+}
+
+class FurnishingSetBookmarkCompanion
+    extends UpdateCompanion<FurnishingSetBookmark> {
+  final Value<String> setId;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const FurnishingSetBookmarkCompanion({
+    this.setId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  FurnishingSetBookmarkCompanion.insert({
+    required String setId,
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : setId = Value(setId);
+  static Insertable<FurnishingSetBookmark> custom({
+    Expression<String>? setId,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (setId != null) 'set_id': setId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  FurnishingSetBookmarkCompanion copyWith(
+      {Value<String>? setId, Value<DateTime>? createdAt, Value<int>? rowid}) {
+    return FurnishingSetBookmarkCompanion(
+      setId: setId ?? this.setId,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (setId.present) {
+      map['set_id'] = Variable<String>(setId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FurnishingSetBookmarkCompanion(')
+          ..write('setId: $setId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2388,6 +2819,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $BookmarkOrderRegistryTableTable(this);
   late final $MaterialBagCountTableTable materialBagCountTable =
       $MaterialBagCountTableTable(this);
+  late final $FurnishingCraftCountTableTable furnishingCraftCountTable =
+      $FurnishingCraftCountTableTable(this);
+  late final $FurnishingSetBookmarkTableTable furnishingSetBookmarkTable =
+      $FurnishingSetBookmarkTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2400,7 +2835,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         inGameCharacterStateTable,
         inGameWeaponStateTable,
         bookmarkOrderRegistryTable,
-        materialBagCountTable
+        materialBagCountTable,
+        furnishingCraftCountTable,
+        furnishingSetBookmarkTable
       ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
@@ -4445,6 +4882,292 @@ typedef $$MaterialBagCountTableTableProcessedTableManager
         ),
         MaterialBagCount,
         PrefetchHooks Function()>;
+typedef $$FurnishingCraftCountTableTableCreateCompanionBuilder
+    = FurnishingCraftCountCompanion Function({
+  required String furnishingId,
+  required String setId,
+  required int count,
+  Value<int> rowid,
+});
+typedef $$FurnishingCraftCountTableTableUpdateCompanionBuilder
+    = FurnishingCraftCountCompanion Function({
+  Value<String> furnishingId,
+  Value<String> setId,
+  Value<int> count,
+  Value<int> rowid,
+});
+
+class $$FurnishingCraftCountTableTableFilterComposer
+    extends Composer<_$AppDatabase, $FurnishingCraftCountTableTable> {
+  $$FurnishingCraftCountTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get furnishingId => $composableBuilder(
+      column: $table.furnishingId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get setId => $composableBuilder(
+      column: $table.setId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get count => $composableBuilder(
+      column: $table.count, builder: (column) => ColumnFilters(column));
+}
+
+class $$FurnishingCraftCountTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $FurnishingCraftCountTableTable> {
+  $$FurnishingCraftCountTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get furnishingId => $composableBuilder(
+      column: $table.furnishingId,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get setId => $composableBuilder(
+      column: $table.setId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get count => $composableBuilder(
+      column: $table.count, builder: (column) => ColumnOrderings(column));
+}
+
+class $$FurnishingCraftCountTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FurnishingCraftCountTableTable> {
+  $$FurnishingCraftCountTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get furnishingId => $composableBuilder(
+      column: $table.furnishingId, builder: (column) => column);
+
+  GeneratedColumn<String> get setId =>
+      $composableBuilder(column: $table.setId, builder: (column) => column);
+
+  GeneratedColumn<int> get count =>
+      $composableBuilder(column: $table.count, builder: (column) => column);
+}
+
+class $$FurnishingCraftCountTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $FurnishingCraftCountTableTable,
+    FurnishingCraftCount,
+    $$FurnishingCraftCountTableTableFilterComposer,
+    $$FurnishingCraftCountTableTableOrderingComposer,
+    $$FurnishingCraftCountTableTableAnnotationComposer,
+    $$FurnishingCraftCountTableTableCreateCompanionBuilder,
+    $$FurnishingCraftCountTableTableUpdateCompanionBuilder,
+    (
+      FurnishingCraftCount,
+      BaseReferences<_$AppDatabase, $FurnishingCraftCountTableTable,
+          FurnishingCraftCount>
+    ),
+    FurnishingCraftCount,
+    PrefetchHooks Function()> {
+  $$FurnishingCraftCountTableTableTableManager(
+      _$AppDatabase db, $FurnishingCraftCountTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FurnishingCraftCountTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FurnishingCraftCountTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FurnishingCraftCountTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> furnishingId = const Value.absent(),
+            Value<String> setId = const Value.absent(),
+            Value<int> count = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              FurnishingCraftCountCompanion(
+            furnishingId: furnishingId,
+            setId: setId,
+            count: count,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String furnishingId,
+            required String setId,
+            required int count,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              FurnishingCraftCountCompanion.insert(
+            furnishingId: furnishingId,
+            setId: setId,
+            count: count,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$FurnishingCraftCountTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $FurnishingCraftCountTableTable,
+        FurnishingCraftCount,
+        $$FurnishingCraftCountTableTableFilterComposer,
+        $$FurnishingCraftCountTableTableOrderingComposer,
+        $$FurnishingCraftCountTableTableAnnotationComposer,
+        $$FurnishingCraftCountTableTableCreateCompanionBuilder,
+        $$FurnishingCraftCountTableTableUpdateCompanionBuilder,
+        (
+          FurnishingCraftCount,
+          BaseReferences<_$AppDatabase, $FurnishingCraftCountTableTable,
+              FurnishingCraftCount>
+        ),
+        FurnishingCraftCount,
+        PrefetchHooks Function()>;
+typedef $$FurnishingSetBookmarkTableTableCreateCompanionBuilder
+    = FurnishingSetBookmarkCompanion Function({
+  required String setId,
+  Value<DateTime> createdAt,
+  Value<int> rowid,
+});
+typedef $$FurnishingSetBookmarkTableTableUpdateCompanionBuilder
+    = FurnishingSetBookmarkCompanion Function({
+  Value<String> setId,
+  Value<DateTime> createdAt,
+  Value<int> rowid,
+});
+
+class $$FurnishingSetBookmarkTableTableFilterComposer
+    extends Composer<_$AppDatabase, $FurnishingSetBookmarkTableTable> {
+  $$FurnishingSetBookmarkTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get setId => $composableBuilder(
+      column: $table.setId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$FurnishingSetBookmarkTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $FurnishingSetBookmarkTableTable> {
+  $$FurnishingSetBookmarkTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get setId => $composableBuilder(
+      column: $table.setId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$FurnishingSetBookmarkTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FurnishingSetBookmarkTableTable> {
+  $$FurnishingSetBookmarkTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get setId =>
+      $composableBuilder(column: $table.setId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$FurnishingSetBookmarkTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $FurnishingSetBookmarkTableTable,
+    FurnishingSetBookmark,
+    $$FurnishingSetBookmarkTableTableFilterComposer,
+    $$FurnishingSetBookmarkTableTableOrderingComposer,
+    $$FurnishingSetBookmarkTableTableAnnotationComposer,
+    $$FurnishingSetBookmarkTableTableCreateCompanionBuilder,
+    $$FurnishingSetBookmarkTableTableUpdateCompanionBuilder,
+    (
+      FurnishingSetBookmark,
+      BaseReferences<_$AppDatabase, $FurnishingSetBookmarkTableTable,
+          FurnishingSetBookmark>
+    ),
+    FurnishingSetBookmark,
+    PrefetchHooks Function()> {
+  $$FurnishingSetBookmarkTableTableTableManager(
+      _$AppDatabase db, $FurnishingSetBookmarkTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FurnishingSetBookmarkTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FurnishingSetBookmarkTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FurnishingSetBookmarkTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> setId = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              FurnishingSetBookmarkCompanion(
+            setId: setId,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String setId,
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              FurnishingSetBookmarkCompanion.insert(
+            setId: setId,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$FurnishingSetBookmarkTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $FurnishingSetBookmarkTableTable,
+        FurnishingSetBookmark,
+        $$FurnishingSetBookmarkTableTableFilterComposer,
+        $$FurnishingSetBookmarkTableTableOrderingComposer,
+        $$FurnishingSetBookmarkTableTableAnnotationComposer,
+        $$FurnishingSetBookmarkTableTableCreateCompanionBuilder,
+        $$FurnishingSetBookmarkTableTableUpdateCompanionBuilder,
+        (
+          FurnishingSetBookmark,
+          BaseReferences<_$AppDatabase, $FurnishingSetBookmarkTableTable,
+              FurnishingSetBookmark>
+        ),
+        FurnishingSetBookmark,
+        PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -4475,4 +5198,11 @@ class $AppDatabaseManager {
               _db, _db.bookmarkOrderRegistryTable);
   $$MaterialBagCountTableTableTableManager get materialBagCountTable =>
       $$MaterialBagCountTableTableTableManager(_db, _db.materialBagCountTable);
+  $$FurnishingCraftCountTableTableTableManager get furnishingCraftCountTable =>
+      $$FurnishingCraftCountTableTableTableManager(
+          _db, _db.furnishingCraftCountTable);
+  $$FurnishingSetBookmarkTableTableTableManager
+      get furnishingSetBookmarkTable =>
+          $$FurnishingSetBookmarkTableTableTableManager(
+              _db, _db.furnishingSetBookmarkTable);
 }

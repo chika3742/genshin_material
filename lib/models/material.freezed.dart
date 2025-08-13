@@ -183,6 +183,8 @@ ItemSource _$ItemSourceFromJson(Map<String, dynamic> json) {
       return TeyvatMapItemSource.fromJson(json);
     case 'text':
       return TextItemSource.fromJson(json);
+    case 'sourceList':
+      return SourceListItemSource.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'ItemSource',
@@ -287,6 +289,52 @@ class TextItemSource implements ItemSource {
   @override
   String toString() {
     return 'ItemSource.text(text: $text)';
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class SourceListItemSource implements ItemSource {
+  const SourceListItemSource(
+      {required final List<LocalizedText> list, final String? $type})
+      : _list = list,
+        $type = $type ?? 'sourceList';
+  factory SourceListItemSource.fromJson(Map<String, dynamic> json) =>
+      _$SourceListItemSourceFromJson(json);
+
+  final List<LocalizedText> _list;
+  List<LocalizedText> get list {
+    if (_list is EqualUnmodifiableListView) return _list;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_list);
+  }
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SourceListItemSourceToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SourceListItemSource &&
+            const DeepCollectionEquality().equals(other._list, _list));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_list));
+
+  @override
+  String toString() {
+    return 'ItemSource.sourceList(list: $list)';
   }
 }
 

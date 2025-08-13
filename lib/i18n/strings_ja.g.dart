@@ -63,6 +63,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsMaterialCardJa materialCard = TranslationsMaterialCardJa.internal(_root);
 	late final TranslationsArtifactsPageJa artifactsPage = TranslationsArtifactsPageJa.internal(_root);
 	late final TranslationsArtifactDetailsPageJa artifactDetailsPage = TranslationsArtifactDetailsPageJa.internal(_root);
+	late final TranslationsFurnishingSetsPageJa furnishingSetsPage = TranslationsFurnishingSetsPageJa.internal(_root);
 	late final TranslationsDailyPageJa dailyPage = TranslationsDailyPageJa.internal(_root);
 	late final TranslationsResinCalcPageJa resinCalcPage = TranslationsResinCalcPageJa.internal(_root);
 	late final TranslationsMorePageJa morePage = TranslationsMorePageJa.internal(_root);
@@ -200,6 +201,10 @@ class TranslationsPagesJa {
 	String materialDetails({required Object material}) => '${material} - 素材';
 	String get artifacts => '聖遺物';
 	String artifactDetails({required Object artifact}) => '${artifact} - 聖遺物';
+	String get furnishingSets => '調度品セット';
+	String furnishingSetDetails({required Object furnishingSet}) => '${furnishingSet} - 調度品セット';
+	String get furnishings => '調度品';
+	String furnishingDetails({required Object furnishing}) => '${furnishing} - 調度品';
 	String get settings => '設定';
 	String get account => 'アカウント';
 	String get releaseNotes => '更新履歴';
@@ -231,6 +236,8 @@ class TranslationsBookmarksPageJa {
 	String get unBookmarkConfirm => 'このブックマークを解除しますか？';
 	String get byPurpose => '使用先';
 	String get byMaterial => '素材';
+	String get furnishings => '調度品';
+	String get allFurnishingsAreCrafted => 'すべての調度品が作成済みです';
 }
 
 // Path: characterDetailsPage
@@ -241,6 +248,7 @@ class TranslationsCharacterDetailsPageJa {
 
 	// Translations
 	String get equippedWeapon => '装備中の武器';
+	String get favoriteFurnishingSets => '好きな調度品セット';
 }
 
 // Path: weaponDetailsPage
@@ -320,6 +328,28 @@ class TranslationsArtifactDetailsPageJa {
 	String get subStats => 'サブステータス';
 	String get unspecified => '指定しない';
 	String nSet({required Object n}) => '${n}セット';
+}
+
+// Path: furnishingSetsPage
+class TranslationsFurnishingSetsPageJa {
+	TranslationsFurnishingSetsPageJa.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get furnishingList => '調度品一覧';
+	String get type => '種類';
+	String get image => '画像';
+	String get name => '名前';
+	String get requiredQuantity => '必要数 (長押しで一括変更)';
+	String get source => '入手方法';
+	String get canBeScrolledHorizontally => '左右にスクロールできます';
+	String get resetCraftCount => '作成数をリセット';
+	String get resetCraftCountConfirm => 'セット内の調度品の作成数をすべてリセットしますか？';
+	String get favoredBy => 'この調度品セットが好きなキャラクター';
+	String get addedToBookmarks => 'ブックマークしました';
+	String get removedFromBookmarks => 'ブックマークを解除しました';
+	String get furnishingSetsUsingThisFurnishing => 'この調度品を使用する調度品セット';
 }
 
 // Path: dailyPage
@@ -559,6 +589,10 @@ extension on Translations {
 			case 'pages.materialDetails': return ({required Object material}) => '${material} - 素材';
 			case 'pages.artifacts': return '聖遺物';
 			case 'pages.artifactDetails': return ({required Object artifact}) => '${artifact} - 聖遺物';
+			case 'pages.furnishingSets': return '調度品セット';
+			case 'pages.furnishingSetDetails': return ({required Object furnishingSet}) => '${furnishingSet} - 調度品セット';
+			case 'pages.furnishings': return '調度品';
+			case 'pages.furnishingDetails': return ({required Object furnishing}) => '${furnishing} - 調度品';
 			case 'pages.settings': return '設定';
 			case 'pages.account': return 'アカウント';
 			case 'pages.releaseNotes': return '更新履歴';
@@ -581,7 +615,10 @@ extension on Translations {
 			case 'bookmarksPage.unBookmarkConfirm': return 'このブックマークを解除しますか？';
 			case 'bookmarksPage.byPurpose': return '使用先';
 			case 'bookmarksPage.byMaterial': return '素材';
+			case 'bookmarksPage.furnishings': return '調度品';
+			case 'bookmarksPage.allFurnishingsAreCrafted': return 'すべての調度品が作成済みです';
 			case 'characterDetailsPage.equippedWeapon': return '装備中の武器';
+			case 'characterDetailsPage.favoriteFurnishingSets': return '好きな調度品セット';
 			case 'weaponDetailsPage.characterToEquip': return '武器を装備させるキャラクター';
 			case 'weaponDetailsPage.skillEffect': return 'スキル効果';
 			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
@@ -614,6 +651,19 @@ extension on Translations {
 			case 'artifactDetailsPage.subStats': return 'サブステータス';
 			case 'artifactDetailsPage.unspecified': return '指定しない';
 			case 'artifactDetailsPage.nSet': return ({required Object n}) => '${n}セット';
+			case 'furnishingSetsPage.furnishingList': return '調度品一覧';
+			case 'furnishingSetsPage.type': return '種類';
+			case 'furnishingSetsPage.image': return '画像';
+			case 'furnishingSetsPage.name': return '名前';
+			case 'furnishingSetsPage.requiredQuantity': return '必要数 (長押しで一括変更)';
+			case 'furnishingSetsPage.source': return '入手方法';
+			case 'furnishingSetsPage.canBeScrolledHorizontally': return '左右にスクロールできます';
+			case 'furnishingSetsPage.resetCraftCount': return '作成数をリセット';
+			case 'furnishingSetsPage.resetCraftCountConfirm': return 'セット内の調度品の作成数をすべてリセットしますか？';
+			case 'furnishingSetsPage.favoredBy': return 'この調度品セットが好きなキャラクター';
+			case 'furnishingSetsPage.addedToBookmarks': return 'ブックマークしました';
+			case 'furnishingSetsPage.removedFromBookmarks': return 'ブックマークを解除しました';
+			case 'furnishingSetsPage.furnishingSetsUsingThisFurnishing': return 'この調度品を使用する調度品セット';
 			case 'dailyPage.mondayAndThursday': return '月/木';
 			case 'dailyPage.tuesdayAndFriday': return '火/金';
 			case 'dailyPage.wednesdayAndSaturday': return '水/土';

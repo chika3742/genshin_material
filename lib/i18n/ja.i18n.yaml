@@ -77,6 +77,10 @@ pages:
   materialDetails: $material - 素材
   artifacts: 聖遺物
   artifactDetails: $artifact - 聖遺物
+  furnishingSets: 調度品セット
+  furnishingSetDetails: $furnishingSet - 調度品セット
+  furnishings: 調度品
+  furnishingDetails: $furnishing - 調度品
   settings: 設定
   account: アカウント
   releaseNotes: 更新履歴
@@ -100,8 +104,11 @@ bookmarksPage:
   unBookmarkConfirm: このブックマークを解除しますか？
   byPurpose: 使用先
   byMaterial: 素材
+  furnishings: 調度品
+  allFurnishingsAreCrafted: すべての調度品が作成済みです
 characterDetailsPage:
   equippedWeapon: 装備中の武器
+  favoriteFurnishingSets: 好きな調度品セット
 weaponDetailsPage:
   characterToEquip: 武器を装備させるキャラクター
   skillEffect: スキル効果
@@ -140,6 +147,20 @@ artifactDetailsPage:
   subStats: サブステータス
   unspecified: 指定しない
   nSet: $nセット
+furnishingSetsPage:
+  furnishingList: 調度品一覧
+  type: 種類
+  image: 画像
+  name: 名前
+  requiredQuantity: 必要数 (長押しで一括変更)
+  source: 入手方法
+  canBeScrolledHorizontally: 左右にスクロールできます
+  resetCraftCount: 作成数をリセット
+  resetCraftCountConfirm: セット内の調度品の作成数をすべてリセットしますか？
+  favoredBy: この調度品セットが好きなキャラクター
+  addedToBookmarks: ブックマークしました
+  removedFromBookmarks: ブックマークを解除しました
+  furnishingSetsUsingThisFurnishing: この調度品を使用する調度品セット
 dailyPage:
   mondayAndThursday: 月/木
   tuesdayAndFriday: 火/金

@@ -27,6 +27,7 @@ class ItemSourceWidget extends StatelessWidget {
             ),
           ),
       TextItemSource(:final text) => Text(text.localized),
+      SourceListItemSource(:final list) => Text(list.map((e) => e.localized).join("\n")),
     };
   }
 }
