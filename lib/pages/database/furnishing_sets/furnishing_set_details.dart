@@ -106,48 +106,60 @@ class FurnishingSetDetailsPage extends ConsumerWidget {
                 ],
               ),
 
-              // scroll hint text
-              Row(
-                spacing: 8,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Symbols.arrow_range,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                  Text(
-                    tr.furnishingSetsPage.canBeScrolledHorizontally,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
+              Main(children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    // scroll hint text
+                    Row(
+                      spacing: 8,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Symbols.arrow_range,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        Text(
+                          tr.furnishingSetsPage.canBeScrolledHorizontally,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // table
+                    FullWidth(
+                      child: FurnishingTable(
+                        setId: set.id,
+                        items: set.consistsOf.map((e) {
+                          return FurnishingSetComponentItem(
+                            furnishing: assetData.furnishings[e.furnishingId]!,
+                            quantity: e.quantity,
+                          );
+                        }).toList(),
+                      ),
+                    ),
+
+                    // reset craft count button
+                    OutlinedButton.icon(
+                      icon: Icon(Symbols.reset_settings),
+                      label: Text(tr.furnishingSetsPage.resetCraftCount),
+                      onPressed: () => _showResetCraftCountDialog(context, ref),
+                    ),
+                  ],
+                ),
+
+                if (charactersFavored.isNotEmpty)
+                  Section(
+                    heading: SectionHeading(tr.furnishingSetsPage.favoredBy),
+                    child: Wrap(
+                      children: charactersFavored.map((character) {
+                        return CharacterSmallCard(character);
+                      }).toList(),
                     ),
                   ),
-                ],
-              ),
-              FullWidth(
-                child: FurnishingTable(
-                  setId: set.id,
-                  items: set.consistsOf.map((e) {
-                    return FurnishingSetComponentItem(
-                      furnishing: assetData.furnishings[e.furnishingId]!,
-                      quantity: e.quantity,
-                    );
-                  }).toList(),
-                ),
-              ),
-              OutlinedButton.icon(
-                icon: Icon(Symbols.reset_settings),
-                label: Text(tr.furnishingSetsPage.resetCraftCount),
-                onPressed: () => _showResetCraftCountDialog(context, ref),
-              ),
-
-              ...charactersFavored.isNotEmpty ? [
-                SectionHeading(tr.furnishingSetsPage.favoredBy),
-                Wrap(
-                  children: charactersFavored.map((character) {
-                    return CharacterSmallCard(character);
-                  }).toList(),
-                ),
-              ] : [],
+              ]),
             ],
           ),
         ),
