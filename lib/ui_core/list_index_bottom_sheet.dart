@@ -106,5 +106,6 @@ double getIndexScrollOffset<T>(
     }
     offset += stickyListHeaderHeight + (listTileHeight * e.itemCount);
   }
-  return offset;
+
+  return headerOffset; // no item found or no matching value
 }
