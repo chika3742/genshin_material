@@ -107,47 +107,44 @@ class FurnishingSetDetailsPage extends ConsumerWidget {
               ),
 
               Main(children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                Row(
+                  spacing: 8,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // scroll hint text
-                    Row(
-                      spacing: 8,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Symbols.arrow_range,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        Text(
-                          tr.furnishingSetsPage.canBeScrolledHorizontally,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                      ],
+                    Icon(
+                      Symbols.arrow_range,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
-
-                    // table
-                    FullWidth(
-                      child: FurnishingTable(
-                        setId: set.id,
-                        items: set.consistsOf.map((e) {
-                          return FurnishingSetComponentItem(
-                            furnishing: assetData.furnishings[e.furnishingId]!,
-                            quantity: e.quantity,
-                          );
-                        }).toList(),
+                    Text(
+                      tr.furnishingSetsPage.canBeScrolledHorizontally,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
-
-                    // reset craft count button
-                    OutlinedButton.icon(
-                      icon: Icon(Symbols.reset_settings),
-                      label: Text(tr.furnishingSetsPage.resetCraftCount),
-                      onPressed: () => _showResetCraftCountDialog(context, ref),
-                    ),
                   ],
+                ),
+
+                // table
+                FullWidth(
+                  child: FurnishingTable(
+                    setId: set.id,
+                    items: set.consistsOf.map((e) {
+                      return FurnishingSetComponentItem(
+                        furnishing: assetData.furnishings[e.furnishingId]!,
+                        quantity: e.quantity,
+                      );
+                    }).toList(),
+                  ),
+                ),
+
+                // reset craft count button
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: OutlinedButton.icon(
+                    icon: Icon(Symbols.reset_settings),
+                    label: Text(tr.furnishingSetsPage.resetCraftCount),
+                    onPressed: () => _showResetCraftCountDialog(context, ref),
+                  ),
                 ),
 
                 if (charactersFavored.isNotEmpty)
