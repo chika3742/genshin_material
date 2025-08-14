@@ -25,17 +25,18 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "GI Material"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "原神素材"
+            "value" : "GenshinMaterial"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     }
   },
   "version" : "1.0"
