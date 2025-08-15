@@ -38,7 +38,7 @@ mixin CharacterOrVariant on Character {
 }
 
 @Freezed(fallbackUnion: "default")
-sealed class Character with _$Character, CharacterOrWeapon {
+sealed class Character with _$Character, CharacterOrWeapon, Searchable {
   const Character._();
 
   @With<CharacterWithLargeImage>()
