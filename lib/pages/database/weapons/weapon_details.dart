@@ -197,37 +197,39 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                 },
               ),
 
-              for (final slider in ingredients.sliders)
+              Main(children: [
+                for (final slider in ingredients.sliders)
+                  Section(
+                    heading: SectionHeading(slider.title.localized),
+                    child: MaterialSlider(
+                      ingredientConf: ingredients,
+                      purposes: slider.purposes,
+                      target: weapon,
+                      characterId: state.value.selectedCharacterId,
+                      ranges: UnmodifiableMapView(state.value.rangeValues),
+                      lackNums: state.value.lackNums,
+                      onRangesChanged: (value) {
+                        state.value = state.value.copyWith(
+                          rangeValues: value,
+                        );
+                      },
+                    ),
+                  ),
+
                 Section(
-                  heading: SectionHeading(slider.title.localized),
-                  child: MaterialSlider(
-                    ingredientConf: ingredients,
-                    purposes: slider.purposes,
-                    target: weapon,
-                    characterId: state.value.selectedCharacterId,
-                    ranges: UnmodifiableMapView(state.value.rangeValues),
-                    lackNums: state.value.lackNums,
-                    onRangesChanged: (value) {
-                      state.value = state.value.copyWith(
-                        rangeValues: value,
-                      );
-                    },
+                  heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: EffectDescription(weapon.weaponAffixDesc?.localized ?? tr.common.none),
                   ),
                 ),
 
-              Section(
-                heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: EffectDescription(weapon.weaponAffixDesc?.localized ?? tr.common.none),
-                ),
-              ),
-
-              if (weapon.source != null)
-                Section(
-                  heading: SectionHeading(tr.materialDetailsPage.source),
-                  child: ItemSourceWidget(weapon.source!),
-                ),
+                if (weapon.source != null)
+                  Section(
+                    heading: SectionHeading(tr.materialDetailsPage.source),
+                    child: ItemSourceWidget(weapon.source!),
+                  ),
+              ]),
             ],
           ),
         ),
