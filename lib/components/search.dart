@@ -66,6 +66,7 @@ class _SearchPage<T> extends HookWidget {
           autofocus: true,
           decoration: InputDecoration(
             prefixIcon: Icon(Symbols.search),
+            hintText: tr.common.searchHint(target: tr.pages.characters),
           ),
         ),
       ),
