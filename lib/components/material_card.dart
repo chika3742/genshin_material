@@ -10,7 +10,6 @@ import "package:signed_spacing_flex/signed_spacing_flex.dart";
 import "../core/theme.dart";
 import "../models/common.dart";
 import "../routes.dart";
-import "../ui_core/layout.dart";
 
 class MaterialCard extends StatelessWidget {
   /// Image file of the material.
@@ -92,8 +91,8 @@ class MaterialCard extends StatelessWidget {
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: GappedRow(
-                        gap: 4,
+                      child: Row(
+                        spacing: 4,
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [

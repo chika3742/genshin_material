@@ -14,7 +14,6 @@ import "../../../models/character.dart";
 import "../../../providers/filter_state.dart";
 import "../../../providers/miscellaneous.dart";
 import "../../../providers/preferences.dart";
-import "../../../ui_core/layout.dart";
 
 class CharacterListPage extends HookConsumerWidget {
   final AssetData assetData;
@@ -67,7 +66,8 @@ class CharacterListPage extends HookConsumerWidget {
                 scrollDirection: Axis.horizontal,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: GappedRow(
+                  child: Row(
+                    spacing: 8.0,
                     children: [
                       if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
                         FilterChipWithMenu( // possession

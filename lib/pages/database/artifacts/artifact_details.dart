@@ -39,9 +39,11 @@ class ArtifactDetailsPage extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
+          spacing: 8.0,
           children: [
-            GappedColumn(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 8.0,
               children: [
                 GameItemInfoBox(
                   itemImage: Image.file(
@@ -50,7 +52,8 @@ class ArtifactDetailsPage extends StatelessWidget {
                     height: 50,
                   ),
                   children: [
-                    GappedRow(
+                    Row(
+                      spacing: 8.0,
                       children: [
                         Text(
                           tr.artifactDetailsPage.maxRarity,
@@ -81,76 +84,73 @@ class ArtifactDetailsPage extends StatelessWidget {
                 const Divider(),
               ],
             ),
-            const SizedBox(height: 8),
 
-            GappedColumn(
-              gap: 16,
-              children: [
-                if (artifactSet.bonuses.length >= 2)
-                  Section(
-                    heading: SectionHeading(tr.artifactDetailsPage.bookmarkSet),
-                    child: GappedColumn(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            showArtifactBookmarkDialog(
-                              context: context,
-                              firstSetId: artifactSet.id,
-                              initialSelectedCharacter: initialSelectedCharacter,
-                              showSecondSetChooser: true,
-                            );
-                          },
-                          icon: const Icon(Icons.bookmarks),
-                          label: Text(tr.artifactDetailsPage.bookmarkTwoAndTwoPcSet),
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            showArtifactBookmarkDialog(
-                              context: context,
-                              firstSetId: artifactSet.id,
-                              initialSelectedCharacter: initialSelectedCharacter,
-                            );
-                          },
-                          icon: const Icon(Icons.bookmark),
-                          label: Text(tr.artifactDetailsPage.bookmarkFourPcSet),
-                        ),
-                      ],
-                    ),
-                  ),
-
+            Main(children: [
+              if (artifactSet.bonuses.length >= 2)
                 Section(
-                  heading: SectionHeading(tr.artifactDetailsPage.bookmarkPiece),
+                  heading: SectionHeading(tr.artifactDetailsPage.bookmarkSet),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 8.0,
                     children: [
-                      for(final piece in artifactSet.consistsOf.values)
-                        SizedBox(
-                          height: 56,
-                          child: ListTile(
-                            leading: Image.file(
-                              piece.getImageFile(assetData.assetDir),
-                              width: 32,
-                              height: 32,
-                            ),
-                            title: Text(piece.name.localized),
-                            subtitle: Text(assetData.artifactPieceTypes[piece.type]!.desc.localized),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.bookmark),
-                              onPressed: () {
-                                showArtifactBookmarkDialog(
-                                  context: context,
-                                  pieceId: piece.id,
-                                  initialSelectedCharacter: initialSelectedCharacter,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          showArtifactBookmarkDialog(
+                            context: context,
+                            firstSetId: artifactSet.id,
+                            initialSelectedCharacter: initialSelectedCharacter,
+                            showSecondSetChooser: true,
+                          );
+                        },
+                        icon: const Icon(Icons.bookmarks),
+                        label: Text(tr.artifactDetailsPage.bookmarkTwoAndTwoPcSet),
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          showArtifactBookmarkDialog(
+                            context: context,
+                            firstSetId: artifactSet.id,
+                            initialSelectedCharacter: initialSelectedCharacter,
+                          );
+                        },
+                        icon: const Icon(Icons.bookmark),
+                        label: Text(tr.artifactDetailsPage.bookmarkFourPcSet),
+                      ),
                     ],
                   ),
                 ),
-              ],
-            ),
+
+              Section(
+                heading: SectionHeading(tr.artifactDetailsPage.bookmarkPiece),
+                child: Column(
+                  children: [
+                    for(final piece in artifactSet.consistsOf.values)
+                      SizedBox(
+                        height: 56,
+                        child: ListTile(
+                          leading: Image.file(
+                            piece.getImageFile(assetData.assetDir),
+                            width: 32,
+                            height: 32,
+                          ),
+                          title: Text(piece.name.localized),
+                          subtitle: Text(assetData.artifactPieceTypes[piece.type]!.desc.localized),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.bookmark),
+                            onPressed: () {
+                              showArtifactBookmarkDialog(
+                                context: context,
+                                pieceId: piece.id,
+                                initialSelectedCharacter: initialSelectedCharacter,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ]),
           ],
         ),
       ),

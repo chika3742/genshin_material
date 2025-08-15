@@ -50,9 +50,9 @@ class MaterialDetailsPage extends HookConsumerWidget {
       body: Scrollbar(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
-          child: GappedColumn(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            gap: 16,
+            spacing: 16,
             children: [
               GameItemInfoBox(
                 itemImage: Image.file(
@@ -67,92 +67,61 @@ class MaterialDetailsPage extends HookConsumerWidget {
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   if (material.getDailyMaterialAvailable(GameServer.asia))
-                    GappedRow(
+                    Row(
+                      spacing: 8.0,
                       children: [
                         const Icon(Symbols.event_available, color: Colors.green),
                         Text(tr.materialDetailsPage.availableToday),
                       ],
                     ),
-                  // if (bagCount.value != null)
-                  //   GappedRow(
-                  //     children: [
-                  //       const Icon(Symbols.shopping_bag),
-                  //       Text.rich(
-                  //         tr.materialDetailsPage.bagCount(
-                  //           count: TextSpan(
-                  //             text: bagCount.value!.toString(),
-                  //             style: TextStyle(
-                  //               color: Theme.of(context).colorScheme.primary,
-                  //               fontWeight: FontWeight.bold,
-                  //               fontSize: 16,
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       SizedBox(
-                  //         height: 36,
-                  //         width: 36,
-                  //         child: IconButton(
-                  //           key: bagCountInfoKey,
-                  //           icon: const Icon(Symbols.info),
-                  //           iconSize: 20,
-                  //           onPressed: () {
-                  //             showModalBubbleText(
-                  //               context: context,
-                  //               targetKey: bagCountInfoKey,
-                  //               text: tr.materialDetailsPage.bagCountInfo,
-                  //             );
-                  //           },
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
                 ],
               ),
 
-              if (material.source != null)
-                Section(
-                  heading: SectionHeading(tr.materialDetailsPage.source),
-                  child: ItemSourceWidget(material.source!),
-                ),
-
-              if (charactersUsingMaterial.isNotEmpty)
-                Section(
-                  heading: SectionHeading(tr.materialDetailsPage.charactersUsing),
-                  child: Wrap(
-                    children: [
-                      for (final character in charactersUsingMaterial)
-                        CharacterSmallCard(character),
-                    ],
+              Main(children: [
+                if (material.source != null)
+                  Section(
+                    heading: SectionHeading(tr.materialDetailsPage.source),
+                    child: ItemSourceWidget(material.source!),
                   ),
-                ),
 
-              if (weaponsUsingMaterial.isNotEmpty)
-                Section(
-                  heading: SectionHeading(tr.materialDetailsPage.weaponsUsing),
-                  child: Column(
-                    children: [
-                      for (final weaponTypes in weaponsUsingMaterial.groupListsBy((w) => w.type).entries)
-                        ...[
-                          SectionInnerHeading(assetData.weaponTypes[weaponTypes.key]!.name.localized),
-                          Column(
-                            children: [
-                              for (final weapon in weaponTypes.value)
-                                GameItemListTile(
-                                  image: weapon.getImageFile(assetData.assetDir),
-                                  name: weapon.name.localized,
-                                  rarity: weapon.rarity,
-                                  rounded: true,
-                                  onTap: () {
-                                    WeaponDetailsRoute(id: weapon.id).push(context);
-                                  },
-                                ),
-                            ],
-                          ),
-                        ],
-                    ],
+                if (charactersUsingMaterial.isNotEmpty)
+                  Section(
+                    heading: SectionHeading(tr.materialDetailsPage.charactersUsing),
+                    child: Wrap(
+                      children: [
+                        for (final character in charactersUsingMaterial)
+                          CharacterSmallCard(character),
+                      ],
+                    ),
                   ),
-                ),
+
+                if (weaponsUsingMaterial.isNotEmpty)
+                  Section(
+                    heading: SectionHeading(tr.materialDetailsPage.weaponsUsing),
+                    child: Column(
+                      children: [
+                        for (final weaponTypes in weaponsUsingMaterial.groupListsBy((w) => w.type).entries)
+                          ...[
+                            SectionInnerHeading(assetData.weaponTypes[weaponTypes.key]!.name.localized),
+                            Column(
+                              children: [
+                                for (final weapon in weaponTypes.value)
+                                  GameItemListTile(
+                                    image: weapon.getImageFile(assetData.assetDir),
+                                    name: weapon.name.localized,
+                                    rarity: weapon.rarity,
+                                    rounded: true,
+                                    onTap: () {
+                                      WeaponDetailsRoute(id: weapon.id).push(context);
+                                    },
+                                  ),
+                              ],
+                            ),
+                          ],
+                      ],
+                    ),
+                  ),
+              ]),
             ],
           ),
         ),

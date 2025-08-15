@@ -18,7 +18,6 @@ import "../../providers/preferences.dart";
 import "../../routes.dart";
 import "../../ui_core/dialog.dart";
 import "../../ui_core/error_messages.dart";
-import "../../ui_core/layout.dart";
 import "../../ui_core/progress_indicator.dart";
 import "../../ui_core/snack_bar.dart";
 import "../../utils/show_loading_modal.dart";
@@ -296,7 +295,8 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
     return SizedBox.expand(
       child: SafeArea(
         minimum: const EdgeInsets.only(bottom: 16),
-        child: GappedColumn(
+        child: Column(
+          spacing: 8.0,
           children: [
             Text(tr.hoyolab.serverSelect, style: Theme.of(context).textTheme.titleMedium),
             Stack(

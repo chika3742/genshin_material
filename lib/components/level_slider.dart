@@ -8,7 +8,6 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../i18n/strings.g.dart";
 import "../ui_core/bubble.dart";
-import "../ui_core/layout.dart";
 import "../utils/lists.dart";
 
 class LevelRangeValues {
@@ -154,8 +153,8 @@ class LevelSlider extends HookWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: _levelIndicatorHorizontalPadding),
-      child: GappedRow(
-        gap: _levelIndicatorGap,
+      child: Row(
+        spacing: _levelIndicatorGap,
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
         children: [

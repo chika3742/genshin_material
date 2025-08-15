@@ -58,12 +58,14 @@ class DailyPage extends HookConsumerWidget {
           for (final tab in tabs)
             SingleChildScrollView(
               padding: const EdgeInsets.all(16),
-              child: GappedColumn(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 8.0,
                 children: [
                   Section(
                     heading: SectionHeading(tr.dailyPage.talentMaterials),
-                    child: GappedColumn(
+                    child: Column(
+                      spacing: 8.0,
                       children: [
                         for (final dm in assetData.dailyMaterials.talent[tab.id]!)
                           Column(
@@ -91,7 +93,8 @@ class DailyPage extends HookConsumerWidget {
 
                   Section(
                     heading: SectionHeading(tr.dailyPage.weaponMaterials),
-                    child: GappedColumn(
+                    child: Column(
+                      spacing: 8.0,
                       children: [
                         for (final dm in assetData.dailyMaterials.weapon[tab.id]!)
                           Column(

@@ -13,7 +13,6 @@ import "../../constants/remote_config_key.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/game_data_sync.dart";
 import "../../providers/preferences.dart";
-import "../../ui_core/layout.dart";
 import "../../utils/resin_calculator.dart";
 
 class ResinCalcPage extends HookConsumerWidget {
@@ -50,8 +49,9 @@ class ResinCalcPage extends HookConsumerWidget {
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
-                child: GappedColumn(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 8.0,
                   children: [
                     Row(
                       children: [
