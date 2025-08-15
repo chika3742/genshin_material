@@ -50,9 +50,9 @@ class MaterialDetailsPage extends HookConsumerWidget {
       body: Scrollbar(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
-          child: GappedColumn(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            gap: 16,
+            spacing: 16,
             children: [
               GameItemInfoBox(
                 itemImage: Image.file(
@@ -67,7 +67,8 @@ class MaterialDetailsPage extends HookConsumerWidget {
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   if (material.getDailyMaterialAvailable(GameServer.asia))
-                    GappedRow(
+                    Row(
+                      spacing: 8.0,
                       children: [
                         const Icon(Symbols.event_available, color: Colors.green),
                         Text(tr.materialDetailsPage.availableToday),

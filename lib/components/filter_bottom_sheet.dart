@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 
 import "../ui_core/bottom_sheet.dart";
-import "../ui_core/layout.dart";
 import "list_subheader.dart";
 
 class FilterBottomSheet extends StatelessWidget {
@@ -15,8 +14,8 @@ class FilterBottomSheet extends StatelessWidget {
       builder: (context) {
         return Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-          child: GappedColumn(
-            gap: 16,
+          child: Column(
+            spacing: 16,
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: categories,

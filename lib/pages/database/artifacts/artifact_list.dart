@@ -7,7 +7,6 @@ import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../routes.dart";
-import "../../../ui_core/layout.dart";
 
 class ArtifactListPage extends HookWidget {
   final AssetData assetData;
@@ -46,8 +45,9 @@ class ArtifactListPage extends HookWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: GappedRow(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
+                spacing: 8.0,
                 children: [
                   for (final rarity in [3, 4, 5])
                     FilterChip(

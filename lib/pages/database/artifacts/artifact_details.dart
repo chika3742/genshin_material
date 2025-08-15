@@ -40,8 +40,9 @@ class ArtifactDetailsPage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            GappedColumn(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 8.0,
               children: [
                 GameItemInfoBox(
                   itemImage: Image.file(
@@ -50,7 +51,8 @@ class ArtifactDetailsPage extends StatelessWidget {
                     height: 50,
                   ),
                   children: [
-                    GappedRow(
+                    Row(
+                      spacing: 8.0,
                       children: [
                         Text(
                           tr.artifactDetailsPage.maxRarity,
@@ -83,14 +85,15 @@ class ArtifactDetailsPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
 
-            GappedColumn(
-              gap: 16,
+            Column(
+              spacing: 16,
               children: [
                 if (artifactSet.bonuses.length >= 2)
                   Section(
                     heading: SectionHeading(tr.artifactDetailsPage.bookmarkSet),
-                    child: GappedColumn(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 8.0,
                       children: [
                         ElevatedButton.icon(
                           onPressed: () {

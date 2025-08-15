@@ -189,8 +189,8 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: SafeArea(
-            child: GappedColumn(
-              gap: 16,
+            child: Column(
+              spacing: 16,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // character information
@@ -309,65 +309,67 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                     ),
                   ),
 
-                for (final slider in ingredients.sliders)
-                  Section(
-                    heading: SectionHeading(slider.title.localized),
-                    child: MaterialSlider(
-                      ingredientConf: ingredients,
-                      purposes: slider.purposes,
-                      lackNums: state.value.lackNums,
-                      target: switch (slider.preferredTargetType) {
-                        PreferredTargetType.group => character,
-                        PreferredTargetType.variant || null => variant.value,
-                      },
-                      ranges: UnmodifiableMapView(state.value.rangeValues),
-                      labelBuilder: (context, purpose) {
-                        if (purpose != Purpose.ascension) {
-                          return Text.rich(TextSpan(children: [
-                            TextSpan(
-                              text: tr.talentTypes[purpose.name]!,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary,
+                Main(children: [
+                  for (final slider in ingredients.sliders)
+                    Section(
+                      heading: SectionHeading(slider.title.localized),
+                      child: MaterialSlider(
+                        ingredientConf: ingredients,
+                        purposes: slider.purposes,
+                        lackNums: state.value.lackNums,
+                        target: switch (slider.preferredTargetType) {
+                          PreferredTargetType.group => character,
+                          PreferredTargetType.variant || null => variant.value,
+                        },
+                        ranges: UnmodifiableMapView(state.value.rangeValues),
+                        labelBuilder: (context, purpose) {
+                          if (purpose != Purpose.ascension) {
+                            return Text.rich(TextSpan(children: [
+                              TextSpan(
+                                text: tr.talentTypes[purpose.name]!,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
+                              const TextSpan(text: "  "),
+                              TextSpan(
+                                text: variant
+                                    .value.talents[purpose.name]!.name.localized,
+                              ),
+                            ]));
+                          }
+                          return null; // no label for ascension
+                        },
+                        onRangesChanged: (value) {
+                          state.value = state.value.copyWith(
+                            rangeValues: value,
+                          );
+                        },
+                      ),
+                    ),
+
+                  Section(
+                    heading: SectionHeading(tr.characterDetailsPage.favoriteFurnishingSets),
+                    child: Column(
+                      children: assetData.furnishingSets.values
+                          .where((e) => e.favoriteCharacterHyvIds
+                          .any((id) => character.hyvIds.contains(id))).map((e) {
+                        return FullWidth(
+                          child: SimpleListTile(
+                            leading: Image.file(
+                              e.getImageFile(assetData.assetDir),
+                              width: listTileFurnishingSetImageWidth,
                             ),
-                            const TextSpan(text: "  "),
-                            TextSpan(
-                              text: variant
-                                  .value.talents[purpose.name]!.name.localized,
-                            ),
-                          ]));
-                        }
-                        return null; // no label for ascension
-                      },
-                      onRangesChanged: (value) {
-                        state.value = state.value.copyWith(
-                          rangeValues: value,
+                            title: e.name.localized,
+                            location: FurnishingSetDetailsRoute(id: e.id).location,
+                            routingStrategy: RoutingStrategy.push,
+                          ),
                         );
-                      },
+                      }).toList(),
                     ),
                   ),
-
-                Section(
-                  heading: SectionHeading(tr.characterDetailsPage.favoriteFurnishingSets),
-                  child: Column(
-                    children: assetData.furnishingSets.values
-                        .where((e) => e.favoriteCharacterHyvIds
-                        .any((id) => character.hyvIds.contains(id))).map((e) {
-                      return FullWidth(
-                        child: SimpleListTile(
-                          leading: Image.file(
-                            e.getImageFile(assetData.assetDir),
-                            width: listTileFurnishingSetImageWidth,
-                          ),
-                          title: e.name.localized,
-                          location: FurnishingSetDetailsRoute(id: e.id).location,
-                          routingStrategy: RoutingStrategy.push,
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
+                ]),
               ],
             ),
           ),

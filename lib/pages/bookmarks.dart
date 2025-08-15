@@ -413,8 +413,9 @@ class _ArtifactSetDetails extends ConsumerWidget {
 
     final assetData = assetDataAsync.value!;
 
-    return GappedColumn(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8.0,
       children: [
         Row(
           children: [
@@ -485,8 +486,9 @@ class _ArtifactPieceDetails extends ConsumerWidget {
 
     final piece = assetData.artifactSets[setId]!.consistsOf.values.firstWhere((e) => e.id == pieceId);
 
-    return GappedColumn(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8.0,
       children: [
         _ItemLinkButton(
           onTap: () {
@@ -581,7 +583,8 @@ class _LevelBookmarkDetail extends StatelessWidget {
 
             return Padding(
               padding: const EdgeInsets.only(left: 16.0, bottom: 16.0, right: 16.0),
-              child: GappedColumn(
+              child: Column(
+                spacing: 8.0,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -660,7 +663,8 @@ class _MaterialBookmarkDetail extends StatelessWidget {
 
             return Padding(
               padding: const EdgeInsets.only(left: 16.0, bottom: 16.0, right: 16.0),
-              child: GappedColumn(
+              child: Column(
+                spacing: 8.0,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

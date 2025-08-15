@@ -147,9 +147,9 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       body: Scrollbar(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
-          child: GappedColumn(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            gap: 16,
+            spacing: 16,
             children: [
               Row(
                 children: [

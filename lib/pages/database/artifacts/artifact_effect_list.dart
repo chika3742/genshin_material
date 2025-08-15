@@ -10,7 +10,6 @@ import "../../../components/filter_bottom_sheet.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../providers/filter_state.dart";
-import "../../../ui_core/layout.dart";
 
 class ArtifactEffectListPage extends HookConsumerWidget {
   final AssetData assetData;
@@ -44,7 +43,8 @@ class ArtifactEffectListPage extends HookConsumerWidget {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child: GappedRow(
+                  child: Row(
+                    spacing: 8.0,
                     children: [
                       FilterChipWithMenu(
                         label: Text(tr.artifactsPage.kindOfEffect),
@@ -76,7 +76,8 @@ class ArtifactEffectListPage extends HookConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GappedRow(
+                            Row(
+                              spacing: 8.0,
                               children: [
                                 Image.file(set.consistsOf.values.first.getImageFile(assetData.assetDir), width: 35, height: 35),
                                 Text(set.name.localized),

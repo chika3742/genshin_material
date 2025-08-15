@@ -14,7 +14,6 @@ import "../models/material_bookmark_frame.dart";
 import "../providers/database_provider.dart";
 import "../providers/preferences.dart";
 import "../providers/versions.dart";
-import "../ui_core/layout.dart";
 import "../ui_core/snack_bar.dart";
 import "material_card.dart";
 
@@ -203,10 +202,10 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: GappedRow(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              gap: 4,
+              spacing: 4,
               children: [
                 const Icon(Icons.bookmark_added),
                 Image.file(

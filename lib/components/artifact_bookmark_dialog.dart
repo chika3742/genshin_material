@@ -13,7 +13,6 @@ import "../models/character.dart";
 import "../models/common.dart";
 import "../providers/database_provider.dart";
 import "../providers/versions.dart";
-import "../ui_core/layout.dart";
 import "../ui_core/page_transition.dart";
 import "../ui_core/snack_bar.dart";
 import "character_select_dropdown.dart";
@@ -147,7 +146,8 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                       ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                      child: GappedColumn(
+                      child: Column(
+                        spacing: 8.0,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CharacterSelectDropdown(
