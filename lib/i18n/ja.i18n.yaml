@@ -36,6 +36,7 @@ common:
   possessionNoteNotSignedIn: HoYoLABと連携すると、所持状況を同期できます。
   possessionNote: 1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。
   dismiss: 閉じる
+  noSearchResultsFound: 検索結果が見つかりません
 tutorial:
   indexSheet: 目次の表示
   indexSheetDesc: このボタンをタップすると、お探しの項目へ素早く移動できます。

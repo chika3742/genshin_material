@@ -7,7 +7,6 @@ import "../../../components/character_list_item.dart";
 import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/filter_bottom_sheet.dart";
-import "../../../components/list_tile.dart";
 import "../../../components/search.dart";
 import "../../../constants/remote_config_key.dart";
 import "../../../core/asset_cache.dart";

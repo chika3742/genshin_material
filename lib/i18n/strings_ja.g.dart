@@ -137,6 +137,7 @@ class TranslationsCommonJa {
 	String get possessionNoteNotSignedIn => 'HoYoLABと連携すると、所持状況を同期できます。';
 	String get possessionNote => '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。';
 	String get dismiss => '閉じる';
+	String get noSearchResultsFound => '検索結果が見つかりません';
 }
 
 // Path: tutorial
@@ -554,6 +555,7 @@ extension on Translations {
 			case 'common.possessionNoteNotSignedIn': return 'HoYoLABと連携すると、所持状況を同期できます。';
 			case 'common.possessionNote': return '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。';
 			case 'common.dismiss': return '閉じる';
+			case 'common.noSearchResultsFound': return '検索結果が見つかりません';
 			case 'tutorial.indexSheet': return '目次の表示';
 			case 'tutorial.indexSheetDesc': return 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
 			case 'purposes.ascension': return 'Lvアップ・突破';

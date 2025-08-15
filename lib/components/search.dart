@@ -4,6 +4,7 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
+import "../i18n/strings.g.dart";
 import "list_tile.dart";
 
 typedef SearchResultItemBuilder<T> = Widget Function(
@@ -68,11 +69,22 @@ class _SearchPage<T> extends HookWidget {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: results.length,
-        itemBuilder: (context, index) =>
-            resultItemBuilder(context, results[index]),
-      ),
+      body: query.isEmpty || results.isNotEmpty
+          ? ListView.builder(
+              itemCount: results.length,
+              itemBuilder: (context, index) =>
+                  resultItemBuilder(context, results[index]),
+            )
+          : Center(
+              child: Row(
+                spacing: 8.0,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Symbols.error, size: 24),
+                  Text(tr.common.noSearchResultsFound),
+                ],
+              ),
+            ),
     );
   }
 }
@@ -102,4 +114,3 @@ class SearchResultListTile extends StatelessWidget {
     );
   }
 }
-
