@@ -17,11 +17,13 @@ typedef SearchQueryCallback<T> = List<T> Function(String query);
 class SearchButton<T> extends StatelessWidget {
   final SearchResultItemBuilder<T> resultItemBuilder;
   final SearchQueryCallback<T> queryCallback;
+  final String hintTargetText;
 
   const SearchButton({
     super.key,
     required this.resultItemBuilder,
     required this.queryCallback,
+    this.hintTargetText = "",
   });
 
   @override
@@ -37,6 +39,7 @@ class SearchButton<T> extends StatelessWidget {
       openBuilder: (context, action) => _SearchPage(
         resultItemBuilder: resultItemBuilder,
         queryCallback: queryCallback,
+        hintTargetText: hintTargetText,
       ),
       openElevation: 0,
     );
@@ -46,11 +49,13 @@ class SearchButton<T> extends StatelessWidget {
 class _SearchPage<T> extends HookWidget {
   final SearchResultItemBuilder<T> resultItemBuilder;
   final SearchQueryCallback<T> queryCallback;
+  final String hintTargetText;
 
   const _SearchPage({
     super.key,
     required this.resultItemBuilder,
     required this.queryCallback,
+    required this.hintTargetText,
   });
 
   @override
@@ -66,7 +71,7 @@ class _SearchPage<T> extends HookWidget {
           autofocus: true,
           decoration: InputDecoration(
             prefixIcon: Icon(Symbols.search),
-            hintText: tr.common.searchHint(target: tr.pages.characters),
+            hintText: tr.common.searchHint(target: hintTargetText),
           ),
         ),
       ),

@@ -9,7 +9,7 @@ part "material.freezed.dart";
 part "material.g.dart";
 
 @freezed
-sealed class Material with _$Material, ImageGetter {
+sealed class Material with _$Material, ImageGetter, Searchable {
   const Material._();
 
   const factory Material({

@@ -139,6 +139,7 @@ class TranslationsCommonJa {
 	String get dismiss => '閉じる';
 	String get noSearchResultsFound => '検索結果が見つかりません';
 	String searchHint({required Object target}) => '${target}を検索...';
+	String get materialSearchHintTarget => '素材';
 }
 
 // Path: tutorial
@@ -558,6 +559,7 @@ extension on Translations {
 			case 'common.dismiss': return '閉じる';
 			case 'common.noSearchResultsFound': return '検索結果が見つかりません';
 			case 'common.searchHint': return ({required Object target}) => '${target}を検索...';
+			case 'common.materialSearchHintTarget': return '素材';
 			case 'tutorial.indexSheet': return '目次の表示';
 			case 'tutorial.indexSheetDesc': return 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
 			case 'purposes.ascension': return 'Lvアップ・突破';
