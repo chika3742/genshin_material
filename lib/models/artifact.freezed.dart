@@ -16,9 +16,10 @@ T _$identity<T>(T value) => value;
 mixin _$ArtifactSet {
   String get id;
   LocalizedText get name;
+  String get jaPronunciation;
   int get maxRarity;
   List<String>? get tags;
-  Map<ArtifactPieceId, ArtifactPiece> get consistsOf;
+  Map<ArtifactPieceTypeId, ArtifactPieceId> get consistsOf;
   List<ArtifactSetBonus> get bonuses;
 
   /// Serializes this ArtifactSet to a JSON map.
@@ -31,6 +32,8 @@ mixin _$ArtifactSet {
             other is ArtifactSet &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
             (identical(other.maxRarity, maxRarity) ||
                 other.maxRarity == maxRarity) &&
             const DeepCollectionEquality().equals(other.tags, tags) &&
@@ -45,6 +48,7 @@ mixin _$ArtifactSet {
       runtimeType,
       id,
       name,
+      jaPronunciation,
       maxRarity,
       const DeepCollectionEquality().hash(tags),
       const DeepCollectionEquality().hash(consistsOf),
@@ -52,23 +56,25 @@ mixin _$ArtifactSet {
 
   @override
   String toString() {
-    return 'ArtifactSet(id: $id, name: $name, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
+    return 'ArtifactSet(id: $id, name: $name, jaPronunciation: $jaPronunciation, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _ArtifactSet implements ArtifactSet {
+class _ArtifactSet extends ArtifactSet {
   const _ArtifactSet(
       {required this.id,
       required this.name,
+      required this.jaPronunciation,
       required this.maxRarity,
       final List<String>? tags,
-      required final Map<ArtifactPieceId, ArtifactPiece> consistsOf,
+      required final Map<ArtifactPieceTypeId, ArtifactPieceId> consistsOf,
       required final List<ArtifactSetBonus> bonuses})
       : _tags = tags,
         _consistsOf = consistsOf,
-        _bonuses = bonuses;
+        _bonuses = bonuses,
+        super._();
   factory _ArtifactSet.fromJson(Map<String, dynamic> json) =>
       _$ArtifactSetFromJson(json);
 
@@ -76,6 +82,8 @@ class _ArtifactSet implements ArtifactSet {
   final String id;
   @override
   final LocalizedText name;
+  @override
+  final String jaPronunciation;
   @override
   final int maxRarity;
   final List<String>? _tags;
@@ -88,9 +96,9 @@ class _ArtifactSet implements ArtifactSet {
     return EqualUnmodifiableListView(value);
   }
 
-  final Map<ArtifactPieceId, ArtifactPiece> _consistsOf;
+  final Map<ArtifactPieceTypeId, ArtifactPieceId> _consistsOf;
   @override
-  Map<ArtifactPieceId, ArtifactPiece> get consistsOf {
+  Map<ArtifactPieceTypeId, ArtifactPieceId> get consistsOf {
     if (_consistsOf is EqualUnmodifiableMapView) return _consistsOf;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_consistsOf);
@@ -118,6 +126,8 @@ class _ArtifactSet implements ArtifactSet {
             other is _ArtifactSet &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
             (identical(other.maxRarity, maxRarity) ||
                 other.maxRarity == maxRarity) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
@@ -132,6 +142,7 @@ class _ArtifactSet implements ArtifactSet {
       runtimeType,
       id,
       name,
+      jaPronunciation,
       maxRarity,
       const DeepCollectionEquality().hash(_tags),
       const DeepCollectionEquality().hash(_consistsOf),
@@ -139,16 +150,18 @@ class _ArtifactSet implements ArtifactSet {
 
   @override
   String toString() {
-    return 'ArtifactSet(id: $id, name: $name, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
+    return 'ArtifactSet(id: $id, name: $name, jaPronunciation: $jaPronunciation, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
   }
 }
 
 /// @nodoc
 mixin _$ArtifactPiece {
   String get id;
+  LocalizedText get name;
+  String get jaPronunciation;
+  String get parentId;
   ArtifactPieceTypeId get type;
   String get imageUrl;
-  LocalizedText get name;
 
   /// Serializes this ArtifactPiece to a JSON map.
   Map<String, dynamic> toJson();
@@ -159,19 +172,24 @@ mixin _$ArtifactPiece {
         (other.runtimeType == runtimeType &&
             other is ArtifactPiece &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
+            (identical(other.parentId, parentId) ||
+                other.parentId == parentId) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
-            (identical(other.name, name) || other.name == name));
+                other.imageUrl == imageUrl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, type, imageUrl, name);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, jaPronunciation, parentId, type, imageUrl);
 
   @override
   String toString() {
-    return 'ArtifactPiece(id: $id, type: $type, imageUrl: $imageUrl, name: $name)';
+    return 'ArtifactPiece(id: $id, name: $name, jaPronunciation: $jaPronunciation, parentId: $parentId, type: $type, imageUrl: $imageUrl)';
   }
 }
 
@@ -180,9 +198,11 @@ mixin _$ArtifactPiece {
 class _ArtifactPiece extends ArtifactPiece {
   const _ArtifactPiece(
       {required this.id,
+      required this.name,
+      required this.jaPronunciation,
+      required this.parentId,
       required this.type,
-      required this.imageUrl,
-      required this.name})
+      required this.imageUrl})
       : super._();
   factory _ArtifactPiece.fromJson(Map<String, dynamic> json) =>
       _$ArtifactPieceFromJson(json);
@@ -190,11 +210,15 @@ class _ArtifactPiece extends ArtifactPiece {
   @override
   final String id;
   @override
+  final LocalizedText name;
+  @override
+  final String jaPronunciation;
+  @override
+  final String parentId;
+  @override
   final ArtifactPieceTypeId type;
   @override
   final String imageUrl;
-  @override
-  final LocalizedText name;
 
   @override
   Map<String, dynamic> toJson() {
@@ -209,19 +233,24 @@ class _ArtifactPiece extends ArtifactPiece {
         (other.runtimeType == runtimeType &&
             other is _ArtifactPiece &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.jaPronunciation, jaPronunciation) ||
+                other.jaPronunciation == jaPronunciation) &&
+            (identical(other.parentId, parentId) ||
+                other.parentId == parentId) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
-            (identical(other.name, name) || other.name == name));
+                other.imageUrl == imageUrl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, type, imageUrl, name);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, jaPronunciation, parentId, type, imageUrl);
 
   @override
   String toString() {
-    return 'ArtifactPiece(id: $id, type: $type, imageUrl: $imageUrl, name: $name)';
+    return 'ArtifactPiece(id: $id, name: $name, jaPronunciation: $jaPronunciation, parentId: $parentId, type: $type, imageUrl: $imageUrl)';
   }
 }
 
@@ -297,7 +326,6 @@ mixin _$ArtifactsMeta {
   Map<StatId, LocalizedText> get stats;
   Map<ArtifactPieceTypeId, ArtifactPieceType> get pieceTypes;
   List<StatId> get possibleSubStats;
-  Map<ArtifactPieceId, ArtifactSetId> get pieceSetMap;
   ArtifactTagCategoriesInternal get tags;
 
   /// Serializes this ArtifactsMeta to a JSON map.
@@ -313,8 +341,6 @@ mixin _$ArtifactsMeta {
                 .equals(other.pieceTypes, pieceTypes) &&
             const DeepCollectionEquality()
                 .equals(other.possibleSubStats, possibleSubStats) &&
-            const DeepCollectionEquality()
-                .equals(other.pieceSetMap, pieceSetMap) &&
             (identical(other.tags, tags) || other.tags == tags));
   }
 
@@ -325,12 +351,11 @@ mixin _$ArtifactsMeta {
       const DeepCollectionEquality().hash(stats),
       const DeepCollectionEquality().hash(pieceTypes),
       const DeepCollectionEquality().hash(possibleSubStats),
-      const DeepCollectionEquality().hash(pieceSetMap),
       tags);
 
   @override
   String toString() {
-    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, pieceSetMap: $pieceSetMap, tags: $tags)';
+    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, tags: $tags)';
   }
 }
 
@@ -341,12 +366,10 @@ class _ArtifactsMeta implements ArtifactsMeta {
       {required final Map<StatId, LocalizedText> stats,
       required final Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes,
       required final List<StatId> possibleSubStats,
-      required final Map<ArtifactPieceId, ArtifactSetId> pieceSetMap,
       required this.tags})
       : _stats = stats,
         _pieceTypes = pieceTypes,
-        _possibleSubStats = possibleSubStats,
-        _pieceSetMap = pieceSetMap;
+        _possibleSubStats = possibleSubStats;
   factory _ArtifactsMeta.fromJson(Map<String, dynamic> json) =>
       _$ArtifactsMetaFromJson(json);
 
@@ -375,14 +398,6 @@ class _ArtifactsMeta implements ArtifactsMeta {
     return EqualUnmodifiableListView(_possibleSubStats);
   }
 
-  final Map<ArtifactPieceId, ArtifactSetId> _pieceSetMap;
-  @override
-  Map<ArtifactPieceId, ArtifactSetId> get pieceSetMap {
-    if (_pieceSetMap is EqualUnmodifiableMapView) return _pieceSetMap;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_pieceSetMap);
-  }
-
   @override
   final ArtifactTagCategoriesInternal tags;
 
@@ -403,8 +418,6 @@ class _ArtifactsMeta implements ArtifactsMeta {
                 .equals(other._pieceTypes, _pieceTypes) &&
             const DeepCollectionEquality()
                 .equals(other._possibleSubStats, _possibleSubStats) &&
-            const DeepCollectionEquality()
-                .equals(other._pieceSetMap, _pieceSetMap) &&
             (identical(other.tags, tags) || other.tags == tags));
   }
 
@@ -415,12 +428,11 @@ class _ArtifactsMeta implements ArtifactsMeta {
       const DeepCollectionEquality().hash(_stats),
       const DeepCollectionEquality().hash(_pieceTypes),
       const DeepCollectionEquality().hash(_possibleSubStats),
-      const DeepCollectionEquality().hash(_pieceSetMap),
       tags);
 
   @override
   String toString() {
-    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, pieceSetMap: $pieceSetMap, tags: $tags)';
+    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, tags: $tags)';
   }
 }
 

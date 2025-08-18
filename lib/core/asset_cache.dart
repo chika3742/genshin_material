@@ -78,10 +78,13 @@ class AssetDataCacheProvider {
         await loader.loadJson<Map<String, dynamic>>("artifact-sets.json"),
         ArtifactSet.fromJson,
       ),
+      artifactPieces: _parseMap(
+        await loader.loadJson<Map<String, dynamic>>("artifact-pieces.json"),
+        ArtifactPiece.fromJson,
+      ),
       artifactPieceTypes: artifactsMeta.pieceTypes,
       stats: artifactsMeta.stats,
       artifactPossibleSubStats: artifactsMeta.possibleSubStats,
-      artifactPieceSetMap: artifactsMeta.pieceSetMap,
       artifactTags: artifactsMeta.tags.categories,
       furnishings: _parseMap(
         await loader.loadJson<Map<String, dynamic>>("furnishings.json"),
@@ -126,7 +129,7 @@ sealed class AssetData with _$AssetData {
     required Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials,
     required Map<StatId, LocalizedText> stats,
     required List<StatId> artifactPossibleSubStats,
-    required Map<ArtifactPieceId, ArtifactSetId> artifactPieceSetMap,
+    required Map<ArtifactPieceId, ArtifactPiece> artifactPieces,
     required List<ArtifactTagCategory> artifactTags,
     required Map<FurnishingSetId, FurnishingSet> furnishingSets,
     required Map<FurnishingId, Furnishing> furnishings,

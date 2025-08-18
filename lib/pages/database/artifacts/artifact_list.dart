@@ -5,8 +5,10 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "../../../components/list_tile.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/artifact.dart";
 import "../../../models/common.dart";
 import "../../../routes.dart";
+import "../../../utils/filtering.dart";
 
 class ArtifactListPage extends HookWidget {
   final AssetData assetData;
@@ -74,7 +76,8 @@ class ArtifactListPage extends HookWidget {
               final set = sets.values.elementAt(index);
 
               return GameItemListTile(
-                image: set.consistsOf.values.first.getImageFile(assetData.assetDir),
+                image: set.getFirstPiece(assetData)
+                    .getImageFile(assetData.assetDir),
                 name: set.name.localized,
                 rarity: set.maxRarity,
                 onTap: () {

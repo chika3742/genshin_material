@@ -79,7 +79,7 @@ class ArtifactEffectListPage extends HookConsumerWidget {
                             Row(
                               spacing: 8.0,
                               children: [
-                                Image.file(set.consistsOf.values.first.getImageFile(assetData.assetDir), width: 35, height: 35),
+                                Image.file(set.getFirstPiece(assetData).getImageFile(assetData.assetDir), width: 35, height: 35),
                                 Text(set.name.localized),
                               ],
                             ),

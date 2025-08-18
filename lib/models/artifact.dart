@@ -7,53 +7,54 @@ import "localized_text.dart";
 part "artifact.freezed.dart";
 part "artifact.g.dart";
 
+sealed class ArtifactSetOrPiece implements Searchable {
+  String get id;
+  @override
+  LocalizedText get name;
+  @override
+  String get jaPronunciation;
+
+  const ArtifactSetOrPiece();
+}
+
 @freezed
-sealed class ArtifactSet with _$ArtifactSet {
+sealed class ArtifactSet extends ArtifactSetOrPiece with _$ArtifactSet {
+  const ArtifactSet._();
+
   const factory ArtifactSet({
     required String id,
     required LocalizedText name,
+    required String jaPronunciation,
     required int maxRarity,
     List<String>? tags,
-    required Map<ArtifactPieceId, ArtifactPiece> consistsOf,
+    required Map<ArtifactPieceTypeId, ArtifactPieceId> consistsOf,
     required List<ArtifactSetBonus> bonuses,
   }) = _ArtifactSet;
 
   factory ArtifactSet.fromJson(Map<String, dynamic> json) =>
       _$ArtifactSetFromJson(json);
+
+  ArtifactPiece getFirstPiece(AssetData assetData) {
+    final firstPieceId = consistsOf.values.first;
+    return assetData.artifactPieces[firstPieceId]!;
+  }
 }
 
 @freezed
-sealed class ArtifactPiece with _$ArtifactPiece, ImageGetter {
+sealed class ArtifactPiece extends ArtifactSetOrPiece with _$ArtifactPiece, ImageGetter {
   const ArtifactPiece._();
 
   const factory ArtifactPiece({
     required String id,
+    required LocalizedText name,
+    required String jaPronunciation,
+    required String parentId,
     required ArtifactPieceTypeId type,
     required String imageUrl,
-    required LocalizedText name,
   }) = _ArtifactPiece;
 
   factory ArtifactPiece.fromJson(Map<String, dynamic> json) =>
       _$ArtifactPieceFromJson(json);
-
-  static ArtifactPiece fromId(ArtifactPieceId id, AssetData assetData) {
-    final setId = assetData.artifactPieceSetMap[id];
-    if (setId == null) {
-      throw StateError("No mapping found for artifact piece $id");
-    }
-
-    final set = assetData.artifactSets[setId];
-    if (set == null) {
-      throw StateError("No artifact set found for $setId");
-    }
-
-    final piece = set.consistsOf[id];
-    if (piece == null) {
-      throw StateError("No artifact piece found for $id");
-    }
-
-    return piece;
-  }
 }
 
 @freezed
@@ -73,7 +74,6 @@ sealed class ArtifactsMeta with _$ArtifactsMeta {
     required Map<StatId, LocalizedText> stats,
     required Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes,
     required List<StatId> possibleSubStats,
-    required Map<ArtifactPieceId, ArtifactSetId> pieceSetMap,
     required ArtifactTagCategoriesInternal tags,
   }) = _ArtifactsMeta;
 

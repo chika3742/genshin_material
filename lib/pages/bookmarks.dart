@@ -427,7 +427,13 @@ class _ArtifactSetDetails extends ConsumerWidget {
                   },
                   child: Row(
                     children: [
-                      Image.file(assetData.artifactSets[set]!.consistsOf.values.first.getImageFile(assetData.assetDir), width: 35, height: 35),
+                      Image.file(
+                        assetData.artifactSets[set]!
+                            .getFirstPiece(assetData)
+                            .getImageFile(assetData.assetDir),
+                        width: 35,
+                        height: 35,
+                      ),
                       const SizedBox(width: 8),
                       Flexible(
                         child: Wrap(
@@ -482,9 +488,9 @@ class _ArtifactPieceDetails extends ConsumerWidget {
     final assetData = assetDataAsync.value!;
 
     final pieceId = bookmark.artifactPieceDetails.piece;
-    final setId = assetData.artifactPieceSetMap[pieceId]!;
+    final setId = assetData.artifactPieces[pieceId]!.parentId;
 
-    final piece = assetData.artifactSets[setId]!.consistsOf.values.firstWhere((e) => e.id == pieceId);
+    final piece = assetData.artifactPieces[pieceId]!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

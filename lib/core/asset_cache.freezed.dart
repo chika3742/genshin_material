@@ -32,7 +32,7 @@ mixin _$AssetData {
   Map<MaterialId, List<CharacterId>> get specialCharactersUsingMaterials;
   Map<StatId, LocalizedText> get stats;
   List<StatId> get artifactPossibleSubStats;
-  Map<ArtifactPieceId, ArtifactSetId> get artifactPieceSetMap;
+  Map<ArtifactPieceId, ArtifactPiece> get artifactPieces;
   List<ArtifactTagCategory> get artifactTags;
   Map<FurnishingSetId, FurnishingSet> get furnishingSets;
   Map<FurnishingId, Furnishing> get furnishings;
@@ -76,7 +76,7 @@ mixin _$AssetData {
             const DeepCollectionEquality().equals(
                 other.artifactPossibleSubStats, artifactPossibleSubStats) &&
             const DeepCollectionEquality()
-                .equals(other.artifactPieceSetMap, artifactPieceSetMap) &&
+                .equals(other.artifactPieces, artifactPieces) &&
             const DeepCollectionEquality()
                 .equals(other.artifactTags, artifactTags) &&
             const DeepCollectionEquality()
@@ -108,7 +108,7 @@ mixin _$AssetData {
         const DeepCollectionEquality().hash(specialCharactersUsingMaterials),
         const DeepCollectionEquality().hash(stats),
         const DeepCollectionEquality().hash(artifactPossibleSubStats),
-        const DeepCollectionEquality().hash(artifactPieceSetMap),
+        const DeepCollectionEquality().hash(artifactPieces),
         const DeepCollectionEquality().hash(artifactTags),
         const DeepCollectionEquality().hash(furnishingSets),
         const DeepCollectionEquality().hash(furnishings),
@@ -117,7 +117,7 @@ mixin _$AssetData {
 
   @override
   String toString() {
-    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieceSetMap: $artifactPieceSetMap, artifactTags: $artifactTags, furnishingSets: $furnishingSets, furnishings: $furnishings, furnishingSetTypes: $furnishingSetTypes)';
+    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieces: $artifactPieces, artifactTags: $artifactTags, furnishingSets: $furnishingSets, furnishings: $furnishings, furnishingSetTypes: $furnishingSetTypes)';
   }
 }
 
@@ -146,7 +146,7 @@ class _AssetData implements AssetData {
           specialCharactersUsingMaterials,
       required final Map<StatId, LocalizedText> stats,
       required final List<StatId> artifactPossibleSubStats,
-      required final Map<ArtifactPieceId, ArtifactSetId> artifactPieceSetMap,
+      required final Map<ArtifactPieceId, ArtifactPiece> artifactPieces,
       required final List<ArtifactTagCategory> artifactTags,
       required final Map<FurnishingSetId, FurnishingSet> furnishingSets,
       required final Map<FurnishingId, Furnishing> furnishings,
@@ -165,7 +165,7 @@ class _AssetData implements AssetData {
         _specialCharactersUsingMaterials = specialCharactersUsingMaterials,
         _stats = stats,
         _artifactPossibleSubStats = artifactPossibleSubStats,
-        _artifactPieceSetMap = artifactPieceSetMap,
+        _artifactPieces = artifactPieces,
         _artifactTags = artifactTags,
         _furnishingSets = furnishingSets,
         _furnishings = furnishings,
@@ -290,13 +290,12 @@ class _AssetData implements AssetData {
     return EqualUnmodifiableListView(_artifactPossibleSubStats);
   }
 
-  final Map<ArtifactPieceId, ArtifactSetId> _artifactPieceSetMap;
+  final Map<ArtifactPieceId, ArtifactPiece> _artifactPieces;
   @override
-  Map<ArtifactPieceId, ArtifactSetId> get artifactPieceSetMap {
-    if (_artifactPieceSetMap is EqualUnmodifiableMapView)
-      return _artifactPieceSetMap;
+  Map<ArtifactPieceId, ArtifactPiece> get artifactPieces {
+    if (_artifactPieces is EqualUnmodifiableMapView) return _artifactPieces;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_artifactPieceSetMap);
+    return EqualUnmodifiableMapView(_artifactPieces);
   }
 
   final List<ArtifactTagCategory> _artifactTags;
@@ -371,7 +370,7 @@ class _AssetData implements AssetData {
             const DeepCollectionEquality().equals(
                 other._artifactPossibleSubStats, _artifactPossibleSubStats) &&
             const DeepCollectionEquality()
-                .equals(other._artifactPieceSetMap, _artifactPieceSetMap) &&
+                .equals(other._artifactPieces, _artifactPieces) &&
             const DeepCollectionEquality()
                 .equals(other._artifactTags, _artifactTags) &&
             const DeepCollectionEquality()
@@ -403,7 +402,7 @@ class _AssetData implements AssetData {
         const DeepCollectionEquality().hash(_specialCharactersUsingMaterials),
         const DeepCollectionEquality().hash(_stats),
         const DeepCollectionEquality().hash(_artifactPossibleSubStats),
-        const DeepCollectionEquality().hash(_artifactPieceSetMap),
+        const DeepCollectionEquality().hash(_artifactPieces),
         const DeepCollectionEquality().hash(_artifactTags),
         const DeepCollectionEquality().hash(_furnishingSets),
         const DeepCollectionEquality().hash(_furnishings),
@@ -412,7 +411,7 @@ class _AssetData implements AssetData {
 
   @override
   String toString() {
-    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieceSetMap: $artifactPieceSetMap, artifactTags: $artifactTags, furnishingSets: $furnishingSets, furnishings: $furnishings, furnishingSetTypes: $furnishingSetTypes)';
+    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieces: $artifactPieces, artifactTags: $artifactTags, furnishingSets: $furnishingSets, furnishings: $furnishings, furnishingSetTypes: $furnishingSetTypes)';
   }
 }
 
