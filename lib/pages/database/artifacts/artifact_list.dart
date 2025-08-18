@@ -5,6 +5,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/list_tile.dart";
 import "../../../components/search.dart";
+import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/artifact.dart";
@@ -70,8 +71,8 @@ class ArtifactListPage extends HookWidget {
               return SearchResultListTile(
                 image: Image.file(
                   image,
-                  width: 40,
-                  height: 40,
+                  width: searchResultImageSize,
+                  height: searchResultImageSize,
                 ),
                 title: item.name.localized,
                 subtitle: switch (item) {

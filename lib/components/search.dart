@@ -71,7 +71,7 @@ class _SearchPage<T> extends HookWidget {
           autofocus: true,
           decoration: InputDecoration(
             prefixIcon: Icon(Symbols.search),
-            hintText: tr.common.searchHint(target: hintTargetText),
+            hintText: tr.search.hint(target: hintTargetText),
           ),
         ),
       ),
@@ -87,7 +87,7 @@ class _SearchPage<T> extends HookWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Symbols.error, size: 24),
-                  Text(tr.common.noSearchResultsFound),
+                  Text(tr.search.noResults),
                 ],
               ),
             ),
@@ -98,12 +98,14 @@ class _SearchPage<T> extends HookWidget {
 class SearchResultListTile extends StatelessWidget {
   final Widget image;
   final String title;
+  final String? subtitle;
   final String location;
 
   const SearchResultListTile({
     super.key,
     required this.image,
     required this.title,
+    this.subtitle,
     required this.location,
   });
 
@@ -112,6 +114,7 @@ class SearchResultListTile extends StatelessWidget {
     return SimpleListTile(
       leading: image,
       title: title,
+      subtitle: subtitle,
       trailingIcon: Symbols.chevron_right,
       onTap: () {
         context.pop();

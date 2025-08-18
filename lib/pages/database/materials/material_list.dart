@@ -9,6 +9,7 @@ import "package:material_symbols_icons/symbols.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/search.dart";
 import "../../../components/sticky_list_header.dart";
+import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
@@ -45,7 +46,7 @@ class MaterialListPage extends HookConsumerWidget {
         title: Text(tr.pages.materials),
         actions: [
           SearchButton(
-            hintTargetText: tr.common.materialSearchHintTarget,
+            hintTargetText: tr.search.targets.material,
             queryCallback: (query) {
               return filterBySearchQuery(assetData.materials.values, query);
             },
@@ -53,8 +54,8 @@ class MaterialListPage extends HookConsumerWidget {
               return SearchResultListTile(
                 image: Image.file(
                   item.getImageFile(assetData.assetDir),
-                  width: 48,
-                  height: 48,
+                  width: searchResultImageSize,
+                  height: searchResultImageSize,
                 ),
                 title: item.name.localized,
                 location: MaterialDetailsRoute(id: item.id).location,

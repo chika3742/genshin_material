@@ -8,6 +8,7 @@ import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/filter_bottom_sheet.dart";
 import "../../../components/search.dart";
+import "../../../constants/dimens.dart";
 import "../../../constants/remote_config_key.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
@@ -62,6 +63,7 @@ class CharacterListPage extends HookConsumerWidget {
         title: Text(tr.pages.characters),
         actions: [
           SearchButton<CharacterWithLargeImage>(
+            hintTargetText: tr.pages.characters,
             queryCallback: (query) {
               return filterBySearchQuery(
                 assetData.characters.values,
@@ -72,8 +74,8 @@ class CharacterListPage extends HookConsumerWidget {
               return SearchResultListTile(
                 image: Image.file(
                   item.getSmallImageFile(assetData.assetDir),
-                  width: 48,
-                  height: 48,
+                  width: searchResultImageSize,
+                  height: searchResultImageSize,
                 ),
                 title: item.name.localized,
                 location: CharacterDetailsRoute(id: item.id).location,

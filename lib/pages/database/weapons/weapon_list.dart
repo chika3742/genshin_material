@@ -9,6 +9,7 @@ import "package:material_symbols_icons/symbols.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/search.dart";
 import "../../../components/sticky_list_header.dart";
+import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
@@ -83,8 +84,8 @@ class WeaponListPage extends HookConsumerWidget {
               return SearchResultListTile(
                 image: Image.file(
                   item.getImageFile(assetData.assetDir),
-                  width: 48,
-                  height: 48,
+                  width: searchResultImageSize,
+                  height: searchResultImageSize,
                 ),
                 title: item.name.localized,
                 location: WeaponDetailsRoute(id: item.id).location,
