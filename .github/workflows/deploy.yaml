@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUILD_NUM_OFFSET: 22
-      XCODE_VERSION: 16.4
     outputs:
       BUILD_NUM: ${{ steps.build-attr.outputs.BUILD_NUM }}
       BUILD_NAME: ${{ steps.build-attr.outputs.BUILD_NAME }}
@@ -26,6 +25,8 @@ jobs:
     runs-on: macos-latest
     needs:
       - build-attr
+    env:
+      XCODE_VERSION: 16.4
     steps:
       - uses: actions/checkout@v4
 
