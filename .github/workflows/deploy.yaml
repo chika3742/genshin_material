@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUILD_NUM_OFFSET: 22
+      XCODE_VERSION: 16.4
     outputs:
       BUILD_NUM: ${{ steps.build-attr.outputs.BUILD_NUM }}
       BUILD_NAME: ${{ steps.build-attr.outputs.BUILD_NAME }}
@@ -28,8 +29,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set Xcode to 16.2
-        run: sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
+      - name: Set Xcode to ${{ env.XCODE_VERSION }}
+        run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app/Contents/Developer
 
       - name: Init Flutter SDK
         uses: chika3742/setup-fvm@v3
