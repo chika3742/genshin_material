@@ -25,7 +25,13 @@ List<T> filterBySearchQuery<T extends Searchable>(Iterable<T> items, String quer
 }
 
 String normalizeForSearch(String input) {
-  return input.toLowerCase().replaceAllMapped(RegExp("[\u3041-\u3094]"), (m) {
-    return String.fromCharCode(m.group(0)!.codeUnitAt(0) + 0x60);
-  });
+  return input.toLowerCase().toKatakana();
+}
+
+extension _HiraganaToKatakanaExtension on String {
+  String toKatakana() {
+    return replaceAllMapped(RegExp("[\u3041-\u3094]"), (m) {
+      return String.fromCharCode(m.group(0)!.codeUnitAt(0) + 0x60);
+    });
+  }
 }
