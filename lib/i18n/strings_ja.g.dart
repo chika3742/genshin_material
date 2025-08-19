@@ -41,6 +41,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	// Translations
 	String get appName => '原神素材ノート';
 	late final TranslationsCommonJa common = TranslationsCommonJa.internal(_root);
+	late final TranslationsSearchJa search = TranslationsSearchJa.internal(_root);
 	late final TranslationsTutorialJa tutorial = TranslationsTutorialJa.internal(_root);
 	Map<String, String> get purposes => {
 		'ascension': 'Lvアップ・突破',
@@ -137,6 +138,18 @@ class TranslationsCommonJa {
 	String get possessionNoteNotSignedIn => 'HoYoLABと連携すると、所持状況を同期できます。';
 	String get possessionNote => '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。';
 	String get dismiss => '閉じる';
+}
+
+// Path: search
+class TranslationsSearchJa {
+	TranslationsSearchJa.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String hint({required Object target}) => '${target}を検索...';
+	String get noResults => '検索結果が見つかりません';
+	late final TranslationsSearchTargetsJa targets = TranslationsSearchTargetsJa.internal(_root);
 }
 
 // Path: tutorial
@@ -495,6 +508,18 @@ class TranslationsHoyolabJa {
 	String get charaSyncSuccess => 'ゲームデータと同期しました';
 }
 
+// Path: search.targets
+class TranslationsSearchTargetsJa {
+	TranslationsSearchTargetsJa.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get material => '素材';
+	String get artifactSet => '聖遺物セット';
+	String get artifactPiece => '聖遺物部位';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -554,6 +579,11 @@ extension on Translations {
 			case 'common.possessionNoteNotSignedIn': return 'HoYoLABと連携すると、所持状況を同期できます。';
 			case 'common.possessionNote': return '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。';
 			case 'common.dismiss': return '閉じる';
+			case 'search.hint': return ({required Object target}) => '${target}を検索...';
+			case 'search.noResults': return '検索結果が見つかりません';
+			case 'search.targets.material': return '素材';
+			case 'search.targets.artifactSet': return '聖遺物セット';
+			case 'search.targets.artifactPiece': return '聖遺物部位';
 			case 'tutorial.indexSheet': return '目次の表示';
 			case 'tutorial.indexSheetDesc': return 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
 			case 'purposes.ascension': return 'Lvアップ・突破';

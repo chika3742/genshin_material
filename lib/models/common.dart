@@ -3,6 +3,7 @@ import "dart:io";
 import "package:path/path.dart" as path;
 
 import "../main.dart";
+import "localized_text.dart";
 
 const dataSchemaVersion = 2;
 
@@ -33,6 +34,11 @@ mixin ImageGetter {
 
   File getImageFile(String localAssetPath) =>
       File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, imageUrl));
+}
+
+mixin Searchable {
+  LocalizedText get name;
+  String get jaPronunciation;
 }
 
 mixin CharacterOrWeapon {

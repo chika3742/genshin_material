@@ -1,12 +1,17 @@
+import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/list_tile.dart";
+import "../../../components/search.dart";
+import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/artifact.dart";
 import "../../../models/common.dart";
 import "../../../routes.dart";
+import "../../../utils/filtering.dart";
 
 class ArtifactListPage extends HookWidget {
   final AssetData assetData;
@@ -38,6 +43,50 @@ class ArtifactListPage extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(appBarTitle),
+        actions: [
+          SearchButton(
+            hintTargetText: tr.pages.artifacts,
+            queryCallback: (query) {
+              return filterBySearchQuery(<ArtifactSetOrPiece>[
+                ...assetData.artifactSets.values,
+                ...assetData.artifactPieces.values,
+              ], query).sorted((a, b) {
+                if ((a is ArtifactSet && b is ArtifactSet)
+                    || (a is ArtifactPiece && b is ArtifactPiece)) {
+                  return 0;
+                } else if (a is ArtifactSet) {
+                  return -1; // Sets come before pieces
+                } else {
+                  return 1; // Pieces come after sets
+                }
+              });
+            },
+            resultItemBuilder: (context, item) {
+              final image = switch (item) {
+                ArtifactSet(:final getFirstPiece) =>
+                    getFirstPiece(assetData).getImageFile(assetData.assetDir),
+                ArtifactPiece(:final getImageFile) =>
+                    getImageFile(assetData.assetDir),
+              };
+              return SearchResultListTile(
+                image: Image.file(
+                  image,
+                  width: searchResultImageSize,
+                  height: searchResultImageSize,
+                ),
+                title: item.name.localized,
+                subtitle: switch (item) {
+                  ArtifactSet() => tr.search.targets.artifactSet,
+                  ArtifactPiece() => tr.search.targets.artifactPiece,
+                },
+                location: ArtifactDetailsRoute(id: switch (item) {
+                  ArtifactSet(:final id) => id,
+                  ArtifactPiece(:final id) => assetData.artifactPieces[id]!.parentId,
+                }).location,
+              );
+            },
+          ),
+        ],
       ),
       body: CustomScrollView(
         slivers: [
@@ -74,7 +123,8 @@ class ArtifactListPage extends HookWidget {
               final set = sets.values.elementAt(index);
 
               return GameItemListTile(
-                image: set.consistsOf.values.first.getImageFile(assetData.assetDir),
+                image: set.getFirstPiece(assetData)
+                    .getImageFile(assetData.assetDir),
                 name: set.name.localized,
                 rarity: set.maxRarity,
                 onTap: () {

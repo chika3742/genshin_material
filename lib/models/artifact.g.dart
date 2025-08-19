@@ -9,12 +9,10 @@ part of 'artifact.dart';
 _ArtifactSet _$ArtifactSetFromJson(Map<String, dynamic> json) => _ArtifactSet(
       id: json['id'] as String,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+      jaPronunciation: json['jaPronunciation'] as String,
       maxRarity: (json['maxRarity'] as num).toInt(),
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      consistsOf: (json['consistsOf'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, ArtifactPiece.fromJson(e as Map<String, dynamic>)),
-      ),
+      consistsOf: Map<String, String>.from(json['consistsOf'] as Map),
       bonuses: (json['bonuses'] as List<dynamic>)
           .map((e) => ArtifactSetBonus.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -24,6 +22,7 @@ Map<String, dynamic> _$ArtifactSetToJson(_ArtifactSet instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'jaPronunciation': instance.jaPronunciation,
       'maxRarity': instance.maxRarity,
       'tags': instance.tags,
       'consistsOf': instance.consistsOf,
@@ -33,17 +32,21 @@ Map<String, dynamic> _$ArtifactSetToJson(_ArtifactSet instance) =>
 _ArtifactPiece _$ArtifactPieceFromJson(Map<String, dynamic> json) =>
     _ArtifactPiece(
       id: json['id'] as String,
+      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+      jaPronunciation: json['jaPronunciation'] as String,
+      parentId: json['parentId'] as String,
       type: json['type'] as String,
       imageUrl: json['imageUrl'] as String,
-      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ArtifactPieceToJson(_ArtifactPiece instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'name': instance.name,
+      'jaPronunciation': instance.jaPronunciation,
+      'parentId': instance.parentId,
       'type': instance.type,
       'imageUrl': instance.imageUrl,
-      'name': instance.name,
     };
 
 _ArtifactSetBonus _$ArtifactSetBonusFromJson(Map<String, dynamic> json) =>
@@ -72,7 +75,6 @@ _ArtifactsMeta _$ArtifactsMetaFromJson(Map<String, dynamic> json) =>
       possibleSubStats: (json['possibleSubStats'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      pieceSetMap: Map<String, String>.from(json['pieceSetMap'] as Map),
       tags: ArtifactTagCategoriesInternal.fromJson(
           json['tags'] as Map<String, dynamic>),
     );
@@ -82,7 +84,6 @@ Map<String, dynamic> _$ArtifactsMetaToJson(_ArtifactsMeta instance) =>
       'stats': instance.stats,
       'pieceTypes': instance.pieceTypes,
       'possibleSubStats': instance.possibleSubStats,
-      'pieceSetMap': instance.pieceSetMap,
       'tags': instance.tags,
     };
 

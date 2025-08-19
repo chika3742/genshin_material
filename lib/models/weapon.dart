@@ -8,7 +8,7 @@ part "weapon.freezed.dart";
 part "weapon.g.dart";
 
 @freezed
-sealed class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon {
+sealed class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon, Searchable {
   const Weapon._();
 
   const factory Weapon({

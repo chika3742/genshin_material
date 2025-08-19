@@ -116,7 +116,9 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                     if (firstSetId != null)
                       ListTile(
                         leading: Image.file(
-                          assetData.artifactSets[firstSetId]!.consistsOf.values.first.getImageFile(assetData.assetDir),
+                          assetData.artifactSets[firstSetId]!
+                              .getFirstPiece(assetData)
+                              .getImageFile(assetData.assetDir),
                           width: 36,
                         ),
                         title: Text("${assetData.artifactSets[firstSetId]!.name.localized} (${tr.artifactDetailsPage.nSet(n: state.value.secondSetId != null ? "2" : "4")})"),
@@ -124,7 +126,9 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                     if (state.value.secondSetId != null)
                       ListTile(
                         leading: Image.file(
-                          assetData.artifactSets[state.value.secondSetId]!.consistsOf.values.first.getImageFile(assetData.assetDir),
+                          assetData.artifactSets[state.value.secondSetId]!
+                              .getFirstPiece(assetData)
+                              .getImageFile(assetData.assetDir),
                           width: 36,
                         ),
                         title: Text("${assetData.artifactSets[state.value.secondSetId]!.name.localized} (${tr.artifactDetailsPage.nSet(n: "2")})"),
@@ -138,10 +142,10 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                     if (pieceId != null)
                       ListTile(
                         leading: Image.file(
-                          ArtifactPiece.fromId(pieceId!, assetData).getImageFile(assetData.assetDir),
+                          assetData.artifactPieces[pieceId]!.getImageFile(assetData.assetDir),
                           width: 36,
                         ),
-                        title: Text(ArtifactPiece.fromId(pieceId!, assetData).name.localized),
+                        title: Text(assetData.artifactPieces[pieceId]!.name.localized),
                         subtitle: Text(_getPieceTypes(assetData)[0].desc.localized),
                       ),
                     Padding(
@@ -254,7 +258,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
 
   List<ArtifactPieceType> _getPieceTypes(AssetData assetData) {
     if (pieceId != null) {
-      return [assetData.artifactPieceTypes[ArtifactPiece.fromId(pieceId!, assetData).type]!];
+      return [assetData.artifactPieceTypes[assetData.artifactPieces[pieceId]!.type]!];
     } else {
       return assetData.artifactPieceTypes.values.toList();
     }
@@ -318,7 +322,8 @@ class SecondArtifactChooserScreen extends HookWidget {
               return Material(
                 child: ListTile(
                   leading: Image.file(
-                    artifactSet.consistsOf.values.first.getImageFile(assetData.assetDir),
+                    artifactSet.getFirstPiece(assetData)
+                        .getImageFile(assetData.assetDir),
                     width: 36,
                   ),
                   title: Text(artifactSet.name.localized),

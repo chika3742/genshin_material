@@ -7,6 +7,8 @@ import "../../../components/character_list_item.dart";
 import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/filter_bottom_sheet.dart";
+import "../../../components/search.dart";
+import "../../../constants/dimens.dart";
 import "../../../constants/remote_config_key.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
@@ -14,6 +16,8 @@ import "../../../models/character.dart";
 import "../../../providers/filter_state.dart";
 import "../../../providers/miscellaneous.dart";
 import "../../../providers/preferences.dart";
+import "../../../routes.dart";
+import "../../../utils/filtering.dart";
 
 class CharacterListPage extends HookConsumerWidget {
   final AssetData assetData;
@@ -57,6 +61,28 @@ class CharacterListPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.characters),
+        actions: [
+          SearchButton<CharacterWithLargeImage>(
+            hintTargetText: tr.pages.characters,
+            queryCallback: (query) {
+              return filterBySearchQuery(
+                assetData.characters.values,
+                query,
+              ).whereType<CharacterWithLargeImage>().toList();
+            },
+            resultItemBuilder: (context, item) {
+              return SearchResultListTile(
+                image: Image.file(
+                  item.getSmallImageFile(assetData.assetDir),
+                  width: searchResultImageSize,
+                  height: searchResultImageSize,
+                ),
+                title: item.name.localized,
+                location: CharacterDetailsRoute(id: item.id).location,
+              );
+            },
+          ),
+        ],
       ),
       body: Scrollbar(
         child: CustomScrollView(

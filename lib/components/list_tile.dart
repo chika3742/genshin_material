@@ -11,6 +11,7 @@ import "../core/theme.dart";
 enum RoutingStrategy {
   go,
   push,
+  pushReplacement,
 }
 
 class SimpleListTile extends StatelessWidget {
@@ -66,6 +67,10 @@ class SimpleListTile extends StatelessWidget {
                   break;
                 case RoutingStrategy.push:
                   context.push(location!);
+                  break;
+                case RoutingStrategy.pushReplacement:
+                  context.pushReplacement(location!);
+                  break;
               }
             }
           : onTap,

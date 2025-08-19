@@ -47,7 +47,8 @@ class ArtifactDetailsPage extends StatelessWidget {
               children: [
                 GameItemInfoBox(
                   itemImage: Image.file(
-                    artifactSet.consistsOf.values.first.getImageFile(assetData.assetDir),
+                    artifactSet.getFirstPiece(assetData)
+                        .getImageFile(assetData.assetDir),
                     width: 50,
                     height: 50,
                   ),
@@ -124,7 +125,7 @@ class ArtifactDetailsPage extends StatelessWidget {
                 heading: SectionHeading(tr.artifactDetailsPage.bookmarkPiece),
                 child: Column(
                   children: [
-                    for(final piece in artifactSet.consistsOf.values)
+                    for(final piece in artifactSet.consistsOf.values.map((id) => assetData.artifactPieces[id]!))
                       SizedBox(
                         height: 56,
                         child: ListTile(
