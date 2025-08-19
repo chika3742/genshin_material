@@ -48,7 +48,7 @@ android {
 
     defaultConfig {
         applicationId = "net.chikach.genshinmaterial"
-        minSdk = 21
+        minSdkVersion(flutter.minSdkVersion)
         targetSdk = 36
         versionCode = flutterVersionCode.toInt()
         versionName = flutterVersionName
