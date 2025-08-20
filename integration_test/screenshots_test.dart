@@ -3,8 +3,10 @@ import "dart:io";
 
 import "package:drift/native.dart";
 import "package:firebase_core/firebase_core.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
+import "package:genshin_material/components/game_data_sync_indicator.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/i18n/strings.g.dart";
@@ -13,6 +15,7 @@ import "package:genshin_material/models/bookmark.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/asset_updating_state.dart";
 import "package:genshin_material/providers/database_provider.dart";
+import "package:genshin_material/providers/game_data_sync.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:integration_test/integration_test.dart";
 import "package:intl/date_symbol_data_local.dart";
@@ -43,8 +46,9 @@ void main() {
     }
 
     // initialize the app
-    LocaleSettings.useDeviceLocale();
-    await initializeDateFormatting("ja_JP", null);
+    const locale = String.fromEnvironment("LOCALE", defaultValue: "ja");
+    await LocaleSettings.setLocale(AppLocale.values.firstWhere((e) => e.name == locale));
+    await initializeDateFormatting();
     // avoid plural resolver not configured warning
     // (Japanese doesn't have plural forms)
     LocaleSettings.setPluralResolver(
@@ -60,9 +64,10 @@ void main() {
     await tester.pumpWidget(ProviderScope(
       overrides: [
         appDatabaseProvider.overrideWithValue(db),
+        gameDataSyncStateProvider(variantId: "amber").overrideWithValue(GameDataSyncStatus.synced()),
       ],
       child: const MyApp(),
-    ),);
+    ));
 
     final container = ProviderScope.containerOf(tester.element(find.byType(MyApp)));
 
@@ -168,31 +173,41 @@ void main() {
     await takeScreenshot();
 
     // character details page
-    await tester.tap(find.text("データベース"));
+    await tester.tap(find.text(tr.pages.database));
     await tester.pumpAndSettle();
-    await tester.tap(find.text("キャラクター"));
+    await tester.tap(find.text(tr.pages.characters));
     await tester.pumpAndSettle();
-    await tester.tap(find.text("アンバー"));
+    await tester.tap(find.byKey(ValueKey("amber")));
     await tester.pumpAndSettle();
 
     await takeScreenshot();
 
     // artifact details page
-    await tester.tap(find.text("データベース"));
+    await tester.tap(find.text(tr.pages.database));
     await tester.pumpAndSettle();
-    await tester.tap(find.text("聖遺物"));
+    await tester.tap(find.text(tr.pages.artifacts));
     await tester.pumpAndSettle();
-    await tester.tap(find.text("氷風を彷徨う勇士"));
+    await tester.tap(find.byKey(ValueKey("blizzard-strayer")));
     await tester.pumpAndSettle();
 
     await takeScreenshot();
 
     // material details page
-    await tester.tap(find.text("データベース"));
+    await tester.tap(find.text(tr.pages.database));
     await tester.pumpAndSettle();
-    await tester.tap(find.text("素材一覧(逆引き)"));
+    await tester.tap(find.text(tr.pages.materials));
     await tester.pumpAndSettle();
-    await tester.tap(find.text("破損した仮面"));
+    await tester.tap(find.byKey(ValueKey("damaged-mask")));
+    await tester.pumpAndSettle();
+
+    await takeScreenshot();
+
+    // furnishing set
+    await tester.tap(find.text(tr.pages.database));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(tr.pages.furnishingSets));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(ValueKey("adventurer-camp")));
     await tester.pumpAndSettle();
 
     await takeScreenshot();

@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
+locales=("ja" "en")
+
 function takeScreenshotsAndroid() {
     ~/Library/Android/sdk/emulator/emulator @"$1" -netdelay none -netspeed full &
     adb wait-for-device
-    takeScreenshots "$2"
+    for locale in "${locales[@]}"; do
+        takeScreenshots "$2" "$locale"
+    done
     kill %%
     wait %%
 }
@@ -11,13 +15,20 @@ function takeScreenshotsAndroid() {
 function takeScreenshotsApple() {
     xcrun simctl boot "$1"
     xcrun simctl bootstatus "$1"
-    takeScreenshots "$2"
+    for locale in "${locales[@]}"; do
+        takeScreenshots "$2" "$locale"
+    done
     xcrun simctl shutdown "$1"
 }
 
 function takeScreenshots() {
     script_dir=$(dirname "$0")
-    flutter drive --driver "$script_dir/../test_driver/screenshot_driver.dart" --target "$script_dir/../integration_test/screenshots_test.dart" --dart-define SCREENSHOT_MODE=true --dart-define SCREENSHOT_DIR="$1"
+    flutter drive --driver\
+      "$script_dir/../test_driver/screenshot_driver.dart"\
+      --target "$script_dir/../integration_test/screenshots_test.dart"\
+      --dart-define SCREENSHOT_MODE=true\
+      --dart-define SCREENSHOT_DIR="$1/$2"\
+      --dart-define LOCALE="$2"
 }
 
 if [[ "$1" == "android" ]]; then

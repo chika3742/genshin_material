@@ -153,7 +153,10 @@ class CharacterListPage extends HookConsumerWidget {
           ),
           itemCount: characters.length,
           itemBuilder: (context, index) {
-            return CharacterListItem(characters[index]);
+            return CharacterListItem(
+              key: ValueKey(characters[index].id),
+              characters[index],
+            );
           },
         ),
       ),

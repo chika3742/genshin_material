@@ -89,6 +89,7 @@ class MaterialListPage extends HookConsumerWidget {
                       final material = materialsGroupedByCategory[categoryId]![index];
 
                       return GameItemListTile(
+                        key: ValueKey(material.id),
                         image: material.getImageFile(assetData.assetDir),
                         name: material.name.localized,
                         rarity: material.rarity,

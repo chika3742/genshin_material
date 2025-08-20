@@ -101,6 +101,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
                       return SizedBox(
                         height: listTileHeight,
                         child: SimpleListTile(
+                          key: ValueKey(set.id),
                           leading: Image.file(
                             set.getImageFile(assetData.assetDir),
                             width: listTileFurnishingSetImageWidth,

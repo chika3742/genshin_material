@@ -123,6 +123,7 @@ class ArtifactListPage extends HookWidget {
               final set = sets.values.elementAt(index);
 
               return GameItemListTile(
+                key: ValueKey(set.id),
                 image: set.getFirstPiece(assetData)
                     .getImageFile(assetData.assetDir),
                 name: set.name.localized,
