@@ -88,51 +88,56 @@ class CharacterListPage extends HookConsumerWidget {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Row(
-              spacing: 8.0,
-              children: [
-                if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
-                  FilterChipWithMenu( // possession
-                    selected: filterState.possessionStatus != null,
-                    label: Text(tr.common.possession),
+            child: ChipTheme(
+              data: ChipThemeData(
+                elevation: 2,
+              ),
+              child: Row(
+                spacing: 8.0,
+                children: [
+                  if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+                    FilterChipWithMenu( // possession
+                      selected: filterState.possessionStatus != null,
+                      label: Text(tr.common.possession),
+                      onSelected: (_) {
+                        _showFilterBottomSheet(context);
+                      },
+                    ),
+
+                  FilterChipWithMenu( // rarity
+                    selected: filterState.rarity != null,
+                    label: Text(tr.common.rarity),
                     onSelected: (_) {
                       _showFilterBottomSheet(context);
                     },
                   ),
 
-                FilterChipWithMenu( // rarity
-                  selected: filterState.rarity != null,
-                  label: Text(tr.common.rarity),
-                  onSelected: (_) {
-                    _showFilterBottomSheet(context);
-                  },
-                ),
+                  FilterChipWithMenu( // element
+                    selected: filterState.element != null,
+                    label: Text(tr.common.element),
+                    onSelected: (_) {
+                      _showFilterBottomSheet(context);
+                    },
+                  ),
 
-                FilterChipWithMenu( // element
-                  selected: filterState.element != null,
-                  label: Text(tr.common.element),
-                  onSelected: (_) {
-                    _showFilterBottomSheet(context);
-                  },
-                ),
+                  FilterChipWithMenu( // weapon type
+                    selected: filterState.weaponType != null,
+                    label: Text(tr.common.weaponType),
+                    onSelected: (_) {
+                      _showFilterBottomSheet(context);
+                    },
+                  ),
 
-                FilterChipWithMenu( // weapon type
-                  selected: filterState.weaponType != null,
-                  label: Text(tr.common.weaponType),
-                  onSelected: (_) {
-                    _showFilterBottomSheet(context);
-                  },
-                ),
-
-                FilterChipWithIcon( // clear
-                  leading: const Icon(Symbols.clear),
-                  label: Text(tr.common.clear),
-                  onSelected: filterState.isFiltering ? (_) {
-                    ref.read(characterFilterStateNotifierProvider.notifier)
-                        .clear();
-                  } : null,
-                ),
-              ],
+                  FilterChipWithIcon( // clear
+                    leading: const Icon(Symbols.clear),
+                    label: Text(tr.common.clear),
+                    onSelected: filterState.isFiltering ? (_) {
+                      ref.read(characterFilterStateNotifierProvider.notifier)
+                          .clear();
+                    } : null,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
