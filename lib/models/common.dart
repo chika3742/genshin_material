@@ -5,7 +5,7 @@ import "package:path/path.dart" as path;
 import "../main.dart";
 import "localized_text.dart";
 
-const dataSchemaVersion = 2;
+const dataSchemaVersion = 3;
 
 typedef CharacterId = String;
 typedef WeaponId = String;
