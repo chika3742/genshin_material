@@ -83,80 +83,73 @@ class CharacterListPage extends HookConsumerWidget {
             },
           ),
         ],
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 64.0),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Row(
+              spacing: 8.0,
+              children: [
+                if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+                  FilterChipWithMenu( // possession
+                    selected: filterState.possessionStatus != null,
+                    label: Text(tr.common.possession),
+                    onSelected: (_) {
+                      _showFilterBottomSheet(context);
+                    },
+                  ),
+
+                FilterChipWithMenu( // rarity
+                  selected: filterState.rarity != null,
+                  label: Text(tr.common.rarity),
+                  onSelected: (_) {
+                    _showFilterBottomSheet(context);
+                  },
+                ),
+
+                FilterChipWithMenu( // element
+                  selected: filterState.element != null,
+                  label: Text(tr.common.element),
+                  onSelected: (_) {
+                    _showFilterBottomSheet(context);
+                  },
+                ),
+
+                FilterChipWithMenu( // weapon type
+                  selected: filterState.weaponType != null,
+                  label: Text(tr.common.weaponType),
+                  onSelected: (_) {
+                    _showFilterBottomSheet(context);
+                  },
+                ),
+
+                FilterChipWithIcon( // clear
+                  leading: const Icon(Symbols.clear),
+                  label: Text(tr.common.clear),
+                  onSelected: filterState.isFiltering ? (_) {
+                    ref.read(characterFilterStateNotifierProvider.notifier)
+                        .clear();
+                  } : null,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: Scrollbar(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    spacing: 8.0,
-                    children: [
-                      if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
-                        FilterChipWithMenu( // possession
-                          selected: filterState.possessionStatus != null,
-                          label: Text(tr.common.possession),
-                          onSelected: (_) {
-                            _showFilterBottomSheet(context);
-                          },
-                        ),
-
-                      FilterChipWithMenu( // rarity
-                        selected: filterState.rarity != null,
-                        label: Text(tr.common.rarity),
-                        onSelected: (_) {
-                          _showFilterBottomSheet(context);
-                        },
-                      ),
-
-                      FilterChipWithMenu( // element
-                        selected: filterState.element != null,
-                        label: Text(tr.common.element),
-                        onSelected: (_) {
-                          _showFilterBottomSheet(context);
-                        },
-                      ),
-
-                      FilterChipWithMenu( // weapon type
-                        selected: filterState.weaponType != null,
-                        label: Text(tr.common.weaponType),
-                        onSelected: (_) {
-                          _showFilterBottomSheet(context);
-                        },
-                      ),
-
-                      FilterChipWithIcon( // clear
-                        leading: const Icon(Symbols.clear),
-                        label: Text(tr.common.clear),
-                        onSelected: filterState.isFiltering ? (_) {
-                          ref.read(characterFilterStateNotifierProvider.notifier)
-                              .clear();
-                        } : null,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.all(16.0),
-              sliver: SliverGrid.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200,
-                  mainAxisSpacing: 8.0,
-                  crossAxisSpacing: 8.0,
-                  childAspectRatio: 2,
-                ),
-                itemCount: characters.length,
-                itemBuilder: (context, index) {
-                  return CharacterListItem(characters[index]);
-                },
-              ),
-            ),
-          ],
+        child: GridView.builder(
+          padding: EdgeInsets.all(16.0),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            mainAxisSpacing: 8.0,
+            crossAxisSpacing: 8.0,
+            childAspectRatio: 2,
+          ),
+          itemCount: characters.length,
+          itemBuilder: (context, index) {
+            return CharacterListItem(characters[index]);
+          },
         ),
       ),
     );
