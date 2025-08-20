@@ -175,12 +175,11 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                           variantId: state.value.selectedCharacterId,
                           weaponId: weapon.id,
                         ));
-                      return Visibility(
-                        visible: syncStatus != null,
-                        child: GameDataSyncIndicator(
-                          status: syncStatus!,
-                        ),
-                      );
+                      return syncStatus != null
+                          ? GameDataSyncIndicator(
+                              status: syncStatus,
+                            )
+                          : const SizedBox.shrink();
                     },
                   ),
                 ],
