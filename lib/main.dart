@@ -113,53 +113,46 @@ class MyApp extends HookConsumerWidget {
 
     const appTitle = "Genshin Material";
 
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(
-        textScaler: TextScaler.linear(
-          MediaQuery.of(context).devicePixelRatio <= 2.0 ? 1.2 : 1.0,
-        ),
-      ),
-      child: MaterialApp.router(
-        title: appTitle,
-        debugShowCheckedModeBanner: !isScreenshotMode,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
-          extensions: [
-            ComponentThemeExtension(
-              starColor: Colors.orange,
-              rarity1Color: Colors.grey.shade600,
-              rarity2Color: Colors.green,
-              rarity3Color: Colors.blue,
-              rarity4Color: Colors.purple,
-              rarity5Color: Colors.orange.shade700,
-            ),
-          ],
-          textTheme: GoogleFonts.mPlus2TextTheme(),
-        ),
-        darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.orange,
-            brightness: Brightness.dark,
+    return MaterialApp.router(
+      title: appTitle,
+      debugShowCheckedModeBanner: !isScreenshotMode,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+        extensions: [
+          ComponentThemeExtension(
+            starColor: Colors.orange,
+            rarity1Color: Colors.grey.shade600,
+            rarity2Color: Colors.green,
+            rarity3Color: Colors.blue,
+            rarity4Color: Colors.purple,
+            rarity5Color: Colors.orange.shade700,
           ),
-          extensions: [
-            ComponentThemeExtension(
-              starColor: Colors.yellow,
-              rarity1Color: Colors.grey,
-              rarity2Color: Colors.green,
-              rarity3Color: Colors.blue,
-              rarity4Color: Colors.purple.shade300,
-              rarity5Color: Colors.orange,
-            ),
-          ],
-          textTheme: GoogleFonts.mPlus2TextTheme(ThemeData.dark().textTheme),
-        ),
-        routerConfig: _router,
-        localizationsDelegates: const [
-          DefaultMaterialLocalizations.delegate,
-          DefaultCupertinoLocalizations.delegate,
-          DefaultWidgetsLocalizations.delegate,
         ],
+        textTheme: GoogleFonts.mPlus2TextTheme(),
       ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.orange,
+          brightness: Brightness.dark,
+        ),
+        extensions: [
+          ComponentThemeExtension(
+            starColor: Colors.yellow,
+            rarity1Color: Colors.grey,
+            rarity2Color: Colors.green,
+            rarity3Color: Colors.blue,
+            rarity4Color: Colors.purple.shade300,
+            rarity5Color: Colors.orange,
+          ),
+        ],
+        textTheme: GoogleFonts.mPlus2TextTheme(ThemeData.dark().textTheme),
+      ),
+      routerConfig: _router,
+      localizationsDelegates: const [
+        DefaultMaterialLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
+      ],
     );
   }
 }
