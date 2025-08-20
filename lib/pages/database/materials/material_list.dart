@@ -46,7 +46,7 @@ class MaterialListPage extends HookConsumerWidget {
         title: Text(tr.pages.materials),
         actions: [
           SearchButton(
-            hintTargetText: tr.search.targets.material,
+            hintTargetText: tr.search.targets.materials,
             queryCallback: (query) {
               return filterBySearchQuery(assetData.materials.values, query);
             },

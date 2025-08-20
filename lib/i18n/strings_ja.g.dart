@@ -515,9 +515,13 @@ class TranslationsSearchTargetsJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get material => '素材';
-	String get artifactSet => '聖遺物セット';
-	String get artifactPiece => '聖遺物部位';
+	String get characters => 'キャラクター';
+	String get weapons => '武器';
+	String get materials => '素材';
+	String get artifactSets => '聖遺物セット';
+	String get artifactPieces => '聖遺物部位';
+	String get furnishingSets => '調度品セット';
+	String get furnishings => '調度品';
 }
 
 /// Flat map(s) containing all translations.
@@ -581,9 +585,13 @@ extension on Translations {
 			case 'common.dismiss': return '閉じる';
 			case 'search.hint': return ({required Object target}) => '${target}を検索...';
 			case 'search.noResults': return '検索結果が見つかりません';
-			case 'search.targets.material': return '素材';
-			case 'search.targets.artifactSet': return '聖遺物セット';
-			case 'search.targets.artifactPiece': return '聖遺物部位';
+			case 'search.targets.characters': return 'キャラクター';
+			case 'search.targets.weapons': return '武器';
+			case 'search.targets.materials': return '素材';
+			case 'search.targets.artifactSets': return '聖遺物セット';
+			case 'search.targets.artifactPieces': return '聖遺物部位';
+			case 'search.targets.furnishingSets': return '調度品セット';
+			case 'search.targets.furnishings': return '調度品';
 			case 'tutorial.indexSheet': return '目次の表示';
 			case 'tutorial.indexSheetDesc': return 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
 			case 'purposes.ascension': return 'Lvアップ・突破';

@@ -24,7 +24,7 @@ class FurnishingListPage extends ConsumerWidget {
         title: Text(tr.pages.furnishings),
         actions: [
           SearchButton<Furnishing>(
-            hintTargetText: tr.pages.furnishings,
+            hintTargetText: tr.search.targets.furnishings,
             queryCallback: (query) {
               return filterBySearchQuery(
                 assetData.furnishings.values,

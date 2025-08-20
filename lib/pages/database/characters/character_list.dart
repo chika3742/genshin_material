@@ -63,7 +63,7 @@ class CharacterListPage extends HookConsumerWidget {
         title: Text(tr.pages.characters),
         actions: [
           SearchButton<CharacterWithLargeImage>(
-            hintTargetText: tr.pages.characters,
+            hintTargetText: tr.search.targets.characters,
             queryCallback: (query) {
               return filterBySearchQuery(
                 assetData.characters.values,

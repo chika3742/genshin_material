@@ -40,9 +40,13 @@ search:
   hint: $targetを検索...
   noResults: 検索結果が見つかりません
   targets:
-    material: 素材
-    artifactSet: 聖遺物セット
-    artifactPiece: 聖遺物部位
+    characters: キャラクター
+    weapons: 武器
+    materials: 素材
+    artifactSets: 聖遺物セット
+    artifactPieces: 聖遺物部位
+    furnishingSets: 調度品セット
+    furnishings: 調度品
 tutorial:
   indexSheet: 目次の表示
   indexSheetDesc: このボタンをタップすると、お探しの項目へ素早く移動できます。

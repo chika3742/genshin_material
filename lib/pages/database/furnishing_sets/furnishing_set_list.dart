@@ -46,7 +46,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
         title: Text(tr.pages.furnishingSets),
         actions: [
           SearchButton<FurnishingSet>(
-            hintTargetText: tr.pages.furnishingSets,
+            hintTargetText: tr.search.targets.furnishingSets,
             queryCallback: (query) {
               return filterBySearchQuery(
                 assetData.furnishingSets.values,

@@ -40,6 +40,7 @@ class TranslationsEn extends Translations {
 	// Translations
 	@override String get appName => 'Genshin Material Notebook';
 	@override late final _TranslationsCommonEn common = _TranslationsCommonEn._(_root);
+	@override late final _TranslationsSearchEn search = _TranslationsSearchEn._(_root);
 	@override late final _TranslationsTutorialEn tutorial = _TranslationsTutorialEn._(_root);
 	@override Map<String, String> get purposes => {
 		'ascension': 'Level Up/Ascension',
@@ -62,6 +63,7 @@ class TranslationsEn extends Translations {
 	@override late final _TranslationsMaterialCardEn materialCard = _TranslationsMaterialCardEn._(_root);
 	@override late final _TranslationsArtifactsPageEn artifactsPage = _TranslationsArtifactsPageEn._(_root);
 	@override late final _TranslationsArtifactDetailsPageEn artifactDetailsPage = _TranslationsArtifactDetailsPageEn._(_root);
+	@override late final _TranslationsFurnishingSetsPageEn furnishingSetsPage = _TranslationsFurnishingSetsPageEn._(_root);
 	@override late final _TranslationsDailyPageEn dailyPage = _TranslationsDailyPageEn._(_root);
 	@override late final _TranslationsResinCalcPageEn resinCalcPage = _TranslationsResinCalcPageEn._(_root);
 	@override late final _TranslationsMorePageEn morePage = _TranslationsMorePageEn._(_root);
@@ -155,6 +157,18 @@ class _TranslationsCommonEn extends TranslationsCommonJa {
 	@override String get dismiss => 'Dismiss';
 }
 
+// Path: search
+class _TranslationsSearchEn extends TranslationsSearchJa {
+	_TranslationsSearchEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String hint({required Object target}) => 'Search for ${target}...';
+	@override String get noResults => 'No search results found';
+	@override late final _TranslationsSearchTargetsEn targets = _TranslationsSearchTargetsEn._(_root);
+}
+
 // Path: tutorial
 class _TranslationsTutorialEn extends TranslationsTutorialJa {
 	_TranslationsTutorialEn._(TranslationsEn root) : this._root = root, super.internal(root);
@@ -179,6 +193,7 @@ class _TranslationsUpdatesEn extends TranslationsUpdatesJa {
 	@override String get failedToInstall => 'Failed to install data update.';
 	@override String get failedToCheck => 'Failed to check for data update.';
 	@override String get schemaVersionMismatch => 'Please update the app to the latest version.';
+	@override String get noCompatibleAsset => 'Please update the app to the latest version.';
 	@override String get noInternet => 'Please check your internet connection.';
 	@override String get noUpdateAvailable => 'No update available.';
 	@override String get completed => 'Data update completed.';
@@ -216,6 +231,10 @@ class _TranslationsPagesEn extends TranslationsPagesJa {
 	@override String materialDetails({required Object material}) => '${material} - Material';
 	@override String get artifacts => 'Artifacts';
 	@override String artifactDetails({required Object artifact}) => '${artifact} - Artifact';
+	@override String get furnishingSets => 'Furnishing Sets';
+	@override String furnishingSetDetails({required Object furnishingSet}) => '${furnishingSet} - Furnishing Set';
+	@override String get furnishings => 'Furnishings';
+	@override String furnishingDetails({required Object furnishing}) => '${furnishing} - Furnishing';
 	@override String get settings => 'Settings';
 	@override String get account => 'Account';
 	@override String get releaseNotes => 'Release Notes';
@@ -247,6 +266,8 @@ class _TranslationsBookmarksPageEn extends TranslationsBookmarksPageJa {
 	@override String get unBookmarkConfirm => 'Remove this bookmark?';
 	@override String get byPurpose => 'Purpose';
 	@override String get byMaterial => 'Material';
+	@override String get furnishings => 'Furnishings';
+	@override String get allFurnishingsAreCrafted => 'All furnishings in this set have been crafted.';
 }
 
 // Path: characterDetailsPage
@@ -257,6 +278,7 @@ class _TranslationsCharacterDetailsPageEn extends TranslationsCharacterDetailsPa
 
 	// Translations
 	@override String get equippedWeapon => 'Equipped Weapon';
+	@override String get favoriteFurnishingSets => 'Favorite Furnishing Sets';
 }
 
 // Path: weaponDetailsPage
@@ -336,6 +358,28 @@ class _TranslationsArtifactDetailsPageEn extends TranslationsArtifactDetailsPage
 	@override String get subStats => 'Sub Stats';
 	@override String get unspecified => 'Unspecified';
 	@override String nSet({required Object n}) => '${n}-Pieces';
+}
+
+// Path: furnishingSetsPage
+class _TranslationsFurnishingSetsPageEn extends TranslationsFurnishingSetsPageJa {
+	_TranslationsFurnishingSetsPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get furnishingList => 'Furnishing List';
+	@override String get type => 'Type';
+	@override String get image => 'Image';
+	@override String get name => 'Name';
+	@override String get requiredQuantity => 'Required Qty (bulk update by long-press)';
+	@override String get source => 'Source';
+	@override String get canBeScrolledHorizontally => 'Can be scrolled horizontally';
+	@override String get resetCraftCount => 'Reset Craft Count';
+	@override String get resetCraftCountConfirm => 'Are you sure you want to reset the craft count for this furnishing set?';
+	@override String get favoredBy => 'Favored By';
+	@override String get addedToBookmarks => 'Added to Bookmarks';
+	@override String get removedFromBookmarks => 'Removed from Bookmarks';
+	@override String get furnishingSetsUsingThisFurnishing => 'Furnishing Sets Using This Furnishing';
 }
 
 // Path: dailyPage
@@ -483,6 +527,22 @@ class _TranslationsHoyolabEn extends TranslationsHoyolabJa {
 	@override String get charaSyncSuccess => 'Successfully synced game data';
 }
 
+// Path: search.targets
+class _TranslationsSearchTargetsEn extends TranslationsSearchTargetsJa {
+	_TranslationsSearchTargetsEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get characters => 'characters';
+	@override String get weapons => 'weapons';
+	@override String get materials => 'materials';
+	@override String get artifactSets => 'artifact sets';
+	@override String get artifactPieces => 'artifact pieces';
+	@override String get furnishingSets => 'furnishing sets';
+	@override String get furnishings => 'furnishings';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsEn {
@@ -560,6 +620,15 @@ extension on TranslationsEn {
 			case 'common.possessionNoteNotSignedIn': return 'By linking with HoYoLAB, you can synchronize your possession status.';
 			case 'common.possessionNote': return 'Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".';
 			case 'common.dismiss': return 'Dismiss';
+			case 'search.hint': return ({required Object target}) => 'Search for ${target}...';
+			case 'search.noResults': return 'No search results found';
+			case 'search.targets.characters': return 'characters';
+			case 'search.targets.weapons': return 'weapons';
+			case 'search.targets.materials': return 'materials';
+			case 'search.targets.artifactSets': return 'artifact sets';
+			case 'search.targets.artifactPieces': return 'artifact pieces';
+			case 'search.targets.furnishingSets': return 'furnishing sets';
+			case 'search.targets.furnishings': return 'furnishings';
 			case 'tutorial.indexSheet': return 'Table of contents';
 			case 'tutorial.indexSheetDesc': return 'Tap this button to quickly navigate to the section you\'re looking for.';
 			case 'purposes.ascension': return 'Level Up/Ascension';
@@ -575,6 +644,7 @@ extension on TranslationsEn {
 			case 'updates.failedToInstall': return 'Failed to install data update.';
 			case 'updates.failedToCheck': return 'Failed to check for data update.';
 			case 'updates.schemaVersionMismatch': return 'Please update the app to the latest version.';
+			case 'updates.noCompatibleAsset': return 'Please update the app to the latest version.';
 			case 'updates.noInternet': return 'Please check your internet connection.';
 			case 'updates.noUpdateAvailable': return 'No update available.';
 			case 'updates.completed': return 'Data update completed.';
@@ -594,6 +664,10 @@ extension on TranslationsEn {
 			case 'pages.materialDetails': return ({required Object material}) => '${material} - Material';
 			case 'pages.artifacts': return 'Artifacts';
 			case 'pages.artifactDetails': return ({required Object artifact}) => '${artifact} - Artifact';
+			case 'pages.furnishingSets': return 'Furnishing Sets';
+			case 'pages.furnishingSetDetails': return ({required Object furnishingSet}) => '${furnishingSet} - Furnishing Set';
+			case 'pages.furnishings': return 'Furnishings';
+			case 'pages.furnishingDetails': return ({required Object furnishing}) => '${furnishing} - Furnishing';
 			case 'pages.settings': return 'Settings';
 			case 'pages.account': return 'Account';
 			case 'pages.releaseNotes': return 'Release Notes';
@@ -616,7 +690,10 @@ extension on TranslationsEn {
 			case 'bookmarksPage.unBookmarkConfirm': return 'Remove this bookmark?';
 			case 'bookmarksPage.byPurpose': return 'Purpose';
 			case 'bookmarksPage.byMaterial': return 'Material';
+			case 'bookmarksPage.furnishings': return 'Furnishings';
+			case 'bookmarksPage.allFurnishingsAreCrafted': return 'All furnishings in this set have been crafted.';
 			case 'characterDetailsPage.equippedWeapon': return 'Equipped Weapon';
+			case 'characterDetailsPage.favoriteFurnishingSets': return 'Favorite Furnishing Sets';
 			case 'weaponDetailsPage.characterToEquip': return 'Character to Equip this Weapon';
 			case 'weaponDetailsPage.skillEffect': return 'Skill Effect';
 			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
@@ -649,6 +726,19 @@ extension on TranslationsEn {
 			case 'artifactDetailsPage.subStats': return 'Sub Stats';
 			case 'artifactDetailsPage.unspecified': return 'Unspecified';
 			case 'artifactDetailsPage.nSet': return ({required Object n}) => '${n}-Pieces';
+			case 'furnishingSetsPage.furnishingList': return 'Furnishing List';
+			case 'furnishingSetsPage.type': return 'Type';
+			case 'furnishingSetsPage.image': return 'Image';
+			case 'furnishingSetsPage.name': return 'Name';
+			case 'furnishingSetsPage.requiredQuantity': return 'Required Qty (bulk update by long-press)';
+			case 'furnishingSetsPage.source': return 'Source';
+			case 'furnishingSetsPage.canBeScrolledHorizontally': return 'Can be scrolled horizontally';
+			case 'furnishingSetsPage.resetCraftCount': return 'Reset Craft Count';
+			case 'furnishingSetsPage.resetCraftCountConfirm': return 'Are you sure you want to reset the craft count for this furnishing set?';
+			case 'furnishingSetsPage.favoredBy': return 'Favored By';
+			case 'furnishingSetsPage.addedToBookmarks': return 'Added to Bookmarks';
+			case 'furnishingSetsPage.removedFromBookmarks': return 'Removed from Bookmarks';
+			case 'furnishingSetsPage.furnishingSetsUsingThisFurnishing': return 'Furnishing Sets Using This Furnishing';
 			case 'dailyPage.mondayAndThursday': return 'Mon/Thu';
 			case 'dailyPage.tuesdayAndFriday': return 'Tue/Fri';
 			case 'dailyPage.wednesdayAndSaturday': return 'Wed/Sat';

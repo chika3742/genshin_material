@@ -39,6 +39,17 @@ common:
   possessionNoteNotSignedIn: By linking with HoYoLAB, you can synchronize your possession status.
   possessionNote: Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".
   dismiss: Dismiss
+search: 
+  hint: Search for $target...
+  noResults: No search results found
+  targets: 
+    characters: characters
+    weapons: weapons
+    materials: materials
+    artifactSets: artifact sets
+    artifactPieces: artifact pieces
+    furnishingSets: furnishing sets
+    furnishings: furnishings
 tutorial: 
   indexSheet: Table of contents
   indexSheetDesc: Tap this button to quickly navigate to the section you're looking for.
@@ -58,6 +69,7 @@ updates:
   failedToInstall: Failed to install data update.
   failedToCheck: Failed to check for data update.
   schemaVersionMismatch: Please update the app to the latest version.
+  noCompatibleAsset: Please update the app to the latest version.
   noInternet: Please check your internet connection.
   noUpdateAvailable: No update available.
   completed: Data update completed.
@@ -79,6 +91,10 @@ pages:
   materialDetails: $material - Material
   artifacts: Artifacts
   artifactDetails: $artifact - Artifact
+  furnishingSets: Furnishing Sets
+  furnishingSetDetails: $furnishingSet - Furnishing Set
+  furnishings: Furnishings
+  furnishingDetails: $furnishing - Furnishing
   settings: Settings
   account: Account
   releaseNotes: Release Notes
@@ -102,8 +118,11 @@ bookmarksPage:
   unBookmarkConfirm: Remove this bookmark?
   byPurpose: Purpose
   byMaterial: Material
+  furnishings: Furnishings
+  allFurnishingsAreCrafted: All furnishings in this set have been crafted.
 characterDetailsPage: 
   equippedWeapon: Equipped Weapon
+  favoriteFurnishingSets: Favorite Furnishing Sets
 weaponDetailsPage: 
   characterToEquip: Character to Equip this Weapon
   skillEffect: Skill Effect
@@ -142,6 +161,20 @@ artifactDetailsPage:
   subStats: Sub Stats
   unspecified: Unspecified
   nSet: $n-Pieces
+furnishingSetsPage: 
+  furnishingList: Furnishing List
+  type: Type
+  image: Image
+  name: Name
+  requiredQuantity: Required Qty (bulk update by long-press)
+  source: Source
+  canBeScrolledHorizontally: Can be scrolled horizontally
+  resetCraftCount: Reset Craft Count
+  resetCraftCountConfirm: Are you sure you want to reset the craft count for this furnishing set?
+  favoredBy: Favored By
+  addedToBookmarks: Added to Bookmarks
+  removedFromBookmarks: Removed from Bookmarks
+  furnishingSetsUsingThisFurnishing: Furnishing Sets Using This Furnishing
 dailyPage: 
   mondayAndThursday: Mon/Thu
   tuesdayAndFriday: Tue/Fri

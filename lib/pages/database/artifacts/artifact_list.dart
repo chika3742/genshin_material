@@ -76,8 +76,8 @@ class ArtifactListPage extends HookWidget {
                 ),
                 title: item.name.localized,
                 subtitle: switch (item) {
-                  ArtifactSet() => tr.search.targets.artifactSet,
-                  ArtifactPiece() => tr.search.targets.artifactPiece,
+                  ArtifactSet() => tr.search.targets.artifactSets,
+                  ArtifactPiece() => tr.search.targets.artifactPieces,
                 },
                 location: ArtifactDetailsRoute(id: switch (item) {
                   ArtifactSet(:final id) => id,

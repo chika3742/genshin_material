@@ -76,7 +76,7 @@ class WeaponListPage extends HookConsumerWidget {
         title: Text(appBarTitle),
         actions: [
           SearchButton(
-            hintTargetText: tr.pages.weapons,
+            hintTargetText: tr.search.targets.weapons,
             queryCallback: (query) {
               return filterBySearchQuery(assetData.weapons.values, query);
             },
