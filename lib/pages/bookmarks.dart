@@ -810,7 +810,7 @@ class _FurnishingBookmarkList extends HookConsumerWidget {
             final insufficientComponents = set.consistsOf
                 .where((e) => (counts.firstWhereOrNull((c) => c.furnishingId == e.furnishingId)?.count ?? 0) < e.quantity);
 
-            final controller = useExpansionTileController();
+            final controller = useExpansibleController();
             final isExpanded = useListenable(controller).isExpanded;
 
             return ExpansionTile(
