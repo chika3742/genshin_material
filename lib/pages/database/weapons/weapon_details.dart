@@ -188,7 +188,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
               CharacterSelectDropdown(
                 label: tr.weaponDetailsPage.characterToEquip,
                 characters: characters,
-                value: state.value.selectedCharacterId,
+                initialValue: state.value.selectedCharacterId,
                 onChanged: (value) {
                   state.value = state.value.copyWith(
                     selectedCharacterId: value!,

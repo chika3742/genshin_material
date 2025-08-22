@@ -261,7 +261,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                 // character variant dropdown
                 if (variants.length > 1)
                   DropdownButtonFormField(
-                    value: variant.value.element,
+                    initialValue: variant.value.element,
                     items: variants.entries.map((e) {
                       return DropdownMenuItem(
                         value: e.key,

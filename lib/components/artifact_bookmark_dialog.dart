@@ -157,7 +157,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                           CharacterSelectDropdown(
                             label: tr.artifactDetailsPage.characterToEquip,
                             characters: characters,
-                            value: state.value.characterId,
+                            initialValue: state.value.characterId,
                             onChanged: (value) {
                               state.value = state.value.copyWith(
                                 characterId: value,
@@ -179,24 +179,26 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                                   ),
                                   if (pieceType.possibleMainStats.length >= 2)
-                                    Wrap(
-                                      spacing: 8.0,
-                                      runSpacing: 4.0,
-                                      children: [
-                                        for (final stat in [null, ...pieceType.possibleMainStats])
-                                          LabeledRadio(
-                                            label: Text(stat != null
-                                                ? (assetData.stats[stat]?.localized).toString()
-                                                : tr.artifactDetailsPage.unspecified,),
-                                            value: stat,
-                                            groupValue: state.value.mainStats[pieceType.id],
-                                            onChanged: (value) {
-                                              state.value = state.value.copyWith(
-                                                mainStats: {...state.value.mainStats}..[pieceType.id] = value, // [state.value.mainStats] is an unmodifiable map
-                                              );
-                                            },
-                                          ),
-                                      ],
+                                    RadioGroup<String?>(
+                                      groupValue: state.value.mainStats[pieceType.id],
+                                      onChanged: (value) {
+                                        state.value = state.value.copyWith(
+                                          mainStats: {...state.value.mainStats}..[pieceType.id] = value, // [state.value.mainStats] is an unmodifiable map
+                                        );
+                                      },
+                                      child: Wrap(
+                                        spacing: 8.0,
+                                        runSpacing: 4.0,
+                                        children: [
+                                          for (final stat in [null, ...pieceType.possibleMainStats])
+                                            LabeledRadio<String?>(
+                                              label: Text(stat != null
+                                                  ? (assetData.stats[stat]?.localized).toString()
+                                                  : tr.artifactDetailsPage.unspecified),
+                                              value: stat,
+                                            ),
+                                        ],
+                                      ),
                                     ),
                                 ],
                               ),
