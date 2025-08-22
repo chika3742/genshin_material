@@ -6,7 +6,7 @@ import "../models/common.dart";
 import "../providers/versions.dart";
 
 class CharacterSelectDropdown extends HookConsumerWidget {
-  final CharacterId? value;
+  final CharacterId? initialValue;
   final void Function(CharacterId? value) onChanged;
   final List<CharacterOrVariant> characters;
   final WeaponType? weaponTypeFilter;
@@ -15,7 +15,7 @@ class CharacterSelectDropdown extends HookConsumerWidget {
 
   const CharacterSelectDropdown({
     super.key,
-    this.value,
+    this.initialValue,
     required this.onChanged,
     required this.characters,
     this.weaponTypeFilter,
@@ -31,7 +31,7 @@ class CharacterSelectDropdown extends HookConsumerWidget {
     }
 
     return DropdownButtonFormField(
-      value: value,
+      initialValue: initialValue,
       items: [
         for (final character in characters)
           DropdownMenuItem(

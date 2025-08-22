@@ -50,16 +50,12 @@ class LabeledCheckBox extends StatelessWidget {
 
 class LabeledRadio<T> extends StatelessWidget {
   final T value;
-  final T? groupValue;
-  final void Function(T?) onChanged;
   final Widget? label;
   final Color? activeColor;
 
   const LabeledRadio({
     super.key,
     required this.value,
-    required this.groupValue,
-    required this.onChanged,
     this.label,
     this.activeColor,
   });
@@ -67,17 +63,15 @@ class LabeledRadio<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onChanged(value),
+      onTap: () => RadioGroup.maybeOf<T>(context)?.onChanged(value),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
             width: 32,
             height: 32,
-            child: Radio(
+            child: Radio<T>(
               value: value,
-              groupValue: groupValue,
-              onChanged: onChanged,
               activeColor: activeColor,
             ),
           ),
