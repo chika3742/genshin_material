@@ -9,8 +9,7 @@
 /libraries/
 # GitHub Copilot persisted chat sessions
 /copilot/chatSessions
-# GitHub Copilot persisted chat sessions
-/copilot/chatSessions
 
 /watcherTasks.xml
 copilotDiffState.xml
+deviceManager.xml

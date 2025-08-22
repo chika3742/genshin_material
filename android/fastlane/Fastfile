@@ -30,4 +30,16 @@ platform :android do
             skip_upload_screenshots: true,
         )
     end
+
+    lane :upload_screenshots do
+        desc "Upload screenshots to the Google Play"
+        upload_to_play_store(
+            json_key: "/Users/chika/Documents/secrets/service_account_key/mydatauploader-cb1806f10377.json",
+            track: "internal",
+            skip_upload_aab: true,
+            skip_upload_changelogs: true,
+            skip_upload_images: true,
+            changes_not_sent_for_review: true,
+        )
+    end
 end

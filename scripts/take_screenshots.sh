@@ -1,43 +1,59 @@
 #!/usr/bin/env bash
 
-locales=("ja" "en")
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 function takeScreenshotsAndroid() {
+    local device_name="$1"
+    local screenshot_dir="$2"
+    local locales="$3"
+
     ~/Library/Android/sdk/emulator/emulator @"$1" -netdelay none -netspeed full &
     adb wait-for-device
     for locale in "${locales[@]}"; do
-        takeScreenshots "$2" "$locale"
+        takeScreenshots $screenshot_dir "$locale" "{index}_${locale}"
     done
     kill %%
     wait %%
 }
 
 function takeScreenshotsApple() {
-    xcrun simctl boot "$1"
-    xcrun simctl bootstatus "$1"
+    local device_name="$1"
+    local screenshot_dir="$2"
+    local locales=($3)
+    local screenshot_type="$4"
+
+    xcrun simctl boot "$device_name"
+    xcrun simctl bootstatus "$device_name"
     for locale in "${locales[@]}"; do
-        takeScreenshots "$2" "$locale"
+        takeScreenshots "$screenshot_dir" "$locale" "{index}_${screenshot_type}_{index}"
     done
     xcrun simctl shutdown "$1"
 }
 
 function takeScreenshots() {
-    script_dir=$(dirname "$0")
+    local locale="$2"
+    local screenshot_dir=$(echo $1 | sed "s/{locale}/$locale/g")
+    local screenshot_name_format="$3"
+
+    echo "Taking screenshots for locale: $locale, saving to: $screenshot_dir with format: $screenshot_name_format"
     flutter drive --driver\
-      "$script_dir/../test_driver/screenshot_driver.dart"\
-      --target "$script_dir/../integration_test/screenshots_test.dart"\
+      "$DIR/../test_driver/screenshot_driver.dart"\
+      --target "$DIR/../integration_test/screenshots_test.dart"\
       --dart-define SCREENSHOT_MODE=true\
-      --dart-define SCREENSHOT_DIR="$1/$2"\
-      --dart-define LOCALE="$2"
+      --dart-define SCREENSHOT_DIR="$screenshot_dir"\
+      --dart-define LOCALE="$locale"\
+      --dart-define SCREENSHOT_NAME_FORMAT="$screenshot_name_format"
 }
 
 if [[ "$1" == "android" ]]; then
-    takeScreenshotsAndroid Pixel_8_API_35 ./screenshots/android/smartphone
-    takeScreenshotsAndroid 7-inch_Tablet ./screenshots/android/7-inch-tablet
-    takeScreenshotsAndroid 10-inch_Tablet ./screenshots/android/10-inch-tablet
+    locales=("ja-JP" "en-US")
+    takeScreenshotsAndroid Pixel_9_API_36 ./android/fastlane/metadata/android/{locale}/images/phoneScreenshots "${locales[*]}"
+    takeScreenshotsAndroid 7-inch_Tablet_API_35 ./android/fastlane/metadata/android/{locale}/images/sevenInchScreenshots "${locales[*]}"
+    takeScreenshotsAndroid 10-inch_Tablet ./android/fastlane/metadata/android/{locale}/images/tenInchScreenshots "${locales[*]}"
 elif [[ "$1" == "ios" ]]; then
-    takeScreenshotsApple "iPhone 16 Plus" ./screenshots/apple/6.7-inch
-    takeScreenshotsApple "iPad Pro 13-inch (M4)" ./screenshots/apple/13-inch
+    locales=("ja" "en-US")
+    takeScreenshotsApple "iPhone 16 Plus" ./ios/fastlane/screenshots/{locale} "${locales[*]}" APP_IPHONE_67
+    takeScreenshotsApple "iPad Pro (12.9-inch) (3rd generation)" ./ios/fastlane/screenshots/{locale} "${locales[*]}" APP_IPAD_PRO_3GEN_129
 else
     echo "Invalid platform: $1"
     exit 1

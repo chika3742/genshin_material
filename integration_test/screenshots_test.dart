@@ -23,6 +23,10 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "package:path/path.dart" as p;
 import "package:shared_preferences/shared_preferences.dart";
 
+const locale = String.fromEnvironment("LOCALE", defaultValue: "ja-JP");
+const screenshotDir = String.fromEnvironment("SCREENSHOT_DIR");
+const screenshotNameFormat = String.fromEnvironment("SCREENSHOT_NAME_FORMAT");
+
 void main() {
   late AppDatabase db;
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +34,6 @@ void main() {
 
   setUp(() {
     db = AppDatabase(NativeDatabase.memory());
-
     Firebase.initializeApp();
   });
   tearDown(() async {
@@ -40,14 +43,17 @@ void main() {
   testWidgets("take screenshots", (tester) async {
     int index = 1;
     Future<void> takeScreenshot() async {
-      const screenshotDir = String.fromEnvironment("SCREENSHOT_DIR");
-      await binding.takeScreenshot(p.join(screenshotDir, "${index.toString().padLeft(2, "0")}.png"));
+      final screenshotName = screenshotNameFormat.replaceAll("{index}", index.toString());
+      await binding.takeScreenshot(p.join(screenshotDir, "$screenshotName.png"));
       index++;
     }
 
     // initialize the app
-    const locale = String.fromEnvironment("LOCALE", defaultValue: "ja");
-    await LocaleSettings.setLocale(AppLocale.values.firstWhere((e) => e.name == locale));
+    await LocaleSettings.setLocale(switch (locale) {
+      "ja-JP" || "ja" => AppLocale.ja,
+      "en-US" => AppLocale.en,
+      _ => AppLocale.ja,
+    });
     await initializeDateFormatting();
     // avoid plural resolver not configured warning
     // (Japanese doesn't have plural forms)
