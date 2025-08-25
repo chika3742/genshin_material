@@ -14,7 +14,7 @@ jobs:
     name: Test & Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Init Flutter SDK
         uses: chika3742/setup-fvm@v3
