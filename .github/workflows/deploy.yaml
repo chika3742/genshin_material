@@ -87,7 +87,7 @@ jobs:
       - name: Init Flutter SDK
         uses: chika3742/setup-fvm@v3
 
-      - uses: actions/setup-java@v4 # for android build
+      - uses: actions/setup-java@v5 # for android build
         with:
           distribution: zulu
           java-version: '17'
