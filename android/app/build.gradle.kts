@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
@@ -38,17 +39,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     sourceSets.getByName("main") {
         java.srcDirs("src/main/kotlin")
     }
 
     defaultConfig {
         applicationId = "net.chikach.genshinmaterial"
-        minSdkVersion(flutter.minSdkVersion)
+        minSdk = flutter.minSdkVersion
         targetSdk = 36
         versionCode = flutterVersionCode.toInt()
         versionName = flutterVersionName
@@ -77,6 +74,12 @@ android {
         release {
             signingConfig = signingConfigs["release"]
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
