@@ -12,4 +12,6 @@ class RemoteConfigKey {
   static const String bannerActionText = "banner_action_text";
 
   static const String bannerKey = "banner_key";
+
+  static const String minimumAssetSchemaVersion = "minimum_asset_schema_version";
 }
