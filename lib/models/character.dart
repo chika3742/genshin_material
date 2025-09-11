@@ -35,6 +35,7 @@ mixin CharacterWithLargeImage on Character {
 mixin CharacterOrVariant on Character {
   TeyvatElement get element;
   Talents get talents;
+  bool get disableSync;
 }
 
 @Freezed(fallbackUnion: "default")
@@ -45,6 +46,7 @@ sealed class Character with _$Character, CharacterOrWeapon, Searchable {
   @With<CharacterOrVariant>()
   const factory Character({
     required String id,
+    @Default(false) bool disableSync,
     required List<int> hyvIds,
     required LocalizedText name,
     required String jaPronunciation,
@@ -74,6 +76,7 @@ sealed class Character with _$Character, CharacterOrWeapon, Searchable {
   @With<CharacterOrVariant>()
   const factory Character.variant({
     required String id,
+    @Default(false) bool disableSync,
     required String parentId,
     required LocalizedText name,
     required String jaPronunciation,

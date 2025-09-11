@@ -9,6 +9,7 @@ part of 'character.dart';
 ListedCharacter _$ListedCharacterFromJson(Map<String, dynamic> json) =>
     ListedCharacter(
       id: json['id'] as String,
+      disableSync: json['disableSync'] as bool? ?? false,
       hyvIds: (json['hyvIds'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
@@ -30,6 +31,7 @@ ListedCharacter _$ListedCharacterFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ListedCharacterToJson(ListedCharacter instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'disableSync': instance.disableSync,
       'hyvIds': instance.hyvIds,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,
@@ -80,6 +82,7 @@ Map<String, dynamic> _$CharacterGroupToJson(CharacterGroup instance) =>
 CharacterVariant _$CharacterVariantFromJson(Map<String, dynamic> json) =>
     CharacterVariant(
       id: json['id'] as String,
+      disableSync: json['disableSync'] as bool? ?? false,
       parentId: json['parentId'] as String,
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
@@ -98,6 +101,7 @@ CharacterVariant _$CharacterVariantFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CharacterVariantToJson(CharacterVariant instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'disableSync': instance.disableSync,
       'parentId': instance.parentId,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,

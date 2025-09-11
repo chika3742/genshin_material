@@ -124,44 +124,46 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       variants[initialVariant] ?? variants.values.first,
     );
 
-    ref.listen(gameDataSyncCachedProvider(variantId: variant.value.id), (_, result) {
-      if (result.valueOrNull == null) return;
+    if (!variant.value.disableSync) {
+      ref.listen(gameDataSyncCachedProvider(variantId: variant.value.id), (_, result) {
+        if (result.valueOrNull == null) return;
 
-      var newState = state.value;
-      if (result.value!.levels != null) {
-        for (final e in result.value!.levels!.entries) {
-          final ingLevels = ingredients.getLevels(rarity: character.rarity, purpose: e.key);newState = newState.copyWith(
-            rangeValues: {...newState.rangeValues}..[e.key] = LevelRangeValues(e.value, max(e.value, newState.rangeValues[e.key]!.end)),
-            checkedTalentTypes: {...newState.checkedTalentTypes}..[e.key] = e.value < ingLevels.levels.keys.last,
+        var newState = state.value;
+        if (result.value!.levels != null) {
+          for (final e in result.value!.levels!.entries) {
+            final ingLevels = ingredients.getLevels(rarity: character.rarity, purpose: e.key);newState = newState.copyWith(
+              rangeValues: {...newState.rangeValues}..[e.key] = LevelRangeValues(e.value, max(e.value, newState.rangeValues[e.key]!.end)),
+              checkedTalentTypes: {...newState.checkedTalentTypes}..[e.key] = e.value < ingLevels.levels.keys.last,
+            );
+          }
+
+          if (prefs.autoRemoveBookmarks) {
+            db.deleteObsoleteBookmarks(
+              characterId: variant.value.id,
+              levels: result.value!.levels!,
+            ).then((removed) {
+              if (context.mounted && removed) {
+                showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
+              }
+            });
+          }
+        }
+        if (result.value!.equippedWeaponId != null) {
+          newState = newState.copyWith(
+            equippedWeaponId: result.value!.equippedWeaponId,
           );
         }
+        state.value = newState;
+      });
 
-        if (prefs.autoRemoveBookmarks) {
-          db.deleteObsoleteBookmarks(
-            characterId: variant.value.id,
-            levels: result.value!.levels!,
-          ).then((removed) {
-            if (context.mounted && removed) {
-              showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
-            }
-          });
-        }
-      }
-      if (result.value!.equippedWeaponId != null) {
-        newState = newState.copyWith(
-          equippedWeaponId: result.value!.equippedWeaponId,
+      ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id)), (_, result) {
+        if (result.valueOrNull == null) return;
+
+        state.value = state.value.copyWith(
+          lackNums: result.value!,
         );
-      }
-      state.value = newState;
-    });
-
-    ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id)), (_, result) {
-      if (result.valueOrNull == null) return;
-
-      state.value = state.value.copyWith(
-        lackNums: result.value!,
-      );
-    });
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -230,6 +232,9 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                       children: [
                         Consumer(
                           builder: (context, ref, _) {
+                            if (variant.value.disableSync) {
+                              return const SizedBox();
+                            }
                             final state = ref.watch(gameDataSyncStateProvider(variantId: variant.value.id));
                             return state != null ? GameDataSyncIndicator(
                               status: state,

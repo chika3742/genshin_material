@@ -77,6 +77,7 @@ class ListedCharacter extends Character
     with CharacterWithLargeImage, CharacterOrVariant {
   const ListedCharacter(
       {required this.id,
+      this.disableSync = false,
       required final List<int> hyvIds,
       required this.name,
       required this.jaPronunciation,
@@ -98,6 +99,8 @@ class ListedCharacter extends Character
 
   @override
   final String id;
+  @JsonKey()
+  final bool disableSync;
   final List<int> _hyvIds;
   List<int> get hyvIds {
     if (_hyvIds is EqualUnmodifiableListView) return _hyvIds;
@@ -148,6 +151,8 @@ class ListedCharacter extends Character
         (other.runtimeType == runtimeType &&
             other is ListedCharacter &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.disableSync, disableSync) ||
+                other.disableSync == disableSync) &&
             const DeepCollectionEquality().equals(other._hyvIds, _hyvIds) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
@@ -170,6 +175,7 @@ class ListedCharacter extends Character
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      disableSync,
       const DeepCollectionEquality().hash(_hyvIds),
       name,
       jaPronunciation,
@@ -183,7 +189,7 @@ class ListedCharacter extends Character
 
   @override
   String toString() {
-    return 'Character(id: $id, hyvIds: $hyvIds, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
+    return 'Character(id: $id, disableSync: $disableSync, hyvIds: $hyvIds, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
   }
 }
 
@@ -304,6 +310,7 @@ class CharacterGroup extends Character with CharacterWithLargeImage {
 class CharacterVariant extends Character with CharacterOrVariant {
   const CharacterVariant(
       {required this.id,
+      this.disableSync = false,
       required this.parentId,
       required this.name,
       required this.jaPronunciation,
@@ -323,6 +330,8 @@ class CharacterVariant extends Character with CharacterOrVariant {
 
   @override
   final String id;
+  @JsonKey()
+  final bool disableSync;
   final String parentId;
   @override
   final LocalizedText name;
@@ -366,6 +375,8 @@ class CharacterVariant extends Character with CharacterOrVariant {
         (other.runtimeType == runtimeType &&
             other is CharacterVariant &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.disableSync, disableSync) ||
+                other.disableSync == disableSync) &&
             (identical(other.parentId, parentId) ||
                 other.parentId == parentId) &&
             (identical(other.name, name) || other.name == name) &&
@@ -387,6 +398,7 @@ class CharacterVariant extends Character with CharacterOrVariant {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      disableSync,
       parentId,
       name,
       jaPronunciation,
@@ -399,7 +411,7 @@ class CharacterVariant extends Character with CharacterOrVariant {
 
   @override
   String toString() {
-    return 'Character.variant(id: $id, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, element: $element, weaponType: $weaponType, talents: $talents, materials: $materials)';
+    return 'Character.variant(id: $id, disableSync: $disableSync, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, element: $element, weaponType: $weaponType, talents: $talents, materials: $materials)';
   }
 }
 

@@ -13,6 +13,7 @@ sealed class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon, Searchable {
 
   const factory Weapon({
     required String id,
+    @Default(false) bool disableSync,
     required int hyvId,
     required LocalizedText name,
     required String jaPronunciation,

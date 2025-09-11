@@ -8,6 +8,7 @@ part of 'weapon.dart';
 
 _Weapon _$WeaponFromJson(Map<String, dynamic> json) => _Weapon(
       id: json['id'] as String,
+      disableSync: json['disableSync'] as bool? ?? false,
       hyvId: (json['hyvId'] as num).toInt(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
       jaPronunciation: json['jaPronunciation'] as String,
@@ -27,6 +28,7 @@ _Weapon _$WeaponFromJson(Map<String, dynamic> json) => _Weapon(
 
 Map<String, dynamic> _$WeaponToJson(_Weapon instance) => <String, dynamic>{
       'id': instance.id,
+      'disableSync': instance.disableSync,
       'hyvId': instance.hyvId,
       'name': instance.name,
       'jaPronunciation': instance.jaPronunciation,

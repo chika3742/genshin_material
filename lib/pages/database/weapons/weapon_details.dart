@@ -112,33 +112,37 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
     ));
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
-    final selectedCharacterId = useState(initialSelectedCharacter);
 
-    ref.listen(gameDataSyncCachedProvider(
-      variantId: selectedCharacterId.value,
-      weaponId: weapon.id,
-    ), (_, result) {
-      if (result.value?.levels != null) {
-        for (final e in result.value!.levels!.entries) {
-          final purpose = e.key;
-          state.value = state.value.copyWithDrv(LevelRangeValues(
-            e.value,
-            max(state.value.rangeValues[purpose]?.end ?? e.value, e.value),
-          ));
+    final enableSync = !weapon.disableSync &&
+        !characters.firstWhere((e) => e.id == state.value.selectedCharacterId).disableSync;
+
+    if (enableSync) {
+      ref.listen(gameDataSyncCachedProvider(
+        variantId: state.value.selectedCharacterId,
+        weaponId: weapon.id,
+      ), (_, result) {
+        if (result.value?.levels != null) {
+          for (final e in result.value!.levels!.entries) {
+            final purpose = e.key;
+            state.value = state.value.copyWithDrv(LevelRangeValues(
+              e.value,
+              max(state.value.rangeValues[purpose]?.end ?? e.value, e.value),
+            ));
+          }
         }
-      }
-    });
+      });
 
-    ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(
-      variantId: selectedCharacterId.value,
-      weaponId: weapon.id,
-    )), (_, result) {
-      if (result.valueOrNull == null) return;
+      ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(
+        variantId: state.value.selectedCharacterId,
+        weaponId: weapon.id,
+      )), (_, result) {
+        if (result.valueOrNull == null) return;
 
-      state.value = state.value.copyWith(
-        lackNums: result.value!,
-      );
-    });
+        state.value = state.value.copyWith(
+          lackNums: result.value!,
+        );
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -169,18 +173,19 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  Consumer(
-                    builder: (context, ref, _) {
-                      final syncStatus = ref.watch(gameDataSyncStateProvider(
-                          variantId: state.value.selectedCharacterId,
-                          weaponId: weapon.id,
-                        ));
-                      return syncStatus != null
-                          ? GameDataSyncIndicator(
-                              status: syncStatus,
-                            )
-                          : const SizedBox.shrink();
-                    },
+                  if (enableSync)
+                    Consumer(
+                      builder: (context, ref, _) {
+                        final syncStatus = ref.watch(gameDataSyncStateProvider(
+                            variantId: state.value.selectedCharacterId,
+                            weaponId: weapon.id,
+                          ));
+                        return syncStatus != null
+                            ? GameDataSyncIndicator(
+                                status: syncStatus,
+                              )
+                            : const SizedBox.shrink();
+                      },
                   ),
                 ],
               ),
@@ -191,6 +196,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                 initialValue: state.value.selectedCharacterId,
                 onChanged: (value) {
                   state.value = state.value.copyWith(
+                    lackNums: {},
                     selectedCharacterId: value!,
                   );
                 },

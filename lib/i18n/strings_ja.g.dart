@@ -39,7 +39,10 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
+
+	/// ja: '原神素材ノート'
 	String get appName => '原神素材ノート';
+
 	late final TranslationsCommonJa common = TranslationsCommonJa.internal(_root);
 	late final TranslationsSearchJa search = TranslationsSearchJa.internal(_root);
 	late final TranslationsTutorialJa tutorial = TranslationsTutorialJa.internal(_root);
@@ -83,15 +86,35 @@ class TranslationsCommonJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: 'OK'
 	String get ok => 'OK';
+
+	/// ja: 'キャンセル'
 	String get cancel => 'キャンセル';
+
+	/// ja: 'サインアウト'
 	String get signOut => 'サインアウト';
+
+	/// ja: '利用規約'
 	String get tos => '利用規約';
+
+	/// ja: 'プライバシーポリシー'
 	String get privacyPolicy => 'プライバシーポリシー';
+
+	/// ja: 'エラーが発生しました。'
 	String get error => 'エラーが発生しました。';
+
+	/// ja: '目標レベル'
 	String get goalLevel => '目標レベル';
+
+	/// ja: '現在レベル'
 	String get currentLevel => '現在レベル';
+
+	/// ja: '目次'
 	String get index => '目次';
+
+	/// ja: '(other) {$n${unit(秒)}}'
 	TextSpan seconds({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
 		n: n,
 		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
@@ -100,6 +123,8 @@ class TranslationsCommonJa {
 			unit('秒'),
 		]),
 	);
+
+	/// ja: '(other) {$n${unit(分)}}'
 	TextSpan minutes({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
 		n: n,
 		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
@@ -108,6 +133,8 @@ class TranslationsCommonJa {
 			unit('分'),
 		]),
 	);
+
+	/// ja: '(other) {$n${unit(時間)}}'
 	TextSpan hours({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
 		n: n,
 		resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
@@ -116,27 +143,64 @@ class TranslationsCommonJa {
 			unit('時間'),
 		]),
 	);
+
+	/// ja: '元素'
 	String get element => '元素';
+
+	/// ja: 'レアリティ'
 	String get rarity => 'レアリティ';
+
+	/// ja: '武器種'
 	String get weaponType => '武器種';
+
+	/// ja: 'クリア'
 	String get clear => 'クリア';
+
+	/// ja: '保存'
 	String get save => '保存';
+
+	/// ja: '次へ'
 	String get next => '次へ';
+
+	/// ja: '変更'
 	String get change => '変更';
+
+	/// ja: '選択してください'
 	String get pleaseSelect => '選択してください';
+
+	/// ja: '元に戻す'
 	String get undo => '元に戻す';
+
+	/// ja: 'ブックマークしました'
 	String get bookmarkSaved => 'ブックマークしました';
+
+	/// ja: '育成完了のブックマークを解除しました'
 	String get removedObsoleteBookmarks => '育成完了のブックマークを解除しました';
+
+	/// ja: 'なし'
 	String get none => 'なし';
+
+	/// ja: 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。'
 	String get sliderTips => 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
+
+	/// ja: '選択中: $character'
 	String selected({required Object character}) => '選択中: ${character}';
+
+	/// ja: '所持'
 	String get possession => '所持';
+
 	Map<String, String> get possessionStatus => {
 		'owned': '所持',
 		'notOwned': '未所持',
 	};
+
+	/// ja: 'HoYoLABと連携すると、所持状況を同期できます。'
 	String get possessionNoteNotSignedIn => 'HoYoLABと連携すると、所持状況を同期できます。';
+
+	/// ja: '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。'
 	String get possessionNote => '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。';
+
+	/// ja: '閉じる'
 	String get dismiss => '閉じる';
 }
 
@@ -147,8 +211,13 @@ class TranslationsSearchJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '$targetを検索...'
 	String hint({required Object target}) => '${target}を検索...';
+
+	/// ja: '検索結果が見つかりません'
 	String get noResults => '検索結果が見つかりません';
+
 	late final TranslationsSearchTargetsJa targets = TranslationsSearchTargetsJa.internal(_root);
 }
 
@@ -159,7 +228,11 @@ class TranslationsTutorialJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '目次の表示'
 	String get indexSheet => '目次の表示';
+
+	/// ja: 'このボタンをタップすると、お探しの項目へ素早く移動できます。'
 	String get indexSheetDesc => 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
 }
 
@@ -170,17 +243,41 @@ class TranslationsUpdatesJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: 'データ更新をダウンロードしています…'
 	String get downloading => 'データ更新をダウンロードしています…';
+
+	/// ja: 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。'
 	String get failedToLoad => 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
+
+	/// ja: 'データ更新のダウンロードに失敗しました。'
 	String get failedToDownload => 'データ更新のダウンロードに失敗しました。';
+
+	/// ja: 'データ更新のインストールに失敗しました。'
 	String get failedToInstall => 'データ更新のインストールに失敗しました。';
+
+	/// ja: 'データ更新の確認に失敗しました。'
 	String get failedToCheck => 'データ更新の確認に失敗しました。';
+
+	/// ja: 'アプリを最新版にアップデートしてください。'
 	String get schemaVersionMismatch => 'アプリを最新版にアップデートしてください。';
+
+	/// ja: 'アプリを最新版にアップデートしてください。'
 	String get noCompatibleAsset => 'アプリを最新版にアップデートしてください。';
+
+	/// ja: 'インターネット接続をご確認ください。'
 	String get noInternet => 'インターネット接続をご確認ください。';
+
+	/// ja: 'アップデートはありません'
 	String get noUpdateAvailable => 'アップデートはありません';
+
+	/// ja: '更新が完了しました。'
 	String get completed => '更新が完了しました。';
+
+	/// ja: 'インストールしています...'
 	String get installing => 'インストールしています...';
+
+	/// ja: 'データ更新が完了するまでお待ちください。'
 	String get pleaseWaitUntilComplete => 'データ更新が完了するまでお待ちください。';
 }
 
@@ -191,11 +288,23 @@ class TranslationsErrorsJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: 'キャラクターが見つかりません'
 	String get characterNotFound => 'キャラクターが見つかりません';
+
+	/// ja: '武器が見つかりません'
 	String get weaponNotFound => '武器が見つかりません';
+
+	/// ja: '素材が見つかりません'
 	String get materialNotFound => '素材が見つかりません';
+
+	/// ja: '聖遺物が見つかりません'
 	String get artifactNotFound => '聖遺物が見つかりません';
+
+	/// ja: 'しばらくしてから再度お試しください。'
 	String get tryAgainLater => 'しばらくしてから再度お試しください。';
+
+	/// ja: 'データベースエラーが発生しました。'
 	String get dbError => 'データベースエラーが発生しました。';
 }
 
@@ -206,28 +315,74 @@ class TranslationsPagesJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: 'キャラクター'
 	String get characters => 'キャラクター';
+
+	/// ja: '$character - キャラクター'
 	String characterDetails({required Object character}) => '${character} - キャラクター';
+
+	/// ja: '武器'
 	String get weapons => '武器';
+
+	/// ja: '$weapon - 武器'
 	String weaponDetails({required Object weapon}) => '${weapon} - 武器';
+
+	/// ja: '素材一覧(逆引き)'
 	String get materials => '素材一覧(逆引き)';
+
+	/// ja: '$material - 素材'
 	String materialDetails({required Object material}) => '${material} - 素材';
+
+	/// ja: '聖遺物'
 	String get artifacts => '聖遺物';
+
+	/// ja: '$artifact - 聖遺物'
 	String artifactDetails({required Object artifact}) => '${artifact} - 聖遺物';
+
+	/// ja: '調度品セット'
 	String get furnishingSets => '調度品セット';
+
+	/// ja: '$furnishingSet - 調度品セット'
 	String furnishingSetDetails({required Object furnishingSet}) => '${furnishingSet} - 調度品セット';
+
+	/// ja: '調度品'
 	String get furnishings => '調度品';
+
+	/// ja: '$furnishing - 調度品'
 	String furnishingDetails({required Object furnishing}) => '${furnishing} - 調度品';
+
+	/// ja: '設定'
 	String get settings => '設定';
+
+	/// ja: 'アカウント'
 	String get account => 'アカウント';
+
+	/// ja: '更新履歴'
 	String get releaseNotes => '更新履歴';
+
+	/// ja: 'ブックマーク'
 	String get bookmarks => 'ブックマーク';
+
+	/// ja: 'データベース'
 	String get database => 'データベース';
+
+	/// ja: '日替わり素材'
 	String get daily => '日替わり素材';
+
+	/// ja: 'ツール'
 	String get tools => 'ツール';
+
+	/// ja: '樹脂回復時刻計算機'
 	String get resinCalc => '樹脂回復時刻計算機';
+
+	/// ja: '祈願天井カウンター'
 	String get wishes => '祈願天井カウンター';
+
+	/// ja: 'その他'
 	String get more => 'その他';
+
+	/// ja: 'HoYoLAB連携設定'
 	String get hoyolabIntegrationSettings => 'HoYoLAB連携設定';
 }
 
@@ -238,18 +393,44 @@ class TranslationsBookmarksPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: 'ブックマークがありません。「データベース」タブから探してみましょう！'
 	String get noBookmarks => 'ブックマークがありません。「データベース」タブから探してみましょう！';
+
+	/// ja: 'キャラクター'
 	String get character => 'キャラクター';
+
+	/// ja: '武器'
 	String get weapon => '武器';
+
+	/// ja: '聖遺物セット'
 	String get artifactSet => '聖遺物セット';
+
+	/// ja: '聖遺物'
 	String get artifactPiece => '聖遺物';
+
+	/// ja: 'メイン'
 	String get main => 'メイン';
+
+	/// ja: 'サブ'
 	String get sub => 'サブ';
+
+	/// ja: 'ブックマークを解除'
 	String get unBookmark => 'ブックマークを解除';
+
+	/// ja: 'このブックマークを解除しますか？'
 	String get unBookmarkConfirm => 'このブックマークを解除しますか？';
+
+	/// ja: '使用先'
 	String get byPurpose => '使用先';
+
+	/// ja: '素材'
 	String get byMaterial => '素材';
+
+	/// ja: '調度品'
 	String get furnishings => '調度品';
+
+	/// ja: 'すべての調度品が作成済みです'
 	String get allFurnishingsAreCrafted => 'すべての調度品が作成済みです';
 }
 
@@ -260,7 +441,11 @@ class TranslationsCharacterDetailsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '装備中の武器'
 	String get equippedWeapon => '装備中の武器';
+
+	/// ja: '好きな調度品セット'
 	String get favoriteFurnishingSets => '好きな調度品セット';
 }
 
@@ -271,7 +456,11 @@ class TranslationsWeaponDetailsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '武器を装備させるキャラクター'
 	String get characterToEquip => '武器を装備させるキャラクター';
+
+	/// ja: 'スキル効果'
 	String get skillEffect => 'スキル効果';
 }
 
@@ -282,10 +471,20 @@ class TranslationsMaterialDetailsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: 'この素材を使用するキャラクター'
 	String get charactersUsing => 'この素材を使用するキャラクター';
+
+	/// ja: 'この素材を使用する武器'
 	String get weaponsUsing => 'この素材を使用する武器';
+
+	/// ja: '本日入手可能'
 	String get availableToday => '本日入手可能';
+
+	/// ja: '入手方法'
 	String get source => '入手方法';
+
+	/// ja: 'テイワットマップへ'
 	String get toTeyvatMap => 'テイワットマップへ';
 }
 
@@ -296,10 +495,20 @@ class TranslationsMaterialCardJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '現在の範囲で再ブックマーク'
 	String get reBookmark => '現在の範囲で再ブックマーク';
+
+	/// ja: '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします'
 	String get reBookmarkDesc => '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします';
+
+	/// ja: 'ブックマークを解除'
 	String get unBookmark => 'ブックマークを解除';
+
+	/// ja: 'この素材のブックマークを解除します'
 	String get unBookmarkDesc => 'この素材のブックマークを解除します';
+
+	/// ja: 'ブックマークを解除しました'
 	String get unBookmarked => 'ブックマークを解除しました';
 }
 
@@ -315,8 +524,14 @@ class TranslationsArtifactsPageJa {
 		'2-pc': '2セット効果',
 		'4-pc': '4セット効果',
 	};
+
+	/// ja: 'セット効果リスト'
 	String get effectList => 'セット効果リスト';
+
+	/// ja: '効果の種類'
 	String get kindOfEffect => '効果の種類';
+
+	/// ja: '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。'
 	String get effectFilteringNote => '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。';
 }
 
@@ -327,19 +542,47 @@ class TranslationsArtifactDetailsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '最高レアリティ'
 	String get maxRarity => '最高レアリティ';
+
+	/// ja: 'セットをブックマーク'
 	String get bookmarkSet => 'セットをブックマーク';
+
+	/// ja: '部位ごとにブックマーク'
 	String get bookmarkPiece => '部位ごとにブックマーク';
+
+	/// ja: '2 + 2 セットをブックマーク'
 	String get bookmarkTwoAndTwoPcSet => '2 + 2 セットをブックマーク';
+
+	/// ja: '4 セットをブックマーク'
 	String get bookmarkFourPcSet => '4 セットをブックマーク';
+
+	/// ja: '聖遺物をブックマーク'
 	String get bookmarkArtifacts => '聖遺物をブックマーク';
+
+	/// ja: '聖遺物を装備させるキャラクター'
 	String get characterToEquip => '聖遺物を装備させるキャラクター';
+
+	/// ja: '2個目のセットを選択'
 	String get chooseSecondSet => '2個目のセットを選択';
+
+	/// ja: '2個目の聖遺物セットを選択してください'
 	String get chooseSecondSetDesc => '2個目の聖遺物セットを選択してください';
+
+	/// ja: 'メインステータス'
 	String get mainStat => 'メインステータス';
+
+	/// ja: 'メインステータス ($pieceType)'
 	String mainStatWithPieceType({required Object pieceType}) => '${_root.artifactDetailsPage.mainStat} (${pieceType})';
+
+	/// ja: 'サブステータス'
 	String get subStats => 'サブステータス';
+
+	/// ja: '指定しない'
 	String get unspecified => '指定しない';
+
+	/// ja: '$nセット'
 	String nSet({required Object n}) => '${n}セット';
 }
 
@@ -350,18 +593,44 @@ class TranslationsFurnishingSetsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '調度品一覧'
 	String get furnishingList => '調度品一覧';
+
+	/// ja: '種類'
 	String get type => '種類';
+
+	/// ja: '画像'
 	String get image => '画像';
+
+	/// ja: '名前'
 	String get name => '名前';
+
+	/// ja: '必要数 (長押しで一括変更)'
 	String get requiredQuantity => '必要数 (長押しで一括変更)';
+
+	/// ja: '入手方法'
 	String get source => '入手方法';
+
+	/// ja: '左右にスクロールできます'
 	String get canBeScrolledHorizontally => '左右にスクロールできます';
+
+	/// ja: '作成数をリセット'
 	String get resetCraftCount => '作成数をリセット';
+
+	/// ja: 'セット内の調度品の作成数をすべてリセットしますか？'
 	String get resetCraftCountConfirm => 'セット内の調度品の作成数をすべてリセットしますか？';
+
+	/// ja: 'この調度品セットが好きなキャラクター'
 	String get favoredBy => 'この調度品セットが好きなキャラクター';
+
+	/// ja: 'ブックマークしました'
 	String get addedToBookmarks => 'ブックマークしました';
+
+	/// ja: 'ブックマークを解除しました'
 	String get removedFromBookmarks => 'ブックマークを解除しました';
+
+	/// ja: 'この調度品を使用する調度品セット'
 	String get furnishingSetsUsingThisFurnishing => 'この調度品を使用する調度品セット';
 }
 
@@ -372,10 +641,20 @@ class TranslationsDailyPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '月/木'
 	String get mondayAndThursday => '月/木';
+
+	/// ja: '火/金'
 	String get tuesdayAndFriday => '火/金';
+
+	/// ja: '水/土'
 	String get wednesdayAndSaturday => '水/土';
+
+	/// ja: '天賦素材'
 	String get talentMaterials => '天賦素材';
+
+	/// ja: '武器素材'
 	String get weaponMaterials => '武器素材';
 }
 
@@ -386,18 +665,32 @@ class TranslationsResinCalcPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '現在の樹脂数'
 	String get currentResin => '現在の樹脂数';
+
+	/// ja: '樹脂数'
 	String get resin => '樹脂数';
+
+	/// ja: '回復時刻'
 	String get recoveryTime => '回復時刻';
+
+	/// ja: '回復まであと'
 	String get untilRecovery => '回復まであと';
+
+	/// ja: '$time${text(に全回復)}'
 	TextSpan fullyReplenishedAt({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
 		time,
 		text('に全回復'),
 	]);
+
+	/// ja: '${text(あと)}$time'
 	TextSpan recoversIn({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
 		text('あと'),
 		time,
 	]);
+
+	/// ja: '($time ${text(現在)})'
 	TextSpan asOf({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
 		const TextSpan(text: '('),
 		time,
@@ -405,11 +698,23 @@ class TranslationsResinCalcPageJa {
 		text('現在'),
 		const TextSpan(text: ')'),
 	]);
+
+	/// ja: '全回復した時刻'
 	String get recoveredTime => '全回復した時刻';
+
+	/// ja: '無駄にした樹脂'
 	String get wastedResin => '無駄にした樹脂';
+
+	/// ja: '明日'
 	String get tomorrow => '明日';
+
+	/// ja: 'すでに全回復しました'
 	String get alreadyFull => 'すでに全回復しました';
+
+	/// ja: '使い方'
 	String get howToUse => '使い方';
+
+	/// ja: '現在の樹脂数を入力すると、入力した地点での時間を基準に、樹脂が全回復する時刻と、全回復するまでの時間を計算します。 HoYoLAB連携設定で連携すると、現在の樹脂数を同期できるようになります。この機能を利用する場合「全回復した時刻」「無駄にした樹脂」は、最後に樹脂を使用もしくはアイテム等で回復してから一度も同期していなかった場合には、正確に算出されませんのでご了承ください。 '
 	String get howToUseContent => '現在の樹脂数を入力すると、入力した地点での時間を基準に、樹脂が全回復する時刻と、全回復するまでの時間を計算します。\n${_root.pages.hoyolabIntegrationSettings}で連携すると、現在の樹脂数を同期できるようになります。この機能を利用する場合「${_root.resinCalcPage.recoveredTime}」「${_root.resinCalcPage.wastedResin}」は、最後に樹脂を使用もしくはアイテム等で回復してから一度も同期していなかった場合には、正確に算出されませんのでご了承ください。\n';
 }
 
@@ -420,13 +725,29 @@ class TranslationsMorePageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: 'ブックマーク等をデバイス間で同期できます。'
 	String get accountDesc => 'ブックマーク等をデバイス間で同期できます。';
+
+	/// ja: 'HoYoLABと連携し、ゲーム内のデータと同期できます。'
 	String get hoyolabIntegrationSettingsDesc => 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
+
+	/// ja: 'GitHub'
 	String get github => 'GitHub';
+
+	/// ja: '本アプリのソースコードを閲覧できます。'
 	String get githubDesc => '本アプリのソースコードを閲覧できます。';
+
+	/// ja: 'コーヒーをおごる'
 	String get buyMeACoffee => 'コーヒーをおごる';
+
+	/// ja: 'だいぶ喜びます。'
 	String get buyMeACoffeeDesc => 'だいぶ喜びます。';
+
+	/// ja: 'X（告知用）'
 	String get x => 'X（告知用）';
+
+	/// ja: '本アプリに関するお知らせを掲載しています。'
 	String get xDesc => '本アプリに関するお知らせを掲載しています。';
 }
 
@@ -437,7 +758,11 @@ class TranslationsReleaseNotesPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '機能更新'
 	String get featureUpdates => '機能更新';
+
+	/// ja: 'データ更新'
 	String get assetUpdates => 'データ更新';
 }
 
@@ -448,16 +773,38 @@ class TranslationsSettingsPageJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: '表示'
 	String get display => '表示';
+
+	/// ja: '素材のアイテム名を表示'
 	String get showItemNameOnCard => '素材のアイテム名を表示';
+
+	/// ja: '使用数を表示するカードにアイテム名を表示します。'
 	String get showItemNameOnCardDesc => '使用数を表示するカードにアイテム名を表示します。';
+
+	/// ja: '日替わり素材のサーバー時間'
 	String get dailyResetServer => '日替わり素材のサーバー時間';
+
+	/// ja: '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。'
 	String get dailyResetServerDesc => '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。';
+
+	/// ja: 'アセットデータ'
 	String get assetData => 'アセットデータ';
+
+	/// ja: 'アセットデータの更新を確認'
 	String get checkAssetUpdate => 'アセットデータの更新を確認';
+
+	/// ja: 'アプリ内データのアップデートをチェックします。'
 	String get checkAssetUpdateDesc => 'アプリ内データのアップデートをチェックします。';
+
+	/// ja: 'アセットデータを再ダウンロード'
 	String get reDownloadAssets => 'アセットデータを再ダウンロード';
+
+	/// ja: 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。'
 	String get reDownloadAssetsDesc => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
+
+	/// ja: 'オープンソースライセンス'
 	String get openSourceLicenses => 'オープンソースライセンス';
 }
 
@@ -468,43 +815,119 @@ class TranslationsHoyolabJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: 'HoYoLABにサインイン'
 	String get signIn => 'HoYoLABにサインイン';
+
+	/// ja: 'HoYoLAB連携について'
 	String get aboutHeading => 'HoYoLAB連携について';
+
+	/// ja: '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。 HoYoLABの認証情報、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。私も含め、それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。 ※本機能はグローバル版（HoYoLAB）でのみ利用可能です。中国本土版（米游社）には対応していません。 ※万が一本機能の利用によってアカウントに何らかの問題が生じた場合、本アプリの開発者は一切の責任を負いかねますので、ご了承ください。 '
 	String get about => '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。\n\nHoYoLABの認証情報、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。私も含め、それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。\n\n※本機能はグローバル版（HoYoLAB）でのみ利用可能です。中国本土版（米游社）には対応していません。\n※万が一本機能の利用によってアカウントに何らかの問題が生じた場合、本アプリの開発者は一切の責任を負いかねますので、ご了承ください。\n';
+
+	/// ja: 'HoYoLABとの連携を解除'
 	String get signOut => 'HoYoLABとの連携を解除';
+
+	/// ja: '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。'
 	String get signInNote => '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
+
+	/// ja: 'HoYoLABへのサインインに失敗しました。'
 	String get failedToSignIn => 'HoYoLABへのサインインに失敗しました。';
+
+	/// ja: 'HoYoLABとの連携を解除しますか？'
 	String get signOutConfirm => 'HoYoLABとの連携を解除しますか？';
+
+	/// ja: 'ログイン情報の検証に失敗しました。再度ログインしてください。'
 	String get credentialVerificationFailed => 'ログイン情報の検証に失敗しました。再度ログインしてください。';
+
+	/// ja: 'サーバーの変更'
 	String get changeServer => 'サーバーの変更';
+
+	/// ja: 'サーバー選択'
 	String get serverSelect => 'サーバー選択';
+
+	/// ja: '現在の設定: $server'
 	String current({required Object server}) => '現在の設定: ${server}';
+
+	/// ja: 'サーバーが選択されていません'
 	String get noServerSelected => 'サーバーが選択されていません';
+
+	/// ja: 'サーバーを選択してください'
 	String get plsSelectServer => 'サーバーを選択してください';
+
+	/// ja: 'ユーザー情報'
 	String get userInfo => 'ユーザー情報';
+
+	/// ja: 'サーバーリストの読み込みに失敗しました。'
 	String get failedToLoadServerList => 'サーバーリストの読み込みに失敗しました。';
+
+	/// ja: 'ゲームデータの読み込みに失敗しました。'
 	String get failedToLoadGameRole => 'ゲームデータの読み込みに失敗しました。';
+
+	/// ja: 'ゲームデータが見つかりません'
 	String get noGameRoleFound => 'ゲームデータが見つかりません';
+
+	/// ja: 'ゲームデータの同期に失敗しました。'
 	String get failedToSyncGameData => 'ゲームデータの同期に失敗しました。';
+
+	/// ja: 'アクセス許可状態の取得に失敗しました。'
 	String get failedToLoadPermissionState => 'アクセス許可状態の取得に失敗しました。';
+
+	/// ja: 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。'
 	String get characterDataAccessNotAllowed => 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。';
+
+	/// ja: 'キャラクターを所持していません。'
 	String get characterDoesNotExist => 'キャラクターを所持していません。';
+
+	/// ja: 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。'
 	String get realtimeNotesNotEnabled => 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。';
+
+	/// ja: '一度連携を解除し、再度ログインしてください。'
 	String get loginExpired => '一度連携を解除し、再度ログインしてください。';
+
+	/// ja: 'アクセス許可'
 	String get accessPermission => 'アクセス許可';
+
+	/// ja: 'リアルタイムノートを有効化しますか？'
 	String get doYouWantToEnableRealtimeNotes => 'リアルタイムノートを有効化しますか？';
+
+	/// ja: 'リアルタイムノートの有効化'
 	String get enableRealtimeNotes => 'リアルタイムノートの有効化';
+
+	/// ja: '現在の天然樹脂の数を同期できるようになります。'
 	String get enableRealtimeNotesDesc => '現在の天然樹脂の数を同期できるようになります。';
+
+	/// ja: '同期設定'
 	String get syncSettings => '同期設定';
+
+	/// ja: 'ゲーム内の樹脂数を同期する'
 	String get syncResin => 'ゲーム内の樹脂数を同期する';
+
+	/// ja: 'ゲーム内のキャラレベルを同期する'
 	String get syncCharaState => 'ゲーム内のキャラレベルを同期する';
+
+	/// ja: 'ゲーム内の武器レベルを同期する'
 	String get syncWeaponState => 'ゲーム内の武器レベルを同期する';
+
+	/// ja: 'ゲーム内のバッグ不足数を同期する'
 	String get syncBagLackNums => 'ゲーム内のバッグ不足数を同期する';
+
+	/// ja: '育成完了のブックマークを自動解除する'
 	String get autoRemoveBookmarks => '育成完了のブックマークを自動解除する';
+
+	/// ja: 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。'
 	String get autoRemoveBookmarksDesc => 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。';
+
+	/// ja: '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。'
 	String get mustBeResonatedWithStatue => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
+
+	/// ja: 'このキャラクターはこの武器を装備していません。'
 	String get weaponNotEquipped => 'このキャラクターはこの武器を装備していません。';
+
+	/// ja: '不明なエラーが発生しました。'
 	String get unknownError => '不明なエラーが発生しました。';
+
+	/// ja: 'ゲームデータと同期しました'
 	String get charaSyncSuccess => 'ゲームデータと同期しました';
 }
 
@@ -515,12 +938,26 @@ class TranslationsSearchTargetsJa {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// ja: 'キャラクター'
 	String get characters => 'キャラクター';
+
+	/// ja: '武器'
 	String get weapons => '武器';
+
+	/// ja: '素材'
 	String get materials => '素材';
+
+	/// ja: '聖遺物セット'
 	String get artifactSets => '聖遺物セット';
+
+	/// ja: '聖遺物部位'
 	String get artifactPieces => '聖遺物部位';
+
+	/// ja: '調度品セット'
 	String get furnishingSets => '調度品セット';
+
+	/// ja: '調度品'
 	String get furnishings => '調度品';
 }
 

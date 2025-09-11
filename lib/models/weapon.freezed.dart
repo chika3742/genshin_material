@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Weapon {
   String get id;
+  bool get disableSync;
   int get hyvId;
   LocalizedText get name;
   String get jaPronunciation;
@@ -35,6 +36,8 @@ mixin _$Weapon {
         (other.runtimeType == runtimeType &&
             other is Weapon &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.disableSync, disableSync) ||
+                other.disableSync == disableSync) &&
             (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
@@ -55,6 +58,7 @@ mixin _$Weapon {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      disableSync,
       hyvId,
       name,
       jaPronunciation,
@@ -68,7 +72,7 @@ mixin _$Weapon {
 
   @override
   String toString() {
-    return 'Weapon(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, source: $source)';
+    return 'Weapon(id: $id, disableSync: $disableSync, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, source: $source)';
   }
 }
 
@@ -77,6 +81,7 @@ mixin _$Weapon {
 class _Weapon extends Weapon {
   const _Weapon(
       {required this.id,
+      this.disableSync = false,
       required this.hyvId,
       required this.name,
       required this.jaPronunciation,
@@ -93,6 +98,9 @@ class _Weapon extends Weapon {
 
   @override
   final String id;
+  @override
+  @JsonKey()
+  final bool disableSync;
   @override
   final int hyvId;
   @override
@@ -133,6 +141,8 @@ class _Weapon extends Weapon {
         (other.runtimeType == runtimeType &&
             other is _Weapon &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.disableSync, disableSync) ||
+                other.disableSync == disableSync) &&
             (identical(other.hyvId, hyvId) || other.hyvId == hyvId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.jaPronunciation, jaPronunciation) ||
@@ -154,6 +164,7 @@ class _Weapon extends Weapon {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      disableSync,
       hyvId,
       name,
       jaPronunciation,
@@ -167,7 +178,7 @@ class _Weapon extends Weapon {
 
   @override
   String toString() {
-    return 'Weapon(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, source: $source)';
+    return 'Weapon(id: $id, disableSync: $disableSync, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, source: $source)';
   }
 }
 
