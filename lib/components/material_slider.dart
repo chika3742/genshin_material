@@ -200,7 +200,7 @@ class MaterialSlider extends HookConsumerWidget {
             key: ValueKey(item.id),
             item: item,
             possiblePurposeTypes: purposes,
-            expItems: assetData.characterIngredients.expItems,
+            expItems: ingredientConf.expItems,
             lackNum: _calculateLackNum(item.id, fullQuantities[item.id], item.sum),
             usage: MaterialUsage(
               characterId: target is Character ? target.id : characterId!,
