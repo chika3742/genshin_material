@@ -37,6 +37,7 @@ mixin _$AssetData {
   Map<FurnishingSetId, FurnishingSet> get furnishingSets;
   Map<FurnishingId, Furnishing> get furnishings;
   Map<FurnishingSetTypeId, LocalizedText> get furnishingSetTypes;
+  List<DropRateEntry> get dropRates;
 
   @override
   bool operator ==(Object other) {
@@ -84,7 +85,8 @@ mixin _$AssetData {
             const DeepCollectionEquality()
                 .equals(other.furnishings, furnishings) &&
             const DeepCollectionEquality()
-                .equals(other.furnishingSetTypes, furnishingSetTypes));
+                .equals(other.furnishingSetTypes, furnishingSetTypes) &&
+            const DeepCollectionEquality().equals(other.dropRates, dropRates));
   }
 
   @override
@@ -112,12 +114,13 @@ mixin _$AssetData {
         const DeepCollectionEquality().hash(artifactTags),
         const DeepCollectionEquality().hash(furnishingSets),
         const DeepCollectionEquality().hash(furnishings),
-        const DeepCollectionEquality().hash(furnishingSetTypes)
+        const DeepCollectionEquality().hash(furnishingSetTypes),
+        const DeepCollectionEquality().hash(dropRates)
       ]);
 
   @override
   String toString() {
-    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieces: $artifactPieces, artifactTags: $artifactTags, furnishingSets: $furnishingSets, furnishings: $furnishings, furnishingSetTypes: $furnishingSetTypes)';
+    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieces: $artifactPieces, artifactTags: $artifactTags, furnishingSets: $furnishingSets, furnishings: $furnishings, furnishingSetTypes: $furnishingSetTypes, dropRates: $dropRates)';
   }
 }
 
@@ -150,8 +153,8 @@ class _AssetData implements AssetData {
       required final List<ArtifactTagCategory> artifactTags,
       required final Map<FurnishingSetId, FurnishingSet> furnishingSets,
       required final Map<FurnishingId, Furnishing> furnishings,
-      required final Map<FurnishingSetTypeId, LocalizedText>
-          furnishingSetTypes})
+      required final Map<FurnishingSetTypeId, LocalizedText> furnishingSetTypes,
+      required final List<DropRateEntry> dropRates})
       : _characters = characters,
         _weapons = weapons,
         _weaponSubStats = weaponSubStats,
@@ -169,7 +172,8 @@ class _AssetData implements AssetData {
         _artifactTags = artifactTags,
         _furnishingSets = furnishingSets,
         _furnishings = furnishings,
-        _furnishingSetTypes = furnishingSetTypes;
+        _furnishingSetTypes = furnishingSetTypes,
+        _dropRates = dropRates;
 
   @override
   final String assetDir;
@@ -331,6 +335,14 @@ class _AssetData implements AssetData {
     return EqualUnmodifiableMapView(_furnishingSetTypes);
   }
 
+  final List<DropRateEntry> _dropRates;
+  @override
+  List<DropRateEntry> get dropRates {
+    if (_dropRates is EqualUnmodifiableListView) return _dropRates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_dropRates);
+  }
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -378,7 +390,9 @@ class _AssetData implements AssetData {
             const DeepCollectionEquality()
                 .equals(other._furnishings, _furnishings) &&
             const DeepCollectionEquality()
-                .equals(other._furnishingSetTypes, _furnishingSetTypes));
+                .equals(other._furnishingSetTypes, _furnishingSetTypes) &&
+            const DeepCollectionEquality()
+                .equals(other._dropRates, _dropRates));
   }
 
   @override
@@ -406,12 +420,13 @@ class _AssetData implements AssetData {
         const DeepCollectionEquality().hash(_artifactTags),
         const DeepCollectionEquality().hash(_furnishingSets),
         const DeepCollectionEquality().hash(_furnishings),
-        const DeepCollectionEquality().hash(_furnishingSetTypes)
+        const DeepCollectionEquality().hash(_furnishingSetTypes),
+        const DeepCollectionEquality().hash(_dropRates)
       ]);
 
   @override
   String toString() {
-    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieces: $artifactPieces, artifactTags: $artifactTags, furnishingSets: $furnishingSets, furnishings: $furnishings, furnishingSetTypes: $furnishingSetTypes)';
+    return 'AssetData(assetDir: $assetDir, version: $version, characters: $characters, characterIngredients: $characterIngredients, weapons: $weapons, weaponIngredients: $weaponIngredients, weaponSubStats: $weaponSubStats, weaponTypes: $weaponTypes, elements: $elements, materials: $materials, materialCategories: $materialCategories, materialSortOrder: $materialSortOrder, dailyMaterials: $dailyMaterials, artifactSets: $artifactSets, artifactPieceTypes: $artifactPieceTypes, specialCharactersUsingMaterials: $specialCharactersUsingMaterials, stats: $stats, artifactPossibleSubStats: $artifactPossibleSubStats, artifactPieces: $artifactPieces, artifactTags: $artifactTags, furnishingSets: $furnishingSets, furnishings: $furnishings, furnishingSetTypes: $furnishingSetTypes, dropRates: $dropRates)';
   }
 }
 
