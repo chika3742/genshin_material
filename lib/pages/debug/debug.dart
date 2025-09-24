@@ -55,22 +55,18 @@ class DebugMenuPage extends ConsumerWidget {
           PopupMenuListTile(
             title: const Text("Change App Language"),
             subtitle: Text("Current: ${LocaleSettings.currentLocale.languageCode}"),
+            onSelected: (value) {
+              LocaleSettings.setLocaleSync(value);
+              Restartable.restartApp(context);
+            },
             items: [
               PopupMenuItem(
-                value: "en",
+                value: AppLocale.en,
                 child: const Text("English"),
-                onTap: () {
-                  LocaleSettings.setLocaleSync(AppLocale.en);
-                  Restartable.restartApp(context);
-                },
               ),
               PopupMenuItem(
-                value: "ja",
+                value: AppLocale.ja,
                 child: const Text("Japanese"),
-                onTap: () {
-                  LocaleSettings.setLocaleSync(AppLocale.ja);
-                  Restartable.restartApp(context);
-                },
               ),
             ],
           ),
