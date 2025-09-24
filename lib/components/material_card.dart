@@ -27,6 +27,8 @@ class MaterialCard extends StatelessWidget {
 
   final int? lackNum;
 
+  final int? farmCount;
+
   /// Material ID for linking to the material details.
   final String id;
 
@@ -48,6 +50,7 @@ class MaterialCard extends StatelessWidget {
     required this.quantity,
     required this.id,
     this.lackNum,
+    this.farmCount,
     this.bookmarkState,
     this.dailyMaterialAvailable = false,
     this.onBookmark,
@@ -122,6 +125,24 @@ class MaterialCard extends StatelessWidget {
                                 ),
                             ],
                           ),
+                          if (farmCount != null)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4.0),
+                              child: SignedSpacingColumn(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: -4.0,
+                                children: [
+                                  Icon(Symbols.agriculture, size: 20),
+                                  Text(
+                                    farmCount!.toString(),
+                                    style: GoogleFonts.titilliumWeb(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           if (onBookmark == null) const SizedBox(width: 4),
                         ],
                       ),
