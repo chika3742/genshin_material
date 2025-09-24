@@ -81,7 +81,7 @@ dev_dependencies:
   mockito: 5.4.6
   drift_dev: 2.28.0
   pigeon: 26.0.1
-  require_trailing_commas_custom: ^1.0.1
+  require_trailing_commas_custom: 1.0.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

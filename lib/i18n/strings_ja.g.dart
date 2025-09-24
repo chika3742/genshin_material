@@ -73,6 +73,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsMorePageJa morePage = TranslationsMorePageJa.internal(_root);
 	late final TranslationsReleaseNotesPageJa releaseNotesPage = TranslationsReleaseNotesPageJa.internal(_root);
 	late final TranslationsSettingsPageJa settingsPage = TranslationsSettingsPageJa.internal(_root);
+	late final TranslationsFarmCountSettingsPageJa farmCountSettingsPage = TranslationsFarmCountSettingsPageJa.internal(_root);
 	late final TranslationsHoyolabJa hoyolab = TranslationsHoyolabJa.internal(_root);
 	Map<String, String> get whereToGet => {
 		'chests': '宝箱、任務報酬など',
@@ -354,6 +355,9 @@ class TranslationsPagesJa {
 
 	/// ja: '設定'
 	String get settings => '設定';
+
+	/// ja: '周回数目安の表示設定'
+	String get farmCountSettings => '周回数目安の表示設定';
 
 	/// ja: 'アカウント'
 	String get account => 'アカウント';
@@ -789,6 +793,9 @@ class TranslationsSettingsPageJa {
 	/// ja: '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。'
 	String get dailyResetServerDesc => '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。';
 
+	/// ja: '表示に使用する冒険ランクなどを設定できます。'
+	String get farmCountSettingsDesc => '表示に使用する冒険ランクなどを設定できます。';
+
 	/// ja: 'アセットデータ'
 	String get assetData => 'アセットデータ';
 
@@ -806,6 +813,39 @@ class TranslationsSettingsPageJa {
 
 	/// ja: 'オープンソースライセンス'
 	String get openSourceLicenses => 'オープンソースライセンス';
+}
+
+// Path: farmCountSettingsPage
+class TranslationsFarmCountSettingsPageJa {
+	TranslationsFarmCountSettingsPageJa.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// ja: '冒険ランク'
+	String get adventureRank => '冒険ランク';
+
+	/// ja: '濃縮樹脂等使用時の獲得数の倍率'
+	String get skipRate => '濃縮樹脂等使用時の獲得数の倍率';
+
+	/// ja: 'ドロップ率一覧'
+	String get dropRateList => 'ドロップ率一覧';
+
+	/// ja: '種類'
+	String get kind => '種類';
+
+	/// ja: 'ドロップ率（個/回）'
+	String get rate => 'ドロップ率（個/回）';
+
+	/// ja: '備考'
+	String get note => '備考';
+
+	/// ja: '${n}倍'
+	String multiplier({required Object n}) => '${n}倍';
+
+	/// ja: '（濃縮樹脂を使用しない）'
+	String get noUseCondensed => '（濃縮樹脂を使用しない）';
 }
 
 // Path: hoyolab
@@ -1069,6 +1109,7 @@ extension on Translations {
 			case 'pages.furnishings': return '調度品';
 			case 'pages.furnishingDetails': return ({required Object furnishing}) => '${furnishing} - 調度品';
 			case 'pages.settings': return '設定';
+			case 'pages.farmCountSettings': return '周回数目安の表示設定';
 			case 'pages.account': return 'アカウント';
 			case 'pages.releaseNotes': return '更新履歴';
 			case 'pages.bookmarks': return 'ブックマーク';
@@ -1184,12 +1225,21 @@ extension on Translations {
 			case 'settingsPage.showItemNameOnCardDesc': return '使用数を表示するカードにアイテム名を表示します。';
 			case 'settingsPage.dailyResetServer': return '日替わり素材のサーバー時間';
 			case 'settingsPage.dailyResetServerDesc': return '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。';
+			case 'settingsPage.farmCountSettingsDesc': return '表示に使用する冒険ランクなどを設定できます。';
 			case 'settingsPage.assetData': return 'アセットデータ';
 			case 'settingsPage.checkAssetUpdate': return 'アセットデータの更新を確認';
 			case 'settingsPage.checkAssetUpdateDesc': return 'アプリ内データのアップデートをチェックします。';
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
 			case 'settingsPage.openSourceLicenses': return 'オープンソースライセンス';
+			case 'farmCountSettingsPage.adventureRank': return '冒険ランク';
+			case 'farmCountSettingsPage.skipRate': return '濃縮樹脂等使用時の獲得数の倍率';
+			case 'farmCountSettingsPage.dropRateList': return 'ドロップ率一覧';
+			case 'farmCountSettingsPage.kind': return '種類';
+			case 'farmCountSettingsPage.rate': return 'ドロップ率（個/回）';
+			case 'farmCountSettingsPage.note': return '備考';
+			case 'farmCountSettingsPage.multiplier': return ({required Object n}) => '${n}倍';
+			case 'farmCountSettingsPage.noUseCondensed': return '（濃縮樹脂を使用しない）';
 			case 'hoyolab.signIn': return 'HoYoLABにサインイン';
 			case 'hoyolab.aboutHeading': return 'HoYoLAB連携について';
 			case 'hoyolab.about': return '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。\n\nHoYoLABの認証情報、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。私も含め、それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。\n\n※本機能はグローバル版（HoYoLAB）でのみ利用可能です。中国本土版（米游社）には対応していません。\n※万が一本機能の利用によってアカウントに何らかの問題が生じた場合、本アプリの開発者は一切の責任を負いかねますので、ご了承ください。\n';

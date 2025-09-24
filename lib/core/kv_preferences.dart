@@ -69,6 +69,12 @@ class KvPreferences {
 
   List<String> get bannerReadKeys => sp.getStringList("bannerReadKeys") ?? [];
   Future<void> setBannerReadKeys(List<String> value) => sp.setStringList("bannerReadKeys", value);
+
+  int get adventureRank => sp.getInt("adventureRank") ?? 55;
+  Future<void> setAdventureRank(int value) => sp.setInt("adventureRank", value);
+
+  double get condensedMultiplier => sp.getDouble("condensedMultiplier") ?? 2.0;
+  Future<void> setCondensedMultiplier(double value) => sp.setDouble("condensedMultiplier", value);
 }
 
 enum LackNumDisplayMethod {

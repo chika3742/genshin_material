@@ -119,6 +119,16 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
 
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
+
+  Future<void> setAdventureRank(int value) async {
+    await state.pref.setAdventureRank(value);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
+
+  Future<void> setCondensedMultiplier(double value) async {
+    await state.pref.setCondensedMultiplier(value);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
 }
 
 @freezed
@@ -143,6 +153,8 @@ sealed class PreferencesState with _$PreferencesState {
     required bool indexSheetTutorialShown,
     required LackNumDisplayMethod lackNumDisplayMethod,
     required List<String> bannerReadKeys,
+    required int adventureRank,
+    required double condensedMultiplier,
   }) = _PreferencesState;
 
   factory PreferencesState.fromSharedPreferences(KvPreferences pref) {
@@ -164,6 +176,8 @@ sealed class PreferencesState with _$PreferencesState {
       indexSheetTutorialShown: pref.indexSheetTutorialShown,
       lackNumDisplayMethod: pref.lackNumDisplayMethod,
       bannerReadKeys: pref.bannerReadKeys,
+      adventureRank: pref.adventureRank,
+      condensedMultiplier: pref.condensedMultiplier,
     );
   }
 

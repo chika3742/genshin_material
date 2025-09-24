@@ -32,7 +32,8 @@ import "pages/hoyolab_integration/hoyolab_integration_settings.dart";
 import "pages/hoyolab_integration/hoyolab_sign_in.dart";
 import "pages/more.dart";
 import "pages/release_notes.dart";
-import "pages/settings.dart";
+import "pages/settings/farm_count_settings.dart";
+import "pages/settings/settings.dart";
 import "pages/tools/resin_calc.dart";
 import "pages/tools/tools.dart";
 import "providers/database_provider.dart";
@@ -111,7 +112,9 @@ part "routes.g.dart";
         TypedGoRoute<MoreNavRoute>(
           path: "/more",
           routes: [
-            TypedGoRoute<SettingsRoute>(path: "settings"),
+            TypedGoRoute<SettingsRoute>(path: "settings", routes: [
+              TypedGoRoute<FarmCountSettingsRoute>(path: "farm-count"),
+            ]),
             TypedGoRoute<AccountRoute>(path: "account"),
             TypedGoRoute<ReleaseNotesRoute>(path: "release-notes"),
             TypedGoRoute<HoyolabIntegrationSettingsRoute>(path: "hoyolab-integration", routes: [
@@ -488,6 +491,23 @@ class SettingsRoute extends GoRouteData with _$SettingsRoute {
     return buildTransitionedPage(
       context: context,
       child: const SettingsPage(),
+    );
+  }
+}
+
+class FarmCountSettingsRoute extends GoRouteData with _$FarmCountSettingsRoute {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: DataAssetScope(
+        useScaffold: true,
+        builder: (context, assetData) {
+          return FarmCountSettingsPage(assetData: assetData);
+        },
+      ),
     );
   }
 }
