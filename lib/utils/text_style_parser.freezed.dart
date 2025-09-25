@@ -11,56 +11,65 @@ part of 'text_style_parser.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
-
 /// @nodoc
 mixin _$Fragment {
-  FragmentType get type;
-  String get text;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is Fragment &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.text, text) || other.text == text));
-  }
+ FragmentType get type; String get text;
 
-  @override
-  int get hashCode => Object.hash(runtimeType, type, text);
 
-  @override
-  String toString() {
-    return 'Fragment(type: $type, text: $text)';
-  }
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Fragment&&(identical(other.type, type) || other.type == type)&&(identical(other.text, text) || other.text == text));
 }
 
+
+@override
+int get hashCode => Object.hash(runtimeType,type,text);
+
+@override
+String toString() {
+  return 'Fragment(type: $type, text: $text)';
+}
+
+
+}
+
+
+
+
+
 /// @nodoc
+
 
 class _Fragment implements Fragment {
   const _Fragment({required this.type, required this.text});
+  
 
-  @override
-  final FragmentType type;
-  @override
-  final String text;
+@override final  FragmentType type;
+@override final  String text;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _Fragment &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.text, text) || other.text == text));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, type, text);
 
-  @override
-  String toString() {
-    return 'Fragment(type: $type, text: $text)';
-  }
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Fragment&&(identical(other.type, type) || other.type == type)&&(identical(other.text, text) || other.text == text));
 }
+
+
+@override
+int get hashCode => Object.hash(runtimeType,type,text);
+
+@override
+String toString() {
+  return 'Fragment(type: $type, text: $text)';
+}
+
+
+}
+
+
+
 
 // dart format on

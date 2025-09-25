@@ -15,15 +15,15 @@ const assetUpdatingStateProvider = AssetUpdatingStateNotifierProvider._();
 final class AssetUpdatingStateNotifierProvider
     extends $NotifierProvider<AssetUpdatingStateNotifier, AssetUpdatingState> {
   const AssetUpdatingStateNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'assetUpdatingStateProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'assetUpdatingStateProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$assetUpdatingStateNotifierHash();
@@ -52,11 +52,14 @@ abstract class _$AssetUpdatingStateNotifier
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<AssetUpdatingState, AssetUpdatingState>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AssetUpdatingState, AssetUpdatingState>,
-        AssetUpdatingState,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AssetUpdatingState, AssetUpdatingState>,
+              AssetUpdatingState,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }

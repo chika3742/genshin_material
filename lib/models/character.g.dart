@@ -123,7 +123,4 @@ _CharacterTalent _$CharacterTalentFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$CharacterTalentToJson(_CharacterTalent instance) =>
-    <String, dynamic>{
-      'idList': instance.idList,
-      'name': instance.name,
-    };
+    <String, dynamic>{'idList': instance.idList, 'name': instance.name};

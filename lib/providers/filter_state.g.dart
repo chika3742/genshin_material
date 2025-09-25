@@ -12,18 +12,19 @@ part of 'filter_state.dart';
 @ProviderFor(CharacterFilterStateNotifier)
 const characterFilterStateProvider = CharacterFilterStateNotifierProvider._();
 
-final class CharacterFilterStateNotifierProvider extends $NotifierProvider<
-    CharacterFilterStateNotifier, CharacterFilterState> {
+final class CharacterFilterStateNotifierProvider
+    extends
+        $NotifierProvider<CharacterFilterStateNotifier, CharacterFilterState> {
   const CharacterFilterStateNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'characterFilterStateProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'characterFilterStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$characterFilterStateNotifierHash();
@@ -52,11 +53,14 @@ abstract class _$CharacterFilterStateNotifier
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<CharacterFilterState, CharacterFilterState>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<CharacterFilterState, CharacterFilterState>,
-        CharacterFilterState,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<CharacterFilterState, CharacterFilterState>,
+              CharacterFilterState,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }
@@ -64,18 +68,19 @@ abstract class _$CharacterFilterStateNotifier
 @ProviderFor(ArtifactFilterStateNotifier)
 const artifactFilterStateProvider = ArtifactFilterStateNotifierProvider._();
 
-final class ArtifactFilterStateNotifierProvider extends $NotifierProvider<
-    ArtifactFilterStateNotifier, ArtifactFilterState> {
+final class ArtifactFilterStateNotifierProvider
+    extends
+        $NotifierProvider<ArtifactFilterStateNotifier, ArtifactFilterState> {
   const ArtifactFilterStateNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'artifactFilterStateProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'artifactFilterStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$artifactFilterStateNotifierHash();
@@ -104,11 +109,14 @@ abstract class _$ArtifactFilterStateNotifier
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<ArtifactFilterState, ArtifactFilterState>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<ArtifactFilterState, ArtifactFilterState>,
-        ArtifactFilterState,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ArtifactFilterState, ArtifactFilterState>,
+              ArtifactFilterState,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }

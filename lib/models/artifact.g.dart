@@ -7,16 +7,16 @@ part of 'artifact.dart';
 // **************************************************************************
 
 _ArtifactSet _$ArtifactSetFromJson(Map<String, dynamic> json) => _ArtifactSet(
-      id: json['id'] as String,
-      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
-      jaPronunciation: json['jaPronunciation'] as String,
-      maxRarity: (json['maxRarity'] as num).toInt(),
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      consistsOf: Map<String, String>.from(json['consistsOf'] as Map),
-      bonuses: (json['bonuses'] as List<dynamic>)
-          .map((e) => ArtifactSetBonus.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  id: json['id'] as String,
+  name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+  jaPronunciation: json['jaPronunciation'] as String,
+  maxRarity: (json['maxRarity'] as num).toInt(),
+  tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  consistsOf: Map<String, String>.from(json['consistsOf'] as Map),
+  bonuses: (json['bonuses'] as List<dynamic>)
+      .map((e) => ArtifactSetBonus.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$ArtifactSetToJson(_ArtifactSet instance) =>
     <String, dynamic>{
@@ -52,8 +52,9 @@ Map<String, dynamic> _$ArtifactPieceToJson(_ArtifactPiece instance) =>
 _ArtifactSetBonus _$ArtifactSetBonusFromJson(Map<String, dynamic> json) =>
     _ArtifactSetBonus(
       type: json['type'] as String,
-      description:
-          LocalizedText.fromJson(json['description'] as Map<String, dynamic>),
+      description: LocalizedText.fromJson(
+        json['description'] as Map<String, dynamic>,
+      ),
     );
 
 Map<String, dynamic> _$ArtifactSetBonusToJson(_ArtifactSetBonus instance) =>
@@ -76,7 +77,8 @@ _ArtifactsMeta _$ArtifactsMetaFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       tags: ArtifactTagCategoriesInternal.fromJson(
-          json['tags'] as Map<String, dynamic>),
+        json['tags'] as Map<String, dynamic>,
+      ),
     );
 
 Map<String, dynamic> _$ArtifactsMetaToJson(_ArtifactsMeta instance) =>
@@ -110,24 +112,19 @@ _ArtifactStat _$ArtifactStatFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$ArtifactStatToJson(_ArtifactStat instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'desc': instance.desc,
-    };
+    <String, dynamic>{'id': instance.id, 'desc': instance.desc};
 
 _ArtifactTagCategoriesInternal _$ArtifactTagCategoriesInternalFromJson(
-        Map<String, dynamic> json) =>
-    _ArtifactTagCategoriesInternal(
-      categories: (json['categories'] as List<dynamic>)
-          .map((e) => ArtifactTagCategory.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  Map<String, dynamic> json,
+) => _ArtifactTagCategoriesInternal(
+  categories: (json['categories'] as List<dynamic>)
+      .map((e) => ArtifactTagCategory.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$ArtifactTagCategoriesInternalToJson(
-        _ArtifactTagCategoriesInternal instance) =>
-    <String, dynamic>{
-      'categories': instance.categories,
-    };
+  _ArtifactTagCategoriesInternal instance,
+) => <String, dynamic>{'categories': instance.categories};
 
 _ArtifactTagCategory _$ArtifactTagCategoryFromJson(Map<String, dynamic> json) =>
     _ArtifactTagCategory(
@@ -138,19 +135,13 @@ _ArtifactTagCategory _$ArtifactTagCategoryFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$ArtifactTagCategoryToJson(
-        _ArtifactTagCategory instance) =>
-    <String, dynamic>{
-      'desc': instance.desc,
-      'items': instance.items,
-    };
+  _ArtifactTagCategory instance,
+) => <String, dynamic>{'desc': instance.desc, 'items': instance.items};
 
 _ArtifactTag _$ArtifactTagFromJson(Map<String, dynamic> json) => _ArtifactTag(
-      id: json['id'] as String,
-      desc: LocalizedText.fromJson(json['desc'] as Map<String, dynamic>),
-    );
+  id: json['id'] as String,
+  desc: LocalizedText.fromJson(json['desc'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$ArtifactTagToJson(_ArtifactTag instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'desc': instance.desc,
-    };
+    <String, dynamic>{'id': instance.id, 'desc': instance.desc};

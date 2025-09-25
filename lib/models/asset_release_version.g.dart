@@ -16,14 +16,14 @@ _AssetReleaseVersion _$AssetReleaseVersionFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$AssetReleaseVersionToJson(
-        _AssetReleaseVersion instance) =>
-    <String, dynamic>{
-      'createdAt': instance.createdAt.toIso8601String(),
-      'dataVersion': instance.dataVersion,
-      'channel': _$AssetChannelEnumMap[instance.channel]!,
-      'distUrl': instance.distUrl,
-      'schemaVersion': instance.schemaVersion,
-    };
+  _AssetReleaseVersion instance,
+) => <String, dynamic>{
+  'createdAt': instance.createdAt.toIso8601String(),
+  'dataVersion': instance.dataVersion,
+  'channel': _$AssetChannelEnumMap[instance.channel]!,
+  'distUrl': instance.distUrl,
+  'schemaVersion': instance.schemaVersion,
+};
 
 const _$AssetChannelEnumMap = {
   AssetChannel.prod: 'prod',

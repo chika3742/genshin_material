@@ -12,48 +12,77 @@ class $BookmarkTableTable extends BookmarkTable
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
   @override
   late final GeneratedColumnWithTypeConverter<BookmarkType, String> type =
-      GeneratedColumn<String>('type', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<BookmarkType>($BookmarkTableTable.$convertertype);
-  static const VerificationMeta _characterIdMeta =
-      const VerificationMeta('characterId');
+      GeneratedColumn<String>(
+        'type',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<BookmarkType>($BookmarkTableTable.$convertertype);
+  static const VerificationMeta _characterIdMeta = const VerificationMeta(
+    'characterId',
+  );
   @override
   late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
-      'character_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'character_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
-  static const VerificationMeta _groupHashMeta =
-      const VerificationMeta('groupHash');
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _groupHashMeta = const VerificationMeta(
+    'groupHash',
+  );
   @override
   late final GeneratedColumn<String> groupHash = GeneratedColumn<String>(
-      'group_hash', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'group_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, type, characterId, createdAt, groupHash];
+  List<GeneratedColumn> get $columns => [
+    id,
+    type,
+    characterId,
+    createdAt,
+    groupHash,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'bookmark_table';
   @override
-  VerificationContext validateIntegrity(Insertable<Bookmark> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<Bookmark> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -61,19 +90,26 @@ class $BookmarkTableTable extends BookmarkTable
     }
     if (data.containsKey('character_id')) {
       context.handle(
+        _characterIdMeta,
+        characterId.isAcceptableOrUnknown(
+          data['character_id']!,
           _characterIdMeta,
-          characterId.isAcceptableOrUnknown(
-              data['character_id']!, _characterIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_characterIdMeta);
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     }
     if (data.containsKey('group_hash')) {
-      context.handle(_groupHashMeta,
-          groupHash.isAcceptableOrUnknown(data['group_hash']!, _groupHashMeta));
+      context.handle(
+        _groupHashMeta,
+        groupHash.isAcceptableOrUnknown(data['group_hash']!, _groupHashMeta),
+      );
     } else if (isInserting) {
       context.missing(_groupHashMeta);
     }
@@ -86,17 +122,28 @@ class $BookmarkTableTable extends BookmarkTable
   Bookmark map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Bookmark(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      type: $BookmarkTableTable.$convertertype.fromSql(attachedDatabase
-          .typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!),
-      characterId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}character_id'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-      groupHash: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}group_hash'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      type: $BookmarkTableTable.$convertertype.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}type'],
+        )!,
+      ),
+      characterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}character_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      groupHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}group_hash'],
+      )!,
     );
   }
 
@@ -128,9 +175,9 @@ class BookmarkCompanion extends UpdateCompanion<Bookmark> {
     required String characterId,
     this.createdAt = const Value.absent(),
     required String groupHash,
-  })  : type = Value(type),
-        characterId = Value(characterId),
-        groupHash = Value(groupHash);
+  }) : type = Value(type),
+       characterId = Value(characterId),
+       groupHash = Value(groupHash);
   static Insertable<Bookmark> custom({
     Expression<int>? id,
     Expression<String>? type,
@@ -147,12 +194,13 @@ class BookmarkCompanion extends UpdateCompanion<Bookmark> {
     });
   }
 
-  BookmarkCompanion copyWith(
-      {Value<int>? id,
-      Value<BookmarkType>? type,
-      Value<String>? characterId,
-      Value<DateTime>? createdAt,
-      Value<String>? groupHash}) {
+  BookmarkCompanion copyWith({
+    Value<int>? id,
+    Value<BookmarkType>? type,
+    Value<String>? characterId,
+    Value<DateTime>? createdAt,
+    Value<String>? groupHash,
+  }) {
     return BookmarkCompanion(
       id: id ?? this.id,
       type: type ?? this.type,
@@ -170,7 +218,8 @@ class BookmarkCompanion extends UpdateCompanion<Bookmark> {
     }
     if (type.present) {
       map['type'] = Variable<String>(
-          $BookmarkTableTable.$convertertype.toSql(type.value));
+        $BookmarkTableTable.$convertertype.toSql(type.value),
+      );
     }
     if (characterId.present) {
       map['character_id'] = Variable<String>(characterId.value);
@@ -204,53 +253,94 @@ class $BookmarkMaterialDetailsTableTable extends BookmarkMaterialDetailsTable
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $BookmarkMaterialDetailsTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _parentIdMeta =
-      const VerificationMeta('parentId');
+  static const VerificationMeta _parentIdMeta = const VerificationMeta(
+    'parentId',
+  );
   @override
   late final GeneratedColumn<int> parentId = GeneratedColumn<int>(
-      'parent_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES bookmark_table (id) ON DELETE CASCADE'));
-  static const VerificationMeta _weaponIdMeta =
-      const VerificationMeta('weaponId');
+    'parent_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES bookmark_table (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _weaponIdMeta = const VerificationMeta(
+    'weaponId',
+  );
   @override
   late final GeneratedColumn<String> weaponId = GeneratedColumn<String>(
-      'weapon_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _materialIdMeta =
-      const VerificationMeta('materialId');
+    'weapon_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _materialIdMeta = const VerificationMeta(
+    'materialId',
+  );
   @override
   late final GeneratedColumn<String> materialId = GeneratedColumn<String>(
-      'material_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _quantityMeta =
-      const VerificationMeta('quantity');
+    'material_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _quantityMeta = const VerificationMeta(
+    'quantity',
+  );
   @override
   late final GeneratedColumn<int> quantity = GeneratedColumn<int>(
-      'quantity', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _upperLevelMeta =
-      const VerificationMeta('upperLevel');
+    'quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _upperLevelMeta = const VerificationMeta(
+    'upperLevel',
+  );
   @override
   late final GeneratedColumn<int> upperLevel = GeneratedColumn<int>(
-      'upper_level', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+    'upper_level',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   @override
   late final GeneratedColumnWithTypeConverter<Purpose, String> purposeType =
-      GeneratedColumn<String>('purpose_type', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<Purpose>(
-              $BookmarkMaterialDetailsTableTable.$converterpurposeType);
+      GeneratedColumn<String>(
+        'purpose_type',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<Purpose>(
+        $BookmarkMaterialDetailsTableTable.$converterpurposeType,
+      );
   static const VerificationMeta _hashMeta = const VerificationMeta('hash');
   @override
   late final GeneratedColumn<String> hash = GeneratedColumn<String>(
-      'hash', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
-  List<GeneratedColumn> get $columns =>
-      [parentId, weaponId, materialId, quantity, upperLevel, purposeType, hash];
+  List<GeneratedColumn> get $columns => [
+    parentId,
+    weaponId,
+    materialId,
+    quantity,
+    upperLevel,
+    purposeType,
+    hash,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -258,43 +348,52 @@ class $BookmarkMaterialDetailsTableTable extends BookmarkMaterialDetailsTable
   static const String $name = 'bookmark_material_details_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<BookmarkMaterialDetails> instance,
-      {bool isInserting = false}) {
+    Insertable<BookmarkMaterialDetails> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('parent_id')) {
-      context.handle(_parentIdMeta,
-          parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta));
+      context.handle(
+        _parentIdMeta,
+        parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_parentIdMeta);
     }
     if (data.containsKey('weapon_id')) {
-      context.handle(_weaponIdMeta,
-          weaponId.isAcceptableOrUnknown(data['weapon_id']!, _weaponIdMeta));
+      context.handle(
+        _weaponIdMeta,
+        weaponId.isAcceptableOrUnknown(data['weapon_id']!, _weaponIdMeta),
+      );
     }
     if (data.containsKey('material_id')) {
       context.handle(
-          _materialIdMeta,
-          materialId.isAcceptableOrUnknown(
-              data['material_id']!, _materialIdMeta));
+        _materialIdMeta,
+        materialId.isAcceptableOrUnknown(data['material_id']!, _materialIdMeta),
+      );
     }
     if (data.containsKey('quantity')) {
-      context.handle(_quantityMeta,
-          quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta));
+      context.handle(
+        _quantityMeta,
+        quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta),
+      );
     } else if (isInserting) {
       context.missing(_quantityMeta);
     }
     if (data.containsKey('upper_level')) {
       context.handle(
-          _upperLevelMeta,
-          upperLevel.isAcceptableOrUnknown(
-              data['upper_level']!, _upperLevelMeta));
+        _upperLevelMeta,
+        upperLevel.isAcceptableOrUnknown(data['upper_level']!, _upperLevelMeta),
+      );
     } else if (isInserting) {
       context.missing(_upperLevelMeta);
     }
     if (data.containsKey('hash')) {
       context.handle(
-          _hashMeta, hash.isAcceptableOrUnknown(data['hash']!, _hashMeta));
+        _hashMeta,
+        hash.isAcceptableOrUnknown(data['hash']!, _hashMeta),
+      );
     } else if (isInserting) {
       context.missing(_hashMeta);
     }
@@ -304,25 +403,43 @@ class $BookmarkMaterialDetailsTableTable extends BookmarkMaterialDetailsTable
   @override
   Set<GeneratedColumn> get $primaryKey => {hash};
   @override
-  BookmarkMaterialDetails map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
+  BookmarkMaterialDetails map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BookmarkMaterialDetails(
-      parentId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}parent_id'])!,
-      weaponId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}weapon_id']),
-      materialId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}material_id']),
-      quantity: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}quantity'])!,
-      upperLevel: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}upper_level'])!,
+      parentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}parent_id'],
+      )!,
+      weaponId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}weapon_id'],
+      ),
+      materialId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}material_id'],
+      ),
+      quantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}quantity'],
+      )!,
+      upperLevel: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}upper_level'],
+      )!,
       purposeType: $BookmarkMaterialDetailsTableTable.$converterpurposeType
-          .fromSql(attachedDatabase.typeMapping.read(
-              DriftSqlType.string, data['${effectivePrefix}purpose_type'])!),
-      hash: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}hash'])!,
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}purpose_type'],
+            )!,
+          ),
+      hash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}hash'],
+      )!,
     );
   }
 
@@ -352,14 +469,15 @@ class BookmarkMaterialDetails extends DataClass
   final int upperLevel;
   final Purpose purposeType;
   final String hash;
-  const BookmarkMaterialDetails(
-      {required this.parentId,
-      this.weaponId,
-      this.materialId,
-      required this.quantity,
-      required this.upperLevel,
-      required this.purposeType,
-      required this.hash});
+  const BookmarkMaterialDetails({
+    required this.parentId,
+    this.weaponId,
+    this.materialId,
+    required this.quantity,
+    required this.upperLevel,
+    required this.purposeType,
+    required this.hash,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -373,9 +491,11 @@ class BookmarkMaterialDetails extends DataClass
     map['quantity'] = Variable<int>(quantity);
     map['upper_level'] = Variable<int>(upperLevel);
     {
-      map['purpose_type'] = Variable<String>($BookmarkMaterialDetailsTableTable
-          .$converterpurposeType
-          .toSql(purposeType));
+      map['purpose_type'] = Variable<String>(
+        $BookmarkMaterialDetailsTableTable.$converterpurposeType.toSql(
+          purposeType,
+        ),
+      );
     }
     map['hash'] = Variable<String>(hash);
     return map;
@@ -397,8 +517,10 @@ class BookmarkMaterialDetails extends DataClass
     );
   }
 
-  factory BookmarkMaterialDetails.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory BookmarkMaterialDetails.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BookmarkMaterialDetails(
       parentId: serializer.fromJson<int>(json['parentId']),
@@ -421,41 +543,47 @@ class BookmarkMaterialDetails extends DataClass
       'quantity': serializer.toJson<int>(quantity),
       'upperLevel': serializer.toJson<int>(upperLevel),
       'purposeType': serializer.toJson<String>(
-          $BookmarkMaterialDetailsTableTable.$converterpurposeType
-              .toJson(purposeType)),
+        $BookmarkMaterialDetailsTableTable.$converterpurposeType.toJson(
+          purposeType,
+        ),
+      ),
       'hash': serializer.toJson<String>(hash),
     };
   }
 
-  BookmarkMaterialDetails copyWith(
-          {int? parentId,
-          Value<String?> weaponId = const Value.absent(),
-          Value<String?> materialId = const Value.absent(),
-          int? quantity,
-          int? upperLevel,
-          Purpose? purposeType,
-          String? hash}) =>
-      BookmarkMaterialDetails(
-        parentId: parentId ?? this.parentId,
-        weaponId: weaponId.present ? weaponId.value : this.weaponId,
-        materialId: materialId.present ? materialId.value : this.materialId,
-        quantity: quantity ?? this.quantity,
-        upperLevel: upperLevel ?? this.upperLevel,
-        purposeType: purposeType ?? this.purposeType,
-        hash: hash ?? this.hash,
-      );
+  BookmarkMaterialDetails copyWith({
+    int? parentId,
+    Value<String?> weaponId = const Value.absent(),
+    Value<String?> materialId = const Value.absent(),
+    int? quantity,
+    int? upperLevel,
+    Purpose? purposeType,
+    String? hash,
+  }) => BookmarkMaterialDetails(
+    parentId: parentId ?? this.parentId,
+    weaponId: weaponId.present ? weaponId.value : this.weaponId,
+    materialId: materialId.present ? materialId.value : this.materialId,
+    quantity: quantity ?? this.quantity,
+    upperLevel: upperLevel ?? this.upperLevel,
+    purposeType: purposeType ?? this.purposeType,
+    hash: hash ?? this.hash,
+  );
   BookmarkMaterialDetails copyWithCompanion(
-      BookmarkMaterialDetailsCompanion data) {
+    BookmarkMaterialDetailsCompanion data,
+  ) {
     return BookmarkMaterialDetails(
       parentId: data.parentId.present ? data.parentId.value : this.parentId,
       weaponId: data.weaponId.present ? data.weaponId.value : this.weaponId,
-      materialId:
-          data.materialId.present ? data.materialId.value : this.materialId,
+      materialId: data.materialId.present
+          ? data.materialId.value
+          : this.materialId,
       quantity: data.quantity.present ? data.quantity.value : this.quantity,
-      upperLevel:
-          data.upperLevel.present ? data.upperLevel.value : this.upperLevel,
-      purposeType:
-          data.purposeType.present ? data.purposeType.value : this.purposeType,
+      upperLevel: data.upperLevel.present
+          ? data.upperLevel.value
+          : this.upperLevel,
+      purposeType: data.purposeType.present
+          ? data.purposeType.value
+          : this.purposeType,
       hash: data.hash.present ? data.hash.value : this.hash,
     );
   }
@@ -476,7 +604,14 @@ class BookmarkMaterialDetails extends DataClass
 
   @override
   int get hashCode => Object.hash(
-      parentId, weaponId, materialId, quantity, upperLevel, purposeType, hash);
+    parentId,
+    weaponId,
+    materialId,
+    quantity,
+    upperLevel,
+    purposeType,
+    hash,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -519,11 +654,11 @@ class BookmarkMaterialDetailsCompanion
     required Purpose purposeType,
     required String hash,
     this.rowid = const Value.absent(),
-  })  : parentId = Value(parentId),
-        quantity = Value(quantity),
-        upperLevel = Value(upperLevel),
-        purposeType = Value(purposeType),
-        hash = Value(hash);
+  }) : parentId = Value(parentId),
+       quantity = Value(quantity),
+       upperLevel = Value(upperLevel),
+       purposeType = Value(purposeType),
+       hash = Value(hash);
   static Insertable<BookmarkMaterialDetails> custom({
     Expression<int>? parentId,
     Expression<String>? weaponId,
@@ -546,15 +681,16 @@ class BookmarkMaterialDetailsCompanion
     });
   }
 
-  BookmarkMaterialDetailsCompanion copyWith(
-      {Value<int>? parentId,
-      Value<String?>? weaponId,
-      Value<String?>? materialId,
-      Value<int>? quantity,
-      Value<int>? upperLevel,
-      Value<Purpose>? purposeType,
-      Value<String>? hash,
-      Value<int>? rowid}) {
+  BookmarkMaterialDetailsCompanion copyWith({
+    Value<int>? parentId,
+    Value<String?>? weaponId,
+    Value<String?>? materialId,
+    Value<int>? quantity,
+    Value<int>? upperLevel,
+    Value<Purpose>? purposeType,
+    Value<String>? hash,
+    Value<int>? rowid,
+  }) {
     return BookmarkMaterialDetailsCompanion(
       parentId: parentId ?? this.parentId,
       weaponId: weaponId ?? this.weaponId,
@@ -586,9 +722,11 @@ class BookmarkMaterialDetailsCompanion
       map['upper_level'] = Variable<int>(upperLevel.value);
     }
     if (purposeType.present) {
-      map['purpose_type'] = Variable<String>($BookmarkMaterialDetailsTableTable
-          .$converterpurposeType
-          .toSql(purposeType.value));
+      map['purpose_type'] = Variable<String>(
+        $BookmarkMaterialDetailsTableTable.$converterpurposeType.toSql(
+          purposeType.value,
+        ),
+      );
     }
     if (hash.present) {
       map['hash'] = Variable<String>(hash.value);
@@ -618,8 +756,10 @@ class BookmarkMaterialDetailsCompanion
 class $BookmarkArtifactSetDetailsTableTable
     extends BookmarkArtifactSetDetailsTable
     with
-        TableInfo<$BookmarkArtifactSetDetailsTableTable,
-            BookmarkArtifactSetDetails> {
+        TableInfo<
+          $BookmarkArtifactSetDetailsTableTable,
+          BookmarkArtifactSetDetails
+        > {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -627,42 +767,73 @@ class $BookmarkArtifactSetDetailsTableTable
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _parentIdMeta =
-      const VerificationMeta('parentId');
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _parentIdMeta = const VerificationMeta(
+    'parentId',
+  );
   @override
   late final GeneratedColumn<int> parentId = GeneratedColumn<int>(
-      'parent_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES bookmark_table (id) ON DELETE CASCADE'));
+    'parent_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES bookmark_table (id) ON DELETE CASCADE',
+    ),
+  );
   @override
   late final GeneratedColumnWithTypeConverter<List<ArtifactSetId>, String>
-      sets = GeneratedColumn<String>('sets', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<List<ArtifactSetId>>(
-              $BookmarkArtifactSetDetailsTableTable.$convertersets);
+  sets =
+      GeneratedColumn<String>(
+        'sets',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<List<ArtifactSetId>>(
+        $BookmarkArtifactSetDetailsTableTable.$convertersets,
+      );
   @override
   late final GeneratedColumnWithTypeConverter<Map<String, StatId?>, String>
-      mainStats = GeneratedColumn<String>('main_stats', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<Map<String, StatId?>>(
-              $BookmarkArtifactSetDetailsTableTable.$convertermainStats);
+  mainStats =
+      GeneratedColumn<String>(
+        'main_stats',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<Map<String, StatId?>>(
+        $BookmarkArtifactSetDetailsTableTable.$convertermainStats,
+      );
   @override
   late final GeneratedColumnWithTypeConverter<List<StatId>, String> subStats =
-      GeneratedColumn<String>('sub_stats', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<List<StatId>>(
-              $BookmarkArtifactSetDetailsTableTable.$convertersubStats);
+      GeneratedColumn<String>(
+        'sub_stats',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<List<StatId>>(
+        $BookmarkArtifactSetDetailsTableTable.$convertersubStats,
+      );
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, parentId, sets, mainStats, subStats];
+  List<GeneratedColumn> get $columns => [
+    id,
+    parentId,
+    sets,
+    mainStats,
+    subStats,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -670,16 +841,19 @@ class $BookmarkArtifactSetDetailsTableTable
   static const String $name = 'bookmark_artifact_set_details_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<BookmarkArtifactSetDetails> instance,
-      {bool isInserting = false}) {
+    Insertable<BookmarkArtifactSetDetails> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('parent_id')) {
-      context.handle(_parentIdMeta,
-          parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta));
+      context.handle(
+        _parentIdMeta,
+        parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_parentIdMeta);
     }
@@ -689,23 +863,40 @@ class $BookmarkArtifactSetDetailsTableTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  BookmarkArtifactSetDetails map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
+  BookmarkArtifactSetDetails map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BookmarkArtifactSetDetails(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      parentId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}parent_id'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      parentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}parent_id'],
+      )!,
       sets: $BookmarkArtifactSetDetailsTableTable.$convertersets.fromSql(
-          attachedDatabase.typeMapping
-              .read(DriftSqlType.string, data['${effectivePrefix}sets'])!),
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}sets'],
+        )!,
+      ),
       mainStats: $BookmarkArtifactSetDetailsTableTable.$convertermainStats
-          .fromSql(attachedDatabase.typeMapping.read(
-              DriftSqlType.string, data['${effectivePrefix}main_stats'])!),
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}main_stats'],
+            )!,
+          ),
       subStats: $BookmarkArtifactSetDetailsTableTable.$convertersubStats
-          .fromSql(attachedDatabase.typeMapping
-              .read(DriftSqlType.string, data['${effectivePrefix}sub_stats'])!),
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}sub_stats'],
+            )!,
+          ),
     );
   }
 
@@ -731,12 +922,13 @@ class BookmarkArtifactSetDetails extends DataClass
   /// key = [ArtifactPieceTypeId]
   final Map<String, StatId?> mainStats;
   final List<StatId> subStats;
-  const BookmarkArtifactSetDetails(
-      {required this.id,
-      required this.parentId,
-      required this.sets,
-      required this.mainStats,
-      required this.subStats});
+  const BookmarkArtifactSetDetails({
+    required this.id,
+    required this.parentId,
+    required this.sets,
+    required this.mainStats,
+    required this.subStats,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -744,17 +936,22 @@ class BookmarkArtifactSetDetails extends DataClass
     map['parent_id'] = Variable<int>(parentId);
     {
       map['sets'] = Variable<String>(
-          $BookmarkArtifactSetDetailsTableTable.$convertersets.toSql(sets));
+        $BookmarkArtifactSetDetailsTableTable.$convertersets.toSql(sets),
+      );
     }
     {
-      map['main_stats'] = Variable<String>($BookmarkArtifactSetDetailsTableTable
-          .$convertermainStats
-          .toSql(mainStats));
+      map['main_stats'] = Variable<String>(
+        $BookmarkArtifactSetDetailsTableTable.$convertermainStats.toSql(
+          mainStats,
+        ),
+      );
     }
     {
-      map['sub_stats'] = Variable<String>($BookmarkArtifactSetDetailsTableTable
-          .$convertersubStats
-          .toSql(subStats));
+      map['sub_stats'] = Variable<String>(
+        $BookmarkArtifactSetDetailsTableTable.$convertersubStats.toSql(
+          subStats,
+        ),
+      );
     }
     return map;
   }
@@ -769,8 +966,10 @@ class BookmarkArtifactSetDetails extends DataClass
     );
   }
 
-  factory BookmarkArtifactSetDetails.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory BookmarkArtifactSetDetails.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BookmarkArtifactSetDetails(
       id: serializer.fromJson<int>(json['id']),
@@ -792,21 +991,22 @@ class BookmarkArtifactSetDetails extends DataClass
     };
   }
 
-  BookmarkArtifactSetDetails copyWith(
-          {int? id,
-          int? parentId,
-          List<ArtifactSetId>? sets,
-          Map<String, StatId?>? mainStats,
-          List<StatId>? subStats}) =>
-      BookmarkArtifactSetDetails(
-        id: id ?? this.id,
-        parentId: parentId ?? this.parentId,
-        sets: sets ?? this.sets,
-        mainStats: mainStats ?? this.mainStats,
-        subStats: subStats ?? this.subStats,
-      );
+  BookmarkArtifactSetDetails copyWith({
+    int? id,
+    int? parentId,
+    List<ArtifactSetId>? sets,
+    Map<String, StatId?>? mainStats,
+    List<StatId>? subStats,
+  }) => BookmarkArtifactSetDetails(
+    id: id ?? this.id,
+    parentId: parentId ?? this.parentId,
+    sets: sets ?? this.sets,
+    mainStats: mainStats ?? this.mainStats,
+    subStats: subStats ?? this.subStats,
+  );
   BookmarkArtifactSetDetails copyWithCompanion(
-      BookmarkArtifactSetDetailsCompanion data) {
+    BookmarkArtifactSetDetailsCompanion data,
+  ) {
     return BookmarkArtifactSetDetails(
       id: data.id.present ? data.id.value : this.id,
       parentId: data.parentId.present ? data.parentId.value : this.parentId,
@@ -861,10 +1061,10 @@ class BookmarkArtifactSetDetailsCompanion
     required List<ArtifactSetId> sets,
     required Map<String, StatId?> mainStats,
     required List<StatId> subStats,
-  })  : parentId = Value(parentId),
-        sets = Value(sets),
-        mainStats = Value(mainStats),
-        subStats = Value(subStats);
+  }) : parentId = Value(parentId),
+       sets = Value(sets),
+       mainStats = Value(mainStats),
+       subStats = Value(subStats);
   static Insertable<BookmarkArtifactSetDetails> custom({
     Expression<int>? id,
     Expression<int>? parentId,
@@ -881,12 +1081,13 @@ class BookmarkArtifactSetDetailsCompanion
     });
   }
 
-  BookmarkArtifactSetDetailsCompanion copyWith(
-      {Value<int>? id,
-      Value<int>? parentId,
-      Value<List<ArtifactSetId>>? sets,
-      Value<Map<String, StatId?>>? mainStats,
-      Value<List<StatId>>? subStats}) {
+  BookmarkArtifactSetDetailsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? parentId,
+    Value<List<ArtifactSetId>>? sets,
+    Value<Map<String, StatId?>>? mainStats,
+    Value<List<StatId>>? subStats,
+  }) {
     return BookmarkArtifactSetDetailsCompanion(
       id: id ?? this.id,
       parentId: parentId ?? this.parentId,
@@ -906,19 +1107,23 @@ class BookmarkArtifactSetDetailsCompanion
       map['parent_id'] = Variable<int>(parentId.value);
     }
     if (sets.present) {
-      map['sets'] = Variable<String>($BookmarkArtifactSetDetailsTableTable
-          .$convertersets
-          .toSql(sets.value));
+      map['sets'] = Variable<String>(
+        $BookmarkArtifactSetDetailsTableTable.$convertersets.toSql(sets.value),
+      );
     }
     if (mainStats.present) {
-      map['main_stats'] = Variable<String>($BookmarkArtifactSetDetailsTableTable
-          .$convertermainStats
-          .toSql(mainStats.value));
+      map['main_stats'] = Variable<String>(
+        $BookmarkArtifactSetDetailsTableTable.$convertermainStats.toSql(
+          mainStats.value,
+        ),
+      );
     }
     if (subStats.present) {
-      map['sub_stats'] = Variable<String>($BookmarkArtifactSetDetailsTableTable
-          .$convertersubStats
-          .toSql(subStats.value));
+      map['sub_stats'] = Variable<String>(
+        $BookmarkArtifactSetDetailsTableTable.$convertersubStats.toSql(
+          subStats.value,
+        ),
+      );
     }
     return map;
   }
@@ -939,8 +1144,10 @@ class BookmarkArtifactSetDetailsCompanion
 class $BookmarkArtifactPieceDetailsTableTable
     extends BookmarkArtifactPieceDetailsTable
     with
-        TableInfo<$BookmarkArtifactPieceDetailsTableTable,
-            BookmarkArtifactPieceDetails> {
+        TableInfo<
+          $BookmarkArtifactPieceDetailsTableTable,
+          BookmarkArtifactPieceDetails
+        > {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -948,41 +1155,69 @@ class $BookmarkArtifactPieceDetailsTableTable
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _parentIdMeta =
-      const VerificationMeta('parentId');
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _parentIdMeta = const VerificationMeta(
+    'parentId',
+  );
   @override
   late final GeneratedColumn<int> parentId = GeneratedColumn<int>(
-      'parent_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES bookmark_table (id) ON DELETE CASCADE'));
+    'parent_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES bookmark_table (id) ON DELETE CASCADE',
+    ),
+  );
   static const VerificationMeta _pieceMeta = const VerificationMeta('piece');
   @override
   late final GeneratedColumn<String> piece = GeneratedColumn<String>(
-      'piece', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _mainStatMeta =
-      const VerificationMeta('mainStat');
+    'piece',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _mainStatMeta = const VerificationMeta(
+    'mainStat',
+  );
   @override
   late final GeneratedColumn<String> mainStat = GeneratedColumn<String>(
-      'main_stat', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+    'main_stat',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   late final GeneratedColumnWithTypeConverter<List<StatId>, String> subStats =
-      GeneratedColumn<String>('sub_stats', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<List<StatId>>(
-              $BookmarkArtifactPieceDetailsTableTable.$convertersubStats);
+      GeneratedColumn<String>(
+        'sub_stats',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<List<StatId>>(
+        $BookmarkArtifactPieceDetailsTableTable.$convertersubStats,
+      );
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, parentId, piece, mainStat, subStats];
+  List<GeneratedColumn> get $columns => [
+    id,
+    parentId,
+    piece,
+    mainStat,
+    subStats,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -990,28 +1225,35 @@ class $BookmarkArtifactPieceDetailsTableTable
   static const String $name = 'bookmark_artifact_piece_details_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<BookmarkArtifactPieceDetails> instance,
-      {bool isInserting = false}) {
+    Insertable<BookmarkArtifactPieceDetails> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('parent_id')) {
-      context.handle(_parentIdMeta,
-          parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta));
+      context.handle(
+        _parentIdMeta,
+        parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_parentIdMeta);
     }
     if (data.containsKey('piece')) {
       context.handle(
-          _pieceMeta, piece.isAcceptableOrUnknown(data['piece']!, _pieceMeta));
+        _pieceMeta,
+        piece.isAcceptableOrUnknown(data['piece']!, _pieceMeta),
+      );
     } else if (isInserting) {
       context.missing(_pieceMeta);
     }
     if (data.containsKey('main_stat')) {
-      context.handle(_mainStatMeta,
-          mainStat.isAcceptableOrUnknown(data['main_stat']!, _mainStatMeta));
+      context.handle(
+        _mainStatMeta,
+        mainStat.isAcceptableOrUnknown(data['main_stat']!, _mainStatMeta),
+      );
     }
     return context;
   }
@@ -1019,21 +1261,35 @@ class $BookmarkArtifactPieceDetailsTableTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  BookmarkArtifactPieceDetails map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
+  BookmarkArtifactPieceDetails map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BookmarkArtifactPieceDetails(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      parentId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}parent_id'])!,
-      piece: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}piece'])!,
-      mainStat: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}main_stat']),
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      parentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}parent_id'],
+      )!,
+      piece: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}piece'],
+      )!,
+      mainStat: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}main_stat'],
+      ),
       subStats: $BookmarkArtifactPieceDetailsTableTable.$convertersubStats
-          .fromSql(attachedDatabase.typeMapping
-              .read(DriftSqlType.string, data['${effectivePrefix}sub_stats'])!),
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}sub_stats'],
+            )!,
+          ),
     );
   }
 
@@ -1057,12 +1313,13 @@ class BookmarkArtifactPieceDetails extends DataClass
   /// [ArtifactPieceTypeId]?
   final String? mainStat;
   final List<StatId> subStats;
-  const BookmarkArtifactPieceDetails(
-      {required this.id,
-      required this.parentId,
-      required this.piece,
-      this.mainStat,
-      required this.subStats});
+  const BookmarkArtifactPieceDetails({
+    required this.id,
+    required this.parentId,
+    required this.piece,
+    this.mainStat,
+    required this.subStats,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1074,8 +1331,10 @@ class BookmarkArtifactPieceDetails extends DataClass
     }
     {
       map['sub_stats'] = Variable<String>(
-          $BookmarkArtifactPieceDetailsTableTable.$convertersubStats
-              .toSql(subStats));
+        $BookmarkArtifactPieceDetailsTableTable.$convertersubStats.toSql(
+          subStats,
+        ),
+      );
     }
     return map;
   }
@@ -1092,8 +1351,10 @@ class BookmarkArtifactPieceDetails extends DataClass
     );
   }
 
-  factory BookmarkArtifactPieceDetails.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory BookmarkArtifactPieceDetails.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BookmarkArtifactPieceDetails(
       id: serializer.fromJson<int>(json['id']),
@@ -1115,21 +1376,22 @@ class BookmarkArtifactPieceDetails extends DataClass
     };
   }
 
-  BookmarkArtifactPieceDetails copyWith(
-          {int? id,
-          int? parentId,
-          String? piece,
-          Value<String?> mainStat = const Value.absent(),
-          List<StatId>? subStats}) =>
-      BookmarkArtifactPieceDetails(
-        id: id ?? this.id,
-        parentId: parentId ?? this.parentId,
-        piece: piece ?? this.piece,
-        mainStat: mainStat.present ? mainStat.value : this.mainStat,
-        subStats: subStats ?? this.subStats,
-      );
+  BookmarkArtifactPieceDetails copyWith({
+    int? id,
+    int? parentId,
+    String? piece,
+    Value<String?> mainStat = const Value.absent(),
+    List<StatId>? subStats,
+  }) => BookmarkArtifactPieceDetails(
+    id: id ?? this.id,
+    parentId: parentId ?? this.parentId,
+    piece: piece ?? this.piece,
+    mainStat: mainStat.present ? mainStat.value : this.mainStat,
+    subStats: subStats ?? this.subStats,
+  );
   BookmarkArtifactPieceDetails copyWithCompanion(
-      BookmarkArtifactPieceDetailsCompanion data) {
+    BookmarkArtifactPieceDetailsCompanion data,
+  ) {
     return BookmarkArtifactPieceDetails(
       id: data.id.present ? data.id.value : this.id,
       parentId: data.parentId.present ? data.parentId.value : this.parentId,
@@ -1184,9 +1446,9 @@ class BookmarkArtifactPieceDetailsCompanion
     required String piece,
     this.mainStat = const Value.absent(),
     required List<StatId> subStats,
-  })  : parentId = Value(parentId),
-        piece = Value(piece),
-        subStats = Value(subStats);
+  }) : parentId = Value(parentId),
+       piece = Value(piece),
+       subStats = Value(subStats);
   static Insertable<BookmarkArtifactPieceDetails> custom({
     Expression<int>? id,
     Expression<int>? parentId,
@@ -1203,12 +1465,13 @@ class BookmarkArtifactPieceDetailsCompanion
     });
   }
 
-  BookmarkArtifactPieceDetailsCompanion copyWith(
-      {Value<int>? id,
-      Value<int>? parentId,
-      Value<String>? piece,
-      Value<String?>? mainStat,
-      Value<List<StatId>>? subStats}) {
+  BookmarkArtifactPieceDetailsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? parentId,
+    Value<String>? piece,
+    Value<String?>? mainStat,
+    Value<List<StatId>>? subStats,
+  }) {
     return BookmarkArtifactPieceDetailsCompanion(
       id: id ?? this.id,
       parentId: parentId ?? this.parentId,
@@ -1235,8 +1498,10 @@ class BookmarkArtifactPieceDetailsCompanion
     }
     if (subStats.present) {
       map['sub_stats'] = Variable<String>(
-          $BookmarkArtifactPieceDetailsTableTable.$convertersubStats
-              .toSql(subStats.value));
+        $BookmarkArtifactPieceDetailsTableTable.$convertersubStats.toSql(
+          subStats.value,
+        ),
+      );
     }
     return map;
   }
@@ -1263,37 +1528,66 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
   static const VerificationMeta _uidMeta = const VerificationMeta('uid');
   @override
   late final GeneratedColumn<String> uid = GeneratedColumn<String>(
-      'uid', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _characterIdMeta =
-      const VerificationMeta('characterId');
+    'uid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _characterIdMeta = const VerificationMeta(
+    'characterId',
+  );
   @override
   late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
-      'character_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'character_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   late final GeneratedColumnWithTypeConverter<Map<Purpose, int>, String>
-      purposes = GeneratedColumn<String>('purposes', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<Map<Purpose, int>>(
-              $InGameCharacterStateTableTable.$converterpurposes);
-  static const VerificationMeta _equippedWeaponIdMeta =
-      const VerificationMeta('equippedWeaponId');
+  purposes =
+      GeneratedColumn<String>(
+        'purposes',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<Map<Purpose, int>>(
+        $InGameCharacterStateTableTable.$converterpurposes,
+      );
+  static const VerificationMeta _equippedWeaponIdMeta = const VerificationMeta(
+    'equippedWeaponId',
+  );
   @override
   late final GeneratedColumn<String> equippedWeaponId = GeneratedColumn<String>(
-      'equipped_weapon_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _lastUpdatedMeta =
-      const VerificationMeta('lastUpdated');
+    'equipped_weapon_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lastUpdatedMeta = const VerificationMeta(
+    'lastUpdated',
+  );
   @override
   late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
-      'last_updated', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+    'last_updated',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
-  List<GeneratedColumn> get $columns =>
-      [uid, characterId, purposes, equippedWeaponId, lastUpdated];
+  List<GeneratedColumn> get $columns => [
+    uid,
+    characterId,
+    purposes,
+    equippedWeaponId,
+    lastUpdated,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1301,35 +1595,47 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
   static const String $name = 'in_game_character_state_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<InGameCharacterState> instance,
-      {bool isInserting = false}) {
+    Insertable<InGameCharacterState> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('uid')) {
       context.handle(
-          _uidMeta, uid.isAcceptableOrUnknown(data['uid']!, _uidMeta));
+        _uidMeta,
+        uid.isAcceptableOrUnknown(data['uid']!, _uidMeta),
+      );
     } else if (isInserting) {
       context.missing(_uidMeta);
     }
     if (data.containsKey('character_id')) {
       context.handle(
+        _characterIdMeta,
+        characterId.isAcceptableOrUnknown(
+          data['character_id']!,
           _characterIdMeta,
-          characterId.isAcceptableOrUnknown(
-              data['character_id']!, _characterIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_characterIdMeta);
     }
     if (data.containsKey('equipped_weapon_id')) {
       context.handle(
+        _equippedWeaponIdMeta,
+        equippedWeaponId.isAcceptableOrUnknown(
+          data['equipped_weapon_id']!,
           _equippedWeaponIdMeta,
-          equippedWeaponId.isAcceptableOrUnknown(
-              data['equipped_weapon_id']!, _equippedWeaponIdMeta));
+        ),
+      );
     }
     if (data.containsKey('last_updated')) {
       context.handle(
+        _lastUpdatedMeta,
+        lastUpdated.isAcceptableOrUnknown(
+          data['last_updated']!,
           _lastUpdatedMeta,
-          lastUpdated.isAcceptableOrUnknown(
-              data['last_updated']!, _lastUpdatedMeta));
+        ),
+      );
     }
     return context;
   }
@@ -1340,17 +1646,28 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
   InGameCharacterState map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return InGameCharacterState(
-      uid: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}uid'])!,
-      characterId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}character_id'])!,
+      uid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}uid'],
+      )!,
+      characterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}character_id'],
+      )!,
       purposes: $InGameCharacterStateTableTable.$converterpurposes.fromSql(
-          attachedDatabase.typeMapping
-              .read(DriftSqlType.string, data['${effectivePrefix}purposes'])!),
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}purposes'],
+        )!,
+      ),
       equippedWeaponId: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}equipped_weapon_id']),
-      lastUpdated: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_updated'])!,
+        DriftSqlType.string,
+        data['${effectivePrefix}equipped_weapon_id'],
+      ),
+      lastUpdated: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_updated'],
+      )!,
     );
   }
 
@@ -1370,12 +1687,13 @@ class InGameCharacterState extends DataClass
   final Map<Purpose, int> purposes;
   final String? equippedWeaponId;
   final DateTime lastUpdated;
-  const InGameCharacterState(
-      {required this.uid,
-      required this.characterId,
-      required this.purposes,
-      this.equippedWeaponId,
-      required this.lastUpdated});
+  const InGameCharacterState({
+    required this.uid,
+    required this.characterId,
+    required this.purposes,
+    this.equippedWeaponId,
+    required this.lastUpdated,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1383,7 +1701,8 @@ class InGameCharacterState extends DataClass
     map['character_id'] = Variable<String>(characterId);
     {
       map['purposes'] = Variable<String>(
-          $InGameCharacterStateTableTable.$converterpurposes.toSql(purposes));
+        $InGameCharacterStateTableTable.$converterpurposes.toSql(purposes),
+      );
     }
     if (!nullToAbsent || equippedWeaponId != null) {
       map['equipped_weapon_id'] = Variable<String>(equippedWeaponId);
@@ -1404,8 +1723,10 @@ class InGameCharacterState extends DataClass
     );
   }
 
-  factory InGameCharacterState.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory InGameCharacterState.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return InGameCharacterState(
       uid: serializer.fromJson<String>(json['uid']),
@@ -1427,32 +1748,34 @@ class InGameCharacterState extends DataClass
     };
   }
 
-  InGameCharacterState copyWith(
-          {String? uid,
-          String? characterId,
-          Map<Purpose, int>? purposes,
-          Value<String?> equippedWeaponId = const Value.absent(),
-          DateTime? lastUpdated}) =>
-      InGameCharacterState(
-        uid: uid ?? this.uid,
-        characterId: characterId ?? this.characterId,
-        purposes: purposes ?? this.purposes,
-        equippedWeaponId: equippedWeaponId.present
-            ? equippedWeaponId.value
-            : this.equippedWeaponId,
-        lastUpdated: lastUpdated ?? this.lastUpdated,
-      );
+  InGameCharacterState copyWith({
+    String? uid,
+    String? characterId,
+    Map<Purpose, int>? purposes,
+    Value<String?> equippedWeaponId = const Value.absent(),
+    DateTime? lastUpdated,
+  }) => InGameCharacterState(
+    uid: uid ?? this.uid,
+    characterId: characterId ?? this.characterId,
+    purposes: purposes ?? this.purposes,
+    equippedWeaponId: equippedWeaponId.present
+        ? equippedWeaponId.value
+        : this.equippedWeaponId,
+    lastUpdated: lastUpdated ?? this.lastUpdated,
+  );
   InGameCharacterState copyWithCompanion(InGameCharacterStateCompanion data) {
     return InGameCharacterState(
       uid: data.uid.present ? data.uid.value : this.uid,
-      characterId:
-          data.characterId.present ? data.characterId.value : this.characterId,
+      characterId: data.characterId.present
+          ? data.characterId.value
+          : this.characterId,
       purposes: data.purposes.present ? data.purposes.value : this.purposes,
       equippedWeaponId: data.equippedWeaponId.present
           ? data.equippedWeaponId.value
           : this.equippedWeaponId,
-      lastUpdated:
-          data.lastUpdated.present ? data.lastUpdated.value : this.lastUpdated,
+      lastUpdated: data.lastUpdated.present
+          ? data.lastUpdated.value
+          : this.lastUpdated,
     );
   }
 
@@ -1505,9 +1828,9 @@ class InGameCharacterStateCompanion
     this.equippedWeaponId = const Value.absent(),
     this.lastUpdated = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : uid = Value(uid),
-        characterId = Value(characterId),
-        purposes = Value(purposes);
+  }) : uid = Value(uid),
+       characterId = Value(characterId),
+       purposes = Value(purposes);
   static Insertable<InGameCharacterState> custom({
     Expression<String>? uid,
     Expression<String>? characterId,
@@ -1526,13 +1849,14 @@ class InGameCharacterStateCompanion
     });
   }
 
-  InGameCharacterStateCompanion copyWith(
-      {Value<String>? uid,
-      Value<String>? characterId,
-      Value<Map<Purpose, int>>? purposes,
-      Value<String?>? equippedWeaponId,
-      Value<DateTime>? lastUpdated,
-      Value<int>? rowid}) {
+  InGameCharacterStateCompanion copyWith({
+    Value<String>? uid,
+    Value<String>? characterId,
+    Value<Map<Purpose, int>>? purposes,
+    Value<String?>? equippedWeaponId,
+    Value<DateTime>? lastUpdated,
+    Value<int>? rowid,
+  }) {
     return InGameCharacterStateCompanion(
       uid: uid ?? this.uid,
       characterId: characterId ?? this.characterId,
@@ -1553,9 +1877,11 @@ class InGameCharacterStateCompanion
       map['character_id'] = Variable<String>(characterId.value);
     }
     if (purposes.present) {
-      map['purposes'] = Variable<String>($InGameCharacterStateTableTable
-          .$converterpurposes
-          .toSql(purposes.value));
+      map['purposes'] = Variable<String>(
+        $InGameCharacterStateTableTable.$converterpurposes.toSql(
+          purposes.value,
+        ),
+      );
     }
     if (equippedWeaponId.present) {
       map['equipped_weapon_id'] = Variable<String>(equippedWeaponId.value);
@@ -1592,72 +1918,113 @@ class $InGameWeaponStateTableTable extends InGameWeaponStateTable
   static const VerificationMeta _uidMeta = const VerificationMeta('uid');
   @override
   late final GeneratedColumn<String> uid = GeneratedColumn<String>(
-      'uid', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _characterIdMeta =
-      const VerificationMeta('characterId');
+    'uid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _characterIdMeta = const VerificationMeta(
+    'characterId',
+  );
   @override
   late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
-      'character_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _weaponIdMeta =
-      const VerificationMeta('weaponId');
+    'character_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _weaponIdMeta = const VerificationMeta(
+    'weaponId',
+  );
   @override
   late final GeneratedColumn<String> weaponId = GeneratedColumn<String>(
-      'weapon_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'weapon_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   late final GeneratedColumnWithTypeConverter<Map<Purpose, int>, String>
-      purposes = GeneratedColumn<String>('purposes', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<Map<Purpose, int>>(
-              $InGameWeaponStateTableTable.$converterpurposes);
-  static const VerificationMeta _lastUpdatedMeta =
-      const VerificationMeta('lastUpdated');
+  purposes =
+      GeneratedColumn<String>(
+        'purposes',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<Map<Purpose, int>>(
+        $InGameWeaponStateTableTable.$converterpurposes,
+      );
+  static const VerificationMeta _lastUpdatedMeta = const VerificationMeta(
+    'lastUpdated',
+  );
   @override
   late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
-      'last_updated', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+    'last_updated',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
-  List<GeneratedColumn> get $columns =>
-      [uid, characterId, weaponId, purposes, lastUpdated];
+  List<GeneratedColumn> get $columns => [
+    uid,
+    characterId,
+    weaponId,
+    purposes,
+    lastUpdated,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'in_game_weapon_state_table';
   @override
-  VerificationContext validateIntegrity(Insertable<InGameWeaponState> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<InGameWeaponState> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('uid')) {
       context.handle(
-          _uidMeta, uid.isAcceptableOrUnknown(data['uid']!, _uidMeta));
+        _uidMeta,
+        uid.isAcceptableOrUnknown(data['uid']!, _uidMeta),
+      );
     } else if (isInserting) {
       context.missing(_uidMeta);
     }
     if (data.containsKey('character_id')) {
       context.handle(
+        _characterIdMeta,
+        characterId.isAcceptableOrUnknown(
+          data['character_id']!,
           _characterIdMeta,
-          characterId.isAcceptableOrUnknown(
-              data['character_id']!, _characterIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_characterIdMeta);
     }
     if (data.containsKey('weapon_id')) {
-      context.handle(_weaponIdMeta,
-          weaponId.isAcceptableOrUnknown(data['weapon_id']!, _weaponIdMeta));
+      context.handle(
+        _weaponIdMeta,
+        weaponId.isAcceptableOrUnknown(data['weapon_id']!, _weaponIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_weaponIdMeta);
     }
     if (data.containsKey('last_updated')) {
       context.handle(
+        _lastUpdatedMeta,
+        lastUpdated.isAcceptableOrUnknown(
+          data['last_updated']!,
           _lastUpdatedMeta,
-          lastUpdated.isAcceptableOrUnknown(
-              data['last_updated']!, _lastUpdatedMeta));
+        ),
+      );
     }
     return context;
   }
@@ -1668,17 +2035,28 @@ class $InGameWeaponStateTableTable extends InGameWeaponStateTable
   InGameWeaponState map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return InGameWeaponState(
-      uid: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}uid'])!,
-      characterId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}character_id'])!,
-      weaponId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}weapon_id'])!,
+      uid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}uid'],
+      )!,
+      characterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}character_id'],
+      )!,
+      weaponId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}weapon_id'],
+      )!,
       purposes: $InGameWeaponStateTableTable.$converterpurposes.fromSql(
-          attachedDatabase.typeMapping
-              .read(DriftSqlType.string, data['${effectivePrefix}purposes'])!),
-      lastUpdated: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_updated'])!,
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}purposes'],
+        )!,
+      ),
+      lastUpdated: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_updated'],
+      )!,
     );
   }
 
@@ -1698,12 +2076,13 @@ class InGameWeaponState extends DataClass
   final String weaponId;
   final Map<Purpose, int> purposes;
   final DateTime lastUpdated;
-  const InGameWeaponState(
-      {required this.uid,
-      required this.characterId,
-      required this.weaponId,
-      required this.purposes,
-      required this.lastUpdated});
+  const InGameWeaponState({
+    required this.uid,
+    required this.characterId,
+    required this.weaponId,
+    required this.purposes,
+    required this.lastUpdated,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1712,7 +2091,8 @@ class InGameWeaponState extends DataClass
     map['weapon_id'] = Variable<String>(weaponId);
     {
       map['purposes'] = Variable<String>(
-          $InGameWeaponStateTableTable.$converterpurposes.toSql(purposes));
+        $InGameWeaponStateTableTable.$converterpurposes.toSql(purposes),
+      );
     }
     map['last_updated'] = Variable<DateTime>(lastUpdated);
     return map;
@@ -1728,8 +2108,10 @@ class InGameWeaponState extends DataClass
     );
   }
 
-  factory InGameWeaponState.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory InGameWeaponState.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return InGameWeaponState(
       uid: serializer.fromJson<String>(json['uid']),
@@ -1751,28 +2133,30 @@ class InGameWeaponState extends DataClass
     };
   }
 
-  InGameWeaponState copyWith(
-          {String? uid,
-          String? characterId,
-          String? weaponId,
-          Map<Purpose, int>? purposes,
-          DateTime? lastUpdated}) =>
-      InGameWeaponState(
-        uid: uid ?? this.uid,
-        characterId: characterId ?? this.characterId,
-        weaponId: weaponId ?? this.weaponId,
-        purposes: purposes ?? this.purposes,
-        lastUpdated: lastUpdated ?? this.lastUpdated,
-      );
+  InGameWeaponState copyWith({
+    String? uid,
+    String? characterId,
+    String? weaponId,
+    Map<Purpose, int>? purposes,
+    DateTime? lastUpdated,
+  }) => InGameWeaponState(
+    uid: uid ?? this.uid,
+    characterId: characterId ?? this.characterId,
+    weaponId: weaponId ?? this.weaponId,
+    purposes: purposes ?? this.purposes,
+    lastUpdated: lastUpdated ?? this.lastUpdated,
+  );
   InGameWeaponState copyWithCompanion(InGameWeaponStateCompanion data) {
     return InGameWeaponState(
       uid: data.uid.present ? data.uid.value : this.uid,
-      characterId:
-          data.characterId.present ? data.characterId.value : this.characterId,
+      characterId: data.characterId.present
+          ? data.characterId.value
+          : this.characterId,
       weaponId: data.weaponId.present ? data.weaponId.value : this.weaponId,
       purposes: data.purposes.present ? data.purposes.value : this.purposes,
-      lastUpdated:
-          data.lastUpdated.present ? data.lastUpdated.value : this.lastUpdated,
+      lastUpdated: data.lastUpdated.present
+          ? data.lastUpdated.value
+          : this.lastUpdated,
     );
   }
 
@@ -1824,10 +2208,10 @@ class InGameWeaponStateCompanion extends UpdateCompanion<InGameWeaponState> {
     required Map<Purpose, int> purposes,
     this.lastUpdated = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : uid = Value(uid),
-        characterId = Value(characterId),
-        weaponId = Value(weaponId),
-        purposes = Value(purposes);
+  }) : uid = Value(uid),
+       characterId = Value(characterId),
+       weaponId = Value(weaponId),
+       purposes = Value(purposes);
   static Insertable<InGameWeaponState> custom({
     Expression<String>? uid,
     Expression<String>? characterId,
@@ -1846,13 +2230,14 @@ class InGameWeaponStateCompanion extends UpdateCompanion<InGameWeaponState> {
     });
   }
 
-  InGameWeaponStateCompanion copyWith(
-      {Value<String>? uid,
-      Value<String>? characterId,
-      Value<String>? weaponId,
-      Value<Map<Purpose, int>>? purposes,
-      Value<DateTime>? lastUpdated,
-      Value<int>? rowid}) {
+  InGameWeaponStateCompanion copyWith({
+    Value<String>? uid,
+    Value<String>? characterId,
+    Value<String>? weaponId,
+    Value<Map<Purpose, int>>? purposes,
+    Value<DateTime>? lastUpdated,
+    Value<int>? rowid,
+  }) {
     return InGameWeaponStateCompanion(
       uid: uid ?? this.uid,
       characterId: characterId ?? this.characterId,
@@ -1876,9 +2261,9 @@ class InGameWeaponStateCompanion extends UpdateCompanion<InGameWeaponState> {
       map['weapon_id'] = Variable<String>(weaponId.value);
     }
     if (purposes.present) {
-      map['purposes'] = Variable<String>($InGameWeaponStateTableTable
-          .$converterpurposes
-          .toSql(purposes.value));
+      map['purposes'] = Variable<String>(
+        $InGameWeaponStateTableTable.$converterpurposes.toSql(purposes.value),
+      );
     }
     if (lastUpdated.present) {
       map['last_updated'] = Variable<DateTime>(lastUpdated.value);
@@ -1912,16 +2297,24 @@ class $BookmarkOrderRegistryTableTable extends BookmarkOrderRegistryTable
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant("main"));
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant("main"),
+  );
   @override
   late final GeneratedColumnWithTypeConverter<List<String>, String> order =
-      GeneratedColumn<String>('order', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<List<String>>(
-              $BookmarkOrderRegistryTableTable.$converterorder);
+      GeneratedColumn<String>(
+        'order',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<List<String>>(
+        $BookmarkOrderRegistryTableTable.$converterorder,
+      );
   @override
   List<GeneratedColumn> get $columns => [id, order];
   @override
@@ -1931,8 +2324,9 @@ class $BookmarkOrderRegistryTableTable extends BookmarkOrderRegistryTable
   static const String $name = 'bookmark_order_registry_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<BookmarkOrderRegistry> instance,
-      {bool isInserting = false}) {
+    Insertable<BookmarkOrderRegistry> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1947,11 +2341,16 @@ class $BookmarkOrderRegistryTableTable extends BookmarkOrderRegistryTable
   BookmarkOrderRegistry map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BookmarkOrderRegistry(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
       order: $BookmarkOrderRegistryTableTable.$converterorder.fromSql(
-          attachedDatabase.typeMapping
-              .read(DriftSqlType.string, data['${effectivePrefix}order'])!),
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}order'],
+        )!,
+      ),
     );
   }
 
@@ -1975,20 +2374,20 @@ class BookmarkOrderRegistry extends DataClass
     map['id'] = Variable<String>(id);
     {
       map['order'] = Variable<String>(
-          $BookmarkOrderRegistryTableTable.$converterorder.toSql(order));
+        $BookmarkOrderRegistryTableTable.$converterorder.toSql(order),
+      );
     }
     return map;
   }
 
   BookmarkOrderRegistryCompanion toCompanion(bool nullToAbsent) {
-    return BookmarkOrderRegistryCompanion(
-      id: Value(id),
-      order: Value(order),
-    );
+    return BookmarkOrderRegistryCompanion(id: Value(id), order: Value(order));
   }
 
-  factory BookmarkOrderRegistry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory BookmarkOrderRegistry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BookmarkOrderRegistry(
       id: serializer.fromJson<String>(json['id']),
@@ -2005,10 +2404,7 @@ class BookmarkOrderRegistry extends DataClass
   }
 
   BookmarkOrderRegistry copyWith({String? id, List<String>? order}) =>
-      BookmarkOrderRegistry(
-        id: id ?? this.id,
-        order: order ?? this.order,
-      );
+      BookmarkOrderRegistry(id: id ?? this.id, order: order ?? this.order);
   BookmarkOrderRegistry copyWithCompanion(BookmarkOrderRegistryCompanion data) {
     return BookmarkOrderRegistry(
       id: data.id.present ? data.id.value : this.id,
@@ -2062,8 +2458,11 @@ class BookmarkOrderRegistryCompanion
     });
   }
 
-  BookmarkOrderRegistryCompanion copyWith(
-      {Value<String>? id, Value<List<String>>? order, Value<int>? rowid}) {
+  BookmarkOrderRegistryCompanion copyWith({
+    Value<String>? id,
+    Value<List<String>>? order,
+    Value<int>? rowid,
+  }) {
     return BookmarkOrderRegistryCompanion(
       id: id ?? this.id,
       order: order ?? this.order,
@@ -2079,7 +2478,8 @@ class BookmarkOrderRegistryCompanion
     }
     if (order.present) {
       map['order'] = Variable<String>(
-          $BookmarkOrderRegistryTableTable.$converterorder.toSql(order.value));
+        $BookmarkOrderRegistryTableTable.$converterorder.toSql(order.value),
+      );
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -2107,26 +2507,42 @@ class $MaterialBagCountTableTable extends MaterialBagCountTable
   static const VerificationMeta _uidMeta = const VerificationMeta('uid');
   @override
   late final GeneratedColumn<String> uid = GeneratedColumn<String>(
-      'uid', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'uid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _hyvIdMeta = const VerificationMeta('hyvId');
   @override
   late final GeneratedColumn<int> hyvId = GeneratedColumn<int>(
-      'hyv_id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+    'hyv_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _countMeta = const VerificationMeta('count');
   @override
   late final GeneratedColumn<int> count = GeneratedColumn<int>(
-      'count', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _lastUpdatedMeta =
-      const VerificationMeta('lastUpdated');
+    'count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lastUpdatedMeta = const VerificationMeta(
+    'lastUpdated',
+  );
   @override
   late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
-      'last_updated', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+    'last_updated',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
   List<GeneratedColumn> get $columns => [uid, hyvId, count, lastUpdated];
   @override
@@ -2135,33 +2551,44 @@ class $MaterialBagCountTableTable extends MaterialBagCountTable
   String get actualTableName => $name;
   static const String $name = 'material_bag_count_table';
   @override
-  VerificationContext validateIntegrity(Insertable<MaterialBagCount> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<MaterialBagCount> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('uid')) {
       context.handle(
-          _uidMeta, uid.isAcceptableOrUnknown(data['uid']!, _uidMeta));
+        _uidMeta,
+        uid.isAcceptableOrUnknown(data['uid']!, _uidMeta),
+      );
     } else if (isInserting) {
       context.missing(_uidMeta);
     }
     if (data.containsKey('hyv_id')) {
       context.handle(
-          _hyvIdMeta, hyvId.isAcceptableOrUnknown(data['hyv_id']!, _hyvIdMeta));
+        _hyvIdMeta,
+        hyvId.isAcceptableOrUnknown(data['hyv_id']!, _hyvIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_hyvIdMeta);
     }
     if (data.containsKey('count')) {
       context.handle(
-          _countMeta, count.isAcceptableOrUnknown(data['count']!, _countMeta));
+        _countMeta,
+        count.isAcceptableOrUnknown(data['count']!, _countMeta),
+      );
     } else if (isInserting) {
       context.missing(_countMeta);
     }
     if (data.containsKey('last_updated')) {
       context.handle(
+        _lastUpdatedMeta,
+        lastUpdated.isAcceptableOrUnknown(
+          data['last_updated']!,
           _lastUpdatedMeta,
-          lastUpdated.isAcceptableOrUnknown(
-              data['last_updated']!, _lastUpdatedMeta));
+        ),
+      );
     }
     return context;
   }
@@ -2172,14 +2599,22 @@ class $MaterialBagCountTableTable extends MaterialBagCountTable
   MaterialBagCount map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return MaterialBagCount(
-      uid: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}uid'])!,
-      hyvId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}hyv_id'])!,
-      count: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}count'])!,
-      lastUpdated: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_updated'])!,
+      uid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}uid'],
+      )!,
+      hyvId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}hyv_id'],
+      )!,
+      count: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}count'],
+      )!,
+      lastUpdated: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_updated'],
+      )!,
     );
   }
 
@@ -2195,11 +2630,12 @@ class MaterialBagCount extends DataClass
   final int hyvId;
   final int count;
   final DateTime lastUpdated;
-  const MaterialBagCount(
-      {required this.uid,
-      required this.hyvId,
-      required this.count,
-      required this.lastUpdated});
+  const MaterialBagCount({
+    required this.uid,
+    required this.hyvId,
+    required this.count,
+    required this.lastUpdated,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2219,8 +2655,10 @@ class MaterialBagCount extends DataClass
     );
   }
 
-  factory MaterialBagCount.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory MaterialBagCount.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return MaterialBagCount(
       uid: serializer.fromJson<String>(json['uid']),
@@ -2240,21 +2678,25 @@ class MaterialBagCount extends DataClass
     };
   }
 
-  MaterialBagCount copyWith(
-          {String? uid, int? hyvId, int? count, DateTime? lastUpdated}) =>
-      MaterialBagCount(
-        uid: uid ?? this.uid,
-        hyvId: hyvId ?? this.hyvId,
-        count: count ?? this.count,
-        lastUpdated: lastUpdated ?? this.lastUpdated,
-      );
+  MaterialBagCount copyWith({
+    String? uid,
+    int? hyvId,
+    int? count,
+    DateTime? lastUpdated,
+  }) => MaterialBagCount(
+    uid: uid ?? this.uid,
+    hyvId: hyvId ?? this.hyvId,
+    count: count ?? this.count,
+    lastUpdated: lastUpdated ?? this.lastUpdated,
+  );
   MaterialBagCount copyWithCompanion(MaterialBagCountCompanion data) {
     return MaterialBagCount(
       uid: data.uid.present ? data.uid.value : this.uid,
       hyvId: data.hyvId.present ? data.hyvId.value : this.hyvId,
       count: data.count.present ? data.count.value : this.count,
-      lastUpdated:
-          data.lastUpdated.present ? data.lastUpdated.value : this.lastUpdated,
+      lastUpdated: data.lastUpdated.present
+          ? data.lastUpdated.value
+          : this.lastUpdated,
     );
   }
 
@@ -2300,9 +2742,9 @@ class MaterialBagCountCompanion extends UpdateCompanion<MaterialBagCount> {
     required int count,
     this.lastUpdated = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : uid = Value(uid),
-        hyvId = Value(hyvId),
-        count = Value(count);
+  }) : uid = Value(uid),
+       hyvId = Value(hyvId),
+       count = Value(count);
   static Insertable<MaterialBagCount> custom({
     Expression<String>? uid,
     Expression<int>? hyvId,
@@ -2319,12 +2761,13 @@ class MaterialBagCountCompanion extends UpdateCompanion<MaterialBagCount> {
     });
   }
 
-  MaterialBagCountCompanion copyWith(
-      {Value<String>? uid,
-      Value<int>? hyvId,
-      Value<int>? count,
-      Value<DateTime>? lastUpdated,
-      Value<int>? rowid}) {
+  MaterialBagCountCompanion copyWith({
+    Value<String>? uid,
+    Value<int>? hyvId,
+    Value<int>? count,
+    Value<DateTime>? lastUpdated,
+    Value<int>? rowid,
+  }) {
     return MaterialBagCountCompanion(
       uid: uid ?? this.uid,
       hyvId: hyvId ?? this.hyvId,
@@ -2374,22 +2817,35 @@ class $FurnishingCraftCountTableTable extends FurnishingCraftCountTable
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $FurnishingCraftCountTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _furnishingIdMeta =
-      const VerificationMeta('furnishingId');
+  static const VerificationMeta _furnishingIdMeta = const VerificationMeta(
+    'furnishingId',
+  );
   @override
   late final GeneratedColumn<String> furnishingId = GeneratedColumn<String>(
-      'furnishing_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'furnishing_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _setIdMeta = const VerificationMeta('setId');
   @override
   late final GeneratedColumn<String> setId = GeneratedColumn<String>(
-      'set_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'set_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _countMeta = const VerificationMeta('count');
   @override
   late final GeneratedColumn<int> count = GeneratedColumn<int>(
-      'count', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+    'count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [furnishingId, setId, count];
   @override
@@ -2399,27 +2855,35 @@ class $FurnishingCraftCountTableTable extends FurnishingCraftCountTable
   static const String $name = 'furnishing_craft_count_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<FurnishingCraftCount> instance,
-      {bool isInserting = false}) {
+    Insertable<FurnishingCraftCount> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('furnishing_id')) {
       context.handle(
+        _furnishingIdMeta,
+        furnishingId.isAcceptableOrUnknown(
+          data['furnishing_id']!,
           _furnishingIdMeta,
-          furnishingId.isAcceptableOrUnknown(
-              data['furnishing_id']!, _furnishingIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_furnishingIdMeta);
     }
     if (data.containsKey('set_id')) {
       context.handle(
-          _setIdMeta, setId.isAcceptableOrUnknown(data['set_id']!, _setIdMeta));
+        _setIdMeta,
+        setId.isAcceptableOrUnknown(data['set_id']!, _setIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_setIdMeta);
     }
     if (data.containsKey('count')) {
       context.handle(
-          _countMeta, count.isAcceptableOrUnknown(data['count']!, _countMeta));
+        _countMeta,
+        count.isAcceptableOrUnknown(data['count']!, _countMeta),
+      );
     } else if (isInserting) {
       context.missing(_countMeta);
     }
@@ -2432,12 +2896,18 @@ class $FurnishingCraftCountTableTable extends FurnishingCraftCountTable
   FurnishingCraftCount map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return FurnishingCraftCount(
-      furnishingId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}furnishing_id'])!,
-      setId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}set_id'])!,
-      count: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}count'])!,
+      furnishingId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}furnishing_id'],
+      )!,
+      setId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}set_id'],
+      )!,
+      count: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}count'],
+      )!,
     );
   }
 
@@ -2452,8 +2922,11 @@ class FurnishingCraftCount extends DataClass
   final String furnishingId;
   final String setId;
   final int count;
-  const FurnishingCraftCount(
-      {required this.furnishingId, required this.setId, required this.count});
+  const FurnishingCraftCount({
+    required this.furnishingId,
+    required this.setId,
+    required this.count,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2471,8 +2944,10 @@ class FurnishingCraftCount extends DataClass
     );
   }
 
-  factory FurnishingCraftCount.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory FurnishingCraftCount.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return FurnishingCraftCount(
       furnishingId: serializer.fromJson<String>(json['furnishingId']),
@@ -2490,13 +2965,15 @@ class FurnishingCraftCount extends DataClass
     };
   }
 
-  FurnishingCraftCount copyWith(
-          {String? furnishingId, String? setId, int? count}) =>
-      FurnishingCraftCount(
-        furnishingId: furnishingId ?? this.furnishingId,
-        setId: setId ?? this.setId,
-        count: count ?? this.count,
-      );
+  FurnishingCraftCount copyWith({
+    String? furnishingId,
+    String? setId,
+    int? count,
+  }) => FurnishingCraftCount(
+    furnishingId: furnishingId ?? this.furnishingId,
+    setId: setId ?? this.setId,
+    count: count ?? this.count,
+  );
   FurnishingCraftCount copyWithCompanion(FurnishingCraftCountCompanion data) {
     return FurnishingCraftCount(
       furnishingId: data.furnishingId.present
@@ -2545,9 +3022,9 @@ class FurnishingCraftCountCompanion
     required String setId,
     required int count,
     this.rowid = const Value.absent(),
-  })  : furnishingId = Value(furnishingId),
-        setId = Value(setId),
-        count = Value(count);
+  }) : furnishingId = Value(furnishingId),
+       setId = Value(setId),
+       count = Value(count);
   static Insertable<FurnishingCraftCount> custom({
     Expression<String>? furnishingId,
     Expression<String>? setId,
@@ -2562,11 +3039,12 @@ class FurnishingCraftCountCompanion
     });
   }
 
-  FurnishingCraftCountCompanion copyWith(
-      {Value<String>? furnishingId,
-      Value<String>? setId,
-      Value<int>? count,
-      Value<int>? rowid}) {
+  FurnishingCraftCountCompanion copyWith({
+    Value<String>? furnishingId,
+    Value<String>? setId,
+    Value<int>? count,
+    Value<int>? rowid,
+  }) {
     return FurnishingCraftCountCompanion(
       furnishingId: furnishingId ?? this.furnishingId,
       setId: setId ?? this.setId,
@@ -2614,16 +3092,24 @@ class $FurnishingSetBookmarkTableTable extends FurnishingSetBookmarkTable
   static const VerificationMeta _setIdMeta = const VerificationMeta('setId');
   @override
   late final GeneratedColumn<String> setId = GeneratedColumn<String>(
-      'set_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'set_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
   List<GeneratedColumn> get $columns => [setId, createdAt];
   @override
@@ -2633,19 +3119,24 @@ class $FurnishingSetBookmarkTableTable extends FurnishingSetBookmarkTable
   static const String $name = 'furnishing_set_bookmark_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<FurnishingSetBookmark> instance,
-      {bool isInserting = false}) {
+    Insertable<FurnishingSetBookmark> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('set_id')) {
       context.handle(
-          _setIdMeta, setId.isAcceptableOrUnknown(data['set_id']!, _setIdMeta));
+        _setIdMeta,
+        setId.isAcceptableOrUnknown(data['set_id']!, _setIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_setIdMeta);
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     }
     return context;
   }
@@ -2656,10 +3147,14 @@ class $FurnishingSetBookmarkTableTable extends FurnishingSetBookmarkTable
   FurnishingSetBookmark map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return FurnishingSetBookmark(
-      setId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}set_id'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      setId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}set_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
     );
   }
 
@@ -2689,8 +3184,10 @@ class FurnishingSetBookmark extends DataClass
     );
   }
 
-  factory FurnishingSetBookmark.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory FurnishingSetBookmark.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return FurnishingSetBookmark(
       setId: serializer.fromJson<String>(json['setId']),
@@ -2764,8 +3261,11 @@ class FurnishingSetBookmarkCompanion
     });
   }
 
-  FurnishingSetBookmarkCompanion copyWith(
-      {Value<String>? setId, Value<DateTime>? createdAt, Value<int>? rowid}) {
+  FurnishingSetBookmarkCompanion copyWith({
+    Value<String>? setId,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
     return FurnishingSetBookmarkCompanion(
       setId: setId ?? this.setId,
       createdAt: createdAt ?? this.createdAt,
@@ -2806,11 +3306,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $BookmarkMaterialDetailsTableTable bookmarkMaterialDetailsTable =
       $BookmarkMaterialDetailsTableTable(this);
   late final $BookmarkArtifactSetDetailsTableTable
-      bookmarkArtifactSetDetailsTable =
-      $BookmarkArtifactSetDetailsTableTable(this);
+  bookmarkArtifactSetDetailsTable = $BookmarkArtifactSetDetailsTableTable(this);
   late final $BookmarkArtifactPieceDetailsTableTable
-      bookmarkArtifactPieceDetailsTable =
-      $BookmarkArtifactPieceDetailsTableTable(this);
+  bookmarkArtifactPieceDetailsTable = $BookmarkArtifactPieceDetailsTableTable(
+    this,
+  );
   late final $InGameCharacterStateTableTable inGameCharacterStateTable =
       $InGameCharacterStateTableTable(this);
   late final $InGameWeaponStateTableTable inGameWeaponStateTable =
@@ -2828,125 +3328,162 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-        bookmarkTable,
-        bookmarkMaterialDetailsTable,
-        bookmarkArtifactSetDetailsTable,
-        bookmarkArtifactPieceDetailsTable,
-        inGameCharacterStateTable,
-        inGameWeaponStateTable,
-        bookmarkOrderRegistryTable,
-        materialBagCountTable,
-        furnishingCraftCountTable,
-        furnishingSetBookmarkTable
-      ];
+    bookmarkTable,
+    bookmarkMaterialDetailsTable,
+    bookmarkArtifactSetDetailsTable,
+    bookmarkArtifactPieceDetailsTable,
+    inGameCharacterStateTable,
+    inGameWeaponStateTable,
+    bookmarkOrderRegistryTable,
+    materialBagCountTable,
+    furnishingCraftCountTable,
+    furnishingSetBookmarkTable,
+  ];
   @override
-  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
-        [
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('bookmark_table',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('bookmark_material_details_table',
-                  kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('bookmark_table',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('bookmark_artifact_set_details_table',
-                  kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('bookmark_table',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('bookmark_artifact_piece_details_table',
-                  kind: UpdateKind.delete),
-            ],
-          ),
-        ],
-      );
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'bookmark_table',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [
+        TableUpdate('bookmark_material_details_table', kind: UpdateKind.delete),
+      ],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'bookmark_table',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [
+        TableUpdate(
+          'bookmark_artifact_set_details_table',
+          kind: UpdateKind.delete,
+        ),
+      ],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'bookmark_table',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [
+        TableUpdate(
+          'bookmark_artifact_piece_details_table',
+          kind: UpdateKind.delete,
+        ),
+      ],
+    ),
+  ]);
 }
 
-typedef $$BookmarkTableTableCreateCompanionBuilder = BookmarkCompanion
-    Function({
-  Value<int> id,
-  required BookmarkType type,
-  required String characterId,
-  Value<DateTime> createdAt,
-  required String groupHash,
-});
-typedef $$BookmarkTableTableUpdateCompanionBuilder = BookmarkCompanion
-    Function({
-  Value<int> id,
-  Value<BookmarkType> type,
-  Value<String> characterId,
-  Value<DateTime> createdAt,
-  Value<String> groupHash,
-});
+typedef $$BookmarkTableTableCreateCompanionBuilder =
+    BookmarkCompanion Function({
+      Value<int> id,
+      required BookmarkType type,
+      required String characterId,
+      Value<DateTime> createdAt,
+      required String groupHash,
+    });
+typedef $$BookmarkTableTableUpdateCompanionBuilder =
+    BookmarkCompanion Function({
+      Value<int> id,
+      Value<BookmarkType> type,
+      Value<String> characterId,
+      Value<DateTime> createdAt,
+      Value<String> groupHash,
+    });
 
 final class $$BookmarkTableTableReferences
     extends BaseReferences<_$AppDatabase, $BookmarkTableTable, Bookmark> {
   $$BookmarkTableTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
-  static MultiTypedResultKey<$BookmarkMaterialDetailsTableTable,
-      List<BookmarkMaterialDetails>> _bookmarkMaterialDetailsTableRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.bookmarkMaterialDetailsTable,
-          aliasName: $_aliasNameGenerator(
-              db.bookmarkTable.id, db.bookmarkMaterialDetailsTable.parentId));
+  static MultiTypedResultKey<
+    $BookmarkMaterialDetailsTableTable,
+    List<BookmarkMaterialDetails>
+  >
+  _bookmarkMaterialDetailsTableRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.bookmarkMaterialDetailsTable,
+        aliasName: $_aliasNameGenerator(
+          db.bookmarkTable.id,
+          db.bookmarkMaterialDetailsTable.parentId,
+        ),
+      );
 
   $$BookmarkMaterialDetailsTableTableProcessedTableManager
-      get bookmarkMaterialDetailsTableRefs {
+  get bookmarkMaterialDetailsTableRefs {
     final manager = $$BookmarkMaterialDetailsTableTableTableManager(
-            $_db, $_db.bookmarkMaterialDetailsTable)
-        .filter((f) => f.parentId.id.sqlEquals($_itemColumn<int>('id')!));
+      $_db,
+      $_db.bookmarkMaterialDetailsTable,
+    ).filter((f) => f.parentId.id.sqlEquals($_itemColumn<int>('id')!));
 
-    final cache = $_typedResult
-        .readTableOrNull(_bookmarkMaterialDetailsTableRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(
+      _bookmarkMaterialDetailsTableRefsTable($_db),
+    );
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 
-  static MultiTypedResultKey<$BookmarkArtifactSetDetailsTableTable,
-          List<BookmarkArtifactSetDetails>>
-      _bookmarkArtifactSetDetailsTableRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.bookmarkArtifactSetDetailsTable,
-              aliasName: $_aliasNameGenerator(db.bookmarkTable.id,
-                  db.bookmarkArtifactSetDetailsTable.parentId));
+  static MultiTypedResultKey<
+    $BookmarkArtifactSetDetailsTableTable,
+    List<BookmarkArtifactSetDetails>
+  >
+  _bookmarkArtifactSetDetailsTableRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.bookmarkArtifactSetDetailsTable,
+        aliasName: $_aliasNameGenerator(
+          db.bookmarkTable.id,
+          db.bookmarkArtifactSetDetailsTable.parentId,
+        ),
+      );
 
   $$BookmarkArtifactSetDetailsTableTableProcessedTableManager
-      get bookmarkArtifactSetDetailsTableRefs {
+  get bookmarkArtifactSetDetailsTableRefs {
     final manager = $$BookmarkArtifactSetDetailsTableTableTableManager(
-            $_db, $_db.bookmarkArtifactSetDetailsTable)
-        .filter((f) => f.parentId.id.sqlEquals($_itemColumn<int>('id')!));
+      $_db,
+      $_db.bookmarkArtifactSetDetailsTable,
+    ).filter((f) => f.parentId.id.sqlEquals($_itemColumn<int>('id')!));
 
-    final cache = $_typedResult
-        .readTableOrNull(_bookmarkArtifactSetDetailsTableRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(
+      _bookmarkArtifactSetDetailsTableRefsTable($_db),
+    );
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 
-  static MultiTypedResultKey<$BookmarkArtifactPieceDetailsTableTable,
-          List<BookmarkArtifactPieceDetails>>
-      _bookmarkArtifactPieceDetailsTableRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.bookmarkArtifactPieceDetailsTable,
-              aliasName: $_aliasNameGenerator(db.bookmarkTable.id,
-                  db.bookmarkArtifactPieceDetailsTable.parentId));
+  static MultiTypedResultKey<
+    $BookmarkArtifactPieceDetailsTableTable,
+    List<BookmarkArtifactPieceDetails>
+  >
+  _bookmarkArtifactPieceDetailsTableRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.bookmarkArtifactPieceDetailsTable,
+        aliasName: $_aliasNameGenerator(
+          db.bookmarkTable.id,
+          db.bookmarkArtifactPieceDetailsTable.parentId,
+        ),
+      );
 
   $$BookmarkArtifactPieceDetailsTableTableProcessedTableManager
-      get bookmarkArtifactPieceDetailsTableRefs {
+  get bookmarkArtifactPieceDetailsTableRefs {
     final manager = $$BookmarkArtifactPieceDetailsTableTableTableManager(
-            $_db, $_db.bookmarkArtifactPieceDetailsTable)
-        .filter((f) => f.parentId.id.sqlEquals($_itemColumn<int>('id')!));
+      $_db,
+      $_db.bookmarkArtifactPieceDetailsTable,
+    ).filter((f) => f.parentId.id.sqlEquals($_itemColumn<int>('id')!));
 
-    final cache = $_typedResult
-        .readTableOrNull(_bookmarkArtifactPieceDetailsTableRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(
+      _bookmarkArtifactPieceDetailsTableRefsTable($_db),
+    );
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
@@ -2960,91 +3497,115 @@ class $$BookmarkTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnWithTypeConverterFilters<BookmarkType, BookmarkType, String> get type =>
       $composableBuilder(
-          column: $table.type,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+        column: $table.type,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
 
   ColumnFilters<String> get characterId => $composableBuilder(
-      column: $table.characterId, builder: (column) => ColumnFilters(column));
+    column: $table.characterId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get groupHash => $composableBuilder(
-      column: $table.groupHash, builder: (column) => ColumnFilters(column));
+    column: $table.groupHash,
+    builder: (column) => ColumnFilters(column),
+  );
 
   Expression<bool> bookmarkMaterialDetailsTableRefs(
-      Expression<bool> Function(
-              $$BookmarkMaterialDetailsTableTableFilterComposer f)
-          f) {
+    Expression<bool> Function(
+      $$BookmarkMaterialDetailsTableTableFilterComposer f,
+    )
+    f,
+  ) {
     final $$BookmarkMaterialDetailsTableTableFilterComposer composer =
         $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $db.bookmarkMaterialDetailsTable,
-            getReferencedColumn: (t) => t.parentId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$BookmarkMaterialDetailsTableTableFilterComposer(
-                  $db: $db,
-                  $table: $db.bookmarkMaterialDetailsTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.bookmarkMaterialDetailsTable,
+          getReferencedColumn: (t) => t.parentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$BookmarkMaterialDetailsTableTableFilterComposer(
+                $db: $db,
+                $table: $db.bookmarkMaterialDetailsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 
   Expression<bool> bookmarkArtifactSetDetailsTableRefs(
-      Expression<bool> Function(
-              $$BookmarkArtifactSetDetailsTableTableFilterComposer f)
-          f) {
+    Expression<bool> Function(
+      $$BookmarkArtifactSetDetailsTableTableFilterComposer f,
+    )
+    f,
+  ) {
     final $$BookmarkArtifactSetDetailsTableTableFilterComposer composer =
         $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $db.bookmarkArtifactSetDetailsTable,
-            getReferencedColumn: (t) => t.parentId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$BookmarkArtifactSetDetailsTableTableFilterComposer(
-                  $db: $db,
-                  $table: $db.bookmarkArtifactSetDetailsTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.bookmarkArtifactSetDetailsTable,
+          getReferencedColumn: (t) => t.parentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$BookmarkArtifactSetDetailsTableTableFilterComposer(
+                $db: $db,
+                $table: $db.bookmarkArtifactSetDetailsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 
   Expression<bool> bookmarkArtifactPieceDetailsTableRefs(
-      Expression<bool> Function(
-              $$BookmarkArtifactPieceDetailsTableTableFilterComposer f)
-          f) {
+    Expression<bool> Function(
+      $$BookmarkArtifactPieceDetailsTableTableFilterComposer f,
+    )
+    f,
+  ) {
     final $$BookmarkArtifactPieceDetailsTableTableFilterComposer composer =
         $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $db.bookmarkArtifactPieceDetailsTable,
-            getReferencedColumn: (t) => t.parentId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$BookmarkArtifactPieceDetailsTableTableFilterComposer(
-                  $db: $db,
-                  $table: $db.bookmarkArtifactPieceDetailsTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.bookmarkArtifactPieceDetailsTable,
+          getReferencedColumn: (t) => t.parentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$BookmarkArtifactPieceDetailsTableTableFilterComposer(
+                $db: $db,
+                $table: $db.bookmarkArtifactPieceDetailsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
@@ -3059,19 +3620,29 @@ class $$BookmarkTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get type => $composableBuilder(
-      column: $table.type, builder: (column) => ColumnOrderings(column));
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get characterId => $composableBuilder(
-      column: $table.characterId, builder: (column) => ColumnOrderings(column));
+    column: $table.characterId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get groupHash => $composableBuilder(
-      column: $table.groupHash, builder: (column) => ColumnOrderings(column));
+    column: $table.groupHash,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$BookmarkTableTableAnnotationComposer
@@ -3090,7 +3661,9 @@ class $$BookmarkTableTableAnnotationComposer
       $composableBuilder(column: $table.type, builder: (column) => column);
 
   GeneratedColumn<String> get characterId => $composableBuilder(
-      column: $table.characterId, builder: (column) => column);
+    column: $table.characterId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -3099,95 +3672,115 @@ class $$BookmarkTableTableAnnotationComposer
       $composableBuilder(column: $table.groupHash, builder: (column) => column);
 
   Expression<T> bookmarkMaterialDetailsTableRefs<T extends Object>(
-      Expression<T> Function(
-              $$BookmarkMaterialDetailsTableTableAnnotationComposer a)
-          f) {
+    Expression<T> Function(
+      $$BookmarkMaterialDetailsTableTableAnnotationComposer a,
+    )
+    f,
+  ) {
     final $$BookmarkMaterialDetailsTableTableAnnotationComposer composer =
         $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $db.bookmarkMaterialDetailsTable,
-            getReferencedColumn: (t) => t.parentId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$BookmarkMaterialDetailsTableTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.bookmarkMaterialDetailsTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.bookmarkMaterialDetailsTable,
+          getReferencedColumn: (t) => t.parentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$BookmarkMaterialDetailsTableTableAnnotationComposer(
+                $db: $db,
+                $table: $db.bookmarkMaterialDetailsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 
   Expression<T> bookmarkArtifactSetDetailsTableRefs<T extends Object>(
-      Expression<T> Function(
-              $$BookmarkArtifactSetDetailsTableTableAnnotationComposer a)
-          f) {
+    Expression<T> Function(
+      $$BookmarkArtifactSetDetailsTableTableAnnotationComposer a,
+    )
+    f,
+  ) {
     final $$BookmarkArtifactSetDetailsTableTableAnnotationComposer composer =
         $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $db.bookmarkArtifactSetDetailsTable,
-            getReferencedColumn: (t) => t.parentId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$BookmarkArtifactSetDetailsTableTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.bookmarkArtifactSetDetailsTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.bookmarkArtifactSetDetailsTable,
+          getReferencedColumn: (t) => t.parentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$BookmarkArtifactSetDetailsTableTableAnnotationComposer(
+                $db: $db,
+                $table: $db.bookmarkArtifactSetDetailsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 
   Expression<T> bookmarkArtifactPieceDetailsTableRefs<T extends Object>(
-      Expression<T> Function(
-              $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer a)
-          f) {
+    Expression<T> Function(
+      $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer a,
+    )
+    f,
+  ) {
     final $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer composer =
         $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $db.bookmarkArtifactPieceDetailsTable,
-            getReferencedColumn: (t) => t.parentId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.bookmarkArtifactPieceDetailsTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.bookmarkArtifactPieceDetailsTable,
+          getReferencedColumn: (t) => t.parentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer(
+                $db: $db,
+                $table: $db.bookmarkArtifactPieceDetailsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
 
-class $$BookmarkTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $BookmarkTableTable,
-    Bookmark,
-    $$BookmarkTableTableFilterComposer,
-    $$BookmarkTableTableOrderingComposer,
-    $$BookmarkTableTableAnnotationComposer,
-    $$BookmarkTableTableCreateCompanionBuilder,
-    $$BookmarkTableTableUpdateCompanionBuilder,
-    (Bookmark, $$BookmarkTableTableReferences),
-    Bookmark,
-    PrefetchHooks Function(
-        {bool bookmarkMaterialDetailsTableRefs,
-        bool bookmarkArtifactSetDetailsTableRefs,
-        bool bookmarkArtifactPieceDetailsTableRefs})> {
+class $$BookmarkTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BookmarkTableTable,
+          Bookmark,
+          $$BookmarkTableTableFilterComposer,
+          $$BookmarkTableTableOrderingComposer,
+          $$BookmarkTableTableAnnotationComposer,
+          $$BookmarkTableTableCreateCompanionBuilder,
+          $$BookmarkTableTableUpdateCompanionBuilder,
+          (Bookmark, $$BookmarkTableTableReferences),
+          Bookmark,
+          PrefetchHooks Function({
+            bool bookmarkMaterialDetailsTableRefs,
+            bool bookmarkArtifactSetDetailsTableRefs,
+            bool bookmarkArtifactPieceDetailsTableRefs,
+          })
+        > {
   $$BookmarkTableTableTableManager(_$AppDatabase db, $BookmarkTableTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -3196,160 +3789,206 @@ class $$BookmarkTableTableTableManager extends RootTableManager<
               $$BookmarkTableTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$BookmarkTableTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<BookmarkType> type = const Value.absent(),
-            Value<String> characterId = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<String> groupHash = const Value.absent(),
-          }) =>
-              BookmarkCompanion(
-            id: id,
-            type: type,
-            characterId: characterId,
-            createdAt: createdAt,
-            groupHash: groupHash,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required BookmarkType type,
-            required String characterId,
-            Value<DateTime> createdAt = const Value.absent(),
-            required String groupHash,
-          }) =>
-              BookmarkCompanion.insert(
-            id: id,
-            type: type,
-            characterId: characterId,
-            createdAt: createdAt,
-            groupHash: groupHash,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<BookmarkType> type = const Value.absent(),
+                Value<String> characterId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<String> groupHash = const Value.absent(),
+              }) => BookmarkCompanion(
+                id: id,
+                type: type,
+                characterId: characterId,
+                createdAt: createdAt,
+                groupHash: groupHash,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required BookmarkType type,
+                required String characterId,
+                Value<DateTime> createdAt = const Value.absent(),
+                required String groupHash,
+              }) => BookmarkCompanion.insert(
+                id: id,
+                type: type,
+                characterId: characterId,
+                createdAt: createdAt,
+                groupHash: groupHash,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$BookmarkTableTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$BookmarkTableTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: (
-              {bookmarkMaterialDetailsTableRefs = false,
-              bookmarkArtifactSetDetailsTableRefs = false,
-              bookmarkArtifactPieceDetailsTableRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (bookmarkMaterialDetailsTableRefs)
-                  db.bookmarkMaterialDetailsTable,
-                if (bookmarkArtifactSetDetailsTableRefs)
-                  db.bookmarkArtifactSetDetailsTable,
-                if (bookmarkArtifactPieceDetailsTableRefs)
-                  db.bookmarkArtifactPieceDetailsTable
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (bookmarkMaterialDetailsTableRefs)
-                    await $_getPrefetchedData<Bookmark, $BookmarkTableTable,
-                            BookmarkMaterialDetails>(
-                        currentTable: table,
-                        referencedTable: $$BookmarkTableTableReferences
-                            ._bookmarkMaterialDetailsTableRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$BookmarkTableTableReferences(db, table, p0)
-                                .bookmarkMaterialDetailsTableRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.parentId == item.id),
-                        typedResults: items),
-                  if (bookmarkArtifactSetDetailsTableRefs)
-                    await $_getPrefetchedData<Bookmark, $BookmarkTableTable,
-                            BookmarkArtifactSetDetails>(
-                        currentTable: table,
-                        referencedTable: $$BookmarkTableTableReferences
-                            ._bookmarkArtifactSetDetailsTableRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$BookmarkTableTableReferences(db, table, p0)
-                                .bookmarkArtifactSetDetailsTableRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.parentId == item.id),
-                        typedResults: items),
-                  if (bookmarkArtifactPieceDetailsTableRefs)
-                    await $_getPrefetchedData<Bookmark, $BookmarkTableTable,
-                            BookmarkArtifactPieceDetails>(
-                        currentTable: table,
-                        referencedTable: $$BookmarkTableTableReferences
-                            ._bookmarkArtifactPieceDetailsTableRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$BookmarkTableTableReferences(db, table, p0)
-                                .bookmarkArtifactPieceDetailsTableRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.parentId == item.id),
-                        typedResults: items)
-                ];
+          prefetchHooksCallback:
+              ({
+                bookmarkMaterialDetailsTableRefs = false,
+                bookmarkArtifactSetDetailsTableRefs = false,
+                bookmarkArtifactPieceDetailsTableRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (bookmarkMaterialDetailsTableRefs)
+                      db.bookmarkMaterialDetailsTable,
+                    if (bookmarkArtifactSetDetailsTableRefs)
+                      db.bookmarkArtifactSetDetailsTable,
+                    if (bookmarkArtifactPieceDetailsTableRefs)
+                      db.bookmarkArtifactPieceDetailsTable,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (bookmarkMaterialDetailsTableRefs)
+                        await $_getPrefetchedData<
+                          Bookmark,
+                          $BookmarkTableTable,
+                          BookmarkMaterialDetails
+                        >(
+                          currentTable: table,
+                          referencedTable: $$BookmarkTableTableReferences
+                              ._bookmarkMaterialDetailsTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$BookmarkTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).bookmarkMaterialDetailsTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.parentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (bookmarkArtifactSetDetailsTableRefs)
+                        await $_getPrefetchedData<
+                          Bookmark,
+                          $BookmarkTableTable,
+                          BookmarkArtifactSetDetails
+                        >(
+                          currentTable: table,
+                          referencedTable: $$BookmarkTableTableReferences
+                              ._bookmarkArtifactSetDetailsTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$BookmarkTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).bookmarkArtifactSetDetailsTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.parentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (bookmarkArtifactPieceDetailsTableRefs)
+                        await $_getPrefetchedData<
+                          Bookmark,
+                          $BookmarkTableTable,
+                          BookmarkArtifactPieceDetails
+                        >(
+                          currentTable: table,
+                          referencedTable: $$BookmarkTableTableReferences
+                              ._bookmarkArtifactPieceDetailsTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$BookmarkTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).bookmarkArtifactPieceDetailsTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.parentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
-        ));
+        ),
+      );
 }
 
-typedef $$BookmarkTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $BookmarkTableTable,
-    Bookmark,
-    $$BookmarkTableTableFilterComposer,
-    $$BookmarkTableTableOrderingComposer,
-    $$BookmarkTableTableAnnotationComposer,
-    $$BookmarkTableTableCreateCompanionBuilder,
-    $$BookmarkTableTableUpdateCompanionBuilder,
-    (Bookmark, $$BookmarkTableTableReferences),
-    Bookmark,
-    PrefetchHooks Function(
-        {bool bookmarkMaterialDetailsTableRefs,
+typedef $$BookmarkTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BookmarkTableTable,
+      Bookmark,
+      $$BookmarkTableTableFilterComposer,
+      $$BookmarkTableTableOrderingComposer,
+      $$BookmarkTableTableAnnotationComposer,
+      $$BookmarkTableTableCreateCompanionBuilder,
+      $$BookmarkTableTableUpdateCompanionBuilder,
+      (Bookmark, $$BookmarkTableTableReferences),
+      Bookmark,
+      PrefetchHooks Function({
+        bool bookmarkMaterialDetailsTableRefs,
         bool bookmarkArtifactSetDetailsTableRefs,
-        bool bookmarkArtifactPieceDetailsTableRefs})>;
-typedef $$BookmarkMaterialDetailsTableTableCreateCompanionBuilder
-    = BookmarkMaterialDetailsCompanion Function({
-  required int parentId,
-  Value<String?> weaponId,
-  Value<String?> materialId,
-  required int quantity,
-  required int upperLevel,
-  required Purpose purposeType,
-  required String hash,
-  Value<int> rowid,
-});
-typedef $$BookmarkMaterialDetailsTableTableUpdateCompanionBuilder
-    = BookmarkMaterialDetailsCompanion Function({
-  Value<int> parentId,
-  Value<String?> weaponId,
-  Value<String?> materialId,
-  Value<int> quantity,
-  Value<int> upperLevel,
-  Value<Purpose> purposeType,
-  Value<String> hash,
-  Value<int> rowid,
-});
+        bool bookmarkArtifactPieceDetailsTableRefs,
+      })
+    >;
+typedef $$BookmarkMaterialDetailsTableTableCreateCompanionBuilder =
+    BookmarkMaterialDetailsCompanion Function({
+      required int parentId,
+      Value<String?> weaponId,
+      Value<String?> materialId,
+      required int quantity,
+      required int upperLevel,
+      required Purpose purposeType,
+      required String hash,
+      Value<int> rowid,
+    });
+typedef $$BookmarkMaterialDetailsTableTableUpdateCompanionBuilder =
+    BookmarkMaterialDetailsCompanion Function({
+      Value<int> parentId,
+      Value<String?> weaponId,
+      Value<String?> materialId,
+      Value<int> quantity,
+      Value<int> upperLevel,
+      Value<Purpose> purposeType,
+      Value<String> hash,
+      Value<int> rowid,
+    });
 
 final class $$BookmarkMaterialDetailsTableTableReferences
-    extends BaseReferences<_$AppDatabase, $BookmarkMaterialDetailsTableTable,
-        BookmarkMaterialDetails> {
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $BookmarkMaterialDetailsTableTable,
+          BookmarkMaterialDetails
+        > {
   $$BookmarkMaterialDetailsTableTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
   static $BookmarkTableTable _parentIdTable(_$AppDatabase db) =>
-      db.bookmarkTable.createAlias($_aliasNameGenerator(
-          db.bookmarkMaterialDetailsTable.parentId, db.bookmarkTable.id));
+      db.bookmarkTable.createAlias(
+        $_aliasNameGenerator(
+          db.bookmarkMaterialDetailsTable.parentId,
+          db.bookmarkTable.id,
+        ),
+      );
 
   $$BookmarkTableTableProcessedTableManager get parentId {
     final $_column = $_itemColumn<int>('parent_id')!;
 
-    final manager = $$BookmarkTableTableTableManager($_db, $_db.bookmarkTable)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager = $$BookmarkTableTableTableManager(
+      $_db,
+      $_db.bookmarkTable,
+    ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_parentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -3363,42 +4002,56 @@ class $$BookmarkMaterialDetailsTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get weaponId => $composableBuilder(
-      column: $table.weaponId, builder: (column) => ColumnFilters(column));
+    column: $table.weaponId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get materialId => $composableBuilder(
-      column: $table.materialId, builder: (column) => ColumnFilters(column));
+    column: $table.materialId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get quantity => $composableBuilder(
-      column: $table.quantity, builder: (column) => ColumnFilters(column));
+    column: $table.quantity,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get upperLevel => $composableBuilder(
-      column: $table.upperLevel, builder: (column) => ColumnFilters(column));
+    column: $table.upperLevel,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnWithTypeConverterFilters<Purpose, Purpose, String> get purposeType =>
       $composableBuilder(
-          column: $table.purposeType,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+        column: $table.purposeType,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
 
   ColumnFilters<String> get hash => $composableBuilder(
-      column: $table.hash, builder: (column) => ColumnFilters(column));
+    column: $table.hash,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$BookmarkTableTableFilterComposer get parentId {
     final $$BookmarkTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.parentId,
-        referencedTable: $db.bookmarkTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BookmarkTableTableFilterComposer(
-              $db: $db,
-              $table: $db.bookmarkTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.parentId,
+      referencedTable: $db.bookmarkTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BookmarkTableTableFilterComposer(
+            $db: $db,
+            $table: $db.bookmarkTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -3413,40 +4066,55 @@ class $$BookmarkMaterialDetailsTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get weaponId => $composableBuilder(
-      column: $table.weaponId, builder: (column) => ColumnOrderings(column));
+    column: $table.weaponId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get materialId => $composableBuilder(
-      column: $table.materialId, builder: (column) => ColumnOrderings(column));
+    column: $table.materialId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get quantity => $composableBuilder(
-      column: $table.quantity, builder: (column) => ColumnOrderings(column));
+    column: $table.quantity,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get upperLevel => $composableBuilder(
-      column: $table.upperLevel, builder: (column) => ColumnOrderings(column));
+    column: $table.upperLevel,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get purposeType => $composableBuilder(
-      column: $table.purposeType, builder: (column) => ColumnOrderings(column));
+    column: $table.purposeType,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get hash => $composableBuilder(
-      column: $table.hash, builder: (column) => ColumnOrderings(column));
+    column: $table.hash,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$BookmarkTableTableOrderingComposer get parentId {
     final $$BookmarkTableTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.parentId,
-        referencedTable: $db.bookmarkTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BookmarkTableTableOrderingComposer(
-              $db: $db,
-              $table: $db.bookmarkTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.parentId,
+      referencedTable: $db.bookmarkTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BookmarkTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.bookmarkTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -3464,120 +4132,146 @@ class $$BookmarkMaterialDetailsTableTableAnnotationComposer
       $composableBuilder(column: $table.weaponId, builder: (column) => column);
 
   GeneratedColumn<String> get materialId => $composableBuilder(
-      column: $table.materialId, builder: (column) => column);
+    column: $table.materialId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get quantity =>
       $composableBuilder(column: $table.quantity, builder: (column) => column);
 
   GeneratedColumn<int> get upperLevel => $composableBuilder(
-      column: $table.upperLevel, builder: (column) => column);
+    column: $table.upperLevel,
+    builder: (column) => column,
+  );
 
   GeneratedColumnWithTypeConverter<Purpose, String> get purposeType =>
       $composableBuilder(
-          column: $table.purposeType, builder: (column) => column);
+        column: $table.purposeType,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<String> get hash =>
       $composableBuilder(column: $table.hash, builder: (column) => column);
 
   $$BookmarkTableTableAnnotationComposer get parentId {
     final $$BookmarkTableTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.parentId,
-        referencedTable: $db.bookmarkTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BookmarkTableTableAnnotationComposer(
-              $db: $db,
-              $table: $db.bookmarkTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.parentId,
+      referencedTable: $db.bookmarkTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BookmarkTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.bookmarkTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
-class $$BookmarkMaterialDetailsTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $BookmarkMaterialDetailsTableTable,
-    BookmarkMaterialDetails,
-    $$BookmarkMaterialDetailsTableTableFilterComposer,
-    $$BookmarkMaterialDetailsTableTableOrderingComposer,
-    $$BookmarkMaterialDetailsTableTableAnnotationComposer,
-    $$BookmarkMaterialDetailsTableTableCreateCompanionBuilder,
-    $$BookmarkMaterialDetailsTableTableUpdateCompanionBuilder,
-    (BookmarkMaterialDetails, $$BookmarkMaterialDetailsTableTableReferences),
-    BookmarkMaterialDetails,
-    PrefetchHooks Function({bool parentId})> {
+class $$BookmarkMaterialDetailsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BookmarkMaterialDetailsTableTable,
+          BookmarkMaterialDetails,
+          $$BookmarkMaterialDetailsTableTableFilterComposer,
+          $$BookmarkMaterialDetailsTableTableOrderingComposer,
+          $$BookmarkMaterialDetailsTableTableAnnotationComposer,
+          $$BookmarkMaterialDetailsTableTableCreateCompanionBuilder,
+          $$BookmarkMaterialDetailsTableTableUpdateCompanionBuilder,
+          (
+            BookmarkMaterialDetails,
+            $$BookmarkMaterialDetailsTableTableReferences,
+          ),
+          BookmarkMaterialDetails,
+          PrefetchHooks Function({bool parentId})
+        > {
   $$BookmarkMaterialDetailsTableTableTableManager(
-      _$AppDatabase db, $BookmarkMaterialDetailsTableTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $BookmarkMaterialDetailsTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$BookmarkMaterialDetailsTableTableFilterComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createOrderingComposer: () =>
               $$BookmarkMaterialDetailsTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$BookmarkMaterialDetailsTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> parentId = const Value.absent(),
-            Value<String?> weaponId = const Value.absent(),
-            Value<String?> materialId = const Value.absent(),
-            Value<int> quantity = const Value.absent(),
-            Value<int> upperLevel = const Value.absent(),
-            Value<Purpose> purposeType = const Value.absent(),
-            Value<String> hash = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              BookmarkMaterialDetailsCompanion(
-            parentId: parentId,
-            weaponId: weaponId,
-            materialId: materialId,
-            quantity: quantity,
-            upperLevel: upperLevel,
-            purposeType: purposeType,
-            hash: hash,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required int parentId,
-            Value<String?> weaponId = const Value.absent(),
-            Value<String?> materialId = const Value.absent(),
-            required int quantity,
-            required int upperLevel,
-            required Purpose purposeType,
-            required String hash,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              BookmarkMaterialDetailsCompanion.insert(
-            parentId: parentId,
-            weaponId: weaponId,
-            materialId: materialId,
-            quantity: quantity,
-            upperLevel: upperLevel,
-            purposeType: purposeType,
-            hash: hash,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> parentId = const Value.absent(),
+                Value<String?> weaponId = const Value.absent(),
+                Value<String?> materialId = const Value.absent(),
+                Value<int> quantity = const Value.absent(),
+                Value<int> upperLevel = const Value.absent(),
+                Value<Purpose> purposeType = const Value.absent(),
+                Value<String> hash = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => BookmarkMaterialDetailsCompanion(
+                parentId: parentId,
+                weaponId: weaponId,
+                materialId: materialId,
+                quantity: quantity,
+                upperLevel: upperLevel,
+                purposeType: purposeType,
+                hash: hash,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required int parentId,
+                Value<String?> weaponId = const Value.absent(),
+                Value<String?> materialId = const Value.absent(),
+                required int quantity,
+                required int upperLevel,
+                required Purpose purposeType,
+                required String hash,
+                Value<int> rowid = const Value.absent(),
+              }) => BookmarkMaterialDetailsCompanion.insert(
+                parentId: parentId,
+                weaponId: weaponId,
+                materialId: materialId,
+                quantity: quantity,
+                upperLevel: upperLevel,
+                purposeType: purposeType,
+                hash: hash,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$BookmarkMaterialDetailsTableTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$BookmarkMaterialDetailsTableTableReferences(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({parentId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -3588,83 +4282,100 @@ class $$BookmarkMaterialDetailsTableTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (parentId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.parentId,
-                    referencedTable:
-                        $$BookmarkMaterialDetailsTableTableReferences
-                            ._parentIdTable(db),
-                    referencedColumn:
-                        $$BookmarkMaterialDetailsTableTableReferences
-                            ._parentIdTable(db)
-                            .id,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (parentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.parentId,
+                                referencedTable:
+                                    $$BookmarkMaterialDetailsTableTableReferences
+                                        ._parentIdTable(db),
+                                referencedColumn:
+                                    $$BookmarkMaterialDetailsTableTableReferences
+                                        ._parentIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$BookmarkMaterialDetailsTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $BookmarkMaterialDetailsTableTable,
-        BookmarkMaterialDetails,
-        $$BookmarkMaterialDetailsTableTableFilterComposer,
-        $$BookmarkMaterialDetailsTableTableOrderingComposer,
-        $$BookmarkMaterialDetailsTableTableAnnotationComposer,
-        $$BookmarkMaterialDetailsTableTableCreateCompanionBuilder,
-        $$BookmarkMaterialDetailsTableTableUpdateCompanionBuilder,
-        (
-          BookmarkMaterialDetails,
-          $$BookmarkMaterialDetailsTableTableReferences
-        ),
-        BookmarkMaterialDetails,
-        PrefetchHooks Function({bool parentId})>;
-typedef $$BookmarkArtifactSetDetailsTableTableCreateCompanionBuilder
-    = BookmarkArtifactSetDetailsCompanion Function({
-  Value<int> id,
-  required int parentId,
-  required List<ArtifactSetId> sets,
-  required Map<String, StatId?> mainStats,
-  required List<StatId> subStats,
-});
-typedef $$BookmarkArtifactSetDetailsTableTableUpdateCompanionBuilder
-    = BookmarkArtifactSetDetailsCompanion Function({
-  Value<int> id,
-  Value<int> parentId,
-  Value<List<ArtifactSetId>> sets,
-  Value<Map<String, StatId?>> mainStats,
-  Value<List<StatId>> subStats,
-});
+typedef $$BookmarkMaterialDetailsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BookmarkMaterialDetailsTableTable,
+      BookmarkMaterialDetails,
+      $$BookmarkMaterialDetailsTableTableFilterComposer,
+      $$BookmarkMaterialDetailsTableTableOrderingComposer,
+      $$BookmarkMaterialDetailsTableTableAnnotationComposer,
+      $$BookmarkMaterialDetailsTableTableCreateCompanionBuilder,
+      $$BookmarkMaterialDetailsTableTableUpdateCompanionBuilder,
+      (BookmarkMaterialDetails, $$BookmarkMaterialDetailsTableTableReferences),
+      BookmarkMaterialDetails,
+      PrefetchHooks Function({bool parentId})
+    >;
+typedef $$BookmarkArtifactSetDetailsTableTableCreateCompanionBuilder =
+    BookmarkArtifactSetDetailsCompanion Function({
+      Value<int> id,
+      required int parentId,
+      required List<ArtifactSetId> sets,
+      required Map<String, StatId?> mainStats,
+      required List<StatId> subStats,
+    });
+typedef $$BookmarkArtifactSetDetailsTableTableUpdateCompanionBuilder =
+    BookmarkArtifactSetDetailsCompanion Function({
+      Value<int> id,
+      Value<int> parentId,
+      Value<List<ArtifactSetId>> sets,
+      Value<Map<String, StatId?>> mainStats,
+      Value<List<StatId>> subStats,
+    });
 
 final class $$BookmarkArtifactSetDetailsTableTableReferences
-    extends BaseReferences<_$AppDatabase, $BookmarkArtifactSetDetailsTableTable,
-        BookmarkArtifactSetDetails> {
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $BookmarkArtifactSetDetailsTableTable,
+          BookmarkArtifactSetDetails
+        > {
   $$BookmarkArtifactSetDetailsTableTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
   static $BookmarkTableTable _parentIdTable(_$AppDatabase db) =>
-      db.bookmarkTable.createAlias($_aliasNameGenerator(
-          db.bookmarkArtifactSetDetailsTable.parentId, db.bookmarkTable.id));
+      db.bookmarkTable.createAlias(
+        $_aliasNameGenerator(
+          db.bookmarkArtifactSetDetailsTable.parentId,
+          db.bookmarkTable.id,
+        ),
+      );
 
   $$BookmarkTableTableProcessedTableManager get parentId {
     final $_column = $_itemColumn<int>('parent_id')!;
 
-    final manager = $$BookmarkTableTableTableManager($_db, $_db.bookmarkTable)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager = $$BookmarkTableTableTableManager(
+      $_db,
+      $_db.bookmarkTable,
+    ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_parentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -3678,42 +4389,56 @@ class $$BookmarkArtifactSetDetailsTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnWithTypeConverterFilters<List<ArtifactSetId>, List<ArtifactSetId>,
-          String>
-      get sets => $composableBuilder(
-          column: $table.sets,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+  ColumnWithTypeConverterFilters<
+    List<ArtifactSetId>,
+    List<ArtifactSetId>,
+    String
+  >
+  get sets => $composableBuilder(
+    column: $table.sets,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
 
-  ColumnWithTypeConverterFilters<Map<String, StatId?>, Map<String, StatId>,
-          String>
-      get mainStats => $composableBuilder(
-          column: $table.mainStats,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+  ColumnWithTypeConverterFilters<
+    Map<String, StatId?>,
+    Map<String, StatId>,
+    String
+  >
+  get mainStats => $composableBuilder(
+    column: $table.mainStats,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
 
   ColumnWithTypeConverterFilters<List<StatId>, List<StatId>, String>
-      get subStats => $composableBuilder(
-          column: $table.subStats,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+  get subStats => $composableBuilder(
+    column: $table.subStats,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
 
   $$BookmarkTableTableFilterComposer get parentId {
     final $$BookmarkTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.parentId,
-        referencedTable: $db.bookmarkTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BookmarkTableTableFilterComposer(
-              $db: $db,
-              $table: $db.bookmarkTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.parentId,
+      referencedTable: $db.bookmarkTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BookmarkTableTableFilterComposer(
+            $db: $db,
+            $table: $db.bookmarkTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -3728,34 +4453,45 @@ class $$BookmarkArtifactSetDetailsTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get sets => $composableBuilder(
-      column: $table.sets, builder: (column) => ColumnOrderings(column));
+    column: $table.sets,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get mainStats => $composableBuilder(
-      column: $table.mainStats, builder: (column) => ColumnOrderings(column));
+    column: $table.mainStats,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get subStats => $composableBuilder(
-      column: $table.subStats, builder: (column) => ColumnOrderings(column));
+    column: $table.subStats,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$BookmarkTableTableOrderingComposer get parentId {
     final $$BookmarkTableTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.parentId,
-        referencedTable: $db.bookmarkTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BookmarkTableTableOrderingComposer(
-              $db: $db,
-              $table: $db.bookmarkTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.parentId,
+      referencedTable: $db.bookmarkTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BookmarkTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.bookmarkTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -3776,104 +4512,123 @@ class $$BookmarkArtifactSetDetailsTableTableAnnotationComposer
       $composableBuilder(column: $table.sets, builder: (column) => column);
 
   GeneratedColumnWithTypeConverter<Map<String, StatId?>, String>
-      get mainStats => $composableBuilder(
-          column: $table.mainStats, builder: (column) => column);
+  get mainStats =>
+      $composableBuilder(column: $table.mainStats, builder: (column) => column);
 
   GeneratedColumnWithTypeConverter<List<StatId>, String> get subStats =>
       $composableBuilder(column: $table.subStats, builder: (column) => column);
 
   $$BookmarkTableTableAnnotationComposer get parentId {
     final $$BookmarkTableTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.parentId,
-        referencedTable: $db.bookmarkTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BookmarkTableTableAnnotationComposer(
-              $db: $db,
-              $table: $db.bookmarkTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.parentId,
+      referencedTable: $db.bookmarkTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BookmarkTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.bookmarkTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
 class $$BookmarkArtifactSetDetailsTableTableTableManager
-    extends RootTableManager<
-        _$AppDatabase,
-        $BookmarkArtifactSetDetailsTableTable,
-        BookmarkArtifactSetDetails,
-        $$BookmarkArtifactSetDetailsTableTableFilterComposer,
-        $$BookmarkArtifactSetDetailsTableTableOrderingComposer,
-        $$BookmarkArtifactSetDetailsTableTableAnnotationComposer,
-        $$BookmarkArtifactSetDetailsTableTableCreateCompanionBuilder,
-        $$BookmarkArtifactSetDetailsTableTableUpdateCompanionBuilder,
-        (
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BookmarkArtifactSetDetailsTableTable,
           BookmarkArtifactSetDetails,
-          $$BookmarkArtifactSetDetailsTableTableReferences
-        ),
-        BookmarkArtifactSetDetails,
-        PrefetchHooks Function({bool parentId})> {
+          $$BookmarkArtifactSetDetailsTableTableFilterComposer,
+          $$BookmarkArtifactSetDetailsTableTableOrderingComposer,
+          $$BookmarkArtifactSetDetailsTableTableAnnotationComposer,
+          $$BookmarkArtifactSetDetailsTableTableCreateCompanionBuilder,
+          $$BookmarkArtifactSetDetailsTableTableUpdateCompanionBuilder,
+          (
+            BookmarkArtifactSetDetails,
+            $$BookmarkArtifactSetDetailsTableTableReferences,
+          ),
+          BookmarkArtifactSetDetails,
+          PrefetchHooks Function({bool parentId})
+        > {
   $$BookmarkArtifactSetDetailsTableTableTableManager(
-      _$AppDatabase db, $BookmarkArtifactSetDetailsTableTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $BookmarkArtifactSetDetailsTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$BookmarkArtifactSetDetailsTableTableFilterComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createOrderingComposer: () =>
               $$BookmarkArtifactSetDetailsTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$BookmarkArtifactSetDetailsTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<int> parentId = const Value.absent(),
-            Value<List<ArtifactSetId>> sets = const Value.absent(),
-            Value<Map<String, StatId?>> mainStats = const Value.absent(),
-            Value<List<StatId>> subStats = const Value.absent(),
-          }) =>
-              BookmarkArtifactSetDetailsCompanion(
-            id: id,
-            parentId: parentId,
-            sets: sets,
-            mainStats: mainStats,
-            subStats: subStats,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required int parentId,
-            required List<ArtifactSetId> sets,
-            required Map<String, StatId?> mainStats,
-            required List<StatId> subStats,
-          }) =>
-              BookmarkArtifactSetDetailsCompanion.insert(
-            id: id,
-            parentId: parentId,
-            sets: sets,
-            mainStats: mainStats,
-            subStats: subStats,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> parentId = const Value.absent(),
+                Value<List<ArtifactSetId>> sets = const Value.absent(),
+                Value<Map<String, StatId?>> mainStats = const Value.absent(),
+                Value<List<StatId>> subStats = const Value.absent(),
+              }) => BookmarkArtifactSetDetailsCompanion(
+                id: id,
+                parentId: parentId,
+                sets: sets,
+                mainStats: mainStats,
+                subStats: subStats,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int parentId,
+                required List<ArtifactSetId> sets,
+                required Map<String, StatId?> mainStats,
+                required List<StatId> subStats,
+              }) => BookmarkArtifactSetDetailsCompanion.insert(
+                id: id,
+                parentId: parentId,
+                sets: sets,
+                mainStats: mainStats,
+                subStats: subStats,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$BookmarkArtifactSetDetailsTableTableReferences(
-                        db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$BookmarkArtifactSetDetailsTableTableReferences(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({parentId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -3884,83 +4639,103 @@ class $$BookmarkArtifactSetDetailsTableTableTableManager
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (parentId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.parentId,
-                    referencedTable:
-                        $$BookmarkArtifactSetDetailsTableTableReferences
-                            ._parentIdTable(db),
-                    referencedColumn:
-                        $$BookmarkArtifactSetDetailsTableTableReferences
-                            ._parentIdTable(db)
-                            .id,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (parentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.parentId,
+                                referencedTable:
+                                    $$BookmarkArtifactSetDetailsTableTableReferences
+                                        ._parentIdTable(db),
+                                referencedColumn:
+                                    $$BookmarkArtifactSetDetailsTableTableReferences
+                                        ._parentIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$BookmarkArtifactSetDetailsTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $BookmarkArtifactSetDetailsTableTable,
+typedef $$BookmarkArtifactSetDetailsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BookmarkArtifactSetDetailsTableTable,
+      BookmarkArtifactSetDetails,
+      $$BookmarkArtifactSetDetailsTableTableFilterComposer,
+      $$BookmarkArtifactSetDetailsTableTableOrderingComposer,
+      $$BookmarkArtifactSetDetailsTableTableAnnotationComposer,
+      $$BookmarkArtifactSetDetailsTableTableCreateCompanionBuilder,
+      $$BookmarkArtifactSetDetailsTableTableUpdateCompanionBuilder,
+      (
         BookmarkArtifactSetDetails,
-        $$BookmarkArtifactSetDetailsTableTableFilterComposer,
-        $$BookmarkArtifactSetDetailsTableTableOrderingComposer,
-        $$BookmarkArtifactSetDetailsTableTableAnnotationComposer,
-        $$BookmarkArtifactSetDetailsTableTableCreateCompanionBuilder,
-        $$BookmarkArtifactSetDetailsTableTableUpdateCompanionBuilder,
-        (
-          BookmarkArtifactSetDetails,
-          $$BookmarkArtifactSetDetailsTableTableReferences
-        ),
-        BookmarkArtifactSetDetails,
-        PrefetchHooks Function({bool parentId})>;
-typedef $$BookmarkArtifactPieceDetailsTableTableCreateCompanionBuilder
-    = BookmarkArtifactPieceDetailsCompanion Function({
-  Value<int> id,
-  required int parentId,
-  required String piece,
-  Value<String?> mainStat,
-  required List<StatId> subStats,
-});
-typedef $$BookmarkArtifactPieceDetailsTableTableUpdateCompanionBuilder
-    = BookmarkArtifactPieceDetailsCompanion Function({
-  Value<int> id,
-  Value<int> parentId,
-  Value<String> piece,
-  Value<String?> mainStat,
-  Value<List<StatId>> subStats,
-});
+        $$BookmarkArtifactSetDetailsTableTableReferences,
+      ),
+      BookmarkArtifactSetDetails,
+      PrefetchHooks Function({bool parentId})
+    >;
+typedef $$BookmarkArtifactPieceDetailsTableTableCreateCompanionBuilder =
+    BookmarkArtifactPieceDetailsCompanion Function({
+      Value<int> id,
+      required int parentId,
+      required String piece,
+      Value<String?> mainStat,
+      required List<StatId> subStats,
+    });
+typedef $$BookmarkArtifactPieceDetailsTableTableUpdateCompanionBuilder =
+    BookmarkArtifactPieceDetailsCompanion Function({
+      Value<int> id,
+      Value<int> parentId,
+      Value<String> piece,
+      Value<String?> mainStat,
+      Value<List<StatId>> subStats,
+    });
 
 final class $$BookmarkArtifactPieceDetailsTableTableReferences
-    extends BaseReferences<_$AppDatabase,
-        $BookmarkArtifactPieceDetailsTableTable, BookmarkArtifactPieceDetails> {
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $BookmarkArtifactPieceDetailsTableTable,
+          BookmarkArtifactPieceDetails
+        > {
   $$BookmarkArtifactPieceDetailsTableTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
   static $BookmarkTableTable _parentIdTable(_$AppDatabase db) =>
-      db.bookmarkTable.createAlias($_aliasNameGenerator(
-          db.bookmarkArtifactPieceDetailsTable.parentId, db.bookmarkTable.id));
+      db.bookmarkTable.createAlias(
+        $_aliasNameGenerator(
+          db.bookmarkArtifactPieceDetailsTable.parentId,
+          db.bookmarkTable.id,
+        ),
+      );
 
   $$BookmarkTableTableProcessedTableManager get parentId {
     final $_column = $_itemColumn<int>('parent_id')!;
 
-    final manager = $$BookmarkTableTableTableManager($_db, $_db.bookmarkTable)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager = $$BookmarkTableTableTableManager(
+      $_db,
+      $_db.bookmarkTable,
+    ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_parentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -3974,36 +4749,46 @@ class $$BookmarkArtifactPieceDetailsTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get piece => $composableBuilder(
-      column: $table.piece, builder: (column) => ColumnFilters(column));
+    column: $table.piece,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get mainStat => $composableBuilder(
-      column: $table.mainStat, builder: (column) => ColumnFilters(column));
+    column: $table.mainStat,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnWithTypeConverterFilters<List<StatId>, List<StatId>, String>
-      get subStats => $composableBuilder(
-          column: $table.subStats,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+  get subStats => $composableBuilder(
+    column: $table.subStats,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
 
   $$BookmarkTableTableFilterComposer get parentId {
     final $$BookmarkTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.parentId,
-        referencedTable: $db.bookmarkTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BookmarkTableTableFilterComposer(
-              $db: $db,
-              $table: $db.bookmarkTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.parentId,
+      referencedTable: $db.bookmarkTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BookmarkTableTableFilterComposer(
+            $db: $db,
+            $table: $db.bookmarkTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -4018,34 +4803,45 @@ class $$BookmarkArtifactPieceDetailsTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get piece => $composableBuilder(
-      column: $table.piece, builder: (column) => ColumnOrderings(column));
+    column: $table.piece,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get mainStat => $composableBuilder(
-      column: $table.mainStat, builder: (column) => ColumnOrderings(column));
+    column: $table.mainStat,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get subStats => $composableBuilder(
-      column: $table.subStats, builder: (column) => ColumnOrderings(column));
+    column: $table.subStats,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$BookmarkTableTableOrderingComposer get parentId {
     final $$BookmarkTableTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.parentId,
-        referencedTable: $db.bookmarkTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BookmarkTableTableOrderingComposer(
-              $db: $db,
-              $table: $db.bookmarkTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.parentId,
+      referencedTable: $db.bookmarkTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BookmarkTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.bookmarkTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -4073,96 +4869,115 @@ class $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer
 
   $$BookmarkTableTableAnnotationComposer get parentId {
     final $$BookmarkTableTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.parentId,
-        referencedTable: $db.bookmarkTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BookmarkTableTableAnnotationComposer(
-              $db: $db,
-              $table: $db.bookmarkTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.parentId,
+      referencedTable: $db.bookmarkTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BookmarkTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.bookmarkTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
 class $$BookmarkArtifactPieceDetailsTableTableTableManager
-    extends RootTableManager<
-        _$AppDatabase,
-        $BookmarkArtifactPieceDetailsTableTable,
-        BookmarkArtifactPieceDetails,
-        $$BookmarkArtifactPieceDetailsTableTableFilterComposer,
-        $$BookmarkArtifactPieceDetailsTableTableOrderingComposer,
-        $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer,
-        $$BookmarkArtifactPieceDetailsTableTableCreateCompanionBuilder,
-        $$BookmarkArtifactPieceDetailsTableTableUpdateCompanionBuilder,
-        (
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BookmarkArtifactPieceDetailsTableTable,
           BookmarkArtifactPieceDetails,
-          $$BookmarkArtifactPieceDetailsTableTableReferences
-        ),
-        BookmarkArtifactPieceDetails,
-        PrefetchHooks Function({bool parentId})> {
+          $$BookmarkArtifactPieceDetailsTableTableFilterComposer,
+          $$BookmarkArtifactPieceDetailsTableTableOrderingComposer,
+          $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer,
+          $$BookmarkArtifactPieceDetailsTableTableCreateCompanionBuilder,
+          $$BookmarkArtifactPieceDetailsTableTableUpdateCompanionBuilder,
+          (
+            BookmarkArtifactPieceDetails,
+            $$BookmarkArtifactPieceDetailsTableTableReferences,
+          ),
+          BookmarkArtifactPieceDetails,
+          PrefetchHooks Function({bool parentId})
+        > {
   $$BookmarkArtifactPieceDetailsTableTableTableManager(
-      _$AppDatabase db, $BookmarkArtifactPieceDetailsTableTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $BookmarkArtifactPieceDetailsTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$BookmarkArtifactPieceDetailsTableTableFilterComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createOrderingComposer: () =>
               $$BookmarkArtifactPieceDetailsTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<int> parentId = const Value.absent(),
-            Value<String> piece = const Value.absent(),
-            Value<String?> mainStat = const Value.absent(),
-            Value<List<StatId>> subStats = const Value.absent(),
-          }) =>
-              BookmarkArtifactPieceDetailsCompanion(
-            id: id,
-            parentId: parentId,
-            piece: piece,
-            mainStat: mainStat,
-            subStats: subStats,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required int parentId,
-            required String piece,
-            Value<String?> mainStat = const Value.absent(),
-            required List<StatId> subStats,
-          }) =>
-              BookmarkArtifactPieceDetailsCompanion.insert(
-            id: id,
-            parentId: parentId,
-            piece: piece,
-            mainStat: mainStat,
-            subStats: subStats,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> parentId = const Value.absent(),
+                Value<String> piece = const Value.absent(),
+                Value<String?> mainStat = const Value.absent(),
+                Value<List<StatId>> subStats = const Value.absent(),
+              }) => BookmarkArtifactPieceDetailsCompanion(
+                id: id,
+                parentId: parentId,
+                piece: piece,
+                mainStat: mainStat,
+                subStats: subStats,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int parentId,
+                required String piece,
+                Value<String?> mainStat = const Value.absent(),
+                required List<StatId> subStats,
+              }) => BookmarkArtifactPieceDetailsCompanion.insert(
+                id: id,
+                parentId: parentId,
+                piece: piece,
+                mainStat: mainStat,
+                subStats: subStats,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$BookmarkArtifactPieceDetailsTableTableReferences(
-                        db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$BookmarkArtifactPieceDetailsTableTableReferences(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({parentId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -4173,65 +4988,71 @@ class $$BookmarkArtifactPieceDetailsTableTableTableManager
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (parentId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.parentId,
-                    referencedTable:
-                        $$BookmarkArtifactPieceDetailsTableTableReferences
-                            ._parentIdTable(db),
-                    referencedColumn:
-                        $$BookmarkArtifactPieceDetailsTableTableReferences
-                            ._parentIdTable(db)
-                            .id,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (parentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.parentId,
+                                referencedTable:
+                                    $$BookmarkArtifactPieceDetailsTableTableReferences
+                                        ._parentIdTable(db),
+                                referencedColumn:
+                                    $$BookmarkArtifactPieceDetailsTableTableReferences
+                                        ._parentIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$BookmarkArtifactPieceDetailsTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $BookmarkArtifactPieceDetailsTableTable,
+typedef $$BookmarkArtifactPieceDetailsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BookmarkArtifactPieceDetailsTableTable,
+      BookmarkArtifactPieceDetails,
+      $$BookmarkArtifactPieceDetailsTableTableFilterComposer,
+      $$BookmarkArtifactPieceDetailsTableTableOrderingComposer,
+      $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer,
+      $$BookmarkArtifactPieceDetailsTableTableCreateCompanionBuilder,
+      $$BookmarkArtifactPieceDetailsTableTableUpdateCompanionBuilder,
+      (
         BookmarkArtifactPieceDetails,
-        $$BookmarkArtifactPieceDetailsTableTableFilterComposer,
-        $$BookmarkArtifactPieceDetailsTableTableOrderingComposer,
-        $$BookmarkArtifactPieceDetailsTableTableAnnotationComposer,
-        $$BookmarkArtifactPieceDetailsTableTableCreateCompanionBuilder,
-        $$BookmarkArtifactPieceDetailsTableTableUpdateCompanionBuilder,
-        (
-          BookmarkArtifactPieceDetails,
-          $$BookmarkArtifactPieceDetailsTableTableReferences
-        ),
-        BookmarkArtifactPieceDetails,
-        PrefetchHooks Function({bool parentId})>;
-typedef $$InGameCharacterStateTableTableCreateCompanionBuilder
-    = InGameCharacterStateCompanion Function({
-  required String uid,
-  required String characterId,
-  required Map<Purpose, int> purposes,
-  Value<String?> equippedWeaponId,
-  Value<DateTime> lastUpdated,
-  Value<int> rowid,
-});
-typedef $$InGameCharacterStateTableTableUpdateCompanionBuilder
-    = InGameCharacterStateCompanion Function({
-  Value<String> uid,
-  Value<String> characterId,
-  Value<Map<Purpose, int>> purposes,
-  Value<String?> equippedWeaponId,
-  Value<DateTime> lastUpdated,
-  Value<int> rowid,
-});
+        $$BookmarkArtifactPieceDetailsTableTableReferences,
+      ),
+      BookmarkArtifactPieceDetails,
+      PrefetchHooks Function({bool parentId})
+    >;
+typedef $$InGameCharacterStateTableTableCreateCompanionBuilder =
+    InGameCharacterStateCompanion Function({
+      required String uid,
+      required String characterId,
+      required Map<Purpose, int> purposes,
+      Value<String?> equippedWeaponId,
+      Value<DateTime> lastUpdated,
+      Value<int> rowid,
+    });
+typedef $$InGameCharacterStateTableTableUpdateCompanionBuilder =
+    InGameCharacterStateCompanion Function({
+      Value<String> uid,
+      Value<String> characterId,
+      Value<Map<Purpose, int>> purposes,
+      Value<String?> equippedWeaponId,
+      Value<DateTime> lastUpdated,
+      Value<int> rowid,
+    });
 
 class $$InGameCharacterStateTableTableFilterComposer
     extends Composer<_$AppDatabase, $InGameCharacterStateTableTable> {
@@ -4243,22 +5064,30 @@ class $$InGameCharacterStateTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get uid => $composableBuilder(
-      column: $table.uid, builder: (column) => ColumnFilters(column));
+    column: $table.uid,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get characterId => $composableBuilder(
-      column: $table.characterId, builder: (column) => ColumnFilters(column));
+    column: $table.characterId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnWithTypeConverterFilters<Map<Purpose, int>, Map<Purpose, int>, String>
-      get purposes => $composableBuilder(
-          column: $table.purposes,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+  get purposes => $composableBuilder(
+    column: $table.purposes,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
 
   ColumnFilters<String> get equippedWeaponId => $composableBuilder(
-      column: $table.equippedWeaponId,
-      builder: (column) => ColumnFilters(column));
+    column: $table.equippedWeaponId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get lastUpdated => $composableBuilder(
-      column: $table.lastUpdated, builder: (column) => ColumnFilters(column));
+    column: $table.lastUpdated,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$InGameCharacterStateTableTableOrderingComposer
@@ -4271,20 +5100,29 @@ class $$InGameCharacterStateTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get uid => $composableBuilder(
-      column: $table.uid, builder: (column) => ColumnOrderings(column));
+    column: $table.uid,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get characterId => $composableBuilder(
-      column: $table.characterId, builder: (column) => ColumnOrderings(column));
+    column: $table.characterId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get purposes => $composableBuilder(
-      column: $table.purposes, builder: (column) => ColumnOrderings(column));
+    column: $table.purposes,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get equippedWeaponId => $composableBuilder(
-      column: $table.equippedWeaponId,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.equippedWeaponId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get lastUpdated => $composableBuilder(
-      column: $table.lastUpdated, builder: (column) => ColumnOrderings(column));
+    column: $table.lastUpdated,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$InGameCharacterStateTableTableAnnotationComposer
@@ -4300,122 +5138,147 @@ class $$InGameCharacterStateTableTableAnnotationComposer
       $composableBuilder(column: $table.uid, builder: (column) => column);
 
   GeneratedColumn<String> get characterId => $composableBuilder(
-      column: $table.characterId, builder: (column) => column);
+    column: $table.characterId,
+    builder: (column) => column,
+  );
 
   GeneratedColumnWithTypeConverter<Map<Purpose, int>, String> get purposes =>
       $composableBuilder(column: $table.purposes, builder: (column) => column);
 
   GeneratedColumn<String> get equippedWeaponId => $composableBuilder(
-      column: $table.equippedWeaponId, builder: (column) => column);
+    column: $table.equippedWeaponId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get lastUpdated => $composableBuilder(
-      column: $table.lastUpdated, builder: (column) => column);
+    column: $table.lastUpdated,
+    builder: (column) => column,
+  );
 }
 
-class $$InGameCharacterStateTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $InGameCharacterStateTableTable,
-    InGameCharacterState,
-    $$InGameCharacterStateTableTableFilterComposer,
-    $$InGameCharacterStateTableTableOrderingComposer,
-    $$InGameCharacterStateTableTableAnnotationComposer,
-    $$InGameCharacterStateTableTableCreateCompanionBuilder,
-    $$InGameCharacterStateTableTableUpdateCompanionBuilder,
-    (
-      InGameCharacterState,
-      BaseReferences<_$AppDatabase, $InGameCharacterStateTableTable,
-          InGameCharacterState>
-    ),
-    InGameCharacterState,
-    PrefetchHooks Function()> {
+class $$InGameCharacterStateTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $InGameCharacterStateTableTable,
+          InGameCharacterState,
+          $$InGameCharacterStateTableTableFilterComposer,
+          $$InGameCharacterStateTableTableOrderingComposer,
+          $$InGameCharacterStateTableTableAnnotationComposer,
+          $$InGameCharacterStateTableTableCreateCompanionBuilder,
+          $$InGameCharacterStateTableTableUpdateCompanionBuilder,
+          (
+            InGameCharacterState,
+            BaseReferences<
+              _$AppDatabase,
+              $InGameCharacterStateTableTable,
+              InGameCharacterState
+            >,
+          ),
+          InGameCharacterState,
+          PrefetchHooks Function()
+        > {
   $$InGameCharacterStateTableTableTableManager(
-      _$AppDatabase db, $InGameCharacterStateTableTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $InGameCharacterStateTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$InGameCharacterStateTableTableFilterComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createOrderingComposer: () =>
               $$InGameCharacterStateTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$InGameCharacterStateTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> uid = const Value.absent(),
-            Value<String> characterId = const Value.absent(),
-            Value<Map<Purpose, int>> purposes = const Value.absent(),
-            Value<String?> equippedWeaponId = const Value.absent(),
-            Value<DateTime> lastUpdated = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              InGameCharacterStateCompanion(
-            uid: uid,
-            characterId: characterId,
-            purposes: purposes,
-            equippedWeaponId: equippedWeaponId,
-            lastUpdated: lastUpdated,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String uid,
-            required String characterId,
-            required Map<Purpose, int> purposes,
-            Value<String?> equippedWeaponId = const Value.absent(),
-            Value<DateTime> lastUpdated = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              InGameCharacterStateCompanion.insert(
-            uid: uid,
-            characterId: characterId,
-            purposes: purposes,
-            equippedWeaponId: equippedWeaponId,
-            lastUpdated: lastUpdated,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> uid = const Value.absent(),
+                Value<String> characterId = const Value.absent(),
+                Value<Map<Purpose, int>> purposes = const Value.absent(),
+                Value<String?> equippedWeaponId = const Value.absent(),
+                Value<DateTime> lastUpdated = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InGameCharacterStateCompanion(
+                uid: uid,
+                characterId: characterId,
+                purposes: purposes,
+                equippedWeaponId: equippedWeaponId,
+                lastUpdated: lastUpdated,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String uid,
+                required String characterId,
+                required Map<Purpose, int> purposes,
+                Value<String?> equippedWeaponId = const Value.absent(),
+                Value<DateTime> lastUpdated = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InGameCharacterStateCompanion.insert(
+                uid: uid,
+                characterId: characterId,
+                purposes: purposes,
+                equippedWeaponId: equippedWeaponId,
+                lastUpdated: lastUpdated,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$InGameCharacterStateTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $InGameCharacterStateTableTable,
+typedef $$InGameCharacterStateTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $InGameCharacterStateTableTable,
+      InGameCharacterState,
+      $$InGameCharacterStateTableTableFilterComposer,
+      $$InGameCharacterStateTableTableOrderingComposer,
+      $$InGameCharacterStateTableTableAnnotationComposer,
+      $$InGameCharacterStateTableTableCreateCompanionBuilder,
+      $$InGameCharacterStateTableTableUpdateCompanionBuilder,
+      (
         InGameCharacterState,
-        $$InGameCharacterStateTableTableFilterComposer,
-        $$InGameCharacterStateTableTableOrderingComposer,
-        $$InGameCharacterStateTableTableAnnotationComposer,
-        $$InGameCharacterStateTableTableCreateCompanionBuilder,
-        $$InGameCharacterStateTableTableUpdateCompanionBuilder,
-        (
-          InGameCharacterState,
-          BaseReferences<_$AppDatabase, $InGameCharacterStateTableTable,
-              InGameCharacterState>
-        ),
-        InGameCharacterState,
-        PrefetchHooks Function()>;
-typedef $$InGameWeaponStateTableTableCreateCompanionBuilder
-    = InGameWeaponStateCompanion Function({
-  required String uid,
-  required String characterId,
-  required String weaponId,
-  required Map<Purpose, int> purposes,
-  Value<DateTime> lastUpdated,
-  Value<int> rowid,
-});
-typedef $$InGameWeaponStateTableTableUpdateCompanionBuilder
-    = InGameWeaponStateCompanion Function({
-  Value<String> uid,
-  Value<String> characterId,
-  Value<String> weaponId,
-  Value<Map<Purpose, int>> purposes,
-  Value<DateTime> lastUpdated,
-  Value<int> rowid,
-});
+        BaseReferences<
+          _$AppDatabase,
+          $InGameCharacterStateTableTable,
+          InGameCharacterState
+        >,
+      ),
+      InGameCharacterState,
+      PrefetchHooks Function()
+    >;
+typedef $$InGameWeaponStateTableTableCreateCompanionBuilder =
+    InGameWeaponStateCompanion Function({
+      required String uid,
+      required String characterId,
+      required String weaponId,
+      required Map<Purpose, int> purposes,
+      Value<DateTime> lastUpdated,
+      Value<int> rowid,
+    });
+typedef $$InGameWeaponStateTableTableUpdateCompanionBuilder =
+    InGameWeaponStateCompanion Function({
+      Value<String> uid,
+      Value<String> characterId,
+      Value<String> weaponId,
+      Value<Map<Purpose, int>> purposes,
+      Value<DateTime> lastUpdated,
+      Value<int> rowid,
+    });
 
 class $$InGameWeaponStateTableTableFilterComposer
     extends Composer<_$AppDatabase, $InGameWeaponStateTableTable> {
@@ -4427,21 +5290,30 @@ class $$InGameWeaponStateTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get uid => $composableBuilder(
-      column: $table.uid, builder: (column) => ColumnFilters(column));
+    column: $table.uid,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get characterId => $composableBuilder(
-      column: $table.characterId, builder: (column) => ColumnFilters(column));
+    column: $table.characterId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get weaponId => $composableBuilder(
-      column: $table.weaponId, builder: (column) => ColumnFilters(column));
+    column: $table.weaponId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnWithTypeConverterFilters<Map<Purpose, int>, Map<Purpose, int>, String>
-      get purposes => $composableBuilder(
-          column: $table.purposes,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+  get purposes => $composableBuilder(
+    column: $table.purposes,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
 
   ColumnFilters<DateTime> get lastUpdated => $composableBuilder(
-      column: $table.lastUpdated, builder: (column) => ColumnFilters(column));
+    column: $table.lastUpdated,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$InGameWeaponStateTableTableOrderingComposer
@@ -4454,19 +5326,29 @@ class $$InGameWeaponStateTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get uid => $composableBuilder(
-      column: $table.uid, builder: (column) => ColumnOrderings(column));
+    column: $table.uid,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get characterId => $composableBuilder(
-      column: $table.characterId, builder: (column) => ColumnOrderings(column));
+    column: $table.characterId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get weaponId => $composableBuilder(
-      column: $table.weaponId, builder: (column) => ColumnOrderings(column));
+    column: $table.weaponId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get purposes => $composableBuilder(
-      column: $table.purposes, builder: (column) => ColumnOrderings(column));
+    column: $table.purposes,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get lastUpdated => $composableBuilder(
-      column: $table.lastUpdated, builder: (column) => ColumnOrderings(column));
+    column: $table.lastUpdated,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$InGameWeaponStateTableTableAnnotationComposer
@@ -4482,7 +5364,9 @@ class $$InGameWeaponStateTableTableAnnotationComposer
       $composableBuilder(column: $table.uid, builder: (column) => column);
 
   GeneratedColumn<String> get characterId => $composableBuilder(
-      column: $table.characterId, builder: (column) => column);
+    column: $table.characterId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get weaponId =>
       $composableBuilder(column: $table.weaponId, builder: (column) => column);
@@ -4491,107 +5375,128 @@ class $$InGameWeaponStateTableTableAnnotationComposer
       $composableBuilder(column: $table.purposes, builder: (column) => column);
 
   GeneratedColumn<DateTime> get lastUpdated => $composableBuilder(
-      column: $table.lastUpdated, builder: (column) => column);
+    column: $table.lastUpdated,
+    builder: (column) => column,
+  );
 }
 
-class $$InGameWeaponStateTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $InGameWeaponStateTableTable,
-    InGameWeaponState,
-    $$InGameWeaponStateTableTableFilterComposer,
-    $$InGameWeaponStateTableTableOrderingComposer,
-    $$InGameWeaponStateTableTableAnnotationComposer,
-    $$InGameWeaponStateTableTableCreateCompanionBuilder,
-    $$InGameWeaponStateTableTableUpdateCompanionBuilder,
-    (
-      InGameWeaponState,
-      BaseReferences<_$AppDatabase, $InGameWeaponStateTableTable,
-          InGameWeaponState>
-    ),
-    InGameWeaponState,
-    PrefetchHooks Function()> {
+class $$InGameWeaponStateTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $InGameWeaponStateTableTable,
+          InGameWeaponState,
+          $$InGameWeaponStateTableTableFilterComposer,
+          $$InGameWeaponStateTableTableOrderingComposer,
+          $$InGameWeaponStateTableTableAnnotationComposer,
+          $$InGameWeaponStateTableTableCreateCompanionBuilder,
+          $$InGameWeaponStateTableTableUpdateCompanionBuilder,
+          (
+            InGameWeaponState,
+            BaseReferences<
+              _$AppDatabase,
+              $InGameWeaponStateTableTable,
+              InGameWeaponState
+            >,
+          ),
+          InGameWeaponState,
+          PrefetchHooks Function()
+        > {
   $$InGameWeaponStateTableTableTableManager(
-      _$AppDatabase db, $InGameWeaponStateTableTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $InGameWeaponStateTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$InGameWeaponStateTableTableFilterComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createOrderingComposer: () =>
               $$InGameWeaponStateTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$InGameWeaponStateTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> uid = const Value.absent(),
-            Value<String> characterId = const Value.absent(),
-            Value<String> weaponId = const Value.absent(),
-            Value<Map<Purpose, int>> purposes = const Value.absent(),
-            Value<DateTime> lastUpdated = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              InGameWeaponStateCompanion(
-            uid: uid,
-            characterId: characterId,
-            weaponId: weaponId,
-            purposes: purposes,
-            lastUpdated: lastUpdated,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String uid,
-            required String characterId,
-            required String weaponId,
-            required Map<Purpose, int> purposes,
-            Value<DateTime> lastUpdated = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              InGameWeaponStateCompanion.insert(
-            uid: uid,
-            characterId: characterId,
-            weaponId: weaponId,
-            purposes: purposes,
-            lastUpdated: lastUpdated,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> uid = const Value.absent(),
+                Value<String> characterId = const Value.absent(),
+                Value<String> weaponId = const Value.absent(),
+                Value<Map<Purpose, int>> purposes = const Value.absent(),
+                Value<DateTime> lastUpdated = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InGameWeaponStateCompanion(
+                uid: uid,
+                characterId: characterId,
+                weaponId: weaponId,
+                purposes: purposes,
+                lastUpdated: lastUpdated,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String uid,
+                required String characterId,
+                required String weaponId,
+                required Map<Purpose, int> purposes,
+                Value<DateTime> lastUpdated = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InGameWeaponStateCompanion.insert(
+                uid: uid,
+                characterId: characterId,
+                weaponId: weaponId,
+                purposes: purposes,
+                lastUpdated: lastUpdated,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$InGameWeaponStateTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $InGameWeaponStateTableTable,
+typedef $$InGameWeaponStateTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $InGameWeaponStateTableTable,
+      InGameWeaponState,
+      $$InGameWeaponStateTableTableFilterComposer,
+      $$InGameWeaponStateTableTableOrderingComposer,
+      $$InGameWeaponStateTableTableAnnotationComposer,
+      $$InGameWeaponStateTableTableCreateCompanionBuilder,
+      $$InGameWeaponStateTableTableUpdateCompanionBuilder,
+      (
         InGameWeaponState,
-        $$InGameWeaponStateTableTableFilterComposer,
-        $$InGameWeaponStateTableTableOrderingComposer,
-        $$InGameWeaponStateTableTableAnnotationComposer,
-        $$InGameWeaponStateTableTableCreateCompanionBuilder,
-        $$InGameWeaponStateTableTableUpdateCompanionBuilder,
-        (
-          InGameWeaponState,
-          BaseReferences<_$AppDatabase, $InGameWeaponStateTableTable,
-              InGameWeaponState>
-        ),
-        InGameWeaponState,
-        PrefetchHooks Function()>;
-typedef $$BookmarkOrderRegistryTableTableCreateCompanionBuilder
-    = BookmarkOrderRegistryCompanion Function({
-  Value<String> id,
-  required List<String> order,
-  Value<int> rowid,
-});
-typedef $$BookmarkOrderRegistryTableTableUpdateCompanionBuilder
-    = BookmarkOrderRegistryCompanion Function({
-  Value<String> id,
-  Value<List<String>> order,
-  Value<int> rowid,
-});
+        BaseReferences<
+          _$AppDatabase,
+          $InGameWeaponStateTableTable,
+          InGameWeaponState
+        >,
+      ),
+      InGameWeaponState,
+      PrefetchHooks Function()
+    >;
+typedef $$BookmarkOrderRegistryTableTableCreateCompanionBuilder =
+    BookmarkOrderRegistryCompanion Function({
+      Value<String> id,
+      required List<String> order,
+      Value<int> rowid,
+    });
+typedef $$BookmarkOrderRegistryTableTableUpdateCompanionBuilder =
+    BookmarkOrderRegistryCompanion Function({
+      Value<String> id,
+      Value<List<String>> order,
+      Value<int> rowid,
+    });
 
 class $$BookmarkOrderRegistryTableTableFilterComposer
     extends Composer<_$AppDatabase, $BookmarkOrderRegistryTableTable> {
@@ -4603,12 +5508,15 @@ class $$BookmarkOrderRegistryTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnWithTypeConverterFilters<List<String>, List<String>, String>
-      get order => $composableBuilder(
-          column: $table.order,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+  get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
 }
 
 class $$BookmarkOrderRegistryTableTableOrderingComposer
@@ -4621,10 +5529,14 @@ class $$BookmarkOrderRegistryTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get order => $composableBuilder(
-      column: $table.order, builder: (column) => ColumnOrderings(column));
+    column: $table.order,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$BookmarkOrderRegistryTableTableAnnotationComposer
@@ -4643,96 +5555,115 @@ class $$BookmarkOrderRegistryTableTableAnnotationComposer
       $composableBuilder(column: $table.order, builder: (column) => column);
 }
 
-class $$BookmarkOrderRegistryTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $BookmarkOrderRegistryTableTable,
-    BookmarkOrderRegistry,
-    $$BookmarkOrderRegistryTableTableFilterComposer,
-    $$BookmarkOrderRegistryTableTableOrderingComposer,
-    $$BookmarkOrderRegistryTableTableAnnotationComposer,
-    $$BookmarkOrderRegistryTableTableCreateCompanionBuilder,
-    $$BookmarkOrderRegistryTableTableUpdateCompanionBuilder,
-    (
-      BookmarkOrderRegistry,
-      BaseReferences<_$AppDatabase, $BookmarkOrderRegistryTableTable,
-          BookmarkOrderRegistry>
-    ),
-    BookmarkOrderRegistry,
-    PrefetchHooks Function()> {
+class $$BookmarkOrderRegistryTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BookmarkOrderRegistryTableTable,
+          BookmarkOrderRegistry,
+          $$BookmarkOrderRegistryTableTableFilterComposer,
+          $$BookmarkOrderRegistryTableTableOrderingComposer,
+          $$BookmarkOrderRegistryTableTableAnnotationComposer,
+          $$BookmarkOrderRegistryTableTableCreateCompanionBuilder,
+          $$BookmarkOrderRegistryTableTableUpdateCompanionBuilder,
+          (
+            BookmarkOrderRegistry,
+            BaseReferences<
+              _$AppDatabase,
+              $BookmarkOrderRegistryTableTable,
+              BookmarkOrderRegistry
+            >,
+          ),
+          BookmarkOrderRegistry,
+          PrefetchHooks Function()
+        > {
   $$BookmarkOrderRegistryTableTableTableManager(
-      _$AppDatabase db, $BookmarkOrderRegistryTableTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $BookmarkOrderRegistryTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$BookmarkOrderRegistryTableTableFilterComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createOrderingComposer: () =>
               $$BookmarkOrderRegistryTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$BookmarkOrderRegistryTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<List<String>> order = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              BookmarkOrderRegistryCompanion(
-            id: id,
-            order: order,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            required List<String> order,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              BookmarkOrderRegistryCompanion.insert(
-            id: id,
-            order: order,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<List<String>> order = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => BookmarkOrderRegistryCompanion(
+                id: id,
+                order: order,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                required List<String> order,
+                Value<int> rowid = const Value.absent(),
+              }) => BookmarkOrderRegistryCompanion.insert(
+                id: id,
+                order: order,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$BookmarkOrderRegistryTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $BookmarkOrderRegistryTableTable,
+typedef $$BookmarkOrderRegistryTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BookmarkOrderRegistryTableTable,
+      BookmarkOrderRegistry,
+      $$BookmarkOrderRegistryTableTableFilterComposer,
+      $$BookmarkOrderRegistryTableTableOrderingComposer,
+      $$BookmarkOrderRegistryTableTableAnnotationComposer,
+      $$BookmarkOrderRegistryTableTableCreateCompanionBuilder,
+      $$BookmarkOrderRegistryTableTableUpdateCompanionBuilder,
+      (
         BookmarkOrderRegistry,
-        $$BookmarkOrderRegistryTableTableFilterComposer,
-        $$BookmarkOrderRegistryTableTableOrderingComposer,
-        $$BookmarkOrderRegistryTableTableAnnotationComposer,
-        $$BookmarkOrderRegistryTableTableCreateCompanionBuilder,
-        $$BookmarkOrderRegistryTableTableUpdateCompanionBuilder,
-        (
-          BookmarkOrderRegistry,
-          BaseReferences<_$AppDatabase, $BookmarkOrderRegistryTableTable,
-              BookmarkOrderRegistry>
-        ),
-        BookmarkOrderRegistry,
-        PrefetchHooks Function()>;
-typedef $$MaterialBagCountTableTableCreateCompanionBuilder
-    = MaterialBagCountCompanion Function({
-  required String uid,
-  required int hyvId,
-  required int count,
-  Value<DateTime> lastUpdated,
-  Value<int> rowid,
-});
-typedef $$MaterialBagCountTableTableUpdateCompanionBuilder
-    = MaterialBagCountCompanion Function({
-  Value<String> uid,
-  Value<int> hyvId,
-  Value<int> count,
-  Value<DateTime> lastUpdated,
-  Value<int> rowid,
-});
+        BaseReferences<
+          _$AppDatabase,
+          $BookmarkOrderRegistryTableTable,
+          BookmarkOrderRegistry
+        >,
+      ),
+      BookmarkOrderRegistry,
+      PrefetchHooks Function()
+    >;
+typedef $$MaterialBagCountTableTableCreateCompanionBuilder =
+    MaterialBagCountCompanion Function({
+      required String uid,
+      required int hyvId,
+      required int count,
+      Value<DateTime> lastUpdated,
+      Value<int> rowid,
+    });
+typedef $$MaterialBagCountTableTableUpdateCompanionBuilder =
+    MaterialBagCountCompanion Function({
+      Value<String> uid,
+      Value<int> hyvId,
+      Value<int> count,
+      Value<DateTime> lastUpdated,
+      Value<int> rowid,
+    });
 
 class $$MaterialBagCountTableTableFilterComposer
     extends Composer<_$AppDatabase, $MaterialBagCountTableTable> {
@@ -4744,16 +5675,24 @@ class $$MaterialBagCountTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get uid => $composableBuilder(
-      column: $table.uid, builder: (column) => ColumnFilters(column));
+    column: $table.uid,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get hyvId => $composableBuilder(
-      column: $table.hyvId, builder: (column) => ColumnFilters(column));
+    column: $table.hyvId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get count => $composableBuilder(
-      column: $table.count, builder: (column) => ColumnFilters(column));
+    column: $table.count,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get lastUpdated => $composableBuilder(
-      column: $table.lastUpdated, builder: (column) => ColumnFilters(column));
+    column: $table.lastUpdated,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$MaterialBagCountTableTableOrderingComposer
@@ -4766,16 +5705,24 @@ class $$MaterialBagCountTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get uid => $composableBuilder(
-      column: $table.uid, builder: (column) => ColumnOrderings(column));
+    column: $table.uid,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get hyvId => $composableBuilder(
-      column: $table.hyvId, builder: (column) => ColumnOrderings(column));
+    column: $table.hyvId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get count => $composableBuilder(
-      column: $table.count, builder: (column) => ColumnOrderings(column));
+    column: $table.count,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get lastUpdated => $composableBuilder(
-      column: $table.lastUpdated, builder: (column) => ColumnOrderings(column));
+    column: $table.lastUpdated,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$MaterialBagCountTableTableAnnotationComposer
@@ -4797,105 +5744,126 @@ class $$MaterialBagCountTableTableAnnotationComposer
       $composableBuilder(column: $table.count, builder: (column) => column);
 
   GeneratedColumn<DateTime> get lastUpdated => $composableBuilder(
-      column: $table.lastUpdated, builder: (column) => column);
+    column: $table.lastUpdated,
+    builder: (column) => column,
+  );
 }
 
-class $$MaterialBagCountTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $MaterialBagCountTableTable,
-    MaterialBagCount,
-    $$MaterialBagCountTableTableFilterComposer,
-    $$MaterialBagCountTableTableOrderingComposer,
-    $$MaterialBagCountTableTableAnnotationComposer,
-    $$MaterialBagCountTableTableCreateCompanionBuilder,
-    $$MaterialBagCountTableTableUpdateCompanionBuilder,
-    (
-      MaterialBagCount,
-      BaseReferences<_$AppDatabase, $MaterialBagCountTableTable,
-          MaterialBagCount>
-    ),
-    MaterialBagCount,
-    PrefetchHooks Function()> {
+class $$MaterialBagCountTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MaterialBagCountTableTable,
+          MaterialBagCount,
+          $$MaterialBagCountTableTableFilterComposer,
+          $$MaterialBagCountTableTableOrderingComposer,
+          $$MaterialBagCountTableTableAnnotationComposer,
+          $$MaterialBagCountTableTableCreateCompanionBuilder,
+          $$MaterialBagCountTableTableUpdateCompanionBuilder,
+          (
+            MaterialBagCount,
+            BaseReferences<
+              _$AppDatabase,
+              $MaterialBagCountTableTable,
+              MaterialBagCount
+            >,
+          ),
+          MaterialBagCount,
+          PrefetchHooks Function()
+        > {
   $$MaterialBagCountTableTableTableManager(
-      _$AppDatabase db, $MaterialBagCountTableTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $MaterialBagCountTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$MaterialBagCountTableTableFilterComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createOrderingComposer: () =>
               $$MaterialBagCountTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$MaterialBagCountTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> uid = const Value.absent(),
-            Value<int> hyvId = const Value.absent(),
-            Value<int> count = const Value.absent(),
-            Value<DateTime> lastUpdated = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              MaterialBagCountCompanion(
-            uid: uid,
-            hyvId: hyvId,
-            count: count,
-            lastUpdated: lastUpdated,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String uid,
-            required int hyvId,
-            required int count,
-            Value<DateTime> lastUpdated = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              MaterialBagCountCompanion.insert(
-            uid: uid,
-            hyvId: hyvId,
-            count: count,
-            lastUpdated: lastUpdated,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> uid = const Value.absent(),
+                Value<int> hyvId = const Value.absent(),
+                Value<int> count = const Value.absent(),
+                Value<DateTime> lastUpdated = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MaterialBagCountCompanion(
+                uid: uid,
+                hyvId: hyvId,
+                count: count,
+                lastUpdated: lastUpdated,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String uid,
+                required int hyvId,
+                required int count,
+                Value<DateTime> lastUpdated = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MaterialBagCountCompanion.insert(
+                uid: uid,
+                hyvId: hyvId,
+                count: count,
+                lastUpdated: lastUpdated,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$MaterialBagCountTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $MaterialBagCountTableTable,
+typedef $$MaterialBagCountTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MaterialBagCountTableTable,
+      MaterialBagCount,
+      $$MaterialBagCountTableTableFilterComposer,
+      $$MaterialBagCountTableTableOrderingComposer,
+      $$MaterialBagCountTableTableAnnotationComposer,
+      $$MaterialBagCountTableTableCreateCompanionBuilder,
+      $$MaterialBagCountTableTableUpdateCompanionBuilder,
+      (
         MaterialBagCount,
-        $$MaterialBagCountTableTableFilterComposer,
-        $$MaterialBagCountTableTableOrderingComposer,
-        $$MaterialBagCountTableTableAnnotationComposer,
-        $$MaterialBagCountTableTableCreateCompanionBuilder,
-        $$MaterialBagCountTableTableUpdateCompanionBuilder,
-        (
-          MaterialBagCount,
-          BaseReferences<_$AppDatabase, $MaterialBagCountTableTable,
-              MaterialBagCount>
-        ),
-        MaterialBagCount,
-        PrefetchHooks Function()>;
-typedef $$FurnishingCraftCountTableTableCreateCompanionBuilder
-    = FurnishingCraftCountCompanion Function({
-  required String furnishingId,
-  required String setId,
-  required int count,
-  Value<int> rowid,
-});
-typedef $$FurnishingCraftCountTableTableUpdateCompanionBuilder
-    = FurnishingCraftCountCompanion Function({
-  Value<String> furnishingId,
-  Value<String> setId,
-  Value<int> count,
-  Value<int> rowid,
-});
+        BaseReferences<
+          _$AppDatabase,
+          $MaterialBagCountTableTable,
+          MaterialBagCount
+        >,
+      ),
+      MaterialBagCount,
+      PrefetchHooks Function()
+    >;
+typedef $$FurnishingCraftCountTableTableCreateCompanionBuilder =
+    FurnishingCraftCountCompanion Function({
+      required String furnishingId,
+      required String setId,
+      required int count,
+      Value<int> rowid,
+    });
+typedef $$FurnishingCraftCountTableTableUpdateCompanionBuilder =
+    FurnishingCraftCountCompanion Function({
+      Value<String> furnishingId,
+      Value<String> setId,
+      Value<int> count,
+      Value<int> rowid,
+    });
 
 class $$FurnishingCraftCountTableTableFilterComposer
     extends Composer<_$AppDatabase, $FurnishingCraftCountTableTable> {
@@ -4907,13 +5875,19 @@ class $$FurnishingCraftCountTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get furnishingId => $composableBuilder(
-      column: $table.furnishingId, builder: (column) => ColumnFilters(column));
+    column: $table.furnishingId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get setId => $composableBuilder(
-      column: $table.setId, builder: (column) => ColumnFilters(column));
+    column: $table.setId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get count => $composableBuilder(
-      column: $table.count, builder: (column) => ColumnFilters(column));
+    column: $table.count,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$FurnishingCraftCountTableTableOrderingComposer
@@ -4926,14 +5900,19 @@ class $$FurnishingCraftCountTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get furnishingId => $composableBuilder(
-      column: $table.furnishingId,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.furnishingId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get setId => $composableBuilder(
-      column: $table.setId, builder: (column) => ColumnOrderings(column));
+    column: $table.setId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get count => $composableBuilder(
-      column: $table.count, builder: (column) => ColumnOrderings(column));
+    column: $table.count,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$FurnishingCraftCountTableTableAnnotationComposer
@@ -4946,7 +5925,9 @@ class $$FurnishingCraftCountTableTableAnnotationComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   GeneratedColumn<String> get furnishingId => $composableBuilder(
-      column: $table.furnishingId, builder: (column) => column);
+    column: $table.furnishingId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get setId =>
       $composableBuilder(column: $table.setId, builder: (column) => column);
@@ -4955,96 +5936,115 @@ class $$FurnishingCraftCountTableTableAnnotationComposer
       $composableBuilder(column: $table.count, builder: (column) => column);
 }
 
-class $$FurnishingCraftCountTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $FurnishingCraftCountTableTable,
-    FurnishingCraftCount,
-    $$FurnishingCraftCountTableTableFilterComposer,
-    $$FurnishingCraftCountTableTableOrderingComposer,
-    $$FurnishingCraftCountTableTableAnnotationComposer,
-    $$FurnishingCraftCountTableTableCreateCompanionBuilder,
-    $$FurnishingCraftCountTableTableUpdateCompanionBuilder,
-    (
-      FurnishingCraftCount,
-      BaseReferences<_$AppDatabase, $FurnishingCraftCountTableTable,
-          FurnishingCraftCount>
-    ),
-    FurnishingCraftCount,
-    PrefetchHooks Function()> {
+class $$FurnishingCraftCountTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $FurnishingCraftCountTableTable,
+          FurnishingCraftCount,
+          $$FurnishingCraftCountTableTableFilterComposer,
+          $$FurnishingCraftCountTableTableOrderingComposer,
+          $$FurnishingCraftCountTableTableAnnotationComposer,
+          $$FurnishingCraftCountTableTableCreateCompanionBuilder,
+          $$FurnishingCraftCountTableTableUpdateCompanionBuilder,
+          (
+            FurnishingCraftCount,
+            BaseReferences<
+              _$AppDatabase,
+              $FurnishingCraftCountTableTable,
+              FurnishingCraftCount
+            >,
+          ),
+          FurnishingCraftCount,
+          PrefetchHooks Function()
+        > {
   $$FurnishingCraftCountTableTableTableManager(
-      _$AppDatabase db, $FurnishingCraftCountTableTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $FurnishingCraftCountTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$FurnishingCraftCountTableTableFilterComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createOrderingComposer: () =>
               $$FurnishingCraftCountTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$FurnishingCraftCountTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> furnishingId = const Value.absent(),
-            Value<String> setId = const Value.absent(),
-            Value<int> count = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              FurnishingCraftCountCompanion(
-            furnishingId: furnishingId,
-            setId: setId,
-            count: count,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String furnishingId,
-            required String setId,
-            required int count,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              FurnishingCraftCountCompanion.insert(
-            furnishingId: furnishingId,
-            setId: setId,
-            count: count,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> furnishingId = const Value.absent(),
+                Value<String> setId = const Value.absent(),
+                Value<int> count = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => FurnishingCraftCountCompanion(
+                furnishingId: furnishingId,
+                setId: setId,
+                count: count,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String furnishingId,
+                required String setId,
+                required int count,
+                Value<int> rowid = const Value.absent(),
+              }) => FurnishingCraftCountCompanion.insert(
+                furnishingId: furnishingId,
+                setId: setId,
+                count: count,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$FurnishingCraftCountTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $FurnishingCraftCountTableTable,
+typedef $$FurnishingCraftCountTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $FurnishingCraftCountTableTable,
+      FurnishingCraftCount,
+      $$FurnishingCraftCountTableTableFilterComposer,
+      $$FurnishingCraftCountTableTableOrderingComposer,
+      $$FurnishingCraftCountTableTableAnnotationComposer,
+      $$FurnishingCraftCountTableTableCreateCompanionBuilder,
+      $$FurnishingCraftCountTableTableUpdateCompanionBuilder,
+      (
         FurnishingCraftCount,
-        $$FurnishingCraftCountTableTableFilterComposer,
-        $$FurnishingCraftCountTableTableOrderingComposer,
-        $$FurnishingCraftCountTableTableAnnotationComposer,
-        $$FurnishingCraftCountTableTableCreateCompanionBuilder,
-        $$FurnishingCraftCountTableTableUpdateCompanionBuilder,
-        (
-          FurnishingCraftCount,
-          BaseReferences<_$AppDatabase, $FurnishingCraftCountTableTable,
-              FurnishingCraftCount>
-        ),
-        FurnishingCraftCount,
-        PrefetchHooks Function()>;
-typedef $$FurnishingSetBookmarkTableTableCreateCompanionBuilder
-    = FurnishingSetBookmarkCompanion Function({
-  required String setId,
-  Value<DateTime> createdAt,
-  Value<int> rowid,
-});
-typedef $$FurnishingSetBookmarkTableTableUpdateCompanionBuilder
-    = FurnishingSetBookmarkCompanion Function({
-  Value<String> setId,
-  Value<DateTime> createdAt,
-  Value<int> rowid,
-});
+        BaseReferences<
+          _$AppDatabase,
+          $FurnishingCraftCountTableTable,
+          FurnishingCraftCount
+        >,
+      ),
+      FurnishingCraftCount,
+      PrefetchHooks Function()
+    >;
+typedef $$FurnishingSetBookmarkTableTableCreateCompanionBuilder =
+    FurnishingSetBookmarkCompanion Function({
+      required String setId,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+typedef $$FurnishingSetBookmarkTableTableUpdateCompanionBuilder =
+    FurnishingSetBookmarkCompanion Function({
+      Value<String> setId,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
 
 class $$FurnishingSetBookmarkTableTableFilterComposer
     extends Composer<_$AppDatabase, $FurnishingSetBookmarkTableTable> {
@@ -5056,10 +6056,14 @@ class $$FurnishingSetBookmarkTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get setId => $composableBuilder(
-      column: $table.setId, builder: (column) => ColumnFilters(column));
+    column: $table.setId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$FurnishingSetBookmarkTableTableOrderingComposer
@@ -5072,10 +6076,14 @@ class $$FurnishingSetBookmarkTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get setId => $composableBuilder(
-      column: $table.setId, builder: (column) => ColumnOrderings(column));
+    column: $table.setId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$FurnishingSetBookmarkTableTableAnnotationComposer
@@ -5094,80 +6102,99 @@ class $$FurnishingSetBookmarkTableTableAnnotationComposer
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 }
 
-class $$FurnishingSetBookmarkTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $FurnishingSetBookmarkTableTable,
-    FurnishingSetBookmark,
-    $$FurnishingSetBookmarkTableTableFilterComposer,
-    $$FurnishingSetBookmarkTableTableOrderingComposer,
-    $$FurnishingSetBookmarkTableTableAnnotationComposer,
-    $$FurnishingSetBookmarkTableTableCreateCompanionBuilder,
-    $$FurnishingSetBookmarkTableTableUpdateCompanionBuilder,
-    (
-      FurnishingSetBookmark,
-      BaseReferences<_$AppDatabase, $FurnishingSetBookmarkTableTable,
-          FurnishingSetBookmark>
-    ),
-    FurnishingSetBookmark,
-    PrefetchHooks Function()> {
+class $$FurnishingSetBookmarkTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $FurnishingSetBookmarkTableTable,
+          FurnishingSetBookmark,
+          $$FurnishingSetBookmarkTableTableFilterComposer,
+          $$FurnishingSetBookmarkTableTableOrderingComposer,
+          $$FurnishingSetBookmarkTableTableAnnotationComposer,
+          $$FurnishingSetBookmarkTableTableCreateCompanionBuilder,
+          $$FurnishingSetBookmarkTableTableUpdateCompanionBuilder,
+          (
+            FurnishingSetBookmark,
+            BaseReferences<
+              _$AppDatabase,
+              $FurnishingSetBookmarkTableTable,
+              FurnishingSetBookmark
+            >,
+          ),
+          FurnishingSetBookmark,
+          PrefetchHooks Function()
+        > {
   $$FurnishingSetBookmarkTableTableTableManager(
-      _$AppDatabase db, $FurnishingSetBookmarkTableTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $FurnishingSetBookmarkTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$FurnishingSetBookmarkTableTableFilterComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createOrderingComposer: () =>
               $$FurnishingSetBookmarkTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$FurnishingSetBookmarkTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> setId = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              FurnishingSetBookmarkCompanion(
-            setId: setId,
-            createdAt: createdAt,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String setId,
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              FurnishingSetBookmarkCompanion.insert(
-            setId: setId,
-            createdAt: createdAt,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> setId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => FurnishingSetBookmarkCompanion(
+                setId: setId,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String setId,
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => FurnishingSetBookmarkCompanion.insert(
+                setId: setId,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$FurnishingSetBookmarkTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $FurnishingSetBookmarkTableTable,
+typedef $$FurnishingSetBookmarkTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $FurnishingSetBookmarkTableTable,
+      FurnishingSetBookmark,
+      $$FurnishingSetBookmarkTableTableFilterComposer,
+      $$FurnishingSetBookmarkTableTableOrderingComposer,
+      $$FurnishingSetBookmarkTableTableAnnotationComposer,
+      $$FurnishingSetBookmarkTableTableCreateCompanionBuilder,
+      $$FurnishingSetBookmarkTableTableUpdateCompanionBuilder,
+      (
         FurnishingSetBookmark,
-        $$FurnishingSetBookmarkTableTableFilterComposer,
-        $$FurnishingSetBookmarkTableTableOrderingComposer,
-        $$FurnishingSetBookmarkTableTableAnnotationComposer,
-        $$FurnishingSetBookmarkTableTableCreateCompanionBuilder,
-        $$FurnishingSetBookmarkTableTableUpdateCompanionBuilder,
-        (
-          FurnishingSetBookmark,
-          BaseReferences<_$AppDatabase, $FurnishingSetBookmarkTableTable,
-              FurnishingSetBookmark>
-        ),
-        FurnishingSetBookmark,
-        PrefetchHooks Function()>;
+        BaseReferences<
+          _$AppDatabase,
+          $FurnishingSetBookmarkTableTable,
+          FurnishingSetBookmark
+        >,
+      ),
+      FurnishingSetBookmark,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -5175,34 +6202,50 @@ class $AppDatabaseManager {
   $$BookmarkTableTableTableManager get bookmarkTable =>
       $$BookmarkTableTableTableManager(_db, _db.bookmarkTable);
   $$BookmarkMaterialDetailsTableTableTableManager
-      get bookmarkMaterialDetailsTable =>
-          $$BookmarkMaterialDetailsTableTableTableManager(
-              _db, _db.bookmarkMaterialDetailsTable);
+  get bookmarkMaterialDetailsTable =>
+      $$BookmarkMaterialDetailsTableTableTableManager(
+        _db,
+        _db.bookmarkMaterialDetailsTable,
+      );
   $$BookmarkArtifactSetDetailsTableTableTableManager
-      get bookmarkArtifactSetDetailsTable =>
-          $$BookmarkArtifactSetDetailsTableTableTableManager(
-              _db, _db.bookmarkArtifactSetDetailsTable);
+  get bookmarkArtifactSetDetailsTable =>
+      $$BookmarkArtifactSetDetailsTableTableTableManager(
+        _db,
+        _db.bookmarkArtifactSetDetailsTable,
+      );
   $$BookmarkArtifactPieceDetailsTableTableTableManager
-      get bookmarkArtifactPieceDetailsTable =>
-          $$BookmarkArtifactPieceDetailsTableTableTableManager(
-              _db, _db.bookmarkArtifactPieceDetailsTable);
+  get bookmarkArtifactPieceDetailsTable =>
+      $$BookmarkArtifactPieceDetailsTableTableTableManager(
+        _db,
+        _db.bookmarkArtifactPieceDetailsTable,
+      );
   $$InGameCharacterStateTableTableTableManager get inGameCharacterStateTable =>
       $$InGameCharacterStateTableTableTableManager(
-          _db, _db.inGameCharacterStateTable);
+        _db,
+        _db.inGameCharacterStateTable,
+      );
   $$InGameWeaponStateTableTableTableManager get inGameWeaponStateTable =>
       $$InGameWeaponStateTableTableTableManager(
-          _db, _db.inGameWeaponStateTable);
+        _db,
+        _db.inGameWeaponStateTable,
+      );
   $$BookmarkOrderRegistryTableTableTableManager
-      get bookmarkOrderRegistryTable =>
-          $$BookmarkOrderRegistryTableTableTableManager(
-              _db, _db.bookmarkOrderRegistryTable);
+  get bookmarkOrderRegistryTable =>
+      $$BookmarkOrderRegistryTableTableTableManager(
+        _db,
+        _db.bookmarkOrderRegistryTable,
+      );
   $$MaterialBagCountTableTableTableManager get materialBagCountTable =>
       $$MaterialBagCountTableTableTableManager(_db, _db.materialBagCountTable);
   $$FurnishingCraftCountTableTableTableManager get furnishingCraftCountTable =>
       $$FurnishingCraftCountTableTableTableManager(
-          _db, _db.furnishingCraftCountTable);
+        _db,
+        _db.furnishingCraftCountTable,
+      );
   $$FurnishingSetBookmarkTableTableTableManager
-      get furnishingSetBookmarkTable =>
-          $$FurnishingSetBookmarkTableTableTableManager(
-              _db, _db.furnishingSetBookmarkTable);
+  get furnishingSetBookmarkTable =>
+      $$FurnishingSetBookmarkTableTableTableManager(
+        _db,
+        _db.furnishingSetBookmarkTable,
+      );
 }

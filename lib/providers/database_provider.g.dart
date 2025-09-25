@@ -16,15 +16,15 @@ final class AppDatabaseProvider
     extends $FunctionalProvider<AppDatabase, AppDatabase, AppDatabase>
     with $Provider<AppDatabase> {
   const AppDatabaseProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'appDatabaseProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'appDatabaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$appDatabaseHash();
@@ -53,31 +53,31 @@ String _$appDatabaseHash() => r'949aad4bd88cefe20d76eb16900b182b5fcb494c';
 @ProviderFor(bookmarks)
 const bookmarksProvider = BookmarksFamily._();
 
-final class BookmarksProvider extends $FunctionalProvider<
-        AsyncValue<List<BookmarkWithDetails>>,
-        List<BookmarkWithDetails>,
-        Stream<List<BookmarkWithDetails>>>
+final class BookmarksProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<BookmarkWithDetails>>,
+          List<BookmarkWithDetails>,
+          Stream<List<BookmarkWithDetails>>
+        >
     with
         $FutureModifier<List<BookmarkWithDetails>>,
         $StreamProvider<List<BookmarkWithDetails>> {
-  const BookmarksProvider._(
-      {required BookmarksFamily super.from,
-      required ({
-        String? groupHash,
-        List<String>? hashes,
-        ({
-          bool hasWeapon,
-          String? materialId,
-        })? materialFilter,
-      })
-          super.argument})
-      : super(
-          retry: null,
-          name: r'bookmarksProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  const BookmarksProvider._({
+    required BookmarksFamily super.from,
+    required ({
+      String? groupHash,
+      List<String>? hashes,
+      ({bool hasWeapon, String? materialId})? materialFilter,
+    })
+    super.argument,
+  }) : super(
+         retry: null,
+         name: r'bookmarksProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$bookmarksHash();
@@ -92,19 +92,18 @@ final class BookmarksProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<List<BookmarkWithDetails>> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<List<BookmarkWithDetails>> create(Ref ref) {
-    final argument = this.argument as ({
-      String? groupHash,
-      List<String>? hashes,
-      ({
-        bool hasWeapon,
-        String? materialId,
-      })? materialFilter,
-    });
+    final argument =
+        this.argument
+            as ({
+              String? groupHash,
+              List<String>? hashes,
+              ({bool hasWeapon, String? materialId})? materialFilter,
+            });
     return bookmarks(
       ref,
       groupHash: argument.groupHash,
@@ -129,37 +128,34 @@ String _$bookmarksHash() => r'd654e804aa5c83dc60a31da780e225fed6aec8c6';
 final class BookmarksFamily extends $Family
     with
         $FunctionalFamilyOverride<
-            Stream<List<BookmarkWithDetails>>,
-            ({
-              String? groupHash,
-              List<String>? hashes,
-              ({
-                bool hasWeapon,
-                String? materialId,
-              })? materialFilter,
-            })> {
+          Stream<List<BookmarkWithDetails>>,
+          ({
+            String? groupHash,
+            List<String>? hashes,
+            ({bool hasWeapon, String? materialId})? materialFilter,
+          })
+        > {
   const BookmarksFamily._()
-      : super(
-          retry: null,
-          name: r'bookmarksProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'bookmarksProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
   BookmarksProvider call({
     String? groupHash,
     List<String>? hashes,
-    ({
-      bool hasWeapon,
-      String? materialId,
-    })? materialFilter,
-  }) =>
-      BookmarksProvider._(argument: (
-        groupHash: groupHash,
-        hashes: hashes,
-        materialFilter: materialFilter,
-      ), from: this);
+    ({bool hasWeapon, String? materialId})? materialFilter,
+  }) => BookmarksProvider._(
+    argument: (
+      groupHash: groupHash,
+      hashes: hashes,
+      materialFilter: materialFilter,
+    ),
+    from: this,
+  );
 
   @override
   String toString() => r'bookmarksProvider';
@@ -168,19 +164,24 @@ final class BookmarksFamily extends $Family
 @ProviderFor(bookmarkOrder)
 const bookmarkOrderProvider = BookmarkOrderProvider._();
 
-final class BookmarkOrderProvider extends $FunctionalProvider<
-        AsyncValue<List<String>>, List<String>, Stream<List<String>>>
+final class BookmarkOrderProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<String>>,
+          List<String>,
+          Stream<List<String>>
+        >
     with $FutureModifier<List<String>>, $StreamProvider<List<String>> {
   const BookmarkOrderProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'bookmarkOrderProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'bookmarkOrderProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$bookmarkOrderHash();
@@ -188,8 +189,8 @@ final class BookmarkOrderProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<List<String>> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<List<String>> create(Ref ref) {

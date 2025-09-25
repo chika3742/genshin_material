@@ -16,15 +16,15 @@ const realtimeNotesActivationStateProvider =
 final class RealtimeNotesActivationStateProvider
     extends $AsyncNotifierProvider<RealtimeNotesActivationState, bool> {
   const RealtimeNotesActivationStateProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'realtimeNotesActivationStateProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'realtimeNotesActivationStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$realtimeNotesActivationStateHash();
@@ -44,11 +44,14 @@ abstract class _$RealtimeNotesActivationState extends $AsyncNotifier<bool> {
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<AsyncValue<bool>, bool>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<bool>, bool>,
-        AsyncValue<bool>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<bool>, bool>,
+              AsyncValue<bool>,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }
@@ -56,23 +59,26 @@ abstract class _$RealtimeNotesActivationState extends $AsyncNotifier<bool> {
 @ProviderFor(ownedCharacters)
 const ownedCharactersProvider = OwnedCharactersProvider._();
 
-final class OwnedCharactersProvider extends $FunctionalProvider<
-        AsyncValue<List<CharacterId>?>,
-        List<CharacterId>?,
-        FutureOr<List<CharacterId>?>>
+final class OwnedCharactersProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<CharacterId>?>,
+          List<CharacterId>?,
+          FutureOr<List<CharacterId>?>
+        >
     with
         $FutureModifier<List<CharacterId>?>,
         $FutureProvider<List<CharacterId>?> {
   const OwnedCharactersProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'ownedCharactersProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ownedCharactersProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$ownedCharactersHash();
@@ -80,8 +86,8 @@ final class OwnedCharactersProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<CharacterId>?> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<CharacterId>?> create(Ref ref) {

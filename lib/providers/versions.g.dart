@@ -12,19 +12,24 @@ part of 'versions.dart';
 @ProviderFor(packageInfo)
 const packageInfoProvider = PackageInfoProvider._();
 
-final class PackageInfoProvider extends $FunctionalProvider<
-        AsyncValue<PackageInfo>, PackageInfo, FutureOr<PackageInfo>>
+final class PackageInfoProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<PackageInfo>,
+          PackageInfo,
+          FutureOr<PackageInfo>
+        >
     with $FutureModifier<PackageInfo>, $FutureProvider<PackageInfo> {
   const PackageInfoProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'packageInfoProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'packageInfoProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$packageInfoHash();
@@ -32,8 +37,8 @@ final class PackageInfoProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<PackageInfo> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<PackageInfo> create(Ref ref) {
@@ -46,19 +51,24 @@ String _$packageInfoHash() => r'44d37547139567a5f03c1942c1d62ff1abb07248';
 @ProviderFor(assetData)
 const assetDataProvider = AssetDataProvider._();
 
-final class AssetDataProvider extends $FunctionalProvider<AsyncValue<AssetData>,
-        AssetData, FutureOr<AssetData>>
+final class AssetDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<AssetData>,
+          AssetData,
+          FutureOr<AssetData>
+        >
     with $FutureModifier<AssetData>, $FutureProvider<AssetData> {
   const AssetDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'assetDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'assetDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$assetDataHash();
@@ -79,23 +89,26 @@ String _$assetDataHash() => r'c31cae057a870579b82fad38dc01e15fb23ea653';
 @ProviderFor(featuresReleaseNotesData)
 const featuresReleaseNotesDataProvider = FeaturesReleaseNotesDataProvider._();
 
-final class FeaturesReleaseNotesDataProvider extends $FunctionalProvider<
-        AsyncValue<List<ReleaseNote>>,
-        List<ReleaseNote>,
-        FutureOr<List<ReleaseNote>>>
+final class FeaturesReleaseNotesDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ReleaseNote>>,
+          List<ReleaseNote>,
+          FutureOr<List<ReleaseNote>>
+        >
     with
         $FutureModifier<List<ReleaseNote>>,
         $FutureProvider<List<ReleaseNote>> {
   const FeaturesReleaseNotesDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'featuresReleaseNotesDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'featuresReleaseNotesDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$featuresReleaseNotesDataHash();
@@ -103,8 +116,8 @@ final class FeaturesReleaseNotesDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<ReleaseNote>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<ReleaseNote>> create(Ref ref) {
@@ -118,23 +131,26 @@ String _$featuresReleaseNotesDataHash() =>
 @ProviderFor(assetsReleaseNotesData)
 const assetsReleaseNotesDataProvider = AssetsReleaseNotesDataProvider._();
 
-final class AssetsReleaseNotesDataProvider extends $FunctionalProvider<
-        AsyncValue<List<ReleaseNote>>,
-        List<ReleaseNote>,
-        FutureOr<List<ReleaseNote>>>
+final class AssetsReleaseNotesDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ReleaseNote>>,
+          List<ReleaseNote>,
+          FutureOr<List<ReleaseNote>>
+        >
     with
         $FutureModifier<List<ReleaseNote>>,
         $FutureProvider<List<ReleaseNote>> {
   const AssetsReleaseNotesDataProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'assetsReleaseNotesDataProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'assetsReleaseNotesDataProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$assetsReleaseNotesDataHash();
@@ -142,8 +158,8 @@ final class AssetsReleaseNotesDataProvider extends $FunctionalProvider<
   @$internal
   @override
   $FutureProviderElement<List<ReleaseNote>> $createElement(
-          $ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<ReleaseNote>> create(Ref ref) {

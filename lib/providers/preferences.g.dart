@@ -15,15 +15,15 @@ const preferencesStateProvider = PreferencesStateNotifierProvider._();
 final class PreferencesStateNotifierProvider
     extends $NotifierProvider<PreferencesStateNotifier, PreferencesState> {
   const PreferencesStateNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'preferencesStateProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'preferencesStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$preferencesStateNotifierHash();
@@ -51,11 +51,14 @@ abstract class _$PreferencesStateNotifier extends $Notifier<PreferencesState> {
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<PreferencesState, PreferencesState>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<PreferencesState, PreferencesState>,
-        PreferencesState,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<PreferencesState, PreferencesState>,
+              PreferencesState,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }

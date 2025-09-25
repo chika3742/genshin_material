@@ -14,71 +14,73 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$LocalizedText {
-  Map<String, String> get locales;
+
+ Map<String, String> get locales;
 
   /// Serializes this LocalizedText to a JSON map.
   Map<String, dynamic> toJson();
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is LocalizedText &&
-            const DeepCollectionEquality().equals(other.locales, locales));
-  }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(locales));
-
-  @override
-  String toString() {
-    return 'LocalizedText(locales: $locales)';
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalizedText&&const DeepCollectionEquality().equals(other.locales, locales));
 }
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(locales));
+
+@override
+String toString() {
+  return 'LocalizedText(locales: $locales)';
+}
+
+
+}
+
+
+
+
 
 /// @nodoc
 @JsonSerializable()
+
 class _LocalizedText extends LocalizedText {
-  const _LocalizedText({required final Map<String, String> locales})
-      : _locales = locales,
-        super._();
-  factory _LocalizedText.fromJson(Map<String, dynamic> json) =>
-      _$LocalizedTextFromJson(json);
+  const _LocalizedText({required final  Map<String, String> locales}): _locales = locales,super._();
+  factory _LocalizedText.fromJson(Map<String, dynamic> json) => _$LocalizedTextFromJson(json);
 
-  final Map<String, String> _locales;
-  @override
-  Map<String, String> get locales {
-    if (_locales is EqualUnmodifiableMapView) return _locales;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_locales);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$LocalizedTextToJson(
-      this,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _LocalizedText &&
-            const DeepCollectionEquality().equals(other._locales, _locales));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_locales));
-
-  @override
-  String toString() {
-    return 'LocalizedText(locales: $locales)';
-  }
+ final  Map<String, String> _locales;
+@override Map<String, String> get locales {
+  if (_locales is EqualUnmodifiableMapView) return _locales;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_locales);
 }
+
+
+
+@override
+Map<String, dynamic> toJson() {
+  return _$LocalizedTextToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalizedText&&const DeepCollectionEquality().equals(other._locales, _locales));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_locales));
+
+@override
+String toString() {
+  return 'LocalizedText(locales: $locales)';
+}
+
+
+}
+
+
+
 
 // dart format on

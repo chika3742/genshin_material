@@ -823,6 +823,9 @@ class TranslationsFarmCountSettingsPageJa {
 
 	// Translations
 
+	/// ja: '周回目安回数を表示する'
+	String get showFarmCount => '周回目安回数を表示する';
+
 	/// ja: '冒険ランク'
 	String get adventureRank => '冒険ランク';
 
@@ -1232,6 +1235,7 @@ extension on Translations {
 			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
 			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
 			case 'settingsPage.openSourceLicenses': return 'オープンソースライセンス';
+			case 'farmCountSettingsPage.showFarmCount': return '周回目安回数を表示する';
 			case 'farmCountSettingsPage.adventureRank': return '冒険ランク';
 			case 'farmCountSettingsPage.skipRate': return '濃縮樹脂等使用時の獲得数の倍率';
 			case 'farmCountSettingsPage.dropRateList': return 'ドロップ率一覧';
