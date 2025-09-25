@@ -18,115 +18,107 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
   @override
   PreferencesState build() {
     final pref = KvPreferences(spInstance);
-
     return PreferencesState.fromSharedPreferences(pref);
   }
 
   Future<void> setResin(int? resin) async {
     final baseTime = DateTime.now();
-
-    await state.pref.setResin(resin);
-    await state.pref.setResinBaseTime(resin != null ? baseTime : null);
-
+    await state.pref.resin.setValue(resin);
+    await state.pref.resinBaseTime.setValueWithConversion(baseTime);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setResinWithRecoveryTime(int resin, int recoveryTime) async {
-    await state.pref.setResin(resin);
-
-    if (state.pref.resinBaseTime == null || resin < maxResin) {
+    await state.pref.resin.setValue(resin);
+    final resinBaseTimeValue = state.pref.resinBaseTime.convertedValue;
+    if (resinBaseTimeValue == null || resin < maxResin) {
       final offset = (maxResin - resin) * minutesPerResinRecovery * 60 - recoveryTime;
       final baseTime = DateTime.now().subtract(Duration(seconds: offset));
-      await state.pref.setResinBaseTime(baseTime);
+      await state.pref.resinBaseTime.setValueWithConversion(baseTime);
     }
-
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setHoyolabServer(HyvServer server, String username) async {
-    await state.pref.setHyvServer(server.region);
-    await state.pref.setHyvServerName(server.name);
-    await state.pref.setHyvUserName(username);
-
+    await state.pref.hyvServer.setValue(server.region);
+    await state.pref.hyvServerName.setValue(server.name);
+    await state.pref.hyvUserName.setValue(username);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setUid(String uid) async {
-    await state.pref.setHyvUid(uid);
-
+    await state.pref.hyvUid.setValue(uid);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> clearHoyolabCredential() async {
     await deleteHoyolabCookie();
-    await state.pref.setHyvServer(null);
-    await state.pref.setHyvServerName(null);
-    await state.pref.setHyvUserName(null);
-    await state.pref.setHyvUid(null);
-
+    await state.pref.hyvServer.setValue(null);
+    await state.pref.hyvServerName.setValue(null);
+    await state.pref.hyvUserName.setValue(null);
+    await state.pref.hyvUid.setValue(null);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setSyncResin(bool value) async {
-    await state.pref.setSyncResin(value);
+    await state.pref.syncResin.setValue(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setSyncCharaState(bool value) async {
-    await state.pref.setSyncCharaState(value);
+    await state.pref.syncCharaState.setValue(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setSyncWeaponState(bool value) async {
-    await state.pref.setSyncWeaponState(value);
+    await state.pref.syncWeaponState.setValue(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setAutoRemoveBookmarks(bool value) async {
-    await state.pref.setAutoRemoveBookmarks(value);
+    await state.pref.autoRemoveBookmarks.setValue(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setSyncBagLackNums(bool value) async {
-    await state.pref.setSyncBagLackNums(value);
+    await state.pref.syncBagLackNums.setValue(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setShowItemNameOnCard(bool value) async {
-    await state.pref.setShowItemNameOnCard(value);
+    await state.pref.showItemNameOnCard.setValue(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setDailyResetServer(GameServer server) async {
-    await state.pref.setDailyResetServer(server.name);
+    await state.pref.dailyResetServer.setValueWithConversion(server);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setIndexSheetTutorialShown() async {
-    await state.pref.setIndexSheetTutorialShown(true);
-    state = PreferencesState.fromSharedPreferences(state.pref);
-  }
-
-  Future<void> setLackNumDisplayMethod(LackNumDisplayMethod method) async {
-    await state.pref.setLackNumDisplayMethod(method);
+    await state.pref.indexSheetTutorialShown.setValue(true);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> addBannerReadKey(String key) async {
-    final keys = state.pref.bannerReadKeys;
+    final keys = List<String>.from(state.pref.bannerReadKeys.value);
     keys.add(key);
-    await state.pref.setBannerReadKeys(keys);
-
+    await state.pref.bannerReadKeys.setValue(keys);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setAdventureRank(int value) async {
-    await state.pref.setAdventureRank(value);
+    await state.pref.adventureRank.setValue(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setCondensedMultiplier(double value) async {
-    await state.pref.setCondensedMultiplier(value);
+    await state.pref.condensedMultiplier.setValue(value);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
+
+  Future<void> setShowFarmCount(bool value) async {
+    await state.pref.showFarmCount.setValue(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 }
@@ -151,33 +143,33 @@ sealed class PreferencesState with _$PreferencesState {
     required bool showItemNameOnCard,
     required GameServer dailyResetServer,
     required bool indexSheetTutorialShown,
-    required LackNumDisplayMethod lackNumDisplayMethod,
     required List<String> bannerReadKeys,
     required int adventureRank,
     required double condensedMultiplier,
+    required bool showFarmCount,
   }) = _PreferencesState;
 
   factory PreferencesState.fromSharedPreferences(KvPreferences pref) {
     return PreferencesState(
       pref: pref,
-      resin: pref.resin,
-      resinBaseTime: pref.resinBaseTime,
-      hyvServer: pref.hyvServer,
-      hyvServerName: pref.hyvServerName,
-      hyvUserName: pref.hyvUserName,
-      hyvUid: pref.hyvUid,
-      syncResin: pref.syncResin,
-      syncCharaState: pref.syncCharaState,
-      syncWeaponState: pref.syncWeaponState,
-      autoRemoveBookmarks: pref.autoRemoveBookmarks,
-      syncBagLackNums: pref.syncBagLackNums,
-      showItemNameOnCard: pref.showItemNameOnCard,
-      dailyResetServer: GameServer.values.firstWhere((e) => e.name == pref.dailyResetServer),
-      indexSheetTutorialShown: pref.indexSheetTutorialShown,
-      lackNumDisplayMethod: pref.lackNumDisplayMethod,
-      bannerReadKeys: pref.bannerReadKeys,
-      adventureRank: pref.adventureRank,
-      condensedMultiplier: pref.condensedMultiplier,
+      resin: pref.resin.value,
+      resinBaseTime: pref.resinBaseTime.convertedValue,
+      hyvServer: pref.hyvServer.value,
+      hyvServerName: pref.hyvServerName.value,
+      hyvUserName: pref.hyvUserName.value,
+      hyvUid: pref.hyvUid.value,
+      syncResin: pref.syncResin.value,
+      syncCharaState: pref.syncCharaState.value,
+      syncWeaponState: pref.syncWeaponState.value,
+      autoRemoveBookmarks: pref.autoRemoveBookmarks.value,
+      syncBagLackNums: pref.syncBagLackNums.value,
+      showItemNameOnCard: pref.showItemNameOnCard.value,
+      dailyResetServer: pref.dailyResetServer.convertedValue,
+      indexSheetTutorialShown: pref.indexSheetTutorialShown.value,
+      bannerReadKeys: pref.bannerReadKeys.value,
+      adventureRank: pref.adventureRank.value,
+      condensedMultiplier: pref.condensedMultiplier.value,
+      showFarmCount: pref.showFarmCount.value,
     );
   }
 
