@@ -32,7 +32,7 @@ class _WeekdayTabState extends ConsumerState<WeekdayTab> {
       }
     });
 
-    final pref = ref.watch(preferencesStateNotifierProvider);
+    final pref = ref.watch(preferencesStateProvider);
 
     return TabBar(
       controller: widget._tabController,

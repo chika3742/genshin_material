@@ -32,7 +32,7 @@ class HoyolabIntegrationSettingsPage extends StatefulHookConsumerWidget {
 class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrationSettingsPage> {
   @override
   Widget build(BuildContext context) {
-    final prefs = ref.watch(preferencesStateNotifierProvider);
+    final prefs = ref.watch(preferencesStateProvider);
 
     final isSignedIn = useState(false);
     useEffect(() {
@@ -83,7 +83,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                 showCancel: true,
                 onOkPressed: () {
                   if (ref.context.mounted) {
-                    ref.read(preferencesStateNotifierProvider.notifier).clearHoyolabCredential();
+                    ref.read(preferencesStateProvider.notifier).clearHoyolabCredential();
                     isSignedIn.value = false;
                   }
                 },
@@ -123,7 +123,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             title: Text(tr.hoyolab.syncCharaState),
             value: prefs.syncCharaState,
             onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateNotifierProvider.notifier)
+              ref.read(preferencesStateProvider.notifier)
                   .setSyncCharaState(value);
             } : null,
           ),
@@ -131,7 +131,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             title: Text(tr.hoyolab.syncWeaponState),
             value: prefs.syncWeaponState,
             onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateNotifierProvider.notifier)
+              ref.read(preferencesStateProvider.notifier)
                   .setSyncWeaponState(value);
             } : null,
           ),
@@ -139,7 +139,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             title: Text(tr.hoyolab.syncBagLackNums),
             value: prefs.syncBagLackNums,
             onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateNotifierProvider.notifier)
+              ref.read(preferencesStateProvider.notifier)
                   .setSyncBagLackNums(value);
             } : null,
           ),
@@ -148,7 +148,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             subtitle: Text(tr.hoyolab.autoRemoveBookmarksDesc),
             value: prefs.autoRemoveBookmarks,
             onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateNotifierProvider.notifier)
+              ref.read(preferencesStateProvider.notifier)
                   .setAutoRemoveBookmarks(value);
             } : null,
           ),
@@ -156,7 +156,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             title: Text(tr.hoyolab.syncResin),
             value: prefs.syncResin,
             onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateNotifierProvider.notifier)
+              ref.read(preferencesStateProvider.notifier)
                   .setSyncResin(value);
             } : null,
           ),
@@ -257,7 +257,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
     // set initial selected server
     useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, __) {
-      final prefs = ref.read(preferencesStateNotifierProvider);
+      final prefs = ref.read(preferencesStateProvider);
       final servers = serversSnapshot.data?.data?.list;
       if (servers != null) {
         selectedServer.value = servers.firstWhereOrNull((e) => e.region == prefs.hyvServer);
@@ -344,7 +344,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
                     final server = selectedServer.value!;
                     final gameRole = gameRoles.value[server]!;
-                    ref.read(preferencesStateNotifierProvider.notifier)
+                    ref.read(preferencesStateProvider.notifier)
                         ..setHoyolabServer(server, gameRole.nickname)
                         ..setUid(gameRole.uid);
                     Navigator.of(context).pop();

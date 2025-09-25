@@ -6,40 +6,87 @@ part of 'miscellaneous.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$ownedCharactersHash() => r'42a899d7e98ca583832cbeef8350e926dd76c5bc';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [ownedCharacters].
-@ProviderFor(ownedCharacters)
-final ownedCharactersProvider =
-    AutoDisposeFutureProvider<List<CharacterId>?>.internal(
-  ownedCharacters,
-  name: r'ownedCharactersProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$ownedCharactersHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+@ProviderFor(RealtimeNotesActivationState)
+const realtimeNotesActivationStateProvider =
+    RealtimeNotesActivationStateProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef OwnedCharactersRef = AutoDisposeFutureProviderRef<List<CharacterId>?>;
+final class RealtimeNotesActivationStateProvider
+    extends $AsyncNotifierProvider<RealtimeNotesActivationState, bool> {
+  const RealtimeNotesActivationStateProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'realtimeNotesActivationStateProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$realtimeNotesActivationStateHash();
+
+  @$internal
+  @override
+  RealtimeNotesActivationState create() => RealtimeNotesActivationState();
+}
+
 String _$realtimeNotesActivationStateHash() =>
     r'fe12c5df9dc88c1d710f025dc1a52f71e5e1d5af';
 
-/// See also [RealtimeNotesActivationState].
-@ProviderFor(RealtimeNotesActivationState)
-final realtimeNotesActivationStateProvider = AutoDisposeAsyncNotifierProvider<
-    RealtimeNotesActivationState, bool>.internal(
-  RealtimeNotesActivationState.new,
-  name: r'realtimeNotesActivationStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$realtimeNotesActivationStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$RealtimeNotesActivationState extends $AsyncNotifier<bool> {
+  FutureOr<bool> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AsyncValue<bool>, bool>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<bool>, bool>,
+        AsyncValue<bool>,
+        Object?,
+        Object?>;
+    element.handleValue(ref, created);
+  }
+}
 
-typedef _$RealtimeNotesActivationState = AutoDisposeAsyncNotifier<bool>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+@ProviderFor(ownedCharacters)
+const ownedCharactersProvider = OwnedCharactersProvider._();
+
+final class OwnedCharactersProvider extends $FunctionalProvider<
+        AsyncValue<List<CharacterId>?>,
+        List<CharacterId>?,
+        FutureOr<List<CharacterId>?>>
+    with
+        $FutureModifier<List<CharacterId>?>,
+        $FutureProvider<List<CharacterId>?> {
+  const OwnedCharactersProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'ownedCharactersProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$ownedCharactersHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<CharacterId>?> $createElement(
+          $ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<CharacterId>?> create(Ref ref) {
+    return ownedCharacters(ref);
+  }
+}
+
+String _$ownedCharactersHash() => r'ebfb0d0e176b393a9c9ba61ca8956854c3e37e41';

@@ -146,7 +146,7 @@ class HomeRoute extends StatefulShellRouteData {
 }
 
 @immutable
-class BookmarksNavRoute extends GoRouteData with _$BookmarksNavRoute {
+class BookmarksNavRoute extends GoRouteData with $BookmarksNavRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -162,7 +162,7 @@ class BookmarksNavRoute extends GoRouteData with _$BookmarksNavRoute {
 }
 
 @immutable
-class DatabaseNavRoute extends GoRouteData with _$DatabaseNavRoute {
+class DatabaseNavRoute extends GoRouteData with $DatabaseNavRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -173,7 +173,7 @@ class DatabaseNavRoute extends GoRouteData with _$DatabaseNavRoute {
 }
 
 @immutable
-class CharacterListRoute extends GoRouteData with _$CharacterListRoute {
+class CharacterListRoute extends GoRouteData with $CharacterListRoute {
   const CharacterListRoute();
 
   @override
@@ -191,7 +191,7 @@ class CharacterListRoute extends GoRouteData with _$CharacterListRoute {
 }
 
 @immutable
-class CharacterDetailsRoute extends GoRouteData with _$CharacterDetailsRoute {
+class CharacterDetailsRoute extends GoRouteData with $CharacterDetailsRoute {
   final String id;
   final String? variant;
 
@@ -212,7 +212,7 @@ class CharacterDetailsRoute extends GoRouteData with _$CharacterDetailsRoute {
 }
 
 @immutable
-class WeaponListRoute extends GoRouteData with _$WeaponListRoute {
+class WeaponListRoute extends GoRouteData with $WeaponListRoute {
   final String? equipCharacterId;
 
   const WeaponListRoute({this.equipCharacterId});
@@ -235,7 +235,7 @@ class WeaponListRoute extends GoRouteData with _$WeaponListRoute {
 }
 
 @immutable
-class WeaponDetailsRoute extends GoRouteData with _$WeaponDetailsRoute {
+class WeaponDetailsRoute extends GoRouteData with $WeaponDetailsRoute {
   final String id;
   final CharacterId? initialSelectedCharacter;
 
@@ -260,7 +260,7 @@ class WeaponDetailsRoute extends GoRouteData with _$WeaponDetailsRoute {
 }
 
 @immutable
-class MaterialListRoute extends GoRouteData with _$MaterialListRoute {
+class MaterialListRoute extends GoRouteData with $MaterialListRoute {
   const MaterialListRoute();
 
   @override
@@ -278,7 +278,7 @@ class MaterialListRoute extends GoRouteData with _$MaterialListRoute {
 }
 
 @immutable
-class MaterialDetailsRoute extends GoRouteData with _$MaterialDetailsRoute {
+class MaterialDetailsRoute extends GoRouteData with $MaterialDetailsRoute {
   final String id;
 
   const MaterialDetailsRoute({required this.id});
@@ -298,7 +298,7 @@ class MaterialDetailsRoute extends GoRouteData with _$MaterialDetailsRoute {
 }
 
 @immutable
-class ArtifactListRoute extends GoRouteData with _$ArtifactListRoute {
+class ArtifactListRoute extends GoRouteData with $ArtifactListRoute {
   final String? equipCharacterId;
 
   const ArtifactListRoute({this.equipCharacterId});
@@ -321,7 +321,7 @@ class ArtifactListRoute extends GoRouteData with _$ArtifactListRoute {
 }
 
 @immutable
-class ArtifactEffectListRoute extends GoRouteData with _$ArtifactEffectListRoute {
+class ArtifactEffectListRoute extends GoRouteData with $ArtifactEffectListRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -337,7 +337,7 @@ class ArtifactEffectListRoute extends GoRouteData with _$ArtifactEffectListRoute
 }
 
 @immutable
-class ArtifactDetailsRoute extends GoRouteData with _$ArtifactDetailsRoute {
+class ArtifactDetailsRoute extends GoRouteData with $ArtifactDetailsRoute {
   final String id;
   final CharacterId? initialSelectedCharacter;
 
@@ -361,7 +361,7 @@ class ArtifactDetailsRoute extends GoRouteData with _$ArtifactDetailsRoute {
   }
 }
 
-class FurnishingSetListRoute extends GoRouteData with _$FurnishingSetListRoute {
+class FurnishingSetListRoute extends GoRouteData with $FurnishingSetListRoute {
   const FurnishingSetListRoute();
 
   @override
@@ -378,7 +378,7 @@ class FurnishingSetListRoute extends GoRouteData with _$FurnishingSetListRoute {
   }
 }
 
-class FurnishingSetDetailsRoute extends GoRouteData with _$FurnishingSetDetailsRoute {
+class FurnishingSetDetailsRoute extends GoRouteData with $FurnishingSetDetailsRoute {
   final String id;
 
   const FurnishingSetDetailsRoute({required this.id});
@@ -397,7 +397,7 @@ class FurnishingSetDetailsRoute extends GoRouteData with _$FurnishingSetDetailsR
   }
 }
 
-class FurnishingListRoute extends GoRouteData with _$FurnishingListRoute {
+class FurnishingListRoute extends GoRouteData with $FurnishingListRoute {
   const FurnishingListRoute();
 
   @override
@@ -414,7 +414,7 @@ class FurnishingListRoute extends GoRouteData with _$FurnishingListRoute {
   }
 }
 
-class FurnishingDetailsRoute extends GoRouteData with _$FurnishingDetailsRoute {
+class FurnishingDetailsRoute extends GoRouteData with $FurnishingDetailsRoute {
   final String id;
 
   const FurnishingDetailsRoute({required this.id});
@@ -434,7 +434,7 @@ class FurnishingDetailsRoute extends GoRouteData with _$FurnishingDetailsRoute {
 }
 
 @immutable
-class DailyNavRoute extends GoRouteData with _$DailyNavRoute {
+class DailyNavRoute extends GoRouteData with $DailyNavRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -450,7 +450,7 @@ class DailyNavRoute extends GoRouteData with _$DailyNavRoute {
 }
 
 @immutable
-class ToolsNavRoute extends GoRouteData with _$ToolsNavRoute {
+class ToolsNavRoute extends GoRouteData with $ToolsNavRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -461,7 +461,7 @@ class ToolsNavRoute extends GoRouteData with _$ToolsNavRoute {
 }
 
 @immutable
-class ResinCalcRoute extends GoRouteData with _$ResinCalcRoute {
+class ResinCalcRoute extends GoRouteData with $ResinCalcRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -472,7 +472,7 @@ class ResinCalcRoute extends GoRouteData with _$ResinCalcRoute {
 }
 
 @immutable
-class MoreNavRoute extends GoRouteData with _$MoreNavRoute {
+class MoreNavRoute extends GoRouteData with $MoreNavRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -483,7 +483,7 @@ class MoreNavRoute extends GoRouteData with _$MoreNavRoute {
 }
 
 @immutable
-class SettingsRoute extends GoRouteData with _$SettingsRoute {
+class SettingsRoute extends GoRouteData with $SettingsRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   @override
@@ -495,7 +495,7 @@ class SettingsRoute extends GoRouteData with _$SettingsRoute {
   }
 }
 
-class FarmCountSettingsRoute extends GoRouteData with _$FarmCountSettingsRoute {
+class FarmCountSettingsRoute extends GoRouteData with $FarmCountSettingsRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   @override
@@ -513,7 +513,7 @@ class FarmCountSettingsRoute extends GoRouteData with _$FarmCountSettingsRoute {
 }
 
 @immutable
-class AccountRoute extends GoRouteData with _$AccountRoute {
+class AccountRoute extends GoRouteData with $AccountRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   @override
@@ -526,7 +526,7 @@ class AccountRoute extends GoRouteData with _$AccountRoute {
 }
 
 @immutable
-class ReleaseNotesRoute extends GoRouteData with _$ReleaseNotesRoute {
+class ReleaseNotesRoute extends GoRouteData with $ReleaseNotesRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   final int tabIndex;
@@ -543,7 +543,7 @@ class ReleaseNotesRoute extends GoRouteData with _$ReleaseNotesRoute {
 }
 
 @immutable
-class HoyolabIntegrationSettingsRoute extends GoRouteData with _$HoyolabIntegrationSettingsRoute {
+class HoyolabIntegrationSettingsRoute extends GoRouteData with $HoyolabIntegrationSettingsRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   @override
@@ -556,7 +556,7 @@ class HoyolabIntegrationSettingsRoute extends GoRouteData with _$HoyolabIntegrat
 }
 
 @immutable
-class HoyolabSignInRoute extends GoRouteData with _$HoyolabSignInRoute {
+class HoyolabSignInRoute extends GoRouteData with $HoyolabSignInRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   @override
@@ -569,7 +569,7 @@ class HoyolabSignInRoute extends GoRouteData with _$HoyolabSignInRoute {
 }
 
 @immutable
-class LicensesRoute extends GoRouteData with _$LicensesRoute {
+class LicensesRoute extends GoRouteData with $LicensesRoute {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   @override
@@ -590,7 +590,7 @@ class LicensesRoute extends GoRouteData with _$LicensesRoute {
 }
 
 @immutable
-class DebugMenuRoute extends GoRouteData with _$DebugMenuRoute {
+class DebugMenuRoute extends GoRouteData with $DebugMenuRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -601,7 +601,7 @@ class DebugMenuRoute extends GoRouteData with _$DebugMenuRoute {
 }
 
 @immutable
-class DebugSharedPreferencesEditorRoute extends GoRouteData with _$DebugSharedPreferencesEditorRoute {
+class DebugSharedPreferencesEditorRoute extends GoRouteData with $DebugSharedPreferencesEditorRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -612,7 +612,7 @@ class DebugSharedPreferencesEditorRoute extends GoRouteData with _$DebugSharedPr
 }
 
 @immutable
-class DebugDriftDbViewerRoute extends GoRouteData with _$DebugDriftDbViewerRoute {
+class DebugDriftDbViewerRoute extends GoRouteData with $DebugDriftDbViewerRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(
@@ -629,7 +629,7 @@ class DebugDriftDbViewerRoute extends GoRouteData with _$DebugDriftDbViewerRoute
 }
 
 @immutable
-class DebugComponentGalleryRoute extends GoRouteData with _$DebugComponentGalleryRoute {
+class DebugComponentGalleryRoute extends GoRouteData with $DebugComponentGalleryRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return buildTransitionedPage(

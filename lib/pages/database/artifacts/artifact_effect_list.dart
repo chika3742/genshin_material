@@ -18,7 +18,7 @@ class ArtifactEffectListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filterState = ref.watch(artifactFilterStateNotifierProvider);
+    final filterState = ref.watch(artifactFilterStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -57,7 +57,7 @@ class ArtifactEffectListPage extends HookConsumerWidget {
                         leading: const Icon(Symbols.clear),
                         label: Text(tr.common.clear),
                         onSelected: filterState.tags.isNotEmpty ? (_) {
-                          ref.read(artifactFilterStateNotifierProvider.notifier).clear();
+                          ref.read(artifactFilterStateProvider.notifier).clear();
                         } : null,
                       ),
                     ],
@@ -130,7 +130,7 @@ class _ArtifactEffectFilterBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(artifactFilterStateNotifierProvider);
+    final state = ref.watch(artifactFilterStateProvider);
 
     return DataAssetScope(
       useScaffold: false,
@@ -146,7 +146,7 @@ class _ArtifactEffectFilterBottomSheet extends ConsumerWidget {
                       label: Text(tag.desc.localized),
                       selected: state.tags.contains(tag.id),
                       onSelected: (value) {
-                        final notifier = ref.read(artifactFilterStateNotifierProvider.notifier);
+                        final notifier = ref.read(artifactFilterStateProvider.notifier);
                         if (value) {
                           notifier.addTag(tag.id);
                         } else {

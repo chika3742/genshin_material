@@ -40,7 +40,7 @@ class DailyPage extends HookConsumerWidget {
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pref = ref.watch(preferencesStateNotifierProvider);
+    final pref = ref.watch(preferencesStateProvider);
 
     final tabController = useTabController(
       initialLength: tabs.length,

@@ -51,7 +51,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       adventureRank,
       condensedMultiplier,
       dailyResetServer,
-    ) = ref.watch(preferencesStateNotifierProvider.select((s) => (
+    ) = ref.watch(preferencesStateProvider.select((s) => (
       s.adventureRank,
       s.condensedMultiplier,
       s.dailyResetServer,
@@ -117,7 +117,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
     return MaterialCard(
       image: material.getImageFile(assetData.assetDir),
       name: material.name.localized,
-      showName: ref.watch(preferencesStateNotifierProvider).showItemNameOnCard,
+      showName: ref.watch(preferencesStateProvider).showItemNameOnCard,
       rarity: material.rarity,
       quantity: quantity,
       lackNum: _currentExpItemIndex == 0 ? widget.lackNum : null, // Only show lackNum for the first exp item

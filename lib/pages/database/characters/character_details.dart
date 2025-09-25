@@ -55,7 +55,7 @@ class CharacterDetailsPage extends HookConsumerWidget {
     } as CharacterWithLargeImage;
 
     final db = ref.watch(appDatabaseProvider);
-    final (uid, syncCharaState) = ref.watch(preferencesStateNotifierProvider
+    final (uid, syncCharaState) = ref.watch(preferencesStateProvider
         .select((e) => (e.hyvUid, e.syncCharaState)));
 
     final csResult = useMemoized(() => uid != null
@@ -117,7 +117,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       return {(character as ListedCharacter).element: character};
     });
 
-    final prefs = ref.watch(preferencesStateNotifierProvider);
+    final prefs = ref.watch(preferencesStateProvider);
     final db = ref.watch(appDatabaseProvider);
 
     final variant = useState(
@@ -126,7 +126,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
 
     if (!variant.value.disableSync) {
       ref.listen(gameDataSyncCachedProvider(variantId: variant.value.id), (_, result) {
-        if (result.valueOrNull == null) return;
+        if (result.value == null) return;
 
         var newState = state.value;
         if (result.value!.levels != null) {
@@ -157,7 +157,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       });
 
       ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id)), (_, result) {
-        if (result.valueOrNull == null) return;
+        if (result.value == null) return;
 
         state.value = state.value.copyWith(
           lackNums: result.value!,

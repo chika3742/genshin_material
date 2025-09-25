@@ -19,7 +19,7 @@ class DataAssetScope extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetData = ref.watch(assetDataProvider);
-    final updatingState = ref.watch(assetUpdatingStateNotifierProvider);
+    final updatingState = ref.watch(assetUpdatingStateProvider);
 
     if (assetData is AsyncData) {
       // Valid assets present

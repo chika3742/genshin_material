@@ -71,10 +71,10 @@ class GameDataSyncCached extends _$GameDataSyncCached {
   @override
   Future<GameDataSyncResult?> build({ required String variantId, String? weaponId }) async {
     final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(preferencesStateNotifierProvider.select((e) => e.hyvUid));
+    final uid = ref.watch(preferencesStateProvider.select((e) => e.hyvUid));
     if (uid == null) return null; // uid is not set
 
-    final syncState = ref.watch(preferencesStateNotifierProvider
+    final syncState = ref.watch(preferencesStateProvider
         .select((e) => weaponId == null ? e.syncCharaState : e.syncWeaponState));
     if (!syncState) {
       return null; // sync level is disabled
@@ -134,7 +134,7 @@ class GameDataSyncCached extends _$GameDataSyncCached {
 @riverpod
 Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, String? weaponId }) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final (uid, server) = ref.watch(preferencesStateNotifierProvider.select((e) => (e.hyvUid, e.hyvServer)));
+  final (uid, server) = ref.watch(preferencesStateProvider.select((e) => (e.hyvUid, e.hyvServer)));
   final hoyolabCookie = await getHoyolabCookie();
 
   if (uid == null || server == null || hoyolabCookie == null) {
@@ -202,7 +202,7 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
 @riverpod
 Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entries) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final (hyvUid, hyvServer, syncBagLackNums) = ref.watch(preferencesStateNotifierProvider
+  final (hyvUid, hyvServer, syncBagLackNums) = ref.watch(preferencesStateProvider
       .select((s) => (s.hyvUid, s.hyvServer, s.syncBagLackNums)));
   final hoyolabCookie = await getHoyolabCookie();
 
@@ -252,7 +252,7 @@ GameDataSyncStatus? gameDataSyncState(Ref ref, { required String variantId, Stri
     ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variantId, weaponId: weaponId))),
   ];
 
-  final syncResult = snapshots.first.valueOrNull as GameDataSyncResult?;
+  final syncResult = snapshots.first.value as GameDataSyncResult?;
 
   if (snapshots.any((snapshot) => snapshot.isLoading) || syncResult?.isStale == true) {
     return const GameDataSyncStatus.syncing(); // in progress
@@ -280,7 +280,7 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
   }
 
   Future<void> syncResin() async {
-    final prefs = ref.read(preferencesStateNotifierProvider);
+    final prefs = ref.read(preferencesStateProvider);
 
     if (!prefs.syncResin) {
       return;
@@ -299,7 +299,7 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
 
     try {
       final dailyNote = await api.getDailyNote();
-      await ref.read(preferencesStateNotifierProvider.notifier)
+      await ref.read(preferencesStateProvider.notifier)
           .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
     } on Exception catch (e, st) {
       state = GameDataSyncStatus.error(error: e);

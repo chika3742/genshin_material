@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:flutter_riverpod/misc.dart";
+import "package:riverpod_annotation/riverpod_annotation.dart";
 import "package:timelines/timelines.dart";
 
 import "../components/center_text.dart";
@@ -70,7 +72,7 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
   }
 
   Widget _buildReleaseNotesTab({
-    required AutoDisposeFutureProvider<List<ReleaseNote>> provider,
+    required ProviderBase<AsyncValue<List<ReleaseNote>>> provider,
     required String versionPrefix,
     required Color color,
   }) {
@@ -87,7 +89,7 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
 }
 
 class _ReleaseNotesTabContent extends ConsumerWidget {
-  final AutoDisposeFutureProvider<List<ReleaseNote>> provider;
+  final ProviderBase<AsyncValue<List<ReleaseNote>>> provider;
   final String versionPrefix;
 
   const _ReleaseNotesTabContent({required this.provider, this.versionPrefix = "v"});

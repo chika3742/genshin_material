@@ -6,77 +6,150 @@ part of 'versions.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(packageInfo)
+const packageInfoProvider = PackageInfoProvider._();
+
+final class PackageInfoProvider extends $FunctionalProvider<
+        AsyncValue<PackageInfo>, PackageInfo, FutureOr<PackageInfo>>
+    with $FutureModifier<PackageInfo>, $FutureProvider<PackageInfo> {
+  const PackageInfoProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'packageInfoProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$packageInfoHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<PackageInfo> $createElement(
+          $ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<PackageInfo> create(Ref ref) {
+    return packageInfo(ref);
+  }
+}
+
 String _$packageInfoHash() => r'44d37547139567a5f03c1942c1d62ff1abb07248';
 
-/// See also [packageInfo].
-@ProviderFor(packageInfo)
-final packageInfoProvider = FutureProvider<PackageInfo>.internal(
-  packageInfo,
-  name: r'packageInfoProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$packageInfoHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+@ProviderFor(assetData)
+const assetDataProvider = AssetDataProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef PackageInfoRef = FutureProviderRef<PackageInfo>;
+final class AssetDataProvider extends $FunctionalProvider<AsyncValue<AssetData>,
+        AssetData, FutureOr<AssetData>>
+    with $FutureModifier<AssetData>, $FutureProvider<AssetData> {
+  const AssetDataProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'assetDataProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$assetDataHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<AssetData> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<AssetData> create(Ref ref) {
+    return assetData(ref);
+  }
+}
+
 String _$assetDataHash() => r'c31cae057a870579b82fad38dc01e15fb23ea653';
 
-/// See also [assetData].
-@ProviderFor(assetData)
-final assetDataProvider = AutoDisposeFutureProvider<AssetData>.internal(
-  assetData,
-  name: r'assetDataProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$assetDataHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+@ProviderFor(featuresReleaseNotesData)
+const featuresReleaseNotesDataProvider = FeaturesReleaseNotesDataProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AssetDataRef = AutoDisposeFutureProviderRef<AssetData>;
+final class FeaturesReleaseNotesDataProvider extends $FunctionalProvider<
+        AsyncValue<List<ReleaseNote>>,
+        List<ReleaseNote>,
+        FutureOr<List<ReleaseNote>>>
+    with
+        $FutureModifier<List<ReleaseNote>>,
+        $FutureProvider<List<ReleaseNote>> {
+  const FeaturesReleaseNotesDataProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'featuresReleaseNotesDataProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$featuresReleaseNotesDataHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<ReleaseNote>> $createElement(
+          $ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<ReleaseNote>> create(Ref ref) {
+    return featuresReleaseNotesData(ref);
+  }
+}
+
 String _$featuresReleaseNotesDataHash() =>
     r'ca5d04dc65b42cfe39f90626b86ebf6f6cbcdaa3';
 
-/// See also [featuresReleaseNotesData].
-@ProviderFor(featuresReleaseNotesData)
-final featuresReleaseNotesDataProvider =
-    AutoDisposeFutureProvider<List<ReleaseNote>>.internal(
-  featuresReleaseNotesData,
-  name: r'featuresReleaseNotesDataProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$featuresReleaseNotesDataHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+@ProviderFor(assetsReleaseNotesData)
+const assetsReleaseNotesDataProvider = AssetsReleaseNotesDataProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef FeaturesReleaseNotesDataRef
-    = AutoDisposeFutureProviderRef<List<ReleaseNote>>;
+final class AssetsReleaseNotesDataProvider extends $FunctionalProvider<
+        AsyncValue<List<ReleaseNote>>,
+        List<ReleaseNote>,
+        FutureOr<List<ReleaseNote>>>
+    with
+        $FutureModifier<List<ReleaseNote>>,
+        $FutureProvider<List<ReleaseNote>> {
+  const AssetsReleaseNotesDataProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'assetsReleaseNotesDataProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$assetsReleaseNotesDataHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<ReleaseNote>> $createElement(
+          $ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<ReleaseNote>> create(Ref ref) {
+    return assetsReleaseNotesData(ref);
+  }
+}
+
 String _$assetsReleaseNotesDataHash() =>
     r'3bdaa70123b85fb630ba46661fca53394c9c1eb9';
-
-/// See also [assetsReleaseNotesData].
-@ProviderFor(assetsReleaseNotesData)
-final assetsReleaseNotesDataProvider =
-    AutoDisposeFutureProvider<List<ReleaseNote>>.internal(
-  assetsReleaseNotesData,
-  name: r'assetsReleaseNotesDataProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$assetsReleaseNotesDataHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AssetsReleaseNotesDataRef
-    = AutoDisposeFutureProviderRef<List<ReleaseNote>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

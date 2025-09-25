@@ -28,7 +28,7 @@ class CharacterListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filterState = ref.watch(characterFilterStateNotifierProvider);
+    final filterState = ref.watch(characterFilterStateProvider);
 
     var charactersIterable = assetData.characters.values
         .whereType<CharacterWithLargeImage>();
@@ -132,7 +132,7 @@ class CharacterListPage extends HookConsumerWidget {
                     leading: const Icon(Symbols.clear),
                     label: Text(tr.common.clear),
                     onSelected: filterState.isFiltering ? (_) {
-                      ref.read(characterFilterStateNotifierProvider.notifier)
+                      ref.read(characterFilterStateProvider.notifier)
                           .clear();
                     } : null,
                   ),
@@ -180,7 +180,7 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(preferencesStateNotifierProvider);
+    final prefs = ref.watch(preferencesStateProvider);
 
     return DataAssetScope(
       useScaffold: false,
@@ -194,11 +194,11 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
                   items: [
                     for (final status in PossessionStatus.values)
                       FilterChipWithIcon(
-                        selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.possessionStatus == status)),
+                        selected: ref.watch(characterFilterStateProvider.select((it) => it.possessionStatus == status)),
                         leading: Icon(status == PossessionStatus.owned ? Symbols.place_item : Symbols.hide_source),
                         label: Text(tr.common.possessionStatus[status.name]!),
                         onSelected: prefs.isLinkedWithHoyolab ? (selected) {
-                          ref.read(characterFilterStateNotifierProvider.notifier)
+                          ref.read(characterFilterStateProvider.notifier)
                               .setPossessionStatus(selected ? status : null);
                         } : null,
                       ),
@@ -214,11 +214,11 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
               items: [
                 for (final rarity in [4, 5])
                   FilterChipWithIcon(
-                    selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.rarity == rarity)),
+                    selected: ref.watch(characterFilterStateProvider.select((it) => it.rarity == rarity)),
                     leading: const Icon(Symbols.star),
                     label: Text(rarity.toString()),
                     onSelected: (selected) {
-                      ref.read(characterFilterStateNotifierProvider.notifier)
+                      ref.read(characterFilterStateProvider.notifier)
                           .setRarity(selected ? rarity : null);
                     },
                   ),
@@ -229,7 +229,7 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
               items: [
                 for (final element in assetData.elements.entries)
                   FilterChipWithIcon(
-                    selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.element == element.key)),
+                    selected: ref.watch(characterFilterStateProvider.select((it) => it.element == element.key)),
                     leading: Image.file(
                       element.value.getImageFile(assetData.assetDir),
                       width: 24,
@@ -237,7 +237,7 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
                     ),
                     label: Text(element.value.text.localized),
                     onSelected: (selected) {
-                      ref.read(characterFilterStateNotifierProvider.notifier)
+                      ref.read(characterFilterStateProvider.notifier)
                           .setElement(selected ? element.key : null);
                     },
                   ),
@@ -248,10 +248,10 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
               items: [
                 for (final weaponType in assetData.weaponTypes.entries)
                   FilterChipWithIcon(
-                    selected: ref.watch(characterFilterStateNotifierProvider.select((it) => it.weaponType == weaponType.key)),
+                    selected: ref.watch(characterFilterStateProvider.select((it) => it.weaponType == weaponType.key)),
                     label: Text(weaponType.value.name.localized),
                     onSelected: (selected) {
-                      ref.read(characterFilterStateNotifierProvider.notifier)
+                      ref.read(characterFilterStateProvider.notifier)
                           .setWeaponType(selected ? weaponType.key : null);
                     },
                   ),

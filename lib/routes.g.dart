@@ -17,7 +17,7 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/bookmarks',
-              factory: _$BookmarksNavRoute._fromState,
+              factory: $BookmarksNavRoute._fromState,
             ),
           ],
         ),
@@ -25,69 +25,69 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/database',
-              factory: _$DatabaseNavRoute._fromState,
+              factory: $DatabaseNavRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'characters',
-                  factory: _$CharacterListRoute._fromState,
+                  factory: $CharacterListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: ':id',
-                      factory: _$CharacterDetailsRoute._fromState,
+                      factory: $CharacterDetailsRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'weapons',
-                  factory: _$WeaponListRoute._fromState,
+                  factory: $WeaponListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: ':id',
-                      factory: _$WeaponDetailsRoute._fromState,
+                      factory: $WeaponDetailsRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'materials',
-                  factory: _$MaterialListRoute._fromState,
+                  factory: $MaterialListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: ':id',
-                      factory: _$MaterialDetailsRoute._fromState,
+                      factory: $MaterialDetailsRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'artifacts',
-                  factory: _$ArtifactListRoute._fromState,
+                  factory: $ArtifactListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'effects',
-                      factory: _$ArtifactEffectListRoute._fromState,
+                      factory: $ArtifactEffectListRoute._fromState,
                     ),
                     GoRouteData.$route(
                       path: ':id',
-                      factory: _$ArtifactDetailsRoute._fromState,
+                      factory: $ArtifactDetailsRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'furnishing-sets',
-                  factory: _$FurnishingSetListRoute._fromState,
+                  factory: $FurnishingSetListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'furnishings',
-                      factory: _$FurnishingListRoute._fromState,
+                      factory: $FurnishingListRoute._fromState,
                       routes: [
                         GoRouteData.$route(
                           path: ':id',
-                          factory: _$FurnishingDetailsRoute._fromState,
+                          factory: $FurnishingDetailsRoute._fromState,
                         ),
                       ],
                     ),
                     GoRouteData.$route(
                       path: ':id',
-                      factory: _$FurnishingSetDetailsRoute._fromState,
+                      factory: $FurnishingSetDetailsRoute._fromState,
                     ),
                   ],
                 ),
@@ -99,7 +99,7 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/daily',
-              factory: _$DailyNavRoute._fromState,
+              factory: $DailyNavRoute._fromState,
             ),
           ],
         ),
@@ -107,11 +107,11 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/tools',
-              factory: _$ToolsNavRoute._fromState,
+              factory: $ToolsNavRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'resin-calc',
-                  factory: _$ResinCalcRoute._fromState,
+                  factory: $ResinCalcRoute._fromState,
                 ),
               ],
             ),
@@ -121,65 +121,65 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
           routes: [
             GoRouteData.$route(
               path: '/more',
-              factory: _$MoreNavRoute._fromState,
+              factory: $MoreNavRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'settings',
                   parentNavigatorKey: SettingsRoute.$parentNavigatorKey,
-                  factory: _$SettingsRoute._fromState,
+                  factory: $SettingsRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'farm-count',
                       parentNavigatorKey:
                           FarmCountSettingsRoute.$parentNavigatorKey,
-                      factory: _$FarmCountSettingsRoute._fromState,
+                      factory: $FarmCountSettingsRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'account',
                   parentNavigatorKey: AccountRoute.$parentNavigatorKey,
-                  factory: _$AccountRoute._fromState,
+                  factory: $AccountRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'release-notes',
                   parentNavigatorKey: ReleaseNotesRoute.$parentNavigatorKey,
-                  factory: _$ReleaseNotesRoute._fromState,
+                  factory: $ReleaseNotesRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'hoyolab-integration',
                   parentNavigatorKey:
                       HoyolabIntegrationSettingsRoute.$parentNavigatorKey,
-                  factory: _$HoyolabIntegrationSettingsRoute._fromState,
+                  factory: $HoyolabIntegrationSettingsRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'sign-in',
                       parentNavigatorKey:
                           HoyolabSignInRoute.$parentNavigatorKey,
-                      factory: _$HoyolabSignInRoute._fromState,
+                      factory: $HoyolabSignInRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'licenses',
                   parentNavigatorKey: LicensesRoute.$parentNavigatorKey,
-                  factory: _$LicensesRoute._fromState,
+                  factory: $LicensesRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'debug',
-                  factory: _$DebugMenuRoute._fromState,
+                  factory: $DebugMenuRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'sp-editor',
-                      factory: _$DebugSharedPreferencesEditorRoute._fromState,
+                      factory: $DebugSharedPreferencesEditorRoute._fromState,
                     ),
                     GoRouteData.$route(
                       path: 'drift-db-viewer',
-                      factory: _$DebugDriftDbViewerRoute._fromState,
+                      factory: $DebugDriftDbViewerRoute._fromState,
                     ),
                     GoRouteData.$route(
                       path: 'component-gallery',
-                      factory: _$DebugComponentGalleryRoute._fromState,
+                      factory: $DebugComponentGalleryRoute._fromState,
                     ),
                   ],
                 ),
@@ -194,7 +194,7 @@ extension $HomeRouteExtension on HomeRoute {
   static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
 }
 
-mixin _$BookmarksNavRoute on GoRouteData {
+mixin $BookmarksNavRoute on GoRouteData {
   static BookmarksNavRoute _fromState(GoRouterState state) =>
       BookmarksNavRoute();
 
@@ -217,7 +217,7 @@ mixin _$BookmarksNavRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$DatabaseNavRoute on GoRouteData {
+mixin $DatabaseNavRoute on GoRouteData {
   static DatabaseNavRoute _fromState(GoRouterState state) => DatabaseNavRoute();
 
   @override
@@ -239,7 +239,7 @@ mixin _$DatabaseNavRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$CharacterListRoute on GoRouteData {
+mixin $CharacterListRoute on GoRouteData {
   static CharacterListRoute _fromState(GoRouterState state) =>
       const CharacterListRoute();
 
@@ -262,7 +262,7 @@ mixin _$CharacterListRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$CharacterDetailsRoute on GoRouteData {
+mixin $CharacterDetailsRoute on GoRouteData {
   static CharacterDetailsRoute _fromState(GoRouterState state) =>
       CharacterDetailsRoute(
         id: state.pathParameters['id']!,
@@ -293,7 +293,7 @@ mixin _$CharacterDetailsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$WeaponListRoute on GoRouteData {
+mixin $WeaponListRoute on GoRouteData {
   static WeaponListRoute _fromState(GoRouterState state) => WeaponListRoute(
         equipCharacterId: state.uri.queryParameters['equip-character-id'],
       );
@@ -323,7 +323,7 @@ mixin _$WeaponListRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$WeaponDetailsRoute on GoRouteData {
+mixin $WeaponDetailsRoute on GoRouteData {
   static WeaponDetailsRoute _fromState(GoRouterState state) =>
       WeaponDetailsRoute(
         id: state.pathParameters['id']!,
@@ -356,7 +356,7 @@ mixin _$WeaponDetailsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$MaterialListRoute on GoRouteData {
+mixin $MaterialListRoute on GoRouteData {
   static MaterialListRoute _fromState(GoRouterState state) =>
       const MaterialListRoute();
 
@@ -379,7 +379,7 @@ mixin _$MaterialListRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$MaterialDetailsRoute on GoRouteData {
+mixin $MaterialDetailsRoute on GoRouteData {
   static MaterialDetailsRoute _fromState(GoRouterState state) =>
       MaterialDetailsRoute(
         id: state.pathParameters['id']!,
@@ -406,7 +406,7 @@ mixin _$MaterialDetailsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$ArtifactListRoute on GoRouteData {
+mixin $ArtifactListRoute on GoRouteData {
   static ArtifactListRoute _fromState(GoRouterState state) => ArtifactListRoute(
         equipCharacterId: state.uri.queryParameters['equip-character-id'],
       );
@@ -436,7 +436,7 @@ mixin _$ArtifactListRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$ArtifactEffectListRoute on GoRouteData {
+mixin $ArtifactEffectListRoute on GoRouteData {
   static ArtifactEffectListRoute _fromState(GoRouterState state) =>
       ArtifactEffectListRoute();
 
@@ -459,7 +459,7 @@ mixin _$ArtifactEffectListRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$ArtifactDetailsRoute on GoRouteData {
+mixin $ArtifactDetailsRoute on GoRouteData {
   static ArtifactDetailsRoute _fromState(GoRouterState state) =>
       ArtifactDetailsRoute(
         id: state.pathParameters['id']!,
@@ -492,7 +492,7 @@ mixin _$ArtifactDetailsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$FurnishingSetListRoute on GoRouteData {
+mixin $FurnishingSetListRoute on GoRouteData {
   static FurnishingSetListRoute _fromState(GoRouterState state) =>
       const FurnishingSetListRoute();
 
@@ -515,7 +515,7 @@ mixin _$FurnishingSetListRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$FurnishingListRoute on GoRouteData {
+mixin $FurnishingListRoute on GoRouteData {
   static FurnishingListRoute _fromState(GoRouterState state) =>
       const FurnishingListRoute();
 
@@ -538,7 +538,7 @@ mixin _$FurnishingListRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$FurnishingDetailsRoute on GoRouteData {
+mixin $FurnishingDetailsRoute on GoRouteData {
   static FurnishingDetailsRoute _fromState(GoRouterState state) =>
       FurnishingDetailsRoute(
         id: state.pathParameters['id']!,
@@ -565,7 +565,7 @@ mixin _$FurnishingDetailsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$FurnishingSetDetailsRoute on GoRouteData {
+mixin $FurnishingSetDetailsRoute on GoRouteData {
   static FurnishingSetDetailsRoute _fromState(GoRouterState state) =>
       FurnishingSetDetailsRoute(
         id: state.pathParameters['id']!,
@@ -592,7 +592,7 @@ mixin _$FurnishingSetDetailsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$DailyNavRoute on GoRouteData {
+mixin $DailyNavRoute on GoRouteData {
   static DailyNavRoute _fromState(GoRouterState state) => DailyNavRoute();
 
   @override
@@ -614,7 +614,7 @@ mixin _$DailyNavRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$ToolsNavRoute on GoRouteData {
+mixin $ToolsNavRoute on GoRouteData {
   static ToolsNavRoute _fromState(GoRouterState state) => ToolsNavRoute();
 
   @override
@@ -636,7 +636,7 @@ mixin _$ToolsNavRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$ResinCalcRoute on GoRouteData {
+mixin $ResinCalcRoute on GoRouteData {
   static ResinCalcRoute _fromState(GoRouterState state) => ResinCalcRoute();
 
   @override
@@ -658,7 +658,7 @@ mixin _$ResinCalcRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$MoreNavRoute on GoRouteData {
+mixin $MoreNavRoute on GoRouteData {
   static MoreNavRoute _fromState(GoRouterState state) => MoreNavRoute();
 
   @override
@@ -680,7 +680,7 @@ mixin _$MoreNavRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$SettingsRoute on GoRouteData {
+mixin $SettingsRoute on GoRouteData {
   static SettingsRoute _fromState(GoRouterState state) => SettingsRoute();
 
   @override
@@ -702,7 +702,7 @@ mixin _$SettingsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$FarmCountSettingsRoute on GoRouteData {
+mixin $FarmCountSettingsRoute on GoRouteData {
   static FarmCountSettingsRoute _fromState(GoRouterState state) =>
       FarmCountSettingsRoute();
 
@@ -725,7 +725,7 @@ mixin _$FarmCountSettingsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$AccountRoute on GoRouteData {
+mixin $AccountRoute on GoRouteData {
   static AccountRoute _fromState(GoRouterState state) => AccountRoute();
 
   @override
@@ -747,7 +747,7 @@ mixin _$AccountRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$ReleaseNotesRoute on GoRouteData {
+mixin $ReleaseNotesRoute on GoRouteData {
   static ReleaseNotesRoute _fromState(GoRouterState state) => ReleaseNotesRoute(
         tabIndex: _$convertMapValue(
                 'tab-index', state.uri.queryParameters, int.parse) ??
@@ -778,7 +778,7 @@ mixin _$ReleaseNotesRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$HoyolabIntegrationSettingsRoute on GoRouteData {
+mixin $HoyolabIntegrationSettingsRoute on GoRouteData {
   static HoyolabIntegrationSettingsRoute _fromState(GoRouterState state) =>
       HoyolabIntegrationSettingsRoute();
 
@@ -801,7 +801,7 @@ mixin _$HoyolabIntegrationSettingsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$HoyolabSignInRoute on GoRouteData {
+mixin $HoyolabSignInRoute on GoRouteData {
   static HoyolabSignInRoute _fromState(GoRouterState state) =>
       HoyolabSignInRoute();
 
@@ -824,7 +824,7 @@ mixin _$HoyolabSignInRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$LicensesRoute on GoRouteData {
+mixin $LicensesRoute on GoRouteData {
   static LicensesRoute _fromState(GoRouterState state) => LicensesRoute();
 
   @override
@@ -846,7 +846,7 @@ mixin _$LicensesRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$DebugMenuRoute on GoRouteData {
+mixin $DebugMenuRoute on GoRouteData {
   static DebugMenuRoute _fromState(GoRouterState state) => DebugMenuRoute();
 
   @override
@@ -868,7 +868,7 @@ mixin _$DebugMenuRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$DebugSharedPreferencesEditorRoute on GoRouteData {
+mixin $DebugSharedPreferencesEditorRoute on GoRouteData {
   static DebugSharedPreferencesEditorRoute _fromState(GoRouterState state) =>
       DebugSharedPreferencesEditorRoute();
 
@@ -891,7 +891,7 @@ mixin _$DebugSharedPreferencesEditorRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$DebugDriftDbViewerRoute on GoRouteData {
+mixin $DebugDriftDbViewerRoute on GoRouteData {
   static DebugDriftDbViewerRoute _fromState(GoRouterState state) =>
       DebugDriftDbViewerRoute();
 
@@ -914,7 +914,7 @@ mixin _$DebugDriftDbViewerRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$DebugComponentGalleryRoute on GoRouteData {
+mixin $DebugComponentGalleryRoute on GoRouteData {
   static DebugComponentGalleryRoute _fromState(GoRouterState state) =>
       DebugComponentGalleryRoute();
 

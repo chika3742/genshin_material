@@ -52,7 +52,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
     }
 
     final db = ref.watch(appDatabaseProvider);
-    final (uid, syncWeaponState) = ref.watch(preferencesStateNotifierProvider
+    final (uid, syncWeaponState) = ref.watch(preferencesStateProvider
         .select((e) => (e.hyvUid, e.syncWeaponState)));
 
     final characters = useMemoized(() =>
@@ -136,7 +136,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
         variantId: state.value.selectedCharacterId,
         weaponId: weapon.id,
       )), (_, result) {
-        if (result.valueOrNull == null) return;
+        if (result.value == null) return;
 
         state.value = state.value.copyWith(
           lackNums: result.value!,

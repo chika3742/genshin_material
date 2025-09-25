@@ -6,224 +6,195 @@ part of 'database_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appDatabaseHash() => r'949aad4bd88cefe20d76eb16900b182b5fcb494c';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [appDatabase].
 @ProviderFor(appDatabase)
-final appDatabaseProvider = AutoDisposeProvider<AppDatabase>.internal(
-  appDatabase,
-  name: r'appDatabaseProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$appDatabaseHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const appDatabaseProvider = AppDatabaseProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AppDatabaseRef = AutoDisposeProviderRef<AppDatabase>;
-String _$bookmarksHash() => r'd654e804aa5c83dc60a31da780e225fed6aec8c6';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// See also [bookmarks].
-@ProviderFor(bookmarks)
-const bookmarksProvider = BookmarksFamily();
-
-/// See also [bookmarks].
-class BookmarksFamily extends Family<AsyncValue<List<BookmarkWithDetails>>> {
-  /// See also [bookmarks].
-  const BookmarksFamily();
-
-  /// See also [bookmarks].
-  BookmarksProvider call({
-    String? groupHash,
-    List<String>? hashes,
-    ({bool hasWeapon, String? materialId})? materialFilter,
-  }) {
-    return BookmarksProvider(
-      groupHash: groupHash,
-      hashes: hashes,
-      materialFilter: materialFilter,
-    );
-  }
-
-  @override
-  BookmarksProvider getProviderOverride(
-    covariant BookmarksProvider provider,
-  ) {
-    return call(
-      groupHash: provider.groupHash,
-      hashes: provider.hashes,
-      materialFilter: provider.materialFilter,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'bookmarksProvider';
-}
-
-/// See also [bookmarks].
-class BookmarksProvider
-    extends AutoDisposeStreamProvider<List<BookmarkWithDetails>> {
-  /// See also [bookmarks].
-  BookmarksProvider({
-    String? groupHash,
-    List<String>? hashes,
-    ({bool hasWeapon, String? materialId})? materialFilter,
-  }) : this._internal(
-          (ref) => bookmarks(
-            ref as BookmarksRef,
-            groupHash: groupHash,
-            hashes: hashes,
-            materialFilter: materialFilter,
-          ),
-          from: bookmarksProvider,
-          name: r'bookmarksProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$bookmarksHash,
-          dependencies: BookmarksFamily._dependencies,
-          allTransitiveDependencies: BookmarksFamily._allTransitiveDependencies,
-          groupHash: groupHash,
-          hashes: hashes,
-          materialFilter: materialFilter,
+final class AppDatabaseProvider
+    extends $FunctionalProvider<AppDatabase, AppDatabase, AppDatabase>
+    with $Provider<AppDatabase> {
+  const AppDatabaseProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'appDatabaseProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
         );
 
-  BookmarksProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.groupHash,
-    required this.hashes,
-    required this.materialFilter,
-  }) : super.internal();
+  @override
+  String debugGetCreateSourceHash() => _$appDatabaseHash();
 
-  final String? groupHash;
-  final List<String>? hashes;
-  final ({bool hasWeapon, String? materialId})? materialFilter;
+  @$internal
+  @override
+  $ProviderElement<AppDatabase> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
-  Override overrideWith(
-    Stream<List<BookmarkWithDetails>> Function(BookmarksRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: BookmarksProvider._internal(
-        (ref) => create(ref as BookmarksRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        groupHash: groupHash,
-        hashes: hashes,
-        materialFilter: materialFilter,
-      ),
-    );
+  AppDatabase create(Ref ref) {
+    return appDatabase(ref);
   }
 
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AppDatabase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AppDatabase>(value),
+    );
+  }
+}
+
+String _$appDatabaseHash() => r'949aad4bd88cefe20d76eb16900b182b5fcb494c';
+
+@ProviderFor(bookmarks)
+const bookmarksProvider = BookmarksFamily._();
+
+final class BookmarksProvider extends $FunctionalProvider<
+        AsyncValue<List<BookmarkWithDetails>>,
+        List<BookmarkWithDetails>,
+        Stream<List<BookmarkWithDetails>>>
+    with
+        $FutureModifier<List<BookmarkWithDetails>>,
+        $StreamProvider<List<BookmarkWithDetails>> {
+  const BookmarksProvider._(
+      {required BookmarksFamily super.from,
+      required ({
+        String? groupHash,
+        List<String>? hashes,
+        ({
+          bool hasWeapon,
+          String? materialId,
+        })? materialFilter,
+      })
+          super.argument})
+      : super(
+          retry: null,
+          name: r'bookmarksProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
   @override
-  AutoDisposeStreamProviderElement<List<BookmarkWithDetails>> createElement() {
-    return _BookmarksProviderElement(this);
+  String debugGetCreateSourceHash() => _$bookmarksHash();
+
+  @override
+  String toString() {
+    return r'bookmarksProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $StreamProviderElement<List<BookmarkWithDetails>> $createElement(
+          $ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<BookmarkWithDetails>> create(Ref ref) {
+    final argument = this.argument as ({
+      String? groupHash,
+      List<String>? hashes,
+      ({
+        bool hasWeapon,
+        String? materialId,
+      })? materialFilter,
+    });
+    return bookmarks(
+      ref,
+      groupHash: argument.groupHash,
+      hashes: argument.hashes,
+      materialFilter: argument.materialFilter,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is BookmarksProvider &&
-        other.groupHash == groupHash &&
-        other.hashes == hashes &&
-        other.materialFilter == materialFilter;
+    return other is BookmarksProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, groupHash.hashCode);
-    hash = _SystemHash.combine(hash, hashes.hashCode);
-    hash = _SystemHash.combine(hash, materialFilter.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin BookmarksRef on AutoDisposeStreamProviderRef<List<BookmarkWithDetails>> {
-  /// The parameter `groupHash` of this provider.
-  String? get groupHash;
+String _$bookmarksHash() => r'd654e804aa5c83dc60a31da780e225fed6aec8c6';
 
-  /// The parameter `hashes` of this provider.
-  List<String>? get hashes;
+final class BookmarksFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+            Stream<List<BookmarkWithDetails>>,
+            ({
+              String? groupHash,
+              List<String>? hashes,
+              ({
+                bool hasWeapon,
+                String? materialId,
+              })? materialFilter,
+            })> {
+  const BookmarksFamily._()
+      : super(
+          retry: null,
+          name: r'bookmarksProvider',
+          dependencies: null,
+          $allTransitiveDependencies: null,
+          isAutoDispose: true,
+        );
 
-  /// The parameter `materialFilter` of this provider.
-  ({bool hasWeapon, String? materialId})? get materialFilter;
+  BookmarksProvider call({
+    String? groupHash,
+    List<String>? hashes,
+    ({
+      bool hasWeapon,
+      String? materialId,
+    })? materialFilter,
+  }) =>
+      BookmarksProvider._(argument: (
+        groupHash: groupHash,
+        hashes: hashes,
+        materialFilter: materialFilter,
+      ), from: this);
+
+  @override
+  String toString() => r'bookmarksProvider';
 }
 
-class _BookmarksProviderElement
-    extends AutoDisposeStreamProviderElement<List<BookmarkWithDetails>>
-    with BookmarksRef {
-  _BookmarksProviderElement(super.provider);
+@ProviderFor(bookmarkOrder)
+const bookmarkOrderProvider = BookmarkOrderProvider._();
+
+final class BookmarkOrderProvider extends $FunctionalProvider<
+        AsyncValue<List<String>>, List<String>, Stream<List<String>>>
+    with $FutureModifier<List<String>>, $StreamProvider<List<String>> {
+  const BookmarkOrderProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'bookmarkOrderProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
-  String? get groupHash => (origin as BookmarksProvider).groupHash;
+  String debugGetCreateSourceHash() => _$bookmarkOrderHash();
+
+  @$internal
   @override
-  List<String>? get hashes => (origin as BookmarksProvider).hashes;
+  $StreamProviderElement<List<String>> $createElement(
+          $ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
   @override
-  ({bool hasWeapon, String? materialId})? get materialFilter =>
-      (origin as BookmarksProvider).materialFilter;
+  Stream<List<String>> create(Ref ref) {
+    return bookmarkOrder(ref);
+  }
 }
 
 String _$bookmarkOrderHash() => r'b987d2b163a21db585bdaa0ee431a24c4b6f50ce';
-
-/// See also [bookmarkOrder].
-@ProviderFor(bookmarkOrder)
-final bookmarkOrderProvider = AutoDisposeStreamProvider<List<String>>.internal(
-  bookmarkOrder,
-  name: r'bookmarkOrderProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$bookmarkOrderHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef BookmarkOrderRef = AutoDisposeStreamProviderRef<List<String>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
