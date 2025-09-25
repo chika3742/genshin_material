@@ -115,7 +115,7 @@ class KvPreferences {
   );
   PreferenceKey<bool> get indexSheetTutorialShown => key("indexSheetTutorialShown", false);
   PreferenceKey<List<String>> get bannerReadKeys => key("bannerReadKeys", []);
-  PreferenceKey<int> get adventureRank => key("adventureRank", 55);
+  PreferenceKey<int> get adventureRank => key("adventureRank", 60);
   PreferenceKey<double> get condensedMultiplier => key("condensedMultiplier", 2.0);
   PreferenceKey<bool> get showFarmCount => key("showFarmCount", true);
 }
