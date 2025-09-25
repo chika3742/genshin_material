@@ -51,7 +51,7 @@ void useAssetUpdateProgress(WidgetRef ref) {
             AssetUpdateProgressState.errorWhileDownloading => tr.updates.failedToDownload,
             AssetUpdateProgressState.errorWhileInstalling => tr.updates.failedToInstall,
             _ => "",
-          },),
+          }),
           error: true,
         );
       }

@@ -18,7 +18,7 @@ class GameDataSyncIndicator extends HookWidget {
   Widget build(BuildContext context) {
     final iconKey = useMemoized(() => GlobalKey(), [status]);
 
-    useValueChanged<GameDataSyncStatus, void>(status, (__, _) {
+    useValueChanged<GameDataSyncStatus, void>(status, (_, _) {
       if (status is _Error) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           showSnackBar(

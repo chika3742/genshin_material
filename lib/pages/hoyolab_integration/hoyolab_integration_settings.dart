@@ -256,7 +256,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
     final errorText = useState<String?>(null);
 
     // set initial selected server
-    useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, __) {
+    useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, _) {
       final prefs = ref.read(preferencesStateProvider);
       final servers = serversSnapshot.data?.data?.list;
       if (servers != null) {
@@ -265,7 +265,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
     });
 
     // Load game roles when server is selected
-    useValueChanged<HyvServer?, void>(selectedServer.value, (_, __) async {
+    useValueChanged<HyvServer?, void>(selectedServer.value, (_, _) async {
       if (selectedServer.value != null && gameRoles.value.containsKey(selectedServer.value)) {
         return; // Already loaded
       }

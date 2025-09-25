@@ -156,7 +156,7 @@ class _HoyolabSignInPageState extends State<HoyolabSignInPage> {
                   tween: Tween(begin: 0, end: _isLoadingPage ? 4 : 0),
                   curve: Easing.emphasizedDecelerate,
                   duration: Durations.medium3,
-                  builder: (_, double height, __) {
+                  builder: (_, double height, _) {
                     return SizedBox(
                       height: height,
                       child: const LinearProgressIndicator(),

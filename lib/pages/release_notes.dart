@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_riverpod/misc.dart";
-import "package:riverpod_annotation/riverpod_annotation.dart";
 import "package:timelines/timelines.dart";
 
 import "../components/center_text.dart";
@@ -58,7 +57,7 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
           ),
           DataAssetScope(
             useScaffold: false,
-            builder: (_, __) {
+            builder: (_, _) {
               return _buildReleaseNotesTab(
                 provider: assetsReleaseNotesDataProvider,
                 versionPrefix: "D",
