@@ -10,7 +10,7 @@ DropRateEntry? getDropRateEntryForMaterial(List<DropRateEntry> entries, Material
     }
     if (entry.target.category != null) {
       return entry.target.category == material.category
-          && (entry.target.rarity ?? material.rarity) == material.rarity;
+          && (entry.target.rarity == null || entry.target.rarity == material.rarity);
     }
     return false;
   });
