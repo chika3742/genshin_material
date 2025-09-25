@@ -1,3 +1,4 @@
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
@@ -19,8 +20,15 @@ class FarmCountSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final (advRank, condensedMultiplier) = ref.watch(preferencesStateProvider
-        .select((e) => (e.adventureRank, e.condensedMultiplier)));
+    final (
+      advRank,
+      condensedMultiplier,
+      showFarmCount,
+    ) = ref.watch(preferencesStateProvider.select((e) => (
+      e.adventureRank,
+      e.condensedMultiplier,
+      e.showFarmCount,
+    )));
 
     String multiplierText(double n) {
       return tr.farmCountSettingsPage.multiplier(n: n.toStringAsFixed(0))
@@ -40,27 +48,60 @@ class FarmCountSettingsPage extends ConsumerWidget {
       ),
       body: ListView(
         children: [
-          PopupMenuListTile(
-            title: Text(tr.farmCountSettingsPage.adventureRank),
-            subtitle: Text(advRank.toString()),
-            trailing: Icon(Symbols.menu_open),
-            value: advRank,
-            onSelected: (value) {
+          SwitchListTile(
+            title: Text(tr.farmCountSettingsPage.showFarmCount),
+            value: showFarmCount,
+            onChanged: (value) {
               ref.read(preferencesStateProvider.notifier)
-                  .setAdventureRank(value);
+                  .setShowFarmCount(value);
             },
-            items: [
-              for (final i in List.generate(maxAdventureRank, (idx) => idx + 1))
-                PopupMenuItem(
-                  value: i,
-                  child: Text(i.toString()),
-                ),
-            ],
+          ),
+          SimpleListTile(
+            title: tr.farmCountSettingsPage.adventureRank,
+            subtitle: advRank.toString(),
+            trailingIcon: Symbols.menu_open,
+            enabled: showFarmCount,
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                showDragHandle: true,
+                builder: (context) {
+                  return SizedBox(
+                    height: 300,
+                    child: Column(
+                      children: [
+                        Text(tr.farmCountSettingsPage.adventureRank,
+                          style: Theme.of(context).textTheme.titleMedium),
+                        Expanded(
+                          child: CupertinoPicker(
+                            itemExtent: 32,
+                            scrollController: FixedExtentScrollController(initialItem: advRank - 1),
+                            magnification: 1.2,
+                            squeeze: 1.2,
+                            useMagnifier: true,
+                            onSelectedItemChanged: (int value) {
+                              ref.read(preferencesStateProvider.notifier)
+                                  .setAdventureRank(value + 1);
+                            },
+                            children: List.generate(maxAdventureRank, (idx) {
+                              return Center(
+                                child: Text((idx + 1).toString()),
+                              );
+                            }),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
           ),
           SimpleListTile(
             title: tr.farmCountSettingsPage.skipRate,
             subtitle: multiplierText(condensedMultiplier),
             trailingIcon: Symbols.menu_open,
+            enabled: showFarmCount,
             onTap: () async {
               final values = [1.0, 2.0, 3.0];
 

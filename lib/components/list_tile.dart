@@ -146,6 +146,7 @@ class PopupMenuListTile<T> extends HookWidget {
   final Widget? subtitle;
   final Widget? leading;
   final Widget? trailing;
+  final bool enabled;
   final void Function(T value) onSelected;
   final T? value;
   final List<PopupMenuEntry<T>> items;
@@ -156,6 +157,7 @@ class PopupMenuListTile<T> extends HookWidget {
     this.subtitle,
     this.leading,
     this.trailing,
+    this.enabled = true,
     required this.onSelected,
     this.value,
     required this.items,
@@ -171,6 +173,7 @@ class PopupMenuListTile<T> extends HookWidget {
       subtitle: subtitle,
       leading: leading,
       trailing: trailing,
+      enabled: enabled,
       onTap: () async {
         final renderBox = listTileKey.currentContext!.findRenderObject() as RenderBox;
         final size = renderBox.size;

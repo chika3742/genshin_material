@@ -51,10 +51,12 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       adventureRank,
       condensedMultiplier,
       dailyResetServer,
+      showFarmCount,
     ) = ref.watch(preferencesStateProvider.select((s) => (
       s.adventureRank,
       s.condensedMultiplier,
       s.dailyResetServer,
+      s.showFarmCount,
     )));
 
     final bookmarkedMaterials = useStream(
@@ -106,13 +108,15 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       return BookmarkState.bookmarked;
     }();
 
-    final farmCount = calculateFarmCount(
-      material,
-      assetData.dropRates,
-      widget.item.sum,
-      adventureRank,
-      condensedMultiplier,
-    );
+    final farmCount = showFarmCount
+        ? calculateFarmCount(
+            material,
+            assetData.dropRates,
+            widget.item.sum,
+            adventureRank,
+            condensedMultiplier,
+          )
+        : null;
 
     return MaterialCard(
       image: material.getImageFile(assetData.assetDir),

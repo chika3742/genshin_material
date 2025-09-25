@@ -221,6 +221,7 @@ settingsPage:
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
   openSourceLicenses: オープンソースライセンス
 farmCountSettingsPage:
+  showFarmCount: 周回目安回数を表示する
   adventureRank: 冒険ランク
   skipRate: 濃縮樹脂等使用時の獲得数の倍率
   dropRateList: ドロップ率一覧
