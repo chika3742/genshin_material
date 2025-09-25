@@ -90,6 +90,7 @@ jobs:
         with:
           workload_identity_provider: ${{ vars.WIF_PROVIDER }}
           service_account: ${{ vars.WIF_SERVICE_ACCOUNT }}
+          audience: ${{ vars.WIF_AUDIENCE }}
           create_credentials_file: true
 
       - name: Setup Homebrew
