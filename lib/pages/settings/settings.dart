@@ -2,13 +2,14 @@ import "package:flutter/material.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
-import "../components/list_subheader.dart";
-import "../components/list_tile.dart";
-import "../i18n/strings.g.dart";
-import "../models/common.dart";
-import "../providers/asset_updating_state.dart";
-import "../providers/preferences.dart";
-import "../ui_core/bottom_sheet.dart";
+import "../../components/list_subheader.dart";
+import "../../components/list_tile.dart";
+import "../../i18n/strings.g.dart";
+import "../../models/common.dart";
+import "../../providers/asset_updating_state.dart";
+import "../../providers/preferences.dart";
+import "../../routes.dart";
+import "../../ui_core/bottom_sheet.dart";
 
 class SettingsPage extends HookConsumerWidget {
   const SettingsPage({super.key});
@@ -57,6 +58,11 @@ class SettingsPage extends HookConsumerWidget {
                 }
               });
             },
+          ),
+          SimpleListTile(
+            title: tr.pages.farmCountSettings,
+            subtitle: tr.settingsPage.farmCountSettingsDesc,
+            location: FarmCountSettingsRoute().location,
           ),
           ListSubheader(tr.settingsPage.assetData),
           SimpleListTile(

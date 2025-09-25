@@ -12,6 +12,7 @@ import "package:path/path.dart" as path;
 import "package:path_provider/path_provider.dart";
 import "package:uuid/uuid.dart";
 
+import "../constants/remote_config_key.dart";
 import "../constants/urls.dart";
 import "../main.dart";
 import "../models/asset_release_version.dart";
@@ -54,7 +55,7 @@ class AssetUpdater {
     final releases = await _fetchAssetRelease(assetChannel);
 
     minimumSchemaVersion ??= Firebase.apps.isNotEmpty
-        ? FirebaseRemoteConfig.instance.getInt("minimum_asset_schema_version")
+        ? FirebaseRemoteConfig.instance.getInt(RemoteConfigKey.minimumAssetSchemaVersion)
         : 0;
 
     final latestRelease = releases.fold<AssetReleaseVersion?>(null, (prev, element) {

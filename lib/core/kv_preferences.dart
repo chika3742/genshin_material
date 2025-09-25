@@ -1,81 +1,121 @@
+import "package:flutter/material.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 import "../models/common.dart";
 
+class PreferenceKey<T> {
+  @protected
+  final SharedPreferencesWithCache sp;
+
+  @protected
+  final String key;
+
+  @protected
+  final T defaultValue;
+
+  const PreferenceKey(this.sp, this.key, this.defaultValue);
+
+  T get value => (sp.get(key) as T?) ?? defaultValue;
+
+  /// Supported value types are:
+  /// - [String]
+  /// - `List<String>`
+  /// - [int]
+  /// - [double]
+  /// - [bool]
+  /// - [Null]
+  Future<void> setValue(T? value) {
+    return switch (value) {
+      String() => sp.setString(key, value),
+      List<String>() => sp.setStringList(key, value),
+      int() => sp.setInt(key, value),
+      double() => sp.setDouble(key, value),
+      bool() => sp.setBool(key, value),
+      Null() => sp.remove(key),
+      _ => throw UnsupportedError("Invalid value type"),
+    };
+  }
+}
+
+typedef FromPrefCallback<T, C> = C Function(T pref);
+typedef ToPrefCallback<T, C> = T Function(C value);
+
+class PreferenceKeyWithConverter<T, C> extends PreferenceKey<T> {
+  @protected
+  final FromPrefCallback<T, C> fromPref;
+
+  @protected
+  final ToPrefCallback<T, C> toPref;
+
+  const PreferenceKeyWithConverter(super.sp, super.key, super.defaultValue, {
+    required this.fromPref,
+    required this.toPref,
+  });
+
+  @override
+  @protected
+  T get value => super.value;
+
+  @override
+  @protected
+  Future<void> setValue(T? value) => super.setValue(value);
+
+  C get convertedValue => fromPref(value);
+
+  Future<void> setValueWithConversion(C value) => setValue(toPref(value));
+}
+
 class KvPreferences {
   final SharedPreferencesWithCache sp;
 
-  KvPreferences(this.sp);
+  const KvPreferences(this.sp);
 
-  int? get resin => sp.getInt("resin");
-  Future<void> setResin(int? value) => value != null
-      ? sp.setInt("resin", value)
-      : sp.remove("resin");
+  PreferenceKey<T> key<T>(String key, T defaultValue) => PreferenceKey(
+    sp,
+    key,
+    defaultValue,
+  );
 
-  DateTime? get resinBaseTime {
-    final value = sp.getString("resinBaseTime");
-    return value != null ? DateTime.tryParse(value) : null;
-  }
-  Future<void> setResinBaseTime(DateTime? value) => value != null
-      ? sp.setString("resinBaseTime", value.toIso8601String())
-      : sp.remove("resinBaseTime");
+  PreferenceKeyWithConverter<T, C> keyWithConv<T, C>(String key, T defaultValue, {
+    required FromPrefCallback<T, C> fromPref,
+    required ToPrefCallback<T, C> toPref,
+  }) => PreferenceKeyWithConverter(
+    sp,
+    key,
+    defaultValue,
+    fromPref: fromPref,
+    toPref: toPref,
+  );
 
-  String? get hyvServer => sp.getString("hyvServer");
-  Future<void> setHyvServer(String? value) => value != null
-      ? sp.setString("hyvServer", value)
-      : sp.remove("hyvServer");
-
-  String? get hyvServerName => sp.getString("hyvServerName");
-  Future<void> setHyvServerName(String? value) => value != null
-      ? sp.setString("hyvServerName", value)
-      : sp.remove("hyvServerName");
-
-  String? get hyvUserName => sp.getString("hyvUserName");
-  Future<void> setHyvUserName(String? value) => value != null
-      ? sp.setString("hyvUserName", value)
-      : sp.remove("hyvUserName");
-
-  String? get hyvUid => sp.getString("hyvUid");
-  Future<void> setHyvUid(String? value) => value != null
-      ? sp.setString("hyvUid", value)
-      : sp.remove("hyvUid");
-
-  bool get syncResin => sp.getBool("syncResin") ?? true;
-  Future<void> setSyncResin(bool value) => sp.setBool("syncResin", value);
-
-  bool get syncCharaState => sp.getBool("syncCharaState") ?? true;
-  Future<void> setSyncCharaState(bool value) => sp.setBool("syncCharaState", value);
-
-  bool get syncWeaponState => sp.getBool("syncWeaponState") ?? true;
-  Future<void> setSyncWeaponState(bool value) => sp.setBool("syncWeaponState", value);
-
-  bool get autoRemoveBookmarks => sp.getBool("autoRemoveBookmarks") ?? true;
-  Future<void> setAutoRemoveBookmarks(bool value) => sp.setBool("autoRemoveBookmarks", value);
-
-  bool get syncBagLackNums => sp.getBool("syncBagLackNums") ?? true;
-  Future<void> setSyncBagLackNums(bool value) => sp.setBool("syncBagLackNums", value);
-
-  bool get showItemNameOnCard => sp.getBool("showItemNameOnCard") ?? true;
-  Future<void> setShowItemNameOnCard(bool value) => sp.setBool("showItemNameOnCard", value);
-
-  String get dailyResetServer => sp.getString("dailyResetServer") ?? GameServer.asia.name;
-  Future<void> setDailyResetServer(String value) => sp.setString("dailyResetServer", value);
-
-  bool get indexSheetTutorialShown => sp.getBool("indexSheetTutorialShown") ?? false;
-  Future<void> setIndexSheetTutorialShown(bool value) => sp.setBool("indexSheetTutorialShown", value);
-
-  LackNumDisplayMethod get lackNumDisplayMethod => LackNumDisplayMethod.values[sp.getInt("lackNumDisplayMethod") ?? 0];
-  Future<void> setLackNumDisplayMethod(LackNumDisplayMethod value) => sp.setInt("lackNumDisplayMethod", value.index);
-
-  List<String> get bannerReadKeys => sp.getStringList("bannerReadKeys") ?? [];
-  Future<void> setBannerReadKeys(List<String> value) => sp.setStringList("bannerReadKeys", value);
-}
-
-enum LackNumDisplayMethod {
-  alternate,
-  requiredNumOnly,
-  lackNumOnly,
-  craftedLackNumOnly;
-
-  bool get isSingleShowMode => this == requiredNumOnly || this == lackNumOnly || this == craftedLackNumOnly;
+  PreferenceKey<int?> get resin => key("resin", null);
+  PreferenceKeyWithConverter<String?, DateTime?> get resinBaseTime => keyWithConv(
+    "resinBaseTime",
+    null,
+    fromPref: (pref) => pref != null ? DateTime.tryParse(pref) : null,
+    toPref: (value) => value?.toIso8601String(),
+  );
+  PreferenceKey<String?> get hyvServer => key("hyvServer", null);
+  PreferenceKey<String?> get hyvServerName => key("hyvServerName", null);
+  PreferenceKey<String?> get hyvUserName => key("hyvUserName", null);
+  PreferenceKey<String?> get hyvUid => key("hyvUid", null);
+  PreferenceKey<bool> get syncResin => key("syncResin", true);
+  PreferenceKey<bool> get syncCharaState => key("syncCharaState", true);
+  PreferenceKey<bool> get syncWeaponState => key("syncWeaponState", true);
+  PreferenceKey<bool> get autoRemoveBookmarks => key("autoRemoveBookmarks", true);
+  PreferenceKey<bool> get syncBagLackNums => key("syncBagLackNums", true);
+  PreferenceKey<bool> get showItemNameOnCard => key("showItemNameOnCard", true);
+  PreferenceKeyWithConverter<String, GameServer> get dailyResetServer => keyWithConv(
+    "dailyResetServer",
+    GameServer.asia.name,
+    fromPref: (pref) => GameServer.values.firstWhere(
+      (e) => e.name == pref,
+      orElse: () => GameServer.asia,
+    ),
+    toPref: (value) => value.name,
+  );
+  PreferenceKey<bool> get indexSheetTutorialShown => key("indexSheetTutorialShown", false);
+  PreferenceKey<List<String>> get bannerReadKeys => key("bannerReadKeys", []);
+  PreferenceKey<int> get adventureRank => key("adventureRank", 55);
+  PreferenceKey<double> get condensedMultiplier => key("condensedMultiplier", 2.0);
+  PreferenceKey<bool> get showFarmCount => key("showFarmCount", true);
 }

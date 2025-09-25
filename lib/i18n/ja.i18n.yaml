@@ -93,6 +93,7 @@ pages:
   furnishings: 調度品
   furnishingDetails: $furnishing - 調度品
   settings: 設定
+  farmCountSettings: 周回数目安の表示設定
   account: アカウント
   releaseNotes: 更新履歴
   bookmarks: ブックマーク
@@ -212,12 +213,22 @@ settingsPage:
   showItemNameOnCardDesc: 使用数を表示するカードにアイテム名を表示します。
   dailyResetServer: 日替わり素材のサーバー時間
   dailyResetServerDesc: 日替わり素材が更新される時間の基準とするゲームサーバーを選択します。
+  farmCountSettingsDesc: 表示に使用する冒険ランクなどを設定できます。
   assetData: アセットデータ
   checkAssetUpdate: アセットデータの更新を確認
   checkAssetUpdateDesc: アプリ内データのアップデートをチェックします。
   reDownloadAssets: アセットデータを再ダウンロード
   reDownloadAssetsDesc: アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。
   openSourceLicenses: オープンソースライセンス
+farmCountSettingsPage:
+  adventureRank: 冒険ランク
+  skipRate: 濃縮樹脂等使用時の獲得数の倍率
+  dropRateList: ドロップ率一覧
+  kind: 種類
+  rate: ドロップ率（個/回）
+  note: 備考
+  multiplier: ${n}倍
+  noUseCondensed: （濃縮樹脂を使用しない）
 hoyolab:
   signIn: HoYoLABにサインイン
   aboutHeading: HoYoLAB連携について

@@ -29,8 +29,10 @@ mixin _$PreferencesState {
   bool get showItemNameOnCard;
   GameServer get dailyResetServer;
   bool get indexSheetTutorialShown;
-  LackNumDisplayMethod get lackNumDisplayMethod;
   List<String> get bannerReadKeys;
+  int get adventureRank;
+  double get condensedMultiplier;
+  bool get showFarmCount;
 
   @override
   bool operator ==(Object other) {
@@ -65,36 +67,43 @@ mixin _$PreferencesState {
             (identical(
                     other.indexSheetTutorialShown, indexSheetTutorialShown) ||
                 other.indexSheetTutorialShown == indexSheetTutorialShown) &&
-            (identical(other.lackNumDisplayMethod, lackNumDisplayMethod) ||
-                other.lackNumDisplayMethod == lackNumDisplayMethod) &&
             const DeepCollectionEquality()
-                .equals(other.bannerReadKeys, bannerReadKeys));
+                .equals(other.bannerReadKeys, bannerReadKeys) &&
+            (identical(other.adventureRank, adventureRank) ||
+                other.adventureRank == adventureRank) &&
+            (identical(other.condensedMultiplier, condensedMultiplier) ||
+                other.condensedMultiplier == condensedMultiplier) &&
+            (identical(other.showFarmCount, showFarmCount) ||
+                other.showFarmCount == showFarmCount));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      pref,
-      resin,
-      resinBaseTime,
-      hyvServer,
-      hyvServerName,
-      hyvUserName,
-      hyvUid,
-      syncResin,
-      syncCharaState,
-      syncWeaponState,
-      autoRemoveBookmarks,
-      syncBagLackNums,
-      showItemNameOnCard,
-      dailyResetServer,
-      indexSheetTutorialShown,
-      lackNumDisplayMethod,
-      const DeepCollectionEquality().hash(bannerReadKeys));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        pref,
+        resin,
+        resinBaseTime,
+        hyvServer,
+        hyvServerName,
+        hyvUserName,
+        hyvUid,
+        syncResin,
+        syncCharaState,
+        syncWeaponState,
+        autoRemoveBookmarks,
+        syncBagLackNums,
+        showItemNameOnCard,
+        dailyResetServer,
+        indexSheetTutorialShown,
+        const DeepCollectionEquality().hash(bannerReadKeys),
+        adventureRank,
+        condensedMultiplier,
+        showFarmCount
+      ]);
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagLackNums: $syncBagLackNums, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod, bannerReadKeys: $bannerReadKeys)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagLackNums: $syncBagLackNums, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, bannerReadKeys: $bannerReadKeys, adventureRank: $adventureRank, condensedMultiplier: $condensedMultiplier, showFarmCount: $showFarmCount)';
   }
 }
 
@@ -117,8 +126,10 @@ class _PreferencesState extends PreferencesState {
       required this.showItemNameOnCard,
       required this.dailyResetServer,
       required this.indexSheetTutorialShown,
-      required this.lackNumDisplayMethod,
-      required final List<String> bannerReadKeys})
+      required final List<String> bannerReadKeys,
+      required this.adventureRank,
+      required this.condensedMultiplier,
+      required this.showFarmCount})
       : _bannerReadKeys = bannerReadKeys,
         super._();
 
@@ -152,8 +163,6 @@ class _PreferencesState extends PreferencesState {
   final GameServer dailyResetServer;
   @override
   final bool indexSheetTutorialShown;
-  @override
-  final LackNumDisplayMethod lackNumDisplayMethod;
   final List<String> _bannerReadKeys;
   @override
   List<String> get bannerReadKeys {
@@ -161,6 +170,13 @@ class _PreferencesState extends PreferencesState {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_bannerReadKeys);
   }
+
+  @override
+  final int adventureRank;
+  @override
+  final double condensedMultiplier;
+  @override
+  final bool showFarmCount;
 
   @override
   bool operator ==(Object other) {
@@ -195,36 +211,43 @@ class _PreferencesState extends PreferencesState {
             (identical(
                     other.indexSheetTutorialShown, indexSheetTutorialShown) ||
                 other.indexSheetTutorialShown == indexSheetTutorialShown) &&
-            (identical(other.lackNumDisplayMethod, lackNumDisplayMethod) ||
-                other.lackNumDisplayMethod == lackNumDisplayMethod) &&
             const DeepCollectionEquality()
-                .equals(other._bannerReadKeys, _bannerReadKeys));
+                .equals(other._bannerReadKeys, _bannerReadKeys) &&
+            (identical(other.adventureRank, adventureRank) ||
+                other.adventureRank == adventureRank) &&
+            (identical(other.condensedMultiplier, condensedMultiplier) ||
+                other.condensedMultiplier == condensedMultiplier) &&
+            (identical(other.showFarmCount, showFarmCount) ||
+                other.showFarmCount == showFarmCount));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      pref,
-      resin,
-      resinBaseTime,
-      hyvServer,
-      hyvServerName,
-      hyvUserName,
-      hyvUid,
-      syncResin,
-      syncCharaState,
-      syncWeaponState,
-      autoRemoveBookmarks,
-      syncBagLackNums,
-      showItemNameOnCard,
-      dailyResetServer,
-      indexSheetTutorialShown,
-      lackNumDisplayMethod,
-      const DeepCollectionEquality().hash(_bannerReadKeys));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        pref,
+        resin,
+        resinBaseTime,
+        hyvServer,
+        hyvServerName,
+        hyvUserName,
+        hyvUid,
+        syncResin,
+        syncCharaState,
+        syncWeaponState,
+        autoRemoveBookmarks,
+        syncBagLackNums,
+        showItemNameOnCard,
+        dailyResetServer,
+        indexSheetTutorialShown,
+        const DeepCollectionEquality().hash(_bannerReadKeys),
+        adventureRank,
+        condensedMultiplier,
+        showFarmCount
+      ]);
 
   @override
   String toString() {
-    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagLackNums: $syncBagLackNums, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, lackNumDisplayMethod: $lackNumDisplayMethod, bannerReadKeys: $bannerReadKeys)';
+    return 'PreferencesState(pref: $pref, resin: $resin, resinBaseTime: $resinBaseTime, hyvServer: $hyvServer, hyvServerName: $hyvServerName, hyvUserName: $hyvUserName, hyvUid: $hyvUid, syncResin: $syncResin, syncCharaState: $syncCharaState, syncWeaponState: $syncWeaponState, autoRemoveBookmarks: $autoRemoveBookmarks, syncBagLackNums: $syncBagLackNums, showItemNameOnCard: $showItemNameOnCard, dailyResetServer: $dailyResetServer, indexSheetTutorialShown: $indexSheetTutorialShown, bannerReadKeys: $bannerReadKeys, adventureRank: $adventureRank, condensedMultiplier: $condensedMultiplier, showFarmCount: $showFarmCount)';
   }
 }
 

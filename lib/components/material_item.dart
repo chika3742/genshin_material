@@ -15,6 +15,7 @@ import "../providers/database_provider.dart";
 import "../providers/preferences.dart";
 import "../providers/versions.dart";
 import "../ui_core/snack_bar.dart";
+import "../utils/farm_counts.dart";
 import "material_card.dart";
 
 /// Material item implementation.
@@ -46,7 +47,15 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
   @override
   Widget build(BuildContext context) {
     final db = ref.watch(appDatabaseProvider);
-    final prefs = ref.watch(preferencesStateNotifierProvider);
+    final (
+      adventureRank,
+      condensedMultiplier,
+      dailyResetServer,
+    ) = ref.watch(preferencesStateNotifierProvider.select((s) => (
+      s.adventureRank,
+      s.condensedMultiplier,
+      s.dailyResetServer,
+    )));
 
     final bookmarkedMaterials = useStream(
       useMemoized(
@@ -97,6 +106,14 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       return BookmarkState.bookmarked;
     }();
 
+    final farmCount = calculateFarmCount(
+      material,
+      assetData.dropRates,
+      widget.item.sum,
+      adventureRank,
+      condensedMultiplier,
+    );
+
     return MaterialCard(
       image: material.getImageFile(assetData.assetDir),
       name: material.name.localized,
@@ -104,9 +121,10 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       rarity: material.rarity,
       quantity: quantity,
       lackNum: _currentExpItemIndex == 0 ? widget.lackNum : null, // Only show lackNum for the first exp item
+      farmCount: farmCount,
       id: material.id,
       bookmarkState: bookmarkState,
-      dailyMaterialAvailable: material.getDailyMaterialAvailable(prefs.dailyResetServer),
+      dailyMaterialAvailable: material.getDailyMaterialAvailable(dailyResetServer),
       onBookmark: widget.usage != null ? () async {
         final db = ref.read(appDatabaseProvider);
 

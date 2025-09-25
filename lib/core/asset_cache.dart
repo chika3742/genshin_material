@@ -4,6 +4,7 @@ import "../models/artifact.dart";
 import "../models/asset_release_version.dart";
 import "../models/character.dart";
 import "../models/common.dart";
+import "../models/drop_rates.dart";
 import "../models/element.dart";
 import "../models/furnishing_set.dart";
 import "../models/ingredients.dart";
@@ -95,6 +96,8 @@ class AssetDataCacheProvider {
         FurnishingSet.fromJson,
       ),
       furnishingSetTypes: furnishingSetMeta.setTypes,
+      dropRates: (await loader.loadJson<List<dynamic>>("drop-rates.json"))
+          .map((e) => DropRateEntry.fromJson(e)).toList(),
     );
   }
 
@@ -134,5 +137,6 @@ sealed class AssetData with _$AssetData {
     required Map<FurnishingSetId, FurnishingSet> furnishingSets,
     required Map<FurnishingId, Furnishing> furnishings,
     required Map<FurnishingSetTypeId, LocalizedText> furnishingSetTypes,
+    required List<DropRateEntry> dropRates,
   }) = _AssetData;
 }

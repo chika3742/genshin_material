@@ -127,6 +127,14 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
                   path: 'settings',
                   parentNavigatorKey: SettingsRoute.$parentNavigatorKey,
                   factory: _$SettingsRoute._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: 'farm-count',
+                      parentNavigatorKey:
+                          FarmCountSettingsRoute.$parentNavigatorKey,
+                      factory: _$FarmCountSettingsRoute._fromState,
+                    ),
+                  ],
                 ),
                 GoRouteData.$route(
                   path: 'account',
@@ -678,6 +686,29 @@ mixin _$SettingsRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
         '/more/settings',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$FarmCountSettingsRoute on GoRouteData {
+  static FarmCountSettingsRoute _fromState(GoRouterState state) =>
+      FarmCountSettingsRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/more/settings/farm-count',
       );
 
   @override

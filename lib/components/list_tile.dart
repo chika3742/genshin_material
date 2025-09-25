@@ -141,12 +141,14 @@ class GameItemListTile extends StatelessWidget {
   }
 }
 
-class PopupMenuListTile extends HookWidget {
+class PopupMenuListTile<T> extends HookWidget {
   final Widget? title;
   final Widget? subtitle;
   final Widget? leading;
   final Widget? trailing;
-  final List<PopupMenuEntry> items;
+  final void Function(T value) onSelected;
+  final T? value;
+  final List<PopupMenuEntry<T>> items;
 
   const PopupMenuListTile({
     super.key,
@@ -154,6 +156,8 @@ class PopupMenuListTile extends HookWidget {
     this.subtitle,
     this.leading,
     this.trailing,
+    required this.onSelected,
+    this.value,
     required this.items,
   });
 
@@ -167,16 +171,28 @@ class PopupMenuListTile extends HookWidget {
       subtitle: subtitle,
       leading: leading,
       trailing: trailing,
-      onTap: () {
+      onTap: () async {
         final renderBox = listTileKey.currentContext!.findRenderObject() as RenderBox;
         final size = renderBox.size;
         final offset = renderBox.localToGlobal(Offset.zero);
-        final position = RelativeRect.fromLTRB(16, offset.dy + size.height, 16, offset.dy + size.height);
-        showMenu(
+        final position = RelativeRect.fromLTRB(size.width, offset.dy + size.height, 16, offset.dy + size.height);
+        final result = await showMenu<T>(
           context: context,
           position: position,
+          popUpAnimationStyle: AnimationStyle(
+            curve: Easing.standard,
+          ),
+          constraints: BoxConstraints(
+            minWidth: 100,
+            maxHeight: 500,
+          ),
+          initialValue: value,
           items: items,
         );
+
+        if (result != null) {
+          onSelected(result);
+        }
       },
     );
   }
