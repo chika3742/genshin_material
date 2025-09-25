@@ -14,7 +14,7 @@ void useAssetUpdateProgress(WidgetRef ref) {
   final context = useContext();
   final scfMessenger = ScaffoldMessenger.of(context);
 
-  ref.listen(assetUpdatingStateNotifierProvider.select((e) => e.state), (previous, current) {
+  ref.listen(assetUpdatingStateProvider.select((e) => e.state), (previous, current) {
     // show snackbar when update starts
     if (!previous!.isUpdating && current.isUpdating) {
       scfMessenger.clearSnackBars();
@@ -41,7 +41,7 @@ void useAssetUpdateProgress(WidgetRef ref) {
     }
 
     if (current.hasError) {
-      final error = ref.read(assetUpdatingStateNotifierProvider).error;
+      final error = ref.read(assetUpdatingStateProvider).error;
 
       if (error != null) {
         showSnackBar(
@@ -51,7 +51,7 @@ void useAssetUpdateProgress(WidgetRef ref) {
             AssetUpdateProgressState.errorWhileDownloading => tr.updates.failedToDownload,
             AssetUpdateProgressState.errorWhileInstalling => tr.updates.failedToInstall,
             _ => "",
-          },),
+          }),
           error: true,
         );
       }

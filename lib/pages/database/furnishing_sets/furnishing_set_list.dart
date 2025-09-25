@@ -93,7 +93,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
               final sets = furnishingSetsGrouped[typeId] ?? [];
 
               return SliverStickyHeader.builder(
-                builder: (_, __) => StickyListHeader(categoryText),
+                builder: (_, _) => StickyListHeader(categoryText),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {

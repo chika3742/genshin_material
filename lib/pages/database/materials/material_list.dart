@@ -82,7 +82,7 @@ class MaterialListPage extends HookConsumerWidget {
               final categoryText = e.value.localized;
 
               return SliverStickyHeader.builder(
-                builder: (_, __) => StickyListHeader(categoryText),
+                builder: (_, _) => StickyListHeader(categoryText),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
                         (context, index) {

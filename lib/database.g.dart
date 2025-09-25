@@ -85,7 +85,7 @@ class $BookmarkTableTable extends BookmarkTable
   @override
   Bookmark map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Bookmark.new(
+    return Bookmark(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       type: $BookmarkTableTable.$convertertype.fromSql(attachedDatabase

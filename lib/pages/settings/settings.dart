@@ -16,9 +16,9 @@ class SettingsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(preferencesStateNotifierProvider);
+    final prefs = ref.watch(preferencesStateProvider);
 
-    final updatingState = ref.watch(assetUpdatingStateNotifierProvider);
+    final updatingState = ref.watch(assetUpdatingStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +32,7 @@ class SettingsPage extends HookConsumerWidget {
             subtitle: Text(tr.settingsPage.showItemNameOnCardDesc),
             value: prefs.showItemNameOnCard,
             onChanged: (value) {
-              ref.read(preferencesStateNotifierProvider.notifier).setShowItemNameOnCard(value!);
+              ref.read(preferencesStateProvider.notifier).setShowItemNameOnCard(value!);
             },
           ),
           SimpleListTile(
@@ -54,7 +54,7 @@ class SettingsPage extends HookConsumerWidget {
                 ],
               ).then((value) {
                 if (value != null) {
-                  ref.read(preferencesStateNotifierProvider.notifier).setDailyResetServer(value);
+                  ref.read(preferencesStateProvider.notifier).setDailyResetServer(value);
                 }
               });
             },
@@ -71,7 +71,7 @@ class SettingsPage extends HookConsumerWidget {
             trailingIcon: Symbols.update,
             enabled: !updatingState.state.isBusy,
             onTap: () {
-              ref.read(assetUpdatingStateNotifierProvider.notifier).checkForUpdate(silent: false);
+              ref.read(assetUpdatingStateProvider.notifier).checkForUpdate(silent: false);
             },
           ),
           SimpleListTile(
@@ -80,7 +80,7 @@ class SettingsPage extends HookConsumerWidget {
             trailingIcon: Symbols.download,
             enabled: !updatingState.state.isBusy,
             onTap: () {
-              ref.read(assetUpdatingStateNotifierProvider.notifier).checkForUpdate(silent: false, force: true);
+              ref.read(assetUpdatingStateProvider.notifier).checkForUpdate(silent: false, force: true);
             },
           ),
         ],

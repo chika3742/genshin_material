@@ -15,7 +15,7 @@ class AssetUpdateProgressSnackBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(assetUpdatingStateNotifierProvider);
+    final state = ref.watch(assetUpdatingStateProvider);
 
     // useEffect(() {
     //   if (!state.state.isUpdating) {

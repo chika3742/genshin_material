@@ -44,7 +44,7 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
 
 @riverpod
 Future<List<CharacterId>?> ownedCharacters(Ref ref) async {
-  final uid = ref.watch(preferencesStateNotifierProvider.select((s) => s.hyvUid));
+  final uid = ref.watch(preferencesStateProvider.select((s) => s.hyvUid));
   if (uid == null) {
     return null;
   }

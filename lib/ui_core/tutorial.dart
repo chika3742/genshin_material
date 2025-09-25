@@ -11,7 +11,7 @@ void showIndexSheetTutorialIfNeeded(BuildContext context, GlobalKey fabKey, Widg
     return;
   }
 
-  final prefs = ref.read(preferencesStateNotifierProvider);
+  final prefs = ref.read(preferencesStateProvider);
 
   if (prefs.indexSheetTutorialShown) {
     return;
@@ -49,7 +49,7 @@ void showIndexSheetTutorialIfNeeded(BuildContext context, GlobalKey fabKey, Widg
     ],
     onFinish: () {
       if (ref.context.mounted) {
-        ref.read(preferencesStateNotifierProvider.notifier).setIndexSheetTutorialShown();
+        ref.read(preferencesStateProvider.notifier).setIndexSheetTutorialShown();
       }
     },
   ).show(context: context, rootOverlay: true);

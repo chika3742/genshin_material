@@ -62,7 +62,6 @@ class BookmarksPage extends HookConsumerWidget {
           ],
         ),
         AsyncError(:final error) => CenterText(getErrorMessage(error)),
-        _ => throw "Unexpected state",
       },
     );
   }
@@ -575,7 +574,7 @@ class _LevelBookmarkDetail extends StatelessWidget {
             final bookmarks = ref.watch(bookmarksProvider(groupHash: groupHash))
                 .value?.cast<BookmarkWithMaterialDetails>();
 
-            useValueChanged<bool?, void>(bookmarks?.isEmpty, (_, __){
+            useValueChanged<bool?, void>(bookmarks?.isEmpty, (_, _){
               if (bookmarks != null && bookmarks.isEmpty) {
                 Navigator.of(context).pop();
               }
@@ -645,7 +644,7 @@ class _MaterialBookmarkDetail extends StatelessWidget {
             final bookmarks = ref.watch(bookmarksProvider(materialFilter: (materialId: materialId, hasWeapon: hasWeapon)))
                 .value?.cast<BookmarkWithMaterialDetails>();
 
-            useValueChanged<bool?, void>(bookmarks?.isEmpty, (_, __){
+            useValueChanged<bool?, void>(bookmarks?.isEmpty, (_, _){
               if (bookmarks != null && bookmarks.isEmpty) {
                 Navigator.of(context).pop();
               }

@@ -20,14 +20,14 @@ class ResinCalcPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(preferencesStateNotifierProvider);
+    final prefs = ref.watch(preferencesStateProvider);
 
     final resinController = useTextEditingController(text: prefs.resin?.toString() ?? "");
     final resinInput = useValueListenable(resinController);
 
     useEffect(() {
       if (prefs.isLinkedWithHoyolab) {
-        ref.read(resinSyncStateNotifierProvider.notifier).syncResin();
+        ref.read(resinSyncStateProvider.notifier).syncResin();
       }
       return null;
     }, [prefs.isLinkedWithHoyolab, prefs.syncResin],);
@@ -68,7 +68,7 @@ class ResinCalcPage extends HookConsumerWidget {
                                 icon: const Icon(Icons.clear),
                                 onPressed: () {
                                   resinController.clear();
-                                  ref.read(preferencesStateNotifierProvider.notifier).setResin(null);
+                                  ref.read(preferencesStateProvider.notifier).setResin(null);
                                 },
                               ) : null,
                             ),
@@ -82,7 +82,7 @@ class ResinCalcPage extends HookConsumerWidget {
                               FilteringTextInputFormatter.digitsOnly,
                             ],
                             onChanged: (value) {
-                              final prefNotifier = ref.read(preferencesStateNotifierProvider.notifier);
+                              final prefNotifier = ref.read(preferencesStateProvider.notifier);
                               if (value.isNotEmpty) {
                                 final resin = int.tryParse(value);
                                 if (resin == null) {
@@ -100,7 +100,7 @@ class ResinCalcPage extends HookConsumerWidget {
                           child: Consumer(
                             builder: (context, ref, _) {
                               return GameDataSyncIndicator(
-                                status: ref.watch(resinSyncStateNotifierProvider),
+                                status: ref.watch(resinSyncStateProvider),
                               );
                             },
                           ),
@@ -124,9 +124,9 @@ class ResinCalcPage extends HookConsumerWidget {
                             title: Text(tr.hoyolab.syncResin),
                             value: prefs.syncResin,
                             onChanged: prefs.isLinkedWithHoyolab ? (value) {
-                              ref.read(preferencesStateNotifierProvider.notifier).setSyncResin(value);
+                              ref.read(preferencesStateProvider.notifier).setSyncResin(value);
                               if (value) {
-                                ref.read(resinSyncStateNotifierProvider.notifier).syncResin();
+                                ref.read(resinSyncStateProvider.notifier).syncResin();
                               }
                             } : null,
                           ),
@@ -154,7 +154,7 @@ class _CalcResult extends HookConsumerWidget {
       currentTime.value = DateTime.now();
     });
 
-    final prefs = ref.watch(preferencesStateNotifierProvider);
+    final prefs = ref.watch(preferencesStateProvider);
 
     ResinCalculationResult? calcResult;
     if (prefs.resin != null && prefs.resinBaseTime != null) {

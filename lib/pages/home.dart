@@ -49,11 +49,11 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(assetUpdatingStateNotifierProvider.notifier).checkForUpdate();
+      ref.read(assetUpdatingStateProvider.notifier).checkForUpdate();
 
       final rc = FirebaseRemoteConfig.instance;
       if (rc.getBool(RemoteConfigKey.bannerShown)) {
-        final prefs = ref.read(preferencesStateNotifierProvider);
+        final prefs = ref.read(preferencesStateProvider);
         final scfMessenger = ScaffoldMessenger.of(context);
         if (!prefs.bannerReadKeys.contains(rc.getString(RemoteConfigKey.bannerKey))) {
           scfMessenger.showMaterialBanner(MaterialBanner(
@@ -68,7 +68,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
               TextButton(
                 onPressed: () {
-                  ref.read(preferencesStateNotifierProvider.notifier)
+                  ref.read(preferencesStateProvider.notifier)
                       .addBannerReadKey(rc.getString(RemoteConfigKey.bannerKey));
                   scfMessenger.hideCurrentMaterialBanner();
                 },

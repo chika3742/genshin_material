@@ -79,7 +79,7 @@ void main() {
 
     // wait until assets are downloaded
     final completer = Completer();
-    container.listen(assetUpdatingStateNotifierProvider.select((e) => e.state), (_, curr) {
+    container.listen(assetUpdatingStateProvider.select((e) => e.state), (_, curr) {
       if (!curr.isBusy) {
         completer.complete();
       }

@@ -19,7 +19,7 @@ class FarmCountSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final (advRank, condensedMultiplier) = ref.watch(preferencesStateNotifierProvider
+    final (advRank, condensedMultiplier) = ref.watch(preferencesStateProvider
         .select((e) => (e.adventureRank, e.condensedMultiplier)));
 
     String multiplierText(double n) {
@@ -46,7 +46,7 @@ class FarmCountSettingsPage extends ConsumerWidget {
             trailing: Icon(Symbols.menu_open),
             value: advRank,
             onSelected: (value) {
-              ref.read(preferencesStateNotifierProvider.notifier)
+              ref.read(preferencesStateProvider.notifier)
                   .setAdventureRank(value);
             },
             items: [
@@ -78,7 +78,7 @@ class FarmCountSettingsPage extends ConsumerWidget {
               );
 
               if (result != null) {
-                await ref.read(preferencesStateNotifierProvider.notifier)
+                await ref.read(preferencesStateProvider.notifier)
                     .setCondensedMultiplier(result);
               }
             },
