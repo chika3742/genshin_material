@@ -116,7 +116,6 @@ jobs:
             --dart-define=ASSET_CHANNEL=$asset_channel
 
       - name: Authenticate to Google Cloud
-        id: auth
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ vars.WIF_PROVIDER }}
@@ -126,8 +125,6 @@ jobs:
 
       - name: Deploy to Play Store
         working-directory: android
-        env:
-          GOOGLE_SERVICE_ACCOUNT_KEY_PATH: ${{ steps.auth.outputs.credentials_file_path }}
         run: bundle exec fastlane upload
 
 concurrency:
