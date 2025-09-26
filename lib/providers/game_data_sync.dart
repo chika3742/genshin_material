@@ -171,7 +171,9 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
 
   if (charaInfo == null) {
     return GameDataSyncResult(
-      errorType: GameDataSyncErrorType.characterDoesNotExist,
+      errorType: variantId.startsWith("traveler_")
+          ? GameDataSyncErrorType.mustBeResonatedWithStatue
+          : GameDataSyncErrorType.characterDoesNotExist,
     );
   }
 
