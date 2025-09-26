@@ -69,6 +69,7 @@ class TranslationsEn extends Translations {
 	@override late final _TranslationsMorePageEn morePage = _TranslationsMorePageEn._(_root);
 	@override late final _TranslationsReleaseNotesPageEn releaseNotesPage = _TranslationsReleaseNotesPageEn._(_root);
 	@override late final _TranslationsSettingsPageEn settingsPage = _TranslationsSettingsPageEn._(_root);
+	@override late final _TranslationsFarmCountSettingsPageEn farmCountSettingsPage = _TranslationsFarmCountSettingsPageEn._(_root);
 	@override late final _TranslationsHoyolabEn hoyolab = _TranslationsHoyolabEn._(_root);
 	@override Map<String, String> get whereToGet => {
 		'chests': 'Chests, Quests',
@@ -236,6 +237,7 @@ class _TranslationsPagesEn extends TranslationsPagesJa {
 	@override String get furnishings => 'Furnishings';
 	@override String furnishingDetails({required Object furnishing}) => '${furnishing} - Furnishing';
 	@override String get settings => 'Settings';
+	@override String get farmCountSettings => 'Farming Count Display';
 	@override String get account => 'Account';
 	@override String get releaseNotes => 'Release Notes';
 	@override String get bookmarks => 'Bookmarks';
@@ -472,12 +474,31 @@ class _TranslationsSettingsPageEn extends TranslationsSettingsPageJa {
 	@override String get showItemNameOnCardDesc => 'Show the item name on the card that displays the number of uses.';
 	@override String get dailyResetServer => 'Daily Material Server Time';
 	@override String get dailyResetServerDesc => 'Select the game server to use as the reference time for daily materials reset.';
+	@override String get farmCountSettingsDesc => 'Set the configs like AR for calculating the farming count.';
 	@override String get assetData => 'Assets';
 	@override String get checkAssetUpdate => 'Check Asset Update';
 	@override String get checkAssetUpdateDesc => 'Check for updates to the app\'s assets.';
 	@override String get reDownloadAssets => 'Re-download Assets';
 	@override String get reDownloadAssetsDesc => 'Please try this if the assets of the app are not loading properly.';
 	@override String get openSourceLicenses => 'Open Source Licenses';
+}
+
+// Path: farmCountSettingsPage
+class _TranslationsFarmCountSettingsPageEn extends TranslationsFarmCountSettingsPageJa {
+	_TranslationsFarmCountSettingsPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get showFarmCount => 'Show Farming Count';
+	@override String get adventureRank => 'Adventure Rank';
+	@override String get skipRate => 'Multiplier for using Condensed Resin etc.';
+	@override String get dropRateList => 'Drop Rate List';
+	@override String get kind => 'Type';
+	@override String get rate => 'Drop Rate (items/run)';
+	@override String get note => 'Note';
+	@override String multiplier({required Object n}) => '${n} x';
+	@override String get noUseCondensed => '(Not using Condensed Resin)';
 }
 
 // Path: hoyolab
@@ -669,6 +690,7 @@ extension on TranslationsEn {
 			case 'pages.furnishings': return 'Furnishings';
 			case 'pages.furnishingDetails': return ({required Object furnishing}) => '${furnishing} - Furnishing';
 			case 'pages.settings': return 'Settings';
+			case 'pages.farmCountSettings': return 'Farming Count Display';
 			case 'pages.account': return 'Account';
 			case 'pages.releaseNotes': return 'Release Notes';
 			case 'pages.bookmarks': return 'Bookmarks';
@@ -786,12 +808,22 @@ extension on TranslationsEn {
 			case 'settingsPage.showItemNameOnCardDesc': return 'Show the item name on the card that displays the number of uses.';
 			case 'settingsPage.dailyResetServer': return 'Daily Material Server Time';
 			case 'settingsPage.dailyResetServerDesc': return 'Select the game server to use as the reference time for daily materials reset.';
+			case 'settingsPage.farmCountSettingsDesc': return 'Set the configs like AR for calculating the farming count.';
 			case 'settingsPage.assetData': return 'Assets';
 			case 'settingsPage.checkAssetUpdate': return 'Check Asset Update';
 			case 'settingsPage.checkAssetUpdateDesc': return 'Check for updates to the app\'s assets.';
 			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
 			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the assets of the app are not loading properly.';
 			case 'settingsPage.openSourceLicenses': return 'Open Source Licenses';
+			case 'farmCountSettingsPage.showFarmCount': return 'Show Farming Count';
+			case 'farmCountSettingsPage.adventureRank': return 'Adventure Rank';
+			case 'farmCountSettingsPage.skipRate': return 'Multiplier for using Condensed Resin etc.';
+			case 'farmCountSettingsPage.dropRateList': return 'Drop Rate List';
+			case 'farmCountSettingsPage.kind': return 'Type';
+			case 'farmCountSettingsPage.rate': return 'Drop Rate (items/run)';
+			case 'farmCountSettingsPage.note': return 'Note';
+			case 'farmCountSettingsPage.multiplier': return ({required Object n}) => '${n} x';
+			case 'farmCountSettingsPage.noUseCondensed': return '(Not using Condensed Resin)';
 			case 'hoyolab.signIn': return 'Sign in to HoYoLAB';
 			case 'hoyolab.aboutHeading': return 'About HoYoLAB Link';
 			case 'hoyolab.about': return 'By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.\nHoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.\n* This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).\n* If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.\n';

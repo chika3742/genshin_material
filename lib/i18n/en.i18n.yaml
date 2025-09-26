@@ -96,6 +96,7 @@ pages:
   furnishings: Furnishings
   furnishingDetails: $furnishing - Furnishing
   settings: Settings
+  farmCountSettings: Farming Count Display
   account: Account
   releaseNotes: Release Notes
   bookmarks: Bookmarks
@@ -215,12 +216,23 @@ settingsPage:
   showItemNameOnCardDesc: Show the item name on the card that displays the number of uses.
   dailyResetServer: Daily Material Server Time
   dailyResetServerDesc: Select the game server to use as the reference time for daily materials reset.
+  farmCountSettingsDesc: Set the configs like AR for calculating the farming count.
   assetData: Assets
   checkAssetUpdate: Check Asset Update
   checkAssetUpdateDesc: Check for updates to the app's assets.
   reDownloadAssets: Re-download Assets
   reDownloadAssetsDesc: Please try this if the assets of the app are not loading properly.
   openSourceLicenses: Open Source Licenses
+farmCountSettingsPage: 
+  showFarmCount: Show Farming Count
+  adventureRank: Adventure Rank
+  skipRate: Multiplier for using Condensed Resin etc.
+  dropRateList: Drop Rate List
+  kind: Type
+  rate: Drop Rate (items/run)
+  note: Note
+  multiplier: ${n} x
+  noUseCondensed: (Not using Condensed Resin)
 hoyolab: 
   signIn: Sign in to HoYoLAB
   aboutHeading: About HoYoLAB Link
