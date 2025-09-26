@@ -15,7 +15,16 @@ class PreferenceKey<T> {
 
   const PreferenceKey(this.sp, this.key, this.defaultValue);
 
-  T get value => (sp.get(key) as T?) ?? defaultValue;
+  T get value {
+    final v = sp.get(key);
+    if (v == null) {
+      return defaultValue;
+    }
+    if (v is List) {
+      return (v as List<Object?>).cast<String>().toList() as T;
+    }
+    return v as T;
+  }
 
   /// Supported value types are:
   /// - [String]
