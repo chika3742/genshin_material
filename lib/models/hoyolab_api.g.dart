@@ -251,3 +251,23 @@ Map<String, dynamic> _$CalcConsumptionItemToJson(
   'lack_num': instance.lackNum,
   'num': instance.num,
 };
+
+_GachaLogResultItem _$GachaLogResultItemFromJson(Map<String, dynamic> json) =>
+    _GachaLogResultItem(
+      id: json['id'] as String,
+      gachaType: json['gacha_type'] as String,
+      time: json['time'] as String,
+      name: json['name'] as String,
+      itemType: json['item_type'] as String,
+      rankType: json['rank_type'] as String,
+    );
+
+Map<String, dynamic> _$GachaLogResultItemToJson(_GachaLogResultItem instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'gacha_type': instance.gachaType,
+      'time': instance.time,
+      'name': instance.name,
+      'item_type': instance.itemType,
+      'rank_type': instance.rankType,
+    };

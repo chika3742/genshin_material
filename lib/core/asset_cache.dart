@@ -11,6 +11,7 @@ import "../models/ingredients.dart";
 import "../models/localized_text.dart";
 import "../models/material.dart";
 import "../models/weapon.dart";
+import "../models/wishes.dart";
 import "asset_loader.dart";
 
 part "asset_cache.freezed.dart";
@@ -98,6 +99,9 @@ class AssetDataCacheProvider {
       furnishingSetTypes: furnishingSetMeta.setTypes,
       dropRates: (await loader.loadJson<List<dynamic>>("drop-rates.json"))
           .map((e) => DropRateEntry.fromJson(e)).toList(),
+      wishesMeta: WishesMeta.fromJson(
+        await loader.loadJson<Map<String, dynamic>>("wishes-meta.json"),
+      ),
     );
   }
 
@@ -138,5 +142,6 @@ sealed class AssetData with _$AssetData {
     required Map<FurnishingId, Furnishing> furnishings,
     required Map<FurnishingSetTypeId, LocalizedText> furnishingSetTypes,
     required List<DropRateEntry> dropRates,
+    required WishesMeta wishesMeta,
   }) = _AssetData;
 }

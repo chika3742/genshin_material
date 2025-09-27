@@ -1278,4 +1278,75 @@ String toString() {
 
 
 
+
+/// @nodoc
+mixin _$GachaLogResultItem {
+
+ String get id;@JsonKey(name: "gacha_type") String get gachaType; String get time; String get name;@JsonKey(name: "item_type") String get itemType;@JsonKey(name: "rank_type") String get rankType;
+
+  /// Serializes this GachaLogResultItem to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GachaLogResultItem&&(identical(other.id, id) || other.id == id)&&(identical(other.gachaType, gachaType) || other.gachaType == gachaType)&&(identical(other.time, time) || other.time == time)&&(identical(other.name, name) || other.name == name)&&(identical(other.itemType, itemType) || other.itemType == itemType)&&(identical(other.rankType, rankType) || other.rankType == rankType));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,gachaType,time,name,itemType,rankType);
+
+@override
+String toString() {
+  return 'GachaLogResultItem(id: $id, gachaType: $gachaType, time: $time, name: $name, itemType: $itemType, rankType: $rankType)';
+}
+
+
+}
+
+
+
+
+
+/// @nodoc
+@JsonSerializable()
+
+class _GachaLogResultItem implements GachaLogResultItem {
+  const _GachaLogResultItem({required this.id, @JsonKey(name: "gacha_type") required this.gachaType, required this.time, required this.name, @JsonKey(name: "item_type") required this.itemType, @JsonKey(name: "rank_type") required this.rankType});
+  factory _GachaLogResultItem.fromJson(Map<String, dynamic> json) => _$GachaLogResultItemFromJson(json);
+
+@override final  String id;
+@override@JsonKey(name: "gacha_type") final  String gachaType;
+@override final  String time;
+@override final  String name;
+@override@JsonKey(name: "item_type") final  String itemType;
+@override@JsonKey(name: "rank_type") final  String rankType;
+
+
+@override
+Map<String, dynamic> toJson() {
+  return _$GachaLogResultItemToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GachaLogResultItem&&(identical(other.id, id) || other.id == id)&&(identical(other.gachaType, gachaType) || other.gachaType == gachaType)&&(identical(other.time, time) || other.time == time)&&(identical(other.name, name) || other.name == name)&&(identical(other.itemType, itemType) || other.itemType == itemType)&&(identical(other.rankType, rankType) || other.rankType == rankType));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,gachaType,time,name,itemType,rankType);
+
+@override
+String toString() {
+  return 'GachaLogResultItem(id: $id, gachaType: $gachaType, time: $time, name: $name, itemType: $itemType, rankType: $rankType)';
+}
+
+
+}
+
+
+
+
 // dart format on

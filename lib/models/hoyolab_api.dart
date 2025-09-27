@@ -284,3 +284,20 @@ typedef VerifyLTokenResult = HoyolabApiResult<HyvUserInfo>;
 typedef GetUserGameRolesResult = HoyolabListData<HyvUserGameRole>;
 typedef AvatarListResult = HoyolabListData<AvatarListResultItem>;
 typedef GameRecordCardList = HoyolabListData<GameRecordCard>;
+
+@freezed
+sealed class GachaLogResultItem with _$GachaLogResultItem {
+  const factory GachaLogResultItem({
+    required String id,
+    @JsonKey(name: "gacha_type") required String gachaType,
+    required String time,
+    required String name,
+    @JsonKey(name: "item_type") required String itemType,
+    @JsonKey(name: "rank_type") required String rankType,
+  }) = _GachaLogResultItem;
+
+  factory GachaLogResultItem.fromJson(Map<String, dynamic> json) =>
+      _$GachaLogResultItemFromJson(json);
+}
+
+typedef GachaLogResult = HoyolabListData<GachaLogResultItem>;

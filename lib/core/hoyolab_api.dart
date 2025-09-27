@@ -81,7 +81,7 @@ class HoyolabApi {
     _ensureRequiredParams();
 
     const url = "https://sg-public-api.hoyolab.com/event/e20200928calculate/v1/sync/avatar/list";
-    return _errorHandledThen(
+    return errorHandledThen(
       client.post(
         Uri.parse(url),
         headers: headers,
@@ -103,7 +103,7 @@ class HoyolabApi {
     _ensureRequiredParams(params: [HoyolabApiParams.cookie, HoyolabApiParams.region]);
 
     final url = "https://api-account-os.hoyolab.com/binding/api/getUserGameRolesByLtoken?game_biz=hk4e_global&region=$region";
-    return _errorHandledThen(
+    return errorHandledThen(
       client.get(
         Uri.parse(url),
         headers: headers,
@@ -116,7 +116,7 @@ class HoyolabApi {
     final queryParameters = {
       "uid": _getLtUid(),
     };
-    return _errorHandledThen(
+    return errorHandledThen(
       client.get(
         Uri.parse(url).replace(queryParameters: queryParameters),
         headers: {
@@ -135,7 +135,7 @@ class HoyolabApi {
       "game_id": 2,
       ...sw.toJson(),
     });
-    return _errorHandledThen(
+    return errorHandledThen(
       client.post(
         Uri.parse(url),
         headers: {
@@ -157,7 +157,7 @@ class HoyolabApi {
       "role_id": uid!,
       "server": region!,
     };
-    return _errorHandledThen(
+    return errorHandledThen(
       client.get(
         Uri.parse(url).replace(
           queryParameters: queryParameters,
@@ -190,7 +190,7 @@ class HoyolabApi {
 
     log("Request body: $body");
 
-    return _errorHandledThen(
+    return errorHandledThen(
       client.post(
         Uri.parse(endpoint),
         headers: {
@@ -235,7 +235,7 @@ class HoyolabApi {
     return const JsonCodec().decode(utf8.decode(bytes));
   }
 
-  static Future<T> _errorHandledThen<T>(Future<http.Response> response, T Function(Object? obj) fromJsonT) {
+  static Future<T> errorHandledThen<T>(Future<http.Response> response, T Function(Object? obj) fromJsonT) {
     return response.then((value) {
       final result = HoyolabApiResult.fromJson(_parseJson(value.bodyBytes), fromJsonT);
       if (result.hasError) {
