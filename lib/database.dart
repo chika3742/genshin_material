@@ -149,6 +149,27 @@ class FurnishingSetBookmarkTable extends Table {
   Set<Column<Object>>? get primaryKey => {setId};
 }
 
+@DataClassName("WishHistoryEntry")
+class WishHistoryTable extends Table {
+  TextColumn get id => text()();
+  TextColumn get itemType => textEnum<WishItemType>()();
+  TextColumn get characterId => text().nullable()();
+  TextColumn get weaponId => text().nullable()();
+  DateTimeColumn get timestamp => dateTime()();
+  IntColumn get serial => integer().autoIncrement()();
+}
+
+enum WishItemType {
+  character,
+  weapon;
+
+  static WishItemType fromItemType(String itemType) => switch (itemType) {
+    "Character" => WishItemType.character,
+    "Weapon" => WishItemType.weapon,
+    _ => throw ArgumentError("Unknown item type: $itemType"),
+  };
+}
+
 
 // converters
 
@@ -220,12 +241,13 @@ class MapConverter<T> extends TypeConverter<Map<String, T>, String> {
   MaterialBagCountTable,
   FurnishingCraftCountTable,
   FurnishingSetBookmarkTable,
+  WishHistoryTable,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   static const dbName = "db";
 
@@ -256,6 +278,9 @@ class AppDatabase extends _$AppDatabase {
           ));
         },
         from2To3: (m, schema) async {
+          await m.createAll();
+        },
+        from3To4: (m, schema) async {
           await m.createAll();
         },
       ),

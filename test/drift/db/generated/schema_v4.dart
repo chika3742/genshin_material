@@ -1343,12 +1343,23 @@ class InGameCharacterStateTable extends Table
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
+    'last_updated',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: const CustomExpression(
+      'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     uid,
     characterId,
     purposes,
     equippedWeaponId,
+    lastUpdated,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1380,6 +1391,10 @@ class InGameCharacterStateTable extends Table
         DriftSqlType.string,
         data['${effectivePrefix}equipped_weapon_id'],
       ),
+      lastUpdated: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_updated'],
+      )!,
     );
   }
 
@@ -1395,11 +1410,13 @@ class InGameCharacterStateTableData extends DataClass
   final String characterId;
   final String purposes;
   final String? equippedWeaponId;
+  final DateTime lastUpdated;
   const InGameCharacterStateTableData({
     required this.uid,
     required this.characterId,
     required this.purposes,
     this.equippedWeaponId,
+    required this.lastUpdated,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1410,6 +1427,7 @@ class InGameCharacterStateTableData extends DataClass
     if (!nullToAbsent || equippedWeaponId != null) {
       map['equipped_weapon_id'] = Variable<String>(equippedWeaponId);
     }
+    map['last_updated'] = Variable<DateTime>(lastUpdated);
     return map;
   }
 
@@ -1421,6 +1439,7 @@ class InGameCharacterStateTableData extends DataClass
       equippedWeaponId: equippedWeaponId == null && nullToAbsent
           ? const Value.absent()
           : Value(equippedWeaponId),
+      lastUpdated: Value(lastUpdated),
     );
   }
 
@@ -1434,6 +1453,7 @@ class InGameCharacterStateTableData extends DataClass
       characterId: serializer.fromJson<String>(json['characterId']),
       purposes: serializer.fromJson<String>(json['purposes']),
       equippedWeaponId: serializer.fromJson<String?>(json['equippedWeaponId']),
+      lastUpdated: serializer.fromJson<DateTime>(json['lastUpdated']),
     );
   }
   @override
@@ -1444,6 +1464,7 @@ class InGameCharacterStateTableData extends DataClass
       'characterId': serializer.toJson<String>(characterId),
       'purposes': serializer.toJson<String>(purposes),
       'equippedWeaponId': serializer.toJson<String?>(equippedWeaponId),
+      'lastUpdated': serializer.toJson<DateTime>(lastUpdated),
     };
   }
 
@@ -1452,6 +1473,7 @@ class InGameCharacterStateTableData extends DataClass
     String? characterId,
     String? purposes,
     Value<String?> equippedWeaponId = const Value.absent(),
+    DateTime? lastUpdated,
   }) => InGameCharacterStateTableData(
     uid: uid ?? this.uid,
     characterId: characterId ?? this.characterId,
@@ -1459,6 +1481,7 @@ class InGameCharacterStateTableData extends DataClass
     equippedWeaponId: equippedWeaponId.present
         ? equippedWeaponId.value
         : this.equippedWeaponId,
+    lastUpdated: lastUpdated ?? this.lastUpdated,
   );
   InGameCharacterStateTableData copyWithCompanion(
     InGameCharacterStateTableDataCompanion data,
@@ -1472,6 +1495,9 @@ class InGameCharacterStateTableData extends DataClass
       equippedWeaponId: data.equippedWeaponId.present
           ? data.equippedWeaponId.value
           : this.equippedWeaponId,
+      lastUpdated: data.lastUpdated.present
+          ? data.lastUpdated.value
+          : this.lastUpdated,
     );
   }
 
@@ -1481,13 +1507,15 @@ class InGameCharacterStateTableData extends DataClass
           ..write('uid: $uid, ')
           ..write('characterId: $characterId, ')
           ..write('purposes: $purposes, ')
-          ..write('equippedWeaponId: $equippedWeaponId')
+          ..write('equippedWeaponId: $equippedWeaponId, ')
+          ..write('lastUpdated: $lastUpdated')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(uid, characterId, purposes, equippedWeaponId);
+  int get hashCode =>
+      Object.hash(uid, characterId, purposes, equippedWeaponId, lastUpdated);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1495,7 +1523,8 @@ class InGameCharacterStateTableData extends DataClass
           other.uid == this.uid &&
           other.characterId == this.characterId &&
           other.purposes == this.purposes &&
-          other.equippedWeaponId == this.equippedWeaponId);
+          other.equippedWeaponId == this.equippedWeaponId &&
+          other.lastUpdated == this.lastUpdated);
 }
 
 class InGameCharacterStateTableDataCompanion
@@ -1504,12 +1533,14 @@ class InGameCharacterStateTableDataCompanion
   final Value<String> characterId;
   final Value<String> purposes;
   final Value<String?> equippedWeaponId;
+  final Value<DateTime> lastUpdated;
   final Value<int> rowid;
   const InGameCharacterStateTableDataCompanion({
     this.uid = const Value.absent(),
     this.characterId = const Value.absent(),
     this.purposes = const Value.absent(),
     this.equippedWeaponId = const Value.absent(),
+    this.lastUpdated = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   InGameCharacterStateTableDataCompanion.insert({
@@ -1517,6 +1548,7 @@ class InGameCharacterStateTableDataCompanion
     required String characterId,
     required String purposes,
     this.equippedWeaponId = const Value.absent(),
+    this.lastUpdated = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : uid = Value(uid),
        characterId = Value(characterId),
@@ -1526,6 +1558,7 @@ class InGameCharacterStateTableDataCompanion
     Expression<String>? characterId,
     Expression<String>? purposes,
     Expression<String>? equippedWeaponId,
+    Expression<DateTime>? lastUpdated,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1533,6 +1566,7 @@ class InGameCharacterStateTableDataCompanion
       if (characterId != null) 'character_id': characterId,
       if (purposes != null) 'purposes': purposes,
       if (equippedWeaponId != null) 'equipped_weapon_id': equippedWeaponId,
+      if (lastUpdated != null) 'last_updated': lastUpdated,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1542,6 +1576,7 @@ class InGameCharacterStateTableDataCompanion
     Value<String>? characterId,
     Value<String>? purposes,
     Value<String?>? equippedWeaponId,
+    Value<DateTime>? lastUpdated,
     Value<int>? rowid,
   }) {
     return InGameCharacterStateTableDataCompanion(
@@ -1549,6 +1584,7 @@ class InGameCharacterStateTableDataCompanion
       characterId: characterId ?? this.characterId,
       purposes: purposes ?? this.purposes,
       equippedWeaponId: equippedWeaponId ?? this.equippedWeaponId,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1568,6 +1604,9 @@ class InGameCharacterStateTableDataCompanion
     if (equippedWeaponId.present) {
       map['equipped_weapon_id'] = Variable<String>(equippedWeaponId.value);
     }
+    if (lastUpdated.present) {
+      map['last_updated'] = Variable<DateTime>(lastUpdated.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1581,6 +1620,7 @@ class InGameCharacterStateTableDataCompanion
           ..write('characterId: $characterId, ')
           ..write('purposes: $purposes, ')
           ..write('equippedWeaponId: $equippedWeaponId, ')
+          ..write('lastUpdated: $lastUpdated, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -1614,15 +1654,31 @@ class InGameWeaponStateTable extends Table
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  late final GeneratedColumn<int> level = GeneratedColumn<int>(
-    'level',
+  late final GeneratedColumn<String> purposes = GeneratedColumn<String>(
+    'purposes',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
+    'last_updated',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: const CustomExpression(
+      'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
+    ),
+  );
   @override
-  List<GeneratedColumn> get $columns => [uid, characterId, weaponId, level];
+  List<GeneratedColumn> get $columns => [
+    uid,
+    characterId,
+    weaponId,
+    purposes,
+    lastUpdated,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1649,9 +1705,13 @@ class InGameWeaponStateTable extends Table
         DriftSqlType.string,
         data['${effectivePrefix}weapon_id'],
       )!,
-      level: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}level'],
+      purposes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}purposes'],
+      )!,
+      lastUpdated: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_updated'],
       )!,
     );
   }
@@ -1667,12 +1727,14 @@ class InGameWeaponStateTableData extends DataClass
   final String uid;
   final String characterId;
   final String weaponId;
-  final int level;
+  final String purposes;
+  final DateTime lastUpdated;
   const InGameWeaponStateTableData({
     required this.uid,
     required this.characterId,
     required this.weaponId,
-    required this.level,
+    required this.purposes,
+    required this.lastUpdated,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1680,7 +1742,8 @@ class InGameWeaponStateTableData extends DataClass
     map['uid'] = Variable<String>(uid);
     map['character_id'] = Variable<String>(characterId);
     map['weapon_id'] = Variable<String>(weaponId);
-    map['level'] = Variable<int>(level);
+    map['purposes'] = Variable<String>(purposes);
+    map['last_updated'] = Variable<DateTime>(lastUpdated);
     return map;
   }
 
@@ -1689,7 +1752,8 @@ class InGameWeaponStateTableData extends DataClass
       uid: Value(uid),
       characterId: Value(characterId),
       weaponId: Value(weaponId),
-      level: Value(level),
+      purposes: Value(purposes),
+      lastUpdated: Value(lastUpdated),
     );
   }
 
@@ -1702,7 +1766,8 @@ class InGameWeaponStateTableData extends DataClass
       uid: serializer.fromJson<String>(json['uid']),
       characterId: serializer.fromJson<String>(json['characterId']),
       weaponId: serializer.fromJson<String>(json['weaponId']),
-      level: serializer.fromJson<int>(json['level']),
+      purposes: serializer.fromJson<String>(json['purposes']),
+      lastUpdated: serializer.fromJson<DateTime>(json['lastUpdated']),
     );
   }
   @override
@@ -1712,7 +1777,8 @@ class InGameWeaponStateTableData extends DataClass
       'uid': serializer.toJson<String>(uid),
       'characterId': serializer.toJson<String>(characterId),
       'weaponId': serializer.toJson<String>(weaponId),
-      'level': serializer.toJson<int>(level),
+      'purposes': serializer.toJson<String>(purposes),
+      'lastUpdated': serializer.toJson<DateTime>(lastUpdated),
     };
   }
 
@@ -1720,12 +1786,14 @@ class InGameWeaponStateTableData extends DataClass
     String? uid,
     String? characterId,
     String? weaponId,
-    int? level,
+    String? purposes,
+    DateTime? lastUpdated,
   }) => InGameWeaponStateTableData(
     uid: uid ?? this.uid,
     characterId: characterId ?? this.characterId,
     weaponId: weaponId ?? this.weaponId,
-    level: level ?? this.level,
+    purposes: purposes ?? this.purposes,
+    lastUpdated: lastUpdated ?? this.lastUpdated,
   );
   InGameWeaponStateTableData copyWithCompanion(
     InGameWeaponStateTableDataCompanion data,
@@ -1736,7 +1804,10 @@ class InGameWeaponStateTableData extends DataClass
           ? data.characterId.value
           : this.characterId,
       weaponId: data.weaponId.present ? data.weaponId.value : this.weaponId,
-      level: data.level.present ? data.level.value : this.level,
+      purposes: data.purposes.present ? data.purposes.value : this.purposes,
+      lastUpdated: data.lastUpdated.present
+          ? data.lastUpdated.value
+          : this.lastUpdated,
     );
   }
 
@@ -1746,13 +1817,15 @@ class InGameWeaponStateTableData extends DataClass
           ..write('uid: $uid, ')
           ..write('characterId: $characterId, ')
           ..write('weaponId: $weaponId, ')
-          ..write('level: $level')
+          ..write('purposes: $purposes, ')
+          ..write('lastUpdated: $lastUpdated')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(uid, characterId, weaponId, level);
+  int get hashCode =>
+      Object.hash(uid, characterId, weaponId, purposes, lastUpdated);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1760,7 +1833,8 @@ class InGameWeaponStateTableData extends DataClass
           other.uid == this.uid &&
           other.characterId == this.characterId &&
           other.weaponId == this.weaponId &&
-          other.level == this.level);
+          other.purposes == this.purposes &&
+          other.lastUpdated == this.lastUpdated);
 }
 
 class InGameWeaponStateTableDataCompanion
@@ -1768,37 +1842,42 @@ class InGameWeaponStateTableDataCompanion
   final Value<String> uid;
   final Value<String> characterId;
   final Value<String> weaponId;
-  final Value<int> level;
+  final Value<String> purposes;
+  final Value<DateTime> lastUpdated;
   final Value<int> rowid;
   const InGameWeaponStateTableDataCompanion({
     this.uid = const Value.absent(),
     this.characterId = const Value.absent(),
     this.weaponId = const Value.absent(),
-    this.level = const Value.absent(),
+    this.purposes = const Value.absent(),
+    this.lastUpdated = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   InGameWeaponStateTableDataCompanion.insert({
     required String uid,
     required String characterId,
     required String weaponId,
-    required int level,
+    required String purposes,
+    this.lastUpdated = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : uid = Value(uid),
        characterId = Value(characterId),
        weaponId = Value(weaponId),
-       level = Value(level);
+       purposes = Value(purposes);
   static Insertable<InGameWeaponStateTableData> custom({
     Expression<String>? uid,
     Expression<String>? characterId,
     Expression<String>? weaponId,
-    Expression<int>? level,
+    Expression<String>? purposes,
+    Expression<DateTime>? lastUpdated,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (uid != null) 'uid': uid,
       if (characterId != null) 'character_id': characterId,
       if (weaponId != null) 'weapon_id': weaponId,
-      if (level != null) 'level': level,
+      if (purposes != null) 'purposes': purposes,
+      if (lastUpdated != null) 'last_updated': lastUpdated,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1807,14 +1886,16 @@ class InGameWeaponStateTableDataCompanion
     Value<String>? uid,
     Value<String>? characterId,
     Value<String>? weaponId,
-    Value<int>? level,
+    Value<String>? purposes,
+    Value<DateTime>? lastUpdated,
     Value<int>? rowid,
   }) {
     return InGameWeaponStateTableDataCompanion(
       uid: uid ?? this.uid,
       characterId: characterId ?? this.characterId,
       weaponId: weaponId ?? this.weaponId,
-      level: level ?? this.level,
+      purposes: purposes ?? this.purposes,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1831,8 +1912,11 @@ class InGameWeaponStateTableDataCompanion
     if (weaponId.present) {
       map['weapon_id'] = Variable<String>(weaponId.value);
     }
-    if (level.present) {
-      map['level'] = Variable<int>(level.value);
+    if (purposes.present) {
+      map['purposes'] = Variable<String>(purposes.value);
+    }
+    if (lastUpdated.present) {
+      map['last_updated'] = Variable<DateTime>(lastUpdated.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1846,7 +1930,8 @@ class InGameWeaponStateTableDataCompanion
           ..write('uid: $uid, ')
           ..write('characterId: $characterId, ')
           ..write('weaponId: $weaponId, ')
-          ..write('level: $level, ')
+          ..write('purposes: $purposes, ')
+          ..write('lastUpdated: $lastUpdated, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2312,8 +2397,729 @@ class MaterialBagCountTableDataCompanion
   }
 }
 
-class DatabaseAtV1 extends GeneratedDatabase {
-  DatabaseAtV1(QueryExecutor e) : super(e);
+class FurnishingCraftCountTable extends Table
+    with TableInfo<FurnishingCraftCountTable, FurnishingCraftCountTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  FurnishingCraftCountTable(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<String> furnishingId = GeneratedColumn<String>(
+    'furnishing_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  late final GeneratedColumn<String> setId = GeneratedColumn<String>(
+    'set_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  late final GeneratedColumn<int> count = GeneratedColumn<int>(
+    'count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [furnishingId, setId, count];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'furnishing_craft_count_table';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {furnishingId, setId};
+  @override
+  FurnishingCraftCountTableData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FurnishingCraftCountTableData(
+      furnishingId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}furnishing_id'],
+      )!,
+      setId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}set_id'],
+      )!,
+      count: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}count'],
+      )!,
+    );
+  }
+
+  @override
+  FurnishingCraftCountTable createAlias(String alias) {
+    return FurnishingCraftCountTable(attachedDatabase, alias);
+  }
+}
+
+class FurnishingCraftCountTableData extends DataClass
+    implements Insertable<FurnishingCraftCountTableData> {
+  final String furnishingId;
+  final String setId;
+  final int count;
+  const FurnishingCraftCountTableData({
+    required this.furnishingId,
+    required this.setId,
+    required this.count,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['furnishing_id'] = Variable<String>(furnishingId);
+    map['set_id'] = Variable<String>(setId);
+    map['count'] = Variable<int>(count);
+    return map;
+  }
+
+  FurnishingCraftCountTableDataCompanion toCompanion(bool nullToAbsent) {
+    return FurnishingCraftCountTableDataCompanion(
+      furnishingId: Value(furnishingId),
+      setId: Value(setId),
+      count: Value(count),
+    );
+  }
+
+  factory FurnishingCraftCountTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FurnishingCraftCountTableData(
+      furnishingId: serializer.fromJson<String>(json['furnishingId']),
+      setId: serializer.fromJson<String>(json['setId']),
+      count: serializer.fromJson<int>(json['count']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'furnishingId': serializer.toJson<String>(furnishingId),
+      'setId': serializer.toJson<String>(setId),
+      'count': serializer.toJson<int>(count),
+    };
+  }
+
+  FurnishingCraftCountTableData copyWith({
+    String? furnishingId,
+    String? setId,
+    int? count,
+  }) => FurnishingCraftCountTableData(
+    furnishingId: furnishingId ?? this.furnishingId,
+    setId: setId ?? this.setId,
+    count: count ?? this.count,
+  );
+  FurnishingCraftCountTableData copyWithCompanion(
+    FurnishingCraftCountTableDataCompanion data,
+  ) {
+    return FurnishingCraftCountTableData(
+      furnishingId: data.furnishingId.present
+          ? data.furnishingId.value
+          : this.furnishingId,
+      setId: data.setId.present ? data.setId.value : this.setId,
+      count: data.count.present ? data.count.value : this.count,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FurnishingCraftCountTableData(')
+          ..write('furnishingId: $furnishingId, ')
+          ..write('setId: $setId, ')
+          ..write('count: $count')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(furnishingId, setId, count);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FurnishingCraftCountTableData &&
+          other.furnishingId == this.furnishingId &&
+          other.setId == this.setId &&
+          other.count == this.count);
+}
+
+class FurnishingCraftCountTableDataCompanion
+    extends UpdateCompanion<FurnishingCraftCountTableData> {
+  final Value<String> furnishingId;
+  final Value<String> setId;
+  final Value<int> count;
+  final Value<int> rowid;
+  const FurnishingCraftCountTableDataCompanion({
+    this.furnishingId = const Value.absent(),
+    this.setId = const Value.absent(),
+    this.count = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  FurnishingCraftCountTableDataCompanion.insert({
+    required String furnishingId,
+    required String setId,
+    required int count,
+    this.rowid = const Value.absent(),
+  }) : furnishingId = Value(furnishingId),
+       setId = Value(setId),
+       count = Value(count);
+  static Insertable<FurnishingCraftCountTableData> custom({
+    Expression<String>? furnishingId,
+    Expression<String>? setId,
+    Expression<int>? count,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (furnishingId != null) 'furnishing_id': furnishingId,
+      if (setId != null) 'set_id': setId,
+      if (count != null) 'count': count,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  FurnishingCraftCountTableDataCompanion copyWith({
+    Value<String>? furnishingId,
+    Value<String>? setId,
+    Value<int>? count,
+    Value<int>? rowid,
+  }) {
+    return FurnishingCraftCountTableDataCompanion(
+      furnishingId: furnishingId ?? this.furnishingId,
+      setId: setId ?? this.setId,
+      count: count ?? this.count,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (furnishingId.present) {
+      map['furnishing_id'] = Variable<String>(furnishingId.value);
+    }
+    if (setId.present) {
+      map['set_id'] = Variable<String>(setId.value);
+    }
+    if (count.present) {
+      map['count'] = Variable<int>(count.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FurnishingCraftCountTableDataCompanion(')
+          ..write('furnishingId: $furnishingId, ')
+          ..write('setId: $setId, ')
+          ..write('count: $count, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class FurnishingSetBookmarkTable extends Table
+    with TableInfo<FurnishingSetBookmarkTable, FurnishingSetBookmarkTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  FurnishingSetBookmarkTable(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<String> setId = GeneratedColumn<String>(
+    'set_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: const CustomExpression(
+      'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [setId, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'furnishing_set_bookmark_table';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {setId};
+  @override
+  FurnishingSetBookmarkTableData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FurnishingSetBookmarkTableData(
+      setId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}set_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  FurnishingSetBookmarkTable createAlias(String alias) {
+    return FurnishingSetBookmarkTable(attachedDatabase, alias);
+  }
+}
+
+class FurnishingSetBookmarkTableData extends DataClass
+    implements Insertable<FurnishingSetBookmarkTableData> {
+  final String setId;
+  final DateTime createdAt;
+  const FurnishingSetBookmarkTableData({
+    required this.setId,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['set_id'] = Variable<String>(setId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  FurnishingSetBookmarkTableDataCompanion toCompanion(bool nullToAbsent) {
+    return FurnishingSetBookmarkTableDataCompanion(
+      setId: Value(setId),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory FurnishingSetBookmarkTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FurnishingSetBookmarkTableData(
+      setId: serializer.fromJson<String>(json['setId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'setId': serializer.toJson<String>(setId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  FurnishingSetBookmarkTableData copyWith({
+    String? setId,
+    DateTime? createdAt,
+  }) => FurnishingSetBookmarkTableData(
+    setId: setId ?? this.setId,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  FurnishingSetBookmarkTableData copyWithCompanion(
+    FurnishingSetBookmarkTableDataCompanion data,
+  ) {
+    return FurnishingSetBookmarkTableData(
+      setId: data.setId.present ? data.setId.value : this.setId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FurnishingSetBookmarkTableData(')
+          ..write('setId: $setId, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(setId, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FurnishingSetBookmarkTableData &&
+          other.setId == this.setId &&
+          other.createdAt == this.createdAt);
+}
+
+class FurnishingSetBookmarkTableDataCompanion
+    extends UpdateCompanion<FurnishingSetBookmarkTableData> {
+  final Value<String> setId;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const FurnishingSetBookmarkTableDataCompanion({
+    this.setId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  FurnishingSetBookmarkTableDataCompanion.insert({
+    required String setId,
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : setId = Value(setId);
+  static Insertable<FurnishingSetBookmarkTableData> custom({
+    Expression<String>? setId,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (setId != null) 'set_id': setId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  FurnishingSetBookmarkTableDataCompanion copyWith({
+    Value<String>? setId,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return FurnishingSetBookmarkTableDataCompanion(
+      setId: setId ?? this.setId,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (setId.present) {
+      map['set_id'] = Variable<String>(setId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FurnishingSetBookmarkTableDataCompanion(')
+          ..write('setId: $setId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class WishHistoryTable extends Table
+    with TableInfo<WishHistoryTable, WishHistoryTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  WishHistoryTable(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  late final GeneratedColumn<String> itemType = GeneratedColumn<String>(
+    'item_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  late final GeneratedColumn<String> itemId = GeneratedColumn<String>(
+    'item_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  late final GeneratedColumn<DateTime> timestamp = GeneratedColumn<DateTime>(
+    'timestamp',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  late final GeneratedColumn<int> serial = GeneratedColumn<int>(
+    'serial',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    itemType,
+    itemId,
+    timestamp,
+    serial,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'wish_history_table';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serial};
+  @override
+  WishHistoryTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return WishHistoryTableData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      itemType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}item_type'],
+      )!,
+      itemId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}item_id'],
+      )!,
+      timestamp: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}timestamp'],
+      )!,
+      serial: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}serial'],
+      )!,
+    );
+  }
+
+  @override
+  WishHistoryTable createAlias(String alias) {
+    return WishHistoryTable(attachedDatabase, alias);
+  }
+}
+
+class WishHistoryTableData extends DataClass
+    implements Insertable<WishHistoryTableData> {
+  final String id;
+  final String itemType;
+  final String itemId;
+  final DateTime timestamp;
+  final int serial;
+  const WishHistoryTableData({
+    required this.id,
+    required this.itemType,
+    required this.itemId,
+    required this.timestamp,
+    required this.serial,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['item_type'] = Variable<String>(itemType);
+    map['item_id'] = Variable<String>(itemId);
+    map['timestamp'] = Variable<DateTime>(timestamp);
+    map['serial'] = Variable<int>(serial);
+    return map;
+  }
+
+  WishHistoryTableDataCompanion toCompanion(bool nullToAbsent) {
+    return WishHistoryTableDataCompanion(
+      id: Value(id),
+      itemType: Value(itemType),
+      itemId: Value(itemId),
+      timestamp: Value(timestamp),
+      serial: Value(serial),
+    );
+  }
+
+  factory WishHistoryTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return WishHistoryTableData(
+      id: serializer.fromJson<String>(json['id']),
+      itemType: serializer.fromJson<String>(json['itemType']),
+      itemId: serializer.fromJson<String>(json['itemId']),
+      timestamp: serializer.fromJson<DateTime>(json['timestamp']),
+      serial: serializer.fromJson<int>(json['serial']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'itemType': serializer.toJson<String>(itemType),
+      'itemId': serializer.toJson<String>(itemId),
+      'timestamp': serializer.toJson<DateTime>(timestamp),
+      'serial': serializer.toJson<int>(serial),
+    };
+  }
+
+  WishHistoryTableData copyWith({
+    String? id,
+    String? itemType,
+    String? itemId,
+    DateTime? timestamp,
+    int? serial,
+  }) => WishHistoryTableData(
+    id: id ?? this.id,
+    itemType: itemType ?? this.itemType,
+    itemId: itemId ?? this.itemId,
+    timestamp: timestamp ?? this.timestamp,
+    serial: serial ?? this.serial,
+  );
+  WishHistoryTableData copyWithCompanion(WishHistoryTableDataCompanion data) {
+    return WishHistoryTableData(
+      id: data.id.present ? data.id.value : this.id,
+      itemType: data.itemType.present ? data.itemType.value : this.itemType,
+      itemId: data.itemId.present ? data.itemId.value : this.itemId,
+      timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+      serial: data.serial.present ? data.serial.value : this.serial,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WishHistoryTableData(')
+          ..write('id: $id, ')
+          ..write('itemType: $itemType, ')
+          ..write('itemId: $itemId, ')
+          ..write('timestamp: $timestamp, ')
+          ..write('serial: $serial')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, itemType, itemId, timestamp, serial);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WishHistoryTableData &&
+          other.id == this.id &&
+          other.itemType == this.itemType &&
+          other.itemId == this.itemId &&
+          other.timestamp == this.timestamp &&
+          other.serial == this.serial);
+}
+
+class WishHistoryTableDataCompanion
+    extends UpdateCompanion<WishHistoryTableData> {
+  final Value<String> id;
+  final Value<String> itemType;
+  final Value<String> itemId;
+  final Value<DateTime> timestamp;
+  final Value<int> serial;
+  const WishHistoryTableDataCompanion({
+    this.id = const Value.absent(),
+    this.itemType = const Value.absent(),
+    this.itemId = const Value.absent(),
+    this.timestamp = const Value.absent(),
+    this.serial = const Value.absent(),
+  });
+  WishHistoryTableDataCompanion.insert({
+    required String id,
+    required String itemType,
+    required String itemId,
+    required DateTime timestamp,
+    this.serial = const Value.absent(),
+  }) : id = Value(id),
+       itemType = Value(itemType),
+       itemId = Value(itemId),
+       timestamp = Value(timestamp);
+  static Insertable<WishHistoryTableData> custom({
+    Expression<String>? id,
+    Expression<String>? itemType,
+    Expression<String>? itemId,
+    Expression<DateTime>? timestamp,
+    Expression<int>? serial,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (itemType != null) 'item_type': itemType,
+      if (itemId != null) 'item_id': itemId,
+      if (timestamp != null) 'timestamp': timestamp,
+      if (serial != null) 'serial': serial,
+    });
+  }
+
+  WishHistoryTableDataCompanion copyWith({
+    Value<String>? id,
+    Value<String>? itemType,
+    Value<String>? itemId,
+    Value<DateTime>? timestamp,
+    Value<int>? serial,
+  }) {
+    return WishHistoryTableDataCompanion(
+      id: id ?? this.id,
+      itemType: itemType ?? this.itemType,
+      itemId: itemId ?? this.itemId,
+      timestamp: timestamp ?? this.timestamp,
+      serial: serial ?? this.serial,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (itemType.present) {
+      map['item_type'] = Variable<String>(itemType.value);
+    }
+    if (itemId.present) {
+      map['item_id'] = Variable<String>(itemId.value);
+    }
+    if (timestamp.present) {
+      map['timestamp'] = Variable<DateTime>(timestamp.value);
+    }
+    if (serial.present) {
+      map['serial'] = Variable<int>(serial.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WishHistoryTableDataCompanion(')
+          ..write('id: $id, ')
+          ..write('itemType: $itemType, ')
+          ..write('itemId: $itemId, ')
+          ..write('timestamp: $timestamp, ')
+          ..write('serial: $serial')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class DatabaseAtV4 extends GeneratedDatabase {
+  DatabaseAtV4(QueryExecutor e) : super(e);
   late final BookmarkTable bookmarkTable = BookmarkTable(this);
   late final BookmarkMaterialDetailsTable bookmarkMaterialDetailsTable =
       BookmarkMaterialDetailsTable(this);
@@ -2329,6 +3135,11 @@ class DatabaseAtV1 extends GeneratedDatabase {
       BookmarkOrderRegistryTable(this);
   late final MaterialBagCountTable materialBagCountTable =
       MaterialBagCountTable(this);
+  late final FurnishingCraftCountTable furnishingCraftCountTable =
+      FurnishingCraftCountTable(this);
+  late final FurnishingSetBookmarkTable furnishingSetBookmarkTable =
+      FurnishingSetBookmarkTable(this);
+  late final WishHistoryTable wishHistoryTable = WishHistoryTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2342,7 +3153,10 @@ class DatabaseAtV1 extends GeneratedDatabase {
     inGameWeaponStateTable,
     bookmarkOrderRegistryTable,
     materialBagCountTable,
+    furnishingCraftCountTable,
+    furnishingSetBookmarkTable,
+    wishHistoryTable,
   ];
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 4;
 }

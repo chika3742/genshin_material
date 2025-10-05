@@ -3299,6 +3299,417 @@ class FurnishingSetBookmarkCompanion
   }
 }
 
+class $WishHistoryTableTable extends WishHistoryTable
+    with TableInfo<$WishHistoryTableTable, WishHistoryEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $WishHistoryTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<WishItemType, String> itemType =
+      GeneratedColumn<String>(
+        'item_type',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<WishItemType>($WishHistoryTableTable.$converteritemType);
+  static const VerificationMeta _characterIdMeta = const VerificationMeta(
+    'characterId',
+  );
+  @override
+  late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
+    'character_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _weaponIdMeta = const VerificationMeta(
+    'weaponId',
+  );
+  @override
+  late final GeneratedColumn<String> weaponId = GeneratedColumn<String>(
+    'weapon_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _timestampMeta = const VerificationMeta(
+    'timestamp',
+  );
+  @override
+  late final GeneratedColumn<DateTime> timestamp = GeneratedColumn<DateTime>(
+    'timestamp',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _serialMeta = const VerificationMeta('serial');
+  @override
+  late final GeneratedColumn<int> serial = GeneratedColumn<int>(
+    'serial',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    itemType,
+    characterId,
+    weaponId,
+    timestamp,
+    serial,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'wish_history_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<WishHistoryEntry> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('character_id')) {
+      context.handle(
+        _characterIdMeta,
+        characterId.isAcceptableOrUnknown(
+          data['character_id']!,
+          _characterIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('weapon_id')) {
+      context.handle(
+        _weaponIdMeta,
+        weaponId.isAcceptableOrUnknown(data['weapon_id']!, _weaponIdMeta),
+      );
+    }
+    if (data.containsKey('timestamp')) {
+      context.handle(
+        _timestampMeta,
+        timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_timestampMeta);
+    }
+    if (data.containsKey('serial')) {
+      context.handle(
+        _serialMeta,
+        serial.isAcceptableOrUnknown(data['serial']!, _serialMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serial};
+  @override
+  WishHistoryEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return WishHistoryEntry(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      itemType: $WishHistoryTableTable.$converteritemType.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}item_type'],
+        )!,
+      ),
+      characterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}character_id'],
+      ),
+      weaponId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}weapon_id'],
+      ),
+      timestamp: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}timestamp'],
+      )!,
+      serial: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}serial'],
+      )!,
+    );
+  }
+
+  @override
+  $WishHistoryTableTable createAlias(String alias) {
+    return $WishHistoryTableTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<WishItemType, String, String> $converteritemType =
+      const EnumNameConverter<WishItemType>(WishItemType.values);
+}
+
+class WishHistoryEntry extends DataClass
+    implements Insertable<WishHistoryEntry> {
+  final String id;
+  final WishItemType itemType;
+  final String? characterId;
+  final String? weaponId;
+  final DateTime timestamp;
+  final int serial;
+  const WishHistoryEntry({
+    required this.id,
+    required this.itemType,
+    this.characterId,
+    this.weaponId,
+    required this.timestamp,
+    required this.serial,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    {
+      map['item_type'] = Variable<String>(
+        $WishHistoryTableTable.$converteritemType.toSql(itemType),
+      );
+    }
+    if (!nullToAbsent || characterId != null) {
+      map['character_id'] = Variable<String>(characterId);
+    }
+    if (!nullToAbsent || weaponId != null) {
+      map['weapon_id'] = Variable<String>(weaponId);
+    }
+    map['timestamp'] = Variable<DateTime>(timestamp);
+    map['serial'] = Variable<int>(serial);
+    return map;
+  }
+
+  WishHistoryEntryCompanion toCompanion(bool nullToAbsent) {
+    return WishHistoryEntryCompanion(
+      id: Value(id),
+      itemType: Value(itemType),
+      characterId: characterId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(characterId),
+      weaponId: weaponId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(weaponId),
+      timestamp: Value(timestamp),
+      serial: Value(serial),
+    );
+  }
+
+  factory WishHistoryEntry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return WishHistoryEntry(
+      id: serializer.fromJson<String>(json['id']),
+      itemType: $WishHistoryTableTable.$converteritemType.fromJson(
+        serializer.fromJson<String>(json['itemType']),
+      ),
+      characterId: serializer.fromJson<String?>(json['characterId']),
+      weaponId: serializer.fromJson<String?>(json['weaponId']),
+      timestamp: serializer.fromJson<DateTime>(json['timestamp']),
+      serial: serializer.fromJson<int>(json['serial']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'itemType': serializer.toJson<String>(
+        $WishHistoryTableTable.$converteritemType.toJson(itemType),
+      ),
+      'characterId': serializer.toJson<String?>(characterId),
+      'weaponId': serializer.toJson<String?>(weaponId),
+      'timestamp': serializer.toJson<DateTime>(timestamp),
+      'serial': serializer.toJson<int>(serial),
+    };
+  }
+
+  WishHistoryEntry copyWith({
+    String? id,
+    WishItemType? itemType,
+    Value<String?> characterId = const Value.absent(),
+    Value<String?> weaponId = const Value.absent(),
+    DateTime? timestamp,
+    int? serial,
+  }) => WishHistoryEntry(
+    id: id ?? this.id,
+    itemType: itemType ?? this.itemType,
+    characterId: characterId.present ? characterId.value : this.characterId,
+    weaponId: weaponId.present ? weaponId.value : this.weaponId,
+    timestamp: timestamp ?? this.timestamp,
+    serial: serial ?? this.serial,
+  );
+  WishHistoryEntry copyWithCompanion(WishHistoryEntryCompanion data) {
+    return WishHistoryEntry(
+      id: data.id.present ? data.id.value : this.id,
+      itemType: data.itemType.present ? data.itemType.value : this.itemType,
+      characterId: data.characterId.present
+          ? data.characterId.value
+          : this.characterId,
+      weaponId: data.weaponId.present ? data.weaponId.value : this.weaponId,
+      timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+      serial: data.serial.present ? data.serial.value : this.serial,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WishHistoryEntry(')
+          ..write('id: $id, ')
+          ..write('itemType: $itemType, ')
+          ..write('characterId: $characterId, ')
+          ..write('weaponId: $weaponId, ')
+          ..write('timestamp: $timestamp, ')
+          ..write('serial: $serial')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, itemType, characterId, weaponId, timestamp, serial);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WishHistoryEntry &&
+          other.id == this.id &&
+          other.itemType == this.itemType &&
+          other.characterId == this.characterId &&
+          other.weaponId == this.weaponId &&
+          other.timestamp == this.timestamp &&
+          other.serial == this.serial);
+}
+
+class WishHistoryEntryCompanion extends UpdateCompanion<WishHistoryEntry> {
+  final Value<String> id;
+  final Value<WishItemType> itemType;
+  final Value<String?> characterId;
+  final Value<String?> weaponId;
+  final Value<DateTime> timestamp;
+  final Value<int> serial;
+  const WishHistoryEntryCompanion({
+    this.id = const Value.absent(),
+    this.itemType = const Value.absent(),
+    this.characterId = const Value.absent(),
+    this.weaponId = const Value.absent(),
+    this.timestamp = const Value.absent(),
+    this.serial = const Value.absent(),
+  });
+  WishHistoryEntryCompanion.insert({
+    required String id,
+    required WishItemType itemType,
+    this.characterId = const Value.absent(),
+    this.weaponId = const Value.absent(),
+    required DateTime timestamp,
+    this.serial = const Value.absent(),
+  }) : id = Value(id),
+       itemType = Value(itemType),
+       timestamp = Value(timestamp);
+  static Insertable<WishHistoryEntry> custom({
+    Expression<String>? id,
+    Expression<String>? itemType,
+    Expression<String>? characterId,
+    Expression<String>? weaponId,
+    Expression<DateTime>? timestamp,
+    Expression<int>? serial,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (itemType != null) 'item_type': itemType,
+      if (characterId != null) 'character_id': characterId,
+      if (weaponId != null) 'weapon_id': weaponId,
+      if (timestamp != null) 'timestamp': timestamp,
+      if (serial != null) 'serial': serial,
+    });
+  }
+
+  WishHistoryEntryCompanion copyWith({
+    Value<String>? id,
+    Value<WishItemType>? itemType,
+    Value<String?>? characterId,
+    Value<String?>? weaponId,
+    Value<DateTime>? timestamp,
+    Value<int>? serial,
+  }) {
+    return WishHistoryEntryCompanion(
+      id: id ?? this.id,
+      itemType: itemType ?? this.itemType,
+      characterId: characterId ?? this.characterId,
+      weaponId: weaponId ?? this.weaponId,
+      timestamp: timestamp ?? this.timestamp,
+      serial: serial ?? this.serial,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (itemType.present) {
+      map['item_type'] = Variable<String>(
+        $WishHistoryTableTable.$converteritemType.toSql(itemType.value),
+      );
+    }
+    if (characterId.present) {
+      map['character_id'] = Variable<String>(characterId.value);
+    }
+    if (weaponId.present) {
+      map['weapon_id'] = Variable<String>(weaponId.value);
+    }
+    if (timestamp.present) {
+      map['timestamp'] = Variable<DateTime>(timestamp.value);
+    }
+    if (serial.present) {
+      map['serial'] = Variable<int>(serial.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WishHistoryEntryCompanion(')
+          ..write('id: $id, ')
+          ..write('itemType: $itemType, ')
+          ..write('characterId: $characterId, ')
+          ..write('weaponId: $weaponId, ')
+          ..write('timestamp: $timestamp, ')
+          ..write('serial: $serial')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3323,6 +3734,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $FurnishingCraftCountTableTable(this);
   late final $FurnishingSetBookmarkTableTable furnishingSetBookmarkTable =
       $FurnishingSetBookmarkTableTable(this);
+  late final $WishHistoryTableTable wishHistoryTable = $WishHistoryTableTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3338,6 +3752,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     materialBagCountTable,
     furnishingCraftCountTable,
     furnishingSetBookmarkTable,
+    wishHistoryTable,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -6195,6 +6610,228 @@ typedef $$FurnishingSetBookmarkTableTableProcessedTableManager =
       FurnishingSetBookmark,
       PrefetchHooks Function()
     >;
+typedef $$WishHistoryTableTableCreateCompanionBuilder =
+    WishHistoryEntryCompanion Function({
+      required String id,
+      required WishItemType itemType,
+      Value<String?> characterId,
+      Value<String?> weaponId,
+      required DateTime timestamp,
+      Value<int> serial,
+    });
+typedef $$WishHistoryTableTableUpdateCompanionBuilder =
+    WishHistoryEntryCompanion Function({
+      Value<String> id,
+      Value<WishItemType> itemType,
+      Value<String?> characterId,
+      Value<String?> weaponId,
+      Value<DateTime> timestamp,
+      Value<int> serial,
+    });
+
+class $$WishHistoryTableTableFilterComposer
+    extends Composer<_$AppDatabase, $WishHistoryTableTable> {
+  $$WishHistoryTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<WishItemType, WishItemType, String>
+  get itemType => $composableBuilder(
+    column: $table.itemType,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<String> get characterId => $composableBuilder(
+    column: $table.characterId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get weaponId => $composableBuilder(
+    column: $table.weaponId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get timestamp => $composableBuilder(
+    column: $table.timestamp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get serial => $composableBuilder(
+    column: $table.serial,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$WishHistoryTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $WishHistoryTableTable> {
+  $$WishHistoryTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get itemType => $composableBuilder(
+    column: $table.itemType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get characterId => $composableBuilder(
+    column: $table.characterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get weaponId => $composableBuilder(
+    column: $table.weaponId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get timestamp => $composableBuilder(
+    column: $table.timestamp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get serial => $composableBuilder(
+    column: $table.serial,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$WishHistoryTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $WishHistoryTableTable> {
+  $$WishHistoryTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<WishItemType, String> get itemType =>
+      $composableBuilder(column: $table.itemType, builder: (column) => column);
+
+  GeneratedColumn<String> get characterId => $composableBuilder(
+    column: $table.characterId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get weaponId =>
+      $composableBuilder(column: $table.weaponId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get timestamp =>
+      $composableBuilder(column: $table.timestamp, builder: (column) => column);
+
+  GeneratedColumn<int> get serial =>
+      $composableBuilder(column: $table.serial, builder: (column) => column);
+}
+
+class $$WishHistoryTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $WishHistoryTableTable,
+          WishHistoryEntry,
+          $$WishHistoryTableTableFilterComposer,
+          $$WishHistoryTableTableOrderingComposer,
+          $$WishHistoryTableTableAnnotationComposer,
+          $$WishHistoryTableTableCreateCompanionBuilder,
+          $$WishHistoryTableTableUpdateCompanionBuilder,
+          (
+            WishHistoryEntry,
+            BaseReferences<
+              _$AppDatabase,
+              $WishHistoryTableTable,
+              WishHistoryEntry
+            >,
+          ),
+          WishHistoryEntry,
+          PrefetchHooks Function()
+        > {
+  $$WishHistoryTableTableTableManager(
+    _$AppDatabase db,
+    $WishHistoryTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$WishHistoryTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$WishHistoryTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$WishHistoryTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<WishItemType> itemType = const Value.absent(),
+                Value<String?> characterId = const Value.absent(),
+                Value<String?> weaponId = const Value.absent(),
+                Value<DateTime> timestamp = const Value.absent(),
+                Value<int> serial = const Value.absent(),
+              }) => WishHistoryEntryCompanion(
+                id: id,
+                itemType: itemType,
+                characterId: characterId,
+                weaponId: weaponId,
+                timestamp: timestamp,
+                serial: serial,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required WishItemType itemType,
+                Value<String?> characterId = const Value.absent(),
+                Value<String?> weaponId = const Value.absent(),
+                required DateTime timestamp,
+                Value<int> serial = const Value.absent(),
+              }) => WishHistoryEntryCompanion.insert(
+                id: id,
+                itemType: itemType,
+                characterId: characterId,
+                weaponId: weaponId,
+                timestamp: timestamp,
+                serial: serial,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$WishHistoryTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $WishHistoryTableTable,
+      WishHistoryEntry,
+      $$WishHistoryTableTableFilterComposer,
+      $$WishHistoryTableTableOrderingComposer,
+      $$WishHistoryTableTableAnnotationComposer,
+      $$WishHistoryTableTableCreateCompanionBuilder,
+      $$WishHistoryTableTableUpdateCompanionBuilder,
+      (
+        WishHistoryEntry,
+        BaseReferences<_$AppDatabase, $WishHistoryTableTable, WishHistoryEntry>,
+      ),
+      WishHistoryEntry,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -6248,4 +6885,6 @@ class $AppDatabaseManager {
         _db,
         _db.furnishingSetBookmarkTable,
       );
+  $$WishHistoryTableTableTableManager get wishHistoryTable =>
+      $$WishHistoryTableTableTableManager(_db, _db.wishHistoryTable);
 }

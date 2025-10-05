@@ -18,141 +18,101 @@ final class Schema2 extends i0.VersionedSchema {
     materialBagCountTable,
   ];
   late final Shape0 bookmarkTable = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'bookmark_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'bookmark_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 bookmarkMaterialDetailsTable = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'bookmark_material_details_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(hash)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-          _column_7,
-          _column_8,
-          _column_9,
-          _column_10,
-          _column_11,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'bookmark_material_details_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(hash)'],
+      columns: [
+        _column_5,
+        _column_6,
+        _column_7,
+        _column_8,
+        _column_9,
+        _column_10,
+        _column_11,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 bookmarkArtifactSetDetailsTable = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'bookmark_artifact_set_details_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_0,
-          _column_5,
-          _column_12,
-          _column_13,
-          _column_14,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'bookmark_artifact_set_details_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_5, _column_12, _column_13, _column_14],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 bookmarkArtifactPieceDetailsTable = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'bookmark_artifact_piece_details_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_0,
-          _column_5,
-          _column_15,
-          _column_16,
-          _column_14,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'bookmark_artifact_piece_details_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_5, _column_15, _column_16, _column_14],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 inGameCharacterStateTable = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'in_game_character_state_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(uid, character_id)',
-        ],
-        columns: [
-          _column_17,
-          _column_2,
-          _column_18,
-          _column_19,
-          _column_20,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'in_game_character_state_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, character_id)'],
+      columns: [_column_17, _column_2, _column_18, _column_19, _column_20],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 inGameWeaponStateTable = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'in_game_weapon_state_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(uid, character_id, weapon_id)',
-        ],
-        columns: [
-          _column_17,
-          _column_2,
-          _column_21,
-          _column_18,
-          _column_20,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'in_game_weapon_state_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, character_id, weapon_id)'],
+      columns: [_column_17, _column_2, _column_21, _column_18, _column_20],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 bookmarkOrderRegistryTable = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'bookmark_order_registry_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_22,
-          _column_23,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'bookmark_order_registry_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_22, _column_23],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 materialBagCountTable = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'material_bag_count_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(uid, hyv_id)',
-        ],
-        columns: [
-          _column_17,
-          _column_24,
-          _column_25,
-          _column_20,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'material_bag_count_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, hyv_id)'],
+      columns: [_column_17, _column_24, _column_25, _column_20],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
 }
 
 class Shape0 extends i0.VersionedTable {
@@ -170,25 +130,47 @@ class Shape0 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<int> _column_0(String aliasedName) =>
-    i1.GeneratedColumn<int>('id', aliasedName, false,
-        hasAutoIncrement: true,
-        type: i1.DriftSqlType.int,
-        defaultConstraints:
-            i1.GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+    i1.GeneratedColumn<int>(
+      'id',
+      aliasedName,
+      false,
+      hasAutoIncrement: true,
+      type: i1.DriftSqlType.int,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'PRIMARY KEY AUTOINCREMENT',
+      ),
+    );
 i1.GeneratedColumn<String> _column_1(String aliasedName) =>
-    i1.GeneratedColumn<String>('type', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'type',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_2(String aliasedName) =>
-    i1.GeneratedColumn<String>('character_id', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'character_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<DateTime> _column_3(String aliasedName) =>
-    i1.GeneratedColumn<DateTime>('created_at', aliasedName, false,
-        type: i1.DriftSqlType.dateTime,
-        defaultValue: const CustomExpression(
-            'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)'));
+    i1.GeneratedColumn<DateTime>(
+      'created_at',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.dateTime,
+      defaultValue: const CustomExpression(
+        'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
+      ),
+    );
 i1.GeneratedColumn<String> _column_4(String aliasedName) =>
-    i1.GeneratedColumn<String>('group_hash', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'group_hash',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape1 extends i0.VersionedTable {
   Shape1({required super.source, required super.alias}) : super.aliased();
@@ -209,28 +191,57 @@ class Shape1 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<int> _column_5(String aliasedName) =>
-    i1.GeneratedColumn<int>('parent_id', aliasedName, false,
-        type: i1.DriftSqlType.int,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'REFERENCES bookmark_table (id) ON DELETE CASCADE'));
+    i1.GeneratedColumn<int>(
+      'parent_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES bookmark_table (id) ON DELETE CASCADE',
+      ),
+    );
 i1.GeneratedColumn<String> _column_6(String aliasedName) =>
-    i1.GeneratedColumn<String>('weapon_id', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'weapon_id',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_7(String aliasedName) =>
-    i1.GeneratedColumn<String>('material_id', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'material_id',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<int> _column_8(String aliasedName) =>
-    i1.GeneratedColumn<int>('quantity', aliasedName, false,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'quantity',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+    );
 i1.GeneratedColumn<int> _column_9(String aliasedName) =>
-    i1.GeneratedColumn<int>('upper_level', aliasedName, false,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'upper_level',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+    );
 i1.GeneratedColumn<String> _column_10(String aliasedName) =>
-    i1.GeneratedColumn<String>('purpose_type', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'purpose_type',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_11(String aliasedName) =>
-    i1.GeneratedColumn<String>('hash', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'hash',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape2 extends i0.VersionedTable {
   Shape2({required super.source, required super.alias}) : super.aliased();
@@ -247,14 +258,26 @@ class Shape2 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_12(String aliasedName) =>
-    i1.GeneratedColumn<String>('sets', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'sets',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_13(String aliasedName) =>
-    i1.GeneratedColumn<String>('main_stats', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'main_stats',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_14(String aliasedName) =>
-    i1.GeneratedColumn<String>('sub_stats', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'sub_stats',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape3 extends i0.VersionedTable {
   Shape3({required super.source, required super.alias}) : super.aliased();
@@ -271,11 +294,19 @@ class Shape3 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_15(String aliasedName) =>
-    i1.GeneratedColumn<String>('piece', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'piece',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_16(String aliasedName) =>
-    i1.GeneratedColumn<String>('main_stat', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'main_stat',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape4 extends i0.VersionedTable {
   Shape4({required super.source, required super.alias}) : super.aliased();
@@ -292,19 +323,36 @@ class Shape4 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_17(String aliasedName) =>
-    i1.GeneratedColumn<String>('uid', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'uid',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_18(String aliasedName) =>
-    i1.GeneratedColumn<String>('purposes', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'purposes',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_19(String aliasedName) =>
-    i1.GeneratedColumn<String>('equipped_weapon_id', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'equipped_weapon_id',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<DateTime> _column_20(String aliasedName) =>
-    i1.GeneratedColumn<DateTime>('last_updated', aliasedName, false,
-        type: i1.DriftSqlType.dateTime,
-        defaultValue: const CustomExpression(
-            'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)'));
+    i1.GeneratedColumn<DateTime>(
+      'last_updated',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.dateTime,
+      defaultValue: const CustomExpression(
+        'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
+      ),
+    );
 
 class Shape5 extends i0.VersionedTable {
   Shape5({required super.source, required super.alias}) : super.aliased();
@@ -321,8 +369,12 @@ class Shape5 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_21(String aliasedName) =>
-    i1.GeneratedColumn<String>('weapon_id', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'weapon_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape6 extends i0.VersionedTable {
   Shape6({required super.source, required super.alias}) : super.aliased();
@@ -333,12 +385,20 @@ class Shape6 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_22(String aliasedName) =>
-    i1.GeneratedColumn<String>('id', aliasedName, false,
-        type: i1.DriftSqlType.string,
-        defaultValue: const CustomExpression('\'main\''));
+    i1.GeneratedColumn<String>(
+      'id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+      defaultValue: const CustomExpression('\'main\''),
+    );
 i1.GeneratedColumn<String> _column_23(String aliasedName) =>
-    i1.GeneratedColumn<String>('order', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'order',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape7 extends i0.VersionedTable {
   Shape7({required super.source, required super.alias}) : super.aliased();
@@ -353,11 +413,19 @@ class Shape7 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<int> _column_24(String aliasedName) =>
-    i1.GeneratedColumn<int>('hyv_id', aliasedName, false,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'hyv_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+    );
 i1.GeneratedColumn<int> _column_25(String aliasedName) =>
-    i1.GeneratedColumn<int>('count', aliasedName, false,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'count',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+    );
 
 final class Schema3 extends i0.VersionedSchema {
   Schema3({required super.database}) : super(version: 3);
@@ -375,172 +443,123 @@ final class Schema3 extends i0.VersionedSchema {
     furnishingSetBookmarkTable,
   ];
   late final Shape0 bookmarkTable = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'bookmark_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'bookmark_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 bookmarkMaterialDetailsTable = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'bookmark_material_details_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(hash)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-          _column_7,
-          _column_8,
-          _column_9,
-          _column_10,
-          _column_11,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'bookmark_material_details_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(hash)'],
+      columns: [
+        _column_5,
+        _column_6,
+        _column_7,
+        _column_8,
+        _column_9,
+        _column_10,
+        _column_11,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 bookmarkArtifactSetDetailsTable = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'bookmark_artifact_set_details_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_0,
-          _column_5,
-          _column_12,
-          _column_13,
-          _column_14,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'bookmark_artifact_set_details_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_5, _column_12, _column_13, _column_14],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 bookmarkArtifactPieceDetailsTable = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'bookmark_artifact_piece_details_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_0,
-          _column_5,
-          _column_15,
-          _column_16,
-          _column_14,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'bookmark_artifact_piece_details_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_5, _column_15, _column_16, _column_14],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 inGameCharacterStateTable = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'in_game_character_state_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(uid, character_id)',
-        ],
-        columns: [
-          _column_17,
-          _column_2,
-          _column_18,
-          _column_19,
-          _column_20,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'in_game_character_state_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, character_id)'],
+      columns: [_column_17, _column_2, _column_18, _column_19, _column_20],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 inGameWeaponStateTable = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'in_game_weapon_state_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(uid, character_id, weapon_id)',
-        ],
-        columns: [
-          _column_17,
-          _column_2,
-          _column_21,
-          _column_18,
-          _column_20,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'in_game_weapon_state_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, character_id, weapon_id)'],
+      columns: [_column_17, _column_2, _column_21, _column_18, _column_20],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 bookmarkOrderRegistryTable = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'bookmark_order_registry_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_22,
-          _column_23,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'bookmark_order_registry_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_22, _column_23],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 materialBagCountTable = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'material_bag_count_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(uid, hyv_id)',
-        ],
-        columns: [
-          _column_17,
-          _column_24,
-          _column_25,
-          _column_20,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'material_bag_count_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, hyv_id)'],
+      columns: [_column_17, _column_24, _column_25, _column_20],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape8 furnishingCraftCountTable = Shape8(
-      source: i0.VersionedTable(
-        entityName: 'furnishing_craft_count_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(furnishing_id, set_id)',
-        ],
-        columns: [
-          _column_26,
-          _column_27,
-          _column_25,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'furnishing_craft_count_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(furnishing_id, set_id)'],
+      columns: [_column_26, _column_27, _column_25],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape9 furnishingSetBookmarkTable = Shape9(
-      source: i0.VersionedTable(
-        entityName: 'furnishing_set_bookmark_table',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(set_id)',
-        ],
-        columns: [
-          _column_27,
-          _column_3,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'furnishing_set_bookmark_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(set_id)'],
+      columns: [_column_27, _column_3],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
 }
 
 class Shape8 extends i0.VersionedTable {
@@ -554,11 +573,19 @@ class Shape8 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_26(String aliasedName) =>
-    i1.GeneratedColumn<String>('furnishing_id', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'furnishing_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_27(String aliasedName) =>
-    i1.GeneratedColumn<String>('set_id', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'set_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape9 extends i0.VersionedTable {
   Shape9({required super.source, required super.alias}) : super.aliased();
@@ -568,9 +595,210 @@ class Shape9 extends i0.VersionedTable {
       columnsByName['created_at']! as i1.GeneratedColumn<DateTime>;
 }
 
+final class Schema4 extends i0.VersionedSchema {
+  Schema4({required super.database}) : super(version: 4);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    bookmarkTable,
+    bookmarkMaterialDetailsTable,
+    bookmarkArtifactSetDetailsTable,
+    bookmarkArtifactPieceDetailsTable,
+    inGameCharacterStateTable,
+    inGameWeaponStateTable,
+    bookmarkOrderRegistryTable,
+    materialBagCountTable,
+    furnishingCraftCountTable,
+    furnishingSetBookmarkTable,
+    wishHistoryTable,
+  ];
+  late final Shape0 bookmarkTable = Shape0(
+    source: i0.VersionedTable(
+      entityName: 'bookmark_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape1 bookmarkMaterialDetailsTable = Shape1(
+    source: i0.VersionedTable(
+      entityName: 'bookmark_material_details_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(hash)'],
+      columns: [
+        _column_5,
+        _column_6,
+        _column_7,
+        _column_8,
+        _column_9,
+        _column_10,
+        _column_11,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape2 bookmarkArtifactSetDetailsTable = Shape2(
+    source: i0.VersionedTable(
+      entityName: 'bookmark_artifact_set_details_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_5, _column_12, _column_13, _column_14],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape3 bookmarkArtifactPieceDetailsTable = Shape3(
+    source: i0.VersionedTable(
+      entityName: 'bookmark_artifact_piece_details_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0, _column_5, _column_15, _column_16, _column_14],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape4 inGameCharacterStateTable = Shape4(
+    source: i0.VersionedTable(
+      entityName: 'in_game_character_state_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, character_id)'],
+      columns: [_column_17, _column_2, _column_18, _column_19, _column_20],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape5 inGameWeaponStateTable = Shape5(
+    source: i0.VersionedTable(
+      entityName: 'in_game_weapon_state_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, character_id, weapon_id)'],
+      columns: [_column_17, _column_2, _column_21, _column_18, _column_20],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape6 bookmarkOrderRegistryTable = Shape6(
+    source: i0.VersionedTable(
+      entityName: 'bookmark_order_registry_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_22, _column_23],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape7 materialBagCountTable = Shape7(
+    source: i0.VersionedTable(
+      entityName: 'material_bag_count_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, hyv_id)'],
+      columns: [_column_17, _column_24, _column_25, _column_20],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape8 furnishingCraftCountTable = Shape8(
+    source: i0.VersionedTable(
+      entityName: 'furnishing_craft_count_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(furnishing_id, set_id)'],
+      columns: [_column_26, _column_27, _column_25],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape9 furnishingSetBookmarkTable = Shape9(
+    source: i0.VersionedTable(
+      entityName: 'furnishing_set_bookmark_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(set_id)'],
+      columns: [_column_27, _column_3],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape10 wishHistoryTable = Shape10(
+    source: i0.VersionedTable(
+      entityName: 'wish_history_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_28, _column_29, _column_30, _column_31, _column_32],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+}
+
+class Shape10 extends i0.VersionedTable {
+  Shape10({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get itemType =>
+      columnsByName['item_type']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get itemId =>
+      columnsByName['item_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<DateTime> get timestamp =>
+      columnsByName['timestamp']! as i1.GeneratedColumn<DateTime>;
+  i1.GeneratedColumn<int> get serial =>
+      columnsByName['serial']! as i1.GeneratedColumn<int>;
+}
+
+i1.GeneratedColumn<String> _column_28(String aliasedName) =>
+    i1.GeneratedColumn<String>(
+      'id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
+i1.GeneratedColumn<String> _column_29(String aliasedName) =>
+    i1.GeneratedColumn<String>(
+      'item_type',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
+i1.GeneratedColumn<String> _column_30(String aliasedName) =>
+    i1.GeneratedColumn<String>(
+      'item_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
+i1.GeneratedColumn<DateTime> _column_31(String aliasedName) =>
+    i1.GeneratedColumn<DateTime>(
+      'timestamp',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.dateTime,
+    );
+i1.GeneratedColumn<int> _column_32(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'serial',
+      aliasedName,
+      false,
+      hasAutoIncrement: true,
+      type: i1.DriftSqlType.int,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'PRIMARY KEY AUTOINCREMENT',
+      ),
+    );
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
+  required Future<void> Function(i1.Migrator m, Schema4 schema) from3To4,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -584,6 +812,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from2To3(migrator, schema);
         return 3;
+      case 3:
+        final schema = Schema4(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from3To4(migrator, schema);
+        return 4;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -593,9 +826,11 @@ i0.MigrationStepWithVersion migrationSteps({
 i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
-}) =>
-    i0.VersionedSchema.stepByStepHelper(
-        step: migrationSteps(
-      from1To2: from1To2,
-      from2To3: from2To3,
-    ));
+  required Future<void> Function(i1.Migrator m, Schema4 schema) from3To4,
+}) => i0.VersionedSchema.stepByStepHelper(
+  step: migrationSteps(
+    from1To2: from1To2,
+    from2To3: from2To3,
+    from3To4: from3To4,
+  ),
+);
