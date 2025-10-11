@@ -85,38 +85,33 @@ class _FarmingEfficiencyContent extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: 16.0,
         children: [
-          // Description card
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 8.0,
+          // Description section
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 8.0,
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Symbols.analytics,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          tr.farmingEfficiencyPage.description,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
-                    ],
+                  Icon(
+                    Symbols.analytics,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  Text(
-                    "${tr.farmingEfficiencyPage.analyzedAt}: ${DateFormat.yMd().add_Hms().format(analysis.analyzedAt)}",
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                        ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      tr.farmingEfficiencyPage.description,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                 ],
               ),
-            ),
+              Text(
+                "${tr.farmingEfficiencyPage.analyzedAt}: ${DateFormat.yMd().add_Hms().format(analysis.analyzedAt)}",
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                    ),
+              ),
+            ],
           ),
 
           // Talent domains section
