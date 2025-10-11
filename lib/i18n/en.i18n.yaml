@@ -113,6 +113,7 @@ pages:
   wishes: Wish Pity Counter
   more: More
   hoyolabIntegrationSettings: HoYoLAB Integration Settings
+  farmingEfficiency: Farming Efficiency Analyzer
 bookmarksPage: 
   noBookmarks: No bookmarks yet. Try finding something in the Database tab!
   character: Character
@@ -284,3 +285,18 @@ hoyolab:
   charaSyncSuccess: Successfully synced game data
 whereToGet(map): 
   chests: Chests, Quests
+farmingEfficiencyPage:
+  title: Farming Efficiency Analyzer
+  description: Analyzes the most efficient domains based on your bookmarked materials
+  noBookmarks: No bookmarks
+  noBookmarksDesc: Bookmark materials to see efficiency analysis
+  talentDomains: Talent Material Domains
+  weaponDomains: Weapon Ascension Material Domains
+  efficiencyScore: Efficiency Score
+  bookmarkedMaterials: Bookmarked Materials
+  totalQuantity: Total Quantity
+  availableToday: Available Today
+  notAvailableToday: Not Available Today
+  rarity: Rarity
+  quantity: Quantity
+  analyzedAt: Analyzed At

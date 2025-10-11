@@ -110,6 +110,7 @@ pages:
   wishes: 祈願天井カウンター
   more: その他
   hoyolabIntegrationSettings: HoYoLAB連携設定
+  farmingEfficiency: 素材収集効率分析
 bookmarksPage:
   noBookmarks: ブックマークがありません。「データベース」タブから探してみましょう！
   character: キャラクター
@@ -283,3 +284,18 @@ hoyolab:
   charaSyncSuccess: ゲームデータと同期しました
 whereToGet(map):
   chests: 宝箱、任務報酬など
+farmingEfficiencyPage:
+  title: 素材収集効率分析
+  description: ブックマークされた素材を基に、最も効率的な秘境を分析します
+  noBookmarks: ブックマークがありません
+  noBookmarksDesc: 素材をブックマークすると、効率分析が表示されます
+  talentDomains: 天賦素材の秘境
+  weaponDomains: 武器突破素材の秘境
+  efficiencyScore: 効率スコア
+  bookmarkedMaterials: ブックマーク済み素材
+  totalQuantity: 合計数量
+  availableToday: 本日挑戦可能
+  notAvailableToday: 本日挑戦不可
+  rarity: レアリティ
+  quantity: 数量
+  analyzedAt: 分析時刻
