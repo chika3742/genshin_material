@@ -24,6 +24,11 @@ class ToolsPage extends StatelessWidget {
             location: ResinCalcRoute().location,
           ),
           SimpleListTile(
+            leadingIcon: Symbols.analytics,
+            title: tr.pages.farmingEfficiency,
+            location: FarmingEfficiencyRoute().location,
+          ),
+          SimpleListTile(
             leadingIcon: Symbols.history,
             title: tr.pages.wishes,
             trailingIcon: Symbols.open_in_new,
