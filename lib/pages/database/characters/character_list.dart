@@ -115,22 +115,16 @@ class CharacterListPage extends HookConsumerWidget {
               child: Row(
                 spacing: 8.0,
                 children: [
-                  FilterChipWithIcon( // sort
-                    leading: const Icon(Symbols.sort),
-                    label: Text(tr.common.sort),
+                  Icon(Symbols.sort),
+
+                  FilterChipWithMenu( // sort
+                    label: Text(tr.common.sortTypes[filterState.sortType.name]!),
                     onSelected: (_) {
                       _showSortBottomSheet(context, ref);
                     },
                   ),
 
-                  FilterChipWithIcon( // filter
-                    leading: const Icon(Symbols.filter_alt),
-                    label: Text(tr.common.filter),
-                    selected: filterState.isFiltering,
-                    onSelected: (_) {
-                      _showFilterBottomSheet(context);
-                    },
-                  ),
+                  Icon(Symbols.filter_alt),
 
                   if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
                     FilterChipWithMenu( // possession

@@ -169,6 +169,18 @@ class TranslationsCommonJa {
 	/// ja: '選択してください'
 	String get pleaseSelect => '選択してください';
 
+	/// ja: '並べ替え'
+	String get sort => '並べ替え';
+
+	/// ja: '並べ替え方法'
+	String get sortType => '並べ替え方法';
+
+	Map<String, String> get sortTypes => {
+		'defaultSort': 'デフォルト',
+		'name': '名前順',
+		'element': '元素順',
+	};
+
 	/// ja: '元に戻す'
 	String get undo => '元に戻す';
 
@@ -1051,6 +1063,11 @@ extension on Translations {
 			case 'common.next': return '次へ';
 			case 'common.change': return '変更';
 			case 'common.pleaseSelect': return '選択してください';
+			case 'common.sort': return '並べ替え';
+			case 'common.sortType': return '並べ替え方法';
+			case 'common.sortTypes.defaultSort': return 'デフォルト';
+			case 'common.sortTypes.name': return '名前順';
+			case 'common.sortTypes.element': return '元素順';
 			case 'common.undo': return '元に戻す';
 			case 'common.bookmarkSaved': return 'ブックマークしました';
 			case 'common.removedObsoleteBookmarks': return '育成完了のブックマークを解除しました';

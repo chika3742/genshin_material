@@ -142,6 +142,13 @@ class _TranslationsCommonEn extends TranslationsCommonJa {
 	@override String get next => 'Next';
 	@override String get change => 'Change';
 	@override String get pleaseSelect => 'Please select';
+	@override String get sort => 'Sort';
+	@override String get sortType => 'Sort Type';
+	@override Map<String, String> get sortTypes => {
+		'defaultSort': 'Default',
+		'name': 'Name',
+		'element': 'Element',
+	};
 	@override String get undo => 'Undo';
 	@override String get bookmarkSaved => 'Bookmark saved';
 	@override String get removedObsoleteBookmarks => 'Removed bookmarks for completed ascensions.';
@@ -629,6 +636,11 @@ extension on TranslationsEn {
 			case 'common.next': return 'Next';
 			case 'common.change': return 'Change';
 			case 'common.pleaseSelect': return 'Please select';
+			case 'common.sort': return 'Sort';
+			case 'common.sortType': return 'Sort Type';
+			case 'common.sortTypes.defaultSort': return 'Default';
+			case 'common.sortTypes.name': return 'Name';
+			case 'common.sortTypes.element': return 'Element';
 			case 'common.undo': return 'Undo';
 			case 'common.bookmarkSaved': return 'Bookmark saved';
 			case 'common.removedObsoleteBookmarks': return 'Removed bookmarks for completed ascensions.';

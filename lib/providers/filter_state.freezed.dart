@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CharacterFilterState {
 
- PossessionStatus? get possessionStatus; int? get rarity; TeyvatElement? get element; WeaponType? get weaponType;
+ PossessionStatus? get possessionStatus; int? get rarity; TeyvatElement? get element; WeaponType? get weaponType; CharacterSortType get sortType;
 /// Create a copy of CharacterFilterState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $CharacterFilterStateCopyWith<CharacterFilterState> get copyWith => _$CharacterF
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterFilterState&&(identical(other.possessionStatus, possessionStatus) || other.possessionStatus == possessionStatus)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.element, element) || other.element == element)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterFilterState&&(identical(other.possessionStatus, possessionStatus) || other.possessionStatus == possessionStatus)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.element, element) || other.element == element)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&(identical(other.sortType, sortType) || other.sortType == sortType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,possessionStatus,rarity,element,weaponType);
+int get hashCode => Object.hash(runtimeType,possessionStatus,rarity,element,weaponType,sortType);
 
 @override
 String toString() {
-  return 'CharacterFilterState(possessionStatus: $possessionStatus, rarity: $rarity, element: $element, weaponType: $weaponType)';
+  return 'CharacterFilterState(possessionStatus: $possessionStatus, rarity: $rarity, element: $element, weaponType: $weaponType, sortType: $sortType)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $CharacterFilterStateCopyWith<$Res>  {
   factory $CharacterFilterStateCopyWith(CharacterFilterState value, $Res Function(CharacterFilterState) _then) = _$CharacterFilterStateCopyWithImpl;
 @useResult
 $Res call({
- PossessionStatus? possessionStatus, int? rarity, TeyvatElement? element, WeaponType? weaponType
+ PossessionStatus? possessionStatus, int? rarity, TeyvatElement? element, WeaponType? weaponType, CharacterSortType sortType
 });
 
 
@@ -62,13 +62,14 @@ class _$CharacterFilterStateCopyWithImpl<$Res>
 
 /// Create a copy of CharacterFilterState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? possessionStatus = freezed,Object? rarity = freezed,Object? element = freezed,Object? weaponType = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? possessionStatus = freezed,Object? rarity = freezed,Object? element = freezed,Object? weaponType = freezed,Object? sortType = null,}) {
   return _then(_self.copyWith(
 possessionStatus: freezed == possessionStatus ? _self.possessionStatus : possessionStatus // ignore: cast_nullable_to_non_nullable
 as PossessionStatus?,rarity: freezed == rarity ? _self.rarity : rarity // ignore: cast_nullable_to_non_nullable
 as int?,element: freezed == element ? _self.element : element // ignore: cast_nullable_to_non_nullable
 as TeyvatElement?,weaponType: freezed == weaponType ? _self.weaponType : weaponType // ignore: cast_nullable_to_non_nullable
-as WeaponType?,
+as WeaponType?,sortType: null == sortType ? _self.sortType : sortType // ignore: cast_nullable_to_non_nullable
+as CharacterSortType,
   ));
 }
 
@@ -80,13 +81,14 @@ as WeaponType?,
 
 
 class _CharacterFilterState extends CharacterFilterState {
-  const _CharacterFilterState({this.possessionStatus, this.rarity, this.element, this.weaponType}): super._();
+  const _CharacterFilterState({this.possessionStatus, this.rarity, this.element, this.weaponType, this.sortType = CharacterSortType.defaultSort}): super._();
   
 
 @override final  PossessionStatus? possessionStatus;
 @override final  int? rarity;
 @override final  TeyvatElement? element;
 @override final  WeaponType? weaponType;
+@override@JsonKey() final  CharacterSortType sortType;
 
 /// Create a copy of CharacterFilterState
 /// with the given fields replaced by the non-null parameter values.
@@ -98,16 +100,16 @@ _$CharacterFilterStateCopyWith<_CharacterFilterState> get copyWith => __$Charact
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterFilterState&&(identical(other.possessionStatus, possessionStatus) || other.possessionStatus == possessionStatus)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.element, element) || other.element == element)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterFilterState&&(identical(other.possessionStatus, possessionStatus) || other.possessionStatus == possessionStatus)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.element, element) || other.element == element)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&(identical(other.sortType, sortType) || other.sortType == sortType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,possessionStatus,rarity,element,weaponType);
+int get hashCode => Object.hash(runtimeType,possessionStatus,rarity,element,weaponType,sortType);
 
 @override
 String toString() {
-  return 'CharacterFilterState(possessionStatus: $possessionStatus, rarity: $rarity, element: $element, weaponType: $weaponType)';
+  return 'CharacterFilterState(possessionStatus: $possessionStatus, rarity: $rarity, element: $element, weaponType: $weaponType, sortType: $sortType)';
 }
 
 
@@ -118,7 +120,7 @@ abstract mixin class _$CharacterFilterStateCopyWith<$Res> implements $CharacterF
   factory _$CharacterFilterStateCopyWith(_CharacterFilterState value, $Res Function(_CharacterFilterState) _then) = __$CharacterFilterStateCopyWithImpl;
 @override @useResult
 $Res call({
- PossessionStatus? possessionStatus, int? rarity, TeyvatElement? element, WeaponType? weaponType
+ PossessionStatus? possessionStatus, int? rarity, TeyvatElement? element, WeaponType? weaponType, CharacterSortType sortType
 });
 
 
@@ -135,13 +137,14 @@ class __$CharacterFilterStateCopyWithImpl<$Res>
 
 /// Create a copy of CharacterFilterState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? possessionStatus = freezed,Object? rarity = freezed,Object? element = freezed,Object? weaponType = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? possessionStatus = freezed,Object? rarity = freezed,Object? element = freezed,Object? weaponType = freezed,Object? sortType = null,}) {
   return _then(_CharacterFilterState(
 possessionStatus: freezed == possessionStatus ? _self.possessionStatus : possessionStatus // ignore: cast_nullable_to_non_nullable
 as PossessionStatus?,rarity: freezed == rarity ? _self.rarity : rarity // ignore: cast_nullable_to_non_nullable
 as int?,element: freezed == element ? _self.element : element // ignore: cast_nullable_to_non_nullable
 as TeyvatElement?,weaponType: freezed == weaponType ? _self.weaponType : weaponType // ignore: cast_nullable_to_non_nullable
-as WeaponType?,
+as WeaponType?,sortType: null == sortType ? _self.sortType : sortType // ignore: cast_nullable_to_non_nullable
+as CharacterSortType,
   ));
 }
 

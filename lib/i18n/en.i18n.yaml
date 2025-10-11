@@ -32,7 +32,6 @@ common:
     defaultSort: Default
     name: Name
     element: Element
-  filter: Filter
   undo: Undo
   bookmarkSaved: Bookmark saved
   removedObsoleteBookmarks: Removed bookmarks for completed ascensions.

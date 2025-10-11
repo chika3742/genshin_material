@@ -175,7 +175,7 @@ final class _GameDataSyncProvider
   }
 }
 
-String _$_gameDataSyncHash() => r'533a130c2b74a754d54f15aecc134329f386e646';
+String _$_gameDataSyncHash() => r'dd48d3a3a593279016bd22ddbbea47abee914297';
 
 final class _GameDataSyncFamily extends $Family
     with
