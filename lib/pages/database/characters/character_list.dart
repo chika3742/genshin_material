@@ -17,6 +17,7 @@ import "../../../providers/filter_state.dart";
 import "../../../providers/miscellaneous.dart";
 import "../../../providers/preferences.dart";
 import "../../../routes.dart";
+import "../../../ui_core/bottom_sheet.dart";
 import "../../../utils/filtering.dart";
 
 class CharacterListPage extends HookConsumerWidget {
@@ -56,31 +57,26 @@ class CharacterListPage extends HookConsumerWidget {
       charactersIterable = charactersIterable.where((e) => e.weaponType == filterState.weaponType);
     }
 
-    var characters = charactersIterable.toList();
-
-    // Apply sorting
-    switch (filterState.sortType) {
-      case CharacterSortType.name:
-        characters.sort((a, b) => a.name.localized.compareTo(b.name.localized));
-        break;
-      case CharacterSortType.element:
-        characters.sort((a, b) {
-          if (a is ListedCharacter && b is ListedCharacter) {
-            final elementComparison = a.element.index.compareTo(b.element.index);
-            if (elementComparison != 0) return elementComparison;
+    final characters = charactersIterable.toList()
+      ..sort((a, b) {
+        switch (filterState.sortType) {
+          case CharacterSortType.name:
             return a.name.localized.compareTo(b.name.localized);
-          } else if (a is ListedCharacter) {
-            return -1;
-          } else if (b is ListedCharacter) {
-            return 1;
-          }
-          return a.name.localized.compareTo(b.name.localized);
-        });
-        break;
-      case CharacterSortType.defaultSort:
-        // Keep default order (no sorting)
-        break;
-    }
+          case CharacterSortType.element:
+            if (a is ListedCharacter && b is ListedCharacter) {
+              final elementComparison = a.element.index.compareTo(b.element.index);
+              if (elementComparison != 0) return elementComparison;
+              return a.name.localized.compareTo(b.name.localized);
+            } else if (a is ListedCharacter) {
+              return -1;
+            } else if (b is ListedCharacter) {
+              return 1;
+            }
+            return a.name.localized.compareTo(b.name.localized);
+          case CharacterSortType.defaultSort:
+            return 0; // Keep default order (no sorting)
+        }
+      });
 
     return Scaffold(
       appBar: AppBar(
@@ -123,7 +119,7 @@ class CharacterListPage extends HookConsumerWidget {
                     leading: const Icon(Symbols.sort),
                     label: Text(tr.common.sort),
                     onSelected: (_) {
-                      _showSortBottomSheet(context);
+                      _showSortBottomSheet(context, ref);
                     },
                   ),
 
@@ -215,54 +211,25 @@ class CharacterListPage extends HookConsumerWidget {
     );
   }
 
-  void _showSortBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+  void _showSortBottomSheet(BuildContext context, WidgetRef ref) {
+    final currentSortType = ref.read(characterFilterStateProvider).sortType;
+    
+    showSelectBottomSheet<CharacterSortType>(
       context: context,
-      showDragHandle: true,
-      builder: (context) {
-        return const CharacterSortBottomSheet();
-      },
-    );
-  }
-}
-
-class CharacterSortBottomSheet extends ConsumerWidget {
-  const CharacterSortBottomSheet({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final sortType = ref.watch(characterFilterStateProvider.select((it) => it.sortType));
-
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            tr.common.sortType,
-            style: Theme.of(context).textTheme.titleLarge,
+      title: Text(tr.common.sortType),
+      selectedValue: currentSortType,
+      items: [
+        for (final type in CharacterSortType.values)
+          SelectBottomSheetItem(
+            text: tr.common.sortTypes[type.name]!,
+            value: type,
           ),
-          const SizedBox(height: 16.0),
-          for (final type in CharacterSortType.values)
-            RadioListTile<CharacterSortType>(
-              value: type,
-              groupValue: sortType,
-              title: Text(_getSortTypeLabel(type)),
-              onChanged: (value) {
-                if (value != null) {
-                  ref.read(characterFilterStateProvider.notifier).setSortType(value);
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-        ],
-      ),
-    );
-  }
-
-  String _getSortTypeLabel(CharacterSortType type) {
-    return tr.common.sortTypes[type.name]!;
+      ],
+    ).then((value) {
+      if (value != null) {
+        ref.read(characterFilterStateProvider.notifier).setSortType(value);
+      }
+    });
   }
 }
 
