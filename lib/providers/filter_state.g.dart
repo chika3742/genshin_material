@@ -43,7 +43,7 @@ final class CharacterFilterStateNotifierProvider
 }
 
 String _$characterFilterStateNotifierHash() =>
-    r'ec550518a0196353ab93b87a00022bc19a9fe6ea';
+    r'afaa4f255316d376938aa1d98e8a9999ec4b8b0e';
 
 abstract class _$CharacterFilterStateNotifier
     extends $Notifier<CharacterFilterState> {

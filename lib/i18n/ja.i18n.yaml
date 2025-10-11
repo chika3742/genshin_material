@@ -23,6 +23,12 @@ common:
   next: 次へ
   change: 変更
   pleaseSelect: 選択してください
+  sort: 並べ替え
+  sortType: 並べ替え方法
+  sortTypes(map):
+    defaultSort: デフォルト
+    name: 名前順
+    element: 元素順
   undo: 元に戻す
   bookmarkSaved: ブックマークしました
   removedObsoleteBookmarks: 育成完了のブックマークを解除しました

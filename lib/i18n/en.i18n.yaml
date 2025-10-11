@@ -26,6 +26,12 @@ common:
   next: Next
   change: Change
   pleaseSelect: Please select
+  sort: Sort
+  sortType: Sort Type
+  sortTypes(map):
+    defaultSort: Default
+    name: Name
+    element: Element
   undo: Undo
   bookmarkSaved: Bookmark saved
   removedObsoleteBookmarks: Removed bookmarks for completed ascensions.

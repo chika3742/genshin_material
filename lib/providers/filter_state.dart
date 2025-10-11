@@ -29,6 +29,10 @@ class CharacterFilterStateNotifier extends _$CharacterFilterStateNotifier {
     state = state.copyWith(weaponType: weaponType);
   }
 
+  void setSortType(CharacterSortType sortType) {
+    state = state.copyWith(sortType: sortType);
+  }
+
   void clear() {
     state = const CharacterFilterState();
   }
@@ -43,6 +47,7 @@ sealed class CharacterFilterState with _$CharacterFilterState {
     int? rarity,
     TeyvatElement? element,
     WeaponType? weaponType,
+    @Default(CharacterSortType.defaultSort) CharacterSortType sortType,
   }) = _CharacterFilterState;
 
   bool get isFiltering => possessionStatus != null || rarity != null || element != null || weaponType != null;
@@ -51,6 +56,12 @@ sealed class CharacterFilterState with _$CharacterFilterState {
 enum PossessionStatus {
   owned,
   notOwned,
+}
+
+enum CharacterSortType {
+  defaultSort,
+  name,
+  element,
 }
 
 @riverpod

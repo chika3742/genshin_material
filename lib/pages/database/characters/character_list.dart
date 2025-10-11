@@ -17,6 +17,7 @@ import "../../../providers/filter_state.dart";
 import "../../../providers/miscellaneous.dart";
 import "../../../providers/preferences.dart";
 import "../../../routes.dart";
+import "../../../ui_core/bottom_sheet.dart";
 import "../../../utils/filtering.dart";
 
 class CharacterListPage extends HookConsumerWidget {
@@ -56,7 +57,26 @@ class CharacterListPage extends HookConsumerWidget {
       charactersIterable = charactersIterable.where((e) => e.weaponType == filterState.weaponType);
     }
 
-    final characters = charactersIterable.toList();
+    final characters = charactersIterable.toList()
+      ..sort((a, b) {
+        switch (filterState.sortType) {
+          case CharacterSortType.name:
+            return a.name.localized.compareTo(b.name.localized);
+          case CharacterSortType.element:
+            if (a is ListedCharacter && b is ListedCharacter) {
+              final elementComparison = a.element.compareTo(b.element);
+              if (elementComparison != 0) return elementComparison;
+              return a.name.localized.compareTo(b.name.localized);
+            } else if (a is ListedCharacter) {
+              return -1;
+            } else if (b is ListedCharacter) {
+              return 1;
+            }
+            return a.name.localized.compareTo(b.name.localized);
+          case CharacterSortType.defaultSort:
+            return 0; // Keep default order (no sorting)
+        }
+      });
 
     return Scaffold(
       appBar: AppBar(
@@ -95,6 +115,17 @@ class CharacterListPage extends HookConsumerWidget {
               child: Row(
                 spacing: 8.0,
                 children: [
+                  Icon(Symbols.sort),
+
+                  FilterChipWithMenu( // sort
+                    label: Text(tr.common.sortTypes[filterState.sortType.name]!),
+                    onSelected: (_) {
+                      _showSortBottomSheet(context, ref);
+                    },
+                  ),
+
+                  Icon(Symbols.filter_alt),
+
                   if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
                     FilterChipWithMenu( // possession
                       selected: filterState.possessionStatus != null,
@@ -172,6 +203,27 @@ class CharacterListPage extends HookConsumerWidget {
         return const CharacterFilterBottomSheet();
       },
     );
+  }
+
+  void _showSortBottomSheet(BuildContext context, WidgetRef ref) {
+    final currentSortType = ref.read(characterFilterStateProvider).sortType;
+    
+    showSelectBottomSheet<CharacterSortType>(
+      context: context,
+      title: Text(tr.common.sortType),
+      selectedValue: currentSortType,
+      items: [
+        for (final type in CharacterSortType.values)
+          SelectBottomSheetItem(
+            text: tr.common.sortTypes[type.name]!,
+            value: type,
+          ),
+      ],
+    ).then((value) {
+      if (value != null) {
+        ref.read(characterFilterStateProvider.notifier).setSortType(value);
+      }
+    });
   }
 }
 
