@@ -64,7 +64,7 @@ class CharacterListPage extends HookConsumerWidget {
             return a.name.localized.compareTo(b.name.localized);
           case CharacterSortType.element:
             if (a is ListedCharacter && b is ListedCharacter) {
-              final elementComparison = a.element.index.compareTo(b.element.index);
+              final elementComparison = a.element.compareTo(b.element);
               if (elementComparison != 0) return elementComparison;
               return a.name.localized.compareTo(b.name.localized);
             } else if (a is ListedCharacter) {
