@@ -9,6 +9,7 @@ import "../models/farming_efficiency.dart";
 import "../models/localized_text.dart";
 import "../models/material.dart";
 import "database_provider.dart";
+import "preferences.dart";
 import "versions.dart";
 
 part "farming_efficiency.g.dart";
@@ -18,6 +19,7 @@ part "farming_efficiency.g.dart";
 Future<FarmingEfficiencyAnalysis> farmingEfficiencyAnalysis(FarmingEfficiencyAnalysisRef ref) async {
   final assetData = await ref.watch(assetDataProvider.future);
   final bookmarks = await ref.watch(bookmarksProvider().future);
+  final prefs = ref.watch(preferencesStateProvider);
 
   // Filter only material bookmarks
   final materialBookmarks = bookmarks
@@ -38,6 +40,7 @@ Future<FarmingEfficiencyAnalysis> farmingEfficiencyAnalysis(FarmingEfficiencyAna
     assetData.dailyMaterials.talent,
     materialQuantities,
     assetData,
+    prefs.dailyResetServer,
   );
 
   // Analyze weapon domains
@@ -45,6 +48,7 @@ Future<FarmingEfficiencyAnalysis> farmingEfficiencyAnalysis(FarmingEfficiencyAna
     assetData.dailyMaterials.weapon,
     materialQuantities,
     assetData,
+    prefs.dailyResetServer,
   );
 
   return FarmingEfficiencyAnalysis(
@@ -60,6 +64,7 @@ List<DomainEfficiency> _analyzeDomains(
   Map<String, List<DailyMaterial>> dailyMaterials,
   Map<MaterialId, int> materialQuantities,
   AssetData assetData,
+  GameServer server,
 ) {
   final domainEfficiencies = <DomainEfficiency>[];
 
@@ -113,7 +118,16 @@ List<DomainEfficiency> _analyzeDomains(
     }
   }
 
-  // Sort by efficiency score (highest first)
-  domainEfficiencies.sort((a, b) => b.efficiencyScore.compareTo(a.efficiencyScore));
+  // Sort by availability first (available today at top), then by efficiency score
+  domainEfficiencies.sort((a, b) {
+    final aAvailable = a.isAvailableToday(server);
+    final bAvailable = b.isAvailableToday(server);
+    
+    if (aAvailable && !bAvailable) return -1;
+    if (!aAvailable && bAvailable) return 1;
+    
+    // If both have same availability, sort by efficiency score
+    return b.efficiencyScore.compareTo(a.efficiencyScore);
+  });
   return domainEfficiencies;
 }

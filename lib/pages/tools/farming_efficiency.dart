@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
-import "package:intl/intl.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../components/center_text.dart";
@@ -86,30 +85,18 @@ class _FarmingEfficiencyContent extends ConsumerWidget {
         spacing: 16.0,
         children: [
           // Description section
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 8.0,
+          Row(
             children: [
-              Row(
-                children: [
-                  Icon(
-                    Symbols.analytics,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      tr.farmingEfficiencyPage.description,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                ],
+              Icon(
+                Symbols.analytics,
+                color: Theme.of(context).colorScheme.primary,
               ),
-              Text(
-                "${tr.farmingEfficiencyPage.analyzedAt}: ${DateFormat.yMd().add_Hms().format(analysis.analyzedAt)}",
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                    ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  tr.farmingEfficiencyPage.description,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ),
             ],
           ),
@@ -158,6 +145,12 @@ class _DomainCard extends StatelessWidget {
     required this.server,
   });
 
+  /// Calculates estimated resin needed based on total quantity
+  /// Assumes ~2.5 items per 20 resin domain run
+  int _calculateResinNeeded(int totalQuantity) {
+    return ((totalQuantity / 2.5) * 20).ceil();
+  }
+
   @override
   Widget build(BuildContext context) {
     final isAvailableToday = domain.isAvailableToday(server);
@@ -205,7 +198,7 @@ class _DomainCard extends StatelessWidget {
               ],
             ),
 
-            // Efficiency score
+            // Efficiency score and metrics
             Row(
               children: [
                 Icon(
@@ -232,6 +225,24 @@ class _DomainCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   "${tr.farmingEfficiencyPage.totalQuantity}: ${domain.totalBookmarkedQuantity}",
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: isAvailableToday
+                            ? Theme.of(context).colorScheme.onPrimaryContainer
+                            : null,
+                      ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(
+                  Symbols.diamond,
+                  size: 20,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  "${tr.farmingEfficiencyPage.resinNeeded}: ${_calculateResinNeeded(domain.totalBookmarkedQuantity)}",
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: isAvailableToday
                             ? Theme.of(context).colorScheme.onPrimaryContainer
