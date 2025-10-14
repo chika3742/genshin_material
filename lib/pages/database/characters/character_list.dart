@@ -1,3 +1,4 @@
+import "package:collection/collection.dart";
 import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/material.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
@@ -18,6 +19,7 @@ import "../../../providers/miscellaneous.dart";
 import "../../../providers/preferences.dart";
 import "../../../routes.dart";
 import "../../../ui_core/bottom_sheet.dart";
+import "../../../ui_core/katakana_compare.dart";
 import "../../../utils/filtering.dart";
 
 class CharacterListPage extends HookConsumerWidget {
@@ -56,12 +58,13 @@ class CharacterListPage extends HookConsumerWidget {
     if (filterState.weaponType != null) {
       charactersIterable = charactersIterable.where((e) => e.weaponType == filterState.weaponType);
     }
-
-    final characters = charactersIterable.toList()
-      ..sort((a, b) {
+    if (filterState.sortType != CharacterSortType.defaultSort) {
+      charactersIterable = charactersIterable.sorted((a, b) {
         switch (filterState.sortType) {
           case CharacterSortType.name:
-            return a.name.localized.compareTo(b.name.localized);
+            return LocaleSettings.instance.currentLocale.languageCode == "ja"
+                ? katakanaCompare(a.jaPronunciation, b.jaPronunciation)
+                : a.name.localized.compareTo(b.name.localized);
           case CharacterSortType.element:
             if (a is ListedCharacter && b is ListedCharacter) {
               final elementComparison = a.element.compareTo(b.element);
@@ -74,9 +77,12 @@ class CharacterListPage extends HookConsumerWidget {
             }
             return a.name.localized.compareTo(b.name.localized);
           case CharacterSortType.defaultSort:
-            return 0; // Keep default order (no sorting)
+            throw UnimplementedError();
         }
       });
+    }
+
+    final characters = charactersIterable.toList();
 
     return Scaffold(
       appBar: AppBar(
