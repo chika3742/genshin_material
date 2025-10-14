@@ -14,7 +14,7 @@ final _kanaOrder = [
 ];
 
 final Map<String, int> _kanaToNum = {
-  for (var i = 0; i < _kanaOrder.length; i++) _kanaOrder[i]: i
+  for (var i = 0; i < _kanaOrder.length; i++) _kanaOrder[i]: i,
 };
 
 List<int> _toKanaKey(String text) {
