@@ -43,6 +43,9 @@ jobs:
     name: Deploy to Play Store
     needs: build-attr
     uses: chika3742/flutter-app-deploy/.github/workflows/android.yml@main
+    permissions:
+      contents: read
+      id-token: write
     with:
       build-name: ${{ needs.build-attr.outputs.build_name }}
       build-number: ${{ needs.build-attr.outputs.build_num }}
