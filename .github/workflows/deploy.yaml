@@ -39,7 +39,7 @@ jobs:
       asc_issuer_id: ${{ secrets.ASC_ISSUER_ID }}
       asc_key_base64: ${{ secrets.ASC_AUTH_KEY_BASE64 }}
 
-  deploy-play-store2:
+  deploy-play-store:
     name: Deploy to Play Store
     needs: build-attr
     uses: chika3742/flutter-app-deploy/.github/workflows/android.yml@main
