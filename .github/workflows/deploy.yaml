@@ -50,13 +50,13 @@ jobs:
       build-name: ${{ needs.build-attr.outputs.build_name }}
       build-number: ${{ needs.build-attr.outputs.build_num }}
       build-options: "--dart-define=ASSET_CHANNEL=${{ needs.build-attr.outputs.asset_channel }}"
-      wif-provider: ${{ vars.WIF_PROVIDER }}
-      wif-service-account: ${{ vars.WIF_SERVICE_ACCOUNT }}
       wif-audience: ${{ vars.WIF_AUDIENCE }}
     secrets:
       keystore_base64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
       key_properties_base64: ${{ secrets.ANDROID_KEY_PROPERTIES_BASE64 }}
       google_services_json_base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+      wif_provider: ${{ secrets.ANDROID_WIF_PROVIDER }}
+      wif_service_account: ${{ secrets.ANDROID_WIF_SERVICE_ACCOUNT }}
 
 concurrency:
   group: deploy
