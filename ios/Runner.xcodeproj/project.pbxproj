@@ -379,7 +379,7 @@
 		};
 		C7982DB62EA211AF000F25B8 /* Upload Crashlytics Symbols */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -398,7 +398,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "gsinfo_plist_path=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-Info.plist\"\nfirebase_app_id=$(/usr/libexec/PlistBuddy -c \"Print :GOOGLE_APP_ID\" \"$gsinfo_plist_path\")\n\n$PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase --validate -ai $firebase_app_id -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM\n$PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase -ai $firebase_app_id -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM \n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Release\" ]; then\n    gsinfo_plist_path=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-Info.plist\"\n    firebase_app_id=$(/usr/libexec/PlistBuddy -c \"Print :GOOGLE_APP_ID\" \"$gsinfo_plist_path\")\n\n    $PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase --validate -ai $firebase_app_id -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM\n    $PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase -ai $firebase_app_id -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM \nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
