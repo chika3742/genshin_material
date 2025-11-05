@@ -91,3 +91,32 @@ sealed class ArtifactFilterState with _$ArtifactFilterState {
     List<String> tags,
   }) = _ArtifactFilterState;
 }
+
+@riverpod
+class WeaponFilterStateNotifier extends _$WeaponFilterStateNotifier {
+  @override
+  WeaponFilterState build() {
+    return const WeaponFilterState();
+  }
+
+  void setSortType(WeaponSortType sortType) {
+    state = state.copyWith(sortType: sortType);
+  }
+
+  void clear() {
+    state = const WeaponFilterState();
+  }
+}
+
+@Freezed(copyWith: true)
+sealed class WeaponFilterState with _$WeaponFilterState {
+  const factory WeaponFilterState({
+    @Default(WeaponSortType.defaultSort) WeaponSortType sortType,
+  }) = _WeaponFilterState;
+}
+
+enum WeaponSortType {
+  defaultSort,
+  name,
+  rarity,
+}

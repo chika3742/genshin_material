@@ -6,6 +6,8 @@ import "package:flutter_sticky_header/flutter_sticky_header.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
+import "../../../components/chips.dart";
+import "../../../components/horizontal_chip_list.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/search.dart";
 import "../../../components/sticky_list_header.dart";
@@ -13,7 +15,10 @@ import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
+import "../../../providers/filter_state.dart";
 import "../../../routes.dart";
+import "../../../ui_core/bottom_sheet.dart";
+import "../../../ui_core/katakana_compare.dart";
 import "../../../ui_core/list_index_bottom_sheet.dart";
 import "../../../ui_core/tutorial.dart";
 import "../../../utils/filtering.dart";
@@ -27,12 +32,32 @@ class WeaponListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fabKey = useMemoized(() => GlobalKey());
+    final filterState = ref.watch(weaponFilterStateProvider);
 
     final weaponsGroupedByType = useMemoized(
-          () => assetData.weapons.values
-          .groupListsBy((element) => element.type)
-          .map((key, value) => MapEntry(key, value.sorted((a, b) => b.rarity - a.rarity))),
-      [assetData.weapons],
+          () {
+        final grouped = assetData.weapons.values.groupListsBy((element) => element.type);
+        return grouped.map((key, value) {
+          var sortedList = value;
+          switch (filterState.sortType) {
+            case WeaponSortType.defaultSort:
+              sortedList = value.sorted((a, b) => b.rarity - a.rarity);
+              break;
+            case WeaponSortType.name:
+              sortedList = value.sorted((a, b) {
+                return LocaleSettings.instance.currentLocale.languageCode == "ja"
+                    ? katakanaCompare(a.jaPronunciation, b.jaPronunciation)
+                    : a.name.localized.compareTo(b.name.localized);
+              });
+              break;
+            case WeaponSortType.rarity:
+              sortedList = value.sorted((a, b) => b.rarity - a.rarity);
+              break;
+          }
+          return MapEntry(key, sortedList);
+        });
+      },
+      [assetData.weapons, filterState.sortType],
     );
     final listIndexItems = useMemoized(() {
       return assetData.weaponTypes.entries.map((e) {
@@ -93,6 +118,21 @@ class WeaponListPage extends HookConsumerWidget {
             },
           ),
         ],
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 64.0),
+          child: HorizontalChipList(
+            chips: [
+              Icon(Symbols.sort),
+
+              FilterChipWithMenu( // sort
+                label: Text(tr.common.sortTypes[filterState.sortType.name]!),
+                onSelected: (_) {
+                  _showSortBottomSheet(context, ref);
+                },
+              ),
+            ],
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
@@ -149,5 +189,26 @@ class WeaponListPage extends HookConsumerWidget {
       items: items,
       scrollController: scrollController,
     );
+  }
+
+  void _showSortBottomSheet(BuildContext context, WidgetRef ref) {
+    final currentSortType = ref.read(weaponFilterStateProvider).sortType;
+    
+    showSelectBottomSheet<WeaponSortType>(
+      context: context,
+      title: Text(tr.common.sortType),
+      selectedValue: currentSortType,
+      items: [
+        for (final type in WeaponSortType.values)
+          SelectBottomSheetItem(
+            text: tr.common.sortTypes[type.name]!,
+            value: type,
+          ),
+      ],
+    ).then((value) {
+      if (value != null) {
+        ref.read(weaponFilterStateProvider.notifier).setSortType(value);
+      }
+    });
   }
 }

@@ -8,6 +8,7 @@ import "../../../components/character_list_item.dart";
 import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/filter_bottom_sheet.dart";
+import "../../../components/horizontal_chip_list.dart";
 import "../../../components/search.dart";
 import "../../../constants/dimens.dart";
 import "../../../constants/remote_config_key.dart";
@@ -111,71 +112,61 @@ class CharacterListPage extends HookConsumerWidget {
         ],
         bottom: PreferredSize(
           preferredSize: Size(double.infinity, 64.0),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: ChipTheme(
-              data: ChipThemeData(
-                elevation: 2,
+          child: HorizontalChipList(
+            chips: [
+              Icon(Symbols.sort),
+
+              FilterChipWithMenu( // sort
+                label: Text(tr.common.sortTypes[filterState.sortType.name]!),
+                onSelected: (_) {
+                  _showSortBottomSheet(context, ref);
+                },
               ),
-              child: Row(
-                spacing: 8.0,
-                children: [
-                  Icon(Symbols.sort),
 
-                  FilterChipWithMenu( // sort
-                    label: Text(tr.common.sortTypes[filterState.sortType.name]!),
-                    onSelected: (_) {
-                      _showSortBottomSheet(context, ref);
-                    },
-                  ),
+              Icon(Symbols.filter_alt),
 
-                  Icon(Symbols.filter_alt),
+              if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+                FilterChipWithMenu( // possession
+                  selected: filterState.possessionStatus != null,
+                  label: Text(tr.common.possession),
+                  onSelected: (_) {
+                    _showFilterBottomSheet(context);
+                  },
+                ),
 
-                  if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
-                    FilterChipWithMenu( // possession
-                      selected: filterState.possessionStatus != null,
-                      label: Text(tr.common.possession),
-                      onSelected: (_) {
-                        _showFilterBottomSheet(context);
-                      },
-                    ),
-
-                  FilterChipWithMenu( // rarity
-                    selected: filterState.rarity != null,
-                    label: Text(tr.common.rarity),
-                    onSelected: (_) {
-                      _showFilterBottomSheet(context);
-                    },
-                  ),
-
-                  FilterChipWithMenu( // element
-                    selected: filterState.element != null,
-                    label: Text(tr.common.element),
-                    onSelected: (_) {
-                      _showFilterBottomSheet(context);
-                    },
-                  ),
-
-                  FilterChipWithMenu( // weapon type
-                    selected: filterState.weaponType != null,
-                    label: Text(tr.common.weaponType),
-                    onSelected: (_) {
-                      _showFilterBottomSheet(context);
-                    },
-                  ),
-
-                  FilterChipWithIcon( // clear
-                    leading: const Icon(Symbols.clear),
-                    label: Text(tr.common.clear),
-                    onSelected: filterState.isFiltering ? (_) {
-                      ref.read(characterFilterStateProvider.notifier)
-                          .clear();
-                    } : null,
-                  ),
-                ],
+              FilterChipWithMenu( // rarity
+                selected: filterState.rarity != null,
+                label: Text(tr.common.rarity),
+                onSelected: (_) {
+                  _showFilterBottomSheet(context);
+                },
               ),
-            ),
+
+              FilterChipWithMenu( // element
+                selected: filterState.element != null,
+                label: Text(tr.common.element),
+                onSelected: (_) {
+                  _showFilterBottomSheet(context);
+                },
+              ),
+
+              FilterChipWithMenu( // weapon type
+                selected: filterState.weaponType != null,
+                label: Text(tr.common.weaponType),
+                onSelected: (_) {
+                  _showFilterBottomSheet(context);
+                },
+              ),
+
+              FilterChipWithIcon( // clear
+                leading: const Icon(Symbols.clear),
+                label: Text(tr.common.clear),
+                onSelected: filterState.isFiltering ? (_) {
+                  ref.read(characterFilterStateProvider.notifier)
+                      .clear();
+                } : null,
+              ),
+            ],
           ),
         ),
       ),

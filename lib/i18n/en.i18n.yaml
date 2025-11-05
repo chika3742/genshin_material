@@ -32,6 +32,7 @@ common:
     defaultSort: Default
     name: Name
     element: Element
+    rarity: Rarity
   undo: Undo
   bookmarkSaved: Bookmark saved
   removedObsoleteBookmarks: Removed bookmarks for completed ascensions.
