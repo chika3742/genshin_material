@@ -36,10 +36,11 @@ class WeaponListPage extends HookConsumerWidget {
           () {
         final grouped = assetData.weapons.values.groupListsBy((element) => element.type);
         return grouped.map((key, value) {
-          var sortedList = value.toList();
+          List sortedList;
           switch (filterState.sortType) {
             case WeaponSortType.defaultSort:
               // Keep the original data order (appearance order)
+              sortedList = value.toList();
               break;
             case WeaponSortType.name:
               sortedList = value.sorted((a, b) {
@@ -49,7 +50,9 @@ class WeaponListPage extends HookConsumerWidget {
               });
               break;
             case WeaponSortType.rarity:
-              sortedList = value.sorted((a, b) => b.rarity - a.rarity);
+              // Stable sort by rarity (maintains data order for same rarity)
+              sortedList = value.toList();
+              sortedList.sort((a, b) => b.rarity - a.rarity);
               break;
           }
           return MapEntry(key, sortedList);
