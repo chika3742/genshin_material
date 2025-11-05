@@ -148,6 +148,7 @@ class _TranslationsCommonEn extends TranslationsCommonJa {
 		'defaultSort': 'Default',
 		'name': 'Name',
 		'element': 'Element',
+		'rarity': 'Rarity',
 	};
 	@override String get undo => 'Undo';
 	@override String get bookmarkSaved => 'Bookmark saved';
@@ -641,6 +642,7 @@ extension on TranslationsEn {
 			case 'common.sortTypes.defaultSort': return 'Default';
 			case 'common.sortTypes.name': return 'Name';
 			case 'common.sortTypes.element': return 'Element';
+			case 'common.sortTypes.rarity': return 'Rarity';
 			case 'common.undo': return 'Undo';
 			case 'common.bookmarkSaved': return 'Bookmark saved';
 			case 'common.removedObsoleteBookmarks': return 'Removed bookmarks for completed ascensions.';
