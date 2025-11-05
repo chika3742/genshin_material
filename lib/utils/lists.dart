@@ -8,7 +8,10 @@ import "../models/weapon.dart";
 
 extension WeaponListExtension on List<Weapon> {
   List<Weapon> sortedDescendingByRarity() {
-    return sorted((a, b) => b.rarity.compareTo(a.rarity));
+    return groupListsBy((e) => e.rarity).entries
+        .sorted((a, b) => b.key.compareTo(a.key))
+        .map((e) => e.value)
+        .flattenedToList;
   }
 
   Map<WeaponType, List<Weapon>> groupByType(List<WeaponType> weaponTypes) {

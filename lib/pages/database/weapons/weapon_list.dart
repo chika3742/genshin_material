@@ -20,6 +20,7 @@ import "../../../ui_core/katakana_compare.dart";
 import "../../../ui_core/list_index_bottom_sheet.dart";
 import "../../../ui_core/tutorial.dart";
 import "../../../utils/filtering.dart";
+import "../../../utils/lists.dart";
 
 class WeaponListPage extends HookConsumerWidget {
   final AssetData assetData;
@@ -33,14 +34,14 @@ class WeaponListPage extends HookConsumerWidget {
     final filterState = ref.watch(weaponFilterStateProvider);
 
     final weaponsGroupedByType = useMemoized(
-          () {
+      () {
         final grouped = assetData.weapons.values.groupListsBy((element) => element.type);
         return grouped.map((key, value) {
           List sortedList;
           switch (filterState.sortType) {
             case WeaponSortType.defaultSort:
               // Keep the original data order (appearance order)
-              sortedList = value.toList();
+              sortedList = value;
               break;
             case WeaponSortType.name:
               sortedList = value.sorted((a, b) {
@@ -51,8 +52,7 @@ class WeaponListPage extends HookConsumerWidget {
               break;
             case WeaponSortType.rarity:
               // Stable sort by rarity (maintains data order for same rarity)
-              sortedList = value.toList();
-              sortedList.sort((a, b) => b.rarity - a.rarity);
+              sortedList = value.sortedDescendingByRarity();
               break;
           }
           return MapEntry(key, sortedList);
