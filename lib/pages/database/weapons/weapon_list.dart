@@ -6,8 +6,6 @@ import "package:flutter_sticky_header/flutter_sticky_header.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
-import "../../../components/chips.dart";
-import "../../../components/horizontal_chip_list.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/search.dart";
 import "../../../components/sticky_list_header.dart";
@@ -100,6 +98,13 @@ class WeaponListPage extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(appBarTitle),
         actions: [
+          IconButton(
+            icon: const Icon(Symbols.sort),
+            tooltip: tr.common.sortType,
+            onPressed: () {
+              _showSortBottomSheet(context, ref);
+            },
+          ),
           SearchButton(
             hintTargetText: tr.search.targets.weapons,
             queryCallback: (query) {
@@ -118,21 +123,6 @@ class WeaponListPage extends HookConsumerWidget {
             },
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: Size(double.infinity, 64.0),
-          child: HorizontalChipList(
-            chips: [
-              Icon(Symbols.sort),
-
-              FilterChipWithMenu( // sort
-                label: Text(tr.common.sortTypes[filterState.sortType.name]!),
-                onSelected: (_) {
-                  _showSortBottomSheet(context, ref);
-                },
-              ),
-            ],
-          ),
-        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
