@@ -13,13 +13,11 @@ This is a Flutter mobile application for Genshin Impact that provides a material
 
 ### State Management & Architecture
 - **Riverpod 3.0.3**: State management with code generation
-- **hooks_riverpod**: Hooks for Riverpod
-- **riverpod_annotation**: Annotations for code generation
+- **hooks_riverpod**: Riverpod integration library for `flutter_hooks`
 - **go_router 16.3.0**: Declarative routing with code generation
 
 ### Database & Persistence
 - **Drift 2.29.0**: Type-safe SQL database with SQLite
-- **drift_flutter**: Flutter integration for Drift
 - **shared_preferences**: Key-value storage
 - **flutter_secure_storage**: Secure storage for sensitive data
 
@@ -76,6 +74,8 @@ test/
 └── widget/            # Widget tests
 
 integration_test/      # Integration tests
+
+scripts/               # Utility scripts
 ```
 
 ## Code Generation
@@ -89,46 +89,30 @@ This project uses extensive code generation. Generated files include:
 
 ```bash
 # Generate all code
-fvm flutter pub run build_runner build --delete-conflicting-outputs
+./scripts/codegen.sh
 
 # Watch mode for continuous generation
-fvm flutter pub run build_runner watch --delete-conflicting-outputs
+./scripts/watch_codegen.sh
 ```
-
-### File Nesting in IDE
-
-To improve readability, configure your IDE to nest generated files:
-- In IntelliJ IDEA: Add `.freezed.dart` and `.g.dart` to `.dart` parent file suffix
 
 ## Development Setup
 
-### Prerequisites
-1. Install Flutter SDK via FVM
-2. Set up Firebase project (see README.md)
-3. Run `flutterfire configure` to configure Firebase
-
 ### Initial Setup
 ```bash
-# Use FVM for Flutter version management
+# Install FVM for version management
+curl -fsSL https://fvm.app/install.sh | bash
+
+# Install Flutter SDK using FVM
+fvm install
+
+# Install dependencies
 fvm flutter pub get
-
-# Run code generation
-fvm flutter pub run build_runner build --delete-conflicting-outputs
-
-# Initialize date formatting
-# (Handled automatically in main.dart)
 ```
 
 ### Running the App
 ```bash
 # Development mode
 fvm flutter run
-
-# Screenshot mode (disables certain features)
-fvm flutter run --dart-define=SCREENSHOT_MODE=true
-
-# Set asset channel
-fvm flutter run --dart-define=ASSET_CHANNEL=dev
 ```
 
 ## Testing & Linting
@@ -220,16 +204,36 @@ assets/
 
 ### Firebase
 - **Important**: Firebase options file is ignored in git
-- Must run `flutterfire configure` before building
 - Required services: Crashlytics, Remote Config
 
 ## Common Tasks
 
 ### Adding a New Model
-1. Create model class with `@freezed` annotation
-2. Add `@JsonSerializable` if needed
-3. Run code generation
-4. Add any database tables to `lib/database.dart`
+
+#### Snippet without JSON serialization
+```Dart
+@freezed
+sealed class <ClassName> with _$<ClassName> {
+  const factory <ClassName>({
+    // fields
+  }) = _<ClassName>;
+}
+```
+
+#### Snippet with JSON serialization
+```Dart
+@freezed
+sealed class <ClassName> with _$<ClassName> {
+  const factory <ClassName>({
+    // fields
+  }) = _<ClassName>;
+  
+  factory <ClassName>.fromJson(Map<String, dynamic> json) =>
+      _$<ClassName>FromJson(json);
+}
+```
+
+Make sure the file imports `package:freezed_annotation/freezed_annotation.dart` and contains part statement `part "filename.freezed.dart";`. If using JSON serialization, `part "filename.g.dart";` is also needed.
 
 ### Adding a New Page/Route
 1. Create page widget in `lib/pages/`
@@ -238,14 +242,15 @@ assets/
 
 ### Adding Translations
 1. Edit appropriate `.i18n.yaml` file in `lib/i18n/`
-2. Run `slang` code generation (handled by build_runner)
-3. Use via `t.yourKey` or `tr.yourKey` in code
+2. Run code generation
+3. Use via `tr.yourKey` in code
 
 ### Database Migrations
 1. Modify tables in `lib/database.dart`
 2. Increment `schemaVersion`
-3. Add migration logic in `onUpgrade`
-4. Add tests in `test/drift/db/migration_test.dart`
+3. Generate migrations with `fvm dart run drift_dev make-migrations`
+4. Add migration logic in `onUpgrade`
+5. Add tests in `test/drift/db/migration_test.dart`
 
 ## Security Considerations
 
