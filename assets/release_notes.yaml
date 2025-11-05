@@ -1,5 +1,11 @@
 # コピー用改行
 
+- releasedOn: 2025/11/07
+  version: 4.7.0
+  contents: |
+    # 機能追加
+    - キャラクター・武器リストのソート機能を追加しました。
+
 - releasedOn: 2025/09/25
   version: 4.6.0
   contents: |
