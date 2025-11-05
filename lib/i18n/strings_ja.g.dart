@@ -179,7 +179,6 @@ class TranslationsCommonJa {
 		'defaultSort': 'デフォルト',
 		'name': '名前順',
 		'element': '元素順',
-		'rarity': 'レアリティ順',
 	};
 
 	/// ja: '元に戻す'
@@ -1069,7 +1068,6 @@ extension on Translations {
 			case 'common.sortTypes.defaultSort': return 'デフォルト';
 			case 'common.sortTypes.name': return '名前順';
 			case 'common.sortTypes.element': return '元素順';
-			case 'common.sortTypes.rarity': return 'レアリティ順';
 			case 'common.undo': return '元に戻す';
 			case 'common.bookmarkSaved': return 'ブックマークしました';
 			case 'common.removedObsoleteBookmarks': return '育成完了のブックマークを解除しました';
