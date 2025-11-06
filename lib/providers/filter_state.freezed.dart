@@ -356,7 +356,6 @@ class _WeaponFilterState implements WeaponFilterState {
 
 @override@JsonKey() final  WeaponSortType sortType;
 
-
 /// Create a copy of WeaponFilterState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)

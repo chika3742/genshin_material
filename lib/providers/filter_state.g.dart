@@ -43,7 +43,7 @@ final class CharacterFilterStateNotifierProvider
 }
 
 String _$characterFilterStateNotifierHash() =>
-    r'afaa4f255316d376938aa1d98e8a9999ec4b8b0e';
+    r'5e116beb870a8250c1a4ea399b9331373b0b708b';
 
 abstract class _$CharacterFilterStateNotifier
     extends $Notifier<CharacterFilterState> {
@@ -125,8 +125,7 @@ abstract class _$ArtifactFilterStateNotifier
 const weaponFilterStateProvider = WeaponFilterStateNotifierProvider._();
 
 final class WeaponFilterStateNotifierProvider
-    extends
-        $NotifierProvider<WeaponFilterStateNotifier, WeaponFilterState> {
+    extends $NotifierProvider<WeaponFilterStateNotifier, WeaponFilterState> {
   const WeaponFilterStateNotifierProvider._()
     : super(
         from: null,
@@ -155,7 +154,7 @@ final class WeaponFilterStateNotifierProvider
 }
 
 String _$weaponFilterStateNotifierHash() =>
-    r'1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c';
+    r'226d2c0c301b882679f6f654ee93b000254f6117';
 
 abstract class _$WeaponFilterStateNotifier
     extends $Notifier<WeaponFilterState> {

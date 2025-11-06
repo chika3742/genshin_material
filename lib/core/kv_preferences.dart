@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 import "../models/common.dart";
+import "../providers/filter_state.dart";
 
 class PreferenceKey<T> {
   @protected
@@ -96,6 +97,17 @@ class KvPreferences {
     toPref: toPref,
   );
 
+  PreferenceKeyWithConverter<String, C> enumKey<C extends Enum>(String key, List<C> values, [C? defaultValue]) => PreferenceKeyWithConverter(
+    sp,
+    key,
+    defaultValue?.name ?? values.first.name,
+    fromPref: (pref) => values.firstWhere(
+      (e) => e.name == pref,
+      orElse: () => defaultValue ?? values.first,
+    ),
+    toPref: (value) => value.name,
+  );
+
   PreferenceKey<int?> get resin => key("resin", null);
   PreferenceKeyWithConverter<String?, DateTime?> get resinBaseTime => keyWithConv(
     "resinBaseTime",
@@ -127,4 +139,12 @@ class KvPreferences {
   PreferenceKey<int> get adventureRank => key("adventureRank", 60);
   PreferenceKey<double> get condensedMultiplier => key("condensedMultiplier", 2.0);
   PreferenceKey<bool> get showFarmCount => key("showFarmCount", true);
+  PreferenceKeyWithConverter<String, CharacterSortType> get characterSortType => enumKey(
+    "characterSortType",
+    CharacterSortType.values,
+  );
+  PreferenceKeyWithConverter<String, WeaponSortType> get weaponSortType => enumKey(
+    "weaponSortType",
+    WeaponSortType.values,
+  );
 }
