@@ -9,6 +9,7 @@ import "../main.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "../utils/resin_calculator.dart";
+import "filter_state.dart";
 
 part "preferences.freezed.dart";
 part "preferences.g.dart";
@@ -121,6 +122,16 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     await state.pref.showFarmCount.setValue(value);
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
+
+  Future<void> setCharacterSortType(CharacterSortType type) async {
+    await state.pref.characterSortType.setValueWithConversion(type);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
+
+  Future<void> setWeaponSortType(WeaponSortType type) async {
+    await state.pref.weaponSortType.setValueWithConversion(type);
+    state = PreferencesState.fromSharedPreferences(state.pref);
+  }
 }
 
 @freezed
@@ -147,6 +158,8 @@ sealed class PreferencesState with _$PreferencesState {
     required int adventureRank,
     required double condensedMultiplier,
     required bool showFarmCount,
+    required CharacterSortType characterSortType,
+    required WeaponSortType weaponSortType,
   }) = _PreferencesState;
 
   factory PreferencesState.fromSharedPreferences(KvPreferences pref) {
@@ -170,6 +183,8 @@ sealed class PreferencesState with _$PreferencesState {
       adventureRank: pref.adventureRank.value,
       condensedMultiplier: pref.condensedMultiplier.value,
       showFarmCount: pref.showFarmCount.value,
+      characterSortType: pref.characterSortType.convertedValue,
+      weaponSortType: pref.weaponSortType.convertedValue,
     );
   }
 

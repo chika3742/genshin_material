@@ -179,6 +179,7 @@ class TranslationsCommonJa {
 		'defaultSort': 'デフォルト',
 		'name': '名前順',
 		'element': '元素順',
+		'rarity': 'レアリティ順',
 	};
 
 	/// ja: '元に戻す'
@@ -1016,10 +1017,17 @@ class TranslationsSearchTargetsJa {
 	String get furnishings => '調度品';
 }
 
-/// Flat map(s) containing all translations.
+/// The flat map containing all translations for locale <ja>.
 /// Only for edge cases! For simple maps, use the map function of this library.
+///
+/// The Dart AOT compiler has issues with very large switch statements,
+/// so the map is split into smaller functions (512 entries each).
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
+		return _flatMapFunction$0(path);
+	}
+
+	dynamic _flatMapFunction$0(String path) {
 		switch (path) {
 			case 'appName': return '原神素材ノート';
 			case 'common.ok': return 'OK';
@@ -1068,6 +1076,7 @@ extension on Translations {
 			case 'common.sortTypes.defaultSort': return 'デフォルト';
 			case 'common.sortTypes.name': return '名前順';
 			case 'common.sortTypes.element': return '元素順';
+			case 'common.sortTypes.rarity': return 'レアリティ順';
 			case 'common.undo': return '元に戻す';
 			case 'common.bookmarkSaved': return 'ブックマークしました';
 			case 'common.removedObsoleteBookmarks': return '育成完了のブックマークを解除しました';

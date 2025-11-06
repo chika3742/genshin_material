@@ -29,6 +29,7 @@ common:
     defaultSort: デフォルト
     name: 名前順
     element: 元素順
+    rarity: レアリティ順
   undo: 元に戻す
   bookmarkSaved: ブックマークしました
   removedObsoleteBookmarks: 育成完了のブックマークを解除しました

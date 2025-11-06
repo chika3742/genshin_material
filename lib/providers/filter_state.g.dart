@@ -43,7 +43,7 @@ final class CharacterFilterStateNotifierProvider
 }
 
 String _$characterFilterStateNotifierHash() =>
-    r'afaa4f255316d376938aa1d98e8a9999ec4b8b0e';
+    r'5e116beb870a8250c1a4ea399b9331373b0b708b';
 
 abstract class _$CharacterFilterStateNotifier
     extends $Notifier<CharacterFilterState> {
@@ -114,6 +114,61 @@ abstract class _$ArtifactFilterStateNotifier
             as $ClassProviderElement<
               AnyNotifier<ArtifactFilterState, ArtifactFilterState>,
               ArtifactFilterState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(WeaponFilterStateNotifier)
+const weaponFilterStateProvider = WeaponFilterStateNotifierProvider._();
+
+final class WeaponFilterStateNotifierProvider
+    extends $NotifierProvider<WeaponFilterStateNotifier, WeaponFilterState> {
+  const WeaponFilterStateNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'weaponFilterStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$weaponFilterStateNotifierHash();
+
+  @$internal
+  @override
+  WeaponFilterStateNotifier create() => WeaponFilterStateNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WeaponFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WeaponFilterState>(value),
+    );
+  }
+}
+
+String _$weaponFilterStateNotifierHash() =>
+    r'226d2c0c301b882679f6f654ee93b000254f6117';
+
+abstract class _$WeaponFilterStateNotifier
+    extends $Notifier<WeaponFilterState> {
+  WeaponFilterState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<WeaponFilterState, WeaponFilterState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<WeaponFilterState, WeaponFilterState>,
+              WeaponFilterState,
               Object?,
               Object?
             >;
