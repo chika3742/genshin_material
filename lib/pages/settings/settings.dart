@@ -60,6 +60,7 @@ class SettingsPage extends HookConsumerWidget {
             },
           ),
           SimpleListTile(
+            leadingIcon: Symbols.agriculture,
             title: tr.pages.farmCountSettings,
             subtitle: tr.settingsPage.farmCountSettingsDesc,
             location: FarmCountSettingsRoute().location,
