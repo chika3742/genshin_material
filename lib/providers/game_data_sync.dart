@@ -450,7 +450,7 @@ Future<int> _determineAvatarId({
 ) {
   final variant = characters[variantId] as CharacterOrVariant;
   final group = switch (variant) {
-    ListedCharacter() => variant,
+    ListedCharacter() => variant as CharacterWithLargeImage,
     CharacterVariant(:final parentId) => characters[parentId] as CharacterGroup,
     _ => throw StateError("Invalid variant: $variantId"),
   };

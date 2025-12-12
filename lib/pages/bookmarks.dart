@@ -17,6 +17,7 @@ import "../db/bookmark_order_registry_db_extension.dart";
 import "../db/furnishing_db_extension.dart";
 import "../i18n/strings.g.dart";
 import "../models/bookmark.dart";
+import "../models/character.dart";
 import "../models/common.dart";
 import "../models/material_bookmark_frame.dart";
 import "../providers/database_provider.dart";

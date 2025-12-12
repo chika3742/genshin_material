@@ -65,7 +65,7 @@ String toString() {
 /// @nodoc
 @JsonSerializable()
 
-class ListedCharacter extends Character with CharacterWithLargeImage, CharacterOrVariant {
+class ListedCharacter extends Character implements CharacterWithLargeImage, CharacterOrVariant {
   const ListedCharacter({required this.id, this.disableSync = false, required final  List<int> hyvIds, required this.name, required this.jaPronunciation, required this.imageUrl, required this.smallImageUrl, required this.rarity, required this.weaponType, required this.element, required final  Talents talents, required final  MaterialDefinitions materials, final  String? $type}): _hyvIds = hyvIds,_talents = talents,_materials = materials,$type = $type ?? 'default',super._();
   factory ListedCharacter.fromJson(Map<String, dynamic> json) => _$ListedCharacterFromJson(json);
 
@@ -133,7 +133,7 @@ String toString() {
 /// @nodoc
 @JsonSerializable()
 
-class CharacterGroup extends Character with CharacterWithLargeImage {
+class CharacterGroup extends Character implements CharacterWithLargeImage {
   const CharacterGroup({required this.id, required final  List<int> hyvIds, required this.name, required this.jaPronunciation, required this.imageUrl, required this.smallImageUrl, required this.rarity, required this.weaponType, required final  List<String> variantIds, required final  MaterialDefinitions materials, final  String? $type}): _hyvIds = hyvIds,_variantIds = variantIds,_materials = materials,$type = $type ?? 'group',super._();
   factory CharacterGroup.fromJson(Map<String, dynamic> json) => _$CharacterGroupFromJson(json);
 
@@ -199,7 +199,7 @@ String toString() {
 /// @nodoc
 @JsonSerializable()
 
-class CharacterVariant extends Character with CharacterOrVariant {
+class CharacterVariant extends Character implements CharacterOrVariant {
   const CharacterVariant({required this.id, this.disableSync = false, required this.parentId, required this.name, required this.jaPronunciation, required this.smallImageUrl, required this.rarity, required this.element, required this.weaponType, required final  Talents talents, required final  MaterialDefinitions materials, final  String? $type}): _talents = talents,_materials = materials,$type = $type ?? 'variant',super._();
   factory CharacterVariant.fromJson(Map<String, dynamic> json) => _$CharacterVariantFromJson(json);
 

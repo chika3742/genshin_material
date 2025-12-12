@@ -14,36 +14,43 @@ typedef CharacterList = List<Character>;
 
 typedef Talents = Map<TalentType, CharacterTalent>;
 
-mixin CharacterWithLargeImage on Character {
-  @override
-  String get id;
-  List<int> get hyvIds;
-  @override
-  LocalizedText get name;
-  String get imageUrl;
-  @override
-  int get rarity;
-  @override
-  WeaponType get weaponType;
-  @override
-  MaterialDefinitions get materials;
+sealed class CharacterBase {
+  const CharacterBase();
 
-  File getImageFile(String localAssetPath) =>
-      File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, imageUrl));
+  LocalizedText get name;
+  String get jaPronunciation;
+  String get smallImageUrl;
 }
 
-mixin CharacterOrVariant on Character {
+abstract class CharacterWithLargeImage extends CharacterBase with CharacterOrWeapon {
+  String get imageUrl;
+  List<int> get hyvIds;
+  WeaponType get weaponType;
+}
+
+abstract class CharacterOrVariant extends CharacterBase with CharacterOrWeapon {
+  WeaponType get weaponType;
   TeyvatElement get element;
   Talents get talents;
   bool get disableSync;
 }
 
+extension SmallImageExt on CharacterBase {
+  File getSmallImageFile(String localAssetPath) =>
+      File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, smallImageUrl));
+}
+
+extension LargeImageExt on CharacterWithLargeImage {
+  File getImageFile(String localAssetPath) =>
+      File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, imageUrl));
+}
+
 @Freezed(fallbackUnion: "default")
-sealed class Character with _$Character, CharacterOrWeapon, Searchable {
+sealed class Character extends CharacterBase with _$Character, CharacterOrWeapon, Searchable {
   const Character._();
 
-  @With<CharacterWithLargeImage>()
-  @With<CharacterOrVariant>()
+  @Implements<CharacterWithLargeImage>()
+  @Implements<CharacterOrVariant>()
   const factory Character({
     required String id,
     @Default(false) bool disableSync,
@@ -59,7 +66,7 @@ sealed class Character with _$Character, CharacterOrWeapon, Searchable {
     required MaterialDefinitions materials,
   }) = ListedCharacter;
 
-  @With<CharacterWithLargeImage>()
+  @Implements<CharacterWithLargeImage>()
   const factory Character.group({
     required String id,
     required List<int> hyvIds,
@@ -73,7 +80,7 @@ sealed class Character with _$Character, CharacterOrWeapon, Searchable {
     required MaterialDefinitions materials,
   }) = CharacterGroup;
 
-  @With<CharacterOrVariant>()
+  @Implements<CharacterOrVariant>()
   const factory Character.variant({
     required String id,
     @Default(false) bool disableSync,
@@ -90,9 +97,6 @@ sealed class Character with _$Character, CharacterOrWeapon, Searchable {
 
   factory Character.fromJson(Map<String, dynamic> json) =>
       _$CharacterFromJson(json);
-
-  File getSmallImageFile(String localAssetPath) =>
-      File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, smallImageUrl));
 }
 
 @freezed
