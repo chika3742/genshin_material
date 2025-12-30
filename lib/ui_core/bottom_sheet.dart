@@ -91,6 +91,9 @@ class SelectBottomSheetItem<T> {
 }
 
 class ScrollableBottomSheet extends HookWidget {
+  final Widget? title;
+  final List<Widget> actions;
+  final bool ignoreChildSize;
   final WidgetBuilder builder;
   final double maxChildSize;
   final double initialChildSize;
@@ -98,6 +101,9 @@ class ScrollableBottomSheet extends HookWidget {
   const ScrollableBottomSheet({
     super.key,
     required this.builder,
+    this.title,
+    this.actions = const [],
+    this.ignoreChildSize = false,
     this.maxChildSize = 0.9,
     this.initialChildSize = 0.6,
   });
@@ -122,7 +128,9 @@ class ScrollableBottomSheet extends HookWidget {
     }
 
     final calculatedMaxChildSize = calculateIntrinsicChildSize();
-    final calculatedInitialChildSize = min(initialChildSize, calculatedMaxChildSize);
+    final calculatedInitialChildSize = ignoreChildSize
+        ? initialChildSize
+        : min(initialChildSize, calculatedMaxChildSize);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -138,35 +146,55 @@ class ScrollableBottomSheet extends HookWidget {
         });
         return false;
       },
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          availableHeight.value = constraints.maxHeight;
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (title case final title when title != null) title,
+          Flexible(
+            child: Stack(
+              children: [
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    availableHeight.value = constraints.maxHeight;
 
-          return DraggableScrollableSheet(
-            minChildSize: 0,
-            maxChildSize: calculatedMaxChildSize,
-            initialChildSize: calculatedInitialChildSize,
-            expand: false,
-            snap: true,
-            builder: (context, scrollController) {
-              return ScrollBlurEffect(
-                scrollController: scrollController,
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  physics: scrollController.hasClients && scrollController.position.maxScrollExtent == 0
-                      ? const NeverScrollableScrollPhysics()
-                      : null,
-                  child: SizeChangedLayoutNotifier(
-                    child: KeyedSubtree(
-                      key: contentKey,
-                      child: builder(context),
-                    ),
+                    return DraggableScrollableSheet(
+                      minChildSize: 0,
+                      maxChildSize: calculatedMaxChildSize,
+                      initialChildSize: calculatedInitialChildSize,
+                      expand: false,
+                      snap: true,
+                      builder: (context, scrollController) {
+                        return ScrollBlurEffect(
+                          scrollController: scrollController,
+                          child: SingleChildScrollView(
+                            controller: scrollController,
+                            physics: scrollController.hasClients && scrollController.position.maxScrollExtent == 0
+                                ? const NeverScrollableScrollPhysics()
+                                : null,
+                            child: SizeChangedLayoutNotifier(
+                              child: KeyedSubtree(
+                                key: contentKey,
+                                child: builder(context),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                Positioned(
+                  bottom: MediaQuery.of(context).padding.bottom + 16.0,
+                  right: 16.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: actions,
                   ),
                 ),
-              );
-            },
-          );
-        },
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
