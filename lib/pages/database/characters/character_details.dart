@@ -51,7 +51,6 @@ class CharacterDetailsPage extends HookConsumerWidget {
     final character = switch (characterOrVariant) {
       ListedCharacter() || CharacterGroup() => characterOrVariant,
       CharacterVariant(:final parentId) => assetData.characters[parentId]! as CharacterGroup,
-      _ => throw UnsupportedError("Unsupported character type: $characterOrVariant"),
     } as CharacterWithLargeImage;
 
     final db = ref.watch(appDatabaseProvider);
