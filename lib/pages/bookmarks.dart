@@ -909,9 +909,9 @@ List<BookmarkWithMaterialDetails> _sortBookmarks(Iterable<BookmarkWithMaterialDe
     final aMaterial = assetData.materials[a.materialDetails.materialId];
     final bMaterial = assetData.materials[b.materialDetails.materialId];
 
-    if (aMaterial == null || bMaterial == null) {
-      return aMaterial == null ? -1 : 1;
-    }
+    if (aMaterial == null && bMaterial == null) return 0;
+    if (aMaterial == null) return -1;
+    if (bMaterial == null) return 1;
 
     final aPriority = aMaterial.getSortPriority(assetData);
     final bPriority = bMaterial.getSortPriority(assetData);
