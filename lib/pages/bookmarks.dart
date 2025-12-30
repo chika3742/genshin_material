@@ -27,6 +27,7 @@ import "../ui_core/bottom_sheet.dart";
 import "../ui_core/dialog.dart";
 import "../ui_core/error_messages.dart";
 import "../ui_core/layout.dart";
+import "../ui_core/scroll_blur_effect.dart";
 import "../ui_core/snack_bar.dart";
 
 class BookmarksPage extends HookConsumerWidget {
@@ -635,10 +636,12 @@ class _MaterialBookmarkDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollableBottomSheet(
+    return DraggableScrollableSheet(
       maxChildSize: 0.9,
       initialChildSize: 0.6,
-      builder: (context) {
+      expand: false,
+      snap: true,
+      builder: (context, scrollController) {
         return HookConsumer(
           builder: (context, ref, child) {
             final assetData = ref.watch(assetDataProvider).value!;
@@ -655,6 +658,10 @@ class _MaterialBookmarkDetail extends StatelessWidget {
               return const SizedBox(width: double.infinity);
             }
 
+            int sortByLevels(BookmarkWithMaterialDetails a, BookmarkWithMaterialDetails b) {
+              return a.materialDetails.upperLevel - b.materialDetails.upperLevel;
+            }
+
             final groups = bookmarks.groupFoldBy<String, List<BookmarkWithMaterialDetails>>(
               (e) => e.metadata.groupHash,
               (prev, element) {
@@ -665,64 +672,80 @@ class _MaterialBookmarkDetail extends StatelessWidget {
                   return prev;
                 }
               },
-            ).values.map((e) => BookmarkGroup.fromBookmarks(e, assetData)).toList();
+            )
+                .values
+                .map((e) => BookmarkGroup.fromBookmarks(e.sorted(sortByLevels), assetData))
+                .toList();
 
-            return Padding(
-              padding: const EdgeInsets.only(left: 16.0, bottom: 16.0, right: 16.0),
-              child: Column(
-                spacing: 8.0,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  MaterialItem(
-                    item: MaterialCardMaterial.fromBookmarks(bookmarks.map((e) => e.materialDetails).toList()),
-                    hashes: bookmarks.map((e) => e.materialDetails.hash).toList(),
-                    expItems: bookmarks.first.materialDetails.weaponId == null
-                        ? assetData.characterIngredients.expItems
-                        : assetData.weaponIngredients.expItems,
-                  ),
-                  for (final group in groups) ...[
-                    _PurposeHeader(group: group),
-                    for (final bookmark in group.bookmarks.cast<BookmarkWithMaterialDetails>()
-                        .sorted((a, b) => a.materialDetails.upperLevel - b.materialDetails.upperLevel))
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 70,
-                              child: Text.rich(TextSpan(
-                                children: [
-                                  const TextSpan(text: "Lv. ", style: TextStyle(fontSize: 18)),
-                                  TextSpan(
-                                    text: bookmark.materialDetails.upperLevel
-                                        .toString(),
-                                    style: GoogleFonts.titilliumWeb(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24,
-                                    ),
-                                  ),
-                                ],
-                              ),),
-                            ),
-                            Flexible(
-                              child: MaterialItem(
-                                item: MaterialCardMaterial.fromBookmarks([bookmark.materialDetails]),
-                                usage: MaterialUsage(
-                                  characterId: bookmark.metadata.characterId,
-                                  weaponId: bookmark.materialDetails.weaponId,
+            final headerIndexes = [1];
+            for (int i = 1; i < groups.length; i++) {
+              headerIndexes.add(headerIndexes.last + groups[i - 1].bookmarks.length + 1);
+            }
+
+            return ScrollBlurEffect(
+              scrollController: scrollController,
+              child: ListView.builder(
+                controller: scrollController,
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                itemCount: 1 + groups.length + groups.fold(0, (v, e) => v + e.bookmarks.length),
+                itemExtent: 64,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return MaterialItem(
+                      item: MaterialCardMaterial.fromBookmarks(bookmarks.map((e) => e.materialDetails).toList()),
+                      hashes: bookmarks.map((e) => e.materialDetails.hash).toList(),
+                      expItems: bookmarks.first.materialDetails.weaponId == null
+                          ? assetData.characterIngredients.expItems
+                          : assetData.weaponIngredients.expItems,
+                    );
+                  }
+                  final headerIndexesIndex = headerIndexes.lastIndexWhere((i) => i <= index);
+                  if (headerIndexes[headerIndexesIndex] == index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: _PurposeHeader(group: groups[headerIndexesIndex]),
+                    );
+                  }
+
+                  final bookmark = groups[headerIndexesIndex]
+                      .bookmarks[index - headerIndexes[headerIndexesIndex] - 1] as BookmarkWithMaterialDetails;
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 16.0, bottom: 2.0, top: 2.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 70,
+                          child: Text.rich(TextSpan(
+                            children: [
+                              const TextSpan(text: "Lv. ", style: TextStyle(fontSize: 18)),
+                              TextSpan(
+                                text: bookmark.materialDetails.upperLevel
+                                    .toString(),
+                                style: GoogleFonts.titilliumWeb(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24,
                                 ),
-                                expItems: bookmark.materialDetails.weaponId == null
-                                    ? assetData.characterIngredients.expItems
-                                    : assetData.weaponIngredients.expItems,
-                                hashes: [bookmark.materialDetails.hash],
                               ),
-                            ),
-                          ],
+                            ],
+                          )),
                         ),
-                      ),
-                  ],
-                ],
+                        Flexible(
+                          child: MaterialItem(
+                            item: MaterialCardMaterial.fromBookmarks([bookmark.materialDetails]),
+                            usage: MaterialUsage(
+                              characterId: bookmark.metadata.characterId,
+                              weaponId: bookmark.materialDetails.weaponId,
+                            ),
+                            expItems: bookmark.materialDetails.weaponId == null
+                                ? assetData.characterIngredients.expItems
+                                : assetData.weaponIngredients.expItems,
+                            hashes: [bookmark.materialDetails.hash],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             );
           },
