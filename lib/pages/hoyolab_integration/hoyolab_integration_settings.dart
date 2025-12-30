@@ -16,6 +16,7 @@ import "../../models/hoyolab_api.dart";
 import "../../providers/miscellaneous.dart";
 import "../../providers/preferences.dart";
 import "../../routes.dart";
+import "../../ui_core/bottom_sheet.dart";
 import "../../ui_core/dialog.dart";
 import "../../ui_core/error_messages.dart";
 import "../../ui_core/progress_indicator.dart";
@@ -101,12 +102,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             }(),
             trailing: const Icon(Symbols.menu_open),
             onTap: () {
-              showModalBottomSheet(
-                context: context,
-                useRootNavigator: true,
-                showDragHandle: true,
-                builder: (context) => const _ServerSelectBottomSheet(),
-              );
+              _showServerSelectBottomSheet();
             },
           ),
 
@@ -233,13 +229,18 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
 
     // show server select dialog
     if (mounted) {
-      showModalBottomSheet(
-        context: context,
-        useRootNavigator: true,
-        showDragHandle: true,
-        builder: (context) => const _ServerSelectBottomSheet(),
-      );
+      _showServerSelectBottomSheet();
     }
+  }
+
+  void _showServerSelectBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      useRootNavigator: true,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (context) => const _ServerSelectBottomSheet(),
+    );
   }
 }
 
@@ -292,70 +293,66 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
       }
     });
 
-    return SizedBox.expand(
-      child: SafeArea(
-        minimum: const EdgeInsets.only(bottom: 16),
-        child: Column(
-          spacing: 8.0,
-          children: [
-            Text(tr.hoyolab.serverSelect, style: Theme.of(context).textTheme.titleMedium),
-            Stack(
+    return ScrollableBottomSheet(
+      title: Text(tr.hoyolab.serverSelect, style: Theme.of(context).textTheme.titleMedium),
+      actions: [
+        SizedBox(
+          child: IconButton.filled(
+            icon: Icon(Symbols.check),
+            iconSize: 32,
+            onPressed: selectedServer.value != null && gameRoles.value[selectedServer.value!] != null ? () {
+              if (selectedServer.value == null || gameRoles.value[selectedServer.value!] == null) {
+                return;
+              }
+
+              final server = selectedServer.value!;
+              final gameRole = gameRoles.value[server]!;
+              ref.read(preferencesStateProvider.notifier)
+                ..setHoyolabServer(server, gameRole.nickname)
+                ..setUid(gameRole.uid);
+              Navigator.of(context).pop();
+            } : null,
+          ),
+        ),
+      ],
+      builder: (context) {
+        return SafeArea(
+          minimum: const EdgeInsets.only(bottom: 16),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: 340),
+            child: Column(
+              spacing: 16.0,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AnimatedLinearProgressIndicator(show: serversSnapshot.connectionState != ConnectionState.done),
-                if (serversSnapshot.connectionState == ConnectionState.done)
-                  _buildServerList(context, selectedServer, serversSnapshot),
+                Stack(
+                  children: [
+                    AnimatedLinearProgressIndicator(show: serversSnapshot.connectionState != ConnectionState.done),
+                    if (serversSnapshot.connectionState == ConnectionState.done)
+                      _buildServerList(context, selectedServer, serversSnapshot),
+                  ],
+                ),
+                Visibility(
+                  visible: selectedServer.value != null,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: AnimatedSwitcher(
+                      duration: Durations.medium1,
+                      child: loadingGameRoleServers.value.isEmpty
+                          ? _UserGameRoleWidget(gameRoles.value[selectedServer.value])
+                          : const SmallCircularProgressIndicator(),
+                    ) ,
+                  ),
+                ),
+                Visibility(
+                  visible: errorText.value != null,
+                  child: Text(errorText.value ?? "", style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                ),
+                SizedBox(height: 40), // size of OK button
               ],
             ),
-            const SizedBox(), // Spacer
-            if (selectedServer.value != null)
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: () {
-                    if (loadingGameRoleServers.value.isEmpty) {
-                      return errorText.value == null
-                          ? _UserGameRoleWidget(gameRoles.value[selectedServer.value!])
-                          : Text(errorText.value!, style: TextStyle(color: Theme.of(context).colorScheme.error));
-                    } else {
-                      return const SmallCircularProgressIndicator();
-                    }
-                  }(),
-                ),
-              ),
-            const Spacer(),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.resolveWith((states) {
-                      if (states.contains(WidgetState.disabled)) {
-                        return Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.6);
-                      }
-                      return Theme.of(context).colorScheme.surfaceContainerHighest;
-                    }),
-                  ),
-                  onPressed: selectedServer.value != null && gameRoles.value[selectedServer.value!] != null ? () {
-                    if (selectedServer.value == null || gameRoles.value[selectedServer.value!] == null) {
-                      return;
-                    }
-
-                    final server = selectedServer.value!;
-                    final gameRole = gameRoles.value[server]!;
-                    ref.read(preferencesStateProvider.notifier)
-                        ..setHoyolabServer(server, gameRole.nickname)
-                        ..setUid(gameRole.uid);
-                    Navigator.of(context).pop();
-                  } : null,
-                  child: Text(tr.common.ok),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -397,7 +394,7 @@ class _UserGameRoleWidget extends StatelessWidget {
     }
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(gameRole!.nickname.toString(), style: Theme.of(context).textTheme.titleMedium),
         Text("UID: ${gameRole!.uid}  Lv.${gameRole!.level}", style: Theme.of(context).textTheme.bodyMedium),
