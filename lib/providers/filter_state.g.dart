@@ -10,12 +10,12 @@ part of 'filter_state.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(CharacterFilterStateNotifier)
-const characterFilterStateProvider = CharacterFilterStateNotifierProvider._();
+final characterFilterStateProvider = CharacterFilterStateNotifierProvider._();
 
 final class CharacterFilterStateNotifierProvider
     extends
         $NotifierProvider<CharacterFilterStateNotifier, CharacterFilterState> {
-  const CharacterFilterStateNotifierProvider._()
+  CharacterFilterStateNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -51,7 +51,6 @@ abstract class _$CharacterFilterStateNotifier
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<CharacterFilterState, CharacterFilterState>;
     final element =
         ref.element
@@ -61,17 +60,17 @@ abstract class _$CharacterFilterStateNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ArtifactFilterStateNotifier)
-const artifactFilterStateProvider = ArtifactFilterStateNotifierProvider._();
+final artifactFilterStateProvider = ArtifactFilterStateNotifierProvider._();
 
 final class ArtifactFilterStateNotifierProvider
     extends
         $NotifierProvider<ArtifactFilterStateNotifier, ArtifactFilterState> {
-  const ArtifactFilterStateNotifierProvider._()
+  ArtifactFilterStateNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -107,7 +106,6 @@ abstract class _$ArtifactFilterStateNotifier
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<ArtifactFilterState, ArtifactFilterState>;
     final element =
         ref.element
@@ -117,16 +115,16 @@ abstract class _$ArtifactFilterStateNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(WeaponFilterStateNotifier)
-const weaponFilterStateProvider = WeaponFilterStateNotifierProvider._();
+final weaponFilterStateProvider = WeaponFilterStateNotifierProvider._();
 
 final class WeaponFilterStateNotifierProvider
     extends $NotifierProvider<WeaponFilterStateNotifier, WeaponFilterState> {
-  const WeaponFilterStateNotifierProvider._()
+  WeaponFilterStateNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -162,7 +160,6 @@ abstract class _$WeaponFilterStateNotifier
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<WeaponFilterState, WeaponFilterState>;
     final element =
         ref.element
@@ -172,6 +169,6 @@ abstract class _$WeaponFilterStateNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

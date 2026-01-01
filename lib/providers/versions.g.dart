@@ -10,7 +10,7 @@ part of 'versions.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(packageInfo)
-const packageInfoProvider = PackageInfoProvider._();
+final packageInfoProvider = PackageInfoProvider._();
 
 final class PackageInfoProvider
     extends
@@ -20,7 +20,7 @@ final class PackageInfoProvider
           FutureOr<PackageInfo>
         >
     with $FutureModifier<PackageInfo>, $FutureProvider<PackageInfo> {
-  const PackageInfoProvider._()
+  PackageInfoProvider._()
     : super(
         from: null,
         argument: null,
@@ -49,7 +49,7 @@ final class PackageInfoProvider
 String _$packageInfoHash() => r'44d37547139567a5f03c1942c1d62ff1abb07248';
 
 @ProviderFor(assetData)
-const assetDataProvider = AssetDataProvider._();
+final assetDataProvider = AssetDataProvider._();
 
 final class AssetDataProvider
     extends
@@ -59,7 +59,7 @@ final class AssetDataProvider
           FutureOr<AssetData>
         >
     with $FutureModifier<AssetData>, $FutureProvider<AssetData> {
-  const AssetDataProvider._()
+  AssetDataProvider._()
     : super(
         from: null,
         argument: null,
@@ -87,7 +87,7 @@ final class AssetDataProvider
 String _$assetDataHash() => r'c31cae057a870579b82fad38dc01e15fb23ea653';
 
 @ProviderFor(featuresReleaseNotesData)
-const featuresReleaseNotesDataProvider = FeaturesReleaseNotesDataProvider._();
+final featuresReleaseNotesDataProvider = FeaturesReleaseNotesDataProvider._();
 
 final class FeaturesReleaseNotesDataProvider
     extends
@@ -99,7 +99,7 @@ final class FeaturesReleaseNotesDataProvider
     with
         $FutureModifier<List<ReleaseNote>>,
         $FutureProvider<List<ReleaseNote>> {
-  const FeaturesReleaseNotesDataProvider._()
+  FeaturesReleaseNotesDataProvider._()
     : super(
         from: null,
         argument: null,
@@ -129,7 +129,7 @@ String _$featuresReleaseNotesDataHash() =>
     r'ca5d04dc65b42cfe39f90626b86ebf6f6cbcdaa3';
 
 @ProviderFor(assetsReleaseNotesData)
-const assetsReleaseNotesDataProvider = AssetsReleaseNotesDataProvider._();
+final assetsReleaseNotesDataProvider = AssetsReleaseNotesDataProvider._();
 
 final class AssetsReleaseNotesDataProvider
     extends
@@ -141,7 +141,7 @@ final class AssetsReleaseNotesDataProvider
     with
         $FutureModifier<List<ReleaseNote>>,
         $FutureProvider<List<ReleaseNote>> {
-  const AssetsReleaseNotesDataProvider._()
+  AssetsReleaseNotesDataProvider._()
     : super(
         from: null,
         argument: null,

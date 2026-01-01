@@ -3,6 +3,7 @@
 ///
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
+// dart format off
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +11,7 @@ import 'package:slang/generated.dart';
 import 'strings.g.dart';
 
 // Path: <root>
-class TranslationsEn extends Translations {
+class TranslationsEn extends Translations with BaseTranslations<AppLocale, Translations> {
 	/// You can call this constructor and build your own translation instance of this locale.
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsEn({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
@@ -579,313 +580,255 @@ class _TranslationsSearchTargetsEn extends TranslationsSearchTargetsJa {
 /// so the map is split into smaller functions (512 entries each).
 extension on TranslationsEn {
 	dynamic _flatMapFunction(String path) {
-		return _flatMapFunction$0(path);
-	}
-
-	dynamic _flatMapFunction$0(String path) {
-		switch (path) {
-			case 'appName': return 'Genshin Material Notebook';
-			case 'common.ok': return 'OK';
-			case 'common.cancel': return 'Cancel';
-			case 'common.signOut': return 'Sign Out';
-			case 'common.tos': return 'Terms of Use';
-			case 'common.privacyPolicy': return 'Privacy Policy';
-			case 'common.error': return 'An error occurred.';
-			case 'common.goalLevel': return 'Goal Level';
-			case 'common.currentLevel': return 'Current Level';
-			case 'common.index': return 'Index';
-			case 'common.seconds': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
-				n: n,
-				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
-				other: () => TextSpan(children: [
-					nBuilder(n),
-					const TextSpan(text: ' '),
-					unit('seconds'),
-				]),
-				one: () => TextSpan(children: [
-					nBuilder(n),
-					const TextSpan(text: ' '),
-					unit('second'),
-				]),
-			);
-			case 'common.minutes': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
-				n: n,
-				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
-				other: () => TextSpan(children: [
-					nBuilder(n),
-					const TextSpan(text: ' '),
-					unit('minutes'),
-				]),
-				one: () => TextSpan(children: [
-					nBuilder(n),
-					const TextSpan(text: ' '),
-					unit('minute'),
-				]),
-			);
-			case 'common.hours': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
-				n: n,
-				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'),
-				other: () => TextSpan(children: [
-					nBuilder(n),
-					const TextSpan(text: ' '),
-					unit('hours'),
-				]),
-				one: () => TextSpan(children: [
-					nBuilder(n),
-					const TextSpan(text: ' '),
-					unit('hour'),
-				]),
-			);
-			case 'common.element': return 'Element';
-			case 'common.rarity': return 'Rarity';
-			case 'common.weaponType': return 'Weapon Type';
-			case 'common.clear': return 'Clear';
-			case 'common.save': return 'Save';
-			case 'common.next': return 'Next';
-			case 'common.change': return 'Change';
-			case 'common.pleaseSelect': return 'Please select';
-			case 'common.sort': return 'Sort';
-			case 'common.sortType': return 'Sort Type';
-			case 'common.sortTypes.defaultSort': return 'Default';
-			case 'common.sortTypes.name': return 'Name';
-			case 'common.sortTypes.element': return 'Element';
-			case 'common.sortTypes.rarity': return 'Rarity';
-			case 'common.undo': return 'Undo';
-			case 'common.bookmarkSaved': return 'Bookmark saved';
-			case 'common.removedObsoleteBookmarks': return 'Removed bookmarks for completed ascensions.';
-			case 'common.none': return 'None';
-			case 'common.sliderTips': return 'If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.';
-			case 'common.selected': return ({required Object character}) => 'Selected: ${character}';
-			case 'common.possession': return 'Possession';
-			case 'common.possessionStatus.owned': return 'Owned';
-			case 'common.possessionStatus.notOwned': return 'Not owned';
-			case 'common.possessionNoteNotSignedIn': return 'By linking with HoYoLAB, you can synchronize your possession status.';
-			case 'common.possessionNote': return 'Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".';
-			case 'common.dismiss': return 'Dismiss';
-			case 'search.hint': return ({required Object target}) => 'Search for ${target}...';
-			case 'search.noResults': return 'No search results found';
-			case 'search.targets.characters': return 'characters';
-			case 'search.targets.weapons': return 'weapons';
-			case 'search.targets.materials': return 'materials';
-			case 'search.targets.artifactSets': return 'artifact sets';
-			case 'search.targets.artifactPieces': return 'artifact pieces';
-			case 'search.targets.furnishingSets': return 'furnishing sets';
-			case 'search.targets.furnishings': return 'furnishings';
-			case 'tutorial.indexSheet': return 'Table of contents';
-			case 'tutorial.indexSheetDesc': return 'Tap this button to quickly navigate to the section you\'re looking for.';
-			case 'purposes.ascension': return 'Level Up/Ascension';
-			case 'purposes.normalAttack': return 'Normal Attack';
-			case 'purposes.elementalSkill': return 'Elemental Skill';
-			case 'purposes.elementalBurst': return 'Elemental Burst';
-			case 'talentTypes.normalAttack': return 'Normal Attack';
-			case 'talentTypes.elementalSkill': return 'Elemental Skill';
-			case 'talentTypes.elementalBurst': return 'Elemental Burst';
-			case 'updates.downloading': return 'Downloading data updates...';
-			case 'updates.failedToLoad': return 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.';
-			case 'updates.failedToDownload': return 'Failed to download data update.';
-			case 'updates.failedToInstall': return 'Failed to install data update.';
-			case 'updates.failedToCheck': return 'Failed to check for data update.';
-			case 'updates.schemaVersionMismatch': return 'Please update the app to the latest version.';
-			case 'updates.noCompatibleAsset': return 'Please update the app to the latest version.';
-			case 'updates.noInternet': return 'Please check your internet connection.';
-			case 'updates.noUpdateAvailable': return 'No update available.';
-			case 'updates.completed': return 'Data update completed.';
-			case 'updates.installing': return 'Installing...';
-			case 'updates.pleaseWaitUntilComplete': return 'Please wait until data update is complete.';
-			case 'errors.characterNotFound': return 'Character not found';
-			case 'errors.weaponNotFound': return 'Weapon not found';
-			case 'errors.materialNotFound': return 'Material not found';
-			case 'errors.artifactNotFound': return 'Artifact not found';
-			case 'errors.tryAgainLater': return 'Please try again later.';
-			case 'errors.dbError': return 'A database error occurred.';
-			case 'pages.characters': return 'Characters';
-			case 'pages.characterDetails': return ({required Object character}) => '${character} - Character';
-			case 'pages.weapons': return 'Weapons';
-			case 'pages.weaponDetails': return ({required Object weapon}) => '${weapon} - Weapon';
-			case 'pages.materials': return 'Materials';
-			case 'pages.materialDetails': return ({required Object material}) => '${material} - Material';
-			case 'pages.artifacts': return 'Artifacts';
-			case 'pages.artifactDetails': return ({required Object artifact}) => '${artifact} - Artifact';
-			case 'pages.furnishingSets': return 'Furnishing Sets';
-			case 'pages.furnishingSetDetails': return ({required Object furnishingSet}) => '${furnishingSet} - Furnishing Set';
-			case 'pages.furnishings': return 'Furnishings';
-			case 'pages.furnishingDetails': return ({required Object furnishing}) => '${furnishing} - Furnishing';
-			case 'pages.settings': return 'Settings';
-			case 'pages.farmCountSettings': return 'Farming Count Display';
-			case 'pages.account': return 'Account';
-			case 'pages.releaseNotes': return 'Release Notes';
-			case 'pages.bookmarks': return 'Bookmarks';
-			case 'pages.database': return 'Database';
-			case 'pages.daily': return 'Daily';
-			case 'pages.tools': return 'Tools';
-			case 'pages.resinCalc': return 'Resin Replenish Calculator';
-			case 'pages.wishes': return 'Wish Pity Counter';
-			case 'pages.more': return 'More';
-			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB Integration Settings';
-			case 'bookmarksPage.noBookmarks': return 'No bookmarks yet. Try finding something in the Database tab!';
-			case 'bookmarksPage.character': return 'Character';
-			case 'bookmarksPage.weapon': return 'Weapon';
-			case 'bookmarksPage.artifactSet': return 'Artifact Set';
-			case 'bookmarksPage.artifactPiece': return 'Artifact';
-			case 'bookmarksPage.main': return 'Main';
-			case 'bookmarksPage.sub': return 'Sub';
-			case 'bookmarksPage.unBookmark': return 'Remove bookmark';
-			case 'bookmarksPage.unBookmarkConfirm': return 'Remove this bookmark?';
-			case 'bookmarksPage.byPurpose': return 'Purpose';
-			case 'bookmarksPage.byMaterial': return 'Material';
-			case 'bookmarksPage.furnishings': return 'Furnishings';
-			case 'bookmarksPage.allFurnishingsAreCrafted': return 'All furnishings in this set have been crafted.';
-			case 'characterDetailsPage.equippedWeapon': return 'Equipped Weapon';
-			case 'characterDetailsPage.favoriteFurnishingSets': return 'Favorite Furnishing Sets';
-			case 'weaponDetailsPage.characterToEquip': return 'Character to Equip this Weapon';
-			case 'weaponDetailsPage.skillEffect': return 'Skill Effect';
-			case 'materialDetailsPage.charactersUsing': return 'Characters Using This Material';
-			case 'materialDetailsPage.weaponsUsing': return 'Weapons Using This Material';
-			case 'materialDetailsPage.availableToday': return 'Available Today';
-			case 'materialDetailsPage.source': return 'How to Obtain';
-			case 'materialDetailsPage.toTeyvatMap': return 'To Teyvat Map';
-			case 'materialCard.reBookmark': return 'Re-bookmark in current range';
-			case 'materialCard.reBookmarkDesc': return 'Remove the bookmark of this material once, then bookmark it again in the current slider range';
-			case 'materialCard.unBookmark': return 'Remove bookmark';
-			case 'materialCard.unBookmarkDesc': return 'Remove the bookmark of this material';
-			case 'materialCard.unBookmarked': return 'Removed from bookmarks';
-			case 'artifactsPage.bonusTypes.1-pc': return '1-Pc Set Bonus';
-			case 'artifactsPage.bonusTypes.2-pc': return '2-Pc Set Bonus';
-			case 'artifactsPage.bonusTypes.4-pc': return '4-Pc Set Bonus';
-			case 'artifactsPage.effectList': return 'Effect List';
-			case 'artifactsPage.kindOfEffect': return 'Kind of Effect';
-			case 'artifactsPage.effectFilteringNote': return '* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags.';
-			case 'artifactDetailsPage.maxRarity': return 'Max Rarity';
-			case 'artifactDetailsPage.bookmarkSet': return 'Bookmark Set(s)';
-			case 'artifactDetailsPage.bookmarkPiece': return 'Bookmark by Piece';
-			case 'artifactDetailsPage.bookmarkTwoAndTwoPcSet': return 'Bookmark 2+2 Pc Set';
-			case 'artifactDetailsPage.bookmarkFourPcSet': return 'Bookmark 4 Pc Set';
-			case 'artifactDetailsPage.bookmarkArtifacts': return 'Bookmark Artifacts';
-			case 'artifactDetailsPage.characterToEquip': return 'Character to Equip';
-			case 'artifactDetailsPage.chooseSecondSet': return 'Select the Second One';
-			case 'artifactDetailsPage.chooseSecondSetDesc': return 'Choose the second artifact set.';
-			case 'artifactDetailsPage.mainStat': return 'Main Stat';
-			case 'artifactDetailsPage.mainStatWithPieceType': return ({required Object pieceType}) => '${_root.artifactDetailsPage.mainStat} (${pieceType})';
-			case 'artifactDetailsPage.subStats': return 'Sub Stats';
-			case 'artifactDetailsPage.unspecified': return 'Unspecified';
-			case 'artifactDetailsPage.nSet': return ({required Object n}) => '${n}-Pieces';
-			case 'furnishingSetsPage.furnishingList': return 'Furnishing List';
-			case 'furnishingSetsPage.type': return 'Type';
-			case 'furnishingSetsPage.image': return 'Image';
-			case 'furnishingSetsPage.name': return 'Name';
-			case 'furnishingSetsPage.requiredQuantity': return 'Required Qty (bulk update by long-press)';
-			case 'furnishingSetsPage.source': return 'Source';
-			case 'furnishingSetsPage.canBeScrolledHorizontally': return 'Can be scrolled horizontally';
-			case 'furnishingSetsPage.resetCraftCount': return 'Reset Craft Count';
-			case 'furnishingSetsPage.resetCraftCountConfirm': return 'Are you sure you want to reset the craft count for this furnishing set?';
-			case 'furnishingSetsPage.favoredBy': return 'Favored By';
-			case 'furnishingSetsPage.addedToBookmarks': return 'Added to Bookmarks';
-			case 'furnishingSetsPage.removedFromBookmarks': return 'Removed from Bookmarks';
-			case 'furnishingSetsPage.furnishingSetsUsingThisFurnishing': return 'Furnishing Sets Using This Furnishing';
-			case 'dailyPage.mondayAndThursday': return 'Mon/Thu';
-			case 'dailyPage.tuesdayAndFriday': return 'Tue/Fri';
-			case 'dailyPage.wednesdayAndSaturday': return 'Wed/Sat';
-			case 'dailyPage.talentMaterials': return 'Talent Materials';
-			case 'dailyPage.weaponMaterials': return 'Weapon Materials';
-			case 'resinCalcPage.currentResin': return 'Current Resin';
-			case 'resinCalcPage.resin': return 'Resin';
-			case 'resinCalcPage.recoveryTime': return 'Recovered At';
-			case 'resinCalcPage.untilRecovery': return 'Recover In';
-			case 'resinCalcPage.fullyReplenishedAt': return ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
-				text('fully replenished at'),
-				const TextSpan(text: ' '),
-				time,
-			]);
-			case 'resinCalcPage.recoversIn': return ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
-				time,
-				const TextSpan(text: ' '),
-				text('left'),
-			]);
-			case 'resinCalcPage.asOf': return ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
-				const TextSpan(text: '('),
-				text('as of'),
-				const TextSpan(text: ' '),
-				time,
-				const TextSpan(text: ')'),
-			]);
-			case 'resinCalcPage.recoveredTime': return 'Recovered Time';
-			case 'resinCalcPage.wastedResin': return 'Wasted Resin';
-			case 'resinCalcPage.tomorrow': return 'Tomorrow';
-			case 'resinCalcPage.alreadyFull': return 'Already fully recovered';
-			case 'resinCalcPage.howToUse': return 'How to Use';
-			case 'resinCalcPage.howToUseContent': return 'Enter your current resin count to calculate the time when your resin will be fully recovered and the time remaining until full recovery based on the time you entered.\nBy linking with ${_root.pages.hoyolabIntegrationSettings}, you can synchronize your current resin count. If you use this feature, please note that "${_root.resinCalcPage.recoveredTime}" and "${_root.resinCalcPage.wastedResin}" will not be accurately calculated if you have not synchronized after using resin for the last time or recovering it with items, etc.\n';
-			case 'morePage.accountDesc': return 'You can sync bookmarks etc. between devices.';
-			case 'morePage.hoyolabIntegrationSettingsDesc': return 'Link with HoYoLAB to sync in-game data';
-			case 'morePage.github': return 'GitHub';
-			case 'morePage.githubDesc': return 'View the source code, report issues, and contribute.';
-			case 'morePage.buyMeACoffee': return 'Buy Me a Coffee';
-			case 'morePage.buyMeACoffeeDesc': return 'Support the developer by buying a coffee.';
-			case 'morePage.x': return 'X (for announcements)';
-			case 'morePage.xDesc': return 'Notices related to this app are posted here.';
-			case 'releaseNotesPage.featureUpdates': return 'Feature Updates';
-			case 'releaseNotesPage.assetUpdates': return 'Asset Updates';
-			case 'settingsPage.display': return 'Display';
-			case 'settingsPage.showItemNameOnCard': return 'Show Item Name on Card';
-			case 'settingsPage.showItemNameOnCardDesc': return 'Show the item name on the card that displays the number of uses.';
-			case 'settingsPage.dailyResetServer': return 'Daily Material Server Time';
-			case 'settingsPage.dailyResetServerDesc': return 'Select the game server to use as the reference time for daily materials reset.';
-			case 'settingsPage.farmCountSettingsDesc': return 'Set the configs like AR for calculating the farming count.';
-			case 'settingsPage.assetData': return 'Assets';
-			case 'settingsPage.checkAssetUpdate': return 'Check Asset Update';
-			case 'settingsPage.checkAssetUpdateDesc': return 'Check for updates to the app\'s assets.';
-			case 'settingsPage.reDownloadAssets': return 'Re-download Assets';
-			case 'settingsPage.reDownloadAssetsDesc': return 'Please try this if the assets of the app are not loading properly.';
-			case 'settingsPage.openSourceLicenses': return 'Open Source Licenses';
-			case 'farmCountSettingsPage.showFarmCount': return 'Show Farming Count';
-			case 'farmCountSettingsPage.adventureRank': return 'Adventure Rank';
-			case 'farmCountSettingsPage.skipRate': return 'Multiplier for using Condensed Resin etc.';
-			case 'farmCountSettingsPage.dropRateList': return 'Drop Rate List';
-			case 'farmCountSettingsPage.kind': return 'Type';
-			case 'farmCountSettingsPage.rate': return 'Drop Rate (items/run)';
-			case 'farmCountSettingsPage.note': return 'Note';
-			case 'farmCountSettingsPage.multiplier': return ({required Object n}) => '${n} x';
-			case 'farmCountSettingsPage.noUseCondensed': return '(Not using Condensed Resin)';
-			case 'hoyolab.signIn': return 'Sign in to HoYoLAB';
-			case 'hoyolab.aboutHeading': return 'About HoYoLAB Link';
-			case 'hoyolab.about': return 'By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.\nHoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.\n* This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).\n* If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.\n';
-			case 'hoyolab.signOut': return 'Sign out from HoYoLAB';
-			case 'hoyolab.signInNote': return '* Social login is not supported. You need to sign in with your email/username and password.';
-			case 'hoyolab.failedToSignIn': return 'Failed to sign in to HoYoLAB';
-			case 'hoyolab.signOutConfirm': return 'Unlink HoYoLAB?';
-			case 'hoyolab.credentialVerificationFailed': return 'Failed to verify login information. Please sign in again.';
-			case 'hoyolab.changeServer': return 'Change server';
-			case 'hoyolab.serverSelect': return 'Server select';
-			case 'hoyolab.current': return ({required Object server}) => 'Current: ${server}';
-			case 'hoyolab.noServerSelected': return 'No server selected';
-			case 'hoyolab.plsSelectServer': return 'Please select a server';
-			case 'hoyolab.userInfo': return 'User Info';
-			case 'hoyolab.failedToLoadServerList': return 'Failed to load server list.';
-			case 'hoyolab.failedToLoadGameRole': return 'Failed to load game user info.';
-			case 'hoyolab.noGameRoleFound': return 'No game user found.';
-			case 'hoyolab.failedToSyncGameData': return 'Failed to sync game data.';
-			case 'hoyolab.failedToLoadPermissionState': return 'Failed to load permission state.';
-			case 'hoyolab.characterDataAccessNotAllowed': return 'Character data access is not allowed. Please allow access from HoYoLAB integration settings.';
-			case 'hoyolab.characterDoesNotExist': return 'You do not own this character.';
-			case 'hoyolab.realtimeNotesNotEnabled': return 'Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.';
-			case 'hoyolab.loginExpired': return 'Please sign out and sign in again.';
-			case 'hoyolab.accessPermission': return 'Access Permission';
-			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'Enable Real-Time Notes?';
-			case 'hoyolab.enableRealtimeNotes': return 'Enable Real-Time Notes';
-			case 'hoyolab.enableRealtimeNotesDesc': return 'You will be able to sync your current Original Resin count.';
-			case 'hoyolab.syncSettings': return 'Sync Settings';
-			case 'hoyolab.syncResin': return 'Sync resin count';
-			case 'hoyolab.syncCharaState': return 'Sync character levels';
-			case 'hoyolab.syncWeaponState': return 'Sync weapon levels';
-			case 'hoyolab.syncBagLackNums': return 'Sync bag shortage numbers';
-			case 'hoyolab.autoRemoveBookmarks': return 'Auto remove bookmarks';
-			case 'hoyolab.autoRemoveBookmarksDesc': return 'Automatically remove bookmarks for completed ascensions when opening a character or weapon page.';
-			case 'hoyolab.mustBeResonatedWithStatue': return 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
-			case 'hoyolab.weaponNotEquipped': return 'This character does not equip this weapon.';
-			case 'hoyolab.unknownError': return 'An unknown error occurred.';
-			case 'hoyolab.charaSyncSuccess': return 'Successfully synced game data';
-			case 'whereToGet.chests': return 'Chests, Quests';
-			default: return null;
-		}
+		return switch (path) {
+			'appName' => 'Genshin Material Notebook',
+			'common.ok' => 'OK',
+			'common.cancel' => 'Cancel',
+			'common.signOut' => 'Sign Out',
+			'common.tos' => 'Terms of Use',
+			'common.privacyPolicy' => 'Privacy Policy',
+			'common.error' => 'An error occurred.',
+			'common.goalLevel' => 'Goal Level',
+			'common.currentLevel' => 'Current Level',
+			'common.index' => 'Index',
+			'common.seconds' => ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge( n: n, resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'), other: () => TextSpan(children: [ nBuilder(n), const TextSpan(text: ' '), unit('seconds'), ]), one: () => TextSpan(children: [ nBuilder(n), const TextSpan(text: ' '), unit('second'), ]), ), 
+			'common.minutes' => ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge( n: n, resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'), other: () => TextSpan(children: [ nBuilder(n), const TextSpan(text: ' '), unit('minutes'), ]), one: () => TextSpan(children: [ nBuilder(n), const TextSpan(text: ' '), unit('minute'), ]), ), 
+			'common.hours' => ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge( n: n, resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'), other: () => TextSpan(children: [ nBuilder(n), const TextSpan(text: ' '), unit('hours'), ]), one: () => TextSpan(children: [ nBuilder(n), const TextSpan(text: ' '), unit('hour'), ]), ), 
+			'common.element' => 'Element',
+			'common.rarity' => 'Rarity',
+			'common.weaponType' => 'Weapon Type',
+			'common.clear' => 'Clear',
+			'common.save' => 'Save',
+			'common.next' => 'Next',
+			'common.change' => 'Change',
+			'common.pleaseSelect' => 'Please select',
+			'common.sort' => 'Sort',
+			'common.sortType' => 'Sort Type',
+			'common.sortTypes.defaultSort' => 'Default',
+			'common.sortTypes.name' => 'Name',
+			'common.sortTypes.element' => 'Element',
+			'common.sortTypes.rarity' => 'Rarity',
+			'common.undo' => 'Undo',
+			'common.bookmarkSaved' => 'Bookmark saved',
+			'common.removedObsoleteBookmarks' => 'Removed bookmarks for completed ascensions.',
+			'common.none' => 'None',
+			'common.sliderTips' => 'If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.',
+			'common.selected' => ({required Object character}) => 'Selected: ${character}',
+			'common.possession' => 'Possession',
+			'common.possessionStatus.owned' => 'Owned',
+			'common.possessionStatus.notOwned' => 'Not owned',
+			'common.possessionNoteNotSignedIn' => 'By linking with HoYoLAB, you can synchronize your possession status.',
+			'common.possessionNote' => 'Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".',
+			'common.dismiss' => 'Dismiss',
+			'search.hint' => ({required Object target}) => 'Search for ${target}...',
+			'search.noResults' => 'No search results found',
+			'search.targets.characters' => 'characters',
+			'search.targets.weapons' => 'weapons',
+			'search.targets.materials' => 'materials',
+			'search.targets.artifactSets' => 'artifact sets',
+			'search.targets.artifactPieces' => 'artifact pieces',
+			'search.targets.furnishingSets' => 'furnishing sets',
+			'search.targets.furnishings' => 'furnishings',
+			'tutorial.indexSheet' => 'Table of contents',
+			'tutorial.indexSheetDesc' => 'Tap this button to quickly navigate to the section you\'re looking for.',
+			'purposes.ascension' => 'Level Up/Ascension',
+			'purposes.normalAttack' => 'Normal Attack',
+			'purposes.elementalSkill' => 'Elemental Skill',
+			'purposes.elementalBurst' => 'Elemental Burst',
+			'talentTypes.normalAttack' => 'Normal Attack',
+			'talentTypes.elementalSkill' => 'Elemental Skill',
+			'talentTypes.elementalBurst' => 'Elemental Burst',
+			'updates.downloading' => 'Downloading data updates...',
+			'updates.failedToLoad' => 'Failed to load data. Try re-downloading from \'Settings\' -> \'Re-download Assets\'.',
+			'updates.failedToDownload' => 'Failed to download data update.',
+			'updates.failedToInstall' => 'Failed to install data update.',
+			'updates.failedToCheck' => 'Failed to check for data update.',
+			'updates.schemaVersionMismatch' => 'Please update the app to the latest version.',
+			'updates.noCompatibleAsset' => 'Please update the app to the latest version.',
+			'updates.noInternet' => 'Please check your internet connection.',
+			'updates.noUpdateAvailable' => 'No update available.',
+			'updates.completed' => 'Data update completed.',
+			'updates.installing' => 'Installing...',
+			'updates.pleaseWaitUntilComplete' => 'Please wait until data update is complete.',
+			'errors.characterNotFound' => 'Character not found',
+			'errors.weaponNotFound' => 'Weapon not found',
+			'errors.materialNotFound' => 'Material not found',
+			'errors.artifactNotFound' => 'Artifact not found',
+			'errors.tryAgainLater' => 'Please try again later.',
+			'errors.dbError' => 'A database error occurred.',
+			'pages.characters' => 'Characters',
+			'pages.characterDetails' => ({required Object character}) => '${character} - Character',
+			'pages.weapons' => 'Weapons',
+			'pages.weaponDetails' => ({required Object weapon}) => '${weapon} - Weapon',
+			'pages.materials' => 'Materials',
+			'pages.materialDetails' => ({required Object material}) => '${material} - Material',
+			'pages.artifacts' => 'Artifacts',
+			'pages.artifactDetails' => ({required Object artifact}) => '${artifact} - Artifact',
+			'pages.furnishingSets' => 'Furnishing Sets',
+			'pages.furnishingSetDetails' => ({required Object furnishingSet}) => '${furnishingSet} - Furnishing Set',
+			'pages.furnishings' => 'Furnishings',
+			'pages.furnishingDetails' => ({required Object furnishing}) => '${furnishing} - Furnishing',
+			'pages.settings' => 'Settings',
+			'pages.farmCountSettings' => 'Farming Count Display',
+			'pages.account' => 'Account',
+			'pages.releaseNotes' => 'Release Notes',
+			'pages.bookmarks' => 'Bookmarks',
+			'pages.database' => 'Database',
+			'pages.daily' => 'Daily',
+			'pages.tools' => 'Tools',
+			'pages.resinCalc' => 'Resin Replenish Calculator',
+			'pages.wishes' => 'Wish Pity Counter',
+			'pages.more' => 'More',
+			'pages.hoyolabIntegrationSettings' => 'HoYoLAB Integration Settings',
+			'bookmarksPage.noBookmarks' => 'No bookmarks yet. Try finding something in the Database tab!',
+			'bookmarksPage.character' => 'Character',
+			'bookmarksPage.weapon' => 'Weapon',
+			'bookmarksPage.artifactSet' => 'Artifact Set',
+			'bookmarksPage.artifactPiece' => 'Artifact',
+			'bookmarksPage.main' => 'Main',
+			'bookmarksPage.sub' => 'Sub',
+			'bookmarksPage.unBookmark' => 'Remove bookmark',
+			'bookmarksPage.unBookmarkConfirm' => 'Remove this bookmark?',
+			'bookmarksPage.byPurpose' => 'Purpose',
+			'bookmarksPage.byMaterial' => 'Material',
+			'bookmarksPage.furnishings' => 'Furnishings',
+			'bookmarksPage.allFurnishingsAreCrafted' => 'All furnishings in this set have been crafted.',
+			'characterDetailsPage.equippedWeapon' => 'Equipped Weapon',
+			'characterDetailsPage.favoriteFurnishingSets' => 'Favorite Furnishing Sets',
+			'weaponDetailsPage.characterToEquip' => 'Character to Equip this Weapon',
+			'weaponDetailsPage.skillEffect' => 'Skill Effect',
+			'materialDetailsPage.charactersUsing' => 'Characters Using This Material',
+			'materialDetailsPage.weaponsUsing' => 'Weapons Using This Material',
+			'materialDetailsPage.availableToday' => 'Available Today',
+			'materialDetailsPage.source' => 'How to Obtain',
+			'materialDetailsPage.toTeyvatMap' => 'To Teyvat Map',
+			'materialCard.reBookmark' => 'Re-bookmark in current range',
+			'materialCard.reBookmarkDesc' => 'Remove the bookmark of this material once, then bookmark it again in the current slider range',
+			'materialCard.unBookmark' => 'Remove bookmark',
+			'materialCard.unBookmarkDesc' => 'Remove the bookmark of this material',
+			'materialCard.unBookmarked' => 'Removed from bookmarks',
+			'artifactsPage.bonusTypes.1-pc' => '1-Pc Set Bonus',
+			'artifactsPage.bonusTypes.2-pc' => '2-Pc Set Bonus',
+			'artifactsPage.bonusTypes.4-pc' => '4-Pc Set Bonus',
+			'artifactsPage.effectList' => 'Effect List',
+			'artifactsPage.kindOfEffect' => 'Kind of Effect',
+			'artifactsPage.effectFilteringNote' => '* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags.',
+			'artifactDetailsPage.maxRarity' => 'Max Rarity',
+			'artifactDetailsPage.bookmarkSet' => 'Bookmark Set(s)',
+			'artifactDetailsPage.bookmarkPiece' => 'Bookmark by Piece',
+			'artifactDetailsPage.bookmarkTwoAndTwoPcSet' => 'Bookmark 2+2 Pc Set',
+			'artifactDetailsPage.bookmarkFourPcSet' => 'Bookmark 4 Pc Set',
+			'artifactDetailsPage.bookmarkArtifacts' => 'Bookmark Artifacts',
+			'artifactDetailsPage.characterToEquip' => 'Character to Equip',
+			'artifactDetailsPage.chooseSecondSet' => 'Select the Second One',
+			'artifactDetailsPage.chooseSecondSetDesc' => 'Choose the second artifact set.',
+			'artifactDetailsPage.mainStat' => 'Main Stat',
+			'artifactDetailsPage.mainStatWithPieceType' => ({required Object pieceType}) => '${_root.artifactDetailsPage.mainStat} (${pieceType})',
+			'artifactDetailsPage.subStats' => 'Sub Stats',
+			'artifactDetailsPage.unspecified' => 'Unspecified',
+			'artifactDetailsPage.nSet' => ({required Object n}) => '${n}-Pieces',
+			'furnishingSetsPage.furnishingList' => 'Furnishing List',
+			'furnishingSetsPage.type' => 'Type',
+			'furnishingSetsPage.image' => 'Image',
+			'furnishingSetsPage.name' => 'Name',
+			'furnishingSetsPage.requiredQuantity' => 'Required Qty (bulk update by long-press)',
+			'furnishingSetsPage.source' => 'Source',
+			'furnishingSetsPage.canBeScrolledHorizontally' => 'Can be scrolled horizontally',
+			'furnishingSetsPage.resetCraftCount' => 'Reset Craft Count',
+			'furnishingSetsPage.resetCraftCountConfirm' => 'Are you sure you want to reset the craft count for this furnishing set?',
+			'furnishingSetsPage.favoredBy' => 'Favored By',
+			'furnishingSetsPage.addedToBookmarks' => 'Added to Bookmarks',
+			'furnishingSetsPage.removedFromBookmarks' => 'Removed from Bookmarks',
+			'furnishingSetsPage.furnishingSetsUsingThisFurnishing' => 'Furnishing Sets Using This Furnishing',
+			'dailyPage.mondayAndThursday' => 'Mon/Thu',
+			'dailyPage.tuesdayAndFriday' => 'Tue/Fri',
+			'dailyPage.wednesdayAndSaturday' => 'Wed/Sat',
+			'dailyPage.talentMaterials' => 'Talent Materials',
+			'dailyPage.weaponMaterials' => 'Weapon Materials',
+			'resinCalcPage.currentResin' => 'Current Resin',
+			'resinCalcPage.resin' => 'Resin',
+			'resinCalcPage.recoveryTime' => 'Recovered At',
+			'resinCalcPage.untilRecovery' => 'Recover In',
+			'resinCalcPage.fullyReplenishedAt' => ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [ text('fully replenished at'), const TextSpan(text: ' '), time, ]), 
+			'resinCalcPage.recoversIn' => ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [ time, const TextSpan(text: ' '), text('left'), ]), 
+			'resinCalcPage.asOf' => ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [ const TextSpan(text: '('), text('as of'), const TextSpan(text: ' '), time, const TextSpan(text: ')'), ]), 
+			'resinCalcPage.recoveredTime' => 'Recovered Time',
+			'resinCalcPage.wastedResin' => 'Wasted Resin',
+			'resinCalcPage.tomorrow' => 'Tomorrow',
+			'resinCalcPage.alreadyFull' => 'Already fully recovered',
+			'resinCalcPage.howToUse' => 'How to Use',
+			'resinCalcPage.howToUseContent' => 'Enter your current resin count to calculate the time when your resin will be fully recovered and the time remaining until full recovery based on the time you entered.\nBy linking with ${_root.pages.hoyolabIntegrationSettings}, you can synchronize your current resin count. If you use this feature, please note that "${_root.resinCalcPage.recoveredTime}" and "${_root.resinCalcPage.wastedResin}" will not be accurately calculated if you have not synchronized after using resin for the last time or recovering it with items, etc.\n',
+			'morePage.accountDesc' => 'You can sync bookmarks etc. between devices.',
+			'morePage.hoyolabIntegrationSettingsDesc' => 'Link with HoYoLAB to sync in-game data',
+			'morePage.github' => 'GitHub',
+			'morePage.githubDesc' => 'View the source code, report issues, and contribute.',
+			'morePage.buyMeACoffee' => 'Buy Me a Coffee',
+			'morePage.buyMeACoffeeDesc' => 'Support the developer by buying a coffee.',
+			'morePage.x' => 'X (for announcements)',
+			'morePage.xDesc' => 'Notices related to this app are posted here.',
+			'releaseNotesPage.featureUpdates' => 'Feature Updates',
+			'releaseNotesPage.assetUpdates' => 'Asset Updates',
+			'settingsPage.display' => 'Display',
+			'settingsPage.showItemNameOnCard' => 'Show Item Name on Card',
+			'settingsPage.showItemNameOnCardDesc' => 'Show the item name on the card that displays the number of uses.',
+			'settingsPage.dailyResetServer' => 'Daily Material Server Time',
+			'settingsPage.dailyResetServerDesc' => 'Select the game server to use as the reference time for daily materials reset.',
+			'settingsPage.farmCountSettingsDesc' => 'Set the configs like AR for calculating the farming count.',
+			'settingsPage.assetData' => 'Assets',
+			'settingsPage.checkAssetUpdate' => 'Check Asset Update',
+			'settingsPage.checkAssetUpdateDesc' => 'Check for updates to the app\'s assets.',
+			'settingsPage.reDownloadAssets' => 'Re-download Assets',
+			'settingsPage.reDownloadAssetsDesc' => 'Please try this if the assets of the app are not loading properly.',
+			'settingsPage.openSourceLicenses' => 'Open Source Licenses',
+			'farmCountSettingsPage.showFarmCount' => 'Show Farming Count',
+			'farmCountSettingsPage.adventureRank' => 'Adventure Rank',
+			'farmCountSettingsPage.skipRate' => 'Multiplier for using Condensed Resin etc.',
+			'farmCountSettingsPage.dropRateList' => 'Drop Rate List',
+			'farmCountSettingsPage.kind' => 'Type',
+			'farmCountSettingsPage.rate' => 'Drop Rate (items/run)',
+			'farmCountSettingsPage.note' => 'Note',
+			'farmCountSettingsPage.multiplier' => ({required Object n}) => '${n} x',
+			'farmCountSettingsPage.noUseCondensed' => '(Not using Condensed Resin)',
+			'hoyolab.signIn' => 'Sign in to HoYoLAB',
+			'hoyolab.aboutHeading' => 'About HoYoLAB Link',
+			'hoyolab.about' => 'By logging in to your HoYoLAB account within this app, you can use the app more conveniently. For example, you can reflect the number of items in your bag, the level of characters and weapons, etc.\nHoYoLAB authentication information and UID are securely stored on the device and are designed to interact directly with the HoYoLAB API. This data will not sent to me or any other external source. The transparency of the data flow and storage methods is guaranteed by the open source of this app.\n* This feature is only available in the global version (HoYoLAB). It is not available in the mainland China version (Miyoushe).\n* If any problems occur with your account due to the use of this feature, the developer of this app cannot be held responsible, so please be aware of this.\n',
+			'hoyolab.signOut' => 'Sign out from HoYoLAB',
+			'hoyolab.signInNote' => '* Social login is not supported. You need to sign in with your email/username and password.',
+			'hoyolab.failedToSignIn' => 'Failed to sign in to HoYoLAB',
+			'hoyolab.signOutConfirm' => 'Unlink HoYoLAB?',
+			'hoyolab.credentialVerificationFailed' => 'Failed to verify login information. Please sign in again.',
+			'hoyolab.changeServer' => 'Change server',
+			'hoyolab.serverSelect' => 'Server select',
+			'hoyolab.current' => ({required Object server}) => 'Current: ${server}',
+			'hoyolab.noServerSelected' => 'No server selected',
+			'hoyolab.plsSelectServer' => 'Please select a server',
+			'hoyolab.userInfo' => 'User Info',
+			'hoyolab.failedToLoadServerList' => 'Failed to load server list.',
+			'hoyolab.failedToLoadGameRole' => 'Failed to load game user info.',
+			'hoyolab.noGameRoleFound' => 'No game user found.',
+			'hoyolab.failedToSyncGameData' => 'Failed to sync game data.',
+			'hoyolab.failedToLoadPermissionState' => 'Failed to load permission state.',
+			'hoyolab.characterDataAccessNotAllowed' => 'Character data access is not allowed. Please allow access from HoYoLAB integration settings.',
+			'hoyolab.characterDoesNotExist' => 'You do not own this character.',
+			'hoyolab.realtimeNotesNotEnabled' => 'Real-time notes are not enabled. Please enable it in the HoYoLAB integration settings.',
+			'hoyolab.loginExpired' => 'Please sign out and sign in again.',
+			'hoyolab.accessPermission' => 'Access Permission',
+			'hoyolab.doYouWantToEnableRealtimeNotes' => 'Enable Real-Time Notes?',
+			'hoyolab.enableRealtimeNotes' => 'Enable Real-Time Notes',
+			'hoyolab.enableRealtimeNotesDesc' => 'You will be able to sync your current Original Resin count.',
+			'hoyolab.syncSettings' => 'Sync Settings',
+			'hoyolab.syncResin' => 'Sync resin count',
+			'hoyolab.syncCharaState' => 'Sync character levels',
+			'hoyolab.syncWeaponState' => 'Sync weapon levels',
+			'hoyolab.syncBagLackNums' => 'Sync bag shortage numbers',
+			'hoyolab.autoRemoveBookmarks' => 'Auto remove bookmarks',
+			'hoyolab.autoRemoveBookmarksDesc' => 'Automatically remove bookmarks for completed ascensions when opening a character or weapon page.',
+			'hoyolab.mustBeResonatedWithStatue' => 'This character must be resonated with the Statue of The Seven to be able to sync game data.',
+			'hoyolab.weaponNotEquipped' => 'This character does not equip this weapon.',
+			'hoyolab.unknownError' => 'An unknown error occurred.',
+			'hoyolab.charaSyncSuccess' => 'Successfully synced game data',
+			'whereToGet.chests' => 'Chests, Quests',
+			_ => null,
+		};
 	}
 }
-

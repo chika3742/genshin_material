@@ -10,11 +10,11 @@ part of 'asset_updating_state.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(AssetUpdatingStateNotifier)
-const assetUpdatingStateProvider = AssetUpdatingStateNotifierProvider._();
+final assetUpdatingStateProvider = AssetUpdatingStateNotifierProvider._();
 
 final class AssetUpdatingStateNotifierProvider
     extends $NotifierProvider<AssetUpdatingStateNotifier, AssetUpdatingState> {
-  const AssetUpdatingStateNotifierProvider._()
+  AssetUpdatingStateNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -50,7 +50,6 @@ abstract class _$AssetUpdatingStateNotifier
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AssetUpdatingState, AssetUpdatingState>;
     final element =
         ref.element
@@ -60,6 +59,6 @@ abstract class _$AssetUpdatingStateNotifier
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

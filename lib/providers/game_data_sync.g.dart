@@ -10,11 +10,11 @@ part of 'game_data_sync.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(GameDataSyncCached)
-const gameDataSyncCachedProvider = GameDataSyncCachedFamily._();
+final gameDataSyncCachedProvider = GameDataSyncCachedFamily._();
 
 final class GameDataSyncCachedProvider
     extends $AsyncNotifierProvider<GameDataSyncCached, GameDataSyncResult?> {
-  const GameDataSyncCachedProvider._({
+  GameDataSyncCachedProvider._({
     required GameDataSyncCachedFamily super.from,
     required ({String variantId, String? weaponId}) super.argument,
   }) : super(
@@ -62,7 +62,7 @@ final class GameDataSyncCachedFamily extends $Family
           FutureOr<GameDataSyncResult?>,
           ({String variantId, String? weaponId})
         > {
-  const GameDataSyncCachedFamily._()
+  GameDataSyncCachedFamily._()
     : super(
         retry: null,
         name: r'gameDataSyncCachedProvider',
@@ -96,10 +96,6 @@ abstract class _$GameDataSyncCached
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(
-      variantId: _$args.variantId,
-      weaponId: _$args.weaponId,
-    );
     final ref =
         this.ref as $Ref<AsyncValue<GameDataSyncResult?>, GameDataSyncResult?>;
     final element =
@@ -110,12 +106,15 @@ abstract class _$GameDataSyncCached
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(
+      ref,
+      () => build(variantId: _$args.variantId, weaponId: _$args.weaponId),
+    );
   }
 }
 
 @ProviderFor(_gameDataSync)
-const _gameDataSyncProvider = _GameDataSyncFamily._();
+final _gameDataSyncProvider = _GameDataSyncFamily._();
 
 final class _GameDataSyncProvider
     extends
@@ -127,7 +126,7 @@ final class _GameDataSyncProvider
     with
         $FutureModifier<GameDataSyncResult>,
         $FutureProvider<GameDataSyncResult> {
-  const _GameDataSyncProvider._({
+  _GameDataSyncProvider._({
     required _GameDataSyncFamily super.from,
     required ({String variantId, String? weaponId}) super.argument,
   }) : super(
@@ -183,7 +182,7 @@ final class _GameDataSyncFamily extends $Family
           FutureOr<GameDataSyncResult>,
           ({String variantId, String? weaponId})
         > {
-  const _GameDataSyncFamily._()
+  _GameDataSyncFamily._()
     : super(
         retry: null,
         name: r'_gameDataSyncProvider',
@@ -203,7 +202,7 @@ final class _GameDataSyncFamily extends $Family
 }
 
 @ProviderFor(bagLackNum)
-const bagLackNumProvider = BagLackNumFamily._();
+final bagLackNumProvider = BagLackNumFamily._();
 
 final class BagLackNumProvider
     extends
@@ -215,7 +214,7 @@ final class BagLackNumProvider
     with
         $FutureModifier<Map<String, int>?>,
         $FutureProvider<Map<String, int>?> {
-  const BagLackNumProvider._({
+  BagLackNumProvider._({
     required BagLackNumFamily super.from,
     required List<GameDataSyncCharacter> super.argument,
   }) : super(
@@ -267,7 +266,7 @@ final class BagLackNumFamily extends $Family
           FutureOr<Map<String, int>?>,
           List<GameDataSyncCharacter>
         > {
-  const BagLackNumFamily._()
+  BagLackNumFamily._()
     : super(
         retry: null,
         name: r'bagLackNumProvider',
@@ -284,7 +283,7 @@ final class BagLackNumFamily extends $Family
 }
 
 @ProviderFor(gameDataSyncState)
-const gameDataSyncStateProvider = GameDataSyncStateFamily._();
+final gameDataSyncStateProvider = GameDataSyncStateFamily._();
 
 final class GameDataSyncStateProvider
     extends
@@ -294,7 +293,7 @@ final class GameDataSyncStateProvider
           GameDataSyncStatus?
         >
     with $Provider<GameDataSyncStatus?> {
-  const GameDataSyncStateProvider._({
+  GameDataSyncStateProvider._({
     required GameDataSyncStateFamily super.from,
     required ({String variantId, String? weaponId}) super.argument,
   }) : super(
@@ -358,7 +357,7 @@ final class GameDataSyncStateFamily extends $Family
           GameDataSyncStatus?,
           ({String variantId, String? weaponId})
         > {
-  const GameDataSyncStateFamily._()
+  GameDataSyncStateFamily._()
     : super(
         retry: null,
         name: r'gameDataSyncStateProvider',
@@ -380,11 +379,11 @@ final class GameDataSyncStateFamily extends $Family
 }
 
 @ProviderFor(ResinSyncStateNotifier)
-const resinSyncStateProvider = ResinSyncStateNotifierProvider._();
+final resinSyncStateProvider = ResinSyncStateNotifierProvider._();
 
 final class ResinSyncStateNotifierProvider
     extends $NotifierProvider<ResinSyncStateNotifier, GameDataSyncStatus> {
-  const ResinSyncStateNotifierProvider._()
+  ResinSyncStateNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -419,7 +418,6 @@ abstract class _$ResinSyncStateNotifier extends $Notifier<GameDataSyncStatus> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<GameDataSyncStatus, GameDataSyncStatus>;
     final element =
         ref.element
@@ -429,6 +427,6 @@ abstract class _$ResinSyncStateNotifier extends $Notifier<GameDataSyncStatus> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
