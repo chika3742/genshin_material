@@ -10,11 +10,11 @@ part of 'preferences.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(PreferencesStateNotifier)
-const preferencesStateProvider = PreferencesStateNotifierProvider._();
+final preferencesStateProvider = PreferencesStateNotifierProvider._();
 
 final class PreferencesStateNotifierProvider
     extends $NotifierProvider<PreferencesStateNotifier, PreferencesState> {
-  const PreferencesStateNotifierProvider._()
+  PreferencesStateNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -49,7 +49,6 @@ abstract class _$PreferencesStateNotifier extends $Notifier<PreferencesState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<PreferencesState, PreferencesState>;
     final element =
         ref.element
@@ -59,6 +58,6 @@ abstract class _$PreferencesStateNotifier extends $Notifier<PreferencesState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

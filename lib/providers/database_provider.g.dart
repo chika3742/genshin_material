@@ -10,12 +10,12 @@ part of 'database_provider.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(appDatabase)
-const appDatabaseProvider = AppDatabaseProvider._();
+final appDatabaseProvider = AppDatabaseProvider._();
 
 final class AppDatabaseProvider
     extends $FunctionalProvider<AppDatabase, AppDatabase, AppDatabase>
     with $Provider<AppDatabase> {
-  const AppDatabaseProvider._()
+  AppDatabaseProvider._()
     : super(
         from: null,
         argument: null,
@@ -51,7 +51,7 @@ final class AppDatabaseProvider
 String _$appDatabaseHash() => r'949aad4bd88cefe20d76eb16900b182b5fcb494c';
 
 @ProviderFor(bookmarks)
-const bookmarksProvider = BookmarksFamily._();
+final bookmarksProvider = BookmarksFamily._();
 
 final class BookmarksProvider
     extends
@@ -63,7 +63,7 @@ final class BookmarksProvider
     with
         $FutureModifier<List<BookmarkWithDetails>>,
         $StreamProvider<List<BookmarkWithDetails>> {
-  const BookmarksProvider._({
+  BookmarksProvider._({
     required BookmarksFamily super.from,
     required ({
       String? groupHash,
@@ -135,7 +135,7 @@ final class BookmarksFamily extends $Family
             ({bool hasWeapon, String? materialId})? materialFilter,
           })
         > {
-  const BookmarksFamily._()
+  BookmarksFamily._()
     : super(
         retry: null,
         name: r'bookmarksProvider',
@@ -162,7 +162,7 @@ final class BookmarksFamily extends $Family
 }
 
 @ProviderFor(bookmarkOrder)
-const bookmarkOrderProvider = BookmarkOrderProvider._();
+final bookmarkOrderProvider = BookmarkOrderProvider._();
 
 final class BookmarkOrderProvider
     extends
@@ -172,7 +172,7 @@ final class BookmarkOrderProvider
           Stream<List<String>>
         >
     with $FutureModifier<List<String>>, $StreamProvider<List<String>> {
-  const BookmarkOrderProvider._()
+  BookmarkOrderProvider._()
     : super(
         from: null,
         argument: null,

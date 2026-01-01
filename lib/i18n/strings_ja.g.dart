@@ -3,12 +3,13 @@
 ///
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
+// dart format off
 
 part of 'strings.g.dart';
 
 // Path: <root>
 typedef TranslationsJa = Translations; // ignore: unused_element
-class Translations implements BaseTranslations<AppLocale, Translations> {
+class Translations with BaseTranslations<AppLocale, Translations> {
 	/// Returns the current translations of the given [context].
 	///
 	/// Usage:
@@ -1024,293 +1025,255 @@ class TranslationsSearchTargetsJa {
 /// so the map is split into smaller functions (512 entries each).
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
-		return _flatMapFunction$0(path);
-	}
-
-	dynamic _flatMapFunction$0(String path) {
-		switch (path) {
-			case 'appName': return '原神素材ノート';
-			case 'common.ok': return 'OK';
-			case 'common.cancel': return 'キャンセル';
-			case 'common.signOut': return 'サインアウト';
-			case 'common.tos': return '利用規約';
-			case 'common.privacyPolicy': return 'プライバシーポリシー';
-			case 'common.error': return 'エラーが発生しました。';
-			case 'common.goalLevel': return '目標レベル';
-			case 'common.currentLevel': return '現在レベル';
-			case 'common.index': return '目次';
-			case 'common.seconds': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
-				n: n,
-				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
-				other: () => TextSpan(children: [
-					nBuilder(n),
-					unit('秒'),
-				]),
-			);
-			case 'common.minutes': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
-				n: n,
-				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
-				other: () => TextSpan(children: [
-					nBuilder(n),
-					unit('分'),
-				]),
-			);
-			case 'common.hours': return ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge(
-				n: n,
-				resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'),
-				other: () => TextSpan(children: [
-					nBuilder(n),
-					unit('時間'),
-				]),
-			);
-			case 'common.element': return '元素';
-			case 'common.rarity': return 'レアリティ';
-			case 'common.weaponType': return '武器種';
-			case 'common.clear': return 'クリア';
-			case 'common.save': return '保存';
-			case 'common.next': return '次へ';
-			case 'common.change': return '変更';
-			case 'common.pleaseSelect': return '選択してください';
-			case 'common.sort': return '並べ替え';
-			case 'common.sortType': return '並べ替え方法';
-			case 'common.sortTypes.defaultSort': return 'デフォルト';
-			case 'common.sortTypes.name': return '名前順';
-			case 'common.sortTypes.element': return '元素順';
-			case 'common.sortTypes.rarity': return 'レアリティ順';
-			case 'common.undo': return '元に戻す';
-			case 'common.bookmarkSaved': return 'ブックマークしました';
-			case 'common.removedObsoleteBookmarks': return '育成完了のブックマークを解除しました';
-			case 'common.none': return 'なし';
-			case 'common.sliderTips': return 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
-			case 'common.selected': return ({required Object character}) => '選択中: ${character}';
-			case 'common.possession': return '所持';
-			case 'common.possessionStatus.owned': return '所持';
-			case 'common.possessionStatus.notOwned': return '未所持';
-			case 'common.possessionNoteNotSignedIn': return 'HoYoLABと連携すると、所持状況を同期できます。';
-			case 'common.possessionNote': return '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。';
-			case 'common.dismiss': return '閉じる';
-			case 'search.hint': return ({required Object target}) => '${target}を検索...';
-			case 'search.noResults': return '検索結果が見つかりません';
-			case 'search.targets.characters': return 'キャラクター';
-			case 'search.targets.weapons': return '武器';
-			case 'search.targets.materials': return '素材';
-			case 'search.targets.artifactSets': return '聖遺物セット';
-			case 'search.targets.artifactPieces': return '聖遺物部位';
-			case 'search.targets.furnishingSets': return '調度品セット';
-			case 'search.targets.furnishings': return '調度品';
-			case 'tutorial.indexSheet': return '目次の表示';
-			case 'tutorial.indexSheetDesc': return 'このボタンをタップすると、お探しの項目へ素早く移動できます。';
-			case 'purposes.ascension': return 'Lvアップ・突破';
-			case 'purposes.normalAttack': return '通常攻撃';
-			case 'purposes.elementalSkill': return '元素スキル';
-			case 'purposes.elementalBurst': return '元素爆発';
-			case 'talentTypes.normalAttack': return '通常攻撃';
-			case 'talentTypes.elementalSkill': return '元素スキル';
-			case 'talentTypes.elementalBurst': return '元素爆発';
-			case 'updates.downloading': return 'データ更新をダウンロードしています…';
-			case 'updates.failedToLoad': return 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。';
-			case 'updates.failedToDownload': return 'データ更新のダウンロードに失敗しました。';
-			case 'updates.failedToInstall': return 'データ更新のインストールに失敗しました。';
-			case 'updates.failedToCheck': return 'データ更新の確認に失敗しました。';
-			case 'updates.schemaVersionMismatch': return 'アプリを最新版にアップデートしてください。';
-			case 'updates.noCompatibleAsset': return 'アプリを最新版にアップデートしてください。';
-			case 'updates.noInternet': return 'インターネット接続をご確認ください。';
-			case 'updates.noUpdateAvailable': return 'アップデートはありません';
-			case 'updates.completed': return '更新が完了しました。';
-			case 'updates.installing': return 'インストールしています...';
-			case 'updates.pleaseWaitUntilComplete': return 'データ更新が完了するまでお待ちください。';
-			case 'errors.characterNotFound': return 'キャラクターが見つかりません';
-			case 'errors.weaponNotFound': return '武器が見つかりません';
-			case 'errors.materialNotFound': return '素材が見つかりません';
-			case 'errors.artifactNotFound': return '聖遺物が見つかりません';
-			case 'errors.tryAgainLater': return 'しばらくしてから再度お試しください。';
-			case 'errors.dbError': return 'データベースエラーが発生しました。';
-			case 'pages.characters': return 'キャラクター';
-			case 'pages.characterDetails': return ({required Object character}) => '${character} - キャラクター';
-			case 'pages.weapons': return '武器';
-			case 'pages.weaponDetails': return ({required Object weapon}) => '${weapon} - 武器';
-			case 'pages.materials': return '素材一覧(逆引き)';
-			case 'pages.materialDetails': return ({required Object material}) => '${material} - 素材';
-			case 'pages.artifacts': return '聖遺物';
-			case 'pages.artifactDetails': return ({required Object artifact}) => '${artifact} - 聖遺物';
-			case 'pages.furnishingSets': return '調度品セット';
-			case 'pages.furnishingSetDetails': return ({required Object furnishingSet}) => '${furnishingSet} - 調度品セット';
-			case 'pages.furnishings': return '調度品';
-			case 'pages.furnishingDetails': return ({required Object furnishing}) => '${furnishing} - 調度品';
-			case 'pages.settings': return '設定';
-			case 'pages.farmCountSettings': return '周回数目安の表示設定';
-			case 'pages.account': return 'アカウント';
-			case 'pages.releaseNotes': return '更新履歴';
-			case 'pages.bookmarks': return 'ブックマーク';
-			case 'pages.database': return 'データベース';
-			case 'pages.daily': return '日替わり素材';
-			case 'pages.tools': return 'ツール';
-			case 'pages.resinCalc': return '樹脂回復時刻計算機';
-			case 'pages.wishes': return '祈願天井カウンター';
-			case 'pages.more': return 'その他';
-			case 'pages.hoyolabIntegrationSettings': return 'HoYoLAB連携設定';
-			case 'bookmarksPage.noBookmarks': return 'ブックマークがありません。「データベース」タブから探してみましょう！';
-			case 'bookmarksPage.character': return 'キャラクター';
-			case 'bookmarksPage.weapon': return '武器';
-			case 'bookmarksPage.artifactSet': return '聖遺物セット';
-			case 'bookmarksPage.artifactPiece': return '聖遺物';
-			case 'bookmarksPage.main': return 'メイン';
-			case 'bookmarksPage.sub': return 'サブ';
-			case 'bookmarksPage.unBookmark': return 'ブックマークを解除';
-			case 'bookmarksPage.unBookmarkConfirm': return 'このブックマークを解除しますか？';
-			case 'bookmarksPage.byPurpose': return '使用先';
-			case 'bookmarksPage.byMaterial': return '素材';
-			case 'bookmarksPage.furnishings': return '調度品';
-			case 'bookmarksPage.allFurnishingsAreCrafted': return 'すべての調度品が作成済みです';
-			case 'characterDetailsPage.equippedWeapon': return '装備中の武器';
-			case 'characterDetailsPage.favoriteFurnishingSets': return '好きな調度品セット';
-			case 'weaponDetailsPage.characterToEquip': return '武器を装備させるキャラクター';
-			case 'weaponDetailsPage.skillEffect': return 'スキル効果';
-			case 'materialDetailsPage.charactersUsing': return 'この素材を使用するキャラクター';
-			case 'materialDetailsPage.weaponsUsing': return 'この素材を使用する武器';
-			case 'materialDetailsPage.availableToday': return '本日入手可能';
-			case 'materialDetailsPage.source': return '入手方法';
-			case 'materialDetailsPage.toTeyvatMap': return 'テイワットマップへ';
-			case 'materialCard.reBookmark': return '現在の範囲で再ブックマーク';
-			case 'materialCard.reBookmarkDesc': return '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします';
-			case 'materialCard.unBookmark': return 'ブックマークを解除';
-			case 'materialCard.unBookmarkDesc': return 'この素材のブックマークを解除します';
-			case 'materialCard.unBookmarked': return 'ブックマークを解除しました';
-			case 'artifactsPage.bonusTypes.1-pc': return '1セット効果';
-			case 'artifactsPage.bonusTypes.2-pc': return '2セット効果';
-			case 'artifactsPage.bonusTypes.4-pc': return '4セット効果';
-			case 'artifactsPage.effectList': return 'セット効果リスト';
-			case 'artifactsPage.kindOfEffect': return '効果の種類';
-			case 'artifactsPage.effectFilteringNote': return '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。';
-			case 'artifactDetailsPage.maxRarity': return '最高レアリティ';
-			case 'artifactDetailsPage.bookmarkSet': return 'セットをブックマーク';
-			case 'artifactDetailsPage.bookmarkPiece': return '部位ごとにブックマーク';
-			case 'artifactDetailsPage.bookmarkTwoAndTwoPcSet': return '2 + 2 セットをブックマーク';
-			case 'artifactDetailsPage.bookmarkFourPcSet': return '4 セットをブックマーク';
-			case 'artifactDetailsPage.bookmarkArtifacts': return '聖遺物をブックマーク';
-			case 'artifactDetailsPage.characterToEquip': return '聖遺物を装備させるキャラクター';
-			case 'artifactDetailsPage.chooseSecondSet': return '2個目のセットを選択';
-			case 'artifactDetailsPage.chooseSecondSetDesc': return '2個目の聖遺物セットを選択してください';
-			case 'artifactDetailsPage.mainStat': return 'メインステータス';
-			case 'artifactDetailsPage.mainStatWithPieceType': return ({required Object pieceType}) => '${_root.artifactDetailsPage.mainStat} (${pieceType})';
-			case 'artifactDetailsPage.subStats': return 'サブステータス';
-			case 'artifactDetailsPage.unspecified': return '指定しない';
-			case 'artifactDetailsPage.nSet': return ({required Object n}) => '${n}セット';
-			case 'furnishingSetsPage.furnishingList': return '調度品一覧';
-			case 'furnishingSetsPage.type': return '種類';
-			case 'furnishingSetsPage.image': return '画像';
-			case 'furnishingSetsPage.name': return '名前';
-			case 'furnishingSetsPage.requiredQuantity': return '必要数 (長押しで一括変更)';
-			case 'furnishingSetsPage.source': return '入手方法';
-			case 'furnishingSetsPage.canBeScrolledHorizontally': return '左右にスクロールできます';
-			case 'furnishingSetsPage.resetCraftCount': return '作成数をリセット';
-			case 'furnishingSetsPage.resetCraftCountConfirm': return 'セット内の調度品の作成数をすべてリセットしますか？';
-			case 'furnishingSetsPage.favoredBy': return 'この調度品セットが好きなキャラクター';
-			case 'furnishingSetsPage.addedToBookmarks': return 'ブックマークしました';
-			case 'furnishingSetsPage.removedFromBookmarks': return 'ブックマークを解除しました';
-			case 'furnishingSetsPage.furnishingSetsUsingThisFurnishing': return 'この調度品を使用する調度品セット';
-			case 'dailyPage.mondayAndThursday': return '月/木';
-			case 'dailyPage.tuesdayAndFriday': return '火/金';
-			case 'dailyPage.wednesdayAndSaturday': return '水/土';
-			case 'dailyPage.talentMaterials': return '天賦素材';
-			case 'dailyPage.weaponMaterials': return '武器素材';
-			case 'resinCalcPage.currentResin': return '現在の樹脂数';
-			case 'resinCalcPage.resin': return '樹脂数';
-			case 'resinCalcPage.recoveryTime': return '回復時刻';
-			case 'resinCalcPage.untilRecovery': return '回復まであと';
-			case 'resinCalcPage.fullyReplenishedAt': return ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
-				time,
-				text('に全回復'),
-			]);
-			case 'resinCalcPage.recoversIn': return ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [
-				text('あと'),
-				time,
-			]);
-			case 'resinCalcPage.asOf': return ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [
-				const TextSpan(text: '('),
-				time,
-				const TextSpan(text: ' '),
-				text('現在'),
-				const TextSpan(text: ')'),
-			]);
-			case 'resinCalcPage.recoveredTime': return '全回復した時刻';
-			case 'resinCalcPage.wastedResin': return '無駄にした樹脂';
-			case 'resinCalcPage.tomorrow': return '明日';
-			case 'resinCalcPage.alreadyFull': return 'すでに全回復しました';
-			case 'resinCalcPage.howToUse': return '使い方';
-			case 'resinCalcPage.howToUseContent': return '現在の樹脂数を入力すると、入力した地点での時間を基準に、樹脂が全回復する時刻と、全回復するまでの時間を計算します。\n${_root.pages.hoyolabIntegrationSettings}で連携すると、現在の樹脂数を同期できるようになります。この機能を利用する場合「${_root.resinCalcPage.recoveredTime}」「${_root.resinCalcPage.wastedResin}」は、最後に樹脂を使用もしくはアイテム等で回復してから一度も同期していなかった場合には、正確に算出されませんのでご了承ください。\n';
-			case 'morePage.accountDesc': return 'ブックマーク等をデバイス間で同期できます。';
-			case 'morePage.hoyolabIntegrationSettingsDesc': return 'HoYoLABと連携し、ゲーム内のデータと同期できます。';
-			case 'morePage.github': return 'GitHub';
-			case 'morePage.githubDesc': return '本アプリのソースコードを閲覧できます。';
-			case 'morePage.buyMeACoffee': return 'コーヒーをおごる';
-			case 'morePage.buyMeACoffeeDesc': return 'だいぶ喜びます。';
-			case 'morePage.x': return 'X（告知用）';
-			case 'morePage.xDesc': return '本アプリに関するお知らせを掲載しています。';
-			case 'releaseNotesPage.featureUpdates': return '機能更新';
-			case 'releaseNotesPage.assetUpdates': return 'データ更新';
-			case 'settingsPage.display': return '表示';
-			case 'settingsPage.showItemNameOnCard': return '素材のアイテム名を表示';
-			case 'settingsPage.showItemNameOnCardDesc': return '使用数を表示するカードにアイテム名を表示します。';
-			case 'settingsPage.dailyResetServer': return '日替わり素材のサーバー時間';
-			case 'settingsPage.dailyResetServerDesc': return '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。';
-			case 'settingsPage.farmCountSettingsDesc': return '表示に使用する冒険ランクなどを設定できます。';
-			case 'settingsPage.assetData': return 'アセットデータ';
-			case 'settingsPage.checkAssetUpdate': return 'アセットデータの更新を確認';
-			case 'settingsPage.checkAssetUpdateDesc': return 'アプリ内データのアップデートをチェックします。';
-			case 'settingsPage.reDownloadAssets': return 'アセットデータを再ダウンロード';
-			case 'settingsPage.reDownloadAssetsDesc': return 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。';
-			case 'settingsPage.openSourceLicenses': return 'オープンソースライセンス';
-			case 'farmCountSettingsPage.showFarmCount': return '周回目安回数を表示する';
-			case 'farmCountSettingsPage.adventureRank': return '冒険ランク';
-			case 'farmCountSettingsPage.skipRate': return '濃縮樹脂等使用時の獲得数の倍率';
-			case 'farmCountSettingsPage.dropRateList': return 'ドロップ率一覧';
-			case 'farmCountSettingsPage.kind': return '種類';
-			case 'farmCountSettingsPage.rate': return 'ドロップ率（個/回）';
-			case 'farmCountSettingsPage.note': return '備考';
-			case 'farmCountSettingsPage.multiplier': return ({required Object n}) => '${n}倍';
-			case 'farmCountSettingsPage.noUseCondensed': return '（濃縮樹脂を使用しない）';
-			case 'hoyolab.signIn': return 'HoYoLABにサインイン';
-			case 'hoyolab.aboutHeading': return 'HoYoLAB連携について';
-			case 'hoyolab.about': return '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。\n\nHoYoLABの認証情報、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。私も含め、それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。\n\n※本機能はグローバル版（HoYoLAB）でのみ利用可能です。中国本土版（米游社）には対応していません。\n※万が一本機能の利用によってアカウントに何らかの問題が生じた場合、本アプリの開発者は一切の責任を負いかねますので、ご了承ください。\n';
-			case 'hoyolab.signOut': return 'HoYoLABとの連携を解除';
-			case 'hoyolab.signInNote': return '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。';
-			case 'hoyolab.failedToSignIn': return 'HoYoLABへのサインインに失敗しました。';
-			case 'hoyolab.signOutConfirm': return 'HoYoLABとの連携を解除しますか？';
-			case 'hoyolab.credentialVerificationFailed': return 'ログイン情報の検証に失敗しました。再度ログインしてください。';
-			case 'hoyolab.changeServer': return 'サーバーの変更';
-			case 'hoyolab.serverSelect': return 'サーバー選択';
-			case 'hoyolab.current': return ({required Object server}) => '現在の設定: ${server}';
-			case 'hoyolab.noServerSelected': return 'サーバーが選択されていません';
-			case 'hoyolab.plsSelectServer': return 'サーバーを選択してください';
-			case 'hoyolab.userInfo': return 'ユーザー情報';
-			case 'hoyolab.failedToLoadServerList': return 'サーバーリストの読み込みに失敗しました。';
-			case 'hoyolab.failedToLoadGameRole': return 'ゲームデータの読み込みに失敗しました。';
-			case 'hoyolab.noGameRoleFound': return 'ゲームデータが見つかりません';
-			case 'hoyolab.failedToSyncGameData': return 'ゲームデータの同期に失敗しました。';
-			case 'hoyolab.failedToLoadPermissionState': return 'アクセス許可状態の取得に失敗しました。';
-			case 'hoyolab.characterDataAccessNotAllowed': return 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。';
-			case 'hoyolab.characterDoesNotExist': return 'キャラクターを所持していません。';
-			case 'hoyolab.realtimeNotesNotEnabled': return 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。';
-			case 'hoyolab.loginExpired': return '一度連携を解除し、再度ログインしてください。';
-			case 'hoyolab.accessPermission': return 'アクセス許可';
-			case 'hoyolab.doYouWantToEnableRealtimeNotes': return 'リアルタイムノートを有効化しますか？';
-			case 'hoyolab.enableRealtimeNotes': return 'リアルタイムノートの有効化';
-			case 'hoyolab.enableRealtimeNotesDesc': return '現在の天然樹脂の数を同期できるようになります。';
-			case 'hoyolab.syncSettings': return '同期設定';
-			case 'hoyolab.syncResin': return 'ゲーム内の樹脂数を同期する';
-			case 'hoyolab.syncCharaState': return 'ゲーム内のキャラレベルを同期する';
-			case 'hoyolab.syncWeaponState': return 'ゲーム内の武器レベルを同期する';
-			case 'hoyolab.syncBagLackNums': return 'ゲーム内のバッグ不足数を同期する';
-			case 'hoyolab.autoRemoveBookmarks': return '育成完了のブックマークを自動解除する';
-			case 'hoyolab.autoRemoveBookmarksDesc': return 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。';
-			case 'hoyolab.mustBeResonatedWithStatue': return '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。';
-			case 'hoyolab.weaponNotEquipped': return 'このキャラクターはこの武器を装備していません。';
-			case 'hoyolab.unknownError': return '不明なエラーが発生しました。';
-			case 'hoyolab.charaSyncSuccess': return 'ゲームデータと同期しました';
-			case 'whereToGet.chests': return '宝箱、任務報酬など';
-			default: return null;
-		}
+		return switch (path) {
+			'appName' => '原神素材ノート',
+			'common.ok' => 'OK',
+			'common.cancel' => 'キャンセル',
+			'common.signOut' => 'サインアウト',
+			'common.tos' => '利用規約',
+			'common.privacyPolicy' => 'プライバシーポリシー',
+			'common.error' => 'エラーが発生しました。',
+			'common.goalLevel' => '目標レベル',
+			'common.currentLevel' => '現在レベル',
+			'common.index' => '目次',
+			'common.seconds' => ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge( n: n, resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'), other: () => TextSpan(children: [ nBuilder(n), unit('秒'), ]), ), 
+			'common.minutes' => ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge( n: n, resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'), other: () => TextSpan(children: [ nBuilder(n), unit('分'), ]), ), 
+			'common.hours' => ({required num n, required InlineSpan Function(num) nBuilder, required InlineSpanBuilder unit}) => RichPluralResolvers.bridge( n: n, resolver: _root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'), other: () => TextSpan(children: [ nBuilder(n), unit('時間'), ]), ), 
+			'common.element' => '元素',
+			'common.rarity' => 'レアリティ',
+			'common.weaponType' => '武器種',
+			'common.clear' => 'クリア',
+			'common.save' => '保存',
+			'common.next' => '次へ',
+			'common.change' => '変更',
+			'common.pleaseSelect' => '選択してください',
+			'common.sort' => '並べ替え',
+			'common.sortType' => '並べ替え方法',
+			'common.sortTypes.defaultSort' => 'デフォルト',
+			'common.sortTypes.name' => '名前順',
+			'common.sortTypes.element' => '元素順',
+			'common.sortTypes.rarity' => 'レアリティ順',
+			'common.undo' => '元に戻す',
+			'common.bookmarkSaved' => 'ブックマークしました',
+			'common.removedObsoleteBookmarks' => '育成完了のブックマークを解除しました',
+			'common.none' => 'なし',
+			'common.sliderTips' => 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。',
+			'common.selected' => ({required Object character}) => '選択中: ${character}',
+			'common.possession' => '所持',
+			'common.possessionStatus.owned' => '所持',
+			'common.possessionStatus.notOwned' => '未所持',
+			'common.possessionNoteNotSignedIn' => 'HoYoLABと連携すると、所持状況を同期できます。',
+			'common.possessionNote' => '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。',
+			'common.dismiss' => '閉じる',
+			'search.hint' => ({required Object target}) => '${target}を検索...',
+			'search.noResults' => '検索結果が見つかりません',
+			'search.targets.characters' => 'キャラクター',
+			'search.targets.weapons' => '武器',
+			'search.targets.materials' => '素材',
+			'search.targets.artifactSets' => '聖遺物セット',
+			'search.targets.artifactPieces' => '聖遺物部位',
+			'search.targets.furnishingSets' => '調度品セット',
+			'search.targets.furnishings' => '調度品',
+			'tutorial.indexSheet' => '目次の表示',
+			'tutorial.indexSheetDesc' => 'このボタンをタップすると、お探しの項目へ素早く移動できます。',
+			'purposes.ascension' => 'Lvアップ・突破',
+			'purposes.normalAttack' => '通常攻撃',
+			'purposes.elementalSkill' => '元素スキル',
+			'purposes.elementalBurst' => '元素爆発',
+			'talentTypes.normalAttack' => '通常攻撃',
+			'talentTypes.elementalSkill' => '元素スキル',
+			'talentTypes.elementalBurst' => '元素爆発',
+			'updates.downloading' => 'データ更新をダウンロードしています…',
+			'updates.failedToLoad' => 'データの読み込みに失敗しました。「設定」→「アセットデータを再ダウンロード」から再ダウンロードをお試しください。',
+			'updates.failedToDownload' => 'データ更新のダウンロードに失敗しました。',
+			'updates.failedToInstall' => 'データ更新のインストールに失敗しました。',
+			'updates.failedToCheck' => 'データ更新の確認に失敗しました。',
+			'updates.schemaVersionMismatch' => 'アプリを最新版にアップデートしてください。',
+			'updates.noCompatibleAsset' => 'アプリを最新版にアップデートしてください。',
+			'updates.noInternet' => 'インターネット接続をご確認ください。',
+			'updates.noUpdateAvailable' => 'アップデートはありません',
+			'updates.completed' => '更新が完了しました。',
+			'updates.installing' => 'インストールしています...',
+			'updates.pleaseWaitUntilComplete' => 'データ更新が完了するまでお待ちください。',
+			'errors.characterNotFound' => 'キャラクターが見つかりません',
+			'errors.weaponNotFound' => '武器が見つかりません',
+			'errors.materialNotFound' => '素材が見つかりません',
+			'errors.artifactNotFound' => '聖遺物が見つかりません',
+			'errors.tryAgainLater' => 'しばらくしてから再度お試しください。',
+			'errors.dbError' => 'データベースエラーが発生しました。',
+			'pages.characters' => 'キャラクター',
+			'pages.characterDetails' => ({required Object character}) => '${character} - キャラクター',
+			'pages.weapons' => '武器',
+			'pages.weaponDetails' => ({required Object weapon}) => '${weapon} - 武器',
+			'pages.materials' => '素材一覧(逆引き)',
+			'pages.materialDetails' => ({required Object material}) => '${material} - 素材',
+			'pages.artifacts' => '聖遺物',
+			'pages.artifactDetails' => ({required Object artifact}) => '${artifact} - 聖遺物',
+			'pages.furnishingSets' => '調度品セット',
+			'pages.furnishingSetDetails' => ({required Object furnishingSet}) => '${furnishingSet} - 調度品セット',
+			'pages.furnishings' => '調度品',
+			'pages.furnishingDetails' => ({required Object furnishing}) => '${furnishing} - 調度品',
+			'pages.settings' => '設定',
+			'pages.farmCountSettings' => '周回数目安の表示設定',
+			'pages.account' => 'アカウント',
+			'pages.releaseNotes' => '更新履歴',
+			'pages.bookmarks' => 'ブックマーク',
+			'pages.database' => 'データベース',
+			'pages.daily' => '日替わり素材',
+			'pages.tools' => 'ツール',
+			'pages.resinCalc' => '樹脂回復時刻計算機',
+			'pages.wishes' => '祈願天井カウンター',
+			'pages.more' => 'その他',
+			'pages.hoyolabIntegrationSettings' => 'HoYoLAB連携設定',
+			'bookmarksPage.noBookmarks' => 'ブックマークがありません。「データベース」タブから探してみましょう！',
+			'bookmarksPage.character' => 'キャラクター',
+			'bookmarksPage.weapon' => '武器',
+			'bookmarksPage.artifactSet' => '聖遺物セット',
+			'bookmarksPage.artifactPiece' => '聖遺物',
+			'bookmarksPage.main' => 'メイン',
+			'bookmarksPage.sub' => 'サブ',
+			'bookmarksPage.unBookmark' => 'ブックマークを解除',
+			'bookmarksPage.unBookmarkConfirm' => 'このブックマークを解除しますか？',
+			'bookmarksPage.byPurpose' => '使用先',
+			'bookmarksPage.byMaterial' => '素材',
+			'bookmarksPage.furnishings' => '調度品',
+			'bookmarksPage.allFurnishingsAreCrafted' => 'すべての調度品が作成済みです',
+			'characterDetailsPage.equippedWeapon' => '装備中の武器',
+			'characterDetailsPage.favoriteFurnishingSets' => '好きな調度品セット',
+			'weaponDetailsPage.characterToEquip' => '武器を装備させるキャラクター',
+			'weaponDetailsPage.skillEffect' => 'スキル効果',
+			'materialDetailsPage.charactersUsing' => 'この素材を使用するキャラクター',
+			'materialDetailsPage.weaponsUsing' => 'この素材を使用する武器',
+			'materialDetailsPage.availableToday' => '本日入手可能',
+			'materialDetailsPage.source' => '入手方法',
+			'materialDetailsPage.toTeyvatMap' => 'テイワットマップへ',
+			'materialCard.reBookmark' => '現在の範囲で再ブックマーク',
+			'materialCard.reBookmarkDesc' => '一旦この素材のブックマークを解除し、現在のスライダーの範囲で再度ブックマークします',
+			'materialCard.unBookmark' => 'ブックマークを解除',
+			'materialCard.unBookmarkDesc' => 'この素材のブックマークを解除します',
+			'materialCard.unBookmarked' => 'ブックマークを解除しました',
+			'artifactsPage.bonusTypes.1-pc' => '1セット効果',
+			'artifactsPage.bonusTypes.2-pc' => '2セット効果',
+			'artifactsPage.bonusTypes.4-pc' => '4セット効果',
+			'artifactsPage.effectList' => 'セット効果リスト',
+			'artifactsPage.kindOfEffect' => '効果の種類',
+			'artifactsPage.effectFilteringNote' => '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。',
+			'artifactDetailsPage.maxRarity' => '最高レアリティ',
+			'artifactDetailsPage.bookmarkSet' => 'セットをブックマーク',
+			'artifactDetailsPage.bookmarkPiece' => '部位ごとにブックマーク',
+			'artifactDetailsPage.bookmarkTwoAndTwoPcSet' => '2 + 2 セットをブックマーク',
+			'artifactDetailsPage.bookmarkFourPcSet' => '4 セットをブックマーク',
+			'artifactDetailsPage.bookmarkArtifacts' => '聖遺物をブックマーク',
+			'artifactDetailsPage.characterToEquip' => '聖遺物を装備させるキャラクター',
+			'artifactDetailsPage.chooseSecondSet' => '2個目のセットを選択',
+			'artifactDetailsPage.chooseSecondSetDesc' => '2個目の聖遺物セットを選択してください',
+			'artifactDetailsPage.mainStat' => 'メインステータス',
+			'artifactDetailsPage.mainStatWithPieceType' => ({required Object pieceType}) => '${_root.artifactDetailsPage.mainStat} (${pieceType})',
+			'artifactDetailsPage.subStats' => 'サブステータス',
+			'artifactDetailsPage.unspecified' => '指定しない',
+			'artifactDetailsPage.nSet' => ({required Object n}) => '${n}セット',
+			'furnishingSetsPage.furnishingList' => '調度品一覧',
+			'furnishingSetsPage.type' => '種類',
+			'furnishingSetsPage.image' => '画像',
+			'furnishingSetsPage.name' => '名前',
+			'furnishingSetsPage.requiredQuantity' => '必要数 (長押しで一括変更)',
+			'furnishingSetsPage.source' => '入手方法',
+			'furnishingSetsPage.canBeScrolledHorizontally' => '左右にスクロールできます',
+			'furnishingSetsPage.resetCraftCount' => '作成数をリセット',
+			'furnishingSetsPage.resetCraftCountConfirm' => 'セット内の調度品の作成数をすべてリセットしますか？',
+			'furnishingSetsPage.favoredBy' => 'この調度品セットが好きなキャラクター',
+			'furnishingSetsPage.addedToBookmarks' => 'ブックマークしました',
+			'furnishingSetsPage.removedFromBookmarks' => 'ブックマークを解除しました',
+			'furnishingSetsPage.furnishingSetsUsingThisFurnishing' => 'この調度品を使用する調度品セット',
+			'dailyPage.mondayAndThursday' => '月/木',
+			'dailyPage.tuesdayAndFriday' => '火/金',
+			'dailyPage.wednesdayAndSaturday' => '水/土',
+			'dailyPage.talentMaterials' => '天賦素材',
+			'dailyPage.weaponMaterials' => '武器素材',
+			'resinCalcPage.currentResin' => '現在の樹脂数',
+			'resinCalcPage.resin' => '樹脂数',
+			'resinCalcPage.recoveryTime' => '回復時刻',
+			'resinCalcPage.untilRecovery' => '回復まであと',
+			'resinCalcPage.fullyReplenishedAt' => ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [ time, text('に全回復'), ]), 
+			'resinCalcPage.recoversIn' => ({required InlineSpanBuilder text, required InlineSpan time}) => TextSpan(children: [ text('あと'), time, ]), 
+			'resinCalcPage.asOf' => ({required InlineSpan time, required InlineSpanBuilder text}) => TextSpan(children: [ const TextSpan(text: '('), time, const TextSpan(text: ' '), text('現在'), const TextSpan(text: ')'), ]), 
+			'resinCalcPage.recoveredTime' => '全回復した時刻',
+			'resinCalcPage.wastedResin' => '無駄にした樹脂',
+			'resinCalcPage.tomorrow' => '明日',
+			'resinCalcPage.alreadyFull' => 'すでに全回復しました',
+			'resinCalcPage.howToUse' => '使い方',
+			'resinCalcPage.howToUseContent' => '現在の樹脂数を入力すると、入力した地点での時間を基準に、樹脂が全回復する時刻と、全回復するまでの時間を計算します。\n${_root.pages.hoyolabIntegrationSettings}で連携すると、現在の樹脂数を同期できるようになります。この機能を利用する場合「${_root.resinCalcPage.recoveredTime}」「${_root.resinCalcPage.wastedResin}」は、最後に樹脂を使用もしくはアイテム等で回復してから一度も同期していなかった場合には、正確に算出されませんのでご了承ください。\n',
+			'morePage.accountDesc' => 'ブックマーク等をデバイス間で同期できます。',
+			'morePage.hoyolabIntegrationSettingsDesc' => 'HoYoLABと連携し、ゲーム内のデータと同期できます。',
+			'morePage.github' => 'GitHub',
+			'morePage.githubDesc' => '本アプリのソースコードを閲覧できます。',
+			'morePage.buyMeACoffee' => 'コーヒーをおごる',
+			'morePage.buyMeACoffeeDesc' => 'だいぶ喜びます。',
+			'morePage.x' => 'X（告知用）',
+			'morePage.xDesc' => '本アプリに関するお知らせを掲載しています。',
+			'releaseNotesPage.featureUpdates' => '機能更新',
+			'releaseNotesPage.assetUpdates' => 'データ更新',
+			'settingsPage.display' => '表示',
+			'settingsPage.showItemNameOnCard' => '素材のアイテム名を表示',
+			'settingsPage.showItemNameOnCardDesc' => '使用数を表示するカードにアイテム名を表示します。',
+			'settingsPage.dailyResetServer' => '日替わり素材のサーバー時間',
+			'settingsPage.dailyResetServerDesc' => '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。',
+			'settingsPage.farmCountSettingsDesc' => '表示に使用する冒険ランクなどを設定できます。',
+			'settingsPage.assetData' => 'アセットデータ',
+			'settingsPage.checkAssetUpdate' => 'アセットデータの更新を確認',
+			'settingsPage.checkAssetUpdateDesc' => 'アプリ内データのアップデートをチェックします。',
+			'settingsPage.reDownloadAssets' => 'アセットデータを再ダウンロード',
+			'settingsPage.reDownloadAssetsDesc' => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。',
+			'settingsPage.openSourceLicenses' => 'オープンソースライセンス',
+			'farmCountSettingsPage.showFarmCount' => '周回目安回数を表示する',
+			'farmCountSettingsPage.adventureRank' => '冒険ランク',
+			'farmCountSettingsPage.skipRate' => '濃縮樹脂等使用時の獲得数の倍率',
+			'farmCountSettingsPage.dropRateList' => 'ドロップ率一覧',
+			'farmCountSettingsPage.kind' => '種類',
+			'farmCountSettingsPage.rate' => 'ドロップ率（個/回）',
+			'farmCountSettingsPage.note' => '備考',
+			'farmCountSettingsPage.multiplier' => ({required Object n}) => '${n}倍',
+			'farmCountSettingsPage.noUseCondensed' => '（濃縮樹脂を使用しない）',
+			'hoyolab.signIn' => 'HoYoLABにサインイン',
+			'hoyolab.aboutHeading' => 'HoYoLAB連携について',
+			'hoyolab.about' => '本アプリ内でHoYoLABアカウントにログインすることで、もっと便利にアプリを利用できるようになります。例えば、バッグ内にあるアイテムの数、キャラクター・武器のレベルなどを本アプリに反映させ、バッグ内の不足数を直接確認することができます。\n\nHoYoLABの認証情報、UIDは端末内に安全に保存され、HoYoLABのAPIと直接やり取りをする仕組みとなっています。私も含め、それ以外の外部にこれらのデータを送信することはありません。詳しいデータの流れや保存方法については、本アプリのソース公開をもって透明性を担保しています。\n\n※本機能はグローバル版（HoYoLAB）でのみ利用可能です。中国本土版（米游社）には対応していません。\n※万が一本機能の利用によってアカウントに何らかの問題が生じた場合、本アプリの開発者は一切の責任を負いかねますので、ご了承ください。\n',
+			'hoyolab.signOut' => 'HoYoLABとの連携を解除',
+			'hoyolab.signInNote' => '※ソーシャルログインは利用できません。ユーザー名/メールアドレスとパスワードでログインしてください。',
+			'hoyolab.failedToSignIn' => 'HoYoLABへのサインインに失敗しました。',
+			'hoyolab.signOutConfirm' => 'HoYoLABとの連携を解除しますか？',
+			'hoyolab.credentialVerificationFailed' => 'ログイン情報の検証に失敗しました。再度ログインしてください。',
+			'hoyolab.changeServer' => 'サーバーの変更',
+			'hoyolab.serverSelect' => 'サーバー選択',
+			'hoyolab.current' => ({required Object server}) => '現在の設定: ${server}',
+			'hoyolab.noServerSelected' => 'サーバーが選択されていません',
+			'hoyolab.plsSelectServer' => 'サーバーを選択してください',
+			'hoyolab.userInfo' => 'ユーザー情報',
+			'hoyolab.failedToLoadServerList' => 'サーバーリストの読み込みに失敗しました。',
+			'hoyolab.failedToLoadGameRole' => 'ゲームデータの読み込みに失敗しました。',
+			'hoyolab.noGameRoleFound' => 'ゲームデータが見つかりません',
+			'hoyolab.failedToSyncGameData' => 'ゲームデータの同期に失敗しました。',
+			'hoyolab.failedToLoadPermissionState' => 'アクセス許可状態の取得に失敗しました。',
+			'hoyolab.characterDataAccessNotAllowed' => 'キャラクターデータへのアクセスが許可されていません。HoYoLAB連携設定より許可してください。',
+			'hoyolab.characterDoesNotExist' => 'キャラクターを所持していません。',
+			'hoyolab.realtimeNotesNotEnabled' => 'リアルタイムノートが有効化されていません。HoYoLAB連携設定より有効化してください。',
+			'hoyolab.loginExpired' => '一度連携を解除し、再度ログインしてください。',
+			'hoyolab.accessPermission' => 'アクセス許可',
+			'hoyolab.doYouWantToEnableRealtimeNotes' => 'リアルタイムノートを有効化しますか？',
+			'hoyolab.enableRealtimeNotes' => 'リアルタイムノートの有効化',
+			'hoyolab.enableRealtimeNotesDesc' => '現在の天然樹脂の数を同期できるようになります。',
+			'hoyolab.syncSettings' => '同期設定',
+			'hoyolab.syncResin' => 'ゲーム内の樹脂数を同期する',
+			'hoyolab.syncCharaState' => 'ゲーム内のキャラレベルを同期する',
+			'hoyolab.syncWeaponState' => 'ゲーム内の武器レベルを同期する',
+			'hoyolab.syncBagLackNums' => 'ゲーム内のバッグ不足数を同期する',
+			'hoyolab.autoRemoveBookmarks' => '育成完了のブックマークを自動解除する',
+			'hoyolab.autoRemoveBookmarksDesc' => 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。',
+			'hoyolab.mustBeResonatedWithStatue' => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。',
+			'hoyolab.weaponNotEquipped' => 'このキャラクターはこの武器を装備していません。',
+			'hoyolab.unknownError' => '不明なエラーが発生しました。',
+			'hoyolab.charaSyncSuccess' => 'ゲームデータと同期しました',
+			'whereToGet.chests' => '宝箱、任務報酬など',
+			_ => null,
+		};
 	}
 }
-

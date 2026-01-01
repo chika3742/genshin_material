@@ -10,12 +10,12 @@ part of 'miscellaneous.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(RealtimeNotesActivationState)
-const realtimeNotesActivationStateProvider =
+final realtimeNotesActivationStateProvider =
     RealtimeNotesActivationStateProvider._();
 
 final class RealtimeNotesActivationStateProvider
     extends $AsyncNotifierProvider<RealtimeNotesActivationState, bool> {
-  const RealtimeNotesActivationStateProvider._()
+  RealtimeNotesActivationStateProvider._()
     : super(
         from: null,
         argument: null,
@@ -42,7 +42,6 @@ abstract class _$RealtimeNotesActivationState extends $AsyncNotifier<bool> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<bool>, bool>;
     final element =
         ref.element
@@ -52,12 +51,12 @@ abstract class _$RealtimeNotesActivationState extends $AsyncNotifier<bool> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ownedCharacters)
-const ownedCharactersProvider = OwnedCharactersProvider._();
+final ownedCharactersProvider = OwnedCharactersProvider._();
 
 final class OwnedCharactersProvider
     extends
@@ -69,7 +68,7 @@ final class OwnedCharactersProvider
     with
         $FutureModifier<List<CharacterId>?>,
         $FutureProvider<List<CharacterId>?> {
-  const OwnedCharactersProvider._()
+  OwnedCharactersProvider._()
     : super(
         from: null,
         argument: null,
