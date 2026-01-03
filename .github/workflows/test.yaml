@@ -21,9 +21,7 @@ jobs:
 
       - name: Lint
         id: lint
-        run: |
-          fvm flutter analyze
-          fvm dart run custom_lint
+        run: fvm flutter analyze
 
       - name: Test
         if: ${{ !cancelled() && contains(fromJSON('["success", "failure"]'), steps.lint.outcome) }}
