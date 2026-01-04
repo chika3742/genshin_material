@@ -16,11 +16,7 @@ analyzer:
 
 plugins:
   riverpod_lint: ^3.1.0
-  better_require_trailing_commas:
-    version: ^2.0.3
-    diagnostics:
-      better_require_trailing_commas: true
-
+  better_require_trailing_commas: ^2.0.4
 
 linter:
   # The lint rules applied to this project can be customized in the
