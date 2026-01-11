@@ -3,9 +3,7 @@ import "package:flutter_secure_storage/flutter_secure_storage.dart";
 import "hoyolab_api.dart";
 
 const secureStorage = FlutterSecureStorage(
-  aOptions: AndroidOptions(
-    encryptedSharedPreferences: true,
-  ),
+  aOptions: AndroidOptions(),
 );
 
 Future<void> setHoyolabCookie(String cookie) async {
