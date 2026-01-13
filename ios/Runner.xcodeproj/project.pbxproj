@@ -308,7 +308,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Release\" ]; then\n    gsinfo_plist_path=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-Info.plist\"\n    firebase_app_id=$(/usr/libexec/PlistBuddy -c \"Print :GOOGLE_APP_ID\" \"$gsinfo_plist_path\")\n    echo ${BUILD_DIR%/Build/*}\n    $PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase --validate -ai $firebase_app_id -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM\n    $PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase -ai $firebase_app_id -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM \nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Release\" ]; then\n    gsinfo_plist_path=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-Info.plist\"\n    firebase_app_id=$(/usr/libexec/PlistBuddy -c \"Print :GOOGLE_APP_ID\" \"$gsinfo_plist_path\")\n    upload_symbols=\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols\"\n    $upload_symbols --build-phase --validate -ai $firebase_app_id -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM\n    $upload_symbols --build-phase -ai $firebase_app_id -- $DWARF_DSYM_FOLDER_PATH/App.framework.dSYM \nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
