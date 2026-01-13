@@ -1,5 +1,11 @@
 # コピー用改行
 
+- releasedOn: 2026/01/13
+  version: 4.7.2
+  contents: |
+    # 変更
+    - 祈願天井カウンターのURLを更新しました。
+
 - releasedOn: 2025/12/31
   version: 4.7.1
   contents: |
