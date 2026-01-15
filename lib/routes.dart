@@ -34,6 +34,7 @@ import "pages/more.dart";
 import "pages/release_notes.dart";
 import "pages/settings/farm_count_settings.dart";
 import "pages/settings/settings.dart";
+import "pages/tools/farming_efficiency.dart";
 import "pages/tools/resin_calc.dart";
 import "pages/tools/tools.dart";
 import "providers/database_provider.dart";
@@ -103,6 +104,7 @@ part "routes.g.dart";
           path: "/tools",
           routes: [
             TypedGoRoute<ResinCalcRoute>(path: "resin-calc"),
+            TypedGoRoute<FarmingEfficiencyRoute>(path: "farming-efficiency"),
           ],
         ),
       ],
@@ -467,6 +469,16 @@ class ResinCalcRoute extends GoRouteData with $ResinCalcRoute {
     return buildTransitionedPage(
       context: context,
       child: const ResinCalcPage(),
+    );
+  }
+}
+
+class FarmingEfficiencyRoute extends GoRouteData with $FarmingEfficiencyRoute {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: const FarmingEfficiencyPage(),
     );
   }
 }
