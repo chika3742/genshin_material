@@ -8,6 +8,10 @@ In progress
 
 ## Development
 
+### Requirements
+
+- [FVM](https://fvm.app) (version management)
+
 ### Before Building
 
 To build this app successfully, you need to set up Firebase with **your own project**. First, create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
@@ -19,6 +23,14 @@ To build this app successfully, you need to set up Firebase with **your own proj
     $ dart pub global activate flutterfire_cli
     ```
 4. Run `flutterfire configure` to set up Firebase for this project. Follow the instructions on the console.
+
+### Build & Run
+
+Use FVM to run the app.
+
+```shell
+$ fvm flutter run
+```
 
 ### About Generated Files
 
