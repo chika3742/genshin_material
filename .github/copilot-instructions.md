@@ -7,28 +7,27 @@ This is a Flutter mobile application for Genshin Impact that provides a material
 ## Technology Stack
 
 ### Core Technologies
-- **Flutter 3.35.1**: Cross-platform mobile development framework (iOS and Android)
-- **Dart 3.8.0+**: Programming language
+- **Flutter 3.38**: Cross-platform mobile development framework (iOS and Android)
+- **Dart 3.10+**: Programming language
 - **Firebase**: Backend services (Crashlytics, Remote Config)
 
 ### State Management & Architecture
-- **Riverpod 3.0.3**: State management with code generation
+- **Riverpod 3.x**: State management with code generation
 - **hooks_riverpod**: Riverpod integration library for `flutter_hooks`
-- **go_router 16.3.0**: Declarative routing with code generation
+- **go_router**: Declarative routing with code generation
 
 ### Database & Persistence
-- **Drift 2.29.0**: Type-safe SQL database with SQLite
+- **Drift**: Type-safe SQL database with SQLite
 - **shared_preferences**: Key-value storage
 - **flutter_secure_storage**: Secure storage for sensitive data
 
 ### Code Generation
-- **freezed 3.2.3**: Immutable data classes and union types
-- **json_serializable 6.11.1**: JSON serialization
-- **build_runner 2.7.1**: Code generation orchestrator
-- **pigeon 26.0.3**: Platform channel code generation
+- **freezed 3.x**: Immutable data classes and union types
+- **build_runner**: Code generation orchestrator
+- **pigeon**: Platform channel code generation
 
 ### Internationalization
-- **slang 4.9.2**: Type-safe i18n with code generation
+- **slang**: Type-safe i18n with code generation
 - **Base locale**: Japanese (ja)
 - Configuration: `slang.yaml`
 
@@ -121,9 +120,6 @@ fvm flutter run
 ```bash
 # Standard Flutter analysis
 fvm flutter analyze
-
-# Custom linting rules
-fvm dart run custom_lint
 ```
 
 ### Testing
