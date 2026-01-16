@@ -92,34 +92,70 @@ onReorder: (oldIndex, newIndex) {
 
 ### アーキテクチャパターン
 
-**選択：Riverpod NotifierProvider + Use Case パターン**
+**選択：Riverpod NotifierProvider + Repository パターン**
 
 理由：
 - ✅ 既存のRiverpodエコシステムと親和性が高い
 - ✅ コード生成を活用できる
 - ✅ 段階的な移行が可能
 - ✅ テスタビリティの向上
+- ✅ シンプルで理解しやすい（Use Case層を省略し、Repositoryで十分）
+
+### Use Case層を省略する理由
+
+現状のアプリケーションでは、以下の理由からUse Case層は不要と判断しました：
+
+1. **ビジネスロジックの複雑度が低い**
+   - ブックマークの操作は基本的なCRUD操作が中心
+   - 複雑なビジネスルールやワークフローが少ない
+   
+2. **Repository層で十分**
+   - データアクセスの抽象化とビジネスロジックのカプセル化はRepositoryで実現可能
+   - Provider（Notifier）がアプリケーション層の役割を果たす
+   
+3. **保守性とシンプルさのバランス**
+   - Use Case層を追加すると、レイヤーが増えすぎて理解が難しくなる
+   - 必要になったら後から追加可能（YAGNI原則）
+
+**アーキテクチャ構造:**
+```
+UI Layer (pages/)
+    ↓
+State Management (providers/)
+    ↓
+Repository Layer (repositories/)
+    ↓
+Data Layer (database, db extensions)
+```
 
 ### 新しいディレクトリ構造
 
 ```
 lib/
 ├── pages/
-│   └── bookmarks.dart          # UIのみ（軽量化）
+│   └── bookmarks.dart                    # UIのみ（軽量化）
 ├── providers/
 │   ├── bookmarks/
-│   │   ├── bookmark_list_provider.dart      # ブックマーク一覧の状態管理
-│   │   ├── bookmark_operations_provider.dart # ブックマーク操作（追加・削除・並び替え）
-│   │   └── furnishing_bookmark_provider.dart # 家具ブックマーク専用
-│   └── database_provider.dart   # 既存
-├── use_cases/                   # 新規作成
-│   └── bookmarks/
-│       ├── update_bookmark_order_use_case.dart
-│       ├── remove_bookmark_use_case.dart
-│       └── update_furnishing_count_use_case.dart
+│   │   ├── bookmark_operations_provider.dart  # ブックマーク操作の状態管理
+│   │   └── furnishing_operations_provider.dart # 家具操作の状態管理
+│   └── database_provider.dart             # 既存
+├── repositories/                          # 新規作成
+│   └── bookmark_repository.dart           # ブックマーク関連のビジネスロジック
+│       - グループ化・ソート
+│       - CRUD操作の抽象化
+│       - エラーハンドリング
 └── utils/
-    └── bookmark_utils.dart      # ソート・グループ化ロジック
+    └── bookmark_utils.dart                # 純粋関数（ソート・グループ化ロジック）
 ```
+
+**各層の責任:**
+
+| 層 | 責任 | 例 |
+|---|---|---|
+| **UI Layer** (`pages/`) | プレゼンテーションロジックのみ | Widget構築、イベントハンドリング |
+| **Provider Layer** (`providers/`) | 状態管理、UIとRepositoryの橋渡し | AsyncNotifier、状態の公開 |
+| **Repository Layer** (`repositories/`) | ビジネスロジック、データアクセスの抽象化 | CRUD操作、データ変換、エラーハンドリング |
+| **Utils** (`utils/`) | 純粋関数、ヘルパー | ソート、フィルタリング |
 
 ---
 
@@ -221,37 +257,68 @@ void main() {
 
 ---
 
-### Step 2: Use Case層の作成
+### Step 2: Repository層の作成
 
-**ファイル: `lib/use_cases/bookmarks/update_bookmark_order_use_case.dart`**
+**ファイル: `lib/repositories/bookmark_repository.dart`**
 
 ```dart
-import "../../database.dart";
+import "../database.dart";
+import "../core/asset_cache.dart";
+import "../models/bookmark.dart";
+import "../utils/bookmark_utils.dart";
 
-/// ブックマークの並び順を更新するユースケース
-class UpdateBookmarkOrderUseCase {
+/// ブックマークのビジネスロジックを管理するリポジトリ
+/// 
+/// 責任:
+/// - データベースアクセスの抽象化
+/// - ビジネスロジックのカプセル化（並び替え、削除など）
+/// - エラーハンドリングの統一
+class BookmarkRepository {
   final AppDatabase _database;
 
-  UpdateBookmarkOrderUseCase(this._database);
+  BookmarkRepository(this._database);
 
-  /// 並び順を更新
+  // ========================
+  // ブックマークの取得
+  // ========================
+
+  /// ブックマーク一覧を取得（グループ化・ソート済み）
+  Stream<List<BookmarkGroup>> watchBookmarkGroups(AssetData assetData) {
+    return _database.watchBookmarks().map((bookmarks) {
+      if (bookmarks.isEmpty) return <BookmarkGroup>[];
+      
+      final groups = BookmarkUtils.groupBookmarks(bookmarks, assetData);
+      return groups;
+    });
+  }
+
+  /// ブックマーク順序を取得
+  Stream<List<String>> watchBookmarkOrder() {
+    return _database.watchBookmarkOrder();
+  }
+
+  // ========================
+  // ブックマークの操作
+  // ========================
+
+  /// ブックマークの並び順を更新
   /// 
   /// [oldIndex] 移動元のインデックス
   /// [newIndex] 移動先のインデックス
   /// [currentOrder] 現在の順序リスト
   /// 
   /// Returns: 更新後の順序リスト
-  /// Throws: [BookmarkOrderUpdateException] 更新に失敗した場合
-  Future<List<String>> execute({
+  /// Throws: [BookmarkRepositoryException] 更新に失敗した場合
+  Future<List<String>> updateBookmarkOrder({
     required int oldIndex,
     required int newIndex,
     required List<String> currentOrder,
   }) async {
     try {
-      // 並び順の計算（リストの変更）
+      // 並び順の計算
       final newOrder = List<String>.from(currentOrder);
       
-      // newIndexの調整（ReorderableListViewの仕様に合わせる）
+      // newIndexの調整（ReorderableListViewの仕様）
       int adjustedNewIndex = newIndex;
       if (oldIndex < newIndex) {
         adjustedNewIndex -= 1;
@@ -259,12 +326,12 @@ class UpdateBookmarkOrderUseCase {
 
       // 範囲チェック
       if (oldIndex < 0 || oldIndex >= newOrder.length) {
-        throw BookmarkOrderUpdateException(
+        throw BookmarkRepositoryException(
           "Invalid oldIndex: $oldIndex (list size: ${newOrder.length})",
         );
       }
       if (adjustedNewIndex < 0 || adjustedNewIndex >= newOrder.length) {
-        throw BookmarkOrderUpdateException(
+        throw BookmarkRepositoryException(
           "Invalid newIndex: $adjustedNewIndex (list size: ${newOrder.length})",
         );
       }
@@ -277,51 +344,28 @@ class UpdateBookmarkOrderUseCase {
 
       return newOrder;
     } on RangeError catch (e, stackTrace) {
-      throw BookmarkOrderUpdateException(
+      throw BookmarkRepositoryException(
         "Reorder failed: $oldIndex -> $newIndex",
+        originalError: e,
+        stackTrace: stackTrace,
+      );
+    } catch (e, stackTrace) {
+      throw BookmarkRepositoryException(
+        "Failed to update bookmark order",
         originalError: e,
         stackTrace: stackTrace,
       );
     }
   }
-}
 
-/// ブックマーク順序更新時の例外
-class BookmarkOrderUpdateException implements Exception {
-  final String message;
-  final Object? originalError;
-  final StackTrace? stackTrace;
-
-  BookmarkOrderUpdateException(
-    this.message, {
-    this.originalError,
-    this.stackTrace,
-  });
-
-  @override
-  String toString() => "BookmarkOrderUpdateException: $message";
-}
-```
-
-**ファイル: `lib/use_cases/bookmarks/remove_bookmark_use_case.dart`**
-
-```dart
-import "../../database.dart";
-
-/// ブックマークを削除するユースケース
-class RemoveBookmarkUseCase {
-  final AppDatabase _database;
-
-  RemoveBookmarkUseCase(this._database);
-
-  /// ブックマークIDで削除
-  Future<void> executeByIds(List<int> bookmarkIds) async {
+  /// ブックマークを削除（ID指定）
+  Future<void> removeBookmarksByIds(List<int> bookmarkIds) async {
     if (bookmarkIds.isEmpty) return;
     
     try {
       await _database.removeBookmarks(bookmarkIds);
     } catch (e, stackTrace) {
-      throw BookmarkRemovalException(
+      throw BookmarkRepositoryException(
         "Failed to remove bookmarks: $bookmarkIds",
         originalError: e,
         stackTrace: stackTrace,
@@ -329,58 +373,48 @@ class RemoveBookmarkUseCase {
     }
   }
 
-  /// ブックマークハッシュで削除
-  Future<void> executeByHashes(List<String> hashes) async {
+  /// ブックマークを削除（ハッシュ指定）
+  Future<void> removeBookmarksByHashes(List<String> hashes) async {
     if (hashes.isEmpty) return;
     
     try {
       await _database.removeBookmarksByHashes(hashes);
     } catch (e, stackTrace) {
-      throw BookmarkRemovalException(
+      throw BookmarkRepositoryException(
         "Failed to remove bookmarks by hashes: $hashes",
         originalError: e,
         stackTrace: stackTrace,
       );
     }
   }
-}
 
-/// ブックマーク削除時の例外
-class BookmarkRemovalException implements Exception {
-  final String message;
-  final Object? originalError;
-  final StackTrace? stackTrace;
+  // ========================
+  // 家具ブックマーク操作
+  // ========================
 
-  BookmarkRemovalException(
-    this.message, {
-    this.originalError,
-    this.stackTrace,
-  });
-
-  @override
-  String toString() => "BookmarkRemovalException: $message";
-}
-```
-
-**ファイル: `lib/use_cases/bookmarks/update_furnishing_count_use_case.dart`**
-
-```dart
-import "../../database.dart";
-
-/// 家具の製作数を更新するユースケース
-class UpdateFurnishingCountUseCase {
-  final AppDatabase _database;
-
-  UpdateFurnishingCountUseCase(this._database);
+  /// 家具ブックマークを削除（Undo機能付き）
+  Future<void Function()> removeFurnishingSetBookmark(
+    FurnishingSetBookmark bookmark,
+  ) async {
+    try {
+      return await _database.removeFurnishingSetBookmark(bookmark);
+    } catch (e, stackTrace) {
+      throw BookmarkRepositoryException(
+        "Failed to remove furnishing set bookmark: ${bookmark.setId}",
+        originalError: e,
+        stackTrace: stackTrace,
+      );
+    }
+  }
 
   /// 家具の製作数を更新
-  Future<void> execute({
+  Future<void> updateFurnishingCraftCount({
     required String setId,
     required String furnishingId,
     required int count,
   }) async {
     if (count < 0) {
-      throw FurnishingCountUpdateException(
+      throw BookmarkRepositoryException(
         "Count cannot be negative: $count",
       );
     }
@@ -388,7 +422,7 @@ class UpdateFurnishingCountUseCase {
     try {
       await _database.updateFurnishingCraftCount(setId, furnishingId, count);
     } catch (e, stackTrace) {
-      throw FurnishingCountUpdateException(
+      throw BookmarkRepositoryException(
         "Failed to update furnishing count: setId=$setId, "
         "furnishingId=$furnishingId, count=$count",
         originalError: e,
@@ -398,50 +432,89 @@ class UpdateFurnishingCountUseCase {
   }
 }
 
-/// 家具カウント更新時の例外
-class FurnishingCountUpdateException implements Exception {
+/// ブックマークリポジトリ操作時の例外
+class BookmarkRepositoryException implements Exception {
   final String message;
   final Object? originalError;
   final StackTrace? stackTrace;
 
-  FurnishingCountUpdateException(
+  BookmarkRepositoryException(
     this.message, {
     this.originalError,
     this.stackTrace,
   });
 
   @override
-  String toString() => "FurnishingCountUpdateException: $message";
+  String toString() => "BookmarkRepositoryException: $message";
+}
+```
+
+**テスト: `test/repositories/bookmark_repository_test.dart`**
+
+```dart
+import "package:flutter_test/flutter_test.dart";
+import "package:genshin_material/repositories/bookmark_repository.dart";
+import "package:genshin_material/database.dart";
+import "package:mockito/mockito.dart";
+
+void main() {
+  group("BookmarkRepository", () {
+    late BookmarkRepository repository;
+    late AppDatabase mockDatabase;
+
+    setUp(() {
+      mockDatabase = MockAppDatabase();
+      repository = BookmarkRepository(mockDatabase);
+    });
+
+    group("updateBookmarkOrder", () {
+      test("正常に並び順を更新できる", () async {
+        // テストケースを実装
+      });
+
+      test("範囲外のインデックスでエラー", () async {
+        // テストケースを実装
+      });
+    });
+
+    group("removeBookmarksByIds", () {
+      test("正常に削除できる", () async {
+        // テストケースを実装
+      });
+    });
+  });
 }
 ```
 
 ---
 
-### Step 3: Providerの作成（ビジネスロジック層）
+### Step 3: Providerの作成（状態管理層）
 
 **ファイル: `lib/providers/bookmarks/bookmark_operations_provider.dart`**
 
 ```dart
 import "package:riverpod_annotation/riverpod_annotation.dart";
+import "../../repositories/bookmark_repository.dart";
 import "../../database.dart";
-import "../../use_cases/bookmarks/update_bookmark_order_use_case.dart";
-import "../../use_cases/bookmarks/remove_bookmark_use_case.dart";
-import "../../use_cases/bookmarks/update_furnishing_count_use_case.dart";
 import "../database_provider.dart";
 
 part "bookmark_operations_provider.g.dart";
 
+/// BookmarkRepositoryのProvider
+@riverpod
+BookmarkRepository bookmarkRepository(Ref ref) {
+  final database = ref.watch(appDatabaseProvider);
+  return BookmarkRepository(database);
+}
+
 /// ブックマーク操作用のNotifier
+/// 
+/// 責任: UIとRepositoryの橋渡し、状態管理
 @riverpod
 class BookmarkOperations extends _$BookmarkOperations {
-  late final UpdateBookmarkOrderUseCase _updateOrderUseCase;
-  late final RemoveBookmarkUseCase _removeBookmarkUseCase;
-
   @override
   void build() {
-    final database = ref.watch(appDatabaseProvider);
-    _updateOrderUseCase = UpdateBookmarkOrderUseCase(database);
-    _removeBookmarkUseCase = RemoveBookmarkUseCase(database);
+    // 初期化不要
   }
 
   /// ブックマークの並び順を更新
@@ -450,7 +523,8 @@ class BookmarkOperations extends _$BookmarkOperations {
     required int newIndex,
     required List<String> currentOrder,
   }) async {
-    return await _updateOrderUseCase.execute(
+    final repository = ref.read(bookmarkRepositoryProvider);
+    return await repository.updateBookmarkOrder(
       oldIndex: oldIndex,
       newIndex: newIndex,
       currentOrder: currentOrder,
@@ -459,32 +533,31 @@ class BookmarkOperations extends _$BookmarkOperations {
 
   /// ブックマークを削除（ID指定）
   Future<void> removeBookmarksByIds(List<int> bookmarkIds) async {
-    await _removeBookmarkUseCase.executeByIds(bookmarkIds);
+    final repository = ref.read(bookmarkRepositoryProvider);
+    await repository.removeBookmarksByIds(bookmarkIds);
   }
 
   /// ブックマークを削除（ハッシュ指定）
   Future<void> removeBookmarksByHashes(List<String> hashes) async {
-    await _removeBookmarkUseCase.executeByHashes(hashes);
+    final repository = ref.read(bookmarkRepositoryProvider);
+    await repository.removeBookmarksByHashes(hashes);
   }
 }
 
 /// 家具ブックマーク操作用のNotifier
 @riverpod
-class FurnishingBookmarkOperations extends _$FurnishingBookmarkOperations {
-  late final AppDatabase _database;
-  late final UpdateFurnishingCountUseCase _updateCountUseCase;
-
+class FurnishingOperations extends _$FurnishingOperations {
   @override
   void build() {
-    _database = ref.watch(appDatabaseProvider);
-    _updateCountUseCase = UpdateFurnishingCountUseCase(_database);
+    // 初期化不要
   }
 
   /// 家具ブックマークを削除（Undo機能付き）
   Future<void Function()> removeFurnishingSetBookmark(
     FurnishingSetBookmark bookmark,
   ) async {
-    return await _database.removeFurnishingSetBookmark(bookmark);
+    final repository = ref.read(bookmarkRepositoryProvider);
+    return await repository.removeFurnishingSetBookmark(bookmark);
   }
 
   /// 家具の製作数を更新
@@ -493,12 +566,46 @@ class FurnishingBookmarkOperations extends _$FurnishingBookmarkOperations {
     required String furnishingId,
     required int count,
   }) async {
-    await _updateCountUseCase.execute(
+    final repository = ref.read(bookmarkRepositoryProvider);
+    await repository.updateFurnishingCraftCount(
       setId: setId,
       furnishingId: furnishingId,
       count: count,
     );
   }
+}
+```
+
+**テスト: `test/providers/bookmarks/bookmark_operations_provider_test.dart`**
+
+```dart
+import "package:flutter_test/flutter_test.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:genshin_material/providers/bookmarks/bookmark_operations_provider.dart";
+import "package:genshin_material/repositories/bookmark_repository.dart";
+import "package:mockito/mockito.dart";
+
+void main() {
+  group("BookmarkOperationsProvider", () {
+    late ProviderContainer container;
+    late BookmarkRepository mockRepository;
+
+    setUp(() {
+      mockRepository = MockBookmarkRepository();
+      container = ProviderContainer(
+        overrides: [
+          bookmarkRepositoryProvider.overrideWithValue(mockRepository),
+        ],
+      );
+    });
+
+    test("updateBookmarkOrder calls repository", () async {
+      // テストケースを実装
+    });
+
+    test("removeBookmarksByIds calls repository", () async {
+      // テストケースを実装
+    });
 }
 ```
 
@@ -549,7 +656,7 @@ onReorder: (oldIndex, newIndex) async {
     bookmarkOrder.clear();
     bookmarkOrder.addAll(newOrder);
     BookmarkUtils.sortBookmarkGroups(bookmarkGroups, bookmarkOrder);
-  } on BookmarkOrderUpdateException catch (e) {
+  } on BookmarkRepositoryException catch (e) {
     if (context.mounted) {
       showSnackBar(
         context: context,
@@ -601,13 +708,13 @@ final bookmarkGroups = BookmarkUtils.groupBookmarks(bookmarks, assetData);
    - グループ化ロジック
    - ソートロジック
 
-2. **Use Caseのテスト** (`test/unit/use_cases/`)
+2. **Repositoryのテスト** (`test/repositories/bookmark_repository_test.dart`)
    - 正常系
    - 異常系（境界値、エラー）
    - モックデータベースを使用
 
-3. **Providerのテスト** (`test/unit/providers/`)
-   - Use Caseとの連携
+3. **Providerのテスト** (`test/providers/bookmarks/`)
+   - Repositoryとの連携
    - エラーハンドリング
 
 ### Widget Tests
@@ -620,7 +727,7 @@ final bookmarkGroups = BookmarkUtils.groupBookmarks(bookmarks, assetData);
 
 ### Phase 1: 基盤整備（破壊的変更なし）
 1. ✅ ユーティリティクラスの作成
-2. ✅ Use Case層の作成
+2. ✅ Repository層の作成
 3. ✅ 新しいProviderの作成
 4. ✅ テストの作成
 
@@ -688,5 +795,5 @@ final bookmarkGroups = BookmarkUtils.groupBookmarks(bookmarks, assetData);
 ## 参考資料
 
 - [Riverpod Best Practices](https://riverpod.dev/docs/concepts/reading)
+- [Repository Pattern](https://martinfowler.com/eaaCatalog/repository.html)
 - [Clean Architecture in Flutter](https://resocoder.com/2019/08/27/flutter-tdd-clean-architecture-course-1-explanation-project-structure/)
-- [Use Case Pattern](https://martinfowler.com/bliki/UseCase.html)
