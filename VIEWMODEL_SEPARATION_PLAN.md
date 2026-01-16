@@ -14,6 +14,45 @@
 3. **新しいページの作成** - ViewModelとComponentsを使用した新しい実装
 4. **段階的な切り替え** - テスト後、古いページから新しいページへ切り替え
 
+### 重要な設計原則: Single Source of Truth
+
+**データベースを唯一の信頼できる情報源とする**
+
+❌ **避けるべきパターン（派生データをstateに保持）:**
+```dart
+class MyState {
+  final List<Item> items;           // DBから取得
+  final List<ItemGroup> groups;     // itemsから派生 ← 問題！
+}
+```
+
+✅ **推奨パターン（DBを直接watch、派生データはキャッシュのみ）:**
+```dart
+@riverpod
+Stream<List<ItemGroup>> itemGroups(Ref ref) async* {
+  final items = await ref.watch(itemsProvider.future);
+  yield _transformToGroups(items);  // 変換結果をキャッシュ
+}
+
+// ViewModelは操作のみ提供、状態は持たない
+@riverpod
+class ItemOperations extends _$ItemOperations {
+  @override
+  void build() {}  // 状態なし
+  
+  Future<void> updateItem(Item item) async {
+    await db.update(item);  // DBに書き込むのみ
+    // UIの更新は自動的に発生（Providerがwatchしているため）
+  }
+}
+```
+
+**利点:**
+- データの整合性が保証される
+- 同期エラーが発生しない
+- テストが容易（DBをモック化すればOK）
+- Riverpodの自動再計算機能を最大限活用
+
 ---
 
 ## 現状分析
@@ -141,6 +180,10 @@ class BookmarkUtils {
 
 #### Step 1.2: BookmarksViewModelの作成
 
+**重要な設計原則: Single Source of Truth**
+
+ViewModelはデータベースを直接watchし、変換結果をキャッシュします。stateに派生データ（groups）を保持せず、データベースを唯一の信頼できる情報源とします。
+
 **ファイル: `lib/pages/bookmarks/viewmodels/bookmarks_viewmodel.dart`**
 
 ```dart
@@ -154,120 +197,70 @@ import "../../../utils/bookmark_utils.dart";
 
 part "bookmarks_viewmodel.g.dart";
 
-/// ブックマークページのViewModel状態
-class BookmarksViewState {
-  final List<BookmarkGroup> bookmarkGroups;
-  final List<String> bookmarkOrder;
-  final AssetData? assetData;
-  final bool isLoading;
-  final String? errorMessage;
+/// ブックマークグループ（変換・キャッシュ済み）を提供するProvider
+/// 
+/// データベースを直接watchし、変換結果をキャッシュ
+/// stateには派生データを保持せず、DBが唯一の情報源（Single Source of Truth）
+@riverpod
+Stream<List<BookmarkGroup>> bookmarkGroups(Ref ref) async* {
+  final assetDataAsync = ref.watch(assetDataProvider);
+  final bookmarksAsync = ref.watch(bookmarksProvider());
+  final bookmarkOrderAsync = ref.watch(bookmarkOrderProvider);
 
-  const BookmarksViewState({
-    this.bookmarkGroups = const [],
-    this.bookmarkOrder = const [],
-    this.assetData,
-    this.isLoading = false,
-    this.errorMessage,
-  });
+  // 全てのデータが揃うまで待機
+  if (assetDataAsync.value == null) {
+    yield [];
+    return;
+  }
 
-  BookmarksViewState copyWith({
-    List<BookmarkGroup>? bookmarkGroups,
-    List<String>? bookmarkOrder,
-    AssetData? assetData,
-    bool? isLoading,
-    String? errorMessage,
-  }) {
-    return BookmarksViewState(
-      bookmarkGroups: bookmarkGroups ?? this.bookmarkGroups,
-      bookmarkOrder: bookmarkOrder ?? this.bookmarkOrder,
-      assetData: assetData ?? this.assetData,
-      isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
+  await for (final _ in bookmarksAsync.when(
+    data: (bookmarks) async* {
+      final assetData = assetDataAsync.value!;
+      
+      // データベースから取得したデータを変換
+      final groups = BookmarkUtils.groupBookmarks(bookmarks, assetData);
+
+      // 順序でソート（順序データが利用可能な場合）
+      bookmarkOrderAsync.whenData((order) {
+        if (order.isNotEmpty) {
+          BookmarkUtils.sortBookmarkGroups(groups, order);
+        }
+      });
+
+      yield groups;
+    },
+    loading: () async* {
+      yield [];
+    },
+    error: (_, __) async* {
+      yield [];
+    },
+  )) {
+    // Stream処理
   }
 }
 
-/// ブックマークページのViewModel
+/// ブックマーク操作を提供するViewModel
+/// 
+/// 状態は保持せず、データベース操作のみを提供
+/// UIはbookmarkGroupsProviderを直接watchする
 @riverpod
-class BookmarksViewModel extends _$BookmarksViewModel {
+class BookmarkOperations extends _$BookmarkOperations {
   AppDatabase get _db => ref.read(appDatabaseProvider);
 
   @override
-  BookmarksViewState build() {
-    _initialize();
-    return const BookmarksViewState(isLoading: true);
-  }
-
-  /// 初期化
-  void _initialize() {
-    // アセットデータの監視
-    ref.listen(assetDataProvider, (_, next) {
-      if (next.value != null) {
-        state = state.copyWith(assetData: next.value);
-        _loadBookmarks();
-      }
-    });
-
-    // ブックマークの監視
-    ref.listen(bookmarksProvider(), (_, next) {
-      next.when(
-        data: (_) => _loadBookmarks(),
-        loading: () => state = state.copyWith(isLoading: true),
-        error: (error, _) => state = state.copyWith(
-          isLoading: false,
-          errorMessage: error.toString(),
-        ),
-      );
-    });
-
-    // ブックマーク順序の監視
-    ref.listen(bookmarkOrderProvider, (_, next) {
-      next.when(
-        data: (order) {
-          state = state.copyWith(bookmarkOrder: order);
-          _sortGroups(order);
-        },
-        loading: () {},
-        error: (_, __) {},
-      );
-    });
-  }
-
-  /// ブックマークを読み込む
-  void _loadBookmarks() {
-    final bookmarksAsync = ref.read(bookmarksProvider());
-    final assetData = state.assetData;
-
-    if (bookmarksAsync.value == null || assetData == null) return;
-
-    final bookmarks = bookmarksAsync.value!;
-    final groups = BookmarkUtils.groupBookmarks(bookmarks, assetData);
-
-    state = state.copyWith(
-      bookmarkGroups: groups,
-      isLoading: false,
-    );
-
-    // 順序でソート
-    if (state.bookmarkOrder.isNotEmpty) {
-      _sortGroups(state.bookmarkOrder);
-    }
-  }
-
-  /// グループをソート
-  void _sortGroups(List<String> order) {
-    final groups = List<BookmarkGroup>.from(state.bookmarkGroups);
-    BookmarkUtils.sortBookmarkGroups(groups, order);
-    state = state.copyWith(bookmarkGroups: groups);
+  void build() {
+    // 状態は保持しない
   }
 
   /// ブックマークの並び順を更新
+  /// 
+  /// データベースに永続化するのみ。UIの更新は自動的に発生（DBのwatchによる）
   Future<void> updateBookmarkOrder({
     required int oldIndex,
     required int newIndex,
+    required List<String> currentOrder,
   }) async {
-    final currentOrder = List<String>.from(state.bookmarkOrder);
-
     // インデックス調整
     int adjustedNewIndex = newIndex;
     if (oldIndex < newIndex) {
@@ -277,51 +270,38 @@ class BookmarksViewModel extends _$BookmarksViewModel {
     // 範囲チェック
     if (oldIndex < 0 || oldIndex >= currentOrder.length ||
         adjustedNewIndex < 0 || adjustedNewIndex >= currentOrder.length) {
-      return;
+      throw ArgumentError("Invalid index: old=$oldIndex, new=$newIndex");
     }
 
-    // 並び順を変更
-    currentOrder.insert(adjustedNewIndex, currentOrder.removeAt(oldIndex));
+    // 新しい順序を計算
+    final newOrder = List<String>.from(currentOrder);
+    newOrder.insert(adjustedNewIndex, newOrder.removeAt(oldIndex));
 
-    // 楽観的UI更新
-    state = state.copyWith(bookmarkOrder: currentOrder);
-    _sortGroups(currentOrder);
-
-    // データベースに永続化
-    try {
-      await _db.updateBookmarkOrder(currentOrder);
-    } catch (e) {
-      // エラー時は元に戻す
-      state = state.copyWith(
-        bookmarkOrder: state.bookmarkOrder,
-        errorMessage: "Failed to update order: $e",
-      );
-    }
+    // データベースに永続化（これによりbookmarkOrderProviderが自動更新される）
+    await _db.updateBookmarkOrder(newOrder);
   }
 
   /// ブックマークを削除
+  /// 
+  /// データベースから削除するのみ。UIの更新は自動的に発生
   Future<void> removeBookmark(int bookmarkId) async {
-    try {
-      await _db.removeBookmarks([bookmarkId]);
-    } catch (e) {
-      state = state.copyWith(
-        errorMessage: "Failed to remove bookmark: $e",
-      );
-    }
+    await _db.removeBookmarks([bookmarkId]);
   }
 
   /// ブックマークを削除（ハッシュ指定）
   Future<void> removeBookmarksByHashes(List<String> hashes) async {
-    try {
-      await _db.removeBookmarksByHashes(hashes);
-    } catch (e) {
-      state = state.copyWith(
-        errorMessage: "Failed to remove bookmarks: $e",
-      );
-    }
+    await _db.removeBookmarksByHashes(hashes);
   }
 }
 ```
+
+**設計のポイント:**
+
+1. **Single Source of Truth**: データベースが唯一の真実の情報源
+2. **派生データはキャッシュのみ**: `bookmarkGroupsProvider`は変換結果をキャッシュするが、stateには保持しない
+3. **自動更新**: データベース変更時、Riverpodが自動的にUIを更新
+4. **操作と状態の分離**: `BookmarkOperations`は操作のみ、状態はProviderが管理
+5. **テスタビリティ**: データベースをモック化すれば全てテスト可能
 
 #### Step 1.3: FurnishingViewModelの作成
 
@@ -337,97 +317,50 @@ import "../../../providers/versions.dart";
 
 part "furnishing_viewmodel.g.dart";
 
-/// 家具ブックマークのViewModel状態
-class FurnishingViewState {
-  final List<FurnishingSetBookmark> bookmarks;
-  final Map<String, List<FurnishingCraftCount>> counts;
-  final AssetData? assetData;
-  final bool isLoading;
-  final String? errorMessage;
-
-  const FurnishingViewState({
-    this.bookmarks = const [],
-    this.counts = const {},
-    this.assetData,
-    this.isLoading = false,
-    this.errorMessage,
-  });
-
-  FurnishingViewState copyWith({
-    List<FurnishingSetBookmark>? bookmarks,
-    Map<String, List<FurnishingCraftCount>>? counts,
-    AssetData? assetData,
-    bool? isLoading,
-    String? errorMessage,
-  }) {
-    return FurnishingViewState(
-      bookmarks: bookmarks ?? this.bookmarks,
-      counts: counts ?? this.counts,
-      assetData: assetData ?? this.assetData,
-      isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
-  }
-}
-
-/// 家具ブックマークのViewModel
+/// 家具ブックマーク操作を提供するViewModel
+/// 
+/// データベースを直接watchするため、状態は保持しない
 @riverpod
-class FurnishingViewModel extends _$FurnishingViewModel {
+class FurnishingOperations extends _$FurnishingOperations {
   AppDatabase get _db => ref.read(appDatabaseProvider);
 
   @override
-  FurnishingViewState build() {
-    _initialize();
-    return const FurnishingViewState(isLoading: true);
-  }
-
-  void _initialize() {
-    ref.listen(assetDataProvider, (_, next) {
-      if (next.value != null) {
-        state = state.copyWith(assetData: next.value);
-      }
-    });
-  }
-
-  /// 家具セットブックマークを読み込む
-  Stream<List<FurnishingSetBookmark>> watchBookmarks() {
-    return _db.watchFurnishingSetBookmarks();
-  }
-
-  /// 製作カウントを読み込む
-  Stream<List<FurnishingCraftCount>> watchCraftCounts(String setId) {
-    return _db.watchFurnishingCraftCounts(setId);
+  void build() {
+    // 状態は保持しない
   }
 
   /// 家具ブックマークを削除（Undo機能付き）
+  /// 
+  /// データベースから削除。UIの更新は自動的に発生
   Future<void Function()> removeBookmark(FurnishingSetBookmark bookmark) async {
-    try {
-      return await _db.removeFurnishingSetBookmark(bookmark);
-    } catch (e) {
-      state = state.copyWith(
-        errorMessage: "Failed to remove bookmark: $e",
-      );
-      rethrow;
-    }
+    return await _db.removeFurnishingSetBookmark(bookmark);
   }
 
   /// 製作カウントを更新
+  /// 
+  /// データベースに永続化。UIの更新は自動的に発生
   Future<void> updateCraftCount({
     required String setId,
     required String furnishingId,
     required int count,
   }) async {
-    if (count < 0) return;
-
-    try {
-      await _db.updateFurnishingCraftCount(setId, furnishingId, count);
-    } catch (e) {
-      state = state.copyWith(
-        errorMessage: "Failed to update count: $e",
-      );
+    if (count < 0) {
+      throw ArgumentError("Count cannot be negative: $count");
     }
+
+    await _db.updateFurnishingCraftCount(setId, furnishingId, count);
   }
 }
+```
+
+**データの取得:**
+
+家具データはUIコンポーネント内で直接データベースをwatchします：
+
+```dart
+// PresentationコンポーネントでのStreamの使用例
+final bookmarksStream = _db.watchFurnishingSetBookmarks();
+final countsStream = _db.watchFurnishingCraftCounts(setId);
 ```
 
 ---
@@ -447,46 +380,76 @@ import "../../../components/material_item.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/bookmark.dart";
+import "../../../providers/versions.dart";
+import "../../../providers/database_provider.dart";
 import "../viewmodels/bookmarks_viewmodel.dart";
 import "bookmark_group_card.dart";
 
 /// 目的別にグループ化されたブックマークリスト
+/// 
+/// データベースを直接watchし、ViewModelは操作のみを提供
 class PurposeGroupedList extends ConsumerWidget {
   const PurposeGroupedList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewState = ref.watch(bookmarksViewModelProvider);
+    // データベースから直接取得（Single Source of Truth）
+    final groupsAsync = ref.watch(bookmarkGroupsProvider);
+    final orderAsync = ref.watch(bookmarkOrderProvider);
 
-    if (viewState.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    return groupsAsync.when(
+      data: (groups) {
+        if (groups.isEmpty) {
+          return Center(
+            child: Text(tr.bookmarksPage.noBookmarks),
+          );
+        }
 
-    if (viewState.bookmarkGroups.isEmpty) {
-      return Center(
-        child: Text(tr.bookmarksPage.noBookmarks),
-      );
-    }
+        return orderAsync.when(
+          data: (order) => _buildList(context, ref, groups, order),
+          loading: () => _buildList(context, ref, groups, []),
+          error: (_, __) => _buildList(context, ref, groups, []),
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, _) => Center(
+        child: Text("Error: $error"),
+      ),
+    );
+  }
 
+  Widget _buildList(
+    BuildContext context,
+    WidgetRef ref,
+    List<BookmarkGroup> groups,
+    List<String> order,
+  ) {
     return ReorderableListView.builder(
-      itemCount: viewState.bookmarkGroups.length,
+      itemCount: groups.length,
       padding: const EdgeInsets.only(top: 8),
       onReorder: (oldIndex, newIndex) {
-        ref.read(bookmarksViewModelProvider.notifier).updateBookmarkOrder(
+        // ViewModelに操作を委譲（状態更新はDBのwatchにより自動）
+        ref.read(bookmarkOperationsProvider.notifier).updateBookmarkOrder(
           oldIndex: oldIndex,
           newIndex: newIndex,
+          currentOrder: order,
         );
       },
       buildDefaultDragHandles: false,
       itemBuilder: (context, index) {
-        final group = viewState.bookmarkGroups[index];
+        final group = groups[index];
+        final assetData = ref.watch(assetDataProvider).value;
+
+        if (assetData == null) {
+          return const SizedBox.shrink(key: ValueKey("loading"));
+        }
 
         return BookmarkGroupCard(
           key: Key(group.hash),
           group: group,
           index: index,
-          assetData: viewState.assetData!,
-          showDivider: index < viewState.bookmarkGroups.length - 1,
+          assetData: assetData,
+          showDivider: index < groups.length - 1,
         );
       },
     );
@@ -543,7 +506,8 @@ class BookmarkGroupCard extends ConsumerWidget {
                   group: group,
                   assetData: assetData,
                   onRemove: () {
-                    ref.read(bookmarksViewModelProvider.notifier)
+                    // ViewModelの操作メソッドを呼び出すのみ
+                    ref.read(bookmarkOperationsProvider.notifier)
                         .removeBookmark(group.bookmarks.first.metadata.id);
                   },
                 ),
@@ -599,20 +563,19 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../i18n/strings.g.dart";
-import "../ui_core/error_messages.dart";
 import "bookmarks/widgets/purpose_grouped_list.dart";
 import "bookmarks/widgets/material_grouped_list.dart";
 import "bookmarks/widgets/furnishing_list.dart";
-import "bookmarks/viewmodels/bookmarks_viewmodel.dart";
 
 /// ブックマークページ（新実装）
+/// 
+/// ViewModelは状態を持たず、データベースを直接watch
 class BookmarksPageNew extends HookConsumerWidget {
   const BookmarksPageNew({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tabController = useTabController(initialLength: 3);
-    final viewState = ref.watch(bookmarksViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -626,14 +589,23 @@ class BookmarksPageNew extends HookConsumerWidget {
           ],
         ),
       ),
-      body: viewState.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : viewState.errorMessage != null
-              ? Center(child: Text(getErrorMessage(viewState.errorMessage!)))
-              : TabBarView(
-                  controller: tabController,
-                  children: const [
-                    PurposeGroupedList(),
+      body: TabBarView(
+        controller: tabController,
+        children: const [
+          PurposeGroupedList(),
+          MaterialGroupedList(),
+          FurnishingList(),
+        ],
+      ),
+    );
+  }
+}
+```
+
+**設計のポイント:**
+- ページはシンプルなルーティングのみ
+- 各タブのウィジェットが独立してデータベースをwatch
+- エラーハンドリングは各ウィジェット内で実施
                     MaterialGroupedList(),
                     FurnishingList(),
                   ],
