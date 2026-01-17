@@ -8,25 +8,25 @@ import "../../../utils/bookmark_utils.dart";
 
 part "bookmarks_viewmodel.g.dart";
 
-/// ブックマークグループ（変換・キャッシュ済み）を提供するProvider
+/// Provider for bookmark groups (transformed and cached)
 ///
-/// データベースを直接watchし、変換結果をキャッシュ
-/// stateには派生データを保持せず、DBが唯一の情報源（Single Source of Truth）
+/// Watches the database directly and caches transformation results.
+/// Does not hold derived data in state; DB is the single source of truth.
 @riverpod
 Future<List<BookmarkGroup>> bookmarkGroups(Ref ref) async {
   final assetDataAsync = ref.watch(assetDataProvider);
   final bookmarksAsync = ref.watch(bookmarksProvider());
   final bookmarkOrderAsync = ref.watch(bookmarkOrderProvider);
 
-  // 全てのデータが揃うまで待機
+  // Wait for all data to be available
   final assetData = await assetDataAsync.future;
   final bookmarks = await bookmarksAsync.future;
   final order = await bookmarkOrderAsync.future;
 
-  // データベースから取得したデータを変換
+  // Transform data retrieved from database
   final groups = BookmarkUtils.groupBookmarks(bookmarks, assetData);
 
-  // 順序でソート（順序データが利用可能な場合）
+  // Sort by order (if order data is available)
   if (order.isNotEmpty) {
     BookmarkUtils.sortBookmarkGroups(groups, order);
   }
@@ -34,56 +34,47 @@ Future<List<BookmarkGroup>> bookmarkGroups(Ref ref) async {
   return groups;
 }
 
-/// ブックマーク操作を提供するViewModel
+/// Updates bookmark order
 ///
-/// 状態は保持せず、データベース操作のみを提供
-/// UIはbookmarkGroupsProviderを直接watchする
-@riverpod
-class BookmarkOperations extends _$BookmarkOperations {
-  AppDatabase get _db => ref.read(appDatabaseProvider);
+/// Only persists to database. UI updates automatically (via DB watch).
+Future<void> updateBookmarkOrder(
+  Ref ref, {
+  required int oldIndex,
+  required int newIndex,
+  required List<String> currentOrder,
+}) async {
+  final db = ref.read(appDatabaseProvider);
 
-  @override
-  void build() {
-    // 状態は保持しない
+  // Adjust index
+  int adjustedNewIndex = newIndex;
+  if (oldIndex < newIndex) {
+    adjustedNewIndex -= 1;
   }
 
-  /// ブックマークの並び順を更新
-  ///
-  /// データベースに永続化するのみ。UIの更新は自動的に発生（DBのwatchによる）
-  Future<void> updateBookmarkOrder({
-    required int oldIndex,
-    required int newIndex,
-    required List<String> currentOrder,
-  }) async {
-    // インデックス調整
-    int adjustedNewIndex = newIndex;
-    if (oldIndex < newIndex) {
-      adjustedNewIndex -= 1;
-    }
-
-    // 範囲チェック
-    if (oldIndex < 0 || oldIndex >= currentOrder.length ||
-        adjustedNewIndex < 0 || adjustedNewIndex >= currentOrder.length) {
-      throw ArgumentError("Invalid index: old=$oldIndex, new=$newIndex");
-    }
-
-    // 新しい順序を計算
-    final newOrder = List<String>.from(currentOrder);
-    newOrder.insert(adjustedNewIndex, newOrder.removeAt(oldIndex));
-
-    // データベースに永続化（これによりbookmarkOrderProviderが自動更新される）
-    await _db.updateBookmarkOrder(newOrder);
+  // Range check
+  if (oldIndex < 0 || oldIndex >= currentOrder.length ||
+      adjustedNewIndex < 0 || adjustedNewIndex >= currentOrder.length) {
+    throw ArgumentError("Invalid index: old=$oldIndex, new=$newIndex");
   }
 
-  /// ブックマークを削除
-  ///
-  /// データベースから削除するのみ。UIの更新は自動的に発生
-  Future<void> removeBookmark(int bookmarkId) async {
-    await _db.removeBookmarks([bookmarkId]);
-  }
+  // Calculate new order
+  final newOrder = List<String>.from(currentOrder);
+  newOrder.insert(adjustedNewIndex, newOrder.removeAt(oldIndex));
 
-  /// ブックマークを削除（ハッシュ指定）
-  Future<void> removeBookmarksByHashes(List<String> hashes) async {
-    await _db.removeBookmarksByHashes(hashes);
-  }
+  // Persist to database (this will automatically update bookmarkOrderProvider)
+  await db.updateBookmarkOrder(newOrder);
+}
+
+/// Removes a bookmark
+///
+/// Only removes from database. UI updates automatically.
+Future<void> removeBookmark(Ref ref, int bookmarkId) async {
+  final db = ref.read(appDatabaseProvider);
+  await db.removeBookmarks([bookmarkId]);
+}
+
+/// Removes bookmarks by hashes
+Future<void> removeBookmarksByHashes(Ref ref, List<String> hashes) async {
+  final db = ref.read(appDatabaseProvider);
+  await db.removeBookmarksByHashes(hashes);
 }

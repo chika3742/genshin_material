@@ -2,9 +2,9 @@ import "package:collection/collection.dart";
 import "../core/asset_cache.dart";
 import "../models/bookmark.dart";
 
-/// ブックマーク関連のユーティリティ関数
+/// Bookmark-related utility functions
 class BookmarkUtils {
-  /// ブックマークをグループ化
+  /// Groups bookmarks by their group hash
   static List<BookmarkGroup> groupBookmarks(
     List<BookmarkWithDetails> bookmarks,
     AssetData assetData,
@@ -26,7 +26,7 @@ class BookmarkUtils {
         .toList();
   }
 
-  /// ブックマークグループを指定された順序でソート
+  /// Sorts bookmark groups by the specified order
   static void sortBookmarkGroups(
     List<BookmarkGroup> groups,
     List<String> order,
@@ -36,7 +36,7 @@ class BookmarkUtils {
     );
   }
 
-  /// マテリアルブックマークをソート（優先度順）
+  /// Sorts material bookmarks by priority
   static List<BookmarkWithMaterialDetails> sortMaterialBookmarks(
     Iterable<BookmarkWithMaterialDetails> bookmarks,
     AssetData assetData,
