@@ -78,26 +78,41 @@ BookmarksPage (メインウィジェット)
 
 ## 新しいアーキテクチャ
 
-### ディレクトリ構造
+### ディレクトリ構造（Feature-based）
+
+**Feature-basedアプローチ:**
+既存のコードと新しいコードを明確に区別するため、新しい実装は `features/` ディレクトリ内に配置します。
 
 ```
 lib/
 ├── pages/
-│   ├── bookmarks.dart                      # 既存（維持）
-│   └── bookmarks_new.dart                  # 新規（移行後のメイン）
-├── pages/bookmarks/                        # 新規ディレクトリ
-│   ├── bookmarks_page_view.dart           # Presentation層（UIのみ）
-│   ├── widgets/                            # 再利用可能なコンポーネント
-│   │   ├── purpose_grouped_list.dart
-│   │   ├── material_grouped_list.dart
-│   │   ├── furnishing_list.dart
-│   │   ├── bookmark_group_card.dart
-│   │   └── group_type_header.dart
-│   └── viewmodels/                         # ViewModel層
-│       ├── bookmarks_viewmodel.dart        # メインViewModel
-│       ├── bookmark_group_viewmodel.dart   # グループ管理ViewModel
-│       └── furnishing_viewmodel.dart       # 家具用ViewModel
+│   └── bookmarks.dart                          # 既存（維持）
+├── features/                                   # 新規：Feature-based構造
+│   └── bookmark_list/                          # ブックマーク一覧機能
+│       ├── bookmarks_screen.dart              # 新しいメインスクリーン
+│       ├── widgets/                            # Presentation層
+│       │   ├── purpose_grouped_list.dart
+│       │   ├── material_grouped_list.dart
+│       │   ├── furnishing_list.dart
+│       │   ├── bookmark_group_card.dart
+│       │   └── group_type_header.dart
+│       └── viewmodels/                         # ViewModel層
+│           ├── bookmarks_viewmodel.dart
+│           └── furnishing_viewmodel.dart
+├── utils/
+│   └── bookmark_utils.dart                     # 共通ユーティリティ
 ├── providers/
+│   └── database_provider.dart                  # 既存
+└── models/
+    └── bookmark.dart                           # 既存
+```
+
+**Feature-based構造の利点:**
+- ✅ 既存コードと新コードが明確に分離
+- ✅ 機能単位でファイルがまとまり、理解しやすい
+- ✅ 並行開発が容易（既存に影響なし）
+- ✅ 段階的な移行が可能
+- ✅ 将来的に他の機能も同様に移行可能
 │   └── database_provider.dart              # 既存
 └── utils/
     └── bookmark_utils.dart                 # ユーティリティ（新規）
@@ -184,7 +199,7 @@ class BookmarkUtils {
 
 ViewModelはデータベースを直接watchし、変換結果をキャッシュします。stateに派生データ（groups）を保持せず、データベースを唯一の信頼できる情報源とします。
 
-**ファイル: `lib/pages/bookmarks/viewmodels/bookmarks_viewmodel.dart`**
+**ファイル: `lib/features/bookmark_list/viewmodels/bookmarks_viewmodel.dart`**
 
 ```dart
 import "package:riverpod_annotation/riverpod_annotation.dart";
@@ -305,7 +320,7 @@ class BookmarkOperations extends _$BookmarkOperations {
 
 #### Step 1.3: FurnishingViewModelの作成
 
-**ファイル: `lib/pages/bookmarks/viewmodels/furnishing_viewmodel.dart`**
+**ファイル: `lib/features/bookmark_list/viewmodels/furnishing_viewmodel.dart`**
 
 ```dart
 import "package:riverpod_annotation/riverpod_annotation.dart";
@@ -369,7 +384,7 @@ final countsStream = _db.watchFurnishingCraftCounts(setId);
 
 #### Step 2.1: PurposeGroupedListの作成
 
-**ファイル: `lib/pages/bookmarks/widgets/purpose_grouped_list.dart`**
+**ファイル: `lib/features/bookmark_list/widgets/purpose_grouped_list.dart`**
 
 ```dart
 import "package:flutter/material.dart";
@@ -459,7 +474,7 @@ class PurposeGroupedList extends ConsumerWidget {
 
 #### Step 2.2: BookmarkGroupCardの作成
 
-**ファイル: `lib/pages/bookmarks/widgets/bookmark_group_card.dart`**
+**ファイル: `lib/features/bookmark_list/widgets/bookmark_group_card.dart`**
 
 ```dart
 import "package:flutter/material.dart";
@@ -555,23 +570,23 @@ class BookmarkGroupCard extends ConsumerWidget {
 
 ### Phase 3: 新しいページの作成
 
-**ファイル: `lib/pages/bookmarks_new.dart`**
+**ファイル: `lib/features/bookmark_list/bookmarks_screen.dart`**
 
 ```dart
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../i18n/strings.g.dart";
-import "bookmarks/widgets/purpose_grouped_list.dart";
-import "bookmarks/widgets/material_grouped_list.dart";
-import "bookmarks/widgets/furnishing_list.dart";
+import "../../i18n/strings.g.dart";
+import "widgets/purpose_grouped_list.dart";
+import "widgets/material_grouped_list.dart";
+import "widgets/furnishing_list.dart";
 
-/// ブックマークページ（新実装）
+/// ブックマークスクリーン（新実装）
 /// 
 /// ViewModelは状態を持たず、データベースを直接watch
-class BookmarksPageNew extends HookConsumerWidget {
-  const BookmarksPageNew({super.key});
+class BookmarksScreen extends HookConsumerWidget {
+  const BookmarksScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -621,22 +636,22 @@ class BookmarksPageNew extends HookConsumerWidget {
 
 ### Step 1: 基盤の構築（既存コードに影響なし）
 1. ✅ `lib/utils/bookmark_utils.dart` を作成
-2. ✅ `lib/pages/bookmarks/viewmodels/` 配下にViewModelを作成
+2. ✅ `lib/features/bookmark_list/viewmodels/` 配下にViewModelを作成
 3. ✅ コード生成を実行 (`flutter pub run build_runner build`)
 4. ✅ テストを作成・実行
 
 ### Step 2: Presentation Components の作成
-1. ✅ `lib/pages/bookmarks/widgets/` 配下にコンポーネントを作成
+1. ✅ `lib/features/bookmark_list/widgets/` 配下にコンポーネントを作成
 2. ✅ 既存の `bookmarks.dart` からUIロジックを移植
 3. ✅ テストを作成・実行
 
-### Step 3: 新しいページの作成と検証
-1. ✅ `lib/pages/bookmarks_new.dart` を作成
+### Step 3: 新しいスクリーンの作成と検証
+1. ✅ `lib/features/bookmark_list/bookmarks_screen.dart` を作成
 2. ✅ 動作確認（デバッグビルド）
 3. ✅ E2Eテストの実施
 
 ### Step 4: 切り替えと旧コードの削除
-1. ✅ `routes.dart` で `BookmarksPageNew` を使用するよう変更
+1. ✅ `routes.dart` で `BookmarksScreen` を使用するよう変更
 2. ✅ 本番環境で動作確認
 3. ✅ `lib/pages/bookmarks.dart` を削除（または `_old.dart` にリネーム）
 
@@ -648,7 +663,7 @@ class BookmarksPageNew extends HookConsumerWidget {
 
 **ViewModelのテスト:**
 ```dart
-// test/pages/bookmarks/viewmodels/bookmarks_viewmodel_test.dart
+// test/features/bookmark_list/viewmodels/bookmarks_viewmodel_test.dart
 void main() {
   group('BookmarksViewModel', () {
     test('初期状態はローディング', () {
@@ -681,7 +696,7 @@ void main() {
 ### Widget Tests
 
 ```dart
-// test/pages/bookmarks/widgets/purpose_grouped_list_test.dart
+// test/features/bookmark_list/widgets/purpose_grouped_list_test.dart
 void main() {
   testWidgets('空のリストで正しく表示される', (tester) async {
     // テスト実装
@@ -694,7 +709,7 @@ void main() {
 ## 成功指標
 
 ### 定量的指標
-- [ ] 新しい `bookmarks_new.dart` のコード行数: **300行以下**
+- [ ] 新しい `lib/features/bookmark_list/bookmarks_screen.dart` のコード行数: **300行以下**
 - [ ] ViewModelの単体テストカバレッジ: **80%以上**
 - [ ] 既存機能の動作: **100%互換**
 - [ ] ビルド時間: **変更前と同等**
@@ -702,8 +717,9 @@ void main() {
 ### 定性的指標
 - [ ] ビジネスロジックがViewModel層に集約されている
 - [ ] UIコンポーネントが再利用可能
-- [ ] データベース直接呼び出しが0件
+- [ ] データベース直接呼び出しが0件（UI層から）
 - [ ] 状態管理が明確で理解しやすい
+- [ ] Feature-based構造により、既存コードと新コードが明確に区別されている
 
 ---
 
@@ -711,8 +727,8 @@ void main() {
 
 ### リスク1: 既存機能の破壊
 **対策:**
-- 既存の `bookmarks.dart` を維持したまま並行開発
-- 新しいページは別ルートで動作確認可能
+- 既存の `lib/pages/bookmarks.dart` を維持したまま並行開発
+- 新しい `features/` ディレクトリで完全に分離された開発
 - E2Eテストで完全な動作確認後に切り替え
 
 ### リスク2: コード生成の問題
@@ -723,6 +739,7 @@ void main() {
 ### リスク3: 学習コスト
 **対策:**
 - 詳細なコメントとドキュメント
+- Feature-based構造により、関連コードが1箇所にまとまり理解しやすい
 - ViewModelパターンの参考資料を共有
 
 ---
