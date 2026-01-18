@@ -14,24 +14,21 @@ part "bookmarks_viewmodel.g.dart";
 /// This provider follows the same pattern as the existing bookmarks.dart page,
 /// watching the database providers and transforming the data reactively.
 @riverpod
-List<BookmarkGroup> bookmarkGroups(Ref ref) {
-  final assetDataAsync = ref.watch(assetDataProvider);
-  final assetData = assetDataAsync.value;
-  
-  if (assetData == null) return [];
+Future<List<BookmarkGroup>> bookmarkGroups(Ref ref) async {
+  // Wait for asset data to be available
+  final assetData = await ref.watch(assetDataProvider.future);
 
-  // Watch bookmarks from database (returns AsyncValue<Stream<List<BookmarkWithDetails>>>)
-  final bookmarks = ref.watch(bookmarksProvider()).value ?? [];
+  // Watch bookmarks from database
+  final bookmarks = await ref.watch(bookmarksProvider().future);
   if (bookmarks.isEmpty) return [];
 
   // Transform data retrieved from database
   final groups = BookmarkUtils.groupBookmarks(bookmarks, assetData);
 
   // Get bookmark order and sort if available
-  final bookmarkOrderAsync = ref.watch(bookmarkOrderProvider);
-  final order = bookmarkOrderAsync.value;
+  final order = await ref.watch(bookmarkOrderProvider.future);
 
-  if (order != null && order.isNotEmpty) {
+  if (order.isNotEmpty) {
     BookmarkUtils.sortBookmarkGroups(groups, order);
   }
 

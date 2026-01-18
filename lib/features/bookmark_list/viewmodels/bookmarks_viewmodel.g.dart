@@ -30,11 +30,13 @@ final bookmarkGroupsProvider = BookmarkGroupsProvider._();
 final class BookmarkGroupsProvider
     extends
         $FunctionalProvider<
+          AsyncValue<List<BookmarkGroup>>,
           List<BookmarkGroup>,
-          List<BookmarkGroup>,
-          List<BookmarkGroup>
+          FutureOr<List<BookmarkGroup>>
         >
-    with $Provider<List<BookmarkGroup>> {
+    with
+        $FutureModifier<List<BookmarkGroup>>,
+        $FutureProvider<List<BookmarkGroup>> {
   /// Provider for bookmark groups (transformed and cached)
   ///
   /// Watches the database directly and caches transformation results.
@@ -58,22 +60,14 @@ final class BookmarkGroupsProvider
 
   @$internal
   @override
-  $ProviderElement<List<BookmarkGroup>> $createElement(
+  $FutureProviderElement<List<BookmarkGroup>> $createElement(
     $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
+  ) => $FutureProviderElement(pointer);
 
   @override
-  List<BookmarkGroup> create(Ref ref) {
+  FutureOr<List<BookmarkGroup>> create(Ref ref) {
     return bookmarkGroups(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<BookmarkGroup> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<BookmarkGroup>>(value),
-    );
   }
 }
 
-String _$bookmarkGroupsHash() => r'609b7007be3a09576fbd069388fb062405e00388';
+String _$bookmarkGroupsHash() => r'7d524c1e54d3129f6ef7ba252d7e3af15f54dcfd';
