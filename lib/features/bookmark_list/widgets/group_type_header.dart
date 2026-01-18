@@ -4,6 +4,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
+import "../../../common/widgets/item_link_button.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/bookmark.dart";
 import "../../../models/common.dart";
@@ -27,7 +28,7 @@ class GroupTypeHeader extends ConsumerWidget {
 
     return Row(
       children: [
-        _ItemLinkButton(
+        ItemLinkButton(
           onTap: () {
             CharacterDetailsRoute(id: group.characterId).push(context);
           },
@@ -97,7 +98,7 @@ class _GroupTypeText extends HookConsumerWidget {
           };
         } else {
           final weapon = assetData.weapons[materialDetails.weaponId]!;
-          return _ItemLinkButton(
+          return ItemLinkButton(
             onTap: () {
               WeaponDetailsRoute(
                 id: weapon.id,
@@ -156,29 +157,6 @@ class _GroupTypeText extends HookConsumerWidget {
           },
         ),
       ],
-    );
-  }
-}
-
-/// Button wrapper that provides tap feedback for navigation links.
-class _ItemLinkButton extends StatelessWidget {
-  const _ItemLinkButton({
-    required this.onTap,
-    required this.child,
-  });
-
-  final VoidCallback onTap;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: child,
-      ),
     );
   }
 }
