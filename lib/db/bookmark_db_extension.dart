@@ -170,6 +170,24 @@ extension BookmarkDbExtension on AppDatabase {
     });
   }
 
+  /// Removes bookmarks by their hash values
+  Future<void> removeBookmarksByHashes(List<String> hashes) async {
+    await transaction(() async {
+      // Get bookmark IDs for the given hashes
+      final query = select(bookmarkTable).join([
+        leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
+      ]);
+      query.where(bookmarkMaterialDetailsTable.hash.isIn(hashes));
+      
+      final rows = await query.get();
+      final ids = rows.map((row) => row.readTable(bookmarkTable).id).toList();
+      
+      if (ids.isNotEmpty) {
+        await removeBookmarks(ids);
+      }
+    });
+  }
+
   /// Deletes obsolete bookmarks based on the provided character ID, weapon ID,
   /// and levels. Returns true if any bookmarks were deleted.
   Future<bool> deleteObsoleteBookmarks({
