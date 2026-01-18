@@ -51,11 +51,43 @@
 - ✅ **実施する**: ビジネスロジック（Repository層）とUIロジック（Presentation層）の分離
 - ❌ **実施しない**: Service層とRepository層の分離（今回はスコープ外）
 
+### 2.3 ディレクトリ構造の方針
+プロジェクトに**Feature-based Architecture**を導入します。これにより、関連するコードが機能ごとにまとめられ、保守性とスケーラビリティが向上します。
+
+**新しい構造**:
+```
+lib/
+├── features/
+│   └── bookmark_list/              # ブックマークリスト機能
+│       ├── pages/                  # ページ
+│       │   └── bookmarks.dart
+│       ├── components/             # UIコンポーネント
+│       │   ├── purpose_grouped_list.dart
+│       │   ├── material_grouped_list.dart
+│       │   └── ...
+│       ├── providers/              # 状態管理プロバイダー
+│       │   └── bookmark_state.dart
+│       └── repositories/           # ビジネスロジック層
+│           ├── bookmark_repository.dart
+│           └── furnishing_repository.dart
+├── components/                     # 共通UIコンポーネント
+├── providers/                      # 共通プロバイダー
+├── db/                            # データベース拡張
+└── ...
+```
+
+**メリット**:
+1. **高凝集**: 関連するコードが1つの場所にまとまる
+2. **低結合**: 機能間の依存関係が明確になる
+3. **スケーラビリティ**: 新しい機能の追加が容易
+4. **保守性**: 機能ごとにコードの位置が分かりやすい
+5. **テスト**: 機能単位でのテストが容易
+
 ## 3. 詳細実装計画
 
 ### Phase 1: Repository層の作成
 
-#### 3.1.1 `lib/repositories/bookmark_repository.dart`の作成
+#### 3.1.1 `lib/features/bookmark_list/repositories/bookmark_repository.dart`の作成
 
 **責務**:
 - ブックマークデータの取得・加工
@@ -99,7 +131,7 @@ class BookmarkRepository extends _$BookmarkRepository {
 - グルーピングロジック（L87-97, L310-321）
 - ブックマーク削除ロジック（複数箇所に散在）
 
-#### 3.1.2 `lib/repositories/furnishing_repository.dart`の作成
+#### 3.1.2 `lib/features/bookmark_list/repositories/furnishing_repository.dart`の作成
 
 **責務**:
 - 家具ブックマークの取得
@@ -132,7 +164,7 @@ class FurnishingRepository extends _$FurnishingRepository {
 
 ### Phase 2: Presentation層のState Management
 
-#### 3.2.1 `lib/providers/bookmark_state.dart`の作成
+#### 3.2.1 `lib/features/bookmark_list/providers/bookmark_state.dart`の作成
 
 **責務**:
 - UIに必要な状態の提供
@@ -166,10 +198,10 @@ class BookmarkOperations extends _$BookmarkOperations {
 
 ### Phase 3: UIコンポーネントの抽出
 
-#### 3.3.1 `lib/components/bookmark/`ディレクトリ構造
+#### 3.3.1 `lib/features/bookmark_list/components/`ディレクトリ構造
 
 ```
-lib/components/bookmark/
+lib/features/bookmark_list/components/
 ├── purpose_grouped_list.dart          # 目的別リスト
 ├── material_grouped_list.dart         # 素材別リスト
 ├── furnishing_list.dart               # 家具リスト
@@ -191,7 +223,9 @@ lib/components/bookmark/
 
 ### Phase 4: メインページのリファクタリング
 
-#### 3.4.1 `lib/pages/bookmarks.dart`の簡素化
+#### 3.4.1 `lib/features/bookmark_list/pages/bookmarks.dart`の簡素化
+
+**注意**: 既存の`lib/pages/bookmarks.dart`から`lib/features/bookmark_list/pages/bookmarks.dart`に移動
 
 **変更前の責務** (現状):
 - UI描画
@@ -210,8 +244,8 @@ lib/components/bookmark/
 ### Phase 5: テストとバリデーション
 
 #### 3.5.1 単体テストの追加
-- `test/repositories/bookmark_repository_test.dart`
-- `test/repositories/furnishing_repository_test.dart`
+- `test/features/bookmark_list/repositories/bookmark_repository_test.dart`
+- `test/features/bookmark_list/repositories/furnishing_repository_test.dart`
 
 #### 3.5.2 テスト項目
 1. ブックマークのグルーピングが正しく動作すること
@@ -225,29 +259,35 @@ lib/components/bookmark/
 
 ## 4. 実装順序
 
-### Step 1: Repository層の実装
-1. `lib/repositories/bookmark_repository.dart`を作成
+### Step 1: Feature構造の準備
+1. `lib/features/bookmark_list/`ディレクトリを作成
+2. サブディレクトリを作成: `repositories/`, `providers/`, `components/`, `pages/`
+
+### Step 2: Repository層の実装
+1. `lib/features/bookmark_list/repositories/bookmark_repository.dart`を作成
 2. ソート・グルーピングロジックを移動
 3. 単体テストを追加
 
-### Step 2: Furnishing Repositoryの実装
-1. `lib/repositories/furnishing_repository.dart`を作成
+### Step 3: Furnishing Repositoryの実装
+1. `lib/features/bookmark_list/repositories/furnishing_repository.dart`を作成
 2. 家具関連ロジックを移動
 3. 単体テストを追加
 
-### Step 3: Providerの実装
-1. `lib/providers/bookmark_state.dart`を作成
+### Step 4: Providerの実装
+1. `lib/features/bookmark_list/providers/bookmark_state.dart`を作成
 2. 既存のproviderと統合
 
-### Step 4: UIコンポーネントの分離
-1. `lib/components/bookmark/`ディレクトリを作成
+### Step 5: UIコンポーネントの分離
+1. `lib/features/bookmark_list/components/`ディレクトリを作成
 2. ウィジェットを1つずつ分離・移動
 3. インポートを更新
 
-### Step 5: メインページのリファクタリング
-1. `bookmarks.dart`から抽出したロジックを削除
-2. 新しいrepositoryとproviderを使用するように更新
-3. コンポーネントのインポートを更新
+### Step 6: メインページのリファクタリング
+1. `lib/pages/bookmarks.dart`を`lib/features/bookmark_list/pages/bookmarks.dart`に移動
+2. 抽出したロジックを削除
+3. 新しいrepositoryとproviderを使用するように更新
+4. コンポーネントのインポートを更新
+5. ルーティング設定を更新（`lib/routes.dart`）
 
 ### Step 6: 最終テストとクリーンアップ
 1. 全テストを実行
