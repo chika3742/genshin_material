@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../../database.dart";
+import "../../../db/furnishing_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../providers/database_provider.dart";
 import "../../../ui_core/snack_bar.dart";

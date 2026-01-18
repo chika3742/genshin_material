@@ -4,9 +4,9 @@ import "package:collection/collection.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../../core/asset_cache.dart";
+import "../../../db/bookmark_order_registry_db_extension.dart";
 import "../../../models/bookmark.dart";
 import "../../../providers/database_provider.dart";
-import "../../../providers/versions.dart";
 
 part "purpose_grouped_bookmark_viewmodel.g.dart";
 

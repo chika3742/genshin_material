@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../../core/asset_cache.dart";
-import "../../../database.dart";
+import "../../../db/bookmark_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/bookmark.dart";
 import "../../../providers/database_provider.dart";
