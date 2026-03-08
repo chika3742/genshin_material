@@ -1,6 +1,6 @@
-const tosUrl = "https://gms.chikach.net/terms";
+const tosUrl = "https://www.chikach.net/genshin-material-terms";
 
-const privacyPolicyUrl = "https://gms.chikach.net/privacy";
+const privacyPolicyUrl = "https://www.chikach.net/genshin-material-privacy";
 
 const assetReleasesUrl = "https://matnote-releases.chikach.net/releases/genshin";
 
