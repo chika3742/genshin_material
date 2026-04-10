@@ -116,6 +116,15 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
     final enableSync = !weapon.disableSync &&
         !characters.firstWhere((e) => e.id == state.value.selectedCharacterId).disableSync;
 
+    // Watch bag lack nums directly so the value is available immediately even when the provider
+    // already has a cached result (e.g. the same weapon screen is open in another ShellRoute).
+    final lackNums = enableSync
+        ? ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(
+            variantId: state.value.selectedCharacterId,
+            weaponId: weapon.id,
+          ))).valueOrNull
+        : null;
+
     if (enableSync) {
       ref.listen(gameDataSyncCachedProvider(
         variantId: state.value.selectedCharacterId,
@@ -130,17 +139,6 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
             ));
           }
         }
-      });
-
-      ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(
-        variantId: state.value.selectedCharacterId,
-        weaponId: weapon.id,
-      )), (_, result) {
-        if (result.value == null) return;
-
-        state.value = state.value.copyWith(
-          lackNums: result.value!,
-        );
       });
     }
 
@@ -212,7 +210,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                       target: weapon,
                       characterId: state.value.selectedCharacterId,
                       ranges: UnmodifiableMapView(state.value.rangeValues),
-                      lackNums: state.value.lackNums,
+                      lackNums: lackNums,
                       onRangesChanged: (value) {
                         state.value = state.value.copyWith(
                           rangeValues: value,

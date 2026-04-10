@@ -123,6 +123,12 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       variants[initialVariant] ?? variants.values.first,
     );
 
+    // Watch bag lack nums directly so the value is available immediately even when the provider
+    // already has a cached result (e.g. the same character screen is open in another ShellRoute).
+    final lackNums = !variant.value.disableSync
+        ? ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id))).valueOrNull
+        : null;
+
     if (!variant.value.disableSync) {
       ref.listen(gameDataSyncCachedProvider(variantId: variant.value.id), (_, result) {
         if (result.value == null) return;
@@ -153,14 +159,6 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
           );
         }
         state.value = newState;
-      });
-
-      ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id)), (_, result) {
-        if (result.value == null) return;
-
-        state.value = state.value.copyWith(
-          lackNums: result.value!,
-        );
       });
     }
 
@@ -320,7 +318,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                       child: MaterialSlider(
                         ingredientConf: ingredients,
                         purposes: slider.purposes,
-                        lackNums: state.value.lackNums,
+                        lackNums: lackNums,
                         target: switch (slider.preferredTargetType) {
                           PreferredTargetType.group => character,
                           PreferredTargetType.variant || null => variant.value,
