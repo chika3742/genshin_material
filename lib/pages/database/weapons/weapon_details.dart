@@ -123,7 +123,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       weaponId: weapon.id,
     );
     final lackNums = enableSync
-        ? ref.watch(bagLackNumProvider(syncCharacter)).valueOrNull
+        ? ref.watch(bagLackNumProvider(syncCharacter)).value
         : null;
 
     if (enableSync) {

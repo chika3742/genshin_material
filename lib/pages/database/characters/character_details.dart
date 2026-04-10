@@ -128,7 +128,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     // Watch bag lack nums directly so the value is available immediately even when the provider
     // already has a cached result (e.g. the same character screen is open in another ShellRoute).
     final lackNums = enableSync
-        ? ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id))).valueOrNull
+        ? ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id))).value
         : null;
 
     if (enableSync) {
