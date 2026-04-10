@@ -389,7 +389,6 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
     required Map<Purpose, LevelRangeValues> rangeValues,
     required Map<Purpose, bool> checkedTalentTypes,
     required Map<Purpose, GlobalKey> talentSectionKeys,
-    required Map<String, int> lackNums,
     required String? equippedWeaponId,
   }) = __CharacterDetailsPageState;
 
@@ -416,7 +415,6 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
       rangeValues: rangeValues,
       checkedTalentTypes: checkedTalentTypes,
       talentSectionKeys: talentSectionKeys,
-      lackNums: {},
       equippedWeaponId: initialCharacterState?.equippedWeaponId,
     );
   }

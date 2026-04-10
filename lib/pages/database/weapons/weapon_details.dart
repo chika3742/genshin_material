@@ -195,7 +195,6 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                 initialValue: state.value.selectedCharacterId,
                 onChanged: (value) {
                   state.value = state.value.copyWith(
-                    lackNums: {},
                     selectedCharacterId: value!,
                   );
                 },
@@ -249,7 +248,6 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
   const factory _WeaponDetailsPageState({
     required Map<Purpose, LevelRangeValues> rangeValues,
     required CharacterId selectedCharacterId,
-    required Map<String, int> lackNums,
   }) = __WeaponDetailsPageState;
 
   factory _WeaponDetailsPageState.init({
@@ -261,7 +259,6 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
         Purpose.ascension: rangeValues,
       },
       selectedCharacterId: selectedCharacterId,
-      lackNums: {},
     );
   }
 
