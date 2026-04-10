@@ -118,11 +118,12 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
 
     // Watch bag lack nums directly so the value is available immediately even when the provider
     // already has a cached result (e.g. the same weapon screen is open in another ShellRoute).
+    final syncCharacter = GameDataSyncCharacter.single(
+      variantId: state.value.selectedCharacterId,
+      weaponId: weapon.id,
+    );
     final lackNums = enableSync
-        ? ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(
-            variantId: state.value.selectedCharacterId,
-            weaponId: weapon.id,
-          ))).valueOrNull
+        ? ref.watch(bagLackNumProvider(syncCharacter)).valueOrNull
         : null;
 
     if (enableSync) {
