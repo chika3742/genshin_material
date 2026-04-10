@@ -123,7 +123,15 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       variants[initialVariant] ?? variants.values.first,
     );
 
-    if (!variant.value.disableSync) {
+    final enableSync = !variant.value.disableSync;
+
+    // Watch bag lack nums directly so the value is available immediately even when the provider
+    // already has a cached result (e.g. the same character screen is open in another ShellRoute).
+    final lackNums = enableSync
+        ? ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id))).value
+        : null;
+
+    if (enableSync) {
       ref.listen(gameDataSyncCachedProvider(variantId: variant.value.id), (_, result) {
         if (result.value == null) return;
 
@@ -153,14 +161,6 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
           );
         }
         state.value = newState;
-      });
-
-      ref.listen(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id)), (_, result) {
-        if (result.value == null) return;
-
-        state.value = state.value.copyWith(
-          lackNums: result.value!,
-        );
       });
     }
 
@@ -320,7 +320,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                       child: MaterialSlider(
                         ingredientConf: ingredients,
                         purposes: slider.purposes,
-                        lackNums: state.value.lackNums,
+                        lackNums: lackNums,
                         target: switch (slider.preferredTargetType) {
                           PreferredTargetType.group => character,
                           PreferredTargetType.variant || null => variant.value,
@@ -389,7 +389,6 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
     required Map<Purpose, LevelRangeValues> rangeValues,
     required Map<Purpose, bool> checkedTalentTypes,
     required Map<Purpose, GlobalKey> talentSectionKeys,
-    required Map<String, int> lackNums,
     required String? equippedWeaponId,
   }) = __CharacterDetailsPageState;
 
@@ -416,7 +415,6 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
       rangeValues: rangeValues,
       checkedTalentTypes: checkedTalentTypes,
       talentSectionKeys: talentSectionKeys,
-      lackNums: {},
       equippedWeaponId: initialCharacterState?.equippedWeaponId,
     );
   }
