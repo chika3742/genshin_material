@@ -166,7 +166,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       onSwapExpItem: widget.item.isExp ? () {
         setState(() {
           _currentExpItemIndex = (_currentExpItemIndex + 1) %
-              assetData.characterIngredients.expItems.length;
+              widget.expItems!.length;
         });
       } : null,
     );
@@ -182,6 +182,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
           materialId: widget.item.id,
           bookmarkedMaterials: bookmarkedMaterials,
           currentQuantity: widget.item.sum,
+          expItems: widget.expItems,
           expItemIndex: _currentExpItemIndex,
         );
       },
@@ -192,6 +193,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
 class _PartialBookmarkBottomSheet extends ConsumerWidget {
   final String? materialId;
   final int expItemIndex;
+  final List<ExpItem>? expItems;
   final List<BookmarkWithMaterialDetails> bookmarkedMaterials;
   final int currentQuantity;
 
@@ -199,6 +201,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
     required this.materialId,
     required this.bookmarkedMaterials,
     required this.currentQuantity,
+    this.expItems,
     this.expItemIndex = 0,
   });
 
@@ -209,7 +212,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
       return const SizedBox();
     }
 
-    final expItem = assetData.characterIngredients.expItems[expItemIndex];
+    final expItem = (expItems ?? assetData.characterIngredients.expItems)[expItemIndex];
     final itemId = materialId ?? expItem.itemId;
     int processQuantity(int quantity) {
       if (materialId == null) {
