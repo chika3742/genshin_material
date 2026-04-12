@@ -75,7 +75,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 child: Text(tr.common.dismiss),
               ),
             ],
-          ),);
+          ));
         }
       }
     });

@@ -166,7 +166,7 @@ void main() {
         "circlet": "critRate",
       },
       subStats: ["critDamage", "critRate"],
-    ),);
+    ));
 
     await tester.pumpAndSettle();
     await tester.pump(const Duration(seconds: 5)); // wait until the snackbar is dismissed

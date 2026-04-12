@@ -79,7 +79,7 @@ class WeaponListPage extends HookConsumerWidget {
         if (context.mounted) showIndexSheetTutorialIfNeeded(context, fabKey, ref);
       });
       return null;
-    }, [],);
+    }, []);
 
     double initialScrollOffset = 0;
     if (equipCharacter != null) {

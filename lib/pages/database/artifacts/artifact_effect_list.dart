@@ -35,7 +35,7 @@ class ArtifactEffectListPage extends HookConsumerWidget {
             }
 
             return filterState.tags.every(e.tags!.contains);
-          }).toList(), [filterState],);
+          }).toList(), [filterState]);
 
           return CustomScrollView(
             slivers: [

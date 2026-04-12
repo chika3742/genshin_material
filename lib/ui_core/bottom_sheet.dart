@@ -137,7 +137,7 @@ class ScrollableBottomSheet extends HookWidget {
         updateChildSize();
       });
       return null;
-    }, [],);
+    }, []);
 
     return NotificationListener<SizeChangedLayoutNotification>(
       onNotification: (notification) {

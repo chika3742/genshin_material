@@ -14,7 +14,7 @@ extension MaterialBagCountDbExtension on AppDatabase {
           uid: uid,
           hyvId: entry.key,
           count: entry.value,
-        ), mode: InsertMode.insertOrReplace,);
+        ), mode: InsertMode.insertOrReplace);
       }
     });
   }

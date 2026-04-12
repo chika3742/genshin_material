@@ -202,7 +202,7 @@ class _PurposeGroupedBookmarkList extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 32),
           child: Text(tr.bookmarksPage.noBookmarks, style: const TextStyle(
             fontSize: 16,
-          ),),
+          )),
         ),
       ],
     );
@@ -365,7 +365,7 @@ class _MaterialGroupedBookmarkList extends ConsumerWidget {
                                 upperLevel: e.materialDetails.upperLevel,
                                 purposeType: e.materialDetails.purposeType,
                                 quantity: e.materialDetails.quantity,
-                              ),).toList(),);
+                              )).toList());
                             },
                           ),
                         );
@@ -461,7 +461,7 @@ class _ArtifactSetDetails extends ConsumerWidget {
               const TextSpan(text: ": "),
               TextSpan(text: assetData.stats[e.value]!.localized, style: const TextStyle(fontWeight: FontWeight.bold)),
             ],
-          ),),
+          )),
 
         if (bookmark.artifactSetDetails.subStats.isNotEmpty)
           Text.rich(TextSpan(
@@ -470,7 +470,7 @@ class _ArtifactSetDetails extends ConsumerWidget {
               const TextSpan(text: ": "),
               TextSpan(text: bookmark.artifactSetDetails.subStats.map((e) => assetData.stats[e]!.localized).join(", "), style: const TextStyle(fontWeight: FontWeight.bold)),
             ],
-          ),),
+          )),
       ],
     );
   }
@@ -525,7 +525,7 @@ class _ArtifactPieceDetails extends ConsumerWidget {
               const TextSpan(text: ": "),
               TextSpan(text: assetData.stats[bookmark.artifactPieceDetails.mainStat]!.localized, style: const TextStyle(fontWeight: FontWeight.bold)),
             ],
-          ),),
+          )),
 
         if (bookmark.artifactPieceDetails.subStats.isNotEmpty)
           Text.rich(TextSpan(
@@ -534,7 +534,7 @@ class _ArtifactPieceDetails extends ConsumerWidget {
               const TextSpan(text: ": "),
               TextSpan(text: bookmark.artifactPieceDetails.subStats.map((e) => assetData.stats[e]!.localized).join(", "), style: const TextStyle(fontWeight: FontWeight.bold)),
             ],
-          ),),
+          )),
       ],
     );
   }
