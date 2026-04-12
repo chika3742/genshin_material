@@ -34,7 +34,7 @@ class MaterialListPage extends HookConsumerWidget {
         if (context.mounted) showIndexSheetTutorialIfNeeded(context, fabKey, ref);
       });
       return null;
-    }, [],);
+    }, []);
 
     final materialsGroupedByCategory = useMemoized(
       () => assetData.materials.values.groupListsBy((element) => element.category),

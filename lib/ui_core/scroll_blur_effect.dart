@@ -36,7 +36,7 @@ class ScrollBlurEffect extends HookWidget {
       return () {
         scrollController.removeListener(onScroll);
       };
-    }, [],);
+    }, []);
 
     return LayoutBuilder(
       builder: (context, constraints) {

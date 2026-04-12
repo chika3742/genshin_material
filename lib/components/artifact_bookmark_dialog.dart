@@ -51,7 +51,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
       characterId: initialSelectedCharacter,
       firstSetId: firstSetId,
       pieceId: pieceId,
-    ),);
+    ));
     final screenState = useState<_ScreenState>(showSecondSetChooser ? _ScreenState.secondSetChooser : _ScreenState.artifactDetails);
     final characterDropdownError = useState<String?>(null);
 
@@ -59,7 +59,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(screenState.value == _ScreenState.artifactDetails
             ? tr.artifactDetailsPage.bookmarkArtifacts
-            : tr.artifactDetailsPage.chooseSecondSet,),
+            : tr.artifactDetailsPage.chooseSecondSet),
         actions: [
           if (screenState.value == _ScreenState.secondSetChooser)
             TextButton(
@@ -278,14 +278,14 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
         piece: state.pieceId!,
         mainStat: state.mainStats.values.firstOrNull,
         subStats: state.subStats,
-      ),);
+      ));
     } else {
       await db.addArtifactSetBookmark(ArtifactSetBookmarkInsertable(
         characterId: state.characterId!,
         sets: [state.firstSetId!, if (state.secondSetId != null) state.secondSetId!],
         mainStats: state.mainStats,
         subStats: state.subStats,
-      ),);
+      ));
     }
   }
 }
@@ -307,7 +307,7 @@ class SecondArtifactChooserScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final artifactSets = useMemoized(() => assetData.artifactSets.values
-        .where((set) => set.id != excludedSetId && set.bonuses.length >= 2).toList(),);
+        .where((set) => set.id != excludedSetId && set.bonuses.length >= 2).toList());
 
     return CustomScrollView(
       slivers: [

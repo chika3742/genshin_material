@@ -71,7 +71,7 @@ class Bubble extends HookWidget {
         childWidth.value = renderBox.size.width;
       });
       return null;
-    }, [],);
+    }, []);
 
     return Stack(
       children: [

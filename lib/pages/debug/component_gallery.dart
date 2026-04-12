@@ -31,7 +31,7 @@ class ComponentGalleryPage extends StatelessWidget {
                         status.value = const GameDataSyncStatus.synced();
                       });
                       return null;
-                    }, const [],);
+                    }, const []);
 
                     return GameDataSyncIndicator(
                       status: status.value,

@@ -41,7 +41,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
         isSignedIn.value = await hasHoyolabCookie();
       }();
       return null;
-    }, [],);
+    }, []);
 
     final isRealtimeNotesEnabled = ref.watch(realtimeNotesActivationStateProvider);
 

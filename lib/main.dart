@@ -76,7 +76,7 @@ void main() async {
   await remoteConfig.setConfigSettings(RemoteConfigSettings(
     fetchTimeout: const Duration(minutes: 1),
     minimumFetchInterval: kReleaseMode ? const Duration(hours: 12) : const Duration(minutes: 1),
-  ),);
+  ));
   await remoteConfig.setDefaults(const {
     RemoteConfigKey.bannerShown: false,
     RemoteConfigKey.hoyolabLinkEnabled: false,

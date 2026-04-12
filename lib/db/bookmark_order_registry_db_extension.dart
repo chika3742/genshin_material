@@ -13,7 +13,7 @@ extension BookmarkOrderRegistryDbExtension on AppDatabase {
   Future<void> updateBookmarkOrder(List<String> order) {
     return update(bookmarkOrderRegistryTable).write(BookmarkOrderRegistryCompanion.insert(
       order: order,
-    ),);
+    ));
   }
 
   Future<void> registerBookmarkOrderHashes(List<String> hashes) async {
@@ -21,7 +21,7 @@ extension BookmarkOrderRegistryDbExtension on AppDatabase {
       final order = await getBookmarkOrder();
       await update(bookmarkOrderRegistryTable).write(BookmarkOrderRegistryCompanion.insert(
         order: (Set<String>.from(order)..addAll(hashes)).toList(),
-      ),);
+      ));
     });
   }
 
@@ -30,7 +30,7 @@ extension BookmarkOrderRegistryDbExtension on AppDatabase {
       final order = await getBookmarkOrder();
       await update(bookmarkOrderRegistryTable).write(BookmarkOrderRegistryCompanion.insert(
         order: order..removeWhere((e) => hashes.contains(e)),
-      ),);
+      ));
     });
   }
 }

@@ -33,7 +33,7 @@ class DataAssetScope extends ConsumerWidget {
       // Asset version is loading
       return _wrapWithScaffoldIfNeeded(const Center(
         child: CircularProgressIndicator(),
-      ),);
+      ));
     }
 
     // Asset installation failed

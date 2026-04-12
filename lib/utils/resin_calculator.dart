@@ -32,7 +32,7 @@ ResinCalculationResult calculateResinRecovery({
         resin: bp,
         fullyReplenishedBy: fullyReplenishedBy,
         timeToFull: timeToFull,
-      ),);
+      ));
     }
   }
 

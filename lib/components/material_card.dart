@@ -177,7 +177,7 @@ class MaterialCard extends StatelessWidget {
                       BookmarkState.bookmarked => Symbols.bookmark_added,
                       BookmarkState.partial => Symbols.bookmark_remove,
                       BookmarkState.none => Symbols.bookmark_add,
-                    },),
+                    }),
                     onPressed: onBookmark,
                   ),
                 ),
