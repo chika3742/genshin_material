@@ -1,6 +1,6 @@
 import "dart:io";
 
-import "package:drift/remote.dart";
+import "package:drift/isolate.dart";
 
 import "../core/asset_updater.dart";
 import "../core/errors.dart";

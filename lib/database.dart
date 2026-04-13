@@ -234,6 +234,7 @@ class AppDatabase extends _$AppDatabase {
     return MigrationStrategy(
       onUpgrade: stepByStep(
         from1To2: (m, schema) async {
+          // ignore: experimental_member_use
           await m.alterTable(TableMigration(
             schema.inGameCharacterStateTable,
             columnTransformer: {
@@ -242,6 +243,7 @@ class AppDatabase extends _$AppDatabase {
                       .modify(DateTimeModifier.minutes(-5)),
             },
           ));
+          // ignore: experimental_member_use
           await m.alterTable(TableMigration(
             schema.inGameWeaponStateTable,
             columnTransformer: {
