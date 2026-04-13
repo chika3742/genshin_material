@@ -10,7 +10,7 @@ void openTeyvatMap(String typeId, {String? initialPosition}) {
   final params = {
     "shown_types": [...teleportPointTypes, typeId].join(","),
     "zoom": "-0.50",
-    if (initialPosition != null) "center": initialPosition,
+    "center": ?initialPosition,
   };
   url = url.replace(
     queryParameters: {
