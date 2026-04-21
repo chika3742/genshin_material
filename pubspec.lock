@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: f698de6eb8a0dd7a9a931bbfe13568e8b77e702eb2deb13dd83480c5373e7746
+      sha256: bda3b7b55958bfd867addc40d067b4b11f7b8846d57671f5b5a6e7f9a56fe3ad
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.68"
+    version: "1.3.69"
   analyzer:
     dependency: transitive
     description:
@@ -245,10 +245,10 @@ packages:
     dependency: "direct main"
     description:
       name: drift
-      sha256: "5ea2f718558c0b31d4b8c36a3d8e5b7016f1265f46ceb5a5920e16117f0c0d6a"
+      sha256: "970cd188fddb111b26ea6a9b07a62bf5c2432d74147b8122c67044ae3b97e99e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.30.1"
+    version: "2.31.0"
   drift_db_viewer:
     dependency: "direct main"
     description:
@@ -301,10 +301,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: "2f988dab915efde3b3105268dbd69efce0e8570d767a218ccd914afd0c10c8cc"
+      sha256: d5a94b884dcb1e6d3430298e94bfe002238094cdfd5e29202d536ee2120f9158
       url: "https://pub.dev"
     source: hosted
-    version: "4.6.0"
+    version: "4.7.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -317,50 +317,50 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: "1399ab1f0ac3b503d8a9be64a4c997fc066bbf33f701f42866e5569f26205ebe"
+      sha256: dc5096257cd67292d34d78ceeb90836f02a4be921b5f3934311a02bb2376118c
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.1"
+    version: "3.6.0"
   firebase_crashlytics:
     dependency: "direct main"
     description:
       name: firebase_crashlytics
-      sha256: "9f9831b4ca1282421f4387181bfb8e6c4ee82049e616e433272c4fd13dfd5484"
+      sha256: "43a311b280d9391389a690d10e1ac0d458b965154a57de5be2f0857225aa2016"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0"
+    version: "5.2.0"
   firebase_crashlytics_platform_interface:
     dependency: transitive
     description:
       name: firebase_crashlytics_platform_interface
-      sha256: "310f6ecc2bb27e36025c6777bef9d2e7dd32562a7cae3d914ea88ad5a2d536e4"
+      sha256: "1b6a921ad6f0d08203ecc1310437a88cec357bc3cad27e1138f1e2c16dd71db9"
       url: "https://pub.dev"
     source: hosted
-    version: "3.8.19"
+    version: "3.8.20"
   firebase_remote_config:
     dependency: "direct main"
     description:
       name: firebase_remote_config
-      sha256: "823c9017277daa6f754e6d7389de8fb4b96723894fca3f42cf0860019e6a4053"
+      sha256: "4d6a88587fc5d7f74f784614dc4f4f3a809a7e3fb3ea860039d07cde1e33fb86"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.0"
+    version: "6.4.0"
   firebase_remote_config_platform_interface:
     dependency: transitive
     description:
       name: firebase_remote_config_platform_interface
-      sha256: "93662b23fc8cc4463f98355a2aeebbfb6f67ab81bfc763c7e6e874107f31d217"
+      sha256: "1a83a256052dbb1ed7d50afa796a8528542e79619b5baecb9a02e226728088dd"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   firebase_remote_config_web:
     dependency: transitive
     description:
       name: firebase_remote_config_web
-      sha256: "427e4d1495580e3edde5b2b6f641a712799fec7b43c7db157622b29267daa15b"
+      sha256: fc2e7e41f536af73743105fccf0a5c71e635209d892e64e15fc8ba20756ad65f
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.5"
+    version: "1.10.6"
   fixnum:
     dependency: transitive
     description:
@@ -523,18 +523,18 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "48fb2f42ad057476fa4b733cb95e9f9ea7b0b010bb349ea491dca7dbdb18ffc4"
+      sha256: "08b742eef4f71c9df5af543751cd0b7f1c679c4088488f4223ecaddc1a813b79"
       url: "https://pub.dev"
     source: hosted
-    version: "17.2.0"
+    version: "17.2.2"
   go_router_builder:
     dependency: "direct dev"
     description:
       name: go_router_builder
-      sha256: c9bfc336012b98096023e606e39ec8848858ba8ad3a8540e20b4a0e7cbe89140
+      sha256: "52c0403e3fc80db4058d44088f28227f4ecf046f9b8ccbea0e325d3c7b4bb7f5"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.1"
+    version: "4.3.0"
   google_fonts:
     dependency: "direct main"
     description:
