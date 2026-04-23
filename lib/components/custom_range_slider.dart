@@ -7,7 +7,7 @@ import "package:flutter/material.dart";
 /// on the thumbs themselves, making it difficult to adjust the range by dragging
 /// from inside the selected area.
 class CustomRangeSlider extends StatefulWidget {
-  const CustomRangeSlider({
+  CustomRangeSlider({
     super.key,
     required this.values,
     required this.onChanged,
@@ -35,7 +35,7 @@ class CustomRangeSlider extends StatefulWidget {
   final RangeLabels? labels;
   final Color? activeColor;
   final Color? inactiveColor;
-  final MaterialStateProperty<Color?>? overlayColor;
+  final WidgetStateProperty<Color?>? overlayColor;
 
   @override
   State<CustomRangeSlider> createState() => _CustomRangeSliderState();
