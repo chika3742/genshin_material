@@ -9,6 +9,7 @@ import "package:material_symbols_icons/symbols.dart";
 import "../i18n/strings.g.dart";
 import "../ui_core/bubble.dart";
 import "../utils/lists.dart";
+import "custom_range_slider.dart";
 
 class LevelRangeValues {
   final int start;
@@ -90,7 +91,7 @@ class LevelSlider extends HookWidget {
               padding: const EdgeInsets.only(bottom: _sliderLabelSpacing),
               child: SizedBox(
                 height: _sliderHeight,
-                child: RangeSlider(
+                child: CustomRangeSlider(
                   values: RangeValues(
                     ticks.indexOfCeilToNearest(values.start).toDouble(),
                     ticks.indexOfCeilToNearest(values.end).toDouble(),
