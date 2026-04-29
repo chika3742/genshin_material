@@ -62,8 +62,13 @@ class CharacterDetailsPage extends HookConsumerWidget {
         : Future.value(null));
     final csSnapshot = useFuture(csResult);
 
+    final bookmarkRangesResult = useMemoized(
+        () => db.getCharacterMaterialBookmarkLevelRanges(character.id));
+    final bookmarkRangesSnapshot = useFuture(bookmarkRangesResult);
+
     // loading
-    if (uid != null && syncCharaState && csSnapshot.connectionState != ConnectionState.done) {
+    if (bookmarkRangesSnapshot.connectionState != ConnectionState.done ||
+        (uid != null && syncCharaState && csSnapshot.connectionState != ConnectionState.done)) {
       return Scaffold(
         appBar: AppBar(),
         body: const Center(child: CircularProgressIndicator()),
@@ -75,6 +80,7 @@ class CharacterDetailsPage extends HookConsumerWidget {
       assetData: assetData,
       initialVariant: characterOrVariant is CharacterVariant ? characterOrVariant.element : null,
       initialCharacterState: csSnapshot.data,
+      initialBookmarkRanges: bookmarkRangesSnapshot.data ?? {},
     );
   }
 }
@@ -84,12 +90,14 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
   final AssetData assetData;
   final String? initialVariant;
   final InGameCharacterState? initialCharacterState;
+  final Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> initialBookmarkRanges;
 
   const _CharacterDetailsPageContents({
     required this.character,
     required this.assetData,
     this.initialVariant,
     this.initialCharacterState,
+    this.initialBookmarkRanges = const {},
   });
 
   @override
@@ -100,6 +108,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       ingredients: assetData.characterIngredients,
       rarity: character.rarity,
       initialCharacterState: initialCharacterState,
+      bookmarkRanges: initialBookmarkRanges,
     )));
 
     final ingredients = assetData.characterIngredients;
@@ -397,6 +406,7 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
     required IngredientConfigurations ingredients,
     required int rarity,
     InGameCharacterState? initialCharacterState,
+    Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> bookmarkRanges = const {},
   }) {
     final rangeValues = <Purpose, LevelRangeValues>{};
     final checkedTalentTypes = <Purpose, bool>{};
@@ -404,10 +414,25 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
 
     for (final purpose in ingredients.rarities[rarity]!.purposes.keys) {
       final levels = ingredients.getLevels(rarity: rarity, purpose: purpose).levels;
-      final initialSliderLowerRange = initialCharacterState?.purposes[purpose] ?? 1;
+      final levelTicks = levels.keys.toList();
+      final characterCurrentLevel = initialCharacterState?.purposes[purpose] ?? 1;
 
-      rangeValues[purpose] = LevelRangeValues(initialSliderLowerRange, levels.keys.last);
-      checkedTalentTypes[purpose] = initialSliderLowerRange < levels.keys.last;
+      int start;
+      int end;
+
+      if (bookmarkRanges.containsKey(purpose)) {
+        final range = bookmarkRanges[purpose]!;
+        final minUpperLevelIndex = levelTicks.indexOf(range.minUpperLevel);
+        final bookmarkStart = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : 1;
+        start = max(characterCurrentLevel, bookmarkStart);
+        end = range.maxUpperLevel;
+      } else {
+        start = characterCurrentLevel;
+        end = levels.keys.last;
+      }
+
+      rangeValues[purpose] = LevelRangeValues(start, end);
+      checkedTalentTypes[purpose] = start < levels.keys.last;
       talentSectionKeys[purpose] = GlobalKey();
     }
 
