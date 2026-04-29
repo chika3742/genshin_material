@@ -122,12 +122,13 @@ extension BookmarkDbExtension on AppDatabase {
     });
   }
 
+  JoinedSelectStatement<HasResultSet, dynamic> _createMaterialBookmarkQuery() => select(bookmarkTable).join([
+    leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
+  ]);
+
   /// Returns the min/max upperLevel per purpose for character material bookmarks (no weapon).
   Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getCharacterMaterialBookmarkLevelRanges(String characterId) async {
-    final query = select(bookmarkTable).join([
-      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-    ]);
-    query.where(
+    final query = _createMaterialBookmarkQuery()..where(
       bookmarkTable.characterId.equals(characterId) &
       bookmarkTable.type.equalsValue(BookmarkType.material) &
       bookmarkMaterialDetailsTable.weaponId.isNull(),
@@ -138,10 +139,7 @@ extension BookmarkDbExtension on AppDatabase {
 
   /// Returns the min/max upperLevel per purpose for weapon material bookmarks.
   Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getWeaponMaterialBookmarkLevelRanges(String weaponId) async {
-    final query = select(bookmarkTable).join([
-      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-    ]);
-    query.where(
+    final query = _createMaterialBookmarkQuery()..where(
       bookmarkTable.type.equalsValue(BookmarkType.material) &
       bookmarkMaterialDetailsTable.weaponId.equals(weaponId),
     );
