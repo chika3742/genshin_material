@@ -16,7 +16,7 @@ void main() {
     await db.close();
   });
 
-  MaterialBookmarkInsertable _makeCharacterBookmark({
+  MaterialBookmarkInsertable makeCharacterBookmark({
     required String characterId,
     required Purpose purpose,
     required int upperLevel,
@@ -32,7 +32,7 @@ void main() {
     );
   }
 
-  MaterialBookmarkInsertable _makeWeaponBookmark({
+  MaterialBookmarkInsertable makeWeaponBookmark({
     required String characterId,
     required String weaponId,
     required int upperLevel,
@@ -56,7 +56,7 @@ void main() {
 
     test("returns single bookmark range correctly", () async {
       await db.addMaterialBookmarks([
-        _makeCharacterBookmark(
+        makeCharacterBookmark(
           characterId: "char_1",
           purpose: Purpose.ascension,
           upperLevel: 40,
@@ -73,19 +73,19 @@ void main() {
     test("aggregates min/max across multiple bookmarks for same purpose",
         () async {
       await db.addMaterialBookmarks([
-        _makeCharacterBookmark(
+        makeCharacterBookmark(
           characterId: "char_1",
           purpose: Purpose.ascension,
           upperLevel: 20,
           materialId: "mat_a",
         ),
-        _makeCharacterBookmark(
+        makeCharacterBookmark(
           characterId: "char_1",
           purpose: Purpose.ascension,
           upperLevel: 40,
           materialId: "mat_b",
         ),
-        _makeCharacterBookmark(
+        makeCharacterBookmark(
           characterId: "char_1",
           purpose: Purpose.ascension,
           upperLevel: 60,
@@ -101,13 +101,13 @@ void main() {
 
     test("returns separate ranges per purpose", () async {
       await db.addMaterialBookmarks([
-        _makeCharacterBookmark(
+        makeCharacterBookmark(
           characterId: "char_1",
           purpose: Purpose.ascension,
           upperLevel: 40,
           materialId: "mat_asc",
         ),
-        _makeCharacterBookmark(
+        makeCharacterBookmark(
           characterId: "char_1",
           purpose: Purpose.normalAttack,
           upperLevel: 6,
@@ -126,13 +126,13 @@ void main() {
 
     test("does not include weapon bookmarks", () async {
       await db.addMaterialBookmarks([
-        _makeCharacterBookmark(
+        makeCharacterBookmark(
           characterId: "char_1",
           purpose: Purpose.ascension,
           upperLevel: 40,
           materialId: "char_mat",
         ),
-        _makeWeaponBookmark(
+        makeWeaponBookmark(
           characterId: "char_1",
           weaponId: "weapon_1",
           upperLevel: 70,
@@ -148,13 +148,13 @@ void main() {
 
     test("does not include bookmarks for other characters", () async {
       await db.addMaterialBookmarks([
-        _makeCharacterBookmark(
+        makeCharacterBookmark(
           characterId: "char_1",
           purpose: Purpose.ascension,
           upperLevel: 40,
           materialId: "mat_c1",
         ),
-        _makeCharacterBookmark(
+        makeCharacterBookmark(
           characterId: "char_2",
           purpose: Purpose.ascension,
           upperLevel: 80,
@@ -176,7 +176,7 @@ void main() {
 
     test("returns single weapon bookmark range correctly", () async {
       await db.addMaterialBookmarks([
-        _makeWeaponBookmark(
+        makeWeaponBookmark(
           characterId: "char_1",
           weaponId: "weapon_1",
           upperLevel: 50,
@@ -193,13 +193,13 @@ void main() {
     test("aggregates across multiple characters sharing the same weapon",
         () async {
       await db.addMaterialBookmarks([
-        _makeWeaponBookmark(
+        makeWeaponBookmark(
           characterId: "char_1",
           weaponId: "weapon_1",
           upperLevel: 40,
           materialId: "wmat_a",
         ),
-        _makeWeaponBookmark(
+        makeWeaponBookmark(
           characterId: "char_2",
           weaponId: "weapon_1",
           upperLevel: 70,
@@ -215,13 +215,13 @@ void main() {
 
     test("does not include character bookmarks", () async {
       await db.addMaterialBookmarks([
-        _makeCharacterBookmark(
+        makeCharacterBookmark(
           characterId: "char_1",
           purpose: Purpose.ascension,
           upperLevel: 80,
           materialId: "char_mat",
         ),
-        _makeWeaponBookmark(
+        makeWeaponBookmark(
           characterId: "char_1",
           weaponId: "weapon_1",
           upperLevel: 50,
@@ -237,13 +237,13 @@ void main() {
 
     test("does not include bookmarks for other weapons", () async {
       await db.addMaterialBookmarks([
-        _makeWeaponBookmark(
+        makeWeaponBookmark(
           characterId: "char_1",
           weaponId: "weapon_1",
           upperLevel: 50,
           materialId: "wmat_1",
         ),
-        _makeWeaponBookmark(
+        makeWeaponBookmark(
           characterId: "char_1",
           weaponId: "weapon_2",
           upperLevel: 80,
