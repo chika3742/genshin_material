@@ -87,6 +87,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       bottomNavigationBar: NavigationBar(
         destinations: navDestinations,
         selectedIndex: widget.navigationShell.currentIndex,
+        maintainBottomViewPadding: true,
         onDestinationSelected: (index) {
           widget.navigationShell.goBranch(
             index,
