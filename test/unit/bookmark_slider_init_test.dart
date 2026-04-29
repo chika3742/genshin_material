@@ -1,5 +1,3 @@
-import "dart:math";
-
 import "package:flutter_test/flutter_test.dart";
 
 /// Replicates the bookmark-start computation from _CharacterDetailsPageState.init().
@@ -11,8 +9,8 @@ int computeBookmarkStart({
   return index >= 1 ? levelTicks[index - 1] : 1;
 }
 
-/// Replicates the full slider start computation combining character state
-/// and bookmark ranges.
+/// Replicates the full slider start computation.
+/// When bookmarks exist, characterCurrentLevel is ignored.
 int computeSliderStart({
   required List<int> levelTicks,
   required int characterCurrentLevel,
@@ -21,11 +19,10 @@ int computeSliderStart({
   if (bookmarkMinUpperLevel == null) {
     return characterCurrentLevel;
   }
-  final bookmarkStart = computeBookmarkStart(
+  return computeBookmarkStart(
     levelTicks: levelTicks,
     minUpperLevel: bookmarkMinUpperLevel,
   );
-  return max(characterCurrentLevel, bookmarkStart);
 }
 
 void main() {
@@ -89,49 +86,36 @@ void main() {
       );
     });
 
-    test("uses bookmarkStart when character is at level 1", () {
-      // bookmark minUpperLevel=40 → bookmarkStart=20; character=1; max(1,20)=20
-      expect(
-        computeSliderStart(
-          levelTicks: characterTicks,
-          characterCurrentLevel: 1,
-          bookmarkMinUpperLevel: 40,
-        ),
-        20,
-      );
-    });
-
-    test("uses characterCurrentLevel when it exceeds bookmarkStart", () {
-      // bookmark minUpperLevel=40 → bookmarkStart=20; character=50; max(50,20)=50
+    test("uses bookmarkStart and ignores characterCurrentLevel when bookmarks exist",
+        () {
+      // bookmark minUpperLevel=40 → bookmarkStart=20; character=50 → ignored
       expect(
         computeSliderStart(
           levelTicks: characterTicks,
           characterCurrentLevel: 50,
           bookmarkMinUpperLevel: 40,
         ),
-        50,
+        20,
       );
     });
 
-    test("uses bookmarkStart when it matches characterCurrentLevel", () {
-      // bookmark minUpperLevel=40 → bookmarkStart=20; character=20; max(20,20)=20
+    test("uses bookmarkStart when character is at level 1", () {
+      // bookmark minUpperLevel=40 → bookmarkStart=20
       expect(
         computeSliderStart(
           levelTicks: characterTicks,
-          characterCurrentLevel: 20,
+          characterCurrentLevel: 1,
           bookmarkMinUpperLevel: 40,
         ),
         20,
       );
     });
 
-    test("returns 1 when bookmark starts at first tick and character is at 1",
-        () {
-      // bookmark minUpperLevel=1 → bookmarkStart=1; character=1; max(1,1)=1
+    test("returns 1 when bookmark minUpperLevel is the first tick", () {
       expect(
         computeSliderStart(
           levelTicks: characterTicks,
-          characterCurrentLevel: 1,
+          characterCurrentLevel: 40,
           bookmarkMinUpperLevel: 1,
         ),
         1,

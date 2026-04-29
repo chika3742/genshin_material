@@ -417,22 +417,18 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
       final levelTicks = levels.keys.toList();
       final characterCurrentLevel = initialCharacterState?.purposes[purpose] ?? 1;
 
-      int start;
-      int end;
-
+      final LevelRangeValues range;
       if (bookmarkRanges.containsKey(purpose)) {
-        final range = bookmarkRanges[purpose]!;
-        final minUpperLevelIndex = levelTicks.indexOf(range.minUpperLevel);
-        final bookmarkStart = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : 1;
-        start = max(characterCurrentLevel, bookmarkStart);
-        end = range.maxUpperLevel;
+        final bookmark = bookmarkRanges[purpose]!;
+        final minUpperLevelIndex = levelTicks.indexOf(bookmark.minUpperLevel);
+        final start = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : 1;
+        range = LevelRangeValues(start, bookmark.maxUpperLevel);
       } else {
-        start = characterCurrentLevel;
-        end = levels.keys.last;
+        range = LevelRangeValues(characterCurrentLevel, levels.keys.last);
       }
 
-      rangeValues[purpose] = LevelRangeValues(start, end);
-      checkedTalentTypes[purpose] = start < levels.keys.last;
+      rangeValues[purpose] = range;
+      checkedTalentTypes[purpose] = range.start < levels.keys.last;
       talentSectionKeys[purpose] = GlobalKey();
     }
 

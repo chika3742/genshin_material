@@ -270,12 +270,12 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
     );
     final levelTicks = levelsEntry.levels.keys.toList();
 
-    LevelRangeValues ascensionRange;
+    final LevelRangeValues ascensionRange;
     if (bookmarkRanges.containsKey(Purpose.ascension)) {
-      final range = bookmarkRanges[Purpose.ascension]!;
-      final minUpperLevelIndex = levelTicks.indexOf(range.minUpperLevel);
-      final bookmarkStart = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : 1;
-      ascensionRange = LevelRangeValues(bookmarkStart, range.maxUpperLevel);
+      final bookmark = bookmarkRanges[Purpose.ascension]!;
+      final minUpperLevelIndex = levelTicks.indexOf(bookmark.minUpperLevel);
+      final start = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : 1;
+      ascensionRange = LevelRangeValues(start, bookmark.maxUpperLevel);
     } else {
       ascensionRange = LevelRangeValues(1, levelTicks.last);
     }
