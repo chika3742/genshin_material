@@ -23,9 +23,6 @@ fvm flutter test test/unit/utils_test.dart
 # Code generation (Freezed, Riverpod, go_router, Drift, slang)
 ./scripts/codegen.sh
 
-# Watch mode for code generation
-./scripts/watch_codegen.sh
-
 # Update Pigeon platform channel code
 ./scripts/run_pigeon.sh
 
