@@ -17,9 +17,11 @@ import "../../../components/material_slider.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../database.dart";
+import "../../../db/bookmark_db_extension.dart";
 import "../../../db/in_game_weapon_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
+import "../../../models/ingredients.dart";
 import "../../../models/weapon.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
@@ -66,8 +68,13 @@ class WeaponDetailsPage extends HookConsumerWidget {
         : Future.value(null));
     final wsSnapshot = useFuture(wsResult);
 
+    final bookmarkRangesResult = useMemoized(
+        () => db.getWeaponMaterialBookmarkLevelRanges(id));
+    final bookmarkRangesSnapshot = useFuture(bookmarkRangesResult);
+
     // loading
-    if (uid != null && syncWeaponState && wsSnapshot.connectionState != ConnectionState.done) {
+    if (bookmarkRangesSnapshot.connectionState != ConnectionState.done ||
+        (uid != null && syncWeaponState && wsSnapshot.connectionState != ConnectionState.done)) {
       return Scaffold(
         appBar: AppBar(),
         body: const Center(child: CircularProgressIndicator()),
@@ -79,6 +86,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
       assetData: assetData,
       initialSelectedCharacter: initialCharacterId,
       initialWeaponState: wsSnapshot.data,
+      initialBookmarkRanges: bookmarkRangesSnapshot.data ?? {},
     );
   }
 }
@@ -89,6 +97,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
   final Weapon weapon;
   final CharacterId initialSelectedCharacter;
   final InGameWeaponState? initialWeaponState;
+  final Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> initialBookmarkRanges;
 
   const WeaponDetailsPageContents({
     super.key,
@@ -96,19 +105,18 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
     required this.assetData,
     required this.initialSelectedCharacter,
     this.initialWeaponState,
+    this.initialBookmarkRanges = const {},
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ingredients = assetData.weaponIngredients;
-    final levelsEntry = ingredients.getLevels(
-      rarity: weapon.rarity,
-      purpose: Purpose.ascension,
-    );
 
     final state = useState(_WeaponDetailsPageState.init(
-      rangeValues: LevelRangeValues(1, levelsEntry.levels.keys.last),
+      ingredients: ingredients,
+      weapon: weapon,
       selectedCharacterId: initialSelectedCharacter,
+      bookmarkRanges: initialBookmarkRanges,
     ));
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
@@ -251,12 +259,30 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
   }) = __WeaponDetailsPageState;
 
   factory _WeaponDetailsPageState.init({
-    required LevelRangeValues rangeValues,
+    required IngredientConfigurations ingredients,
+    required Weapon weapon,
     required CharacterId selectedCharacterId,
+    Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> bookmarkRanges = const {},
   }) {
+    final levelsEntry = ingredients.getLevels(
+      rarity: weapon.rarity,
+      purpose: Purpose.ascension,
+    );
+    final levelTicks = levelsEntry.levels.keys.toList();
+
+    final LevelRangeValues ascensionRange;
+    if (bookmarkRanges.containsKey(Purpose.ascension)) {
+      final bookmark = bookmarkRanges[Purpose.ascension]!;
+      final minUpperLevelIndex = levelTicks.indexOf(bookmark.minUpperLevel);
+      final start = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : 1;
+      ascensionRange = LevelRangeValues(start, bookmark.maxUpperLevel);
+    } else {
+      ascensionRange = LevelRangeValues(1, levelTicks.last);
+    }
+
     return _WeaponDetailsPageState(
       rangeValues: {
-        Purpose.ascension: rangeValues,
+        Purpose.ascension: ascensionRange,
       },
       selectedCharacterId: selectedCharacterId,
     );

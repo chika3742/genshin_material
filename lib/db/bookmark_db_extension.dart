@@ -1,3 +1,4 @@
+import "dart:math";
 
 import "package:drift/drift.dart";
 
@@ -118,6 +119,53 @@ extension BookmarkDbExtension on AppDatabase {
         );
       }).toList();
     });
+  }
+
+  JoinedSelectStatement<HasResultSet, dynamic> _createMaterialBookmarkQuery() => select(bookmarkTable).join([
+    leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
+  ]);
+
+  /// Returns the min/max upperLevel per purpose for character material
+  /// bookmarks (no weapon).
+  Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getCharacterMaterialBookmarkLevelRanges(String characterId) async {
+    final query = _createMaterialBookmarkQuery()..where(
+      bookmarkTable.characterId.equals(characterId) &
+      bookmarkTable.type.equalsValue(BookmarkType.material) &
+      bookmarkMaterialDetailsTable.weaponId.isNull(),
+    );
+    final rows = await query.get();
+    return _aggregateBookmarkLevelRanges(rows);
+  }
+
+  /// Returns the min/max upperLevel per purpose for weapon material bookmarks.
+  Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getWeaponMaterialBookmarkLevelRanges(String weaponId) async {
+    final query = _createMaterialBookmarkQuery()..where(
+      bookmarkTable.type.equalsValue(BookmarkType.material) &
+      bookmarkMaterialDetailsTable.weaponId.equals(weaponId),
+    );
+    final rows = await query.get();
+    return _aggregateBookmarkLevelRanges(rows);
+  }
+
+  Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> _aggregateBookmarkLevelRanges(
+    List<TypedResult> rows,
+  ) {
+    final result = <Purpose, ({int minUpperLevel, int maxUpperLevel})>{};
+    for (final row in rows) {
+      final details = row.readTable(bookmarkMaterialDetailsTable);
+      final purpose = details.purposeType;
+      final upperLevel = details.upperLevel;
+      if (result.containsKey(purpose)) {
+        final current = result[purpose]!;
+        result[purpose] = (
+          minUpperLevel: min(current.minUpperLevel, upperLevel),
+          maxUpperLevel: max(current.maxUpperLevel, upperLevel),
+        );
+      } else {
+        result[purpose] = (minUpperLevel: upperLevel, maxUpperLevel: upperLevel);
+      }
+    }
+    return result;
   }
 
   Future<void> _addBookmarks(List<BookmarkInsertable> insertables) async {
