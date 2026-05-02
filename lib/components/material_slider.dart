@@ -3,7 +3,6 @@ import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../composables/use_list_state.dart";
 import "../core/asset_cache.dart";
 import "../models/character.dart";
 import "../models/common.dart";
@@ -34,6 +33,8 @@ class MaterialSlider extends HookConsumerWidget {
     this.labelBuilder,
     this.lackNums,
     required this.onRangesChanged,
+    this.expandedPurposes,
+    this.onExpansionChanged,
   });
 
   final IngredientConfigurations ingredientConf;
@@ -46,23 +47,14 @@ class MaterialSlider extends HookConsumerWidget {
   final LabelWidgetBuilder? labelBuilder;
   final ValueChanged<Map<Purpose, LevelRangeValues>> onRangesChanged;
   final ItemLackNums? lackNums;
+  final Set<Purpose>? expandedPurposes;
+  final void Function(Purpose purpose, bool expanded)? onExpansionChanged;
 
   bool get showActiveCheckbox => purposes.length >= 2;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetData = ref.watch(assetDataProvider).value!;
-
-    final activeSliders = useListState<Purpose>(purposes);
-
-    useEffect(() {
-      ranges.forEach((k, v) {
-        if (showActiveCheckbox && v.start == v.end) {
-          activeSliders.remove(k);
-        }
-      });
-      return null;
-    }, [ranges]);
 
     return Column(
       spacing: 8,
@@ -71,13 +63,9 @@ class MaterialSlider extends HookConsumerWidget {
         for (final purpose in purposes)
           _buildSliderContainer(
             purpose: purpose,
-            active: activeSliders.contains(purpose),
+            active: expandedPurposes?.contains(purpose) ?? false,
             onActiveChanged: (active) {
-              if (active) {
-                activeSliders.add(purpose);
-              } else {
-                activeSliders.remove(purpose);
-              }
+              onExpansionChanged?.call(purpose, active);
             },
             child: _buildSlider(
               purpose: purpose,
@@ -93,7 +81,7 @@ class MaterialSlider extends HookConsumerWidget {
         Wrap(
           children: _buildMaterialCards(
             assetData: assetData,
-            activeSliders: activeSliders,
+            activeSliders: expandedPurposes ?? {},
           ),
         ),
       ],
@@ -163,7 +151,7 @@ class MaterialSlider extends HookConsumerWidget {
 
   List<Widget> _buildMaterialCards({
     required AssetData assetData,
-    required List<Purpose> activeSliders,
+    required Set<Purpose> activeSliders,
   }) {
     final fullQuantities = useMemoized(
       () => _calculateFullQuantities(assetData),

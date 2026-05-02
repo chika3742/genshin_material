@@ -1,4 +1,3 @@
-
 import "dart:math";
 
 import "package:drift/drift.dart";
@@ -126,7 +125,8 @@ extension BookmarkDbExtension on AppDatabase {
     leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
   ]);
 
-  /// Returns the min/max upperLevel per purpose for character material bookmarks (no weapon).
+  /// Returns the min/max upperLevel per purpose for character material
+  /// bookmarks (no weapon).
   Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getCharacterMaterialBookmarkLevelRanges(String characterId) async {
     final query = _createMaterialBookmarkQuery()..where(
       bookmarkTable.characterId.equals(characterId) &

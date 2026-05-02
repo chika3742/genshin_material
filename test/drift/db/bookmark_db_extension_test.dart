@@ -25,7 +25,7 @@ void main() {
     return MaterialBookmarkInsertable(
       characterId: characterId,
       weaponId: null,
-      materialId: materialId ?? "mat_$upperLevel",
+      materialId: materialId,
       quantity: 1,
       upperLevel: upperLevel,
       purposeType: purpose,
@@ -41,7 +41,7 @@ void main() {
     return MaterialBookmarkInsertable(
       characterId: characterId,
       weaponId: weaponId,
-      materialId: materialId ?? "wmat_$upperLevel",
+      materialId: materialId,
       quantity: 1,
       upperLevel: upperLevel,
       purposeType: Purpose.ascension,
@@ -118,10 +118,8 @@ void main() {
       final result = await db.getCharacterMaterialBookmarkLevelRanges("char_1");
 
       expect(result, hasLength(2));
-      expect(result[Purpose.ascension]!.minUpperLevel, 40);
-      expect(result[Purpose.ascension]!.maxUpperLevel, 40);
-      expect(result[Purpose.normalAttack]!.minUpperLevel, 6);
-      expect(result[Purpose.normalAttack]!.maxUpperLevel, 6);
+      expect(result[Purpose.ascension], (minUpperLevel: 40, maxUpperLevel: 40));
+      expect(result[Purpose.normalAttack], (minUpperLevel: 6, maxUpperLevel: 6));
     });
 
     test("does not include weapon bookmarks", () async {

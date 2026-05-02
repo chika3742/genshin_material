@@ -147,10 +147,15 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
         var newState = state.value;
         if (result.value!.levels != null) {
           for (final e in result.value!.levels!.entries) {
-            final ingLevels = ingredients.getLevels(rarity: character.rarity, purpose: e.key);newState = newState.copyWith(
+            final ingLevels = ingredients.getLevels(rarity: character.rarity, purpose: e.key);
+            newState = newState.copyWith(
               rangeValues: {...newState.rangeValues}..[e.key] = LevelRangeValues(e.value, max(e.value, newState.rangeValues[e.key]!.end)),
-              checkedTalentTypes: {...newState.checkedTalentTypes}..[e.key] = e.value < ingLevels.levels.keys.last,
             );
+            if (e.value == ingLevels.levels.keys.last) {
+              newState = newState.copyWith(
+                checkedTalentTypes: {...newState.checkedTalentTypes}..[e.key] = false,
+              );
+            }
           }
 
           if (prefs.autoRemoveBookmarks) {
@@ -330,6 +335,13 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                         ingredientConf: ingredients,
                         purposes: slider.purposes,
                         lackNums: lackNums,
+                        // TODO: make checkedTalentTypes set of [Purpose]
+                        expandedPurposes: state.value.checkedTalentTypes.entries.where((e) => e.value).map((e) => e.key).toSet(),
+                        onExpansionChanged: (purpose, expanded) {
+                          state.value = state.value.copyWith(
+                            checkedTalentTypes: {...state.value.checkedTalentTypes}..[purpose] = expanded,
+                          );
+                        },
                         target: switch (slider.preferredTargetType) {
                           PreferredTargetType.group => character,
                           PreferredTargetType.variant || null => variant.value,
@@ -426,10 +438,21 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
       } else {
         range = LevelRangeValues(characterCurrentLevel, levels.keys.last);
       }
+      if (purpose != .ascension) {
+        checkedTalentTypes[purpose] = range.start < levels.keys.last;
+      }
 
       rangeValues[purpose] = range;
-      checkedTalentTypes[purpose] = range.start < levels.keys.last;
       talentSectionKeys[purpose] = GlobalKey();
+    }
+
+    // Slider is initially closed if there are talent bookmarks and this
+    // purpose is not bookmarked
+    final talents = {Purpose.normalAttack, Purpose.elementalSkill, Purpose.elementalBurst};
+    if (talents.any((e) => bookmarkRanges.containsKey(e))) {
+      for (var purpose in talents) {
+        checkedTalentTypes[purpose] = bookmarkRanges.containsKey(purpose);
+      }
     }
 
     return _CharacterDetailsPageState(
