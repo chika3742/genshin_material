@@ -433,7 +433,7 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
       if (bookmarkRanges.containsKey(purpose)) {
         final bookmark = bookmarkRanges[purpose]!;
         final minUpperLevelIndex = levelTicks.indexOf(bookmark.minUpperLevel);
-        final start = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : 1;
+        final start = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : levelTicks.first;
         range = LevelRangeValues(start, bookmark.maxUpperLevel);
       } else {
         range = LevelRangeValues(characterCurrentLevel, levels.keys.last);
