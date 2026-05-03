@@ -277,6 +277,7 @@ class _TranslationsBookmarksPageEn extends TranslationsBookmarksPageJa {
 	@override String get unBookmarkConfirm => 'Remove this bookmark?';
 	@override String get byPurpose => 'Purpose';
 	@override String get byMaterial => 'Material';
+	@override String get artifacts => 'Artifacts';
 	@override String get furnishings => 'Furnishings';
 	@override String get allFurnishingsAreCrafted => 'All furnishings in this set have been crafted.';
 }
@@ -691,6 +692,7 @@ extension on TranslationsEn {
 			'bookmarksPage.unBookmarkConfirm' => 'Remove this bookmark?',
 			'bookmarksPage.byPurpose' => 'Purpose',
 			'bookmarksPage.byMaterial' => 'Material',
+			'bookmarksPage.artifacts' => 'Artifacts',
 			'bookmarksPage.furnishings' => 'Furnishings',
 			'bookmarksPage.allFurnishingsAreCrafted' => 'All furnishings in this set have been crafted.',
 			'characterDetailsPage.equippedWeapon' => 'Equipped Weapon',

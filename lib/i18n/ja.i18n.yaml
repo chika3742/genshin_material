@@ -123,6 +123,7 @@ bookmarksPage:
   unBookmarkConfirm: このブックマークを解除しますか？
   byPurpose: 使用先
   byMaterial: 素材
+  artifacts: 聖遺物
   furnishings: 調度品
   allFurnishingsAreCrafted: すべての調度品が作成済みです
 characterDetailsPage:

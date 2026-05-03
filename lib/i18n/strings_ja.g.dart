@@ -445,6 +445,9 @@ class TranslationsBookmarksPageJa {
 	/// ja: '素材'
 	String get byMaterial => '素材';
 
+	/// ja: '聖遺物'
+	String get artifacts => '聖遺物';
+
 	/// ja: '調度品'
 	String get furnishings => '調度品';
 
@@ -1136,6 +1139,7 @@ extension on Translations {
 			'bookmarksPage.unBookmarkConfirm' => 'このブックマークを解除しますか？',
 			'bookmarksPage.byPurpose' => '使用先',
 			'bookmarksPage.byMaterial' => '素材',
+			'bookmarksPage.artifacts' => '聖遺物',
 			'bookmarksPage.furnishings' => '調度品',
 			'bookmarksPage.allFurnishingsAreCrafted' => 'すべての調度品が作成済みです',
 			'characterDetailsPage.equippedWeapon' => '装備中の武器',

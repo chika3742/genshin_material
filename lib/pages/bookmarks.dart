@@ -1,4 +1,3 @@
-import "dart:developer";
 
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
@@ -13,7 +12,6 @@ import "../components/material_item.dart";
 import "../constants/dimens.dart";
 import "../core/asset_cache.dart";
 import "../db/bookmark_db_extension.dart";
-import "../db/bookmark_order_registry_db_extension.dart";
 import "../db/furnishing_db_extension.dart";
 import "../i18n/strings.g.dart";
 import "../models/bookmark.dart";
@@ -29,13 +27,16 @@ import "../ui_core/error_messages.dart";
 import "../ui_core/layout.dart";
 import "../ui_core/scroll_blur_effect.dart";
 import "../ui_core/snack_bar.dart";
+import "../view_models/bookmarks/artifact_bookmark_list_view_model.dart";
+import "../view_models/bookmarks/material_grouped_bookmark_list_view_model.dart";
+import "../view_models/bookmarks/purpose_grouped_bookmark_list_view_model.dart";
 
 class BookmarksPage extends HookConsumerWidget {
   const BookmarksPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tabController = useTabController(initialLength: 3);
+    final tabController = useTabController(initialLength: 4);
 
     final bookmarks = ref.watch(bookmarksProvider());
 
@@ -48,6 +49,7 @@ class BookmarksPage extends HookConsumerWidget {
                 tabs: [
                   Tab(text: tr.bookmarksPage.byPurpose),
                   Tab(text: tr.bookmarksPage.byMaterial),
+                  Tab(text: tr.bookmarksPage.artifacts),
                   Tab(text: tr.bookmarksPage.furnishings),
                 ],
               )
@@ -60,11 +62,48 @@ class BookmarksPage extends HookConsumerWidget {
           children: [
             _PurposeGroupedBookmarkList(),
             _MaterialGroupedBookmarkList(),
+            _ArtifactBookmarkList(),
             _FurnishingBookmarkList(),
           ],
         ),
         AsyncError(:final error) => CenterText(getErrorMessage(error)),
       },
+    );
+  }
+}
+
+class _GroupContainer extends StatelessWidget {
+  final Widget child;
+  final int index;
+  final BookmarkGroup group;
+
+  const _GroupContainer({
+    super.key,
+    required this.child,
+    required this.index,
+    required this.group,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: .symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: .stretch,
+        children: [
+          // group header
+          Row(
+            children: [
+              ReorderableDragStartListener(
+                index: index,
+                child: const Icon(Symbols.drag_handle, size: 32),
+              ),
+              Expanded(child: _PurposeHeader(group: group)),
+            ],
+          ),
+          child,
+        ],
+      ),
     );
   }
 }
@@ -75,130 +114,65 @@ class _PurposeGroupedBookmarkList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetDataAsync = ref.watch(assetDataProvider);
-    assert(assetDataAsync.value != null, "Must be used in a DataAssetScope");
-    final assetData = assetDataAsync.value!;
-
-    final bookmarks = ref.watch(bookmarksProvider()).value ?? [];
-    if (bookmarks.isEmpty) {
-      return CenterText(tr.bookmarksPage.noBookmarks);
-    }
-
-    final bookmarkGroups = bookmarks.groupFoldBy<String, List<BookmarkWithDetails>>(
-      (e) => e.metadata.groupHash,
-      (prev, element) {
-        if (prev == null) {
-          return <BookmarkWithDetails>[element];
-        } else {
-          prev.add(element);
-          return prev;
-        }
-      },
-    ).values.map((e) => BookmarkGroup.fromBookmarks(e, assetData)).toList();
-
-    final bookmarkOrderSnapshot = ref.watch(bookmarkOrderProvider);
-    final bookmarkOrder = bookmarkOrderSnapshot.value;
-
-    if (bookmarkOrder != null) {
-      _sortBookmarkGroups(bookmarkGroups, bookmarkOrder);
-    }
+    final state = ref.watch(purposeGroupedBookmarkListViewModelProvider);
+    final assetData = ref.watch(assetDataProvider).requireValue;
 
     return Stack(
       children: [
         ReorderableListView.builder(
-          itemCount: bookmarkGroups.length,
+          itemCount: state.groups.length,
           padding: const EdgeInsets.only(top: 8),
-          onReorder: (oldIndex, newIndex) {
-            if (bookmarkOrder == null) {
-              return;
-            }
-
-            if (oldIndex < newIndex) {
-              newIndex -= 1;
-            }
-            try {
-              bookmarkOrder.insert(newIndex, bookmarkOrder.removeAt(oldIndex));
-              // sort with new order to avoid flickering when reordering
-              _sortBookmarkGroups(bookmarkGroups, bookmarkOrder);
-
-              final db = ref.read(appDatabaseProvider);
-              db.updateBookmarkOrder(bookmarkOrder);
-            } on RangeError catch (e, st) {
-              log("Reorder failed: $oldIndex -> $newIndex, length: ${bookmarkOrder.length}", error: e, stackTrace: st);
-            }
-          },
+          onReorder: ref.read(purposeGroupedBookmarkListViewModelProvider.notifier).reorder,
           buildDefaultDragHandles: false,
           itemBuilder: (context, index) {
-            final group = bookmarkGroups[index];
+            final group = state.groups[index];
 
-            return Padding(
-              key: Key(group.hash),
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // group header
-                  Row(
+            return Column(
+              key: ValueKey(group.hash),
+              children: [
+                _GroupContainer(
+                  index: index,
+                  group: group,
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      ReorderableDragStartListener(
-                        index: index,
-                        child: const Icon(Symbols.drag_handle, size: 32),
+                      for (final MapEntry(key: materialId, value: items) in state.sortedBookmarks[group.hash]!.entries)
+                        MaterialItem(
+                          key: ValueKey("${group.hash}:$materialId"),
+                          item: MaterialCardMaterial.fromBookmarks(items.map((e) => e.materialDetails).toList()),
+                          usage: MaterialUsage(
+                            characterId: group.characterId,
+                            weaponId: items.first.materialDetails.weaponId,
+                          ),
+                          hashes: items.map((e) => e.materialDetails.hash).toList(),
+                          expItems: items.first.materialDetails.weaponId == null
+                              ? assetData.characterIngredients.expItems
+                              : assetData.weaponIngredients.expItems,
+                        ),
+                      IconButton(
+                        icon: const Icon(Symbols.expand_content),
+                        iconSize: 28,
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            showDragHandle: true,
+                            isScrollControlled: true,
+                            builder: (context) {
+                              return _LevelBookmarkDetail(groupHash: group.hash);
+                            },
+                          );
+                        },
                       ),
-                      Expanded(child: _PurposeHeader(group: group)),
                     ],
                   ),
-                  if (group.type == BookmarkType.material)
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        for (final items in _sortBookmarks(group.bookmarks.cast<BookmarkWithMaterialDetails>(), assetData)
-                              .groupListsBy((e) => e.materialDetails.materialId).values)
-                          MaterialItem(
-                            key: Key("${group.hash}:${items.first.materialDetails.materialId}"),
-                            item: MaterialCardMaterial.fromBookmarks(items.map((e) => e.materialDetails).toList()),
-                            usage: MaterialUsage(
-                              characterId: group.characterId,
-                              weaponId: items.first.materialDetails.weaponId,
-                            ),
-                            hashes: items.map((e) => e.materialDetails.hash).toList(),
-                            expItems: items.first.materialDetails.weaponId == null
-                                ? assetData.characterIngredients.expItems
-                                : assetData.weaponIngredients.expItems,
-                          ),
-                        IconButton(
-                          icon: const Icon(Symbols.expand_content),
-                          iconSize: 28,
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              showDragHandle: true,
-                              isScrollControlled: true,
-                              builder: (context) {
-                                return _LevelBookmarkDetail(groupHash: group.hash);
-                              },
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-
-                  if (group.type == BookmarkType.artifactSet)
-                    _ArtifactSetDetails(group.bookmarks.first as BookmarkWithArtifactSetDetails),
-
-                  if (group.type == BookmarkType.artifactPiece)
-                    _ArtifactPieceDetails(group.bookmarks.first as BookmarkWithArtifactPieceDetails),
-
-                  Visibility(
-                    visible: index < bookmarkGroups.length - 1,
-                    replacement: const SizedBox(height: 16),
-                    child: const Divider(),
-                  ),
-                ],
-              ),
+                ),
+                if (index < state.groups.length - 1)
+                  Divider(indent: 16, endIndent: 16),
+              ],
             );
           },
         ),
-        if (bookmarks.isEmpty) Padding(
+        if (state.groups.isEmpty) Padding(
           padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 32),
           child: Text(tr.bookmarksPage.noBookmarks, style: const TextStyle(
             fontSize: 16,
@@ -206,10 +180,6 @@ class _PurposeGroupedBookmarkList extends ConsumerWidget {
         ),
       ],
     );
-  }
-
-  void _sortBookmarkGroups(List<BookmarkGroup> groups, List<String> order) {
-    groups.sort((a, b) => order.indexOf(a.hash).compareTo(order.indexOf(b.hash)));
   }
 }
 
@@ -301,36 +271,20 @@ class _MaterialGroupedBookmarkList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetData = ref.watch(assetDataProvider).value!;
-    final bookmarks = ref.watch(bookmarksProvider()).value ?? [];
-    if (bookmarks.isEmpty) {
-      return CenterText(tr.bookmarksPage.noBookmarks);
-    }
-
-    final bookmarkMaterials = _sortBookmarks(bookmarks.whereType<BookmarkWithMaterialDetails>(), assetData)
-        .groupFoldBy<String?, List<BookmarkWithMaterialDetails>>(
-          (e) => e.materialDetails.materialId ?? (e.materialDetails.weaponId != null).toString(),
-          (prev, element) {
-            if (prev == null) {
-              return <BookmarkWithMaterialDetails>[element];
-            } else {
-              prev.add(element);
-              return prev;
-            }
-          },
-        );
+    final assetData = ref.watch(assetDataProvider).requireValue;
+    final state = ref.watch(materialGroupedBookmarkListViewModelProvider);
+    final entries = state.materials.entries.toList();
 
     return ListView.separated(
-      itemCount: bookmarkMaterials.length,
+      itemCount: entries.length,
       padding: const EdgeInsets.symmetric(vertical: 8),
       itemBuilder: (context, index) {
-        final bookmarks = bookmarkMaterials.values.elementAt(index);
-        final assetData = ref.watch(assetDataProvider).value!;
+        final MapEntry(key: materialId, value: bookmarks) = entries[index];
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Row(
-            key: ValueKey(bookmarks.first.materialDetails.materialId),
+            key: ValueKey(materialId),
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
@@ -347,8 +301,8 @@ class _MaterialGroupedBookmarkList extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Symbols.bookmark_remove),
                     onPressed: () async {
-                      final db = ref.read(appDatabaseProvider);
-                      await db.removeBookmarks(bookmarks.map((e) => e.metadata.id).toList());
+                      final undo = await ref.read(materialGroupedBookmarkListViewModelProvider.notifier)
+                          .unbookmark(bookmarks);
 
                       if (context.mounted) {
                         showSnackBar(
@@ -356,17 +310,7 @@ class _MaterialGroupedBookmarkList extends ConsumerWidget {
                           message: tr.materialCard.unBookmarked,
                           action: SnackBarAction(
                             label: tr.common.undo,
-                            onPressed: () {
-                              db.addMaterialBookmarks(bookmarks.map((e) => MaterialBookmarkInsertable(
-                                metadataId: e.metadata.id,
-                                characterId: e.metadata.characterId,
-                                weaponId: e.materialDetails.weaponId,
-                                materialId: e.materialDetails.materialId,
-                                upperLevel: e.materialDetails.upperLevel,
-                                purposeType: e.materialDetails.purposeType,
-                                quantity: e.materialDetails.quantity,
-                              )).toList());
-                            },
+                            onPressed: undo,
                           ),
                         );
                       }
@@ -397,6 +341,35 @@ class _MaterialGroupedBookmarkList extends ConsumerWidget {
       separatorBuilder: (context, index) {
         return const SizedBox(height: 8);
       },
+    );
+  }
+}
+
+
+class _ArtifactBookmarkList extends ConsumerWidget {
+  const _ArtifactBookmarkList();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(artifactBookmarkListViewModelProvider);
+
+    return ReorderableListView.builder(
+      itemCount: state.bookmarks.length,
+      itemBuilder: (context, index) {
+        final group = state.bookmarks[index];
+
+        return _GroupContainer(
+          key: ValueKey(group.hash),
+          index: index,
+          group: group,
+          child: switch (group.bookmarks.first) {
+            final BookmarkWithArtifactSetDetails b => _ArtifactSetDetails(b),
+            final BookmarkWithArtifactPieceDetails b => _ArtifactPieceDetails(b),
+            _ => throw Exception("Unreachable"),
+          },
+        );
+      },
+      onReorder: ref.read(artifactBookmarkListViewModelProvider.notifier).reorder,
     );
   }
 }

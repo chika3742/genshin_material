@@ -126,6 +126,7 @@ bookmarksPage:
   unBookmarkConfirm: Remove this bookmark?
   byPurpose: Purpose
   byMaterial: Material
+  artifacts: Artifacts
   furnishings: Furnishings
   allFurnishingsAreCrafted: All furnishings in this set have been crafted.
 characterDetailsPage: 
