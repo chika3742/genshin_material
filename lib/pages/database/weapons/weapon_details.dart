@@ -217,7 +217,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                       children: [
                         _buildSlider(
                           ingredients,
-                          slider.purposes.first,
+                          .ascension,
                           state.value.rangeValues[Purpose.ascension]!,
                           onRangeChanged: (value) {
                             state.value = state.value.copyWith(
