@@ -12,7 +12,7 @@ import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/list_tile.dart";
-import "../../../components/material_slider.dart";
+import "../../../components/material_card_list.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
@@ -153,7 +153,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
             );
             if (e.value == ingLevels.levels.keys.last) {
               newState = newState.copyWith(
-                checkedTalentTypes: {...newState.checkedTalentTypes}..[e.key] = false,
+                hiddenTalents: {...newState.hiddenTalents}..add(e.key),
               );
             }
           }
@@ -328,49 +328,48 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                   ),
 
                 Main(children: [
-                  for (final slider in ingredients.sliders)
+                  for (final sliderGroup in ingredients.sliders)
                     Section(
-                      heading: SectionHeading(slider.title.localized),
-                      child: MaterialSlider(
-                        ingredientConf: ingredients,
-                        purposes: slider.purposes,
-                        lackNums: lackNums,
-                        // TODO: make checkedTalentTypes set of [Purpose]
-                        expandedPurposes: state.value.checkedTalentTypes.entries.where((e) => e.value).map((e) => e.key).toSet(),
-                        onExpansionChanged: (purpose, expanded) {
-                          state.value = state.value.copyWith(
-                            checkedTalentTypes: {...state.value.checkedTalentTypes}..[purpose] = expanded,
-                          );
-                        },
-                        target: switch (slider.preferredTargetType) {
-                          PreferredTargetType.group => character,
-                          PreferredTargetType.variant || null => variant.value,
-                        },
-                        ranges: UnmodifiableMapView(state.value.rangeValues),
-                        labelBuilder: (context, purpose) {
-                          if (purpose != Purpose.ascension) {
-                            return Text.rich(TextSpan(children: [
-                              TextSpan(
-                                text: tr.talentTypes[purpose.name]!,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
+                      heading: SectionHeading(sliderGroup.title.localized),
+                      child: Column(
+                        spacing: 16.0,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Column(
+                            spacing: 8.0,
+                            children: [
+                              for (final purpose in sliderGroup.purposes)
+                                _buildSlider(
+                                  ingredients,
+                                  variant.value,
+                                  purpose,
+                                  state.value.rangeValues[purpose]!,
+                                  active: !state.value.hiddenTalents.contains(purpose),
+                                  onActiveChanged: (value) {
+                                    state.value = state.value.copyWith(
+                                      hiddenTalents: value
+                                          ? ({...state.value.hiddenTalents}..remove(purpose))
+                                          : ({...state.value.hiddenTalents}..add(purpose)),
+                                    );
+                                  },
+                                  onRangeChanged: (value) {
+                                    state.value = state.value.copyWith(
+                                      rangeValues: {...state.value.rangeValues}..[purpose] = value,
+                                    );
+                                  },
+                                  preferredTargetType: sliderGroup.preferredTargetType,
                                 ),
-                              ),
-                              const TextSpan(text: "  "),
-                              TextSpan(
-                                text: variant
-                                    .value.talents[purpose.name]!.name.localized,
-                              ),
-                            ]));
-                          }
-                          return null; // no label for ascension
-                        },
-                        onRangesChanged: (value) {
-                          state.value = state.value.copyWith(
-                            rangeValues: value,
-                          );
-                        },
+                            ],
+                          ),
+                          MaterialCardList(
+                            target: variant.value,
+                            purposes: sliderGroup.purposes,
+                            ingredientConf: ingredients,
+                            lackNums: lackNums,
+                            ranges: state.value.rangeValues.retainKeys(sliderGroup
+                                .purposes.whereNot((e) => state.value.hiddenTalents.contains(e)).toSet()),
+                          ),
+                        ],
                       ),
                     ),
 
@@ -402,13 +401,52 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       ),
     );
   }
+
+  Widget _buildSlider(
+    IngredientConfigurations ingredients,
+    CharacterOrVariant variant,
+    Purpose purpose,
+    LevelRangeValues values, {
+    required bool active,
+    PreferredTargetType? preferredTargetType,
+    required ValueChanged<bool> onActiveChanged,
+    required ValueChanged<LevelRangeValues> onRangeChanged,
+  }) {
+    final context = useContext();
+    final CharacterOrWeapon target = switch (preferredTargetType) {
+      .group => character,
+      .variant || null => variant,
+    };
+    final levels = ingredients.getLevels(rarity: target.rarity, purpose: purpose);
+    return LevelSlider(
+      levels: levels.levels.keys.toList(),
+      ticks: levels.sliderTicks,
+      values: values,
+      active: active,
+      label: purpose != .ascension ? Text.rich(TextSpan(children: [
+        TextSpan(
+          text: tr.talentTypes[purpose.name]!,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        const TextSpan(text: "  "),
+        TextSpan(
+          text: variant.talents[purpose.name]!.name.localized,
+        ),
+      ])) : null,
+      onActiveChanged: onActiveChanged,
+      onChanged: onRangeChanged,
+    );
+  }
 }
 
 @Freezed(copyWith: true)
 sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
   const factory _CharacterDetailsPageState({
     required Map<Purpose, LevelRangeValues> rangeValues,
-    required Map<Purpose, bool> checkedTalentTypes,
+    required Set<Purpose> hiddenTalents,
     required Map<Purpose, GlobalKey> talentSectionKeys,
     required String? equippedWeaponId,
   }) = __CharacterDetailsPageState;
@@ -421,8 +459,11 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
     Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> bookmarkRanges = const {},
   }) {
     final rangeValues = <Purpose, LevelRangeValues>{};
-    final checkedTalentTypes = <Purpose, bool>{};
+    final hiddenTalents = <Purpose>{};
     final talentSectionKeys = <Purpose, GlobalKey>{};
+
+    final talents = {Purpose.normalAttack, Purpose.elementalSkill, Purpose.elementalBurst};
+    final hasBookmarkedTalents = talents.any((e) => bookmarkRanges.containsKey(e));
 
     for (final purpose in ingredients.rarities[rarity]!.purposes.keys) {
       final levels = ingredients.getLevels(rarity: rarity, purpose: purpose).levels;
@@ -437,29 +478,36 @@ sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
         range = LevelRangeValues(start, bookmark.maxUpperLevel);
       } else {
         range = LevelRangeValues(characterCurrentLevel, levels.keys.last);
-      }
-      if (purpose != .ascension) {
-        checkedTalentTypes[purpose] = range.start < levels.keys.last;
+        // Slider is initially closed if:
+        // There are talent bookmarks and this purpose is not bookmarked
+        // OR
+        // Talent is fully leveled.
+        if (purpose != .ascension && (hasBookmarkedTalents || range.start == range.end)) {
+          hiddenTalents.add(purpose);
+        }
       }
 
       rangeValues[purpose] = range;
       talentSectionKeys[purpose] = GlobalKey();
     }
 
-    // Slider is initially closed if there are talent bookmarks and this
-    // purpose is not bookmarked
-    final talents = {Purpose.normalAttack, Purpose.elementalSkill, Purpose.elementalBurst};
-    if (talents.any((e) => bookmarkRanges.containsKey(e))) {
-      for (var purpose in talents) {
-        checkedTalentTypes[purpose] = bookmarkRanges.containsKey(purpose);
-      }
-    }
-
     return _CharacterDetailsPageState(
       rangeValues: rangeValues,
-      checkedTalentTypes: checkedTalentTypes,
+      hiddenTalents: hiddenTalents,
       talentSectionKeys: talentSectionKeys,
       equippedWeaponId: initialCharacterState?.equippedWeaponId,
     );
+  }
+}
+
+extension <K, V> on Map<K, V> {
+  Map<K, V> retainKeys(Set<K> keys) {
+    final newMap = <K, V>{};
+    for (final key in keys) {
+      if (containsKey(key)) {
+        newMap[key] = this[key] as V;
+      }
+    }
+    return newMap;
   }
 }
