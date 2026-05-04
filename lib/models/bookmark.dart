@@ -3,11 +3,11 @@ import "package:drift/drift.dart" show Value;
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:uuid/uuid.dart";
 
-import "../components/level_slider.dart";
 import "../core/asset_cache.dart";
 import "../database.dart";
 import "../utils/hash.dart";
 import "common.dart";
+import "level_range_values.dart";
 
 part "bookmark.freezed.dart";
 

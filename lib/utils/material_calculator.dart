@@ -1,9 +1,9 @@
 import "package:collection/collection.dart";
 
-import "../components/level_slider.dart";
 import "../core/asset_cache.dart";
 import "../models/common.dart";
 import "../models/ingredients.dart";
+import "../models/level_range_values.dart";
 import "../models/material_bookmark_frame.dart";
 import "ingredients_converter.dart";
 import "lists.dart";

@@ -2,8 +2,8 @@ import "dart:collection";
 
 import "package:collection/collection.dart";
 
-import "../components/level_slider.dart";
 import "../models/common.dart";
+import "../models/level_range_values.dart";
 import "../models/weapon.dart";
 
 extension WeaponListExtension on List<Weapon> {

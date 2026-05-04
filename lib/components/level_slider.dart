@@ -7,22 +7,11 @@ import "package:google_fonts/google_fonts.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../i18n/strings.g.dart";
+import "../models/level_range_values.dart";
 import "../ui_core/bubble.dart";
 import "../utils/lists.dart";
 import "custom_range_slider.dart";
 import "labeled_check_box.dart";
-
-class LevelRangeValues {
-  final int start;
-  final int end;
-
-  const LevelRangeValues(this.start, this.end);
-
-  @override
-  String toString() {
-    return "LevelRangeValues($start -> $end)";
-  }
-}
 
 class _SliderLabelPainter extends CustomPainter {
   const _SliderLabelPainter({required this.ticks, required this.context});

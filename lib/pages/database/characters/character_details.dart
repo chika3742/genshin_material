@@ -23,6 +23,7 @@ import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
 import "../../../models/ingredients.dart";
+import "../../../models/level_range_values.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/preferences.dart";

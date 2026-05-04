@@ -21,6 +21,7 @@ import "../../../db/in_game_weapon_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/ingredients.dart";
+import "../../../models/level_range_values.dart";
 import "../../../models/weapon.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";

@@ -5,12 +5,12 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../models/ingredients.dart";
+import "../models/level_range_values.dart";
 import "../models/material_bookmark_frame.dart";
 import "../models/weapon.dart";
 import "../providers/game_data_sync.dart";
 import "../providers/versions.dart";
 import "../utils/material_calculator.dart";
-import "level_slider.dart";
 import "material_item.dart";
 
 class MaterialCardList extends HookConsumerWidget {

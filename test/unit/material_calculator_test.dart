@@ -1,9 +1,9 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/components/level_slider.dart";
 import "package:genshin_material/core/asset_cache.dart";
 import "package:genshin_material/models/asset_release_version.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/ingredients.dart";
+import "package:genshin_material/models/level_range_values.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/models/material.dart";
 import "package:genshin_material/utils/material_calculator.dart";
