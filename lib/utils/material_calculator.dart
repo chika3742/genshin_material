@@ -8,8 +8,8 @@ import "../models/material_bookmark_frame.dart";
 import "ingredients_converter.dart";
 import "lists.dart";
 
-/// Returns a map from item id to full quantity. `null` item id represents an
-/// exp item.
+/// Returns the quantity per item for all materials of the specified [Purpose].
+/// `null` item id represents an exp item.
 Map<String?, int> calculateFullQuantities(
   AssetData assetData,
   List<Purpose> purposes,
