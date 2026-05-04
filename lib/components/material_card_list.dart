@@ -37,12 +37,12 @@ class MaterialCardList extends HookConsumerWidget {
 
     final fullQuantities = useMemoized(
       () => calculateFullQuantities(assetData, purposes, ingredientConf, target),
-      [target],
+      [target, ingredientConf, purposes, assetData],
     );
 
     final items = useMemoized(
       () => generateMaterialCardsFromRange(assetData, ingredientConf, target, ranges),
-      [target, ranges],
+      [target, ranges, ingredientConf, assetData],
     );
 
     return Wrap(
