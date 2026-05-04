@@ -29,7 +29,7 @@ class MaterialCardList extends HookConsumerWidget {
     required this.ranges,
     this.lackNums,
     this.wSelectedCharacter,
-  });
+  }) : assert(target is! Weapon || wSelectedCharacter != null);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
