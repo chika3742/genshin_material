@@ -139,12 +139,13 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
         weaponId: weapon.id,
       ), (_, result) {
         if (result.value?.levels != null) {
-          for (final e in result.value!.levels!.entries) {
-            final purpose = e.key;
-            state.value = state.value.copyWithDrv(LevelRangeValues(
-              e.value,
-              max(state.value.rangeValues[purpose]?.end ?? e.value, e.value),
-            ));
+          for (final MapEntry(key: purpose, value: currentLevel) in result.value!.levels!.entries) {
+            state.value = state.value.copyWith(
+              rangeValues: {...state.value.rangeValues}..[purpose] = LevelRangeValues(
+                currentLevel,
+                max(currentLevel, state.value.rangeValues[purpose]!.end),
+              ),
+            );
           }
         }
       });
@@ -228,7 +229,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                           ),
                         MaterialCardList(
                           target: weapon,
-                          purposes: [.ascension],
+                          purposes: slider.purposes,
                           ingredientConf: ingredients,
                           lackNums: lackNums,
                           ranges: state.value.rangeValues,
@@ -312,17 +313,5 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
       },
       selectedCharacterId: selectedCharacterId,
     );
-  }
-
-  LevelRangeValues get defaultRangeValues {
-    return rangeValues[Purpose.ascension]!;
-  }
-
-  /// Copy with default range values
-  _WeaponDetailsPageState copyWithDrv(LevelRangeValues rangeValues) {
-    return copyWith(rangeValues: {
-      ...this.rangeValues,
-      Purpose.ascension: rangeValues,
-    });
   }
 }
