@@ -10,6 +10,7 @@ import "../i18n/strings.g.dart";
 import "../ui_core/bubble.dart";
 import "../utils/lists.dart";
 import "custom_range_slider.dart";
+import "labeled_check_box.dart";
 
 class LevelRangeValues {
   final int start;
@@ -23,8 +24,8 @@ class LevelRangeValues {
   }
 }
 
-class SliderLabelPainter extends CustomPainter {
-  const SliderLabelPainter({required this.ticks, required this.context});
+class _SliderLabelPainter extends CustomPainter {
+  const _SliderLabelPainter({required this.ticks, required this.context});
 
   final List<int> ticks;
   final BuildContext context;
@@ -57,6 +58,9 @@ class LevelSlider extends HookWidget {
   final List<int> levels;
   final List<int> ticks;
   final LevelRangeValues values;
+  final bool active;
+  final ValueChanged<bool>? onActiveChanged;
+  final Widget? label;
   final void Function(LevelRangeValues values)? onChanged;
 
   const LevelSlider({
@@ -64,6 +68,9 @@ class LevelSlider extends HookWidget {
     required this.levels,
     required this.ticks,
     required this.values,
+    this.active = true,
+    this.onActiveChanged,
+    this.label,
     this.onChanged,
   });
 
@@ -81,55 +88,93 @@ class LevelSlider extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: _sliderLabelSpacing),
-              child: SizedBox(
-                height: _sliderHeight,
-                child: CustomRangeSlider(
-                  values: RangeValues(
-                    ticks.indexOfCeilToNearest(values.start).toDouble(),
-                    ticks.indexOfCeilToNearest(values.end).toDouble(),
+    return _buildContainer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: _sliderLabelSpacing),
+                child: SizedBox(
+                  height: _sliderHeight,
+                  child: CustomRangeSlider(
+                    values: RangeValues(
+                      ticks.indexOfCeilToNearest(values.start).toDouble(),
+                      ticks.indexOfCeilToNearest(values.end).toDouble(),
+                    ),
+                    min: 0,
+                    max: ticks.length - 1,
+                    divisions: ticks.length - 1,
+                    labels: RangeLabels(
+                        "${tr.common.currentLevel}: ${values.start}",
+                        "${tr.common.goalLevel}: ${values.end}"),
+                    onChanged: (values) {
+                      if (values.start == values.end) return;
+                      onChanged?.call(
+                        LevelRangeValues(
+                          ticks[values.start.toInt()],
+                          ticks[values.end.toInt()],
+                        ),
+                      );
+                    },
                   ),
-                  min: 0,
-                  max: ticks.length - 1,
-                  divisions: ticks.length - 1,
-                  labels: RangeLabels(
-                      "${tr.common.currentLevel}: ${values.start}",
-                      "${tr.common.goalLevel}: ${values.end}"),
-                  onChanged: (values) {
-                    onChanged?.call(
-                      LevelRangeValues(
-                        ticks[values.start.toInt()],
-                        ticks[values.end.toInt()],
-                      ),
-                    );
-                  },
                 ),
               ),
+              Positioned(
+                left: _sliderLabelHorizontalPadding,
+                right: _sliderLabelHorizontalPadding,
+                bottom: 0,
+                height: _sliderLabelHeight,
+                child: _buildSliderLabels(),
+              ),
+            ],
+          ),
+          _buildLevelIndicators(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContainer({required Widget child}) {
+    return Card(
+      margin: .zero,
+      child: Padding(
+        padding: .all(8.0),
+        child: label != null ? Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            LabeledCheckBox(
+              value: active,
+              onChanged: onActiveChanged != null ? (value) {
+                onActiveChanged!(value!);
+              } : null,
+              child: Expanded(
+                child: label!,
+              ),
             ),
-            Positioned(
-              left: _sliderLabelHorizontalPadding,
-              right: _sliderLabelHorizontalPadding,
-              bottom: 0,
-              height: _sliderLabelHeight,
-              child: _buildSliderLabels(),
+            AnimatedCrossFade( // resize animation
+              crossFadeState: active ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+              duration: const Duration(milliseconds: 300),
+              firstCurve: Curves.easeOutQuint,
+              secondCurve: Curves.easeOutQuint,
+              sizeCurve: Curves.easeOutQuint,
+              firstChild: SizedBox.shrink(),
+              secondChild: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: child,
+              ),
             ),
           ],
-        ),
-        _buildLevelIndicators(),
-      ],
+        ) : child,
+      ),
     );
   }
 
   Widget _buildSliderLabels() {
     return CustomPaint(
-      painter: SliderLabelPainter(
+      painter: _SliderLabelPainter(
         context: useContext(),
         ticks: ticks,
       ),

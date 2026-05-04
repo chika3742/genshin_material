@@ -1,6 +1,5 @@
 import "dart:math";
 
-import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
@@ -13,7 +12,7 @@ import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/item_source_widget.dart";
 import "../../../components/level_slider.dart";
-import "../../../components/material_slider.dart";
+import "../../../components/material_card_list.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../database.dart";
@@ -140,12 +139,13 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
         weaponId: weapon.id,
       ), (_, result) {
         if (result.value?.levels != null) {
-          for (final e in result.value!.levels!.entries) {
-            final purpose = e.key;
-            state.value = state.value.copyWithDrv(LevelRangeValues(
-              e.value,
-              max(state.value.rangeValues[purpose]?.end ?? e.value, e.value),
-            ));
+          for (final MapEntry(key: purpose, value: currentLevel) in result.value!.levels!.entries) {
+            state.value = state.value.copyWith(
+              rangeValues: {...state.value.rangeValues}..[purpose] = LevelRangeValues(
+                currentLevel,
+                max(currentLevel, state.value.rangeValues[purpose]!.end),
+              ),
+            );
           }
         }
       });
@@ -212,18 +212,30 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                 for (final slider in ingredients.sliders)
                   Section(
                     heading: SectionHeading(slider.title.localized),
-                    child: MaterialSlider(
-                      ingredientConf: ingredients,
-                      purposes: slider.purposes,
-                      target: weapon,
-                      characterId: state.value.selectedCharacterId,
-                      ranges: UnmodifiableMapView(state.value.rangeValues),
-                      lackNums: lackNums,
-                      onRangesChanged: (value) {
-                        state.value = state.value.copyWith(
-                          rangeValues: value,
-                        );
-                      },
+                    child: Column(
+                      spacing: 16,
+                      crossAxisAlignment: .stretch,
+                      children: [
+                        for (final purpose in slider.purposes)
+                          _buildSlider(
+                            ingredients,
+                            purpose,
+                            state.value.rangeValues[purpose]!,
+                            onRangeChanged: (value) {
+                              state.value = state.value.copyWith(
+                                rangeValues: {...state.value.rangeValues}..[purpose] = value,
+                              );
+                            },
+                          ),
+                        MaterialCardList(
+                          target: weapon,
+                          purposes: slider.purposes,
+                          ingredientConf: ingredients,
+                          lackNums: lackNums,
+                          ranges: state.value.rangeValues,
+                          wSelectedCharacter: state.value.selectedCharacterId,
+                        ),
+                      ],
                     ),
                   ),
 
@@ -245,6 +257,21 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSlider(
+    IngredientConfigurations ingredients,
+    Purpose purpose,
+    LevelRangeValues values, {
+    required ValueChanged<LevelRangeValues> onRangeChanged,
+  }) {
+    final levels = ingredients.getLevels(rarity: weapon.rarity, purpose: purpose);
+    return LevelSlider(
+      levels: levels.levels.keys.toList(),
+      ticks: levels.sliderTicks,
+      values: values,
+      onChanged: onRangeChanged,
     );
   }
 }
@@ -286,17 +313,5 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
       },
       selectedCharacterId: selectedCharacterId,
     );
-  }
-
-  LevelRangeValues get defaultRangeValues {
-    return rangeValues[Purpose.ascension]!;
-  }
-
-  /// Copy with default range values
-  _WeaponDetailsPageState copyWithDrv(LevelRangeValues rangeValues) {
-    return copyWith(rangeValues: {
-      ...this.rangeValues,
-      Purpose.ascension: rangeValues,
-    });
   }
 }
