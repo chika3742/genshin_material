@@ -215,16 +215,17 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                       spacing: 16,
                       crossAxisAlignment: .stretch,
                       children: [
-                        _buildSlider(
-                          ingredients,
-                          .ascension,
-                          state.value.rangeValues[Purpose.ascension]!,
-                          onRangeChanged: (value) {
-                            state.value = state.value.copyWith(
-                              rangeValues: {...state.value.rangeValues}..[Purpose.ascension] = value,
-                            );
-                          },
-                        ),
+                        for (final purpose in slider.purposes)
+                          _buildSlider(
+                            ingredients,
+                            purpose,
+                            state.value.rangeValues[purpose]!,
+                            onRangeChanged: (value) {
+                              state.value = state.value.copyWith(
+                                rangeValues: {...state.value.rangeValues}..[purpose] = value,
+                              );
+                            },
+                          ),
                         MaterialCardList(
                           target: weapon,
                           purposes: [.ascension],
