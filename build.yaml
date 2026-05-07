@@ -12,15 +12,22 @@ targets:
       drift_dev:not_shared:
         enabled: true
         options: *drift_options
-  $default:
+  freezed:
+    auto_apply_builders: false
     dependencies:
       - :drift
     builders:
-      drift_dev:
-        enabled: false
-
       freezed:
+        enabled: true
         options:
           copy_with: false
           map: false
           when: false
+  $default:
+    dependencies:
+      - :freezed
+    builders:
+      drift_dev:
+        enabled: false
+      freezed:
+        enabled: false
