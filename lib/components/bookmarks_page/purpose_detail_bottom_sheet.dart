@@ -5,12 +5,12 @@ import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../../i18n/strings.g.dart";
-import "../../models/bookmark.dart";
 import "../../models/material_bookmark_frame.dart";
 import "../../providers/database_provider.dart";
 import "../../providers/versions.dart";
 import "../../ui_core/bottom_sheet.dart";
 import "../../ui_core/layout.dart";
+import "../../view_models/bookmarks/bookmark_sorter.dart";
 import "../material_item.dart";
 
 Future<void> showPurposeBookmarkDetailBottomSheet({required BuildContext context, required String groupHash}) {
@@ -38,8 +38,7 @@ class PurposeBookmarkDetailBottomSheet extends StatelessWidget {
         return HookConsumer(
           builder: (context, ref, child) {
             final assetData = ref.watch(assetDataProvider).value!;
-            final bookmarks = ref.watch(bookmarksProvider(groupHash: groupHash))
-                .value?.cast<BookmarkWithMaterialDetails>();
+            final bookmarks = ref.watch(bookmarksProvider(groupHash: groupHash)).value;
 
             useValueChanged<bool?, void>(bookmarks?.isEmpty, (_, _){
               if (bookmarks != null && bookmarks.isEmpty) {
@@ -51,7 +50,7 @@ class PurposeBookmarkDetailBottomSheet extends StatelessWidget {
               return const SizedBox(width: double.infinity);
             }
 
-            final levels = bookmarks.groupListsBy((e) => e.materialDetails.upperLevel);
+            final levels = bookmarks.groupListsBy((e) => e.item.upperLevel);
 
             return Padding(
               padding: const EdgeInsets.only(left: 16.0, bottom: 16.0, right: 16.0),
@@ -62,24 +61,23 @@ class PurposeBookmarkDetailBottomSheet extends StatelessWidget {
                 children: [
                   Transform.translate(
                     offset: const Offset(-8, 0),
-                    child: SectionInnerHeading(tr.purposes[bookmarks.first.materialDetails.purposeType.name]!),
+                    child: SectionInnerHeading(tr.purposes[bookmarks.first.group.purposeType.name]!),
                   ),
                   for (final level in levels.entries.sorted((a, b) => a.key.compareTo(b.key))) ...[
                     Text("Lv. ${level.key}", style: GoogleFonts.titilliumWeb(fontSize: 20)),
                     Wrap(
                       children: [
-                        // TODO: sort
-                        for (final item in level.value)
+                        for (final item in sortBookmarks(level.value, assetData))
                           MaterialItem(
-                            item: MaterialCardMaterial.fromBookmarks([item.materialDetails]),
+                            item: MaterialCardMaterial.fromBookmarks([item]),
                             usage: MaterialUsage(
-                              characterId: item.metadata.characterId,
-                              weaponId: item.materialDetails.weaponId,
+                              characterId: item.group.characterId,
+                              weaponId: item.group.weaponId,
                             ),
-                            expItems: item.materialDetails.weaponId == null
+                            expItems: item.group.weaponId == null
                                 ? assetData.characterIngredients.expItems
                                 : assetData.weaponIngredients.expItems,
-                            hashes: [item.materialDetails.hash],
+                            hashes: [item.item.hash],
                           ),
                       ],
                     ),

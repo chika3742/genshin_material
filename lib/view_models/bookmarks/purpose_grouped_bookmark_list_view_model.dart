@@ -4,7 +4,6 @@ import "package:collection/collection.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../db/bookmark_order_registry_db_extension.dart";
 import "../../models/bookmark.dart";
 import "../../models/common.dart";
 import "../../providers/database_provider.dart";
@@ -31,13 +30,15 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
 
     final bookmarks = (ref.watch(bookmarksProvider()).value ?? []);
 
-    final bookmarkGroups = bookmarks.groupListsBy((e) => e.metadata.groupHash)
+    final bookmarkGroups = bookmarks.groupListsBy((e) => e.group.groupHash)
         .map((k, v) => MapEntry(k, BookmarkGroup.fromBookmarks(v, assetData)));
 
-    final bookmarkOrder = ref.watch(bookmarkOrderProvider).value;
-    final bookmarkGroupList = bookmarkOrder != null
-        ? sortBookmarkGroups(bookmarkGroups.values.toList(), bookmarkOrder)
-        : <BookmarkGroup>[];
+    final bookmarkGroupList = bookmarkGroups.values.toList()
+      ..sort((a, b) {
+        final aIdx = (a.bookmarks.first as BookmarkWithMaterialDetails).group.orderIndex;
+        final bIdx = (b.bookmarks.first as BookmarkWithMaterialDetails).group.orderIndex;
+        return aIdx.compareTo(bIdx);
+      });
 
     return PurposeGroupedBookmarkListState(
       groups: bookmarkGroupList,
@@ -45,31 +46,12 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
         k,
         // TODO: BROKEN: implement artifact refactoring
         sortBookmarks(v.bookmarks.cast<BookmarkWithMaterialDetails>(), assetData)
-            .groupListsBy((e) => e.materialDetails.materialId),
+            .groupListsBy((e) => e.item.materialId),
       )),
     );
   }
 
   void reorder(int oldIndex, int newIndex) {
-    final bookmarkOrder = ref.read(bookmarkOrderProvider).value;
-    if (bookmarkOrder == null) {
-      return;
-    }
-
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
-    try {
-      bookmarkOrder.insert(newIndex, bookmarkOrder.removeAt(oldIndex));
-      // sort with new order to avoid flickering when reordering
-      state = state.copyWith(
-        groups: sortBookmarkGroups(state.groups, bookmarkOrder),
-      );
-
-      final db = ref.read(appDatabaseProvider);
-      db.updateBookmarkOrder(bookmarkOrder);
-    } on RangeError catch (e, st) {
-      log("Reorder failed: $oldIndex -> $newIndex, length: ${bookmarkOrder.length}", error: e, stackTrace: st);
-    }
+    log("Reorder: $oldIndex -> $newIndex (not yet implemented)");
   }
 }

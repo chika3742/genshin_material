@@ -47,13 +47,13 @@ class BookmarksPurposeGroupedTab extends ConsumerWidget {
                   for (final MapEntry(key: materialId, value: items) in state.sortedBookmarks[group.hash]?.entries ?? {})
                     MaterialItem(
                       key: ValueKey("${group.hash}:$materialId"),
-                      item: MaterialCardMaterial.fromBookmarks(items.map((e) => e.materialDetails).toList()),
+                      item: MaterialCardMaterial.fromBookmarks(items),
                       usage: MaterialUsage(
                         characterId: group.characterId,
-                        weaponId: items.first.materialDetails.weaponId,
+                        weaponId: items.first.group.weaponId,
                       ),
-                      hashes: items.map((e) => e.materialDetails.hash).toList(),
-                      expItems: items.first.materialDetails.weaponId == null
+                      hashes: items.map((e) => e.item.hash).toList(),
+                      expItems: items.first.group.weaponId == null
                           ? assetData.characterIngredients.expItems
                           : assetData.weaponIngredients.expItems,
                     ),
@@ -103,7 +103,7 @@ class _ArtifactSetDetails extends ConsumerWidget {
       children: [
         Row(
           children: [
-            for (final set in bookmark.artifactSetDetails.sets)
+            for (final set in bookmark.artifactSet.sets)
               Flexible(
                 child: ItemLinkButton(
                   onTap: () {
@@ -124,7 +124,7 @@ class _ArtifactSetDetails extends ConsumerWidget {
                           spacing: 8,
                           children: [
                             Text(assetData.artifactSets[set]!.name.localized),
-                            Text("(${tr.artifactDetailsPage.nSet(n: 4 ~/ bookmark.artifactSetDetails.sets.length)})"),
+                            Text("(${tr.artifactDetailsPage.nSet(n: 4 ~/ bookmark.artifactSet.sets.length)})"),
                           ],
                         ),
                       ),
@@ -135,7 +135,7 @@ class _ArtifactSetDetails extends ConsumerWidget {
           ],
         ),
 
-        for (final e in bookmark.artifactSetDetails.mainStats.entries)
+        for (final e in bookmark.artifactSet.mainStats.entries)
           Text.rich(TextSpan(
             children: [
               TextSpan(
@@ -146,12 +146,12 @@ class _ArtifactSetDetails extends ConsumerWidget {
             ],
           )),
 
-        if (bookmark.artifactSetDetails.subStats.isNotEmpty)
+        if (bookmark.artifact.subStats.isNotEmpty)
           Text.rich(TextSpan(
             children: [
               TextSpan(text: tr.bookmarksPage.sub),
               const TextSpan(text: ": "),
-              TextSpan(text: bookmark.artifactSetDetails.subStats.map((e) => assetData.stats[e]!.localized).join(", "), style: const TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: bookmark.artifact.subStats.map((e) => assetData.stats[e]!.localized).join(", "), style: const TextStyle(fontWeight: FontWeight.bold)),
             ],
           )),
       ],
@@ -171,7 +171,7 @@ class _ArtifactPieceDetails extends ConsumerWidget {
 
     final assetData = assetDataAsync.value!;
 
-    final pieceId = bookmark.artifactPieceDetails.piece;
+    final pieceId = bookmark.artifactPiece.piece;
     final setId = assetData.artifactPieces[pieceId]!.parentId;
 
     final piece = assetData.artifactPieces[pieceId]!;
@@ -201,21 +201,21 @@ class _ArtifactPieceDetails extends ConsumerWidget {
           ),
         ),
 
-        if (bookmark.artifactPieceDetails.mainStat != null)
+        if (bookmark.artifactPiece.mainStat != null)
           Text.rich(TextSpan(
             children: [
               TextSpan(text: tr.bookmarksPage.main),
               const TextSpan(text: ": "),
-              TextSpan(text: assetData.stats[bookmark.artifactPieceDetails.mainStat]!.localized, style: const TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: assetData.stats[bookmark.artifactPiece.mainStat]!.localized, style: const TextStyle(fontWeight: FontWeight.bold)),
             ],
           )),
 
-        if (bookmark.artifactPieceDetails.subStats.isNotEmpty)
+        if (bookmark.artifact.subStats.isNotEmpty)
           Text.rich(TextSpan(
             children: [
               TextSpan(text: tr.bookmarksPage.sub),
               const TextSpan(text: ": "),
-              TextSpan(text: bookmark.artifactPieceDetails.subStats.map((e) => assetData.stats[e]!.localized).join(", "), style: const TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: bookmark.artifact.subStats.map((e) => assetData.stats[e]!.localized).join(", "), style: const TextStyle(fontWeight: FontWeight.bold)),
             ],
           )),
       ],

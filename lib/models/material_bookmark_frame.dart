@@ -1,7 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
-import "../database.dart";
 import "../utils/hash.dart";
 import "bookmark.dart";
 import "common.dart";
@@ -18,24 +17,24 @@ class MaterialCardMaterial {
     required this.levels,
   });
 
-  factory MaterialCardMaterial.fromBookmarks(List<BookmarkMaterialDetails> details) {
-    assert(details.isNotEmpty);
+  factory MaterialCardMaterial.fromBookmarks(List<BookmarkWithMaterialDetails> bookmarks) {
+    assert(bookmarks.isNotEmpty);
 
     return MaterialCardMaterial(
-      id: details.first.materialId,
-      levels: details.map((e) {
-        if (e.materialId != null) {
+      id: bookmarks.first.item.materialId,
+      levels: bookmarks.map((e) {
+        if (e.item.materialId != null) {
           return MaterialBookmarkFrame(
-            materialId: e.materialId!,
-            level: e.upperLevel,
-            quantity: e.quantity,
-            purposeType: e.purposeType,
+            materialId: e.item.materialId!,
+            level: e.item.upperLevel,
+            quantity: e.item.quantity,
+            purposeType: e.group.purposeType,
           );
         } else {
           return MaterialBookmarkFrame.exp(
-            level: e.upperLevel,
-            exp: e.quantity,
-            purposeType: e.purposeType,
+            level: e.item.upperLevel,
+            exp: e.item.quantity,
+            purposeType: e.group.purposeType,
           );
         }
       }).toList(),

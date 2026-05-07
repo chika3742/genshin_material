@@ -38,9 +38,9 @@ class BookmarksMaterialGroupedTab extends ConsumerWidget {
             children: [
               Flexible(
                 child: MaterialItem(
-                  item: MaterialCardMaterial.fromBookmarks(bookmarks.map((e) => e.materialDetails).toList()),
-                  hashes: bookmarks.map((e) => e.materialDetails.hash).toList(),
-                  expItems: bookmarks.first.materialDetails.weaponId == null
+                  item: MaterialCardMaterial.fromBookmarks(bookmarks),
+                  hashes: bookmarks.map((e) => e.item.hash).toList(),
+                  expItems: bookmarks.first.group.weaponId == null
                       ? assetData.characterIngredients.expItems
                       : assetData.weaponIngredients.expItems,
                 ),
@@ -70,8 +70,8 @@ class BookmarksMaterialGroupedTab extends ConsumerWidget {
                     onPressed: () {
                       showMaterialBookmarkDetailBottomSheet(
                         context: context,
-                        materialId: bookmarks.first.materialDetails.materialId,
-                        hasWeapon: bookmarks.first.materialDetails.weaponId != null,
+                        materialId: bookmarks.first.item.materialId,
+                        hasWeapon: bookmarks.first.group.weaponId != null,
                       );
                     },
                   ),

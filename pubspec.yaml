@@ -63,6 +63,7 @@ dependencies:
   firebase_remote_config: 6.3.0
   signed_spacing_flex: 1.1.0
   flutter_svg: 2.2.4
+  fractional_indexing: ^1.0.0
 
 dev_dependencies:
   flutter_test:

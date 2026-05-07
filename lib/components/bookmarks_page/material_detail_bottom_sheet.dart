@@ -43,8 +43,7 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
         return HookConsumer(
           builder: (context, ref, child) {
             final assetData = ref.watch(assetDataProvider).value!;
-            final bookmarks = ref.watch(bookmarksProvider(materialFilter: (materialId: materialId, hasWeapon: hasWeapon)))
-                .value?.cast<BookmarkWithMaterialDetails>();
+            final bookmarks = ref.watch(bookmarksProvider(materialFilter: (materialId: materialId, hasWeapon: hasWeapon))).value;
 
             useValueChanged<bool?, void>(bookmarks?.isEmpty, (_, _) {
               if (bookmarks != null && bookmarks.isEmpty) {
@@ -57,11 +56,11 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
             }
 
             int sortByLevels(BookmarkWithMaterialDetails a, BookmarkWithMaterialDetails b) {
-              return a.materialDetails.upperLevel - b.materialDetails.upperLevel;
+              return a.item.upperLevel - b.item.upperLevel;
             }
 
             final groups = bookmarks.groupFoldBy<String, List<BookmarkWithMaterialDetails>>(
-                  (e) => e.metadata.groupHash,
+                  (e) => e.group.groupHash,
                   (prev, element) {
                 if (prev == null) {
                   return <BookmarkWithMaterialDetails>[element];
@@ -90,9 +89,9 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return MaterialItem(
-                      item: MaterialCardMaterial.fromBookmarks(bookmarks.map((e) => e.materialDetails).toList()),
-                      hashes: bookmarks.map((e) => e.materialDetails.hash).toList(),
-                      expItems: bookmarks.first.materialDetails.weaponId == null
+                      item: MaterialCardMaterial.fromBookmarks(bookmarks),
+                      hashes: bookmarks.map((e) => e.item.hash).toList(),
+                      expItems: bookmarks.first.group.weaponId == null
                           ? assetData.characterIngredients.expItems
                           : assetData.weaponIngredients.expItems,
                     );
@@ -117,8 +116,7 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
                             children: [
                               const TextSpan(text: "Lv. ", style: TextStyle(fontSize: 18)),
                               TextSpan(
-                                text: bookmark.materialDetails.upperLevel
-                                    .toString(),
+                                text: bookmark.item.upperLevel.toString(),
                                 style: GoogleFonts.titilliumWeb(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 24,
@@ -129,15 +127,15 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
                         ),
                         Flexible(
                           child: MaterialItem(
-                            item: MaterialCardMaterial.fromBookmarks([bookmark.materialDetails]),
+                            item: MaterialCardMaterial.fromBookmarks([bookmark]),
                             usage: MaterialUsage(
-                              characterId: bookmark.metadata.characterId,
-                              weaponId: bookmark.materialDetails.weaponId,
+                              characterId: bookmark.group.characterId,
+                              weaponId: bookmark.group.weaponId,
                             ),
-                            expItems: bookmark.materialDetails.weaponId == null
+                            expItems: bookmark.group.weaponId == null
                                 ? assetData.characterIngredients.expItems
                                 : assetData.weaponIngredients.expItems,
-                            hashes: [bookmark.materialDetails.hash],
+                            hashes: [bookmark.item.hash],
                           ),
                         ),
                       ],

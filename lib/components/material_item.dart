@@ -139,14 +139,14 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
           case BookmarkState.partial:
             final result = await showPartialBookmarkBottomSheet(bookmarkedMaterials.data!);
             if (result == PartialBookmarkBottomSheetResult.reBookmark) {
-              await db.removeBookmarks(bookmarkedMaterials.data!.map((e) => e.metadata.id).toList());
+              await db.removeMaterialBookmarksByHashes(bookmarkedMaterials.data!.map((e) => e.item.hash).toList());
               await db.addMaterialBookmarks(widget.item.toCompanions(widget.usage!));
             } else if (result == PartialBookmarkBottomSheetResult.remove) {
-              await db.removeBookmarks(bookmarkedMaterials.data!.map((e) => e.metadata.id).toList());
+              await db.removeMaterialBookmarksByHashes(bookmarkedMaterials.data!.map((e) => e.item.hash).toList());
             }
             break;
           case BookmarkState.bookmarked:
-            await db.removeBookmarks(bookmarkedMaterials.data!.map((e) => e.metadata.id).toList());
+            await db.removeMaterialBookmarksByHashes(bookmarkedMaterials.data!.map((e) => e.item.hash).toList());
             if (context.mounted) {
               final companions = widget.item.toCompanions(widget.usage!);
               showSnackBar(
@@ -239,7 +239,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
                   height: 28,
                 ),
                 Text(
-                  "x${processQuantity(bookmarkedMaterials.fold(0, (prev, e) => prev + e.materialDetails.quantity))}",
+                  "x${processQuantity(bookmarkedMaterials.fold(0, (prev, e) => prev + e.item.quantity))}",
                   style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),

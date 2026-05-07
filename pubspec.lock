@@ -482,6 +482,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fractional_indexing:
+    dependency: "direct main"
+    description:
+      name: fractional_indexing
+      sha256: d883a3c0cfd21cb66889e26c7db4366f1097c20dd7615b24269a8a17d76320f2
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   freezed:
     dependency: "direct dev"
     description:

@@ -71,15 +71,15 @@ class _GroupTypeText extends HookConsumerWidget {
 
     switch (group.type) {
       case BookmarkType.material:
-        final materialDetails = (group.bookmarks.first as BookmarkWithMaterialDetails).materialDetails;
-        if (materialDetails.weaponId == null) {
-          final purposeType = materialDetails.purposeType;
+        final first = group.bookmarks.first as BookmarkWithMaterialDetails;
+        if (first.group.weaponId == null) {
+          final purposeType = first.group.purposeType;
           return switch (purposeType) {
             Purpose.ascension => _buildText(tr.bookmarksPage.character),
             Purpose.normalAttack || Purpose.elementalSkill || Purpose.elementalBurst => _buildText(tr.talentTypes[purposeType.name]!),
           };
         } else {
-          final weapon = assetData.weapons[materialDetails.weaponId]!;
+          final weapon = assetData.weapons[first.group.weaponId]!;
           return ItemLinkButton(
             onTap: () {
               WeaponDetailsRoute(
@@ -128,7 +128,13 @@ class _GroupTypeText extends HookConsumerWidget {
               onOkPressed: () {
                 if (context.mounted) {
                   final db = ref.read(appDatabaseProvider);
-                  db.removeBookmarks([group.bookmarks.first.metadata.id]);
+                  switch (group.bookmarks.first) {
+                    case BookmarkWithArtifactSetDetails(:final artifact):
+                    case BookmarkWithArtifactPieceDetails(:final artifact):
+                      db.removeArtifactBookmarkById(artifact.id);
+                    default:
+                      break;
+                  }
                 }
               },
             );

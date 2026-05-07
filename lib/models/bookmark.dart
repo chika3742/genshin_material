@@ -1,7 +1,6 @@
 import "package:collection/collection.dart";
 import "package:drift/drift.dart" show Value;
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:uuid/uuid.dart";
 
 import "../core/asset_cache.dart";
 import "../database.dart";
@@ -11,23 +10,8 @@ import "level_range_values.dart";
 
 part "bookmark.freezed.dart";
 
-sealed class BookmarkInsertable<T> {
-  final int? metadataId;
+class MaterialBookmarkInsertable {
   final CharacterId characterId;
-
-  BookmarkInsertable({this.metadataId, required this.characterId});
-
-  String? _groupHash;
-  String get groupHash => _groupHash ??= _groupHashInit();
-
-  String _groupHashInit();
-
-  BookmarkCompanion toMetadata();
-
-  T toDetails({required int parentId});
-}
-
-class MaterialBookmarkInsertable extends BookmarkInsertable<BookmarkMaterialDetailsCompanion> {
   final WeaponId? weaponId;
   final MaterialId? materialId;
   final int quantity;
@@ -35,8 +19,7 @@ class MaterialBookmarkInsertable extends BookmarkInsertable<BookmarkMaterialDeta
   final Purpose purposeType;
 
   MaterialBookmarkInsertable({
-    super.metadataId,
-    required super.characterId,
+    required this.characterId,
     required this.weaponId,
     required this.materialId,
     required this.quantity,
@@ -44,38 +27,13 @@ class MaterialBookmarkInsertable extends BookmarkInsertable<BookmarkMaterialDeta
     required this.purposeType,
   });
 
-  @override
-  String _groupHashInit() {
-    return generateBookmarkGroupHash(
-      characterId: characterId,
-      type: BookmarkType.material,
-      purposeType: purposeType,
-      weaponId: weaponId,
-    );
-  }
-
-  @override
-  BookmarkCompanion toMetadata() {
-    return BookmarkCompanion.insert(
-      id: Value.absentIfNull(metadataId),
-      characterId: characterId,
-      type: BookmarkType.material,
-      groupHash: groupHash,
-    );
-  }
-
-  @override
-  BookmarkMaterialDetailsCompanion toDetails({required int parentId}) {
-    return BookmarkMaterialDetailsCompanion.insert(
-      parentId: parentId,
-      weaponId: Value.absentIfNull(weaponId),
-      materialId: Value.absentIfNull(materialId),
-      quantity: quantity,
-      upperLevel: upperLevel,
-      purposeType: purposeType,
-      hash: hash,
-    );
-  }
+  String? _groupHash;
+  String get groupHash => _groupHash ??= generateBookmarkGroupHash(
+    characterId: characterId,
+    type: BookmarkType.material,
+    purposeType: purposeType,
+    weaponId: weaponId,
+  );
 
   String get hash => combineMaterialBookmarkElements(
     characterId,
@@ -84,78 +42,84 @@ class MaterialBookmarkInsertable extends BookmarkInsertable<BookmarkMaterialDeta
     materialId,
     upperLevel,
   );
+
+  BookmarkMaterialGroupCompanion toGroupCompanion(String orderIndex) {
+    return BookmarkMaterialGroupCompanion.insert(
+      groupHash: groupHash,
+      characterId: characterId,
+      weaponId: Value.absentIfNull(weaponId),
+      purposeType: purposeType,
+      orderIndex: orderIndex,
+    );
+  }
+
+  BookmarkMaterialItemCompanion toItemCompanion() {
+    return BookmarkMaterialItemCompanion.insert(
+      hash: hash,
+      groupHash: groupHash,
+      materialId: Value.absentIfNull(materialId),
+      quantity: quantity,
+      upperLevel: upperLevel,
+    );
+  }
 }
 
-class ArtifactSetBookmarkInsertable extends BookmarkInsertable<BookmarkArtifactSetDetailsCompanion> {
+class ArtifactSetBookmarkInsertable {
+  final CharacterId characterId;
   final List<ArtifactSetId> sets;
   final Map<ArtifactPieceTypeId, StatId?> mainStats;
   final List<StatId> subStats;
 
   ArtifactSetBookmarkInsertable({
-    required super.characterId,
+    required this.characterId,
     required this.sets,
     required this.mainStats,
     required this.subStats,
   });
 
-  @override
-  String _groupHashInit() {
-    return const Uuid().v4(); // Random hash because artifact bookmarks don't have a group
-  }
-
-  @override
-  BookmarkCompanion toMetadata() {
-    return BookmarkCompanion.insert(
+  BookmarkArtifactCompanion toArtifactCompanion(String orderIndex) {
+    return BookmarkArtifactCompanion.insert(
       characterId: characterId,
-      type: BookmarkType.artifactSet,
-      groupHash: groupHash,
+      subStats: subStats,
+      orderIndex: orderIndex,
     );
   }
 
-  @override
-  BookmarkArtifactSetDetailsCompanion toDetails({required int parentId}) {
-    return BookmarkArtifactSetDetailsCompanion.insert(
-      parentId: parentId,
+  BookmarkArtifactSetCompanion toSetCompanion(int id) {
+    return BookmarkArtifactSetCompanion.insert(
+      id: Value(id),
       sets: sets,
       mainStats: mainStats,
-      subStats: subStats,
     );
   }
 }
 
-class ArtifactPieceBookmarkInsertable extends BookmarkInsertable<BookmarkArtifactPieceDetailsCompanion> {
+class ArtifactPieceBookmarkInsertable {
+  final CharacterId characterId;
   final ArtifactPieceId piece;
   final StatId? mainStat;
   final List<StatId> subStats;
 
   ArtifactPieceBookmarkInsertable({
-    required super.characterId,
+    required this.characterId,
     required this.piece,
     required this.mainStat,
     required this.subStats,
   });
 
-  @override
-  String _groupHashInit() {
-    return const Uuid().v4(); // Random hash because artifact bookmarks don't have a group
-  }
-
-  @override
-  BookmarkCompanion toMetadata() {
-    return BookmarkCompanion.insert(
+  BookmarkArtifactCompanion toArtifactCompanion(String orderIndex) {
+    return BookmarkArtifactCompanion.insert(
       characterId: characterId,
-      type: BookmarkType.artifactPiece,
-      groupHash: groupHash,
+      subStats: subStats,
+      orderIndex: orderIndex,
     );
   }
 
-  @override
-  BookmarkArtifactPieceDetailsCompanion toDetails({required int parentId}) {
-    return BookmarkArtifactPieceDetailsCompanion.insert(
-      parentId: parentId,
+  BookmarkArtifactPieceCompanion toPieceCompanion(int id) {
+    return BookmarkArtifactPieceCompanion.insert(
+      id: Value(id),
       piece: piece,
       mainStat: Value.absentIfNull(mainStat),
-      subStats: subStats,
     );
   }
 }
@@ -163,18 +127,18 @@ class ArtifactPieceBookmarkInsertable extends BookmarkInsertable<BookmarkArtifac
 @freezed
 sealed class BookmarkWithDetails with _$BookmarkWithDetails {
   const factory BookmarkWithDetails.material({
-    required Bookmark metadata,
-    required BookmarkMaterialDetails materialDetails,
+    required BookmarkMaterialGroup group,
+    required BookmarkMaterialItem item,
   }) = BookmarkWithMaterialDetails;
 
   const factory BookmarkWithDetails.artifactSet({
-    required Bookmark metadata,
-    required BookmarkArtifactSetDetails artifactSetDetails,
+    required BookmarkArtifact artifact,
+    required BookmarkArtifactSet artifactSet,
   }) = BookmarkWithArtifactSetDetails;
 
   const factory BookmarkWithDetails.artifactPiece({
-    required Bookmark metadata,
-    required BookmarkArtifactPieceDetails artifactPieceDetails,
+    required BookmarkArtifact artifact,
+    required BookmarkArtifactPiece artifactPiece,
   }) = BookmarkWithArtifactPieceDetails;
 }
 
@@ -192,35 +156,52 @@ sealed class BookmarkGroup with _$BookmarkGroup {
 
   factory BookmarkGroup.fromBookmarks(List<BookmarkWithDetails> bookmarks, AssetData assetData) {
     assert(bookmarks.isNotEmpty);
-    assert(bookmarks.every((e) => e.metadata.groupHash == bookmarks.first.metadata.groupHash), "All bookmarks should have the same group hash");
 
     LevelRangeValues? levelRange;
     final sample = bookmarks.first;
+
+    late final String hash;
+    late final BookmarkType type;
+    late final String characterId;
+
     if (sample is BookmarkWithMaterialDetails) {
+      hash = sample.group.groupHash;
+      type = BookmarkType.material;
+      characterId = sample.group.characterId;
       final levels = bookmarks.cast<BookmarkWithMaterialDetails>()
-          .sorted((a, b) => a.materialDetails.upperLevel - b.materialDetails.upperLevel);
-      final ingredients = switch(sample.materialDetails.weaponId) {
+          .sorted((a, b) => a.item.upperLevel - b.item.upperLevel);
+      final ingredients = switch (sample.group.weaponId) {
         null => assetData.characterIngredients.getLevels(
-          rarity: assetData.characters[bookmarks.first.metadata.characterId]!.rarity,
-          purpose: sample.materialDetails.purposeType,
+          rarity: assetData.characters[sample.group.characterId]!.rarity,
+          purpose: sample.group.purposeType,
         ),
         _ => assetData.weaponIngredients.getLevels(
-          rarity: assetData.weapons[sample.materialDetails.weaponId]!.rarity,
-          purpose: sample.materialDetails.purposeType,
+          rarity: assetData.weapons[sample.group.weaponId]!.rarity,
+          purpose: sample.group.purposeType,
         ),
       };
       final levelTicks = ingredients.levels.keys.toList();
-      final upperLevelIndex = levelTicks.indexOf(levels.first.materialDetails.upperLevel);
+      final upperLevelIndex = levelTicks.indexOf(levels.first.item.upperLevel);
       levelRange = LevelRangeValues(
         upperLevelIndex >= 1 ? levelTicks[upperLevelIndex - 1] : 1,
-        levels.last.materialDetails.upperLevel,
+        levels.last.item.upperLevel,
       );
+    } else if (sample is BookmarkWithArtifactSetDetails) {
+      hash = sample.artifact.id.toString();
+      type = BookmarkType.artifactSet;
+      characterId = sample.artifact.characterId;
+    } else if (sample is BookmarkWithArtifactPieceDetails) {
+      hash = sample.artifact.id.toString();
+      type = BookmarkType.artifactPiece;
+      characterId = sample.artifact.characterId;
+    } else {
+      throw StateError("Unknown bookmark type: $sample");
     }
 
     return BookmarkGroup(
-      hash: bookmarks.first.metadata.groupHash,
-      type: bookmarks.first.metadata.type,
-      characterId: bookmarks.first.metadata.characterId,
+      hash: hash,
+      type: type,
+      characterId: characterId,
       levelRange: levelRange,
       bookmarks: bookmarks,
     );
