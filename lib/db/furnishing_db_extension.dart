@@ -47,12 +47,13 @@ extension FurnishingDbExtension on AppDatabase {
     }
   }
 
-  Future<Future<void> Function()> removeFurnishingSetBookmark(FurnishingSetBookmark bookmark) async {
-    await managers.furnishingSetBookmarkTable
-        .filter((f) => f.setId.equals(bookmark.setId))
-        .delete();
+  Future<Future<void> Function()> removeFurnishingSetBookmark(String setId) async {
+    final query = managers.furnishingSetBookmarkTable
+        .filter((f) => f.setId.equals(setId));
+    final temp = await query.getSingle();
+    await query.delete();
     return () {
-      return into(furnishingSetBookmarkTable).insert(bookmark);
+      return into(furnishingSetBookmarkTable).insert(temp);
     };
   }
 }
