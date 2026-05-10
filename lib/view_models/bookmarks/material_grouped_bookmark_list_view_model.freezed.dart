@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MaterialGroupedBookmarkListState {
 
- Map<String?, List<BookmarkWithMaterialDetails>> get materials;
+ Map<String, List<BookmarkWithMaterialDetails>> get materials;
 
 
 
@@ -43,11 +43,11 @@ String toString() {
 
 
 class _MaterialGroupedBookmarkListState implements MaterialGroupedBookmarkListState {
-  const _MaterialGroupedBookmarkListState({required final  Map<String?, List<BookmarkWithMaterialDetails>> materials}): _materials = materials;
+  const _MaterialGroupedBookmarkListState({required final  Map<String, List<BookmarkWithMaterialDetails>> materials}): _materials = materials;
   
 
- final  Map<String?, List<BookmarkWithMaterialDetails>> _materials;
-@override Map<String?, List<BookmarkWithMaterialDetails>> get materials {
+ final  Map<String, List<BookmarkWithMaterialDetails>> _materials;
+@override Map<String, List<BookmarkWithMaterialDetails>> get materials {
   if (_materials is EqualUnmodifiableMapView) return _materials;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableMapView(_materials);

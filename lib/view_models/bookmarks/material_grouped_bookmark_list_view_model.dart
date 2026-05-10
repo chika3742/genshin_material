@@ -14,7 +14,7 @@ part "material_grouped_bookmark_list_view_model.freezed.dart";
 @freezed
 sealed class MaterialGroupedBookmarkListState with _$MaterialGroupedBookmarkListState {
   const factory MaterialGroupedBookmarkListState({
-    required Map<String?, List<BookmarkWithMaterialDetails>> materials,
+    required Map<String, List<BookmarkWithMaterialDetails>> materials,
   }) = _MaterialGroupedBookmarkListState;
 }
 
