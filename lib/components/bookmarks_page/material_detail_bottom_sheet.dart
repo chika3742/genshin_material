@@ -46,7 +46,7 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
             final bookmarks = ref.watch(bookmarksProvider(materialFilter: (materialId: materialId, hasWeapon: hasWeapon)))
                 .value?.cast<BookmarkWithMaterialDetails>();
 
-            useValueChanged<bool?, void>(bookmarks?.isEmpty, (_, _){
+            useValueChanged<bool?, void>(bookmarks?.isEmpty, (_, _) {
               if (bookmarks != null && bookmarks.isEmpty) {
                 Navigator.of(context).pop();
               }

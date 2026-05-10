@@ -108,6 +108,7 @@ extension BookmarkDbExtension on AppDatabase {
       leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
     ]);
     query.where(
+      bookmarkTable.type.equalsValue(.material) &
       bookmarkMaterialDetailsTable.materialId.equalsNullable(materialId) &
       bookmarkMaterialDetailsTable.weaponId.isNotNull().equals(hasWeapon),
     );
