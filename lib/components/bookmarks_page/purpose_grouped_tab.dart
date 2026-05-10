@@ -44,7 +44,7 @@ class BookmarksPurposeGroupedTab extends ConsumerWidget {
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  for (final MapEntry(key: materialId, value: items) in state.sortedBookmarks[group.hash]!.entries)
+                  for (final MapEntry(key: materialId, value: items) in state.sortedBookmarks[group.hash]?.entries ?? {})
                     MaterialItem(
                       key: ValueKey("${group.hash}:$materialId"),
                       item: MaterialCardMaterial.fromBookmarks(items.map((e) => e.materialDetails).toList()),
