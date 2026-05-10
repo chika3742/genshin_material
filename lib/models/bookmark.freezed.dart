@@ -54,12 +54,12 @@ class BookmarkWithMaterialDetails implements BookmarkWithDetails {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithMaterialDetails&&(identical(other.metadata, metadata) || other.metadata == metadata)&&const DeepCollectionEquality().equals(other.materialDetails, materialDetails));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithMaterialDetails&&(identical(other.metadata, metadata) || other.metadata == metadata)&&(identical(other.materialDetails, materialDetails) || other.materialDetails == materialDetails));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,metadata,const DeepCollectionEquality().hash(materialDetails));
+int get hashCode => Object.hash(runtimeType,metadata,materialDetails);
 
 @override
 String toString() {
@@ -87,12 +87,12 @@ class BookmarkWithArtifactSetDetails implements BookmarkWithDetails {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactSetDetails&&(identical(other.metadata, metadata) || other.metadata == metadata)&&const DeepCollectionEquality().equals(other.artifactSetDetails, artifactSetDetails));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactSetDetails&&(identical(other.metadata, metadata) || other.metadata == metadata)&&(identical(other.artifactSetDetails, artifactSetDetails) || other.artifactSetDetails == artifactSetDetails));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,metadata,const DeepCollectionEquality().hash(artifactSetDetails));
+int get hashCode => Object.hash(runtimeType,metadata,artifactSetDetails);
 
 @override
 String toString() {
@@ -120,12 +120,12 @@ class BookmarkWithArtifactPieceDetails implements BookmarkWithDetails {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactPieceDetails&&(identical(other.metadata, metadata) || other.metadata == metadata)&&const DeepCollectionEquality().equals(other.artifactPieceDetails, artifactPieceDetails));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactPieceDetails&&(identical(other.metadata, metadata) || other.metadata == metadata)&&(identical(other.artifactPieceDetails, artifactPieceDetails) || other.artifactPieceDetails == artifactPieceDetails));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,metadata,const DeepCollectionEquality().hash(artifactPieceDetails));
+int get hashCode => Object.hash(runtimeType,metadata,artifactPieceDetails);
 
 @override
 String toString() {

@@ -1,8 +1,7 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
+// dart format width=80
+// ignore_for_file: type=lint
 part of 'database.dart';
 
-// ignore_for_file: type=lint
 class $BookmarkTableTable extends BookmarkTable
     with TableInfo<$BookmarkTableTable, Bookmark> {
   @override

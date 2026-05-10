@@ -9,7 +9,7 @@ import "database.steps.dart";
 import "models/common.dart";
 
 part "database.freezed.dart";
-part "database.g.dart";
+part "database.drift.dart";
 
 // tables
 
