@@ -1,11 +1,24 @@
 targets:
-  $default:
+  drift:
+    auto_apply_builders: false
     builders:
-      drift_dev:
-        options:
+      drift_dev:analyzer:
+        enabled: true
+        options: &drift_options
+          has_separate_analyzer: true # always enable this option when using `not_shared`
           use_data_class_name_for_companions: true
           databases:
             db: lib/database.dart
+      drift_dev:not_shared:
+        enabled: true
+        options: *drift_options
+  $default:
+    dependencies:
+      - :drift
+    builders:
+      drift_dev:
+        enabled: false
+
       freezed:
         options:
           copy_with: false
