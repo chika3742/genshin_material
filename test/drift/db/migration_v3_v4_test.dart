@@ -392,5 +392,134 @@ void main() {
         validateItems: (newDb) async {},
       ), returnsNormally);
     });
+
+    test("Item appended to end if no entry exists in order registry", () {
+      const groupHash1 = "group_01";
+      const groupHash2 = "group_02";
+
+      return verify(
+        createItems: (batch, oldDb) {
+          batch.insertAll(
+            oldDb.bookmarkTable,
+            [
+              v3.BookmarkTableDataCompanion.insert(
+                id: Value(1),
+                groupHash: groupHash1,
+                type: "material",
+                characterId: "chara",
+              ),
+              v3.BookmarkTableDataCompanion.insert(
+                id: Value(2),
+                groupHash: groupHash2,
+                type: "material",
+                characterId: "chara",
+              ),
+            ],
+          );
+          batch.insertAll(
+            oldDb.bookmarkMaterialDetailsTable,
+            [
+              v3.BookmarkMaterialDetailsTableDataCompanion.insert(
+                parentId: 1,
+                quantity: 5,
+                upperLevel: 20,
+                purposeType: "ascension",
+                hash: "hash01",
+              ),
+              v3.BookmarkMaterialDetailsTableDataCompanion.insert(
+                parentId: 2,
+                quantity: 5,
+                upperLevel: 20,
+                purposeType: "ascension",
+                hash: "hash02",
+              ),
+            ],
+          );
+
+          batch.insert(
+            oldDb.bookmarkOrderRegistryTable,
+            v3.BookmarkOrderRegistryTableDataCompanion.insert(
+              order: jsonEncode([groupHash2]),
+            ),
+          );
+        },
+        validateItems: (newDb) async {
+          final materialGroups = await newDb.select(newDb.bookmarkMaterialGroupTable).get();
+          expect(materialGroups, unorderedEquals([
+            isA<v4.BookmarkMaterialGroupTableData>()
+                .having((e) => e.groupHash, "groupHash", groupHash2)
+                .having((e) => e.orderIndex, "orderIndex", "a0"),
+            isA<v4.BookmarkMaterialGroupTableData>()
+                .having((e) => e.groupHash, "groupHash", groupHash1)
+                .having((e) => e.orderIndex, "orderIndex", "a1"),
+          ]));
+        },
+      );
+    });
+
+    test("Order entry is ignored if no item corresponds to it", () {
+      const groupHash1 = "group_01";
+      const groupHash2 = "group_02";
+      const groupHashFake = "group_fake";
+
+      return verify(
+        createItems: (batch, oldDb) {
+          batch.insertAll(
+            oldDb.bookmarkTable,
+            [
+              v3.BookmarkTableDataCompanion.insert(
+                id: Value(1),
+                groupHash: groupHash1,
+                type: "material",
+                characterId: "chara",
+              ),
+              v3.BookmarkTableDataCompanion.insert(
+                id: Value(2),
+                groupHash: groupHash2,
+                type: "material",
+                characterId: "chara",
+              ),
+            ],
+          );
+          batch.insertAll(
+            oldDb.bookmarkMaterialDetailsTable,
+            [
+              v3.BookmarkMaterialDetailsTableDataCompanion.insert(
+                parentId: 1,
+                quantity: 5,
+                upperLevel: 20,
+                purposeType: "ascension",
+                hash: "hash01",
+              ),
+              v3.BookmarkMaterialDetailsTableDataCompanion.insert(
+                parentId: 2,
+                quantity: 5,
+                upperLevel: 20,
+                purposeType: "ascension",
+                hash: "hash02",
+              ),
+            ],
+          );
+
+          batch.insert(
+            oldDb.bookmarkOrderRegistryTable,
+            v3.BookmarkOrderRegistryTableDataCompanion.insert(
+              order: jsonEncode([groupHash1, groupHash2, groupHashFake]),
+            ),
+          );
+        },
+        validateItems: (newDb) async {
+          final materialGroups = await newDb.select(newDb.bookmarkMaterialGroupTable).get();
+          expect(materialGroups, unorderedEquals([
+            isA<v4.BookmarkMaterialGroupTableData>()
+                .having((e) => e.groupHash, "groupHash", groupHash1)
+                .having((e) => e.orderIndex, "orderIndex", "a0"),
+            isA<v4.BookmarkMaterialGroupTableData>()
+                .having((e) => e.groupHash, "groupHash", groupHash2)
+                .having((e) => e.orderIndex, "orderIndex", "a1"),
+          ]));
+        },
+      );
+    });
   });
 }
