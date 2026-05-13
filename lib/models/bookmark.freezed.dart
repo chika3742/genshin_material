@@ -141,22 +141,22 @@ String toString() {
 /// @nodoc
 mixin _$BookmarkGroup {
 
- String get hash; BookmarkType get type; String get characterId; LevelRangeValues? get levelRange; List<BookmarkWithDetails> get bookmarks;
+ String get hash; BookmarkType get type; String get characterId; String get orderIndex; LevelRangeValues? get levelRange; List<BookmarkWithDetails> get bookmarks;
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkGroup&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.type, type) || other.type == type)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.levelRange, levelRange) || other.levelRange == levelRange)&&const DeepCollectionEquality().equals(other.bookmarks, bookmarks));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkGroup&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.type, type) || other.type == type)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&(identical(other.levelRange, levelRange) || other.levelRange == levelRange)&&const DeepCollectionEquality().equals(other.bookmarks, bookmarks));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,hash,type,characterId,levelRange,const DeepCollectionEquality().hash(bookmarks));
+int get hashCode => Object.hash(runtimeType,hash,type,characterId,orderIndex,levelRange,const DeepCollectionEquality().hash(bookmarks));
 
 @override
 String toString() {
-  return 'BookmarkGroup(hash: $hash, type: $type, characterId: $characterId, levelRange: $levelRange, bookmarks: $bookmarks)';
+  return 'BookmarkGroup(hash: $hash, type: $type, characterId: $characterId, orderIndex: $orderIndex, levelRange: $levelRange, bookmarks: $bookmarks)';
 }
 
 
@@ -170,12 +170,13 @@ String toString() {
 
 
 class _BookmarkGroup extends BookmarkGroup {
-  const _BookmarkGroup({required this.hash, required this.type, required this.characterId, this.levelRange, required final  List<BookmarkWithDetails> bookmarks}): _bookmarks = bookmarks,super._();
+  const _BookmarkGroup({required this.hash, required this.type, required this.characterId, required this.orderIndex, this.levelRange, required final  List<BookmarkWithDetails> bookmarks}): _bookmarks = bookmarks,super._();
   
 
 @override final  String hash;
 @override final  BookmarkType type;
 @override final  String characterId;
+@override final  String orderIndex;
 @override final  LevelRangeValues? levelRange;
  final  List<BookmarkWithDetails> _bookmarks;
 @override List<BookmarkWithDetails> get bookmarks {
@@ -190,16 +191,16 @@ class _BookmarkGroup extends BookmarkGroup {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookmarkGroup&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.type, type) || other.type == type)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.levelRange, levelRange) || other.levelRange == levelRange)&&const DeepCollectionEquality().equals(other._bookmarks, _bookmarks));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookmarkGroup&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.type, type) || other.type == type)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&(identical(other.levelRange, levelRange) || other.levelRange == levelRange)&&const DeepCollectionEquality().equals(other._bookmarks, _bookmarks));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,hash,type,characterId,levelRange,const DeepCollectionEquality().hash(_bookmarks));
+int get hashCode => Object.hash(runtimeType,hash,type,characterId,orderIndex,levelRange,const DeepCollectionEquality().hash(_bookmarks));
 
 @override
 String toString() {
-  return 'BookmarkGroup(hash: $hash, type: $type, characterId: $characterId, levelRange: $levelRange, bookmarks: $bookmarks)';
+  return 'BookmarkGroup(hash: $hash, type: $type, characterId: $characterId, orderIndex: $orderIndex, levelRange: $levelRange, bookmarks: $bookmarks)';
 }
 
 

@@ -1,9 +1,11 @@
 import "dart:developer";
 
 import "package:collection/collection.dart";
+import "package:fractional_indexing/fractional_indexing.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../db/bookmark_db_extension.dart";
 import "../../models/bookmark.dart";
 import "../../models/common.dart";
 import "../../providers/database_provider.dart";
@@ -52,6 +54,24 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
   }
 
   void reorder(int oldIndex, int newIndex) {
-    log("Reorder: $oldIndex -> $newIndex (not yet implemented)");
+    log("Reorder: $oldIndex -> $newIndex");
+
+    final newOrderIndex = FractionalIndexer.generateKeyBetween(
+      newIndex != 0 ? state.groups[newIndex - 1].orderIndex : null,
+      state.groups.elementAtOrNull(newIndex)?.orderIndex,
+    );
+    ref.read(appDatabaseProvider).updateMaterialGroupOrderIndex(
+      state.groups[oldIndex].hash,
+      newOrderIndex!,
+    );
+
+    final indexInNewList = newIndex > oldIndex ? newIndex - 1 : newIndex;
+
+    // apply the new state to avoid flickering
+    final newList = [...state.groups];
+    newList.insert(indexInNewList, newList.removeAt(oldIndex));
+    state = state.copyWith(
+      groups: newList,
+    );
   }
 }

@@ -150,6 +150,7 @@ sealed class BookmarkGroup with _$BookmarkGroup {
     required String hash,
     required BookmarkType type,
     required String characterId,
+    required String orderIndex,
     LevelRangeValues? levelRange,
     required List<BookmarkWithDetails> bookmarks,
   }) = _BookmarkGroup;
@@ -204,6 +205,11 @@ sealed class BookmarkGroup with _$BookmarkGroup {
       characterId: characterId,
       levelRange: levelRange,
       bookmarks: bookmarks,
+      orderIndex: switch (sample) {
+        BookmarkWithMaterialDetails(group: BookmarkMaterialGroup(:final orderIndex)) => orderIndex,
+        BookmarkWithArtifactSetDetails(artifact: BookmarkArtifact(:final orderIndex))
+          || BookmarkWithArtifactPieceDetails(artifact: BookmarkArtifact(:final orderIndex)) => orderIndex,
+      },
     );
   }
 
