@@ -5,6 +5,7 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../db/bookmark_db_extension.dart";
+import "../db/material_card_to_companions.dart";
 import "../i18n/strings.g.dart";
 import "../models/bookmark.dart";
 import "../models/common.dart";
@@ -35,7 +36,6 @@ class MaterialItem extends HookConsumerWidget {
     this.hashes,
     this.lackNum,
   })  : assert(hashes != null || (possiblePurposeTypes != null && usage != null));
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -90,7 +90,7 @@ class MaterialItem extends HookConsumerWidget {
           id: expItem.itemId,
           image: material.getImageFile(assetData.assetDir),
           name: showItemNameOnCard ? material.name.localized : null,
-          rarity:material.rarity,
+          rarity: material.rarity,
           quantity: (item.sum / expItem.expPerItem).ceil(),
           // Only show lackNum for the first exp item
           lackNum: i == 0 ? lackNum : null,
@@ -104,6 +104,7 @@ class MaterialItem extends HookConsumerWidget {
           name: showItemNameOnCard ? material.name.localized : null,
           rarity: material.rarity,
           quantity: item.sum,
+          lackNum: lackNum,
         )];
       }(),
     };
@@ -143,13 +144,13 @@ class MaterialItem extends HookConsumerWidget {
 
         switch (bookmarkState) {
           case BookmarkState.none:
-            await db.addMaterialBookmarks(item.toCompanions(usage!));
+            await db.addMaterialBookmarks(materialCardToCompanions(item, usage!));
             break;
           case BookmarkState.partial:
-            final result = await showPartialBookmarkBottomSheet(bookmarkedMaterials.data!, entryIndex);
+            final result = await showPartialBookmarkBottomSheet(context, bookmarkedMaterials.data!, entryIndex);
             if (result == PartialBookmarkBottomSheetResult.reBookmark) {
               await db.removeMaterialBookmarksByHashes(bookmarkedMaterials.data!.map((e) => e.item.hash).toList());
-              await db.addMaterialBookmarks(item.toCompanions(usage!));
+              await db.addMaterialBookmarks(materialCardToCompanions(item, usage!));
             } else if (result == PartialBookmarkBottomSheetResult.remove) {
               await db.removeMaterialBookmarksByHashes(bookmarkedMaterials.data!.map((e) => e.item.hash).toList());
             }
@@ -157,7 +158,7 @@ class MaterialItem extends HookConsumerWidget {
           case BookmarkState.bookmarked:
             await db.removeMaterialBookmarksByHashes(bookmarkedMaterials.data!.map((e) => e.item.hash).toList());
             if (context.mounted) {
-              final companions = item.toCompanions(usage!);
+              final companions = materialCardToCompanions(item, usage!);
               showSnackBar(
                 context: context,
                 message: tr.materialCard.unBookmarked,
@@ -175,9 +176,13 @@ class MaterialItem extends HookConsumerWidget {
     );
   }
 
-  Future<PartialBookmarkBottomSheetResult?> showPartialBookmarkBottomSheet(List<BookmarkWithMaterialDetails> bookmarkedMaterials, int expItemIndex) async {
+  Future<PartialBookmarkBottomSheetResult?> showPartialBookmarkBottomSheet(
+    BuildContext context,
+    List<BookmarkWithMaterialDetails> bookmarkedMaterials,
+    int expItemIndex,
+  ) async {
     return await showModalBottomSheet<PartialBookmarkBottomSheetResult>(
-      context: useContext(),
+      context: context,
       showDragHandle: true,
       useRootNavigator: true,
       builder: (_) {

@@ -189,9 +189,9 @@ class MaterialCard extends HookWidget {
                       BookmarkState.partial => Symbols.bookmark_remove,
                       BookmarkState.none => Symbols.bookmark_add,
                     }),
-                    onPressed: onBookmark != null ? () {
+                    onPressed: () {
                       onBookmark!(currentMaterialIndex.value);
-                    } : null,
+                    },
                   ),
                 ),
               ),
@@ -208,9 +208,7 @@ class MaterialCard extends HookWidget {
     }
 
     return DefaultTextStyle(
-      style: TextStyle(
-        color: lackNum > 0 ? Colors.red : Colors.green,
-      ),
+      style: TextStyle(color: Colors.red),
       child: _AnimatedQuantity(-lackNum, showCross: false),
     );
   }
