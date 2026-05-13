@@ -3,14 +3,10 @@ import "package:collection/collection.dart";
 import "../../core/asset_cache.dart";
 import "../../models/bookmark.dart";
 
-List<BookmarkGroup> sortBookmarkGroups(List<BookmarkGroup> groups, List<String> order) {
-  return groups.sorted((a, b) => order.indexOf(a.hash).compareTo(order.indexOf(b.hash)));
-}
-
 List<BookmarkWithMaterialDetails> sortBookmarks(Iterable<BookmarkWithMaterialDetails> bookmarks, AssetData assetData) {
   return bookmarks.sorted((a, b) {
-    final aMaterial = assetData.materials[a.materialDetails.materialId];
-    final bMaterial = assetData.materials[b.materialDetails.materialId];
+    final aMaterial = assetData.materials[a.item.materialId];
+    final bMaterial = assetData.materials[b.item.materialId];
 
     if (aMaterial == null && bMaterial == null) return 0;
     if (aMaterial == null) return -1;

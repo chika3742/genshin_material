@@ -25,9 +25,9 @@ class MaterialGroupedBookmarkListViewModel extends _$MaterialGroupedBookmarkList
     final assetData = ref.watch(assetDataProvider).value!;
     final bookmarks = ref.watch(bookmarksProvider()).value ?? [];
 
-    final bookmarkMaterials = sortBookmarks(bookmarks.whereType<BookmarkWithMaterialDetails>(), assetData)
+    final bookmarkMaterials = sortBookmarks(bookmarks, assetData)
         .groupListsBy(
-      (e) => e.materialDetails.materialId ?? (e.materialDetails.weaponId != null).toString(),
+      (e) => e.item.materialId ?? (e.group.weaponId != null).toString(),
     );
 
     return MaterialGroupedBookmarkListState(
@@ -38,17 +38,16 @@ class MaterialGroupedBookmarkListViewModel extends _$MaterialGroupedBookmarkList
   /// Removes bookmarks. Returns a function that can undo the deletion.
   Future<void Function()> unbookmark(List<BookmarkWithMaterialDetails> bookmarks) async {
     final db = ref.read(appDatabaseProvider);
-    await db.removeBookmarks(bookmarks.map((e) => e.metadata.id).toList());
+    await db.removeMaterialBookmarksByHashes(bookmarks.map((e) => e.item.hash).toList());
 
     return () {
       db.addMaterialBookmarks(bookmarks.map((e) => MaterialBookmarkInsertable(
-        metadataId: e.metadata.id,
-        characterId: e.metadata.characterId,
-        weaponId: e.materialDetails.weaponId,
-        materialId: e.materialDetails.materialId,
-        upperLevel: e.materialDetails.upperLevel,
-        purposeType: e.materialDetails.purposeType,
-        quantity: e.materialDetails.quantity,
+        characterId: e.group.characterId,
+        weaponId: e.group.weaponId,
+        materialId: e.item.materialId,
+        upperLevel: e.item.upperLevel,
+        purposeType: e.group.purposeType,
+        quantity: e.item.quantity,
       )).toList());
     };
   }

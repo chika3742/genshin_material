@@ -56,13 +56,13 @@ final bookmarksProvider = BookmarksFamily._();
 final class BookmarksProvider
     extends
         $FunctionalProvider<
-          AsyncValue<List<BookmarkWithDetails>>,
-          List<BookmarkWithDetails>,
-          Stream<List<BookmarkWithDetails>>
+          AsyncValue<List<BookmarkWithMaterialDetails>>,
+          List<BookmarkWithMaterialDetails>,
+          Stream<List<BookmarkWithMaterialDetails>>
         >
     with
-        $FutureModifier<List<BookmarkWithDetails>>,
-        $StreamProvider<List<BookmarkWithDetails>> {
+        $FutureModifier<List<BookmarkWithMaterialDetails>>,
+        $StreamProvider<List<BookmarkWithMaterialDetails>> {
   BookmarksProvider._({
     required BookmarksFamily super.from,
     required ({
@@ -91,12 +91,12 @@ final class BookmarksProvider
 
   @$internal
   @override
-  $StreamProviderElement<List<BookmarkWithDetails>> $createElement(
+  $StreamProviderElement<List<BookmarkWithMaterialDetails>> $createElement(
     $ProviderPointer pointer,
   ) => $StreamProviderElement(pointer);
 
   @override
-  Stream<List<BookmarkWithDetails>> create(Ref ref) {
+  Stream<List<BookmarkWithMaterialDetails>> create(Ref ref) {
     final argument =
         this.argument
             as ({
@@ -123,12 +123,12 @@ final class BookmarksProvider
   }
 }
 
-String _$bookmarksHash() => r'd654e804aa5c83dc60a31da780e225fed6aec8c6';
+String _$bookmarksHash() => r'cb84210224f52223a2f07d3df1aaac9ffb05c054';
 
 final class BookmarksFamily extends $Family
     with
         $FunctionalFamilyOverride<
-          Stream<List<BookmarkWithDetails>>,
+          Stream<List<BookmarkWithMaterialDetails>>,
           ({
             String? groupHash,
             List<String>? hashes,
@@ -161,41 +161,43 @@ final class BookmarksFamily extends $Family
   String toString() => r'bookmarksProvider';
 }
 
-@ProviderFor(bookmarkOrder)
-final bookmarkOrderProvider = BookmarkOrderProvider._();
+@ProviderFor(artifactBookmarks)
+final artifactBookmarksProvider = ArtifactBookmarksProvider._();
 
-final class BookmarkOrderProvider
+final class ArtifactBookmarksProvider
     extends
         $FunctionalProvider<
-          AsyncValue<List<String>>,
-          List<String>,
-          Stream<List<String>>
+          AsyncValue<List<BookmarkWithDetails>>,
+          List<BookmarkWithDetails>,
+          Stream<List<BookmarkWithDetails>>
         >
-    with $FutureModifier<List<String>>, $StreamProvider<List<String>> {
-  BookmarkOrderProvider._()
+    with
+        $FutureModifier<List<BookmarkWithDetails>>,
+        $StreamProvider<List<BookmarkWithDetails>> {
+  ArtifactBookmarksProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'bookmarkOrderProvider',
+        name: r'artifactBookmarksProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$bookmarkOrderHash();
+  String debugGetCreateSourceHash() => _$artifactBookmarksHash();
 
   @$internal
   @override
-  $StreamProviderElement<List<String>> $createElement(
+  $StreamProviderElement<List<BookmarkWithDetails>> $createElement(
     $ProviderPointer pointer,
   ) => $StreamProviderElement(pointer);
 
   @override
-  Stream<List<String>> create(Ref ref) {
-    return bookmarkOrder(ref);
+  Stream<List<BookmarkWithDetails>> create(Ref ref) {
+    return artifactBookmarks(ref);
   }
 }
 
-String _$bookmarkOrderHash() => r'b987d2b163a21db585bdaa0ee431a24c4b6f50ce';
+String _$artifactBookmarksHash() => r'0376e6dc2dc5fd2cb26746b9247aceecd7878ce6';

@@ -14,22 +14,22 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BookmarkWithDetails {
 
- Bookmark get metadata;
+
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithDetails&&(identical(other.metadata, metadata) || other.metadata == metadata));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithDetails);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,metadata);
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'BookmarkWithDetails(metadata: $metadata)';
+  return 'BookmarkWithDetails()';
 }
 
 
@@ -43,27 +43,27 @@ String toString() {
 
 
 class BookmarkWithMaterialDetails implements BookmarkWithDetails {
-  const BookmarkWithMaterialDetails({required this.metadata, required this.materialDetails});
+  const BookmarkWithMaterialDetails({required this.group, required this.item});
   
 
-@override final  Bookmark metadata;
- final  BookmarkMaterialDetails materialDetails;
+ final  BookmarkMaterialGroup group;
+ final  BookmarkMaterialItem item;
 
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithMaterialDetails&&(identical(other.metadata, metadata) || other.metadata == metadata)&&(identical(other.materialDetails, materialDetails) || other.materialDetails == materialDetails));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithMaterialDetails&&(identical(other.group, group) || other.group == group)&&(identical(other.item, item) || other.item == item));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,metadata,materialDetails);
+int get hashCode => Object.hash(runtimeType,group,item);
 
 @override
 String toString() {
-  return 'BookmarkWithDetails.material(metadata: $metadata, materialDetails: $materialDetails)';
+  return 'BookmarkWithDetails.material(group: $group, item: $item)';
 }
 
 
@@ -76,27 +76,27 @@ String toString() {
 
 
 class BookmarkWithArtifactSetDetails implements BookmarkWithDetails {
-  const BookmarkWithArtifactSetDetails({required this.metadata, required this.artifactSetDetails});
+  const BookmarkWithArtifactSetDetails({required this.artifact, required this.artifactSet});
   
 
-@override final  Bookmark metadata;
- final  BookmarkArtifactSetDetails artifactSetDetails;
+ final  BookmarkArtifact artifact;
+ final  BookmarkArtifactSet artifactSet;
 
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactSetDetails&&(identical(other.metadata, metadata) || other.metadata == metadata)&&(identical(other.artifactSetDetails, artifactSetDetails) || other.artifactSetDetails == artifactSetDetails));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactSetDetails&&(identical(other.artifact, artifact) || other.artifact == artifact)&&(identical(other.artifactSet, artifactSet) || other.artifactSet == artifactSet));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,metadata,artifactSetDetails);
+int get hashCode => Object.hash(runtimeType,artifact,artifactSet);
 
 @override
 String toString() {
-  return 'BookmarkWithDetails.artifactSet(metadata: $metadata, artifactSetDetails: $artifactSetDetails)';
+  return 'BookmarkWithDetails.artifactSet(artifact: $artifact, artifactSet: $artifactSet)';
 }
 
 
@@ -109,27 +109,27 @@ String toString() {
 
 
 class BookmarkWithArtifactPieceDetails implements BookmarkWithDetails {
-  const BookmarkWithArtifactPieceDetails({required this.metadata, required this.artifactPieceDetails});
+  const BookmarkWithArtifactPieceDetails({required this.artifact, required this.artifactPiece});
   
 
-@override final  Bookmark metadata;
- final  BookmarkArtifactPieceDetails artifactPieceDetails;
+ final  BookmarkArtifact artifact;
+ final  BookmarkArtifactPiece artifactPiece;
 
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactPieceDetails&&(identical(other.metadata, metadata) || other.metadata == metadata)&&(identical(other.artifactPieceDetails, artifactPieceDetails) || other.artifactPieceDetails == artifactPieceDetails));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactPieceDetails&&(identical(other.artifact, artifact) || other.artifact == artifact)&&(identical(other.artifactPiece, artifactPiece) || other.artifactPiece == artifactPiece));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,metadata,artifactPieceDetails);
+int get hashCode => Object.hash(runtimeType,artifact,artifactPiece);
 
 @override
 String toString() {
-  return 'BookmarkWithDetails.artifactPiece(metadata: $metadata, artifactPieceDetails: $artifactPieceDetails)';
+  return 'BookmarkWithDetails.artifactPiece(artifact: $artifact, artifactPiece: $artifactPiece)';
 }
 
 

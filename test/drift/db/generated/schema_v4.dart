@@ -4,29 +4,19 @@
 //
 import 'package:drift/drift.dart';
 
-class BookmarkTable extends Table
-    with TableInfo<BookmarkTable, BookmarkTableData> {
+class BookmarkMaterialGroupTable extends Table
+    with TableInfo<BookmarkMaterialGroupTable, BookmarkMaterialGroupTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  BookmarkTable(this.attachedDatabase, [this._alias]);
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  late final GeneratedColumn<String> type = GeneratedColumn<String>(
-    'type',
+  BookmarkMaterialGroupTable(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<String> groupHash = GeneratedColumn<String>(
+    'group_hash',
     aliasedName,
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
     'character_id',
@@ -34,289 +24,7 @@ class BookmarkTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
-  );
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-    defaultValue: const CustomExpression(
-      'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
-    ),
-  );
-  late final GeneratedColumn<String> groupHash = GeneratedColumn<String>(
-    'group_hash',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    type,
-    characterId,
-    createdAt,
-    groupHash,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'bookmark_table';
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  BookmarkTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return BookmarkTableData(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      type: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}type'],
-      )!,
-      characterId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}character_id'],
-      )!,
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at'],
-      )!,
-      groupHash: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}group_hash'],
-      )!,
-    );
-  }
-
-  @override
-  BookmarkTable createAlias(String alias) {
-    return BookmarkTable(attachedDatabase, alias);
-  }
-}
-
-class BookmarkTableData extends DataClass
-    implements Insertable<BookmarkTableData> {
-  final int id;
-  final String type;
-  final String characterId;
-  final DateTime createdAt;
-  final String groupHash;
-  const BookmarkTableData({
-    required this.id,
-    required this.type,
-    required this.characterId,
-    required this.createdAt,
-    required this.groupHash,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['type'] = Variable<String>(type);
-    map['character_id'] = Variable<String>(characterId);
-    map['created_at'] = Variable<DateTime>(createdAt);
-    map['group_hash'] = Variable<String>(groupHash);
-    return map;
-  }
-
-  BookmarkTableDataCompanion toCompanion(bool nullToAbsent) {
-    return BookmarkTableDataCompanion(
-      id: Value(id),
-      type: Value(type),
-      characterId: Value(characterId),
-      createdAt: Value(createdAt),
-      groupHash: Value(groupHash),
-    );
-  }
-
-  factory BookmarkTableData.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return BookmarkTableData(
-      id: serializer.fromJson<int>(json['id']),
-      type: serializer.fromJson<String>(json['type']),
-      characterId: serializer.fromJson<String>(json['characterId']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-      groupHash: serializer.fromJson<String>(json['groupHash']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'type': serializer.toJson<String>(type),
-      'characterId': serializer.toJson<String>(characterId),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-      'groupHash': serializer.toJson<String>(groupHash),
-    };
-  }
-
-  BookmarkTableData copyWith({
-    int? id,
-    String? type,
-    String? characterId,
-    DateTime? createdAt,
-    String? groupHash,
-  }) => BookmarkTableData(
-    id: id ?? this.id,
-    type: type ?? this.type,
-    characterId: characterId ?? this.characterId,
-    createdAt: createdAt ?? this.createdAt,
-    groupHash: groupHash ?? this.groupHash,
-  );
-  BookmarkTableData copyWithCompanion(BookmarkTableDataCompanion data) {
-    return BookmarkTableData(
-      id: data.id.present ? data.id.value : this.id,
-      type: data.type.present ? data.type.value : this.type,
-      characterId: data.characterId.present
-          ? data.characterId.value
-          : this.characterId,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      groupHash: data.groupHash.present ? data.groupHash.value : this.groupHash,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('BookmarkTableData(')
-          ..write('id: $id, ')
-          ..write('type: $type, ')
-          ..write('characterId: $characterId, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('groupHash: $groupHash')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, type, characterId, createdAt, groupHash);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is BookmarkTableData &&
-          other.id == this.id &&
-          other.type == this.type &&
-          other.characterId == this.characterId &&
-          other.createdAt == this.createdAt &&
-          other.groupHash == this.groupHash);
-}
-
-class BookmarkTableDataCompanion extends UpdateCompanion<BookmarkTableData> {
-  final Value<int> id;
-  final Value<String> type;
-  final Value<String> characterId;
-  final Value<DateTime> createdAt;
-  final Value<String> groupHash;
-  const BookmarkTableDataCompanion({
-    this.id = const Value.absent(),
-    this.type = const Value.absent(),
-    this.characterId = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.groupHash = const Value.absent(),
-  });
-  BookmarkTableDataCompanion.insert({
-    this.id = const Value.absent(),
-    required String type,
-    required String characterId,
-    this.createdAt = const Value.absent(),
-    required String groupHash,
-  }) : type = Value(type),
-       characterId = Value(characterId),
-       groupHash = Value(groupHash);
-  static Insertable<BookmarkTableData> custom({
-    Expression<int>? id,
-    Expression<String>? type,
-    Expression<String>? characterId,
-    Expression<DateTime>? createdAt,
-    Expression<String>? groupHash,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (type != null) 'type': type,
-      if (characterId != null) 'character_id': characterId,
-      if (createdAt != null) 'created_at': createdAt,
-      if (groupHash != null) 'group_hash': groupHash,
-    });
-  }
-
-  BookmarkTableDataCompanion copyWith({
-    Value<int>? id,
-    Value<String>? type,
-    Value<String>? characterId,
-    Value<DateTime>? createdAt,
-    Value<String>? groupHash,
-  }) {
-    return BookmarkTableDataCompanion(
-      id: id ?? this.id,
-      type: type ?? this.type,
-      characterId: characterId ?? this.characterId,
-      createdAt: createdAt ?? this.createdAt,
-      groupHash: groupHash ?? this.groupHash,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (type.present) {
-      map['type'] = Variable<String>(type.value);
-    }
-    if (characterId.present) {
-      map['character_id'] = Variable<String>(characterId.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    if (groupHash.present) {
-      map['group_hash'] = Variable<String>(groupHash.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('BookmarkTableDataCompanion(')
-          ..write('id: $id, ')
-          ..write('type: $type, ')
-          ..write('characterId: $characterId, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('groupHash: $groupHash')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class BookmarkMaterialDetailsTable extends Table
-    with
-        TableInfo<
-          BookmarkMaterialDetailsTable,
-          BookmarkMaterialDetailsTableData
-        > {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  BookmarkMaterialDetailsTable(this.attachedDatabase, [this._alias]);
-  late final GeneratedColumn<int> parentId = GeneratedColumn<int>(
-    'parent_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES bookmark_table (id) ON DELETE CASCADE',
-    ),
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<String> weaponId = GeneratedColumn<String>(
     'weapon_id',
@@ -324,27 +32,7 @@ class BookmarkMaterialDetailsTable extends Table
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
-  );
-  late final GeneratedColumn<String> materialId = GeneratedColumn<String>(
-    'material_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  late final GeneratedColumn<int> quantity = GeneratedColumn<int>(
-    'quantity',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
-  late final GeneratedColumn<int> upperLevel = GeneratedColumn<int>(
-    'upper_level',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
+    $customConstraints: 'NULL',
   );
   late final GeneratedColumn<String> purposeType = GeneratedColumn<String>(
     'purpose_type',
@@ -352,46 +40,416 @@ class BookmarkMaterialDetailsTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
+  late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
+    defaultValue: const CustomExpression(
+      'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
+    ),
+  );
+  late final GeneratedColumn<String> orderIndex = GeneratedColumn<String>(
+    'order_index',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL UNIQUE',
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    groupHash,
+    characterId,
+    weaponId,
+    purposeType,
+    createdAt,
+    orderIndex,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'bookmark_material_group_table';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {groupHash};
+  @override
+  BookmarkMaterialGroupTableData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BookmarkMaterialGroupTableData(
+      groupHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}group_hash'],
+      )!,
+      characterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}character_id'],
+      )!,
+      weaponId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}weapon_id'],
+      ),
+      purposeType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}purpose_type'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}created_at'],
+      )!,
+      orderIndex: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}order_index'],
+      )!,
+    );
+  }
+
+  @override
+  BookmarkMaterialGroupTable createAlias(String alias) {
+    return BookmarkMaterialGroupTable(attachedDatabase, alias);
+  }
+
+  @override
+  List<String> get customConstraints => const ['PRIMARY KEY(group_hash)'];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class BookmarkMaterialGroupTableData extends DataClass
+    implements Insertable<BookmarkMaterialGroupTableData> {
+  final String groupHash;
+  final String characterId;
+  final String? weaponId;
+  final String purposeType;
+  final int createdAt;
+  final String orderIndex;
+  const BookmarkMaterialGroupTableData({
+    required this.groupHash,
+    required this.characterId,
+    this.weaponId,
+    required this.purposeType,
+    required this.createdAt,
+    required this.orderIndex,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['group_hash'] = Variable<String>(groupHash);
+    map['character_id'] = Variable<String>(characterId);
+    if (!nullToAbsent || weaponId != null) {
+      map['weapon_id'] = Variable<String>(weaponId);
+    }
+    map['purpose_type'] = Variable<String>(purposeType);
+    map['created_at'] = Variable<int>(createdAt);
+    map['order_index'] = Variable<String>(orderIndex);
+    return map;
+  }
+
+  BookmarkMaterialGroupTableDataCompanion toCompanion(bool nullToAbsent) {
+    return BookmarkMaterialGroupTableDataCompanion(
+      groupHash: Value(groupHash),
+      characterId: Value(characterId),
+      weaponId: weaponId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(weaponId),
+      purposeType: Value(purposeType),
+      createdAt: Value(createdAt),
+      orderIndex: Value(orderIndex),
+    );
+  }
+
+  factory BookmarkMaterialGroupTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BookmarkMaterialGroupTableData(
+      groupHash: serializer.fromJson<String>(json['groupHash']),
+      characterId: serializer.fromJson<String>(json['characterId']),
+      weaponId: serializer.fromJson<String?>(json['weaponId']),
+      purposeType: serializer.fromJson<String>(json['purposeType']),
+      createdAt: serializer.fromJson<int>(json['createdAt']),
+      orderIndex: serializer.fromJson<String>(json['orderIndex']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'groupHash': serializer.toJson<String>(groupHash),
+      'characterId': serializer.toJson<String>(characterId),
+      'weaponId': serializer.toJson<String?>(weaponId),
+      'purposeType': serializer.toJson<String>(purposeType),
+      'createdAt': serializer.toJson<int>(createdAt),
+      'orderIndex': serializer.toJson<String>(orderIndex),
+    };
+  }
+
+  BookmarkMaterialGroupTableData copyWith({
+    String? groupHash,
+    String? characterId,
+    Value<String?> weaponId = const Value.absent(),
+    String? purposeType,
+    int? createdAt,
+    String? orderIndex,
+  }) => BookmarkMaterialGroupTableData(
+    groupHash: groupHash ?? this.groupHash,
+    characterId: characterId ?? this.characterId,
+    weaponId: weaponId.present ? weaponId.value : this.weaponId,
+    purposeType: purposeType ?? this.purposeType,
+    createdAt: createdAt ?? this.createdAt,
+    orderIndex: orderIndex ?? this.orderIndex,
+  );
+  BookmarkMaterialGroupTableData copyWithCompanion(
+    BookmarkMaterialGroupTableDataCompanion data,
+  ) {
+    return BookmarkMaterialGroupTableData(
+      groupHash: data.groupHash.present ? data.groupHash.value : this.groupHash,
+      characterId: data.characterId.present
+          ? data.characterId.value
+          : this.characterId,
+      weaponId: data.weaponId.present ? data.weaponId.value : this.weaponId,
+      purposeType: data.purposeType.present
+          ? data.purposeType.value
+          : this.purposeType,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      orderIndex: data.orderIndex.present
+          ? data.orderIndex.value
+          : this.orderIndex,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BookmarkMaterialGroupTableData(')
+          ..write('groupHash: $groupHash, ')
+          ..write('characterId: $characterId, ')
+          ..write('weaponId: $weaponId, ')
+          ..write('purposeType: $purposeType, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('orderIndex: $orderIndex')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    groupHash,
+    characterId,
+    weaponId,
+    purposeType,
+    createdAt,
+    orderIndex,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BookmarkMaterialGroupTableData &&
+          other.groupHash == this.groupHash &&
+          other.characterId == this.characterId &&
+          other.weaponId == this.weaponId &&
+          other.purposeType == this.purposeType &&
+          other.createdAt == this.createdAt &&
+          other.orderIndex == this.orderIndex);
+}
+
+class BookmarkMaterialGroupTableDataCompanion
+    extends UpdateCompanion<BookmarkMaterialGroupTableData> {
+  final Value<String> groupHash;
+  final Value<String> characterId;
+  final Value<String?> weaponId;
+  final Value<String> purposeType;
+  final Value<int> createdAt;
+  final Value<String> orderIndex;
+  final Value<int> rowid;
+  const BookmarkMaterialGroupTableDataCompanion({
+    this.groupHash = const Value.absent(),
+    this.characterId = const Value.absent(),
+    this.weaponId = const Value.absent(),
+    this.purposeType = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.orderIndex = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  BookmarkMaterialGroupTableDataCompanion.insert({
+    required String groupHash,
+    required String characterId,
+    this.weaponId = const Value.absent(),
+    required String purposeType,
+    this.createdAt = const Value.absent(),
+    required String orderIndex,
+    this.rowid = const Value.absent(),
+  }) : groupHash = Value(groupHash),
+       characterId = Value(characterId),
+       purposeType = Value(purposeType),
+       orderIndex = Value(orderIndex);
+  static Insertable<BookmarkMaterialGroupTableData> custom({
+    Expression<String>? groupHash,
+    Expression<String>? characterId,
+    Expression<String>? weaponId,
+    Expression<String>? purposeType,
+    Expression<int>? createdAt,
+    Expression<String>? orderIndex,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (groupHash != null) 'group_hash': groupHash,
+      if (characterId != null) 'character_id': characterId,
+      if (weaponId != null) 'weapon_id': weaponId,
+      if (purposeType != null) 'purpose_type': purposeType,
+      if (createdAt != null) 'created_at': createdAt,
+      if (orderIndex != null) 'order_index': orderIndex,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  BookmarkMaterialGroupTableDataCompanion copyWith({
+    Value<String>? groupHash,
+    Value<String>? characterId,
+    Value<String?>? weaponId,
+    Value<String>? purposeType,
+    Value<int>? createdAt,
+    Value<String>? orderIndex,
+    Value<int>? rowid,
+  }) {
+    return BookmarkMaterialGroupTableDataCompanion(
+      groupHash: groupHash ?? this.groupHash,
+      characterId: characterId ?? this.characterId,
+      weaponId: weaponId ?? this.weaponId,
+      purposeType: purposeType ?? this.purposeType,
+      createdAt: createdAt ?? this.createdAt,
+      orderIndex: orderIndex ?? this.orderIndex,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (groupHash.present) {
+      map['group_hash'] = Variable<String>(groupHash.value);
+    }
+    if (characterId.present) {
+      map['character_id'] = Variable<String>(characterId.value);
+    }
+    if (weaponId.present) {
+      map['weapon_id'] = Variable<String>(weaponId.value);
+    }
+    if (purposeType.present) {
+      map['purpose_type'] = Variable<String>(purposeType.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<int>(createdAt.value);
+    }
+    if (orderIndex.present) {
+      map['order_index'] = Variable<String>(orderIndex.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BookmarkMaterialGroupTableDataCompanion(')
+          ..write('groupHash: $groupHash, ')
+          ..write('characterId: $characterId, ')
+          ..write('weaponId: $weaponId, ')
+          ..write('purposeType: $purposeType, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('orderIndex: $orderIndex, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class BookmarkMaterialItemTable extends Table
+    with TableInfo<BookmarkMaterialItemTable, BookmarkMaterialItemTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  BookmarkMaterialItemTable(this.attachedDatabase, [this._alias]);
   late final GeneratedColumn<String> hash = GeneratedColumn<String>(
     'hash',
     aliasedName,
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumn<String> groupHash = GeneratedColumn<String>(
+    'group_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL REFERENCES bookmark_material_group_table(group_hash)ON DELETE CASCADE',
+  );
+  late final GeneratedColumn<String> materialId = GeneratedColumn<String>(
+    'material_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NULL',
+  );
+  late final GeneratedColumn<int> quantity = GeneratedColumn<int>(
+    'quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumn<int> upperLevel = GeneratedColumn<int>(
+    'upper_level',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   @override
   List<GeneratedColumn> get $columns => [
-    parentId,
-    weaponId,
+    hash,
+    groupHash,
     materialId,
     quantity,
     upperLevel,
-    purposeType,
-    hash,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'bookmark_material_details_table';
+  static const String $name = 'bookmark_material_item_table';
   @override
   Set<GeneratedColumn> get $primaryKey => {hash};
   @override
-  BookmarkMaterialDetailsTableData map(
+  BookmarkMaterialItemTableData map(
     Map<String, dynamic> data, {
     String? tablePrefix,
   }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return BookmarkMaterialDetailsTableData(
-      parentId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}parent_id'],
-      )!,
-      weaponId: attachedDatabase.typeMapping.read(
+    return BookmarkMaterialItemTableData(
+      hash: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}weapon_id'],
-      ),
+        data['${effectivePrefix}hash'],
+      )!,
+      groupHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}group_hash'],
+      )!,
       materialId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}material_id'],
@@ -404,126 +462,103 @@ class BookmarkMaterialDetailsTable extends Table
         DriftSqlType.int,
         data['${effectivePrefix}upper_level'],
       )!,
-      purposeType: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}purpose_type'],
-      )!,
-      hash: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}hash'],
-      )!,
     );
   }
 
   @override
-  BookmarkMaterialDetailsTable createAlias(String alias) {
-    return BookmarkMaterialDetailsTable(attachedDatabase, alias);
+  BookmarkMaterialItemTable createAlias(String alias) {
+    return BookmarkMaterialItemTable(attachedDatabase, alias);
   }
+
+  @override
+  List<String> get customConstraints => const ['PRIMARY KEY(hash)'];
+  @override
+  bool get dontWriteConstraints => true;
 }
 
-class BookmarkMaterialDetailsTableData extends DataClass
-    implements Insertable<BookmarkMaterialDetailsTableData> {
-  final int parentId;
-  final String? weaponId;
+class BookmarkMaterialItemTableData extends DataClass
+    implements Insertable<BookmarkMaterialItemTableData> {
+  final String hash;
+  final String groupHash;
   final String? materialId;
   final int quantity;
   final int upperLevel;
-  final String purposeType;
-  final String hash;
-  const BookmarkMaterialDetailsTableData({
-    required this.parentId,
-    this.weaponId,
+  const BookmarkMaterialItemTableData({
+    required this.hash,
+    required this.groupHash,
     this.materialId,
     required this.quantity,
     required this.upperLevel,
-    required this.purposeType,
-    required this.hash,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['parent_id'] = Variable<int>(parentId);
-    if (!nullToAbsent || weaponId != null) {
-      map['weapon_id'] = Variable<String>(weaponId);
-    }
+    map['hash'] = Variable<String>(hash);
+    map['group_hash'] = Variable<String>(groupHash);
     if (!nullToAbsent || materialId != null) {
       map['material_id'] = Variable<String>(materialId);
     }
     map['quantity'] = Variable<int>(quantity);
     map['upper_level'] = Variable<int>(upperLevel);
-    map['purpose_type'] = Variable<String>(purposeType);
-    map['hash'] = Variable<String>(hash);
     return map;
   }
 
-  BookmarkMaterialDetailsTableDataCompanion toCompanion(bool nullToAbsent) {
-    return BookmarkMaterialDetailsTableDataCompanion(
-      parentId: Value(parentId),
-      weaponId: weaponId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(weaponId),
+  BookmarkMaterialItemTableDataCompanion toCompanion(bool nullToAbsent) {
+    return BookmarkMaterialItemTableDataCompanion(
+      hash: Value(hash),
+      groupHash: Value(groupHash),
       materialId: materialId == null && nullToAbsent
           ? const Value.absent()
           : Value(materialId),
       quantity: Value(quantity),
       upperLevel: Value(upperLevel),
-      purposeType: Value(purposeType),
-      hash: Value(hash),
     );
   }
 
-  factory BookmarkMaterialDetailsTableData.fromJson(
+  factory BookmarkMaterialItemTableData.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return BookmarkMaterialDetailsTableData(
-      parentId: serializer.fromJson<int>(json['parentId']),
-      weaponId: serializer.fromJson<String?>(json['weaponId']),
+    return BookmarkMaterialItemTableData(
+      hash: serializer.fromJson<String>(json['hash']),
+      groupHash: serializer.fromJson<String>(json['groupHash']),
       materialId: serializer.fromJson<String?>(json['materialId']),
       quantity: serializer.fromJson<int>(json['quantity']),
       upperLevel: serializer.fromJson<int>(json['upperLevel']),
-      purposeType: serializer.fromJson<String>(json['purposeType']),
-      hash: serializer.fromJson<String>(json['hash']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'parentId': serializer.toJson<int>(parentId),
-      'weaponId': serializer.toJson<String?>(weaponId),
+      'hash': serializer.toJson<String>(hash),
+      'groupHash': serializer.toJson<String>(groupHash),
       'materialId': serializer.toJson<String?>(materialId),
       'quantity': serializer.toJson<int>(quantity),
       'upperLevel': serializer.toJson<int>(upperLevel),
-      'purposeType': serializer.toJson<String>(purposeType),
-      'hash': serializer.toJson<String>(hash),
     };
   }
 
-  BookmarkMaterialDetailsTableData copyWith({
-    int? parentId,
-    Value<String?> weaponId = const Value.absent(),
+  BookmarkMaterialItemTableData copyWith({
+    String? hash,
+    String? groupHash,
     Value<String?> materialId = const Value.absent(),
     int? quantity,
     int? upperLevel,
-    String? purposeType,
-    String? hash,
-  }) => BookmarkMaterialDetailsTableData(
-    parentId: parentId ?? this.parentId,
-    weaponId: weaponId.present ? weaponId.value : this.weaponId,
+  }) => BookmarkMaterialItemTableData(
+    hash: hash ?? this.hash,
+    groupHash: groupHash ?? this.groupHash,
     materialId: materialId.present ? materialId.value : this.materialId,
     quantity: quantity ?? this.quantity,
     upperLevel: upperLevel ?? this.upperLevel,
-    purposeType: purposeType ?? this.purposeType,
-    hash: hash ?? this.hash,
   );
-  BookmarkMaterialDetailsTableData copyWithCompanion(
-    BookmarkMaterialDetailsTableDataCompanion data,
+  BookmarkMaterialItemTableData copyWithCompanion(
+    BookmarkMaterialItemTableDataCompanion data,
   ) {
-    return BookmarkMaterialDetailsTableData(
-      parentId: data.parentId.present ? data.parentId.value : this.parentId,
-      weaponId: data.weaponId.present ? data.weaponId.value : this.weaponId,
+    return BookmarkMaterialItemTableData(
+      hash: data.hash.present ? data.hash.value : this.hash,
+      groupHash: data.groupHash.present ? data.groupHash.value : this.groupHash,
       materialId: data.materialId.present
           ? data.materialId.value
           : this.materialId,
@@ -531,124 +566,94 @@ class BookmarkMaterialDetailsTableData extends DataClass
       upperLevel: data.upperLevel.present
           ? data.upperLevel.value
           : this.upperLevel,
-      purposeType: data.purposeType.present
-          ? data.purposeType.value
-          : this.purposeType,
-      hash: data.hash.present ? data.hash.value : this.hash,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('BookmarkMaterialDetailsTableData(')
-          ..write('parentId: $parentId, ')
-          ..write('weaponId: $weaponId, ')
+    return (StringBuffer('BookmarkMaterialItemTableData(')
+          ..write('hash: $hash, ')
+          ..write('groupHash: $groupHash, ')
           ..write('materialId: $materialId, ')
           ..write('quantity: $quantity, ')
-          ..write('upperLevel: $upperLevel, ')
-          ..write('purposeType: $purposeType, ')
-          ..write('hash: $hash')
+          ..write('upperLevel: $upperLevel')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-    parentId,
-    weaponId,
-    materialId,
-    quantity,
-    upperLevel,
-    purposeType,
-    hash,
-  );
+  int get hashCode =>
+      Object.hash(hash, groupHash, materialId, quantity, upperLevel);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is BookmarkMaterialDetailsTableData &&
-          other.parentId == this.parentId &&
-          other.weaponId == this.weaponId &&
+      (other is BookmarkMaterialItemTableData &&
+          other.hash == this.hash &&
+          other.groupHash == this.groupHash &&
           other.materialId == this.materialId &&
           other.quantity == this.quantity &&
-          other.upperLevel == this.upperLevel &&
-          other.purposeType == this.purposeType &&
-          other.hash == this.hash);
+          other.upperLevel == this.upperLevel);
 }
 
-class BookmarkMaterialDetailsTableDataCompanion
-    extends UpdateCompanion<BookmarkMaterialDetailsTableData> {
-  final Value<int> parentId;
-  final Value<String?> weaponId;
+class BookmarkMaterialItemTableDataCompanion
+    extends UpdateCompanion<BookmarkMaterialItemTableData> {
+  final Value<String> hash;
+  final Value<String> groupHash;
   final Value<String?> materialId;
   final Value<int> quantity;
   final Value<int> upperLevel;
-  final Value<String> purposeType;
-  final Value<String> hash;
   final Value<int> rowid;
-  const BookmarkMaterialDetailsTableDataCompanion({
-    this.parentId = const Value.absent(),
-    this.weaponId = const Value.absent(),
+  const BookmarkMaterialItemTableDataCompanion({
+    this.hash = const Value.absent(),
+    this.groupHash = const Value.absent(),
     this.materialId = const Value.absent(),
     this.quantity = const Value.absent(),
     this.upperLevel = const Value.absent(),
-    this.purposeType = const Value.absent(),
-    this.hash = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  BookmarkMaterialDetailsTableDataCompanion.insert({
-    required int parentId,
-    this.weaponId = const Value.absent(),
+  BookmarkMaterialItemTableDataCompanion.insert({
+    required String hash,
+    required String groupHash,
     this.materialId = const Value.absent(),
     required int quantity,
     required int upperLevel,
-    required String purposeType,
-    required String hash,
     this.rowid = const Value.absent(),
-  }) : parentId = Value(parentId),
+  }) : hash = Value(hash),
+       groupHash = Value(groupHash),
        quantity = Value(quantity),
-       upperLevel = Value(upperLevel),
-       purposeType = Value(purposeType),
-       hash = Value(hash);
-  static Insertable<BookmarkMaterialDetailsTableData> custom({
-    Expression<int>? parentId,
-    Expression<String>? weaponId,
+       upperLevel = Value(upperLevel);
+  static Insertable<BookmarkMaterialItemTableData> custom({
+    Expression<String>? hash,
+    Expression<String>? groupHash,
     Expression<String>? materialId,
     Expression<int>? quantity,
     Expression<int>? upperLevel,
-    Expression<String>? purposeType,
-    Expression<String>? hash,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
-      if (parentId != null) 'parent_id': parentId,
-      if (weaponId != null) 'weapon_id': weaponId,
+      if (hash != null) 'hash': hash,
+      if (groupHash != null) 'group_hash': groupHash,
       if (materialId != null) 'material_id': materialId,
       if (quantity != null) 'quantity': quantity,
       if (upperLevel != null) 'upper_level': upperLevel,
-      if (purposeType != null) 'purpose_type': purposeType,
-      if (hash != null) 'hash': hash,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
-  BookmarkMaterialDetailsTableDataCompanion copyWith({
-    Value<int>? parentId,
-    Value<String?>? weaponId,
+  BookmarkMaterialItemTableDataCompanion copyWith({
+    Value<String>? hash,
+    Value<String>? groupHash,
     Value<String?>? materialId,
     Value<int>? quantity,
     Value<int>? upperLevel,
-    Value<String>? purposeType,
-    Value<String>? hash,
     Value<int>? rowid,
   }) {
-    return BookmarkMaterialDetailsTableDataCompanion(
-      parentId: parentId ?? this.parentId,
-      weaponId: weaponId ?? this.weaponId,
+    return BookmarkMaterialItemTableDataCompanion(
+      hash: hash ?? this.hash,
+      groupHash: groupHash ?? this.groupHash,
       materialId: materialId ?? this.materialId,
       quantity: quantity ?? this.quantity,
       upperLevel: upperLevel ?? this.upperLevel,
-      purposeType: purposeType ?? this.purposeType,
-      hash: hash ?? this.hash,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -656,11 +661,11 @@ class BookmarkMaterialDetailsTableDataCompanion
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (parentId.present) {
-      map['parent_id'] = Variable<int>(parentId.value);
+    if (hash.present) {
+      map['hash'] = Variable<String>(hash.value);
     }
-    if (weaponId.present) {
-      map['weapon_id'] = Variable<String>(weaponId.value);
+    if (groupHash.present) {
+      map['group_hash'] = Variable<String>(groupHash.value);
     }
     if (materialId.present) {
       map['material_id'] = Variable<String>(materialId.value);
@@ -671,12 +676,6 @@ class BookmarkMaterialDetailsTableDataCompanion
     if (upperLevel.present) {
       map['upper_level'] = Variable<int>(upperLevel.value);
     }
-    if (purposeType.present) {
-      map['purpose_type'] = Variable<String>(purposeType.value);
-    }
-    if (hash.present) {
-      map['hash'] = Variable<String>(hash.value);
-    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -685,30 +684,24 @@ class BookmarkMaterialDetailsTableDataCompanion
 
   @override
   String toString() {
-    return (StringBuffer('BookmarkMaterialDetailsTableDataCompanion(')
-          ..write('parentId: $parentId, ')
-          ..write('weaponId: $weaponId, ')
+    return (StringBuffer('BookmarkMaterialItemTableDataCompanion(')
+          ..write('hash: $hash, ')
+          ..write('groupHash: $groupHash, ')
           ..write('materialId: $materialId, ')
           ..write('quantity: $quantity, ')
           ..write('upperLevel: $upperLevel, ')
-          ..write('purposeType: $purposeType, ')
-          ..write('hash: $hash, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
 }
 
-class BookmarkArtifactSetDetailsTable extends Table
-    with
-        TableInfo<
-          BookmarkArtifactSetDetailsTable,
-          BookmarkArtifactSetDetailsTableData
-        > {
+class BookmarkArtifactTable extends Table
+    with TableInfo<BookmarkArtifactTable, BookmarkArtifactTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  BookmarkArtifactSetDetailsTable(this.attachedDatabase, [this._alias]);
+  BookmarkArtifactTable(this.attachedDatabase, [this._alias]);
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
     'id',
     aliasedName,
@@ -716,33 +709,27 @@ class BookmarkArtifactSetDetailsTable extends Table
     hasAutoIncrement: true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
+    $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT',
   );
-  late final GeneratedColumn<int> parentId = GeneratedColumn<int>(
-    'parent_id',
+  late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
+    'character_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
+    'created_at',
     aliasedName,
     false,
     type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES bookmark_table (id) ON DELETE CASCADE',
+    requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
+    defaultValue: const CustomExpression(
+      'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),
-  );
-  late final GeneratedColumn<String> sets = GeneratedColumn<String>(
-    'sets',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  late final GeneratedColumn<String> mainStats = GeneratedColumn<String>(
-    'main_stats',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
   );
   late final GeneratedColumn<String> subStats = GeneratedColumn<String>(
     'sub_stats',
@@ -750,36 +737,324 @@ class BookmarkArtifactSetDetailsTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumn<String> orderIndex = GeneratedColumn<String>(
+    'order_index',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL UNIQUE',
   );
   @override
   List<GeneratedColumn> get $columns => [
     id,
-    parentId,
-    sets,
-    mainStats,
+    characterId,
+    createdAt,
     subStats,
+    orderIndex,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'bookmark_artifact_set_details_table';
+  static const String $name = 'bookmark_artifact_table';
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  BookmarkArtifactSetDetailsTableData map(
+  BookmarkArtifactTableData map(
     Map<String, dynamic> data, {
     String? tablePrefix,
   }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return BookmarkArtifactSetDetailsTableData(
+    return BookmarkArtifactTableData(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
-      parentId: attachedDatabase.typeMapping.read(
+      characterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}character_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
-        data['${effectivePrefix}parent_id'],
+        data['${effectivePrefix}created_at'],
+      )!,
+      subStats: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sub_stats'],
+      )!,
+      orderIndex: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}order_index'],
+      )!,
+    );
+  }
+
+  @override
+  BookmarkArtifactTable createAlias(String alias) {
+    return BookmarkArtifactTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class BookmarkArtifactTableData extends DataClass
+    implements Insertable<BookmarkArtifactTableData> {
+  final int id;
+  final String characterId;
+  final int createdAt;
+  final String subStats;
+  final String orderIndex;
+  const BookmarkArtifactTableData({
+    required this.id,
+    required this.characterId,
+    required this.createdAt,
+    required this.subStats,
+    required this.orderIndex,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['character_id'] = Variable<String>(characterId);
+    map['created_at'] = Variable<int>(createdAt);
+    map['sub_stats'] = Variable<String>(subStats);
+    map['order_index'] = Variable<String>(orderIndex);
+    return map;
+  }
+
+  BookmarkArtifactTableDataCompanion toCompanion(bool nullToAbsent) {
+    return BookmarkArtifactTableDataCompanion(
+      id: Value(id),
+      characterId: Value(characterId),
+      createdAt: Value(createdAt),
+      subStats: Value(subStats),
+      orderIndex: Value(orderIndex),
+    );
+  }
+
+  factory BookmarkArtifactTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BookmarkArtifactTableData(
+      id: serializer.fromJson<int>(json['id']),
+      characterId: serializer.fromJson<String>(json['characterId']),
+      createdAt: serializer.fromJson<int>(json['createdAt']),
+      subStats: serializer.fromJson<String>(json['subStats']),
+      orderIndex: serializer.fromJson<String>(json['orderIndex']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'characterId': serializer.toJson<String>(characterId),
+      'createdAt': serializer.toJson<int>(createdAt),
+      'subStats': serializer.toJson<String>(subStats),
+      'orderIndex': serializer.toJson<String>(orderIndex),
+    };
+  }
+
+  BookmarkArtifactTableData copyWith({
+    int? id,
+    String? characterId,
+    int? createdAt,
+    String? subStats,
+    String? orderIndex,
+  }) => BookmarkArtifactTableData(
+    id: id ?? this.id,
+    characterId: characterId ?? this.characterId,
+    createdAt: createdAt ?? this.createdAt,
+    subStats: subStats ?? this.subStats,
+    orderIndex: orderIndex ?? this.orderIndex,
+  );
+  BookmarkArtifactTableData copyWithCompanion(
+    BookmarkArtifactTableDataCompanion data,
+  ) {
+    return BookmarkArtifactTableData(
+      id: data.id.present ? data.id.value : this.id,
+      characterId: data.characterId.present
+          ? data.characterId.value
+          : this.characterId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      subStats: data.subStats.present ? data.subStats.value : this.subStats,
+      orderIndex: data.orderIndex.present
+          ? data.orderIndex.value
+          : this.orderIndex,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BookmarkArtifactTableData(')
+          ..write('id: $id, ')
+          ..write('characterId: $characterId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('subStats: $subStats, ')
+          ..write('orderIndex: $orderIndex')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, characterId, createdAt, subStats, orderIndex);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BookmarkArtifactTableData &&
+          other.id == this.id &&
+          other.characterId == this.characterId &&
+          other.createdAt == this.createdAt &&
+          other.subStats == this.subStats &&
+          other.orderIndex == this.orderIndex);
+}
+
+class BookmarkArtifactTableDataCompanion
+    extends UpdateCompanion<BookmarkArtifactTableData> {
+  final Value<int> id;
+  final Value<String> characterId;
+  final Value<int> createdAt;
+  final Value<String> subStats;
+  final Value<String> orderIndex;
+  const BookmarkArtifactTableDataCompanion({
+    this.id = const Value.absent(),
+    this.characterId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.subStats = const Value.absent(),
+    this.orderIndex = const Value.absent(),
+  });
+  BookmarkArtifactTableDataCompanion.insert({
+    this.id = const Value.absent(),
+    required String characterId,
+    this.createdAt = const Value.absent(),
+    required String subStats,
+    required String orderIndex,
+  }) : characterId = Value(characterId),
+       subStats = Value(subStats),
+       orderIndex = Value(orderIndex);
+  static Insertable<BookmarkArtifactTableData> custom({
+    Expression<int>? id,
+    Expression<String>? characterId,
+    Expression<int>? createdAt,
+    Expression<String>? subStats,
+    Expression<String>? orderIndex,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (characterId != null) 'character_id': characterId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (subStats != null) 'sub_stats': subStats,
+      if (orderIndex != null) 'order_index': orderIndex,
+    });
+  }
+
+  BookmarkArtifactTableDataCompanion copyWith({
+    Value<int>? id,
+    Value<String>? characterId,
+    Value<int>? createdAt,
+    Value<String>? subStats,
+    Value<String>? orderIndex,
+  }) {
+    return BookmarkArtifactTableDataCompanion(
+      id: id ?? this.id,
+      characterId: characterId ?? this.characterId,
+      createdAt: createdAt ?? this.createdAt,
+      subStats: subStats ?? this.subStats,
+      orderIndex: orderIndex ?? this.orderIndex,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (characterId.present) {
+      map['character_id'] = Variable<String>(characterId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<int>(createdAt.value);
+    }
+    if (subStats.present) {
+      map['sub_stats'] = Variable<String>(subStats.value);
+    }
+    if (orderIndex.present) {
+      map['order_index'] = Variable<String>(orderIndex.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BookmarkArtifactTableDataCompanion(')
+          ..write('id: $id, ')
+          ..write('characterId: $characterId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('subStats: $subStats, ')
+          ..write('orderIndex: $orderIndex')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class BookmarkArtifactSetTable extends Table
+    with TableInfo<BookmarkArtifactSetTable, BookmarkArtifactSetTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  BookmarkArtifactSetTable(this.attachedDatabase, [this._alias]);
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL REFERENCES bookmark_artifact_table(id)ON DELETE CASCADE',
+  );
+  late final GeneratedColumn<String> sets = GeneratedColumn<String>(
+    'sets',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumn<String> mainStats = GeneratedColumn<String>(
+    'main_stats',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, sets, mainStats];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'bookmark_artifact_set_table';
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  BookmarkArtifactSetTableData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BookmarkArtifactSetTableData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
       )!,
       sets: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -789,65 +1064,56 @@ class BookmarkArtifactSetDetailsTable extends Table
         DriftSqlType.string,
         data['${effectivePrefix}main_stats'],
       )!,
-      subStats: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}sub_stats'],
-      )!,
     );
   }
 
   @override
-  BookmarkArtifactSetDetailsTable createAlias(String alias) {
-    return BookmarkArtifactSetDetailsTable(attachedDatabase, alias);
+  BookmarkArtifactSetTable createAlias(String alias) {
+    return BookmarkArtifactSetTable(attachedDatabase, alias);
   }
+
+  @override
+  List<String> get customConstraints => const ['PRIMARY KEY(id)'];
+  @override
+  bool get dontWriteConstraints => true;
 }
 
-class BookmarkArtifactSetDetailsTableData extends DataClass
-    implements Insertable<BookmarkArtifactSetDetailsTableData> {
+class BookmarkArtifactSetTableData extends DataClass
+    implements Insertable<BookmarkArtifactSetTableData> {
   final int id;
-  final int parentId;
   final String sets;
   final String mainStats;
-  final String subStats;
-  const BookmarkArtifactSetDetailsTableData({
+  const BookmarkArtifactSetTableData({
     required this.id,
-    required this.parentId,
     required this.sets,
     required this.mainStats,
-    required this.subStats,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['parent_id'] = Variable<int>(parentId);
     map['sets'] = Variable<String>(sets);
     map['main_stats'] = Variable<String>(mainStats);
-    map['sub_stats'] = Variable<String>(subStats);
     return map;
   }
 
-  BookmarkArtifactSetDetailsTableDataCompanion toCompanion(bool nullToAbsent) {
-    return BookmarkArtifactSetDetailsTableDataCompanion(
+  BookmarkArtifactSetTableDataCompanion toCompanion(bool nullToAbsent) {
+    return BookmarkArtifactSetTableDataCompanion(
       id: Value(id),
-      parentId: Value(parentId),
       sets: Value(sets),
       mainStats: Value(mainStats),
-      subStats: Value(subStats),
     );
   }
 
-  factory BookmarkArtifactSetDetailsTableData.fromJson(
+  factory BookmarkArtifactSetTableData.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return BookmarkArtifactSetDetailsTableData(
+    return BookmarkArtifactSetTableData(
       id: serializer.fromJson<int>(json['id']),
-      parentId: serializer.fromJson<int>(json['parentId']),
       sets: serializer.fromJson<String>(json['sets']),
       mainStats: serializer.fromJson<String>(json['mainStats']),
-      subStats: serializer.fromJson<String>(json['subStats']),
     );
   }
   @override
@@ -855,116 +1121,88 @@ class BookmarkArtifactSetDetailsTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'parentId': serializer.toJson<int>(parentId),
       'sets': serializer.toJson<String>(sets),
       'mainStats': serializer.toJson<String>(mainStats),
-      'subStats': serializer.toJson<String>(subStats),
     };
   }
 
-  BookmarkArtifactSetDetailsTableData copyWith({
+  BookmarkArtifactSetTableData copyWith({
     int? id,
-    int? parentId,
     String? sets,
     String? mainStats,
-    String? subStats,
-  }) => BookmarkArtifactSetDetailsTableData(
+  }) => BookmarkArtifactSetTableData(
     id: id ?? this.id,
-    parentId: parentId ?? this.parentId,
     sets: sets ?? this.sets,
     mainStats: mainStats ?? this.mainStats,
-    subStats: subStats ?? this.subStats,
   );
-  BookmarkArtifactSetDetailsTableData copyWithCompanion(
-    BookmarkArtifactSetDetailsTableDataCompanion data,
+  BookmarkArtifactSetTableData copyWithCompanion(
+    BookmarkArtifactSetTableDataCompanion data,
   ) {
-    return BookmarkArtifactSetDetailsTableData(
+    return BookmarkArtifactSetTableData(
       id: data.id.present ? data.id.value : this.id,
-      parentId: data.parentId.present ? data.parentId.value : this.parentId,
       sets: data.sets.present ? data.sets.value : this.sets,
       mainStats: data.mainStats.present ? data.mainStats.value : this.mainStats,
-      subStats: data.subStats.present ? data.subStats.value : this.subStats,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('BookmarkArtifactSetDetailsTableData(')
+    return (StringBuffer('BookmarkArtifactSetTableData(')
           ..write('id: $id, ')
-          ..write('parentId: $parentId, ')
           ..write('sets: $sets, ')
-          ..write('mainStats: $mainStats, ')
-          ..write('subStats: $subStats')
+          ..write('mainStats: $mainStats')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, parentId, sets, mainStats, subStats);
+  int get hashCode => Object.hash(id, sets, mainStats);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is BookmarkArtifactSetDetailsTableData &&
+      (other is BookmarkArtifactSetTableData &&
           other.id == this.id &&
-          other.parentId == this.parentId &&
           other.sets == this.sets &&
-          other.mainStats == this.mainStats &&
-          other.subStats == this.subStats);
+          other.mainStats == this.mainStats);
 }
 
-class BookmarkArtifactSetDetailsTableDataCompanion
-    extends UpdateCompanion<BookmarkArtifactSetDetailsTableData> {
+class BookmarkArtifactSetTableDataCompanion
+    extends UpdateCompanion<BookmarkArtifactSetTableData> {
   final Value<int> id;
-  final Value<int> parentId;
   final Value<String> sets;
   final Value<String> mainStats;
-  final Value<String> subStats;
-  const BookmarkArtifactSetDetailsTableDataCompanion({
+  const BookmarkArtifactSetTableDataCompanion({
     this.id = const Value.absent(),
-    this.parentId = const Value.absent(),
     this.sets = const Value.absent(),
     this.mainStats = const Value.absent(),
-    this.subStats = const Value.absent(),
   });
-  BookmarkArtifactSetDetailsTableDataCompanion.insert({
+  BookmarkArtifactSetTableDataCompanion.insert({
     this.id = const Value.absent(),
-    required int parentId,
     required String sets,
     required String mainStats,
-    required String subStats,
-  }) : parentId = Value(parentId),
-       sets = Value(sets),
-       mainStats = Value(mainStats),
-       subStats = Value(subStats);
-  static Insertable<BookmarkArtifactSetDetailsTableData> custom({
+  }) : sets = Value(sets),
+       mainStats = Value(mainStats);
+  static Insertable<BookmarkArtifactSetTableData> custom({
     Expression<int>? id,
-    Expression<int>? parentId,
     Expression<String>? sets,
     Expression<String>? mainStats,
-    Expression<String>? subStats,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (parentId != null) 'parent_id': parentId,
       if (sets != null) 'sets': sets,
       if (mainStats != null) 'main_stats': mainStats,
-      if (subStats != null) 'sub_stats': subStats,
     });
   }
 
-  BookmarkArtifactSetDetailsTableDataCompanion copyWith({
+  BookmarkArtifactSetTableDataCompanion copyWith({
     Value<int>? id,
-    Value<int>? parentId,
     Value<String>? sets,
     Value<String>? mainStats,
-    Value<String>? subStats,
   }) {
-    return BookmarkArtifactSetDetailsTableDataCompanion(
+    return BookmarkArtifactSetTableDataCompanion(
       id: id ?? this.id,
-      parentId: parentId ?? this.parentId,
       sets: sets ?? this.sets,
       mainStats: mainStats ?? this.mainStats,
-      subStats: subStats ?? this.subStats,
     );
   }
 
@@ -974,64 +1212,40 @@ class BookmarkArtifactSetDetailsTableDataCompanion
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (parentId.present) {
-      map['parent_id'] = Variable<int>(parentId.value);
-    }
     if (sets.present) {
       map['sets'] = Variable<String>(sets.value);
     }
     if (mainStats.present) {
       map['main_stats'] = Variable<String>(mainStats.value);
     }
-    if (subStats.present) {
-      map['sub_stats'] = Variable<String>(subStats.value);
-    }
     return map;
   }
 
   @override
   String toString() {
-    return (StringBuffer('BookmarkArtifactSetDetailsTableDataCompanion(')
+    return (StringBuffer('BookmarkArtifactSetTableDataCompanion(')
           ..write('id: $id, ')
-          ..write('parentId: $parentId, ')
           ..write('sets: $sets, ')
-          ..write('mainStats: $mainStats, ')
-          ..write('subStats: $subStats')
+          ..write('mainStats: $mainStats')
           ..write(')'))
         .toString();
   }
 }
 
-class BookmarkArtifactPieceDetailsTable extends Table
-    with
-        TableInfo<
-          BookmarkArtifactPieceDetailsTable,
-          BookmarkArtifactPieceDetailsTableData
-        > {
+class BookmarkArtifactPieceTable extends Table
+    with TableInfo<BookmarkArtifactPieceTable, BookmarkArtifactPieceTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  BookmarkArtifactPieceDetailsTable(this.attachedDatabase, [this._alias]);
+  BookmarkArtifactPieceTable(this.attachedDatabase, [this._alias]);
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
     'id',
     aliasedName,
     false,
-    hasAutoIncrement: true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  late final GeneratedColumn<int> parentId = GeneratedColumn<int>(
-    'parent_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES bookmark_table (id) ON DELETE CASCADE',
-    ),
+    $customConstraints:
+        'NOT NULL REFERENCES bookmark_artifact_table(id)ON DELETE CASCADE',
   );
   late final GeneratedColumn<String> piece = GeneratedColumn<String>(
     'piece',
@@ -1039,6 +1253,7 @@ class BookmarkArtifactPieceDetailsTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<String> mainStat = GeneratedColumn<String>(
     'main_stat',
@@ -1046,43 +1261,27 @@ class BookmarkArtifactPieceDetailsTable extends Table
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
-  );
-  late final GeneratedColumn<String> subStats = GeneratedColumn<String>(
-    'sub_stats',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    $customConstraints: 'NULL',
   );
   @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    parentId,
-    piece,
-    mainStat,
-    subStats,
-  ];
+  List<GeneratedColumn> get $columns => [id, piece, mainStat];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'bookmark_artifact_piece_details_table';
+  static const String $name = 'bookmark_artifact_piece_table';
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  BookmarkArtifactPieceDetailsTableData map(
+  BookmarkArtifactPieceTableData map(
     Map<String, dynamic> data, {
     String? tablePrefix,
   }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return BookmarkArtifactPieceDetailsTableData(
+    return BookmarkArtifactPieceTableData(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
-      )!,
-      parentId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}parent_id'],
       )!,
       piece: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -1092,71 +1291,60 @@ class BookmarkArtifactPieceDetailsTable extends Table
         DriftSqlType.string,
         data['${effectivePrefix}main_stat'],
       ),
-      subStats: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}sub_stats'],
-      )!,
     );
   }
 
   @override
-  BookmarkArtifactPieceDetailsTable createAlias(String alias) {
-    return BookmarkArtifactPieceDetailsTable(attachedDatabase, alias);
+  BookmarkArtifactPieceTable createAlias(String alias) {
+    return BookmarkArtifactPieceTable(attachedDatabase, alias);
   }
+
+  @override
+  List<String> get customConstraints => const ['PRIMARY KEY(id)'];
+  @override
+  bool get dontWriteConstraints => true;
 }
 
-class BookmarkArtifactPieceDetailsTableData extends DataClass
-    implements Insertable<BookmarkArtifactPieceDetailsTableData> {
+class BookmarkArtifactPieceTableData extends DataClass
+    implements Insertable<BookmarkArtifactPieceTableData> {
   final int id;
-  final int parentId;
   final String piece;
   final String? mainStat;
-  final String subStats;
-  const BookmarkArtifactPieceDetailsTableData({
+  const BookmarkArtifactPieceTableData({
     required this.id,
-    required this.parentId,
     required this.piece,
     this.mainStat,
-    required this.subStats,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['parent_id'] = Variable<int>(parentId);
     map['piece'] = Variable<String>(piece);
     if (!nullToAbsent || mainStat != null) {
       map['main_stat'] = Variable<String>(mainStat);
     }
-    map['sub_stats'] = Variable<String>(subStats);
     return map;
   }
 
-  BookmarkArtifactPieceDetailsTableDataCompanion toCompanion(
-    bool nullToAbsent,
-  ) {
-    return BookmarkArtifactPieceDetailsTableDataCompanion(
+  BookmarkArtifactPieceTableDataCompanion toCompanion(bool nullToAbsent) {
+    return BookmarkArtifactPieceTableDataCompanion(
       id: Value(id),
-      parentId: Value(parentId),
       piece: Value(piece),
       mainStat: mainStat == null && nullToAbsent
           ? const Value.absent()
           : Value(mainStat),
-      subStats: Value(subStats),
     );
   }
 
-  factory BookmarkArtifactPieceDetailsTableData.fromJson(
+  factory BookmarkArtifactPieceTableData.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return BookmarkArtifactPieceDetailsTableData(
+    return BookmarkArtifactPieceTableData(
       id: serializer.fromJson<int>(json['id']),
-      parentId: serializer.fromJson<int>(json['parentId']),
       piece: serializer.fromJson<String>(json['piece']),
       mainStat: serializer.fromJson<String?>(json['mainStat']),
-      subStats: serializer.fromJson<String>(json['subStats']),
     );
   }
   @override
@@ -1164,115 +1352,87 @@ class BookmarkArtifactPieceDetailsTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'parentId': serializer.toJson<int>(parentId),
       'piece': serializer.toJson<String>(piece),
       'mainStat': serializer.toJson<String?>(mainStat),
-      'subStats': serializer.toJson<String>(subStats),
     };
   }
 
-  BookmarkArtifactPieceDetailsTableData copyWith({
+  BookmarkArtifactPieceTableData copyWith({
     int? id,
-    int? parentId,
     String? piece,
     Value<String?> mainStat = const Value.absent(),
-    String? subStats,
-  }) => BookmarkArtifactPieceDetailsTableData(
+  }) => BookmarkArtifactPieceTableData(
     id: id ?? this.id,
-    parentId: parentId ?? this.parentId,
     piece: piece ?? this.piece,
     mainStat: mainStat.present ? mainStat.value : this.mainStat,
-    subStats: subStats ?? this.subStats,
   );
-  BookmarkArtifactPieceDetailsTableData copyWithCompanion(
-    BookmarkArtifactPieceDetailsTableDataCompanion data,
+  BookmarkArtifactPieceTableData copyWithCompanion(
+    BookmarkArtifactPieceTableDataCompanion data,
   ) {
-    return BookmarkArtifactPieceDetailsTableData(
+    return BookmarkArtifactPieceTableData(
       id: data.id.present ? data.id.value : this.id,
-      parentId: data.parentId.present ? data.parentId.value : this.parentId,
       piece: data.piece.present ? data.piece.value : this.piece,
       mainStat: data.mainStat.present ? data.mainStat.value : this.mainStat,
-      subStats: data.subStats.present ? data.subStats.value : this.subStats,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('BookmarkArtifactPieceDetailsTableData(')
+    return (StringBuffer('BookmarkArtifactPieceTableData(')
           ..write('id: $id, ')
-          ..write('parentId: $parentId, ')
           ..write('piece: $piece, ')
-          ..write('mainStat: $mainStat, ')
-          ..write('subStats: $subStats')
+          ..write('mainStat: $mainStat')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, parentId, piece, mainStat, subStats);
+  int get hashCode => Object.hash(id, piece, mainStat);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is BookmarkArtifactPieceDetailsTableData &&
+      (other is BookmarkArtifactPieceTableData &&
           other.id == this.id &&
-          other.parentId == this.parentId &&
           other.piece == this.piece &&
-          other.mainStat == this.mainStat &&
-          other.subStats == this.subStats);
+          other.mainStat == this.mainStat);
 }
 
-class BookmarkArtifactPieceDetailsTableDataCompanion
-    extends UpdateCompanion<BookmarkArtifactPieceDetailsTableData> {
+class BookmarkArtifactPieceTableDataCompanion
+    extends UpdateCompanion<BookmarkArtifactPieceTableData> {
   final Value<int> id;
-  final Value<int> parentId;
   final Value<String> piece;
   final Value<String?> mainStat;
-  final Value<String> subStats;
-  const BookmarkArtifactPieceDetailsTableDataCompanion({
+  const BookmarkArtifactPieceTableDataCompanion({
     this.id = const Value.absent(),
-    this.parentId = const Value.absent(),
     this.piece = const Value.absent(),
     this.mainStat = const Value.absent(),
-    this.subStats = const Value.absent(),
   });
-  BookmarkArtifactPieceDetailsTableDataCompanion.insert({
+  BookmarkArtifactPieceTableDataCompanion.insert({
     this.id = const Value.absent(),
-    required int parentId,
     required String piece,
     this.mainStat = const Value.absent(),
-    required String subStats,
-  }) : parentId = Value(parentId),
-       piece = Value(piece),
-       subStats = Value(subStats);
-  static Insertable<BookmarkArtifactPieceDetailsTableData> custom({
+  }) : piece = Value(piece);
+  static Insertable<BookmarkArtifactPieceTableData> custom({
     Expression<int>? id,
-    Expression<int>? parentId,
     Expression<String>? piece,
     Expression<String>? mainStat,
-    Expression<String>? subStats,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (parentId != null) 'parent_id': parentId,
       if (piece != null) 'piece': piece,
       if (mainStat != null) 'main_stat': mainStat,
-      if (subStats != null) 'sub_stats': subStats,
     });
   }
 
-  BookmarkArtifactPieceDetailsTableDataCompanion copyWith({
+  BookmarkArtifactPieceTableDataCompanion copyWith({
     Value<int>? id,
-    Value<int>? parentId,
     Value<String>? piece,
     Value<String?>? mainStat,
-    Value<String>? subStats,
   }) {
-    return BookmarkArtifactPieceDetailsTableDataCompanion(
+    return BookmarkArtifactPieceTableDataCompanion(
       id: id ?? this.id,
-      parentId: parentId ?? this.parentId,
       piece: piece ?? this.piece,
       mainStat: mainStat ?? this.mainStat,
-      subStats: subStats ?? this.subStats,
     );
   }
 
@@ -1282,29 +1442,21 @@ class BookmarkArtifactPieceDetailsTableDataCompanion
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (parentId.present) {
-      map['parent_id'] = Variable<int>(parentId.value);
-    }
     if (piece.present) {
       map['piece'] = Variable<String>(piece.value);
     }
     if (mainStat.present) {
       map['main_stat'] = Variable<String>(mainStat.value);
     }
-    if (subStats.present) {
-      map['sub_stats'] = Variable<String>(subStats.value);
-    }
     return map;
   }
 
   @override
   String toString() {
-    return (StringBuffer('BookmarkArtifactPieceDetailsTableDataCompanion(')
+    return (StringBuffer('BookmarkArtifactPieceTableDataCompanion(')
           ..write('id: $id, ')
-          ..write('parentId: $parentId, ')
           ..write('piece: $piece, ')
-          ..write('mainStat: $mainStat, ')
-          ..write('subStats: $subStats')
+          ..write('mainStat: $mainStat')
           ..write(')'))
         .toString();
   }
@@ -1322,6 +1474,7 @@ class InGameCharacterStateTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
     'character_id',
@@ -1329,6 +1482,7 @@ class InGameCharacterStateTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<String> purposes = GeneratedColumn<String>(
     'purposes',
@@ -1336,6 +1490,7 @@ class InGameCharacterStateTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<String> equippedWeaponId = GeneratedColumn<String>(
     'equipped_weapon_id',
@@ -1343,13 +1498,16 @@ class InGameCharacterStateTable extends Table
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
+    $customConstraints: 'NULL',
   );
-  late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
+  late final GeneratedColumn<int> lastUpdated = GeneratedColumn<int>(
     'last_updated',
     aliasedName,
     false,
-    type: DriftSqlType.dateTime,
+    type: DriftSqlType.int,
     requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
     defaultValue: const CustomExpression(
       'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),
@@ -1393,7 +1551,7 @@ class InGameCharacterStateTable extends Table
         data['${effectivePrefix}equipped_weapon_id'],
       ),
       lastUpdated: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
+        DriftSqlType.int,
         data['${effectivePrefix}last_updated'],
       )!,
     );
@@ -1403,6 +1561,13 @@ class InGameCharacterStateTable extends Table
   InGameCharacterStateTable createAlias(String alias) {
     return InGameCharacterStateTable(attachedDatabase, alias);
   }
+
+  @override
+  List<String> get customConstraints => const [
+    'PRIMARY KEY(uid, character_id)',
+  ];
+  @override
+  bool get dontWriteConstraints => true;
 }
 
 class InGameCharacterStateTableData extends DataClass
@@ -1411,7 +1576,7 @@ class InGameCharacterStateTableData extends DataClass
   final String characterId;
   final String purposes;
   final String? equippedWeaponId;
-  final DateTime lastUpdated;
+  final int lastUpdated;
   const InGameCharacterStateTableData({
     required this.uid,
     required this.characterId,
@@ -1428,7 +1593,7 @@ class InGameCharacterStateTableData extends DataClass
     if (!nullToAbsent || equippedWeaponId != null) {
       map['equipped_weapon_id'] = Variable<String>(equippedWeaponId);
     }
-    map['last_updated'] = Variable<DateTime>(lastUpdated);
+    map['last_updated'] = Variable<int>(lastUpdated);
     return map;
   }
 
@@ -1454,7 +1619,7 @@ class InGameCharacterStateTableData extends DataClass
       characterId: serializer.fromJson<String>(json['characterId']),
       purposes: serializer.fromJson<String>(json['purposes']),
       equippedWeaponId: serializer.fromJson<String?>(json['equippedWeaponId']),
-      lastUpdated: serializer.fromJson<DateTime>(json['lastUpdated']),
+      lastUpdated: serializer.fromJson<int>(json['lastUpdated']),
     );
   }
   @override
@@ -1465,7 +1630,7 @@ class InGameCharacterStateTableData extends DataClass
       'characterId': serializer.toJson<String>(characterId),
       'purposes': serializer.toJson<String>(purposes),
       'equippedWeaponId': serializer.toJson<String?>(equippedWeaponId),
-      'lastUpdated': serializer.toJson<DateTime>(lastUpdated),
+      'lastUpdated': serializer.toJson<int>(lastUpdated),
     };
   }
 
@@ -1474,7 +1639,7 @@ class InGameCharacterStateTableData extends DataClass
     String? characterId,
     String? purposes,
     Value<String?> equippedWeaponId = const Value.absent(),
-    DateTime? lastUpdated,
+    int? lastUpdated,
   }) => InGameCharacterStateTableData(
     uid: uid ?? this.uid,
     characterId: characterId ?? this.characterId,
@@ -1534,7 +1699,7 @@ class InGameCharacterStateTableDataCompanion
   final Value<String> characterId;
   final Value<String> purposes;
   final Value<String?> equippedWeaponId;
-  final Value<DateTime> lastUpdated;
+  final Value<int> lastUpdated;
   final Value<int> rowid;
   const InGameCharacterStateTableDataCompanion({
     this.uid = const Value.absent(),
@@ -1559,7 +1724,7 @@ class InGameCharacterStateTableDataCompanion
     Expression<String>? characterId,
     Expression<String>? purposes,
     Expression<String>? equippedWeaponId,
-    Expression<DateTime>? lastUpdated,
+    Expression<int>? lastUpdated,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1577,7 +1742,7 @@ class InGameCharacterStateTableDataCompanion
     Value<String>? characterId,
     Value<String>? purposes,
     Value<String?>? equippedWeaponId,
-    Value<DateTime>? lastUpdated,
+    Value<int>? lastUpdated,
     Value<int>? rowid,
   }) {
     return InGameCharacterStateTableDataCompanion(
@@ -1606,7 +1771,7 @@ class InGameCharacterStateTableDataCompanion
       map['equipped_weapon_id'] = Variable<String>(equippedWeaponId.value);
     }
     if (lastUpdated.present) {
-      map['last_updated'] = Variable<DateTime>(lastUpdated.value);
+      map['last_updated'] = Variable<int>(lastUpdated.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1640,6 +1805,7 @@ class InGameWeaponStateTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
     'character_id',
@@ -1647,6 +1813,7 @@ class InGameWeaponStateTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<String> weaponId = GeneratedColumn<String>(
     'weapon_id',
@@ -1654,6 +1821,7 @@ class InGameWeaponStateTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<String> purposes = GeneratedColumn<String>(
     'purposes',
@@ -1661,13 +1829,16 @@ class InGameWeaponStateTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
-  late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
+  late final GeneratedColumn<int> lastUpdated = GeneratedColumn<int>(
     'last_updated',
     aliasedName,
     false,
-    type: DriftSqlType.dateTime,
+    type: DriftSqlType.int,
     requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
     defaultValue: const CustomExpression(
       'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),
@@ -1711,7 +1882,7 @@ class InGameWeaponStateTable extends Table
         data['${effectivePrefix}purposes'],
       )!,
       lastUpdated: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
+        DriftSqlType.int,
         data['${effectivePrefix}last_updated'],
       )!,
     );
@@ -1721,6 +1892,13 @@ class InGameWeaponStateTable extends Table
   InGameWeaponStateTable createAlias(String alias) {
     return InGameWeaponStateTable(attachedDatabase, alias);
   }
+
+  @override
+  List<String> get customConstraints => const [
+    'PRIMARY KEY(uid, character_id, weapon_id)',
+  ];
+  @override
+  bool get dontWriteConstraints => true;
 }
 
 class InGameWeaponStateTableData extends DataClass
@@ -1729,7 +1907,7 @@ class InGameWeaponStateTableData extends DataClass
   final String characterId;
   final String weaponId;
   final String purposes;
-  final DateTime lastUpdated;
+  final int lastUpdated;
   const InGameWeaponStateTableData({
     required this.uid,
     required this.characterId,
@@ -1744,7 +1922,7 @@ class InGameWeaponStateTableData extends DataClass
     map['character_id'] = Variable<String>(characterId);
     map['weapon_id'] = Variable<String>(weaponId);
     map['purposes'] = Variable<String>(purposes);
-    map['last_updated'] = Variable<DateTime>(lastUpdated);
+    map['last_updated'] = Variable<int>(lastUpdated);
     return map;
   }
 
@@ -1768,7 +1946,7 @@ class InGameWeaponStateTableData extends DataClass
       characterId: serializer.fromJson<String>(json['characterId']),
       weaponId: serializer.fromJson<String>(json['weaponId']),
       purposes: serializer.fromJson<String>(json['purposes']),
-      lastUpdated: serializer.fromJson<DateTime>(json['lastUpdated']),
+      lastUpdated: serializer.fromJson<int>(json['lastUpdated']),
     );
   }
   @override
@@ -1779,7 +1957,7 @@ class InGameWeaponStateTableData extends DataClass
       'characterId': serializer.toJson<String>(characterId),
       'weaponId': serializer.toJson<String>(weaponId),
       'purposes': serializer.toJson<String>(purposes),
-      'lastUpdated': serializer.toJson<DateTime>(lastUpdated),
+      'lastUpdated': serializer.toJson<int>(lastUpdated),
     };
   }
 
@@ -1788,7 +1966,7 @@ class InGameWeaponStateTableData extends DataClass
     String? characterId,
     String? weaponId,
     String? purposes,
-    DateTime? lastUpdated,
+    int? lastUpdated,
   }) => InGameWeaponStateTableData(
     uid: uid ?? this.uid,
     characterId: characterId ?? this.characterId,
@@ -1844,7 +2022,7 @@ class InGameWeaponStateTableDataCompanion
   final Value<String> characterId;
   final Value<String> weaponId;
   final Value<String> purposes;
-  final Value<DateTime> lastUpdated;
+  final Value<int> lastUpdated;
   final Value<int> rowid;
   const InGameWeaponStateTableDataCompanion({
     this.uid = const Value.absent(),
@@ -1870,7 +2048,7 @@ class InGameWeaponStateTableDataCompanion
     Expression<String>? characterId,
     Expression<String>? weaponId,
     Expression<String>? purposes,
-    Expression<DateTime>? lastUpdated,
+    Expression<int>? lastUpdated,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1888,7 +2066,7 @@ class InGameWeaponStateTableDataCompanion
     Value<String>? characterId,
     Value<String>? weaponId,
     Value<String>? purposes,
-    Value<DateTime>? lastUpdated,
+    Value<int>? lastUpdated,
     Value<int>? rowid,
   }) {
     return InGameWeaponStateTableDataCompanion(
@@ -1917,7 +2095,7 @@ class InGameWeaponStateTableDataCompanion
       map['purposes'] = Variable<String>(purposes.value);
     }
     if (lastUpdated.present) {
-      map['last_updated'] = Variable<DateTime>(lastUpdated.value);
+      map['last_updated'] = Variable<int>(lastUpdated.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1939,197 +2117,6 @@ class InGameWeaponStateTableDataCompanion
   }
 }
 
-class BookmarkOrderRegistryTable extends Table
-    with TableInfo<BookmarkOrderRegistryTable, BookmarkOrderRegistryTableData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  BookmarkOrderRegistryTable(this.attachedDatabase, [this._alias]);
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    defaultValue: const CustomExpression('\'main\''),
-  );
-  late final GeneratedColumn<String> order = GeneratedColumn<String>(
-    'order',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, order];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'bookmark_order_registry_table';
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  BookmarkOrderRegistryTableData map(
-    Map<String, dynamic> data, {
-    String? tablePrefix,
-  }) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return BookmarkOrderRegistryTableData(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}id'],
-      )!,
-      order: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}order'],
-      )!,
-    );
-  }
-
-  @override
-  BookmarkOrderRegistryTable createAlias(String alias) {
-    return BookmarkOrderRegistryTable(attachedDatabase, alias);
-  }
-}
-
-class BookmarkOrderRegistryTableData extends DataClass
-    implements Insertable<BookmarkOrderRegistryTableData> {
-  final String id;
-  final String order;
-  const BookmarkOrderRegistryTableData({required this.id, required this.order});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
-    map['order'] = Variable<String>(order);
-    return map;
-  }
-
-  BookmarkOrderRegistryTableDataCompanion toCompanion(bool nullToAbsent) {
-    return BookmarkOrderRegistryTableDataCompanion(
-      id: Value(id),
-      order: Value(order),
-    );
-  }
-
-  factory BookmarkOrderRegistryTableData.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return BookmarkOrderRegistryTableData(
-      id: serializer.fromJson<String>(json['id']),
-      order: serializer.fromJson<String>(json['order']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'order': serializer.toJson<String>(order),
-    };
-  }
-
-  BookmarkOrderRegistryTableData copyWith({String? id, String? order}) =>
-      BookmarkOrderRegistryTableData(
-        id: id ?? this.id,
-        order: order ?? this.order,
-      );
-  BookmarkOrderRegistryTableData copyWithCompanion(
-    BookmarkOrderRegistryTableDataCompanion data,
-  ) {
-    return BookmarkOrderRegistryTableData(
-      id: data.id.present ? data.id.value : this.id,
-      order: data.order.present ? data.order.value : this.order,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('BookmarkOrderRegistryTableData(')
-          ..write('id: $id, ')
-          ..write('order: $order')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, order);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is BookmarkOrderRegistryTableData &&
-          other.id == this.id &&
-          other.order == this.order);
-}
-
-class BookmarkOrderRegistryTableDataCompanion
-    extends UpdateCompanion<BookmarkOrderRegistryTableData> {
-  final Value<String> id;
-  final Value<String> order;
-  final Value<int> rowid;
-  const BookmarkOrderRegistryTableDataCompanion({
-    this.id = const Value.absent(),
-    this.order = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  BookmarkOrderRegistryTableDataCompanion.insert({
-    this.id = const Value.absent(),
-    required String order,
-    this.rowid = const Value.absent(),
-  }) : order = Value(order);
-  static Insertable<BookmarkOrderRegistryTableData> custom({
-    Expression<String>? id,
-    Expression<String>? order,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (order != null) 'order': order,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  BookmarkOrderRegistryTableDataCompanion copyWith({
-    Value<String>? id,
-    Value<String>? order,
-    Value<int>? rowid,
-  }) {
-    return BookmarkOrderRegistryTableDataCompanion(
-      id: id ?? this.id,
-      order: order ?? this.order,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<String>(id.value);
-    }
-    if (order.present) {
-      map['order'] = Variable<String>(order.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('BookmarkOrderRegistryTableDataCompanion(')
-          ..write('id: $id, ')
-          ..write('order: $order, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class MaterialBagCountTable extends Table
     with TableInfo<MaterialBagCountTable, MaterialBagCountTableData> {
   @override
@@ -2142,6 +2129,7 @@ class MaterialBagCountTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<int> hyvId = GeneratedColumn<int>(
     'hyv_id',
@@ -2149,6 +2137,7 @@ class MaterialBagCountTable extends Table
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<int> count = GeneratedColumn<int>(
     'count',
@@ -2156,13 +2145,16 @@ class MaterialBagCountTable extends Table
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
-  late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
+  late final GeneratedColumn<int> lastUpdated = GeneratedColumn<int>(
     'last_updated',
     aliasedName,
     false,
-    type: DriftSqlType.dateTime,
+    type: DriftSqlType.int,
     requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
     defaultValue: const CustomExpression(
       'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),
@@ -2196,7 +2188,7 @@ class MaterialBagCountTable extends Table
         data['${effectivePrefix}count'],
       )!,
       lastUpdated: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
+        DriftSqlType.int,
         data['${effectivePrefix}last_updated'],
       )!,
     );
@@ -2206,6 +2198,11 @@ class MaterialBagCountTable extends Table
   MaterialBagCountTable createAlias(String alias) {
     return MaterialBagCountTable(attachedDatabase, alias);
   }
+
+  @override
+  List<String> get customConstraints => const ['PRIMARY KEY(uid, hyv_id)'];
+  @override
+  bool get dontWriteConstraints => true;
 }
 
 class MaterialBagCountTableData extends DataClass
@@ -2213,7 +2210,7 @@ class MaterialBagCountTableData extends DataClass
   final String uid;
   final int hyvId;
   final int count;
-  final DateTime lastUpdated;
+  final int lastUpdated;
   const MaterialBagCountTableData({
     required this.uid,
     required this.hyvId,
@@ -2226,7 +2223,7 @@ class MaterialBagCountTableData extends DataClass
     map['uid'] = Variable<String>(uid);
     map['hyv_id'] = Variable<int>(hyvId);
     map['count'] = Variable<int>(count);
-    map['last_updated'] = Variable<DateTime>(lastUpdated);
+    map['last_updated'] = Variable<int>(lastUpdated);
     return map;
   }
 
@@ -2248,7 +2245,7 @@ class MaterialBagCountTableData extends DataClass
       uid: serializer.fromJson<String>(json['uid']),
       hyvId: serializer.fromJson<int>(json['hyvId']),
       count: serializer.fromJson<int>(json['count']),
-      lastUpdated: serializer.fromJson<DateTime>(json['lastUpdated']),
+      lastUpdated: serializer.fromJson<int>(json['lastUpdated']),
     );
   }
   @override
@@ -2258,7 +2255,7 @@ class MaterialBagCountTableData extends DataClass
       'uid': serializer.toJson<String>(uid),
       'hyvId': serializer.toJson<int>(hyvId),
       'count': serializer.toJson<int>(count),
-      'lastUpdated': serializer.toJson<DateTime>(lastUpdated),
+      'lastUpdated': serializer.toJson<int>(lastUpdated),
     };
   }
 
@@ -2266,7 +2263,7 @@ class MaterialBagCountTableData extends DataClass
     String? uid,
     int? hyvId,
     int? count,
-    DateTime? lastUpdated,
+    int? lastUpdated,
   }) => MaterialBagCountTableData(
     uid: uid ?? this.uid,
     hyvId: hyvId ?? this.hyvId,
@@ -2314,7 +2311,7 @@ class MaterialBagCountTableDataCompanion
   final Value<String> uid;
   final Value<int> hyvId;
   final Value<int> count;
-  final Value<DateTime> lastUpdated;
+  final Value<int> lastUpdated;
   final Value<int> rowid;
   const MaterialBagCountTableDataCompanion({
     this.uid = const Value.absent(),
@@ -2336,7 +2333,7 @@ class MaterialBagCountTableDataCompanion
     Expression<String>? uid,
     Expression<int>? hyvId,
     Expression<int>? count,
-    Expression<DateTime>? lastUpdated,
+    Expression<int>? lastUpdated,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2352,7 +2349,7 @@ class MaterialBagCountTableDataCompanion
     Value<String>? uid,
     Value<int>? hyvId,
     Value<int>? count,
-    Value<DateTime>? lastUpdated,
+    Value<int>? lastUpdated,
     Value<int>? rowid,
   }) {
     return MaterialBagCountTableDataCompanion(
@@ -2377,7 +2374,7 @@ class MaterialBagCountTableDataCompanion
       map['count'] = Variable<int>(count.value);
     }
     if (lastUpdated.present) {
-      map['last_updated'] = Variable<DateTime>(lastUpdated.value);
+      map['last_updated'] = Variable<int>(lastUpdated.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -2410,6 +2407,7 @@ class FurnishingCraftCountTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<String> setId = GeneratedColumn<String>(
     'set_id',
@@ -2417,6 +2415,7 @@ class FurnishingCraftCountTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   late final GeneratedColumn<int> count = GeneratedColumn<int>(
     'count',
@@ -2424,6 +2423,7 @@ class FurnishingCraftCountTable extends Table
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
   @override
   List<GeneratedColumn> get $columns => [furnishingId, setId, count];
@@ -2460,6 +2460,13 @@ class FurnishingCraftCountTable extends Table
   FurnishingCraftCountTable createAlias(String alias) {
     return FurnishingCraftCountTable(attachedDatabase, alias);
   }
+
+  @override
+  List<String> get customConstraints => const [
+    'PRIMARY KEY(furnishing_id, set_id)',
+  ];
+  @override
+  bool get dontWriteConstraints => true;
 }
 
 class FurnishingCraftCountTableData extends DataClass
@@ -2642,13 +2649,16 @@ class FurnishingSetBookmarkTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
   );
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+  late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
     'created_at',
     aliasedName,
     false,
-    type: DriftSqlType.dateTime,
+    type: DriftSqlType.int,
     requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
     defaultValue: const CustomExpression(
       'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),
@@ -2674,7 +2684,7 @@ class FurnishingSetBookmarkTable extends Table
         data['${effectivePrefix}set_id'],
       )!,
       createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
+        DriftSqlType.int,
         data['${effectivePrefix}created_at'],
       )!,
     );
@@ -2684,12 +2694,17 @@ class FurnishingSetBookmarkTable extends Table
   FurnishingSetBookmarkTable createAlias(String alias) {
     return FurnishingSetBookmarkTable(attachedDatabase, alias);
   }
+
+  @override
+  List<String> get customConstraints => const ['PRIMARY KEY(set_id)'];
+  @override
+  bool get dontWriteConstraints => true;
 }
 
 class FurnishingSetBookmarkTableData extends DataClass
     implements Insertable<FurnishingSetBookmarkTableData> {
   final String setId;
-  final DateTime createdAt;
+  final int createdAt;
   const FurnishingSetBookmarkTableData({
     required this.setId,
     required this.createdAt,
@@ -2698,7 +2713,7 @@ class FurnishingSetBookmarkTableData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['set_id'] = Variable<String>(setId);
-    map['created_at'] = Variable<DateTime>(createdAt);
+    map['created_at'] = Variable<int>(createdAt);
     return map;
   }
 
@@ -2716,7 +2731,7 @@ class FurnishingSetBookmarkTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return FurnishingSetBookmarkTableData(
       setId: serializer.fromJson<String>(json['setId']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      createdAt: serializer.fromJson<int>(json['createdAt']),
     );
   }
   @override
@@ -2724,17 +2739,15 @@ class FurnishingSetBookmarkTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'setId': serializer.toJson<String>(setId),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'createdAt': serializer.toJson<int>(createdAt),
     };
   }
 
-  FurnishingSetBookmarkTableData copyWith({
-    String? setId,
-    DateTime? createdAt,
-  }) => FurnishingSetBookmarkTableData(
-    setId: setId ?? this.setId,
-    createdAt: createdAt ?? this.createdAt,
-  );
+  FurnishingSetBookmarkTableData copyWith({String? setId, int? createdAt}) =>
+      FurnishingSetBookmarkTableData(
+        setId: setId ?? this.setId,
+        createdAt: createdAt ?? this.createdAt,
+      );
   FurnishingSetBookmarkTableData copyWithCompanion(
     FurnishingSetBookmarkTableDataCompanion data,
   ) {
@@ -2766,7 +2779,7 @@ class FurnishingSetBookmarkTableData extends DataClass
 class FurnishingSetBookmarkTableDataCompanion
     extends UpdateCompanion<FurnishingSetBookmarkTableData> {
   final Value<String> setId;
-  final Value<DateTime> createdAt;
+  final Value<int> createdAt;
   final Value<int> rowid;
   const FurnishingSetBookmarkTableDataCompanion({
     this.setId = const Value.absent(),
@@ -2780,7 +2793,7 @@ class FurnishingSetBookmarkTableDataCompanion
   }) : setId = Value(setId);
   static Insertable<FurnishingSetBookmarkTableData> custom({
     Expression<String>? setId,
-    Expression<DateTime>? createdAt,
+    Expression<int>? createdAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2792,7 +2805,7 @@ class FurnishingSetBookmarkTableDataCompanion
 
   FurnishingSetBookmarkTableDataCompanion copyWith({
     Value<String>? setId,
-    Value<DateTime>? createdAt,
+    Value<int>? createdAt,
     Value<int>? rowid,
   }) {
     return FurnishingSetBookmarkTableDataCompanion(
@@ -2809,7 +2822,7 @@ class FurnishingSetBookmarkTableDataCompanion
       map['set_id'] = Variable<String>(setId.value);
     }
     if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
+      map['created_at'] = Variable<int>(createdAt.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -2828,21 +2841,22 @@ class FurnishingSetBookmarkTableDataCompanion
   }
 }
 
-class DatabaseAtV3 extends GeneratedDatabase {
-  DatabaseAtV3(QueryExecutor e) : super(e);
-  late final BookmarkTable bookmarkTable = BookmarkTable(this);
-  late final BookmarkMaterialDetailsTable bookmarkMaterialDetailsTable =
-      BookmarkMaterialDetailsTable(this);
-  late final BookmarkArtifactSetDetailsTable bookmarkArtifactSetDetailsTable =
-      BookmarkArtifactSetDetailsTable(this);
-  late final BookmarkArtifactPieceDetailsTable
-  bookmarkArtifactPieceDetailsTable = BookmarkArtifactPieceDetailsTable(this);
+class DatabaseAtV4 extends GeneratedDatabase {
+  DatabaseAtV4(QueryExecutor e) : super(e);
+  late final BookmarkMaterialGroupTable bookmarkMaterialGroupTable =
+      BookmarkMaterialGroupTable(this);
+  late final BookmarkMaterialItemTable bookmarkMaterialItemTable =
+      BookmarkMaterialItemTable(this);
+  late final BookmarkArtifactTable bookmarkArtifactTable =
+      BookmarkArtifactTable(this);
+  late final BookmarkArtifactSetTable bookmarkArtifactSetTable =
+      BookmarkArtifactSetTable(this);
+  late final BookmarkArtifactPieceTable bookmarkArtifactPieceTable =
+      BookmarkArtifactPieceTable(this);
   late final InGameCharacterStateTable inGameCharacterStateTable =
       InGameCharacterStateTable(this);
   late final InGameWeaponStateTable inGameWeaponStateTable =
       InGameWeaponStateTable(this);
-  late final BookmarkOrderRegistryTable bookmarkOrderRegistryTable =
-      BookmarkOrderRegistryTable(this);
   late final MaterialBagCountTable materialBagCountTable =
       MaterialBagCountTable(this);
   late final FurnishingCraftCountTable furnishingCraftCountTable =
@@ -2854,17 +2868,47 @@ class DatabaseAtV3 extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-    bookmarkTable,
-    bookmarkMaterialDetailsTable,
-    bookmarkArtifactSetDetailsTable,
-    bookmarkArtifactPieceDetailsTable,
+    bookmarkMaterialGroupTable,
+    bookmarkMaterialItemTable,
+    bookmarkArtifactTable,
+    bookmarkArtifactSetTable,
+    bookmarkArtifactPieceTable,
     inGameCharacterStateTable,
     inGameWeaponStateTable,
-    bookmarkOrderRegistryTable,
     materialBagCountTable,
     furnishingCraftCountTable,
     furnishingSetBookmarkTable,
   ];
   @override
-  int get schemaVersion => 3;
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'bookmark_material_group_table',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [
+        TableUpdate('bookmark_material_item_table', kind: UpdateKind.delete),
+      ],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'bookmark_artifact_table',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [
+        TableUpdate('bookmark_artifact_set_table', kind: UpdateKind.delete),
+      ],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'bookmark_artifact_table',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [
+        TableUpdate('bookmark_artifact_piece_table', kind: UpdateKind.delete),
+      ],
+    ),
+  ]);
+  @override
+  int get schemaVersion => 4;
 }

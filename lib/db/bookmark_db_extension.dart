@@ -1,46 +1,46 @@
 import "dart:math";
 
 import "package:drift/drift.dart";
+import "package:fractional_indexing/fractional_indexing.dart";
 
 import "../database.dart";
 import "../models/bookmark.dart";
 import "../models/common.dart";
-import "bookmark_order_registry_db_extension.dart";
 
 extension BookmarkDbExtension on AppDatabase {
-  Stream<List<BookmarkWithDetails>> watchBookmarks() {
-    return select(bookmarkTable).join([
-      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-      leftOuterJoin(bookmarkArtifactSetDetailsTable, bookmarkArtifactSetDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-      leftOuterJoin(bookmarkArtifactPieceDetailsTable, bookmarkArtifactPieceDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-    ]).watch().map((rows) {
-      return rows.map((row) {
-        final meta = row.readTable(bookmarkTable);
-        switch (meta.type) {
-          case BookmarkType.material:
-            return BookmarkWithDetails.material(
-              metadata: meta,
-              materialDetails: row.readTable(bookmarkMaterialDetailsTable),
-            );
-          case BookmarkType.artifactSet:
-            return BookmarkWithDetails.artifactSet(
-              metadata: meta,
-              artifactSetDetails: row.readTable(bookmarkArtifactSetDetailsTable),
-            );
-          case BookmarkType.artifactPiece:
-            return BookmarkWithDetails.artifactPiece(
-              metadata: meta,
-              artifactPieceDetails: row.readTable(bookmarkArtifactPieceDetailsTable),
-            );
-        }
-      }).toList();
-    });
+  Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarks() {
+    return _createMaterialJoin().watch().map((rows) => rows.map(_mapMaterialRow).toList());
   }
 
-  Stream<List<Bookmark>> watchMaterialBookmarks() {
-    final query = select(bookmarkTable)
-      ..where((tbl) => tbl.type.equalsValue(BookmarkType.material));
-    return query.watch();
+  Stream<List<BookmarkWithDetails>> watchArtifactBookmarks() {
+    return (select(bookmarkArtifactTable).join([
+      leftOuterJoin(bookmarkArtifactSetTable, bookmarkArtifactSetTable.id.equalsExp(bookmarkArtifactTable.id)),
+      leftOuterJoin(bookmarkArtifactPieceTable, bookmarkArtifactPieceTable.id.equalsExp(bookmarkArtifactTable.id)),
+    ])).watch().map((rows) => rows.map((row) {
+      final artifact = row.readTable(bookmarkArtifactTable);
+      final set = row.readTableOrNull(bookmarkArtifactSetTable);
+      if (set != null) {
+        return BookmarkWithDetails.artifactSet(artifact: artifact, artifactSet: set);
+      }
+      return BookmarkWithDetails.artifactPiece(
+        artifact: artifact,
+        artifactPiece: row.readTable(bookmarkArtifactPieceTable),
+      );
+    }).toList());
+  }
+
+  BookmarkWithMaterialDetails _mapMaterialRow(TypedResult row) => BookmarkWithMaterialDetails(
+    group: row.readTable(bookmarkMaterialGroupTable),
+    item: row.readTable(bookmarkMaterialItemTable),
+  );
+
+  JoinedSelectStatement<HasResultSet, dynamic> _createMaterialJoin() {
+    return select(bookmarkMaterialItemTable).join([
+      innerJoin(
+        bookmarkMaterialGroupTable,
+        bookmarkMaterialGroupTable.groupHash.equalsExp(bookmarkMaterialItemTable.groupHash),
+      ),
+    ]);
   }
 
   Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksPartially({
@@ -49,113 +49,57 @@ extension BookmarkDbExtension on AppDatabase {
     required String? materialId,
     required List<Purpose> purposeTypes,
   }) {
-    final query = select(bookmarkTable).join([
-      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-    ]);
+    final query = _createMaterialJoin();
     query.where(
-      bookmarkTable.characterId.equals(characterId) &
-      bookmarkTable.type.equalsValue(BookmarkType.material) &
-      bookmarkMaterialDetailsTable.materialId.equalsNullable(materialId) &
-      bookmarkMaterialDetailsTable.purposeType.isInValues(purposeTypes) &
-      bookmarkMaterialDetailsTable.weaponId.equalsNullable(weaponId),
+      bookmarkMaterialGroupTable.characterId.equals(characterId) &
+      bookmarkMaterialGroupTable.weaponId.equalsNullable(weaponId) &
+      bookmarkMaterialItemTable.materialId.equalsNullable(materialId) &
+      bookmarkMaterialGroupTable.purposeType.isInValues(purposeTypes),
     );
-    return query.watch().map((rows) {
-      return rows.map((row) {
-        return BookmarkWithMaterialDetails(
-          metadata: row.readTable(bookmarkTable),
-          materialDetails: row.readTable(bookmarkMaterialDetailsTable),
-        );
-      }).toList();
-    });
+    return query.watch().map((rows) => rows.map(_mapMaterialRow).toList());
   }
 
   Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksByHashes(List<String> hashes) {
-    final query = select(bookmarkTable).join([
-      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-    ]);
-    query.where(
-      bookmarkMaterialDetailsTable.hash.isIn(hashes),
-    );
-    return query.watch().map((rows) {
-      return rows.map((row) {
-        return BookmarkWithMaterialDetails(
-          metadata: row.readTable(bookmarkTable),
-          materialDetails: row.readTable(bookmarkMaterialDetailsTable),
-        );
-      }).toList();
-    });
+    final query = _createMaterialJoin();
+    query.where(bookmarkMaterialItemTable.hash.isIn(hashes));
+    return query.watch().map((rows) => rows.map(_mapMaterialRow).toList());
   }
 
   Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksByGroupHash(String groupHash) {
-    final query = select(bookmarkTable).join([
-      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-    ]);
-    query.where(
-      bookmarkTable.groupHash.equals(groupHash),
-    );
-    return query.watch().map((rows) {
-      return rows.map((row) {
-        return BookmarkWithMaterialDetails(
-          metadata: row.readTable(bookmarkTable),
-          materialDetails: row.readTable(bookmarkMaterialDetailsTable),
-        );
-      }).toList();
-    });
+    final query = _createMaterialJoin();
+    query.where(bookmarkMaterialGroupTable.groupHash.equals(groupHash));
+    return query.watch().map((rows) => rows.map(_mapMaterialRow).toList());
   }
 
   Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksByMaterial(String? materialId, bool hasWeapon) {
-    final query = select(bookmarkTable).join([
-      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-    ]);
+    final query = _createMaterialJoin();
     query.where(
-      bookmarkTable.type.equalsValue(.material) &
-      bookmarkMaterialDetailsTable.materialId.equalsNullable(materialId) &
-      bookmarkMaterialDetailsTable.weaponId.isNotNull().equals(hasWeapon),
+      bookmarkMaterialItemTable.materialId.equalsNullable(materialId) &
+      bookmarkMaterialGroupTable.weaponId.isNotNull().equals(hasWeapon),
     );
-    return query.watch().map((rows) {
-      return rows.map((row) {
-        return BookmarkWithMaterialDetails(
-          metadata: row.readTable(bookmarkTable),
-          materialDetails: row.readTable(bookmarkMaterialDetailsTable),
-        );
-      }).toList();
-    });
+    return query.watch().map((rows) => rows.map(_mapMaterialRow).toList());
   }
 
-  JoinedSelectStatement<HasResultSet, dynamic> _createMaterialBookmarkQuery() => select(bookmarkTable).join([
-    leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-  ]);
-
-  /// Returns the min/max upperLevel per purpose for character material
-  /// bookmarks (no weapon).
   Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getCharacterMaterialBookmarkLevelRanges(String characterId) async {
-    final query = _createMaterialBookmarkQuery()..where(
-      bookmarkTable.characterId.equals(characterId) &
-      bookmarkTable.type.equalsValue(BookmarkType.material) &
-      bookmarkMaterialDetailsTable.weaponId.isNull(),
+    final query = _createMaterialJoin()..where(
+      bookmarkMaterialGroupTable.characterId.equals(characterId) &
+      bookmarkMaterialGroupTable.weaponId.isNull(),
     );
-    final rows = await query.get();
-    return _aggregateBookmarkLevelRanges(rows);
+    return _aggregateBookmarkLevelRanges(await query.get());
   }
 
-  /// Returns the min/max upperLevel per purpose for weapon material bookmarks.
   Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getWeaponMaterialBookmarkLevelRanges(String weaponId) async {
-    final query = _createMaterialBookmarkQuery()..where(
-      bookmarkTable.type.equalsValue(BookmarkType.material) &
-      bookmarkMaterialDetailsTable.weaponId.equals(weaponId),
+    final query = _createMaterialJoin()..where(
+      bookmarkMaterialGroupTable.weaponId.equals(weaponId),
     );
-    final rows = await query.get();
-    return _aggregateBookmarkLevelRanges(rows);
+    return _aggregateBookmarkLevelRanges(await query.get());
   }
 
-  Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> _aggregateBookmarkLevelRanges(
-    List<TypedResult> rows,
-  ) {
+  Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> _aggregateBookmarkLevelRanges(List<TypedResult> rows) {
     final result = <Purpose, ({int minUpperLevel, int maxUpperLevel})>{};
     for (final row in rows) {
-      final details = row.readTable(bookmarkMaterialDetailsTable);
-      final purpose = details.purposeType;
-      final upperLevel = details.upperLevel;
+      final purpose = row.readTable(bookmarkMaterialGroupTable).purposeType;
+      final upperLevel = row.readTable(bookmarkMaterialItemTable).upperLevel;
       if (result.containsKey(purpose)) {
         final current = result[purpose]!;
         result[purpose] = (
@@ -169,83 +113,107 @@ extension BookmarkDbExtension on AppDatabase {
     return result;
   }
 
-  Future<void> _addBookmarks(List<BookmarkInsertable> insertables) async {
-    final groupHashes = <String>{};
+  Future<void> addMaterialBookmarks(List<MaterialBookmarkInsertable> companions) async {
     await transaction(() async {
-      for (final companion in insertables) {
-        if (companion is MaterialBookmarkInsertable) {
-          final existing = await (select(bookmarkMaterialDetailsTable)
-            ..where((tbl) => tbl.hash.equals(companion.hash))).getSingleOrNull();
-          if (existing != null) {
-            continue;
-          }
+      for (final companion in companions) {
+        final existingItem = await (select(bookmarkMaterialItemTable)
+          ..where((tbl) => tbl.hash.equals(companion.hash))).getSingleOrNull();
+        if (existingItem != null) continue;
+
+        final existingGroup = await (select(bookmarkMaterialGroupTable)
+          ..where((tbl) => tbl.groupHash.equals(companion.groupHash))).getSingleOrNull();
+
+        if (existingGroup == null) {
+          final lastGroup = await (select(bookmarkMaterialGroupTable)
+            ..orderBy([(t) => OrderingTerm.desc(t.orderIndex)])
+            ..limit(1)).getSingleOrNull();
+          final orderIndex = FractionalIndexer.generateKeyBetween(lastGroup?.orderIndex, null) ?? "";
+          await into(bookmarkMaterialGroupTable).insert(companion.toGroupCompanion(orderIndex));
         }
-        final bookmarkId = await into(bookmarkTable).insert(companion.toMetadata());
-        final inserter = switch (companion) {
-          MaterialBookmarkInsertable() => into(bookmarkMaterialDetailsTable),
-          ArtifactSetBookmarkInsertable() => into(bookmarkArtifactSetDetailsTable),
-          ArtifactPieceBookmarkInsertable() => into(bookmarkArtifactPieceDetailsTable),
-        };
-        await inserter.insert(companion.toDetails(parentId: bookmarkId));
-        groupHashes.add(companion.groupHash);
-      }
-      await registerBookmarkOrderHashes(groupHashes.toList());
-    });
-  }
 
-  Future<void> addMaterialBookmarks(List<MaterialBookmarkInsertable> companions) {
-    return _addBookmarks(companions);
-  }
-
-  Future<void> addArtifactSetBookmark(ArtifactSetBookmarkInsertable companion) {
-    return _addBookmarks([companion]);
-  }
-
-  Future<void> addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable companion) {
-    return _addBookmarks([companion]);
-  }
-
-  Future<void> removeBookmarks(List<int> ids) async {
-    await transaction(() async {
-      await (delete(bookmarkTable)..where((tbl) => tbl.id.isIn(ids))).go();
-
-      final order = await getBookmarkOrder();
-      for (var groupHash in order) {
-        final bookmarkCount = await bookmarkTable.count(where: (tbl) => tbl.groupHash.equals(groupHash)).getSingle();
-        if (bookmarkCount == 0) {
-          await unregisterBookmarkOrderHashes([groupHash]);
-        }
+        await into(bookmarkMaterialItemTable).insert(companion.toItemCompanion());
       }
     });
   }
 
-  /// Deletes obsolete bookmarks based on the provided character ID, weapon ID,
-  /// and levels. Returns true if any bookmarks were deleted.
+  Future<void> addArtifactSetBookmark(ArtifactSetBookmarkInsertable companion) async {
+    await transaction(() async {
+      final lastArtifact = await (select(bookmarkArtifactTable)
+        ..orderBy([(t) => OrderingTerm.desc(t.orderIndex)])
+        ..limit(1)).getSingleOrNull();
+      final orderIndex = FractionalIndexer.generateKeyBetween(lastArtifact?.orderIndex, null) ?? "";
+      final newId = await into(bookmarkArtifactTable).insert(companion.toArtifactCompanion(orderIndex));
+      await into(bookmarkArtifactSetTable).insert(companion.toSetCompanion(newId));
+    });
+  }
+
+  Future<void> addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable companion) async {
+    await transaction(() async {
+      final lastArtifact = await (select(bookmarkArtifactTable)
+        ..orderBy([(t) => OrderingTerm.desc(t.orderIndex)])
+        ..limit(1)).getSingleOrNull();
+      final orderIndex = FractionalIndexer.generateKeyBetween(lastArtifact?.orderIndex, null) ?? "";
+      final newId = await into(bookmarkArtifactTable).insert(companion.toArtifactCompanion(orderIndex));
+      await into(bookmarkArtifactPieceTable).insert(companion.toPieceCompanion(newId));
+    });
+  }
+
+  Future<void> removeMaterialBookmarksByHashes(List<String> hashes) async {
+    await transaction(() async {
+      final affected = await (select(bookmarkMaterialItemTable)
+        ..where((tbl) => tbl.hash.isIn(hashes))).get();
+      final affectedGroupHashes = affected.map((e) => e.groupHash).toSet();
+
+      await (delete(bookmarkMaterialItemTable)
+        ..where((tbl) => tbl.hash.isIn(hashes))).go();
+
+      for (final groupHash in affectedGroupHashes) {
+        final remaining = await (select(bookmarkMaterialItemTable)
+          ..where((tbl) => tbl.groupHash.equals(groupHash))).get();
+        if (remaining.isEmpty) {
+          await (delete(bookmarkMaterialGroupTable)
+            ..where((tbl) => tbl.groupHash.equals(groupHash))).go();
+        }
+      }
+    });
+  }
+
+  Future<void> removeArtifactBookmarkById(int id) {
+    return (delete(bookmarkArtifactTable)..where((tbl) => tbl.id.equals(id))).go();
+  }
+
+  Future<void> updateMaterialGroupOrderIndex(String groupHash, String orderIndex) {
+    return (update(bookmarkMaterialGroupTable)..where((tbl) => tbl.groupHash.equals(groupHash)))
+        .write(BookmarkMaterialGroupCompanion(orderIndex: Value(orderIndex)));
+  }
+
+  Future<void> updateArtifactOrderIndex(int id, String orderIndex) {
+    return (update(bookmarkArtifactTable)..where((tbl) => tbl.id.equals(id)))
+        .write(BookmarkArtifactCompanion(orderIndex: Value(orderIndex)));
+  }
+
   Future<bool> deleteObsoleteBookmarks({
     required String characterId,
     String? weaponId,
     required Map<Purpose, int> levels,
   }) async {
-    if (levels.isEmpty) {
-      return false;
-    }
-    final query = select(bookmarkTable).join([
-      leftOuterJoin(bookmarkMaterialDetailsTable, bookmarkMaterialDetailsTable.parentId.equalsExp(bookmarkTable.id)),
-    ]);
-    final baseExpr = bookmarkTable.characterId.equals(characterId)
-        & bookmarkTable.type.equalsValue(BookmarkType.material)
-        & bookmarkMaterialDetailsTable.weaponId.equalsNullable(weaponId);
-    final expressions = levels.entries.map((e) {
-      return bookmarkMaterialDetailsTable.purposeType.equalsValue(e.key)
-          & bookmarkMaterialDetailsTable.upperLevel.isSmallerOrEqualValue(e.value);
-    });
+    if (levels.isEmpty) return false;
+
+    final query = _createMaterialJoin();
+    final baseExpr = bookmarkMaterialGroupTable.characterId.equals(characterId)
+        & bookmarkMaterialGroupTable.weaponId.equalsNullable(weaponId);
+    final expressions = levels.entries.map((e) =>
+      bookmarkMaterialGroupTable.purposeType.equalsValue(e.key)
+          & bookmarkMaterialItemTable.upperLevel.isSmallerOrEqualValue(e.value),
+    );
     query.where(baseExpr & Expression.or(expressions));
 
     final toDelete = await query.get();
-    if (toDelete.isEmpty) {
-      return false;
-    }
-    await removeBookmarks(toDelete.map((e) => e.readTable(bookmarkTable).id).toList());
+    if (toDelete.isEmpty) return false;
+
+    await removeMaterialBookmarksByHashes(
+      toDelete.map((e) => e.readTable(bookmarkMaterialItemTable).hash).toList(),
+    );
     return true;
   }
 }
