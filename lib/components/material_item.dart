@@ -9,7 +9,6 @@ import "../i18n/strings.g.dart";
 import "../models/bookmark.dart";
 import "../models/common.dart";
 import "../models/ingredients.dart";
-import "../models/material.dart";
 import "../models/material_bookmark_frame.dart";
 import "../providers/database_provider.dart";
 import "../providers/preferences.dart";
@@ -19,7 +18,7 @@ import "../utils/farm_counts.dart";
 import "material_card.dart";
 
 /// Material item implementation.
-class MaterialItem extends StatefulHookConsumerWidget {
+class MaterialItem extends HookConsumerWidget {
   final MaterialCardMaterial item;
   final MaterialUsage? usage;
   final List<Purpose>? possiblePurposeTypes;
@@ -37,46 +36,44 @@ class MaterialItem extends StatefulHookConsumerWidget {
     this.lackNum,
   })  : assert(hashes != null || (possiblePurposeTypes != null && usage != null));
 
-  @override
-  ConsumerState<MaterialItem> createState() => _MaterialItemState();
-}
-
-class _MaterialItemState extends ConsumerState<MaterialItem> {
-  int _currentExpItemIndex = 0;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    assert(!item.isExp || expItems != null, "expItems must be provided when displaying exp items.");
+
     final db = ref.watch(appDatabaseProvider);
     final (
       adventureRank,
       condensedMultiplier,
       dailyResetServer,
       showFarmCount,
+      showItemNameOnCard,
     ) = ref.watch(preferencesStateProvider.select((s) => (
       s.adventureRank,
       s.condensedMultiplier,
       s.dailyResetServer,
       s.showFarmCount,
+      s.showItemNameOnCard,
     )));
 
     final bookmarkedMaterials = useStream(
       useMemoized(
         () {
-          return widget.hashes == null && widget.usage != null
+          return hashes == null && usage != null
               ? db.watchMaterialBookmarksPartially(
-                  characterId: widget.usage!.characterId,
-                  weaponId: widget.usage!.weaponId,
-                  materialId: widget.item.id,
-                  purposeTypes: widget.possiblePurposeTypes!,
+                  characterId: usage!.characterId,
+                  weaponId: usage!.weaponId,
+                  materialId: item.id,
+                  purposeTypes: possiblePurposeTypes!,
                 )
-              : db.watchMaterialBookmarksByHashes(widget.hashes!);
+              : db.watchMaterialBookmarksByHashes(hashes!);
         },
         [
           db,
-          widget.usage,
-          widget.item.id,
-          const ListEquality().hash(widget.possiblePurposeTypes),
-          widget.hashes,
+          usage,
+          item.id,
+          const ListEquality().hash(possiblePurposeTypes),
+          hashes,
         ],
       ),
     );
@@ -86,61 +83,73 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
       return const SizedBox();
     }
 
-    Material material;
-    int quantity;
-    if (widget.item.isExp) {
-      assert(widget.expItems != null, "expItems must be provided when displaying exp items.");
-      final expItem = widget.expItems![_currentExpItemIndex];
-      material = assetData.materials[expItem.itemId]!;
-      quantity = (widget.item.sum / expItem.expPerItem).ceil();
-    } else {
-      material = widget.item.getMaterial(assetData);
-      quantity = widget.item.sum;
-    }
+    final List<MaterialCardEntry> entries = switch (item.isExp) {
+      true => expItems!.mapIndexed((i, expItem) {
+        final material = assetData.materials[expItem.itemId]!;
+        return MaterialCardEntry(
+          id: expItem.itemId,
+          image: material.getImageFile(assetData.assetDir),
+          name: showItemNameOnCard ? material.name.localized : null,
+          rarity:material.rarity,
+          quantity: (item.sum / expItem.expPerItem).ceil(),
+          // Only show lackNum for the first exp item
+          lackNum: i == 0 ? lackNum : null,
+        );
+      }).toList(),
+      false => () {
+        final material = item.getMaterial(assetData);
+        return [MaterialCardEntry(
+          id: material.id,
+          image: material.getImageFile(assetData.assetDir),
+          name: showItemNameOnCard ? material.name.localized : null,
+          rarity: material.rarity,
+          quantity: item.sum,
+        )];
+      }(),
+    };
 
     final bookmarkState = () {
       if (bookmarkedMaterials.data == null || bookmarkedMaterials.data!.isEmpty) {
         return BookmarkState.none;
       }
-      if (bookmarkedMaterials.data!.length != widget.item.levels.length) {
+      if (bookmarkedMaterials.data!.length != item.levels.length) {
         return BookmarkState.partial;
       }
       return BookmarkState.bookmarked;
     }();
 
+    final referenceMaterial = item.isExp
+        ? assetData.materials[expItems!.first.itemId]!
+        : item.getMaterial(assetData);
+
     final farmCount = showFarmCount
         ? calculateFarmCount(
-            material,
+            referenceMaterial,
             assetData.dropRates,
-            widget.item.sum,
+            item.sum,
             adventureRank,
             condensedMultiplier,
           )
         : null;
 
     return MaterialCard(
-      image: material.getImageFile(assetData.assetDir),
-      name: material.name.localized,
-      showName: ref.watch(preferencesStateProvider).showItemNameOnCard,
-      rarity: material.rarity,
-      quantity: quantity,
-      lackNum: _currentExpItemIndex == 0 ? widget.lackNum : null, // Only show lackNum for the first exp item
+      entries: entries,
       farmCount: farmCount,
-      id: material.id,
       bookmarkState: bookmarkState,
-      dailyMaterialAvailable: material.getDailyMaterialAvailable(dailyResetServer),
-      onBookmark: widget.usage != null ? () async {
+      dailyMaterialAvailable: referenceMaterial
+          .getDailyMaterialAvailable(dailyResetServer),
+      onBookmark: usage != null ? (entryIndex) async {
         final db = ref.read(appDatabaseProvider);
 
         switch (bookmarkState) {
           case BookmarkState.none:
-            await db.addMaterialBookmarks(widget.item.toCompanions(widget.usage!));
+            await db.addMaterialBookmarks(item.toCompanions(usage!));
             break;
           case BookmarkState.partial:
-            final result = await showPartialBookmarkBottomSheet(bookmarkedMaterials.data!);
+            final result = await showPartialBookmarkBottomSheet(bookmarkedMaterials.data!, entryIndex);
             if (result == PartialBookmarkBottomSheetResult.reBookmark) {
               await db.removeMaterialBookmarksByHashes(bookmarkedMaterials.data!.map((e) => e.item.hash).toList());
-              await db.addMaterialBookmarks(widget.item.toCompanions(widget.usage!));
+              await db.addMaterialBookmarks(item.toCompanions(usage!));
             } else if (result == PartialBookmarkBottomSheetResult.remove) {
               await db.removeMaterialBookmarksByHashes(bookmarkedMaterials.data!.map((e) => e.item.hash).toList());
             }
@@ -148,7 +157,7 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
           case BookmarkState.bookmarked:
             await db.removeMaterialBookmarksByHashes(bookmarkedMaterials.data!.map((e) => e.item.hash).toList());
             if (context.mounted) {
-              final companions = widget.item.toCompanions(widget.usage!);
+              final companions = item.toCompanions(usage!);
               showSnackBar(
                 context: context,
                 message: tr.materialCard.unBookmarked,
@@ -163,27 +172,21 @@ class _MaterialItemState extends ConsumerState<MaterialItem> {
             break;
         }
       } : null,
-      onSwapExpItem: widget.item.isExp ? () {
-        setState(() {
-          _currentExpItemIndex = (_currentExpItemIndex + 1) %
-              widget.expItems!.length;
-        });
-      } : null,
     );
   }
 
-  Future<PartialBookmarkBottomSheetResult?> showPartialBookmarkBottomSheet(List<BookmarkWithMaterialDetails> bookmarkedMaterials) async {
+  Future<PartialBookmarkBottomSheetResult?> showPartialBookmarkBottomSheet(List<BookmarkWithMaterialDetails> bookmarkedMaterials, int expItemIndex) async {
     return await showModalBottomSheet<PartialBookmarkBottomSheetResult>(
-      context: context,
+      context: useContext(),
       showDragHandle: true,
       useRootNavigator: true,
       builder: (_) {
         return _PartialBookmarkBottomSheet(
-          materialId: widget.item.id,
+          materialId: item.id,
           bookmarkedMaterials: bookmarkedMaterials,
-          currentQuantity: widget.item.sum,
-          expItems: widget.expItems,
-          expItemIndex: _currentExpItemIndex,
+          currentQuantity: item.sum,
+          expItems: expItems,
+          expItemIndex: expItemIndex,
         );
       },
     );
