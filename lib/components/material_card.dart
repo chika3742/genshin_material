@@ -172,11 +172,7 @@ class MaterialCard extends HookWidget {
                 alignment: Alignment.center,
                 child: IconTheme(
                   data: Theme.of(context).iconTheme.copyWith(
-                    fill: switch (bookmarkState!) {
-                      BookmarkState.bookmarked => 1,
-                      BookmarkState.partial => 1,
-                      BookmarkState.none => 1,
-                    },
+                    fill: 1,
                     color: switch (bookmarkState!) {
                       BookmarkState.bookmarked => Colors.orange,
                       BookmarkState.partial => Colors.lightGreen,

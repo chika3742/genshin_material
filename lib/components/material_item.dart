@@ -9,21 +9,20 @@ import "../db/material_card_to_companions.dart";
 import "../i18n/strings.g.dart";
 import "../models/bookmark.dart";
 import "../models/common.dart";
-import "../models/ingredients.dart";
 import "../models/material_bookmark_frame.dart";
 import "../providers/database_provider.dart";
 import "../providers/preferences.dart";
 import "../providers/versions.dart";
 import "../ui_core/snack_bar.dart";
 import "../utils/farm_counts.dart";
-import "material_card.dart";
+import "asset_inflated_material_card.dart";
 
 /// Material item implementation.
 class MaterialItem extends HookConsumerWidget {
   final MaterialCardMaterial item;
   final MaterialUsage? usage;
   final List<Purpose>? possiblePurposeTypes;
-  final List<ExpItem>? expItems;
+  final MaterialTargetType targetType;
   final List<String>? hashes;
   final int? lackNum;
 
@@ -32,28 +31,24 @@ class MaterialItem extends HookConsumerWidget {
     required this.item,
     this.usage,
     this.possiblePurposeTypes,
-    this.expItems,
+    required this.targetType,
     this.hashes,
     this.lackNum,
   })  : assert(hashes != null || (possiblePurposeTypes != null && usage != null));
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    assert(!item.isExp || expItems != null, "expItems must be provided when displaying exp items.");
-
     final db = ref.watch(appDatabaseProvider);
     final (
       adventureRank,
       condensedMultiplier,
       dailyResetServer,
       showFarmCount,
-      showItemNameOnCard,
     ) = ref.watch(preferencesStateProvider.select((s) => (
       s.adventureRank,
       s.condensedMultiplier,
       s.dailyResetServer,
       s.showFarmCount,
-      s.showItemNameOnCard,
     )));
 
     final bookmarkedMaterials = useStream(
@@ -83,32 +78,6 @@ class MaterialItem extends HookConsumerWidget {
       return const SizedBox();
     }
 
-    final List<MaterialCardEntry> entries = switch (item.isExp) {
-      true => expItems!.mapIndexed((i, expItem) {
-        final material = assetData.materials[expItem.itemId]!;
-        return MaterialCardEntry(
-          id: expItem.itemId,
-          image: material.getImageFile(assetData.assetDir),
-          name: showItemNameOnCard ? material.name.localized : null,
-          rarity: material.rarity,
-          quantity: (item.sum / expItem.expPerItem).ceil(),
-          // Only show lackNum for the first exp item
-          lackNum: i == 0 ? lackNum : null,
-        );
-      }).toList(),
-      false => () {
-        final material = item.getMaterial(assetData);
-        return [MaterialCardEntry(
-          id: material.id,
-          image: material.getImageFile(assetData.assetDir),
-          name: showItemNameOnCard ? material.name.localized : null,
-          rarity: material.rarity,
-          quantity: item.sum,
-          lackNum: lackNum,
-        )];
-      }(),
-    };
-
     final bookmarkState = () {
       if (bookmarkedMaterials.data == null || bookmarkedMaterials.data!.isEmpty) {
         return BookmarkState.none;
@@ -120,7 +89,7 @@ class MaterialItem extends HookConsumerWidget {
     }();
 
     final referenceMaterial = item.isExp
-        ? assetData.materials[expItems!.first.itemId]!
+        ? assetData.materials[targetType.getExpItemConf(assetData).first.itemId]!
         : item.getMaterial(assetData);
 
     final farmCount = showFarmCount
@@ -133,10 +102,13 @@ class MaterialItem extends HookConsumerWidget {
           )
         : null;
 
-    return MaterialCard(
-      entries: entries,
+    return AssetInflatedMaterialCard(
+      materialId: item.id,
+      targetType: targetType,
+      quantity: item.sum,
       farmCount: farmCount,
       bookmarkState: bookmarkState,
+      lackNumForMainItem: lackNum,
       dailyMaterialAvailable: referenceMaterial
           .getDailyMaterialAvailable(dailyResetServer),
       onBookmark: usage != null ? (entryIndex) async {
@@ -190,7 +162,7 @@ class MaterialItem extends HookConsumerWidget {
           materialId: item.id,
           bookmarkedMaterials: bookmarkedMaterials,
           currentQuantity: item.sum,
-          expItems: expItems,
+          targetType: targetType,
           expItemIndex: expItemIndex,
         );
       },
@@ -201,7 +173,7 @@ class MaterialItem extends HookConsumerWidget {
 class _PartialBookmarkBottomSheet extends ConsumerWidget {
   final String? materialId;
   final int expItemIndex;
-  final List<ExpItem>? expItems;
+  final MaterialTargetType targetType;
   final List<BookmarkWithMaterialDetails> bookmarkedMaterials;
   final int currentQuantity;
 
@@ -209,7 +181,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
     required this.materialId,
     required this.bookmarkedMaterials,
     required this.currentQuantity,
-    this.expItems,
+    required this.targetType,
     this.expItemIndex = 0,
   });
 
@@ -220,11 +192,11 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
       return const SizedBox();
     }
 
-    final expItem = (expItems ?? assetData.characterIngredients.expItems)[expItemIndex];
-    final itemId = materialId ?? expItem.itemId;
+    final expConf = targetType.getExpItemConf(assetData)[expItemIndex];
+    final itemId = materialId ?? expConf.itemId;
     int processQuantity(int quantity) {
       if (materialId == null) {
-        return (quantity / expItem.expPerItem).ceil();
+        return (quantity / expConf.expPerItem).ceil();
       }
       return quantity;
     }

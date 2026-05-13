@@ -91,9 +91,9 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
                     return MaterialItem(
                       item: MaterialCardMaterial.fromBookmarks(bookmarks),
                       hashes: bookmarks.map((e) => e.item.hash).toList(),
-                      expItems: bookmarks.first.group.weaponId == null
-                          ? assetData.characterIngredients.expItems
-                          : assetData.weaponIngredients.expItems,
+                      targetType: bookmarks.first.group.weaponId == null
+                          ? .character
+                          : .weapon,
                     );
                   }
                   final headerIndexesIndex = headerIndexes.lastIndexWhere((i) => i <= index);
@@ -132,9 +132,7 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
                               characterId: bookmark.group.characterId,
                               weaponId: bookmark.group.weaponId,
                             ),
-                            expItems: bookmark.group.weaponId == null
-                                ? assetData.characterIngredients.expItems
-                                : assetData.weaponIngredients.expItems,
+                            targetType: .fromWeaponNullity(bookmark.group.weaponId),
                             hashes: [bookmark.item.hash],
                           ),
                         ),

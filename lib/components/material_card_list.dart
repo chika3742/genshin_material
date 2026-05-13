@@ -52,7 +52,11 @@ class MaterialCardList extends HookConsumerWidget {
             key: ValueKey(item.id),
             item: item,
             possiblePurposeTypes: purposes,
-            expItems: ingredientConf.expItems,
+            targetType: switch (target) {
+              CharacterOrVariant() => .character,
+              Weapon() => .weapon,
+              _ => throw StateError("Unreachable"),
+            },
             lackNum: calculateLackNum(
               ingredientConf,
               lackNums,
@@ -68,7 +72,7 @@ class MaterialCardList extends HookConsumerWidget {
                 characterId: wSelectedCharacter!,
                 weaponId: id,
               ),
-              _ => throw Exception("Unreachable"),
+              _ => throw StateError("Unreachable"),
             },
           ),
       ],
