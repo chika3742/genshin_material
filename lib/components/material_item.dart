@@ -182,7 +182,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
     required this.bookmarkedMaterials,
     required this.currentQuantity,
     required this.targetType,
-    this.expItemIndex = 0,
+    required this.expItemIndex,
   });
 
   @override
