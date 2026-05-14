@@ -50,6 +50,7 @@ jobs:
           #   --system-prompt "Follow our coding standards. Ensure all new code has tests. Use TypeScript for new files."
           claude_args: |
             --allowedTools "mcp__github_inline_comment__create_inline_comment"
+            --system-prompt "レビュー依頼された場合、コードに関するコメントはインラインコメントで送信してください。"
 
           # Optional: Advanced settings configuration
           # settings: |
