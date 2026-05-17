@@ -59,7 +59,8 @@ class MaterialCardMaterial {
     );
   }
 
-  Material getMaterial(AssetData assetData) => assetData.materials[id]!;
+  Material getMaterial(AssetData assetData) =>
+      assetData.materials[id] ?? (throw StateError("Material not found for id: $id"));
 
   int getSortPriority(AssetData assetData) {
     return isExp ? 0 : getMaterial(assetData).getSortPriority(assetData);
