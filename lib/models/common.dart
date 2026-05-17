@@ -2,7 +2,9 @@ import "dart:io";
 
 import "package:path/path.dart" as path;
 
+import "../core/asset_cache.dart";
 import "../main.dart";
+import "ingredients.dart";
 import "localized_text.dart";
 
 const dataSchemaVersion = 6;
@@ -94,4 +96,19 @@ enum BookmarkType {
   artifactSet,
   artifactPiece,
   ;
+}
+
+enum MaterialTargetType {
+  character,
+  weapon;
+
+  factory MaterialTargetType.fromWeaponNullity(Object? weaponId) =>
+      weaponId == null ? .character : .weapon;
+
+  List<ExpItem> getExpItemConf(AssetData assetData) {
+    return switch (this) {
+          .character => assetData.characterIngredients.expItems,
+          .weapon => assetData.weaponIngredients.expItems,
+    };
+  }
 }

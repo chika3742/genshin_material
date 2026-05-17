@@ -42,8 +42,8 @@ String toString() {
 /// @nodoc
 
 
-class _MaterialBookmarkFrame implements MaterialBookmarkFrame {
-  const _MaterialBookmarkFrame({required this.materialId, required this.level, required this.quantity, required this.purposeType});
+class MaterialBookmarkFrameNormal implements MaterialBookmarkFrame {
+  const MaterialBookmarkFrameNormal({required this.materialId, required this.level, required this.quantity, required this.purposeType});
   
 
 @override final  String materialId;
@@ -56,7 +56,7 @@ class _MaterialBookmarkFrame implements MaterialBookmarkFrame {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MaterialBookmarkFrame&&(identical(other.materialId, materialId) || other.materialId == materialId)&&(identical(other.level, level) || other.level == level)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.purposeType, purposeType) || other.purposeType == purposeType));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialBookmarkFrameNormal&&(identical(other.materialId, materialId) || other.materialId == materialId)&&(identical(other.level, level) || other.level == level)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.purposeType, purposeType) || other.purposeType == purposeType));
 }
 
 

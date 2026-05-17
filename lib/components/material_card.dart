@@ -11,54 +11,65 @@ import "../core/theme.dart";
 import "../models/common.dart";
 import "../routes.dart";
 
-class MaterialCard extends StatelessWidget {
-  /// Image file of the material.
+class MaterialCardEntry {
+  /// Material ID for the link to material detail page.
+  final String id;
+
+  /// Image of the material.
   final File image;
 
-  /// Name of the material.
-  final String name;
-
-  final bool showName;
+  /// Name of the material. If null, the name won't be shown.
+  final String? name;
 
   /// Rarity of the material.
   final int? rarity;
 
   final int quantity;
 
+  /// If null, this value won't be shown.
   final int? lackNum;
 
-  final int? farmCount;
+  const MaterialCardEntry({
+    required this.id,
+    required this.image,
+    required this.name,
+    required this.rarity,
+    required this.quantity,
+    this.lackNum,
+  });
+}
 
-  /// Material ID for linking to the material details.
-  final String id;
+class MaterialCard extends HookWidget {
+  final List<MaterialCardEntry> entries;
+
+  final int? farmCount;
 
   final BookmarkState? bookmarkState;
 
   final bool dailyMaterialAvailable;
 
   /// Callback for bookmarking the material.
-  final void Function()? onBookmark;
-
-  final void Function()? onSwapExpItem;
+  final void Function(int entryIndex)? onBookmark;
 
   const MaterialCard({
     super.key,
-    required this.image,
-    required this.name,
-    this.showName = true,
-    this.rarity,
-    required this.quantity,
-    required this.id,
-    this.lackNum,
+    required this.entries,
     this.farmCount,
     this.bookmarkState,
     this.dailyMaterialAvailable = false,
     this.onBookmark,
-    this.onSwapExpItem,
   });
 
   @override
   Widget build(BuildContext context) {
+    assert(entries.isNotEmpty);
+
+    final currentMaterialIndex = useState(0);
+    final material = entries[currentMaterialIndex.value];
+    void swapMaterial() {
+      currentMaterialIndex.value = (currentMaterialIndex.value + 1) % entries.length;
+    }
+
     return SizedBox(
       height: 60,
       child: Card(
@@ -66,14 +77,14 @@ class MaterialCard extends StatelessWidget {
         child: Stack(
           children: [
             // rarity marker
-            if (rarity != null)
+            if (material.rarity case final rarity?)
               SizedBox(
                 width: 6,
                 height: 60,
                 child: CustomPaint(
                   painter: _RarityCornerMarkerPainter(
                     Theme.of(context).extension<ComponentThemeExtension>()!
-                        .getRarityColor(rarity!).withValues(alpha: 0.8),
+                        .getRarityColor(rarity).withValues(alpha: 0.8),
                   ),
                 ),
               ),
@@ -81,16 +92,16 @@ class MaterialCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (onSwapExpItem != null) IconButton(
+                if (entries.length >= 2) IconButton(
                   padding: EdgeInsets.zero,
                   icon: const Icon(Symbols.swap_horiz),
-                  onPressed: onSwapExpItem,
+                  onPressed: swapMaterial,
                 ),
                 Flexible(
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8.0),
                     onTap: () {
-                      MaterialDetailsRoute(id: id).push(context);
+                      MaterialDetailsRoute(id: material.id).push(context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -99,8 +110,8 @@ class MaterialCard extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.file(image, width: 35, height: 35),
-                          if (showName) Flexible(
+                          Image.file(material.image, width: 35, height: 35),
+                          if (material.name case final name?) Flexible(
                             child: Text(name, style: const TextStyle(fontSize: 16)),
                           ),
                           if (dailyMaterialAvailable)
@@ -111,15 +122,15 @@ class MaterialCard extends StatelessWidget {
                             spacing: -4.0,
                             children: [
                               Flexible(
-                                child: FittedBox(child: _AnimatedQuantity(quantity)),
+                                child: FittedBox(child: _AnimatedQuantity(material.quantity)),
                               ),
-                              if (lackNum != null)
+                              if (material.lackNum case final lackNum?)
                                 Flexible(
                                   child: Row(
                                     spacing: 4.0,
                                     children: [
                                       Icon(Symbols.shopping_bag, size: 18),
-                                      FittedBox(child: _buildLackNumIndicator()!),
+                                      FittedBox(child: _buildLackNumIndicator(lackNum)),
                                     ],
                                   ),
                                 ),
@@ -161,11 +172,7 @@ class MaterialCard extends StatelessWidget {
                 alignment: Alignment.center,
                 child: IconTheme(
                   data: Theme.of(context).iconTheme.copyWith(
-                    fill: switch (bookmarkState!) {
-                      BookmarkState.bookmarked => 1,
-                      BookmarkState.partial => 1,
-                      BookmarkState.none => 1,
-                    },
+                    fill: 1,
                     color: switch (bookmarkState!) {
                       BookmarkState.bookmarked => Colors.orange,
                       BookmarkState.partial => Colors.lightGreen,
@@ -178,7 +185,9 @@ class MaterialCard extends StatelessWidget {
                       BookmarkState.partial => Symbols.bookmark_remove,
                       BookmarkState.none => Symbols.bookmark_add,
                     }),
-                    onPressed: onBookmark,
+                    onPressed: () {
+                      onBookmark!(currentMaterialIndex.value);
+                    },
                   ),
                 ),
               ),
@@ -189,18 +198,14 @@ class MaterialCard extends StatelessWidget {
     );
   }
 
-  Widget? _buildLackNumIndicator() {
-    if (lackNum == null) return null;
-
-    if (lackNum! <= 0) {
+  Widget _buildLackNumIndicator(int lackNum) {
+    if (lackNum <= 0) {
       return Icon(Symbols.check, weight: 700, size: 22, color: Colors.green);
     }
 
     return DefaultTextStyle(
-      style: TextStyle(
-        color: lackNum! > 0 ? Colors.red : Colors.green,
-      ),
-      child: _AnimatedQuantity(-lackNum!, showCross: false),
+      style: TextStyle(color: Colors.red),
+      child: _AnimatedQuantity(-lackNum, showCross: false),
     );
   }
 }

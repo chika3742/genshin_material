@@ -21,7 +21,6 @@ class BookmarksPurposeGroupedTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(purposeGroupedBookmarkListViewModelProvider);
-    final assetData = ref.watch(assetDataProvider).requireValue;
 
     if (state.groups.isEmpty) {
       return CenterText(tr.bookmarksPage.noBookmarks);
@@ -53,9 +52,7 @@ class BookmarksPurposeGroupedTab extends ConsumerWidget {
                         weaponId: items.first.group.weaponId,
                       ),
                       hashes: items.map((e) => e.item.hash).toList(),
-                      expItems: items.first.group.weaponId == null
-                          ? assetData.characterIngredients.expItems
-                          : assetData.weaponIngredients.expItems,
+                      targetType: .fromWeaponNullity(items.first.group.weaponId),
                     ),
                   IconButton(
                     icon: const Icon(Symbols.expand_content),

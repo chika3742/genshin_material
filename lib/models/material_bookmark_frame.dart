@@ -1,7 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
-import "../utils/hash.dart";
 import "bookmark.dart";
 import "common.dart";
 import "material.dart";
@@ -12,10 +11,29 @@ class MaterialCardMaterial {
   final String? id;
   final List<MaterialBookmarkFrame> levels;
 
+  /// Sum of all quantities (non-exp items) or exps.
+  final int sum;
+
+  final bool isExp;
+
   MaterialCardMaterial({
     this.id,
-    required this.levels,
-  });
+    required List<MaterialBookmarkFrame> levels,
+  }) : levels = List.unmodifiable(levels),
+       sum = levels.fold<int>(
+         0,
+         (prev, level) => prev + switch (level) {
+           MaterialBookmarkFrameNormal(:final quantity) => quantity,
+           MaterialBookmarkFrameExp(:final exp) => exp,
+         },
+       ),
+       isExp = levels.every((e) => e is MaterialBookmarkFrameExp) {
+    assert(levels.isNotEmpty);
+    assert(
+      (id == null) == levels.every((l) => l is MaterialBookmarkFrameExp),
+      "id must be null if and only if all levels are exp frames",
+    );
+  }
 
   factory MaterialCardMaterial.fromBookmarks(List<BookmarkWithMaterialDetails> bookmarks) {
     assert(bookmarks.isNotEmpty);
@@ -41,64 +59,11 @@ class MaterialCardMaterial {
     );
   }
 
-  int? _sum;
-  Material? _material;
-
-  /// Sum of all quantities (non-exp items) or exps.
-  int get sum => _sum ??= levels.fold<int>(
-        0,
-        (prev, level) =>
-            prev +
-            switch (level) {
-              _MaterialBookmarkFrame(:final quantity) => quantity,
-              MaterialBookmarkFrameExp(:final exp) => exp,
-            },
-      );
-
-  bool get isExp => levels.every((e) => e is MaterialBookmarkFrameExp);
-
-  Material getMaterial(AssetData assetData) {
-    if (_material != null) {
-      return _material!;
-    }
-
-    final result = assetData.materials[id];
-    if (result == null) {
-      throw "Material not found for id: $id";
-    }
-    return _material = result;
-  }
+  Material getMaterial(AssetData assetData) =>
+      assetData.materials[id] ?? (throw StateError("Material not found for id: $id"));
 
   int getSortPriority(AssetData assetData) {
     return isExp ? 0 : getMaterial(assetData).getSortPriority(assetData);
-  }
-
-  List<String> getHashList(MaterialUsage usage) {
-    return levels.map((level) {
-      return combineMaterialBookmarkElements(
-        usage.characterId,
-        level.purposeType,
-        usage.weaponId,
-        id,
-        level.level,
-      );
-    }).toList();
-  }
-
-  List<MaterialBookmarkInsertable> toCompanions(MaterialUsage usage) {
-    return levels.map((level) {
-      return MaterialBookmarkInsertable(
-        characterId: usage.characterId,
-        materialId: id,
-        weaponId: usage.weaponId,
-        purposeType: level.purposeType,
-        quantity: switch (level) {
-          _MaterialBookmarkFrame(:final quantity) => quantity,
-          MaterialBookmarkFrameExp(:final exp) => exp,
-        },
-        upperLevel: level.level,
-      );
-    }).toList();
   }
 }
 
@@ -109,7 +74,7 @@ sealed class MaterialBookmarkFrame with _$MaterialBookmarkFrame {
     required int level,
     required int quantity,
     required Purpose purposeType,
-  }) = _MaterialBookmarkFrame;
+  }) = MaterialBookmarkFrameNormal;
 
   const factory MaterialBookmarkFrame.exp({
     @Default(null) String? materialId,

@@ -74,9 +74,7 @@ class PurposeBookmarkDetailBottomSheet extends StatelessWidget {
                               characterId: item.group.characterId,
                               weaponId: item.group.weaponId,
                             ),
-                            expItems: item.group.weaponId == null
-                                ? assetData.characterIngredients.expItems
-                                : assetData.weaponIngredients.expItems,
+                            targetType: .fromWeaponNullity(item.group.weaponId),
                             hashes: [item.item.hash],
                           ),
                       ],

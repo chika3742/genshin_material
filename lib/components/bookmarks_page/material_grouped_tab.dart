@@ -4,7 +4,6 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../i18n/strings.g.dart";
 import "../../models/material_bookmark_frame.dart";
-import "../../providers/versions.dart";
 import "../../ui_core/snack_bar.dart";
 import "../../view_models/bookmarks/material_grouped_bookmark_list_view_model.dart";
 import "../center_text.dart";
@@ -16,7 +15,6 @@ class BookmarksMaterialGroupedTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetData = ref.watch(assetDataProvider).requireValue;
     final state = ref.watch(materialGroupedBookmarkListViewModelProvider);
     final entries = state.materials.entries.toList();
 
@@ -40,9 +38,7 @@ class BookmarksMaterialGroupedTab extends ConsumerWidget {
                 child: MaterialItem(
                   item: MaterialCardMaterial.fromBookmarks(bookmarks),
                   hashes: bookmarks.map((e) => e.item.hash).toList(),
-                  expItems: bookmarks.first.group.weaponId == null
-                      ? assetData.characterIngredients.expItems
-                      : assetData.weaponIngredients.expItems,
+                  targetType: .fromWeaponNullity(bookmarks.first.group.weaponId),
                 ),
               ),
               Row(
