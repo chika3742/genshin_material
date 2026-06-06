@@ -213,18 +213,6 @@ class LevelSlider extends HookWidget {
               }
             },
           ),
-          const Spacer(),
-          IconButton(
-            key: helpButtonKey,
-            icon: const Icon(Symbols.help),
-            onPressed: () {
-              showModalBubbleText(
-                context: context,
-                targetKey: helpButtonKey,
-                text: tr.common.sliderTips,
-              );
-            },
-          ),
         ],
       ),
     );

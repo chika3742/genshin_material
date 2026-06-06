@@ -195,9 +195,6 @@ class TranslationsCommonJa {
 	/// ja: 'なし'
 	String get none => 'なし';
 
-	/// ja: 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。'
-	String get sliderTips => 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。';
-
 	/// ja: '選択中: $character'
 	String selected({required Object character}) => '選択中: ${character}';
 
@@ -1057,7 +1054,6 @@ extension on Translations {
 			'common.bookmarkSaved' => 'ブックマークしました',
 			'common.removedObsoleteBookmarks' => '育成完了のブックマークを解除しました',
 			'common.none' => 'なし',
-			'common.sliderTips' => 'スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。',
 			'common.selected' => ({required Object character}) => '選択中: ${character}',
 			'common.possession' => '所持',
 			'common.possessionStatus.owned' => '所持',

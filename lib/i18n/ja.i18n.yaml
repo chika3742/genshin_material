@@ -34,7 +34,6 @@ common:
   bookmarkSaved: ブックマークしました
   removedObsoleteBookmarks: 育成完了のブックマークを解除しました
   none: なし
-  sliderTips: スライダーが反応しづらい場合、丸い部分を長押ししたままスライドするか、選択範囲の外側をスライドするとスムーズに操作できます。
   selected: "選択中: $character"
   possession: 所持
   possessionStatus(map):

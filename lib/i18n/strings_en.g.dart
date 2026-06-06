@@ -155,7 +155,6 @@ class _TranslationsCommonEn extends TranslationsCommonJa {
 	@override String get bookmarkSaved => 'Bookmark saved';
 	@override String get removedObsoleteBookmarks => 'Removed bookmarks for completed ascensions.';
 	@override String get none => 'None';
-	@override String get sliderTips => 'If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.';
 	@override String selected({required Object character}) => 'Selected: ${character}';
 	@override String get possession => 'Possession';
 	@override Map<String, String> get possessionStatus => {
@@ -612,7 +611,6 @@ extension on TranslationsEn {
 			'common.bookmarkSaved' => 'Bookmark saved',
 			'common.removedObsoleteBookmarks' => 'Removed bookmarks for completed ascensions.',
 			'common.none' => 'None',
-			'common.sliderTips' => 'If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.',
 			'common.selected' => ({required Object character}) => 'Selected: ${character}',
 			'common.possession' => 'Possession',
 			'common.possessionStatus.owned' => 'Owned',
