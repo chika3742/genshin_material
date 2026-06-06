@@ -33,7 +33,7 @@ class HoyolabApi {
   final String? region;
   final String? uid;
 
-  static const hoyolabAppVersion = "3.12.0";
+  static const hoyolabAppVersion = "4.13.0";
 
   static final queue = ApiRequestQueue(
     interval: const Duration(milliseconds: 500),
@@ -65,7 +65,7 @@ class HoyolabApi {
   }
 
   Future<VerifyLTokenResult> verifyLToken() async {
-    const url = "https://sg-public-api.hoyolab.com/account/ma-passport/token/verifyLToken";
+    const url = "https://passport-api-sg.hoyolab.com/account/ma-passport/token/verifyLToken";
 
     _ensureRequiredParams(params: [HoyolabApiParams.cookie]);
 
@@ -80,7 +80,7 @@ class HoyolabApi {
   Future<AvatarListResult> avatarList(int page, {List<int> elementIds = const [], List<int> weaponCatIds = const []}) {
     _ensureRequiredParams();
 
-    const url = "https://sg-public-api.hoyolab.com/event/e20200928calculate/v1/sync/avatar/list";
+    const url = "https://sg-act-public-api.hoyolab.com/event/e20200928calculate/v1/sync/avatar/list";
     return _errorHandledThen(
       client.post(
         Uri.parse(url),
@@ -129,7 +129,7 @@ class HoyolabApi {
   }
 
   Future<void> changeDataSwitch(DataSwitchType switchType, bool value) {
-    const url = "https://sg-public-api.hoyolab.com/event/game_record/app/card/wapi/changeDataSwitch";
+    const url = "https://sg-act-public-api.hoyolab.com/event/game_record/app/card/wapi/changeDataSwitch";
     final sw = DataSwitchMetadata(switchId: switchType, isPublic: value);
     final body = jsonEncode({
       "game_id": 2,
@@ -151,7 +151,7 @@ class HoyolabApi {
   Future<DailyNote> getDailyNote() {
     _ensureRequiredParams();
 
-    const url = "https://sg-public-api.hoyolab.com/game_record/app/genshin/api/dailyNote";
+    const url = "https://bbs-api-os.hoyolab.com/game_record/app/genshin/api/dailyNote";
 
     final queryParameters = {
       "role_id": uid!,
@@ -175,7 +175,7 @@ class HoyolabApi {
   Future<CalcResult> batchCompute(List<CalcComputeItem> items) async {
     _ensureRequiredParams();
 
-    const endpoint = "https://sg-public-api.hoyolab.com/event/e20200928calculate/v3/batch_compute";
+    const endpoint = "https://sg-act-public-api.hoyolab.com/event/e20200928calculate/v3/batch_compute";
 
     final body = jsonEncode({
       "items": items.map((e) => e.toJson()).toList(),
