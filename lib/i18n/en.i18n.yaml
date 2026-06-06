@@ -37,7 +37,6 @@ common:
   bookmarkSaved: Bookmark saved
   removedObsoleteBookmarks: Removed bookmarks for completed ascensions.
   none: None
-  sliderTips: If the slider is unresponsive, try long-pressing the handle and sliding, or sliding outside the selection range for smoother operation.
   selected: "Selected: $character"
   possession: Possession
   possessionStatus(map): 
