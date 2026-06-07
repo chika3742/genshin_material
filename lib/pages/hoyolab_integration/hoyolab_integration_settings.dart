@@ -82,10 +82,17 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                 title: tr.common.signOut,
                 content: tr.hoyolab.signOutConfirm,
                 showCancel: true,
-                onOkPressed: () {
+                onOkPressed: () async {
                   if (ref.context.mounted) {
-                    ref.read(preferencesStateProvider.notifier).clearHoyolabCredential();
-                    isSignedIn.value = false;
+                    showLoadingModal(context);
+                    try {
+                      await ref.read(preferencesStateProvider.notifier).clearHoyolabCredential();
+                      isSignedIn.value = false;
+                    } finally {
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                      }
+                    }
                   }
                 },
               );

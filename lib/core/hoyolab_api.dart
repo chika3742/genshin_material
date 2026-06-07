@@ -77,6 +77,18 @@ class HoyolabApi {
     return HoyolabApiResult.fromJson(const JsonCodec().decode(result.body), (obj) => HyvUserInfo.fromJson((obj as Map<String, dynamic>)["user_info"]));
   }
 
+  Future<void> logout() async {
+    const url = "https://passport-api-sg.hoyolab.com/account/ma-passport/api/logout";
+
+    _ensureRequiredParams(params: [HoyolabApiParams.cookie]);
+
+    await client.post(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonEncode({}),
+    );
+  }
+
   Future<AvatarListResult> avatarList(int page, {List<int> elementIds = const [], List<int> weaponCatIds = const []}) {
     _ensureRequiredParams();
 
