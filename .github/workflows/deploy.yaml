@@ -30,6 +30,7 @@ jobs:
       build-name: ${{ needs.build-attr.outputs.build_name }}
       build-number: ${{ needs.build-attr.outputs.build_num }}
       build-options: "--dart-define=ASSET_CHANNEL=${{ needs.build-attr.outputs.asset_channel }}"
+      xcode-version: '26.5'
     secrets:
       provisioning_profile_1_base64: ${{ secrets.APPLE_PROVISIONING_PROFILE_BASE64 }}
       codesign_cert_base64: ${{ secrets.APPLE_DIST_CERT_BASE64 }}
