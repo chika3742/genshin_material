@@ -1,9 +1,9 @@
 # コピー用改行
 
 - releasedOn: 2026/06/07
-  version: 4.7.5
+  version: 4.7.6
   contents: |
-    # 不具合修正
+    # 緊急修正
     - 樹脂数を同期できない不具合を修正しました。
 
 - releasedOn: 2026/04/10
