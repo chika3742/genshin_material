@@ -7,7 +7,7 @@ import "../main.dart";
 import "ingredients.dart";
 import "localized_text.dart";
 
-const dataSchemaVersion = 6;
+const dataSchemaVersion = 7;
 
 typedef CharacterId = String;
 typedef WeaponId = String;
