@@ -3,6 +3,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../constants/remote_config_key.dart";
+import "../core/hoyolab_api.dart";
 import "../core/kv_preferences.dart";
 import "../core/secure_storage.dart";
 import "../main.dart";
@@ -53,6 +54,7 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
   }
 
   Future<void> clearHoyolabCredential() async {
+    await HoyolabApi(cookie: await getHoyolabCookie()).logout();
     await deleteHoyolabCookie();
     await state.pref.hyvServer.setValue(null);
     await state.pref.hyvServerName.setValue(null);
