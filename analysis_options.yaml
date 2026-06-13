@@ -11,6 +11,9 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   exclude:
+    - build
+    - ios
+    - android
     - lib/**.g.dart
     - lib/**.freezed.dart
 
