@@ -6,7 +6,7 @@ import "localized_text.dart";
 part "drop_rates.g.dart";
 part "drop_rates.freezed.dart";
 
-@freezed
+@Freezed(toJson: false)
 sealed class DropRateEntry with _$DropRateEntry {
   const DropRateEntry._();
 

@@ -17,8 +17,6 @@ mixin _$Furnishing {
 
  String get id; int get hyvId; LocalizedText get name; String get jaPronunciation; String get imageUrl; ItemSource? get source;
 
-  /// Serializes this Furnishing to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -43,7 +41,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _Furnishing extends Furnishing {
   const _Furnishing({required this.id, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, this.source}): super._();
@@ -57,10 +55,7 @@ class _Furnishing extends Furnishing {
 @override final  ItemSource? source;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$FurnishingToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -88,8 +83,6 @@ mixin _$FurnishingSetMeta {
 
  Map<FurnishingSetTypeId, LocalizedText> get setTypes;
 
-  /// Serializes this FurnishingSetMeta to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -114,7 +107,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _FurnishingSetMeta implements FurnishingSetMeta {
   const _FurnishingSetMeta({required final  Map<FurnishingSetTypeId, LocalizedText> setTypes}): _setTypes = setTypes;
@@ -129,10 +122,7 @@ class _FurnishingSetMeta implements FurnishingSetMeta {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$FurnishingSetMetaToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -227,8 +217,6 @@ mixin _$FurnishingSet {
 
  String get id; int get hyvId; LocalizedText get name; String get jaPronunciation; String get imageUrl; String get type; List<int> get favoriteCharacterHyvIds; List<FurnishingSetComponent> get consistsOf;
 
-  /// Serializes this FurnishingSet to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -253,7 +241,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _FurnishingSet extends FurnishingSet {
   const _FurnishingSet({required this.id, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.type, required final  List<int> favoriteCharacterHyvIds, required final  List<FurnishingSetComponent> consistsOf}): _favoriteCharacterHyvIds = favoriteCharacterHyvIds,_consistsOf = consistsOf,super._();
@@ -281,10 +269,7 @@ class _FurnishingSet extends FurnishingSet {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$FurnishingSetToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {

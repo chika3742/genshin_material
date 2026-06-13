@@ -7,7 +7,7 @@ import "material.dart";
 part "weapon.freezed.dart";
 part "weapon.g.dart";
 
-@freezed
+@Freezed(toJson: false)
 sealed class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon, Searchable {
   const Weapon._();
 
@@ -30,7 +30,7 @@ sealed class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon, Searchable {
       _$WeaponFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class WeaponsMeta with _$WeaponsMeta {
   const factory WeaponsMeta({
     required Map<WeaponSubStat, LocalizedText> subStats,
@@ -41,7 +41,7 @@ sealed class WeaponsMeta with _$WeaponsMeta {
       _$WeaponsMetaFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class WeaponTypeInfo with _$WeaponTypeInfo {
   const factory WeaponTypeInfo({
     required int hyvId,

@@ -24,22 +24,6 @@ _Material _$MaterialFromJson(Map<String, dynamic> json) => _Material(
       : ItemSource.fromJson(json['source'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$MaterialToJson(_Material instance) => <String, dynamic>{
-  'id': instance.id,
-  'hyvId': instance.hyvId,
-  'name': instance.name,
-  'jaPronunciation': instance.jaPronunciation,
-  'imageUrl': instance.imageUrl,
-  'rarity': instance.rarity,
-  'category': instance.category,
-  'groupId': instance.groupId,
-  'craftLevel': instance.craftLevel,
-  'availableDays': instance.availableDays
-      ?.map((e) => _$DayOfWeekEnumMap[e]!)
-      .toList(),
-  'source': instance.source,
-};
-
 const _$DayOfWeekEnumMap = {
   DayOfWeek.monday: 'monday',
   DayOfWeek.tuesday: 'tuesday',
@@ -57,22 +41,11 @@ TeyvatMapItemSource _$TeyvatMapItemSourceFromJson(Map<String, dynamic> json) =>
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$TeyvatMapItemSourceToJson(
-  TeyvatMapItemSource instance,
-) => <String, dynamic>{
-  'typeId': instance.typeId,
-  'center': instance.center,
-  'runtimeType': instance.$type,
-};
-
 TextItemSource _$TextItemSourceFromJson(Map<String, dynamic> json) =>
     TextItemSource(
       text: LocalizedText.fromJson(json['text'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
-
-Map<String, dynamic> _$TextItemSourceToJson(TextItemSource instance) =>
-    <String, dynamic>{'text': instance.text, 'runtimeType': instance.$type};
 
 SourceListItemSource _$SourceListItemSourceFromJson(
   Map<String, dynamic> json,
@@ -82,10 +55,6 @@ SourceListItemSource _$SourceListItemSourceFromJson(
       .toList(),
   $type: json['runtimeType'] as String?,
 );
-
-Map<String, dynamic> _$SourceListItemSourceToJson(
-  SourceListItemSource instance,
-) => <String, dynamic>{'list': instance.list, 'runtimeType': instance.$type};
 
 _MaterialsMeta _$MaterialsMetaFromJson(Map<String, dynamic> json) =>
     _MaterialsMeta(
@@ -103,15 +72,6 @@ _MaterialsMeta _$MaterialsMetaFromJson(Map<String, dynamic> json) =>
             ),
           ),
     );
-
-Map<String, dynamic> _$MaterialsMetaToJson(
-  _MaterialsMeta instance,
-) => <String, dynamic>{
-  'categories': instance.categories,
-  'sortOrder': instance.sortOrder,
-  'daily': instance.daily,
-  'specialCharactersUsingMaterials': instance.specialCharactersUsingMaterials,
-};
 
 _DailyMaterials _$DailyMaterialsFromJson(Map<String, dynamic> json) =>
     _DailyMaterials(
@@ -133,9 +93,6 @@ _DailyMaterials _$DailyMaterialsFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$DailyMaterialsToJson(_DailyMaterials instance) =>
-    <String, dynamic>{'talent': instance.talent, 'weapon': instance.weapon};
-
 _DailyMaterial _$DailyMaterialFromJson(Map<String, dynamic> json) =>
     _DailyMaterial(
       description: LocalizedText.fromJson(
@@ -143,9 +100,3 @@ _DailyMaterial _$DailyMaterialFromJson(Map<String, dynamic> json) =>
       ),
       items: (json['items'] as List<dynamic>).map((e) => e as String).toList(),
     );
-
-Map<String, dynamic> _$DailyMaterialToJson(_DailyMaterial instance) =>
-    <String, dynamic>{
-      'description': instance.description,
-      'items': instance.items,
-    };

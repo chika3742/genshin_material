@@ -17,8 +17,6 @@ mixin _$Material {
 
  String get id; int get hyvId; LocalizedText get name; String get jaPronunciation; String get imageUrl; int get rarity; String get category; String? get groupId; int? get craftLevel; List<DayOfWeek>? get availableDays; ItemSource? get source;
 
-  /// Serializes this Material to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -43,7 +41,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _Material extends Material {
   const _Material({required this.id, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.rarity, required this.category, this.groupId, this.craftLevel, final  List<DayOfWeek>? availableDays, this.source}): _availableDays = availableDays,super._();
@@ -70,10 +68,7 @@ class _Material extends Material {
 @override final  ItemSource? source;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$MaterialToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -128,8 +123,6 @@ mixin _$ItemSource {
 
 
 
-  /// Serializes this ItemSource to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -154,7 +147,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class TeyvatMapItemSource implements ItemSource {
   const TeyvatMapItemSource({required this.typeId, this.center, final  String? $type}): $type = $type ?? 'teyvatMap';
@@ -168,10 +161,7 @@ final String $type;
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$TeyvatMapItemSourceToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -194,7 +184,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class TextItemSource implements ItemSource {
   const TextItemSource({required this.text, final  String? $type}): $type = $type ?? 'text';
@@ -207,10 +197,7 @@ final String $type;
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$TextItemSourceToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -233,7 +220,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class SourceListItemSource implements ItemSource {
   const SourceListItemSource({required final  List<LocalizedText> list, final  String? $type}): _list = list,$type = $type ?? 'sourceList';
@@ -252,10 +239,7 @@ final String $type;
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$SourceListItemSourceToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -283,8 +267,6 @@ mixin _$MaterialsMeta {
 
  Map<MaterialCategoryType, LocalizedText> get categories; Map<String, int> get sortOrder; DailyMaterials get daily; Map<MaterialId, List<CharacterId>> get specialCharactersUsingMaterials;
 
-  /// Serializes this MaterialsMeta to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -309,7 +291,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _MaterialsMeta implements MaterialsMeta {
   const _MaterialsMeta({required final  Map<MaterialCategoryType, LocalizedText> categories, required final  Map<String, int> sortOrder, required this.daily, required final  Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials}): _categories = categories,_sortOrder = sortOrder,_specialCharactersUsingMaterials = specialCharactersUsingMaterials;
@@ -339,10 +321,7 @@ class _MaterialsMeta implements MaterialsMeta {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$MaterialsMetaToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -370,8 +349,6 @@ mixin _$DailyMaterials {
 
  Map<String, List<DailyMaterial>> get talent; Map<String, List<DailyMaterial>> get weapon;
 
-  /// Serializes this DailyMaterials to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -396,7 +373,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _DailyMaterials implements DailyMaterials {
   const _DailyMaterials({required final  Map<String, List<DailyMaterial>> talent, required final  Map<String, List<DailyMaterial>> weapon}): _talent = talent,_weapon = weapon;
@@ -418,10 +395,7 @@ class _DailyMaterials implements DailyMaterials {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$DailyMaterialsToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -449,8 +423,6 @@ mixin _$DailyMaterial {
 
  LocalizedText get description; List<String> get items;
 
-  /// Serializes this DailyMaterial to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -475,7 +447,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _DailyMaterial implements DailyMaterial {
   const _DailyMaterial({required this.description, required final  List<String> items}): _items = items;
@@ -491,10 +463,7 @@ class _DailyMaterial implements DailyMaterial {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$DailyMaterialToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {

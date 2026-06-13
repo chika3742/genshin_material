@@ -8,7 +8,7 @@ import "localized_text.dart";
 part "material.freezed.dart";
 part "material.g.dart";
 
-@freezed
+@Freezed(toJson: false)
 sealed class Material with _$Material, ImageGetter, Searchable {
   const Material._();
 
@@ -44,7 +44,7 @@ sealed class Material with _$Material, ImageGetter, Searchable {
   }
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class ItemSource with _$ItemSource {
   const factory ItemSource.teyvatMap({
     required String typeId,
@@ -63,7 +63,7 @@ sealed class ItemSource with _$ItemSource {
       _$ItemSourceFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class MaterialsMeta with _$MaterialsMeta {
   const factory MaterialsMeta({
     required Map<MaterialCategoryType, LocalizedText> categories,
@@ -76,7 +76,7 @@ sealed class MaterialsMeta with _$MaterialsMeta {
       _$MaterialsMetaFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class DailyMaterials with _$DailyMaterials {
   const factory DailyMaterials({
     required Map<String, List<DailyMaterial>> talent,
@@ -87,7 +87,7 @@ sealed class DailyMaterials with _$DailyMaterials {
       _$DailyMaterialsFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class DailyMaterial with _$DailyMaterial {
   const factory DailyMaterial({
     required LocalizedText description,

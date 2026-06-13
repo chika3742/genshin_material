@@ -25,21 +25,6 @@ _Weapon _$WeaponFromJson(Map<String, dynamic> json) => _Weapon(
       : ItemSource.fromJson(json['source'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$WeaponToJson(_Weapon instance) => <String, dynamic>{
-  'id': instance.id,
-  'disableSync': instance.disableSync,
-  'hyvId': instance.hyvId,
-  'name': instance.name,
-  'jaPronunciation': instance.jaPronunciation,
-  'imageUrl': instance.imageUrl,
-  'rarity': instance.rarity,
-  'subStat': instance.subStat,
-  'weaponAffixDesc': instance.weaponAffixDesc,
-  'type': instance.type,
-  'materials': instance.materials,
-  'source': instance.source,
-};
-
 _WeaponsMeta _$WeaponsMetaFromJson(Map<String, dynamic> json) => _WeaponsMeta(
   subStats: (json['subStats'] as Map<String, dynamic>).map(
     (k, e) => MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
@@ -49,14 +34,8 @@ _WeaponsMeta _$WeaponsMetaFromJson(Map<String, dynamic> json) => _WeaponsMeta(
   ),
 );
 
-Map<String, dynamic> _$WeaponsMetaToJson(_WeaponsMeta instance) =>
-    <String, dynamic>{'subStats': instance.subStats, 'types': instance.types};
-
 _WeaponTypeInfo _$WeaponTypeInfoFromJson(Map<String, dynamic> json) =>
     _WeaponTypeInfo(
       hyvId: (json['hyvId'] as num).toInt(),
       name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
     );
-
-Map<String, dynamic> _$WeaponTypeInfoToJson(_WeaponTypeInfo instance) =>
-    <String, dynamic>{'hyvId': instance.hyvId, 'name': instance.name};

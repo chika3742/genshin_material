@@ -17,7 +17,7 @@ sealed class ArtifactSetOrPiece implements Searchable {
   const ArtifactSetOrPiece();
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class ArtifactSet extends ArtifactSetOrPiece with _$ArtifactSet {
   const ArtifactSet._();
 
@@ -40,7 +40,7 @@ sealed class ArtifactSet extends ArtifactSetOrPiece with _$ArtifactSet {
   }
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class ArtifactPiece extends ArtifactSetOrPiece with _$ArtifactPiece, ImageGetter {
   const ArtifactPiece._();
 
@@ -57,7 +57,7 @@ sealed class ArtifactPiece extends ArtifactSetOrPiece with _$ArtifactPiece, Imag
       _$ArtifactPieceFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class ArtifactSetBonus with _$ArtifactSetBonus {
   const factory ArtifactSetBonus({
     required String type,
@@ -68,7 +68,7 @@ sealed class ArtifactSetBonus with _$ArtifactSetBonus {
       _$ArtifactSetBonusFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class ArtifactsMeta with _$ArtifactsMeta {
   const factory ArtifactsMeta({
     required Map<StatId, LocalizedText> stats,
@@ -81,7 +81,7 @@ sealed class ArtifactsMeta with _$ArtifactsMeta {
       _$ArtifactsMetaFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class ArtifactPieceType with _$ArtifactPieceType {
   const factory ArtifactPieceType({
     required ArtifactPieceTypeId id,
@@ -93,7 +93,7 @@ sealed class ArtifactPieceType with _$ArtifactPieceType {
       _$ArtifactPieceTypeFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class ArtifactStat with _$ArtifactStat {
   const factory ArtifactStat({
     required StatId id,
@@ -104,7 +104,7 @@ sealed class ArtifactStat with _$ArtifactStat {
       _$ArtifactStatFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class ArtifactTagCategoriesInternal with _$ArtifactTagCategoriesInternal {
   const factory ArtifactTagCategoriesInternal({
     required List<ArtifactTagCategory> categories,
@@ -114,7 +114,7 @@ sealed class ArtifactTagCategoriesInternal with _$ArtifactTagCategoriesInternal 
       _$ArtifactTagCategoriesInternalFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class ArtifactTagCategory with _$ArtifactTagCategory {
   const factory ArtifactTagCategory({
     required LocalizedText desc,
@@ -125,7 +125,7 @@ sealed class ArtifactTagCategory with _$ArtifactTagCategory {
       _$ArtifactTagCategoryFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class ArtifactTag with _$ArtifactTag {
   const factory ArtifactTag({
     required String id,

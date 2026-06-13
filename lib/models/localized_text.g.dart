@@ -6,8 +6,16 @@ part of 'localized_text.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_LocalizedText _$LocalizedTextFromJson(Map<String, dynamic> json) =>
-    _LocalizedText(locales: Map<String, String>.from(json['locales'] as Map));
+TranslatableLocalizedText _$TranslatableLocalizedTextFromJson(
+  Map<String, dynamic> json,
+) => TranslatableLocalizedText(
+  locales: Map<String, String>.from(json['locales'] as Map),
+  $type: json['runtimeType'] as String?,
+);
 
-Map<String, dynamic> _$LocalizedTextToJson(_LocalizedText instance) =>
-    <String, dynamic>{'locales': instance.locales};
+UntranslatableLocalizedText _$UntranslatableLocalizedTextFromJson(
+  Map<String, dynamic> json,
+) => UntranslatableLocalizedText(
+  text: json['text'] as String,
+  $type: json['runtimeType'] as String?,
+);

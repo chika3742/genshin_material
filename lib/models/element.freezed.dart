@@ -17,8 +17,6 @@ mixin _$Element {
 
  int get hyvId; String get imageUrl; LocalizedText get text;
 
-  /// Serializes this Element to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -43,7 +41,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _Element extends Element {
   const _Element({required this.hyvId, required this.imageUrl, required this.text}): super._();
@@ -54,10 +52,7 @@ class _Element extends Element {
 @override final  LocalizedText text;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ElementToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {

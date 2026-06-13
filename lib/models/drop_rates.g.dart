@@ -21,15 +21,6 @@ _DropRateEntry _$DropRateEntryFromJson(Map<String, dynamic> json) =>
       condensedAvailable: json['condensedAvailable'] as bool,
     );
 
-Map<String, dynamic> _$DropRateEntryToJson(_DropRateEntry instance) =>
-    <String, dynamic>{
-      'description': instance.description,
-      'note': instance.note,
-      'target': instance.target,
-      'originalRate': instance.originalRate,
-      'condensedAvailable': instance.condensedAvailable,
-    };
-
 _DropRateTarget _$DropRateTargetFromJson(Map<String, dynamic> json) =>
     _DropRateTarget(
       category: json['category'] as String?,

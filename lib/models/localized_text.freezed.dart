@@ -11,28 +11,49 @@ part of 'localized_text.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+LocalizedText _$LocalizedTextFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['runtimeType']) {
+                  case 'default':
+          return TranslatableLocalizedText.fromJson(
+            json
+          );
+                case 'untranslatable':
+          return UntranslatableLocalizedText.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'runtimeType',
+  'LocalizedText',
+  'Invalid union type "${json['runtimeType']}"!'
+);
+        }
+      
+}
 
 /// @nodoc
 mixin _$LocalizedText {
 
- Map<String, String> get locales;
 
-  /// Serializes this LocalizedText to a JSON map.
-  Map<String, dynamic> toJson();
+
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalizedText&&const DeepCollectionEquality().equals(other.locales, locales));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalizedText);
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(locales));
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LocalizedText(locales: $locales)';
+  return 'LocalizedText()';
 }
 
 
@@ -43,29 +64,30 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
-class _LocalizedText extends LocalizedText {
-  const _LocalizedText({required final  Map<String, String> locales}): _locales = locales,super._();
-  factory _LocalizedText.fromJson(Map<String, dynamic> json) => _$LocalizedTextFromJson(json);
+class TranslatableLocalizedText extends LocalizedText {
+  const TranslatableLocalizedText({required final  Map<String, String> locales, final  String? $type}): _locales = locales,$type = $type ?? 'default',super._();
+  factory TranslatableLocalizedText.fromJson(Map<String, dynamic> json) => _$TranslatableLocalizedTextFromJson(json);
 
  final  Map<String, String> _locales;
-@override Map<String, String> get locales {
+ Map<String, String> get locales {
   if (_locales is EqualUnmodifiableMapView) return _locales;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableMapView(_locales);
 }
 
 
+@JsonKey(name: 'runtimeType')
+final String $type;
 
-@override
-Map<String, dynamic> toJson() {
-  return _$LocalizedTextToJson(this, );
-}
+
+
+
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalizedText&&const DeepCollectionEquality().equals(other._locales, _locales));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TranslatableLocalizedText&&const DeepCollectionEquality().equals(other._locales, _locales));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -75,6 +97,42 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 @override
 String toString() {
   return 'LocalizedText(locales: $locales)';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+@JsonSerializable(createToJson: false)
+
+class UntranslatableLocalizedText extends LocalizedText {
+  const UntranslatableLocalizedText({required this.text, final  String? $type}): $type = $type ?? 'untranslatable',super._();
+  factory UntranslatableLocalizedText.fromJson(Map<String, dynamic> json) => _$UntranslatableLocalizedTextFromJson(json);
+
+ final  String text;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UntranslatableLocalizedText&&(identical(other.text, text) || other.text == text));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,text);
+
+@override
+String toString() {
+  return 'LocalizedText.untranslatable(text: $text)';
 }
 
 

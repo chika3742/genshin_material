@@ -17,16 +17,6 @@ _Furnishing _$FurnishingFromJson(Map<String, dynamic> json) => _Furnishing(
       : ItemSource.fromJson(json['source'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$FurnishingToJson(_Furnishing instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'hyvId': instance.hyvId,
-      'name': instance.name,
-      'jaPronunciation': instance.jaPronunciation,
-      'imageUrl': instance.imageUrl,
-      'source': instance.source,
-    };
-
 _FurnishingSetMeta _$FurnishingSetMetaFromJson(Map<String, dynamic> json) =>
     _FurnishingSetMeta(
       setTypes: (json['setTypes'] as Map<String, dynamic>).map(
@@ -34,9 +24,6 @@ _FurnishingSetMeta _$FurnishingSetMetaFromJson(Map<String, dynamic> json) =>
             MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
       ),
     );
-
-Map<String, dynamic> _$FurnishingSetMetaToJson(_FurnishingSetMeta instance) =>
-    <String, dynamic>{'setTypes': instance.setTypes};
 
 _FurnishingSetComponent _$FurnishingSetComponentFromJson(
   Map<String, dynamic> json,
@@ -68,15 +55,3 @@ _FurnishingSet _$FurnishingSetFromJson(
       .map((e) => FurnishingSetComponent.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
-
-Map<String, dynamic> _$FurnishingSetToJson(_FurnishingSet instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'hyvId': instance.hyvId,
-      'name': instance.name,
-      'jaPronunciation': instance.jaPronunciation,
-      'imageUrl': instance.imageUrl,
-      'type': instance.type,
-      'favoriteCharacterHyvIds': instance.favoriteCharacterHyvIds,
-      'consistsOf': instance.consistsOf,
-    };

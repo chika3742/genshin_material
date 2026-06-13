@@ -17,8 +17,6 @@ mixin _$DropRateEntry {
 
  LocalizedText get description; LocalizedText? get note; DropRateTarget get target; List<DropRate> get originalRate; bool get condensedAvailable;
 
-  /// Serializes this DropRateEntry to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -43,7 +41,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _DropRateEntry extends DropRateEntry {
   const _DropRateEntry({required this.description, this.note, required this.target, required final  List<DropRate> originalRate, required this.condensedAvailable}): _originalRate = originalRate,super._();
@@ -62,10 +60,7 @@ class _DropRateEntry extends DropRateEntry {
 @override final  bool condensedAvailable;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$DropRateEntryToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
