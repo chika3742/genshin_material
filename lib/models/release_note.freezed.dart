@@ -11,14 +11,19 @@ part of 'release_note.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+ReleaseNote _$ReleaseNoteFromJson(
+  Map<String, dynamic> json
+) {
+    return LocalizedReleaseNote.fromJson(
+      json
+    );
+}
 
 /// @nodoc
 mixin _$ReleaseNote {
 
- String get releasedOn; String get version; String get contents;
+ String get releasedOn; String get version; LocalizedText get contents;
 
-  /// Serializes this ReleaseNote to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -43,25 +48,22 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
-class _ReleaseNote implements ReleaseNote {
-  const _ReleaseNote({required this.releasedOn, required this.version, required this.contents});
-  factory _ReleaseNote.fromJson(Map<String, dynamic> json) => _$ReleaseNoteFromJson(json);
+class LocalizedReleaseNote implements ReleaseNote {
+  const LocalizedReleaseNote({required this.releasedOn, required this.version, required this.contents});
+  factory LocalizedReleaseNote.fromJson(Map<String, dynamic> json) => _$LocalizedReleaseNoteFromJson(json);
 
 @override final  String releasedOn;
 @override final  String version;
-@override final  String contents;
+@override final  LocalizedText contents;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ReleaseNoteToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReleaseNote&&(identical(other.releasedOn, releasedOn) || other.releasedOn == releasedOn)&&(identical(other.version, version) || other.version == version)&&(identical(other.contents, contents) || other.contents == contents));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalizedReleaseNote&&(identical(other.releasedOn, releasedOn) || other.releasedOn == releasedOn)&&(identical(other.version, version) || other.version == version)&&(identical(other.contents, contents) || other.contents == contents));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)

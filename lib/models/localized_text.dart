@@ -3,7 +3,6 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "../i18n/strings.g.dart";
 
 part "localized_text.freezed.dart";
-part "localized_text.g.dart";
 
 @Freezed(toJson: false)
 sealed class LocalizedText with _$LocalizedText {
@@ -17,8 +16,12 @@ sealed class LocalizedText with _$LocalizedText {
     required String text,
   }) = UntranslatableLocalizedText;
 
-  factory LocalizedText.fromJson(Map<String, dynamic> json) =>
-      _$LocalizedTextFromJson(json);
+  factory LocalizedText.fromJson(dynamic json) {
+    return switch (json) {
+      final String text => LocalizedText.untranslatable(text: text),
+      _ => LocalizedText(locales: json["locales"].cast<String, String>()),
+    };
+  }
 
   String get localized => switch (this) {
     TranslatableLocalizedText(:final locales) => locales[LocaleSettings.currentLocale.languageCode]!

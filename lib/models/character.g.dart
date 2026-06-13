@@ -13,7 +13,7 @@ ListedCharacter _$ListedCharacterFromJson(Map<String, dynamic> json) =>
       hyvIds: (json['hyvIds'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
-      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+      name: LocalizedText.fromJson(json['name']),
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
       smallImageUrl: json['smallImageUrl'] as String,
@@ -34,7 +34,7 @@ CharacterGroup _$CharacterGroupFromJson(Map<String, dynamic> json) =>
       hyvIds: (json['hyvIds'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
-      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+      name: LocalizedText.fromJson(json['name']),
       jaPronunciation: json['jaPronunciation'] as String,
       imageUrl: json['imageUrl'] as String,
       smallImageUrl: json['smallImageUrl'] as String,
@@ -52,7 +52,7 @@ CharacterVariant _$CharacterVariantFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       disableSync: json['disableSync'] as bool? ?? false,
       parentId: json['parentId'] as String,
-      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+      name: LocalizedText.fromJson(json['name']),
       jaPronunciation: json['jaPronunciation'] as String,
       smallImageUrl: json['smallImageUrl'] as String,
       rarity: (json['rarity'] as num).toInt(),
@@ -71,5 +71,5 @@ _CharacterTalent _$CharacterTalentFromJson(Map<String, dynamic> json) =>
       idList: (json['idList'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
-      name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+      name: LocalizedText.fromJson(json['name']),
     );

@@ -9,7 +9,7 @@ part of 'material.dart';
 _Material _$MaterialFromJson(Map<String, dynamic> json) => _Material(
   id: json['id'] as String,
   hyvId: (json['hyvId'] as num).toInt(),
-  name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+  name: LocalizedText.fromJson(json['name']),
   jaPronunciation: json['jaPronunciation'] as String,
   imageUrl: json['imageUrl'] as String,
   rarity: (json['rarity'] as num).toInt(),
@@ -43,24 +43,21 @@ TeyvatMapItemSource _$TeyvatMapItemSourceFromJson(Map<String, dynamic> json) =>
 
 TextItemSource _$TextItemSourceFromJson(Map<String, dynamic> json) =>
     TextItemSource(
-      text: LocalizedText.fromJson(json['text'] as Map<String, dynamic>),
+      text: LocalizedText.fromJson(json['text']),
       $type: json['runtimeType'] as String?,
     );
 
 SourceListItemSource _$SourceListItemSourceFromJson(
   Map<String, dynamic> json,
 ) => SourceListItemSource(
-  list: (json['list'] as List<dynamic>)
-      .map((e) => LocalizedText.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  list: (json['list'] as List<dynamic>).map(LocalizedText.fromJson).toList(),
   $type: json['runtimeType'] as String?,
 );
 
 _MaterialsMeta _$MaterialsMetaFromJson(Map<String, dynamic> json) =>
     _MaterialsMeta(
       categories: (json['categories'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(k, LocalizedText.fromJson(e)),
       ),
       sortOrder: Map<String, int>.from(json['sortOrder'] as Map),
       daily: DailyMaterials.fromJson(json['daily'] as Map<String, dynamic>),
@@ -95,8 +92,6 @@ _DailyMaterials _$DailyMaterialsFromJson(Map<String, dynamic> json) =>
 
 _DailyMaterial _$DailyMaterialFromJson(Map<String, dynamic> json) =>
     _DailyMaterial(
-      description: LocalizedText.fromJson(
-        json['description'] as Map<String, dynamic>,
-      ),
+      description: LocalizedText.fromJson(json['description']),
       items: (json['items'] as List<dynamic>).map((e) => e as String).toList(),
     );

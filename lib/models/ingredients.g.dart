@@ -64,7 +64,7 @@ Map<String, dynamic> _$IngredientWithFixedIdToJson(
 };
 
 _SliderEntry _$SliderEntryFromJson(Map<String, dynamic> json) => _SliderEntry(
-  title: LocalizedText.fromJson(json['title'] as Map<String, dynamic>),
+  title: LocalizedText.fromJson(json['title']),
   purposes: (json['purposes'] as List<dynamic>)
       .map((e) => $enumDecode(_$PurposeEnumMap, e))
       .toList(),

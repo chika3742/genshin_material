@@ -11,30 +11,6 @@ part of 'localized_text.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
-LocalizedText _$LocalizedTextFromJson(
-  Map<String, dynamic> json
-) {
-        switch (json['runtimeType']) {
-                  case 'default':
-          return TranslatableLocalizedText.fromJson(
-            json
-          );
-                case 'untranslatable':
-          return UntranslatableLocalizedText.fromJson(
-            json
-          );
-        
-          default:
-            throw CheckedFromJsonException(
-  json,
-  'runtimeType',
-  'LocalizedText',
-  'Invalid union type "${json['runtimeType']}"!'
-);
-        }
-      
-}
-
 /// @nodoc
 mixin _$LocalizedText {
 
@@ -47,7 +23,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalizedText);
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => runtimeType.hashCode;
 
@@ -64,11 +40,11 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable(createToJson: false)
+
 
 class TranslatableLocalizedText extends LocalizedText {
-  const TranslatableLocalizedText({required final  Map<String, String> locales, final  String? $type}): _locales = locales,$type = $type ?? 'default',super._();
-  factory TranslatableLocalizedText.fromJson(Map<String, dynamic> json) => _$TranslatableLocalizedTextFromJson(json);
+  const TranslatableLocalizedText({required final  Map<String, String> locales}): _locales = locales,super._();
+  
 
  final  Map<String, String> _locales;
  Map<String, String> get locales {
@@ -76,10 +52,6 @@ class TranslatableLocalizedText extends LocalizedText {
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableMapView(_locales);
 }
-
-
-@JsonKey(name: 'runtimeType')
-final String $type;
 
 
 
@@ -90,7 +62,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is TranslatableLocalizedText&&const DeepCollectionEquality().equals(other._locales, _locales));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_locales));
 
@@ -106,17 +78,13 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable(createToJson: false)
+
 
 class UntranslatableLocalizedText extends LocalizedText {
-  const UntranslatableLocalizedText({required this.text, final  String? $type}): $type = $type ?? 'untranslatable',super._();
-  factory UntranslatableLocalizedText.fromJson(Map<String, dynamic> json) => _$UntranslatableLocalizedTextFromJson(json);
+  const UntranslatableLocalizedText({required this.text}): super._();
+  
 
  final  String text;
-
-@JsonKey(name: 'runtimeType')
-final String $type;
-
 
 
 
@@ -126,7 +94,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is UntranslatableLocalizedText&&(identical(other.text, text) || other.text == text));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode => Object.hash(runtimeType,text);
 

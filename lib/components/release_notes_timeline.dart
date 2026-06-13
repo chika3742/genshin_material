@@ -89,7 +89,7 @@ class _ReleaseNotesTimelineState extends State<ReleaseNotesTimeline> {
                     ],
                   ),
                 ),
-                ReleaseNoteContents(contentsText: widget.items[index].contents),
+                ReleaseNoteContents(contentsText: widget.items[index].contents.localized),
                 const SizedBox(height: 16),
               ],
             );
