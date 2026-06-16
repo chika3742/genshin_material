@@ -6,15 +6,10 @@ part of 'release_note.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_ReleaseNote _$ReleaseNoteFromJson(Map<String, dynamic> json) => _ReleaseNote(
+LocalizedReleaseNote _$LocalizedReleaseNoteFromJson(
+  Map<String, dynamic> json,
+) => LocalizedReleaseNote(
   releasedOn: json['releasedOn'] as String,
   version: json['version'] as String,
-  contents: json['contents'] as String,
+  contents: LocalizedText.fromJson(json['contents']),
 );
-
-Map<String, dynamic> _$ReleaseNoteToJson(_ReleaseNote instance) =>
-    <String, dynamic>{
-      'releasedOn': instance.releasedOn,
-      'version': instance.version,
-      'contents': instance.contents,
-    };

@@ -45,7 +45,7 @@ extension LargeImageExt on CharacterWithLargeImage {
       File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, imageUrl));
 }
 
-@Freezed(fallbackUnion: "default")
+@Freezed(fallbackUnion: "default", toJson: false)
 sealed class Character extends CharacterBase with _$Character, CharacterOrWeapon, Searchable {
   const Character._();
 
@@ -99,7 +99,7 @@ sealed class Character extends CharacterBase with _$Character, CharacterOrWeapon
       _$CharacterFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class CharacterTalent with _$CharacterTalent {
   const factory CharacterTalent({
     required List<int> idList,

@@ -17,8 +17,6 @@ mixin _$ArtifactSet {
 
  String get id; LocalizedText get name; String get jaPronunciation; int get maxRarity; List<String>? get tags; Map<ArtifactPieceTypeId, ArtifactPieceId> get consistsOf; List<ArtifactSetBonus> get bonuses;
 
-  /// Serializes this ArtifactSet to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -43,7 +41,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _ArtifactSet extends ArtifactSet {
   const _ArtifactSet({required this.id, required this.name, required this.jaPronunciation, required this.maxRarity, final  List<String>? tags, required final  Map<ArtifactPieceTypeId, ArtifactPieceId> consistsOf, required final  List<ArtifactSetBonus> bonuses}): _tags = tags,_consistsOf = consistsOf,_bonuses = bonuses,super._();
@@ -78,10 +76,7 @@ class _ArtifactSet extends ArtifactSet {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ArtifactSetToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -109,8 +104,6 @@ mixin _$ArtifactPiece {
 
  String get id; LocalizedText get name; String get jaPronunciation; String get parentId; ArtifactPieceTypeId get type; String get imageUrl;
 
-  /// Serializes this ArtifactPiece to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -135,7 +128,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _ArtifactPiece extends ArtifactPiece {
   const _ArtifactPiece({required this.id, required this.name, required this.jaPronunciation, required this.parentId, required this.type, required this.imageUrl}): super._();
@@ -149,10 +142,7 @@ class _ArtifactPiece extends ArtifactPiece {
 @override final  String imageUrl;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ArtifactPieceToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -180,8 +170,6 @@ mixin _$ArtifactSetBonus {
 
  String get type; LocalizedText get description;
 
-  /// Serializes this ArtifactSetBonus to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -206,7 +194,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _ArtifactSetBonus implements ArtifactSetBonus {
   const _ArtifactSetBonus({required this.type, required this.description});
@@ -216,10 +204,7 @@ class _ArtifactSetBonus implements ArtifactSetBonus {
 @override final  LocalizedText description;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ArtifactSetBonusToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -247,8 +232,6 @@ mixin _$ArtifactsMeta {
 
  Map<StatId, LocalizedText> get stats; Map<ArtifactPieceTypeId, ArtifactPieceType> get pieceTypes; List<StatId> get possibleSubStats; ArtifactTagCategoriesInternal get tags;
 
-  /// Serializes this ArtifactsMeta to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -273,7 +256,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _ArtifactsMeta implements ArtifactsMeta {
   const _ArtifactsMeta({required final  Map<StatId, LocalizedText> stats, required final  Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes, required final  List<StatId> possibleSubStats, required this.tags}): _stats = stats,_pieceTypes = pieceTypes,_possibleSubStats = possibleSubStats;
@@ -303,10 +286,7 @@ class _ArtifactsMeta implements ArtifactsMeta {
 @override final  ArtifactTagCategoriesInternal tags;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ArtifactsMetaToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -334,8 +314,6 @@ mixin _$ArtifactPieceType {
 
  ArtifactPieceTypeId get id; LocalizedText get desc; List<StatId> get possibleMainStats;
 
-  /// Serializes this ArtifactPieceType to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -360,7 +338,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _ArtifactPieceType implements ArtifactPieceType {
   const _ArtifactPieceType({required this.id, required this.desc, required final  List<StatId> possibleMainStats}): _possibleMainStats = possibleMainStats;
@@ -377,10 +355,7 @@ class _ArtifactPieceType implements ArtifactPieceType {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ArtifactPieceTypeToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -408,8 +383,6 @@ mixin _$ArtifactStat {
 
  StatId get id; LocalizedText get desc;
 
-  /// Serializes this ArtifactStat to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -434,7 +407,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _ArtifactStat implements ArtifactStat {
   const _ArtifactStat({required this.id, required this.desc});
@@ -444,10 +417,7 @@ class _ArtifactStat implements ArtifactStat {
 @override final  LocalizedText desc;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ArtifactStatToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -475,8 +445,6 @@ mixin _$ArtifactTagCategoriesInternal {
 
  List<ArtifactTagCategory> get categories;
 
-  /// Serializes this ArtifactTagCategoriesInternal to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -501,7 +469,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _ArtifactTagCategoriesInternal implements ArtifactTagCategoriesInternal {
   const _ArtifactTagCategoriesInternal({required final  List<ArtifactTagCategory> categories}): _categories = categories;
@@ -516,10 +484,7 @@ class _ArtifactTagCategoriesInternal implements ArtifactTagCategoriesInternal {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ArtifactTagCategoriesInternalToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -547,8 +512,6 @@ mixin _$ArtifactTagCategory {
 
  LocalizedText get desc; List<ArtifactTag> get items;
 
-  /// Serializes this ArtifactTagCategory to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -573,7 +536,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _ArtifactTagCategory implements ArtifactTagCategory {
   const _ArtifactTagCategory({required this.desc, required final  List<ArtifactTag> items}): _items = items;
@@ -589,10 +552,7 @@ class _ArtifactTagCategory implements ArtifactTagCategory {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ArtifactTagCategoryToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -620,8 +580,6 @@ mixin _$ArtifactTag {
 
  String get id; LocalizedText get desc;
 
-  /// Serializes this ArtifactTag to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -646,7 +604,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _ArtifactTag implements ArtifactTag {
   const _ArtifactTag({required this.id, required this.desc});
@@ -656,10 +614,7 @@ class _ArtifactTag implements ArtifactTag {
 @override final  LocalizedText desc;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ArtifactTagToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {

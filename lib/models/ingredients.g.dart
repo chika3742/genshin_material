@@ -64,7 +64,7 @@ Map<String, dynamic> _$IngredientWithFixedIdToJson(
 };
 
 _SliderEntry _$SliderEntryFromJson(Map<String, dynamic> json) => _SliderEntry(
-  title: LocalizedText.fromJson(json['title'] as Map<String, dynamic>),
+  title: LocalizedText.fromJson(json['title']),
   purposes: (json['purposes'] as List<dynamic>)
       .map((e) => $enumDecode(_$PurposeEnumMap, e))
       .toList(),
@@ -73,14 +73,6 @@ _SliderEntry _$SliderEntryFromJson(Map<String, dynamic> json) => _SliderEntry(
     json['preferredTargetType'],
   ),
 );
-
-Map<String, dynamic> _$SliderEntryToJson(_SliderEntry instance) =>
-    <String, dynamic>{
-      'title': instance.title,
-      'purposes': instance.purposes.map((e) => _$PurposeEnumMap[e]!).toList(),
-      'preferredTargetType':
-          _$PreferredTargetTypeEnumMap[instance.preferredTargetType],
-    };
 
 const _$PurposeEnumMap = {
   Purpose.ascension: 'ascension',
@@ -148,12 +140,3 @@ _IngredientConfigurations _$IngredientConfigurationsFromJson(
     (k, e) => MapEntry(k, IngredientLevels.fromJson(e as Map<String, dynamic>)),
   ),
 );
-
-Map<String, dynamic> _$IngredientConfigurationsToJson(
-  _IngredientConfigurations instance,
-) => <String, dynamic>{
-  'expItems': instance.expItems,
-  'rarities': instance.rarities.map((k, e) => MapEntry(k.toString(), e)),
-  'sliders': instance.sliders,
-  'ingredientTables': instance.ingredientTables,
-};

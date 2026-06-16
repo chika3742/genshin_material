@@ -17,8 +17,6 @@ mixin _$Weapon {
 
  String get id; bool get disableSync; int get hyvId; LocalizedText get name; String get jaPronunciation; String get imageUrl; int get rarity; WeaponSubStat? get subStat; LocalizedText? get weaponAffixDesc; WeaponType get type; Map<MaterialUsageType, String> get materials; ItemSource? get source;
 
-  /// Serializes this Weapon to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -43,7 +41,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _Weapon extends Weapon {
   const _Weapon({required this.id, this.disableSync = false, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.rarity, required this.subStat, required this.weaponAffixDesc, required this.type, required final  Map<MaterialUsageType, String> materials, this.source}): _materials = materials,super._();
@@ -69,10 +67,7 @@ class _Weapon extends Weapon {
 @override final  ItemSource? source;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$WeaponToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -100,8 +95,6 @@ mixin _$WeaponsMeta {
 
  Map<WeaponSubStat, LocalizedText> get subStats; Map<WeaponType, WeaponTypeInfo> get types;
 
-  /// Serializes this WeaponsMeta to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -126,7 +119,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _WeaponsMeta implements WeaponsMeta {
   const _WeaponsMeta({required final  Map<WeaponSubStat, LocalizedText> subStats, required final  Map<WeaponType, WeaponTypeInfo> types}): _subStats = subStats,_types = types;
@@ -148,10 +141,7 @@ class _WeaponsMeta implements WeaponsMeta {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$WeaponsMetaToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -179,8 +169,6 @@ mixin _$WeaponTypeInfo {
 
  int get hyvId; LocalizedText get name;
 
-  /// Serializes this WeaponTypeInfo to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -205,7 +193,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _WeaponTypeInfo implements WeaponTypeInfo {
   const _WeaponTypeInfo({required this.hyvId, required this.name});
@@ -215,10 +203,7 @@ class _WeaponTypeInfo implements WeaponTypeInfo {
 @override final  LocalizedText name;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$WeaponTypeInfoToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {

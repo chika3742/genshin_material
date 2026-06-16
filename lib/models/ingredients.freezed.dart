@@ -272,8 +272,6 @@ mixin _$SliderEntry {
 
  LocalizedText get title; List<Purpose> get purposes; PreferredTargetType? get preferredTargetType;
 
-  /// Serializes this SliderEntry to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -298,7 +296,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _SliderEntry implements SliderEntry {
   const _SliderEntry({required this.title, required final  List<Purpose> purposes, this.preferredTargetType}): _purposes = purposes;
@@ -315,10 +313,7 @@ class _SliderEntry implements SliderEntry {
 @override final  PreferredTargetType? preferredTargetType;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$SliderEntryToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -497,8 +492,6 @@ mixin _$IngredientConfigurations {
 
  List<ExpItem> get expItems; Map<int, IngredientPurposes> get rarities; List<SliderEntry> get sliders; Map<String, IngredientLevels> get ingredientTables;
 
-  /// Serializes this IngredientConfigurations to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -523,7 +516,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _IngredientConfigurations extends IngredientConfigurations {
   const _IngredientConfigurations({required final  List<ExpItem> expItems, required final  Map<int, IngredientPurposes> rarities, required final  List<SliderEntry> sliders, required final  Map<String, IngredientLevels> ingredientTables}): _expItems = expItems,_rarities = rarities,_sliders = sliders,_ingredientTables = ingredientTables,super._();
@@ -559,10 +552,7 @@ class _IngredientConfigurations extends IngredientConfigurations {
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$IngredientConfigurationsToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {

@@ -45,7 +45,7 @@ enum PreferredTargetType {
   variant,
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class SliderEntry with _$SliderEntry {
   const factory SliderEntry({
     required LocalizedText title,
@@ -78,7 +78,7 @@ sealed class IngredientPurposes with _$IngredientPurposes {
       _$IngredientPurposesFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class IngredientConfigurations with _$IngredientConfigurations {
   const IngredientConfigurations._();
 

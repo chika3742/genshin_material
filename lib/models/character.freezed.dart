@@ -37,8 +37,6 @@ mixin _$Character {
 
  String get id; LocalizedText get name; String get jaPronunciation; String get smallImageUrl; int get rarity; WeaponType get weaponType; MaterialDefinitions get materials;
 
-  /// Serializes this Character to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -63,7 +61,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class ListedCharacter extends Character implements CharacterWithLargeImage, CharacterOrVariant {
   const ListedCharacter({required this.id, this.disableSync = false, required final  List<int> hyvIds, required this.name, required this.jaPronunciation, required this.imageUrl, required this.smallImageUrl, required this.rarity, required this.weaponType, required this.element, required final  Talents talents, required final  MaterialDefinitions materials, final  String? $type}): _hyvIds = hyvIds,_talents = talents,_materials = materials,$type = $type ?? 'default',super._();
@@ -105,10 +103,7 @@ final String $type;
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$ListedCharacterToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -131,7 +126,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class CharacterGroup extends Character implements CharacterWithLargeImage {
   const CharacterGroup({required this.id, required final  List<int> hyvIds, required this.name, required this.jaPronunciation, required this.imageUrl, required this.smallImageUrl, required this.rarity, required this.weaponType, required final  List<String> variantIds, required final  MaterialDefinitions materials, final  String? $type}): _hyvIds = hyvIds,_variantIds = variantIds,_materials = materials,$type = $type ?? 'group',super._();
@@ -171,10 +166,7 @@ final String $type;
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$CharacterGroupToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -197,7 +189,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class CharacterVariant extends Character implements CharacterOrVariant {
   const CharacterVariant({required this.id, this.disableSync = false, required this.parentId, required this.name, required this.jaPronunciation, required this.smallImageUrl, required this.rarity, required this.element, required this.weaponType, required final  Talents talents, required final  MaterialDefinitions materials, final  String? $type}): _talents = talents,_materials = materials,$type = $type ?? 'variant',super._();
@@ -232,10 +224,7 @@ final String $type;
 
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$CharacterVariantToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
@@ -263,8 +252,6 @@ mixin _$CharacterTalent {
 
  List<int> get idList; LocalizedText get name;
 
-  /// Serializes this CharacterTalent to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -289,7 +276,7 @@ String toString() {
 
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 
 class _CharacterTalent implements CharacterTalent {
   const _CharacterTalent({required final  List<int> idList, required this.name}): _idList = idList;
@@ -305,10 +292,7 @@ class _CharacterTalent implements CharacterTalent {
 @override final  LocalizedText name;
 
 
-@override
-Map<String, dynamic> toJson() {
-  return _$CharacterTalentToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {

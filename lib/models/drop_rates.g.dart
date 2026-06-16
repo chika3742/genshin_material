@@ -8,27 +8,14 @@ part of 'drop_rates.dart';
 
 _DropRateEntry _$DropRateEntryFromJson(Map<String, dynamic> json) =>
     _DropRateEntry(
-      description: LocalizedText.fromJson(
-        json['description'] as Map<String, dynamic>,
-      ),
-      note: json['note'] == null
-          ? null
-          : LocalizedText.fromJson(json['note'] as Map<String, dynamic>),
+      description: LocalizedText.fromJson(json['description']),
+      note: json['note'] == null ? null : LocalizedText.fromJson(json['note']),
       target: DropRateTarget.fromJson(json['target'] as Map<String, dynamic>),
       originalRate: (json['originalRate'] as List<dynamic>)
           .map((e) => DropRate.fromJson(e as Map<String, dynamic>))
           .toList(),
       condensedAvailable: json['condensedAvailable'] as bool,
     );
-
-Map<String, dynamic> _$DropRateEntryToJson(_DropRateEntry instance) =>
-    <String, dynamic>{
-      'description': instance.description,
-      'note': instance.note,
-      'target': instance.target,
-      'originalRate': instance.originalRate,
-      'condensedAvailable': instance.condensedAvailable,
-    };
 
 _DropRateTarget _$DropRateTargetFromJson(Map<String, dynamic> json) =>
     _DropRateTarget(

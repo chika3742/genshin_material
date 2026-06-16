@@ -8,7 +8,7 @@ import "localized_text.dart";
 part "element.freezed.dart";
 part "element.g.dart";
 
-@freezed
+@Freezed(toJson: false)
 sealed class Element with _$Element {
   const Element._();
 

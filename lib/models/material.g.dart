@@ -9,7 +9,7 @@ part of 'material.dart';
 _Material _$MaterialFromJson(Map<String, dynamic> json) => _Material(
   id: json['id'] as String,
   hyvId: (json['hyvId'] as num).toInt(),
-  name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+  name: LocalizedText.fromJson(json['name']),
   jaPronunciation: json['jaPronunciation'] as String,
   imageUrl: json['imageUrl'] as String,
   rarity: (json['rarity'] as num).toInt(),
@@ -23,22 +23,6 @@ _Material _$MaterialFromJson(Map<String, dynamic> json) => _Material(
       ? null
       : ItemSource.fromJson(json['source'] as Map<String, dynamic>),
 );
-
-Map<String, dynamic> _$MaterialToJson(_Material instance) => <String, dynamic>{
-  'id': instance.id,
-  'hyvId': instance.hyvId,
-  'name': instance.name,
-  'jaPronunciation': instance.jaPronunciation,
-  'imageUrl': instance.imageUrl,
-  'rarity': instance.rarity,
-  'category': instance.category,
-  'groupId': instance.groupId,
-  'craftLevel': instance.craftLevel,
-  'availableDays': instance.availableDays
-      ?.map((e) => _$DayOfWeekEnumMap[e]!)
-      .toList(),
-  'source': instance.source,
-};
 
 const _$DayOfWeekEnumMap = {
   DayOfWeek.monday: 'monday',
@@ -57,41 +41,23 @@ TeyvatMapItemSource _$TeyvatMapItemSourceFromJson(Map<String, dynamic> json) =>
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$TeyvatMapItemSourceToJson(
-  TeyvatMapItemSource instance,
-) => <String, dynamic>{
-  'typeId': instance.typeId,
-  'center': instance.center,
-  'runtimeType': instance.$type,
-};
-
 TextItemSource _$TextItemSourceFromJson(Map<String, dynamic> json) =>
     TextItemSource(
-      text: LocalizedText.fromJson(json['text'] as Map<String, dynamic>),
+      text: LocalizedText.fromJson(json['text']),
       $type: json['runtimeType'] as String?,
     );
-
-Map<String, dynamic> _$TextItemSourceToJson(TextItemSource instance) =>
-    <String, dynamic>{'text': instance.text, 'runtimeType': instance.$type};
 
 SourceListItemSource _$SourceListItemSourceFromJson(
   Map<String, dynamic> json,
 ) => SourceListItemSource(
-  list: (json['list'] as List<dynamic>)
-      .map((e) => LocalizedText.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  list: (json['list'] as List<dynamic>).map(LocalizedText.fromJson).toList(),
   $type: json['runtimeType'] as String?,
 );
-
-Map<String, dynamic> _$SourceListItemSourceToJson(
-  SourceListItemSource instance,
-) => <String, dynamic>{'list': instance.list, 'runtimeType': instance.$type};
 
 _MaterialsMeta _$MaterialsMetaFromJson(Map<String, dynamic> json) =>
     _MaterialsMeta(
       categories: (json['categories'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, LocalizedText.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(k, LocalizedText.fromJson(e)),
       ),
       sortOrder: Map<String, int>.from(json['sortOrder'] as Map),
       daily: DailyMaterials.fromJson(json['daily'] as Map<String, dynamic>),
@@ -103,15 +69,6 @@ _MaterialsMeta _$MaterialsMetaFromJson(Map<String, dynamic> json) =>
             ),
           ),
     );
-
-Map<String, dynamic> _$MaterialsMetaToJson(
-  _MaterialsMeta instance,
-) => <String, dynamic>{
-  'categories': instance.categories,
-  'sortOrder': instance.sortOrder,
-  'daily': instance.daily,
-  'specialCharactersUsingMaterials': instance.specialCharactersUsingMaterials,
-};
 
 _DailyMaterials _$DailyMaterialsFromJson(Map<String, dynamic> json) =>
     _DailyMaterials(
@@ -133,19 +90,8 @@ _DailyMaterials _$DailyMaterialsFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$DailyMaterialsToJson(_DailyMaterials instance) =>
-    <String, dynamic>{'talent': instance.talent, 'weapon': instance.weapon};
-
 _DailyMaterial _$DailyMaterialFromJson(Map<String, dynamic> json) =>
     _DailyMaterial(
-      description: LocalizedText.fromJson(
-        json['description'] as Map<String, dynamic>,
-      ),
+      description: LocalizedText.fromJson(json['description']),
       items: (json['items'] as List<dynamic>).map((e) => e as String).toList(),
     );
-
-Map<String, dynamic> _$DailyMaterialToJson(_DailyMaterial instance) =>
-    <String, dynamic>{
-      'description': instance.description,
-      'items': instance.items,
-    };

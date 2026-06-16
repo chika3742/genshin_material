@@ -7,7 +7,7 @@ import "material.dart";
 part "furnishing_set.freezed.dart";
 part "furnishing_set.g.dart";
 
-@freezed
+@Freezed(toJson: false)
 sealed class Furnishing with _$Furnishing, ImageGetter, Searchable {
   const Furnishing._();
 
@@ -24,7 +24,7 @@ sealed class Furnishing with _$Furnishing, ImageGetter, Searchable {
       _$FurnishingFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class FurnishingSetMeta with _$FurnishingSetMeta {
   const factory FurnishingSetMeta({
     required Map<FurnishingSetTypeId, LocalizedText> setTypes,
@@ -45,7 +45,7 @@ sealed class FurnishingSetComponent with _$FurnishingSetComponent {
       _$FurnishingSetComponentFromJson(json);
 }
 
-@freezed
+@Freezed(toJson: false)
 sealed class FurnishingSet with _$FurnishingSet, ImageGetter, Searchable {
   const FurnishingSet._();
 
