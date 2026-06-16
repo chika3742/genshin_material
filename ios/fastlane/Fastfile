@@ -13,6 +13,13 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+require "yaml"
+
+locale_map = {
+  "ja" => "ja",
+  "en" => "en-US",
+}
+
 default_platform(:ios)
 
 platform :ios do
@@ -37,17 +44,43 @@ platform :ios do
             keychain_password: $keychain_password
         )
     end
-    desc "Upload IPA to TestFlight"
+
+    desc "Upload to App Store or Testflight"
     lane :upload do
         app_store_connect_api_key(
             key_id: ENV["ASC_KEY_ID"],
             issuer_id: ENV["ASC_ISSUER_ID"],
-            key_filepath: ENV["ASC_KEY_FILEPATH"] || "./secrets/ASC_AuthKey.p8",
+            key_filepath: ENV["ASC_KEY_FILEPATH"],
         )
-        upload_to_testflight(
-            skip_waiting_for_build_processing: true,
-            ipa: "../build/ios/ipa/GenshinMaterial.ipa"
-        )
+
+        app_version = ENV["APP_VERSION"]
+        is_test_version = app_version.include?("-")
+
+        if is_test_version
+            upload_to_testflight(
+              skip_waiting_for_build_processing: true,
+              ipa: "../build/ios/ipa/GenshinMaterial.ipa"
+            )
+        else
+            contents = YAML.safe_load(File.read("../../assets/release_notes.yaml"))
+            version_entry = contents.find { |e| e["version"] == app_version }
+            if version_entry == nil
+                raise "No release note for version #{app_version}. Did you add it?"
+            end
+            version_entry["contents"]["locales"].each do |locale, contents|
+                path = "./metadata/#{locale_map[locale]}/release_notes.txt"
+                FileUtils.mkdir_p(File.dirname(path))
+                File.write(path, contents)
+            end
+            upload_to_app_store(
+              app_version: app_version,
+              skip_screenshots: true,
+              precheck_include_in_app_purchases: false,
+              submit_for_review: true,
+              force: true,
+              ipa: "../build/ios/ipa/GenshinMaterial.ipa",
+            )
+        end
     end
 
     lane :upload_screenshots do

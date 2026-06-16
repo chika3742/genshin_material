@@ -13,18 +13,42 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+require "yaml"
+
+locale_map = {
+  "ja" => "ja-JP",
+  "en" => "en-US",
+}
+
 default_platform(:android)
 
 platform :android do
     desc "Deploy a new version to the Google Play"
     lane :upload do
+        app_version = ENV["APP_VERSION"]
+        is_test_version = app_version.include?("-")
+
         Dir.chdir("../../build/app/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib") do
             sh("zip -r ../../../../../../../../android/native_debug_symbols.zip ./* -x *x86/*")
         end
+
+        if !is_test_version
+            contents = YAML.safe_load(File.read("../../assets/release_notes.yaml"))
+            version_entry = contents.find { |e| e["version"] == app_version }
+            if version_entry == nil
+                raise "No release note for version #{app_version}. Did you add it?"
+            end
+            version_entry["contents"]["locales"].each do |locale, contents|
+                path = "./metadata/android/#{locale_map[locale]}/changelogs/default.txt"
+                FileUtils.mkdir_p(File.dirname(path))
+                File.write(path, contents)
+            end
+        end
+
         upload_to_play_store(
             aab: "../build/app/outputs/bundle/release/app-release.aab",
             mapping_paths: ["../build/app/outputs/mapping/release/mapping.txt", "./native_debug_symbols.zip"],
-            track: "internal",
+            track: is_test_version ? "internal" : "production",
             skip_upload_metadata: true,
             skip_upload_images: true,
             skip_upload_screenshots: true,

@@ -8,7 +8,6 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../i18n/strings.g.dart";
 import "../models/level_range_values.dart";
-import "../ui_core/bubble.dart";
 import "../utils/lists.dart";
 import "custom_range_slider.dart";
 import "labeled_check_box.dart";
