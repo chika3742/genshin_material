@@ -50,7 +50,7 @@ abstract class _$CharacterFilterStateNotifier
   CharacterFilterState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<CharacterFilterState, CharacterFilterState>;
     final element =
         ref.element
@@ -60,7 +60,7 @@ abstract class _$CharacterFilterStateNotifier
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -105,7 +105,7 @@ abstract class _$ArtifactFilterStateNotifier
   ArtifactFilterState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<ArtifactFilterState, ArtifactFilterState>;
     final element =
         ref.element
@@ -115,7 +115,7 @@ abstract class _$ArtifactFilterStateNotifier
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -159,7 +159,7 @@ abstract class _$WeaponFilterStateNotifier
   WeaponFilterState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<WeaponFilterState, WeaponFilterState>;
     final element =
         ref.element
@@ -169,6 +169,6 @@ abstract class _$WeaponFilterStateNotifier
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

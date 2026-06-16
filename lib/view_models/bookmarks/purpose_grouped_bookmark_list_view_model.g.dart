@@ -51,14 +51,14 @@ final class PurposeGroupedBookmarkListViewModelProvider
 }
 
 String _$purposeGroupedBookmarkListViewModelHash() =>
-    r'6457f98ae12122b4027cd4c1bae396f5b9ad232d';
+    r'1229659b8acaf395b22a263f176c251e1a6b3124';
 
 abstract class _$PurposeGroupedBookmarkListViewModel
     extends $Notifier<PurposeGroupedBookmarkListState> {
   PurposeGroupedBookmarkListState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -76,6 +76,6 @@ abstract class _$PurposeGroupedBookmarkListViewModel
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
