@@ -56,20 +56,18 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
   void reorder(int oldIndex, int newIndex) {
     log("Reorder: $oldIndex -> $newIndex");
 
+    final newList = [...state.groups];
+    newList.insert(newIndex, newList.removeAt(oldIndex));
+
     final newOrderIndex = FractionalIndexer.generateKeyBetween(
-      newIndex != 0 ? state.groups[newIndex - 1].orderIndex : null,
-      state.groups.elementAtOrNull(newIndex)?.orderIndex,
+      newIndex != 0 ? newList[newIndex - 1].orderIndex : null,
+      newList.elementAtOrNull(newIndex + 1)?.orderIndex,
     );
     ref.read(appDatabaseProvider).updateMaterialGroupOrderIndex(
-      state.groups[oldIndex].hash,
+      newList[newIndex].hash,
       newOrderIndex!,
     );
 
-    final indexInNewList = newIndex > oldIndex ? newIndex - 1 : newIndex;
-
-    // apply the new state to avoid flickering
-    final newList = [...state.groups];
-    newList.insert(indexInNewList, newList.removeAt(oldIndex));
     state = state.copyWith(
       groups: newList,
     );

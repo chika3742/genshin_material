@@ -170,8 +170,6 @@ class LevelSlider extends HookWidget {
   }
 
   Widget _buildLevelIndicators() {
-    final context = useContext();
-    final helpButtonKey = useMemoized(() => GlobalKey());
     final currLvController =
         useTextEditingController(text: values.start.toString());
     final tgLvController =

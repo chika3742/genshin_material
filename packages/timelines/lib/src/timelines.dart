@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import 'timeline_theme.dart';
@@ -49,7 +50,7 @@ class Timeline extends BoxScrollView {
     bool shrinkWrap = false,
     EdgeInsetsGeometry? padding,
     // double itemExtent, TODO: fixedExtentTileBuilder?
-    double? cacheExtent,
+    ScrollCacheExtent? scrollCacheExtent,
     int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
@@ -76,7 +77,7 @@ class Timeline extends BoxScrollView {
       shrinkWrap: shrinkWrap,
       padding: padding,
       // itemExtent: itemExtent,
-      cacheExtent: cacheExtent,
+      scrollCacheExtent: scrollCacheExtent,
       semanticChildCount: semanticChildCount ?? builder.itemCount,
       dragStartBehavior: dragStartBehavior,
       keyboardDismissBehavior: keyboardDismissBehavior,
@@ -116,7 +117,7 @@ class Timeline extends BoxScrollView {
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double? cacheExtent,
+    ScrollCacheExtent? scrollCacheExtent,
     List<Widget> children = const <Widget>[],
     int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
@@ -143,7 +144,7 @@ class Timeline extends BoxScrollView {
           physics: physics,
           shrinkWrap: shrinkWrap,
           padding: padding,
-          cacheExtent: cacheExtent,
+          scrollCacheExtent: scrollCacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
@@ -197,7 +198,7 @@ class Timeline extends BoxScrollView {
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double? cacheExtent,
+    ScrollCacheExtent? scrollCacheExtent,
     int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
@@ -226,7 +227,7 @@ class Timeline extends BoxScrollView {
           physics: physics,
           shrinkWrap: shrinkWrap,
           padding: padding,
-          cacheExtent: cacheExtent,
+          scrollCacheExtent: scrollCacheExtent,
           semanticChildCount: semanticChildCount ?? itemCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
@@ -253,7 +254,7 @@ class Timeline extends BoxScrollView {
     EdgeInsetsGeometry? padding,
     this.itemExtent,
     required this.childrenDelegate,
-    double? cacheExtent,
+    ScrollCacheExtent? scrollCacheExtent,
     int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
@@ -273,7 +274,7 @@ class Timeline extends BoxScrollView {
           physics: physics,
           shrinkWrap: shrinkWrap,
           padding: padding,
-          cacheExtent: cacheExtent,
+          scrollCacheExtent: scrollCacheExtent,
           semanticChildCount: semanticChildCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,

@@ -29,7 +29,7 @@ class BookmarksPurposeGroupedTab extends ConsumerWidget {
     return ReorderableListView.builder(
       itemCount: state.groups.length,
       padding: const EdgeInsets.only(top: 8),
-      onReorder: ref.read(purposeGroupedBookmarkListViewModelProvider.notifier).reorder,
+      onReorderItem: ref.read(purposeGroupedBookmarkListViewModelProvider.notifier).reorder,
       buildDefaultDragHandles: false,
       itemBuilder: (context, index) {
         final group = state.groups[index];
