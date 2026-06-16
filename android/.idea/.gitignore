@@ -9,3 +9,5 @@
 /gradle.xml
 assetWizardSettings.xml
 deploymentTargetSelector.xml
+appInsightsSettings.xml
+/caches/
