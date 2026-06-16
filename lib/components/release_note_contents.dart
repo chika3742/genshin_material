@@ -11,6 +11,7 @@ class ReleaseNoteContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: .stretch,
       children: buildColumns(context),
     );
   }
@@ -44,6 +45,10 @@ class ReleaseNoteContents extends StatelessWidget {
       LineType.listItem => buildListItem(context, parsedLine.text),
       LineType.indentedListItem =>
         buildListItem(context, parsedLine.text, indented: true),
+      LineType.plain => Padding(
+        padding: const EdgeInsets.only(left: 16.0),
+        child: Text(parsedLine.text),
+      ),
     };
   }
 
@@ -70,7 +75,10 @@ class ReleaseNoteContents extends StatelessWidget {
       );
     }
 
-    throw "Could not detect line type";
+    return ContentsLine(
+      type: LineType.plain,
+      text: line,
+    );
   }
 
   Widget buildHeading(BuildContext context, String text, { bool insertTopPadding = true }) {
@@ -135,6 +143,7 @@ enum LineType {
   heading,
   listItem,
   indentedListItem,
+  plain,
 }
 
 class ContentsLine {

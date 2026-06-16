@@ -91,4 +91,14 @@ void main() {
       findsOne,
     ); // find list item text
   });
+
+  testWidgets("Can parse plain line", (tester) async {
+    const input = "plain line";
+    await tester.pumpWidget(
+      createScreenWithApp(
+        const ReleaseNoteContents(contentsText: input),
+      ),
+    );
+    expect(find.text(input), findsOne);
+  });
 }
