@@ -46,7 +46,6 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
       groups: bookmarkGroupList,
       sortedBookmarks: bookmarkGroups.map((k, v) => MapEntry(
         k,
-        // TODO: BROKEN: implement artifact refactoring
         sortBookmarks(v.bookmarks.cast<BookmarkWithMaterialDetails>(), assetData)
             .groupListsBy((e) => e.item.materialId),
       )),

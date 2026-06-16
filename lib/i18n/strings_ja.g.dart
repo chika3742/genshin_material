@@ -418,6 +418,9 @@ class Translations$bookmarksPage$ja {
 	/// ja: '武器'
 	String get weapon => '武器';
 
+	/// ja: '聖遺物'
+	String get artifacts => '聖遺物';
+
 	/// ja: '聖遺物セット'
 	String get artifactSet => '聖遺物セット';
 
@@ -1124,6 +1127,7 @@ extension on Translations {
 			'bookmarksPage.noBookmarks' => 'ブックマークがありません。「データベース」タブから探してみましょう！',
 			'bookmarksPage.character' => 'キャラクター',
 			'bookmarksPage.weapon' => '武器',
+			'bookmarksPage.artifacts' => '聖遺物',
 			'bookmarksPage.artifactSet' => '聖遺物セット',
 			'bookmarksPage.artifactPiece' => '聖遺物',
 			'bookmarksPage.main' => 'メイン',

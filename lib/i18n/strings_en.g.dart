@@ -268,6 +268,7 @@ class _Translations$bookmarksPage$en extends Translations$bookmarksPage$ja {
 	@override String get noBookmarks => 'No bookmarks yet. Try finding something in the Database tab!';
 	@override String get character => 'Character';
 	@override String get weapon => 'Weapon';
+	@override String get artifacts => 'Artifacts';
 	@override String get artifactSet => 'Artifact Set';
 	@override String get artifactPiece => 'Artifact';
 	@override String get main => 'Main';
@@ -681,6 +682,7 @@ extension on TranslationsEn {
 			'bookmarksPage.noBookmarks' => 'No bookmarks yet. Try finding something in the Database tab!',
 			'bookmarksPage.character' => 'Character',
 			'bookmarksPage.weapon' => 'Weapon',
+			'bookmarksPage.artifacts' => 'Artifacts',
 			'bookmarksPage.artifactSet' => 'Artifact Set',
 			'bookmarksPage.artifactPiece' => 'Artifact',
 			'bookmarksPage.main' => 'Main',
