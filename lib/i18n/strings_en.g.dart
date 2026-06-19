@@ -40,9 +40,9 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override String get appName => 'Genshin Material Notebook';
-	@override late final _TranslationsCommonEn common = _TranslationsCommonEn._(_root);
-	@override late final _TranslationsSearchEn search = _TranslationsSearchEn._(_root);
-	@override late final _TranslationsTutorialEn tutorial = _TranslationsTutorialEn._(_root);
+	@override late final _Translations$common$en common = _Translations$common$en._(_root);
+	@override late final _Translations$search$en search = _Translations$search$en._(_root);
+	@override late final _Translations$tutorial$en tutorial = _Translations$tutorial$en._(_root);
 	@override Map<String, String> get purposes => {
 		'ascension': 'Level Up/Ascension',
 		'normalAttack': 'Normal Attack',
@@ -54,32 +54,32 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 		'elementalSkill': 'Elemental Skill',
 		'elementalBurst': 'Elemental Burst',
 	};
-	@override late final _TranslationsUpdatesEn updates = _TranslationsUpdatesEn._(_root);
-	@override late final _TranslationsErrorsEn errors = _TranslationsErrorsEn._(_root);
-	@override late final _TranslationsPagesEn pages = _TranslationsPagesEn._(_root);
-	@override late final _TranslationsBookmarksPageEn bookmarksPage = _TranslationsBookmarksPageEn._(_root);
-	@override late final _TranslationsCharacterDetailsPageEn characterDetailsPage = _TranslationsCharacterDetailsPageEn._(_root);
-	@override late final _TranslationsWeaponDetailsPageEn weaponDetailsPage = _TranslationsWeaponDetailsPageEn._(_root);
-	@override late final _TranslationsMaterialDetailsPageEn materialDetailsPage = _TranslationsMaterialDetailsPageEn._(_root);
-	@override late final _TranslationsMaterialCardEn materialCard = _TranslationsMaterialCardEn._(_root);
-	@override late final _TranslationsArtifactsPageEn artifactsPage = _TranslationsArtifactsPageEn._(_root);
-	@override late final _TranslationsArtifactDetailsPageEn artifactDetailsPage = _TranslationsArtifactDetailsPageEn._(_root);
-	@override late final _TranslationsFurnishingSetsPageEn furnishingSetsPage = _TranslationsFurnishingSetsPageEn._(_root);
-	@override late final _TranslationsDailyPageEn dailyPage = _TranslationsDailyPageEn._(_root);
-	@override late final _TranslationsResinCalcPageEn resinCalcPage = _TranslationsResinCalcPageEn._(_root);
-	@override late final _TranslationsMorePageEn morePage = _TranslationsMorePageEn._(_root);
-	@override late final _TranslationsReleaseNotesPageEn releaseNotesPage = _TranslationsReleaseNotesPageEn._(_root);
-	@override late final _TranslationsSettingsPageEn settingsPage = _TranslationsSettingsPageEn._(_root);
-	@override late final _TranslationsFarmCountSettingsPageEn farmCountSettingsPage = _TranslationsFarmCountSettingsPageEn._(_root);
-	@override late final _TranslationsHoyolabEn hoyolab = _TranslationsHoyolabEn._(_root);
+	@override late final _Translations$updates$en updates = _Translations$updates$en._(_root);
+	@override late final _Translations$errors$en errors = _Translations$errors$en._(_root);
+	@override late final _Translations$pages$en pages = _Translations$pages$en._(_root);
+	@override late final _Translations$bookmarksPage$en bookmarksPage = _Translations$bookmarksPage$en._(_root);
+	@override late final _Translations$characterDetailsPage$en characterDetailsPage = _Translations$characterDetailsPage$en._(_root);
+	@override late final _Translations$weaponDetailsPage$en weaponDetailsPage = _Translations$weaponDetailsPage$en._(_root);
+	@override late final _Translations$materialDetailsPage$en materialDetailsPage = _Translations$materialDetailsPage$en._(_root);
+	@override late final _Translations$materialCard$en materialCard = _Translations$materialCard$en._(_root);
+	@override late final _Translations$artifactsPage$en artifactsPage = _Translations$artifactsPage$en._(_root);
+	@override late final _Translations$artifactDetailsPage$en artifactDetailsPage = _Translations$artifactDetailsPage$en._(_root);
+	@override late final _Translations$furnishingSetsPage$en furnishingSetsPage = _Translations$furnishingSetsPage$en._(_root);
+	@override late final _Translations$dailyPage$en dailyPage = _Translations$dailyPage$en._(_root);
+	@override late final _Translations$resinCalcPage$en resinCalcPage = _Translations$resinCalcPage$en._(_root);
+	@override late final _Translations$morePage$en morePage = _Translations$morePage$en._(_root);
+	@override late final _Translations$releaseNotesPage$en releaseNotesPage = _Translations$releaseNotesPage$en._(_root);
+	@override late final _Translations$settingsPage$en settingsPage = _Translations$settingsPage$en._(_root);
+	@override late final _Translations$farmCountSettingsPage$en farmCountSettingsPage = _Translations$farmCountSettingsPage$en._(_root);
+	@override late final _Translations$hoyolab$en hoyolab = _Translations$hoyolab$en._(_root);
 	@override Map<String, String> get whereToGet => {
 		'chests': 'Chests, Quests',
 	};
 }
 
 // Path: common
-class _TranslationsCommonEn extends TranslationsCommonJa {
-	_TranslationsCommonEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$common$en extends Translations$common$ja {
+	_Translations$common$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -167,20 +167,20 @@ class _TranslationsCommonEn extends TranslationsCommonJa {
 }
 
 // Path: search
-class _TranslationsSearchEn extends TranslationsSearchJa {
-	_TranslationsSearchEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$search$en extends Translations$search$ja {
+	_Translations$search$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
 	// Translations
 	@override String hint({required Object target}) => 'Search for ${target}...';
 	@override String get noResults => 'No search results found';
-	@override late final _TranslationsSearchTargetsEn targets = _TranslationsSearchTargetsEn._(_root);
+	@override late final _Translations$search$targets$en targets = _Translations$search$targets$en._(_root);
 }
 
 // Path: tutorial
-class _TranslationsTutorialEn extends TranslationsTutorialJa {
-	_TranslationsTutorialEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$tutorial$en extends Translations$tutorial$ja {
+	_Translations$tutorial$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -190,8 +190,8 @@ class _TranslationsTutorialEn extends TranslationsTutorialJa {
 }
 
 // Path: updates
-class _TranslationsUpdatesEn extends TranslationsUpdatesJa {
-	_TranslationsUpdatesEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$updates$en extends Translations$updates$ja {
+	_Translations$updates$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -211,8 +211,8 @@ class _TranslationsUpdatesEn extends TranslationsUpdatesJa {
 }
 
 // Path: errors
-class _TranslationsErrorsEn extends TranslationsErrorsJa {
-	_TranslationsErrorsEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$errors$en extends Translations$errors$ja {
+	_Translations$errors$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -226,8 +226,8 @@ class _TranslationsErrorsEn extends TranslationsErrorsJa {
 }
 
 // Path: pages
-class _TranslationsPagesEn extends TranslationsPagesJa {
-	_TranslationsPagesEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$pages$en extends Translations$pages$ja {
+	_Translations$pages$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -259,8 +259,8 @@ class _TranslationsPagesEn extends TranslationsPagesJa {
 }
 
 // Path: bookmarksPage
-class _TranslationsBookmarksPageEn extends TranslationsBookmarksPageJa {
-	_TranslationsBookmarksPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$bookmarksPage$en extends Translations$bookmarksPage$ja {
+	_Translations$bookmarksPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -281,8 +281,8 @@ class _TranslationsBookmarksPageEn extends TranslationsBookmarksPageJa {
 }
 
 // Path: characterDetailsPage
-class _TranslationsCharacterDetailsPageEn extends TranslationsCharacterDetailsPageJa {
-	_TranslationsCharacterDetailsPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$characterDetailsPage$en extends Translations$characterDetailsPage$ja {
+	_Translations$characterDetailsPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -292,8 +292,8 @@ class _TranslationsCharacterDetailsPageEn extends TranslationsCharacterDetailsPa
 }
 
 // Path: weaponDetailsPage
-class _TranslationsWeaponDetailsPageEn extends TranslationsWeaponDetailsPageJa {
-	_TranslationsWeaponDetailsPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$weaponDetailsPage$en extends Translations$weaponDetailsPage$ja {
+	_Translations$weaponDetailsPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -303,8 +303,8 @@ class _TranslationsWeaponDetailsPageEn extends TranslationsWeaponDetailsPageJa {
 }
 
 // Path: materialDetailsPage
-class _TranslationsMaterialDetailsPageEn extends TranslationsMaterialDetailsPageJa {
-	_TranslationsMaterialDetailsPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$materialDetailsPage$en extends Translations$materialDetailsPage$ja {
+	_Translations$materialDetailsPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -317,8 +317,8 @@ class _TranslationsMaterialDetailsPageEn extends TranslationsMaterialDetailsPage
 }
 
 // Path: materialCard
-class _TranslationsMaterialCardEn extends TranslationsMaterialCardJa {
-	_TranslationsMaterialCardEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$materialCard$en extends Translations$materialCard$ja {
+	_Translations$materialCard$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -331,8 +331,8 @@ class _TranslationsMaterialCardEn extends TranslationsMaterialCardJa {
 }
 
 // Path: artifactsPage
-class _TranslationsArtifactsPageEn extends TranslationsArtifactsPageJa {
-	_TranslationsArtifactsPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$artifactsPage$en extends Translations$artifactsPage$ja {
+	_Translations$artifactsPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -348,8 +348,8 @@ class _TranslationsArtifactsPageEn extends TranslationsArtifactsPageJa {
 }
 
 // Path: artifactDetailsPage
-class _TranslationsArtifactDetailsPageEn extends TranslationsArtifactDetailsPageJa {
-	_TranslationsArtifactDetailsPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$artifactDetailsPage$en extends Translations$artifactDetailsPage$ja {
+	_Translations$artifactDetailsPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -371,8 +371,8 @@ class _TranslationsArtifactDetailsPageEn extends TranslationsArtifactDetailsPage
 }
 
 // Path: furnishingSetsPage
-class _TranslationsFurnishingSetsPageEn extends TranslationsFurnishingSetsPageJa {
-	_TranslationsFurnishingSetsPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$furnishingSetsPage$en extends Translations$furnishingSetsPage$ja {
+	_Translations$furnishingSetsPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -393,8 +393,8 @@ class _TranslationsFurnishingSetsPageEn extends TranslationsFurnishingSetsPageJa
 }
 
 // Path: dailyPage
-class _TranslationsDailyPageEn extends TranslationsDailyPageJa {
-	_TranslationsDailyPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$dailyPage$en extends Translations$dailyPage$ja {
+	_Translations$dailyPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -407,8 +407,8 @@ class _TranslationsDailyPageEn extends TranslationsDailyPageJa {
 }
 
 // Path: resinCalcPage
-class _TranslationsResinCalcPageEn extends TranslationsResinCalcPageJa {
-	_TranslationsResinCalcPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$resinCalcPage$en extends Translations$resinCalcPage$ja {
+	_Translations$resinCalcPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -443,8 +443,8 @@ class _TranslationsResinCalcPageEn extends TranslationsResinCalcPageJa {
 }
 
 // Path: morePage
-class _TranslationsMorePageEn extends TranslationsMorePageJa {
-	_TranslationsMorePageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$morePage$en extends Translations$morePage$ja {
+	_Translations$morePage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -460,8 +460,8 @@ class _TranslationsMorePageEn extends TranslationsMorePageJa {
 }
 
 // Path: releaseNotesPage
-class _TranslationsReleaseNotesPageEn extends TranslationsReleaseNotesPageJa {
-	_TranslationsReleaseNotesPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$releaseNotesPage$en extends Translations$releaseNotesPage$ja {
+	_Translations$releaseNotesPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -471,8 +471,8 @@ class _TranslationsReleaseNotesPageEn extends TranslationsReleaseNotesPageJa {
 }
 
 // Path: settingsPage
-class _TranslationsSettingsPageEn extends TranslationsSettingsPageJa {
-	_TranslationsSettingsPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$settingsPage$en extends Translations$settingsPage$ja {
+	_Translations$settingsPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -492,8 +492,8 @@ class _TranslationsSettingsPageEn extends TranslationsSettingsPageJa {
 }
 
 // Path: farmCountSettingsPage
-class _TranslationsFarmCountSettingsPageEn extends TranslationsFarmCountSettingsPageJa {
-	_TranslationsFarmCountSettingsPageEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$farmCountSettingsPage$en extends Translations$farmCountSettingsPage$ja {
+	_Translations$farmCountSettingsPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -510,8 +510,8 @@ class _TranslationsFarmCountSettingsPageEn extends TranslationsFarmCountSettings
 }
 
 // Path: hoyolab
-class _TranslationsHoyolabEn extends TranslationsHoyolabJa {
-	_TranslationsHoyolabEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$hoyolab$en extends Translations$hoyolab$ja {
+	_Translations$hoyolab$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 
@@ -557,8 +557,8 @@ class _TranslationsHoyolabEn extends TranslationsHoyolabJa {
 }
 
 // Path: search.targets
-class _TranslationsSearchTargetsEn extends TranslationsSearchTargetsJa {
-	_TranslationsSearchTargetsEn._(TranslationsEn root) : this._root = root, super.internal(root);
+class _Translations$search$targets$en extends Translations$search$targets$ja {
+	_Translations$search$targets$en._(TranslationsEn root) : this._root = root, super.internal(root);
 
 	final TranslationsEn _root; // ignore: unused_field
 

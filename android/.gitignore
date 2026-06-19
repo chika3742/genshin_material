@@ -15,3 +15,4 @@ key.ci.properties
 
 /app/google-services.json
 native_debug_symbols.zip
+/build/

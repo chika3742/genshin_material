@@ -95,7 +95,7 @@ abstract class _$GameDataSyncCached
   });
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref =
         this.ref as $Ref<AsyncValue<GameDataSyncResult?>, GameDataSyncResult?>;
     final element =
@@ -106,7 +106,7 @@ abstract class _$GameDataSyncCached
               Object?,
               Object?
             >;
-    element.handleCreate(
+    return element.handleCreate(
       ref,
       () => build(variantId: _$args.variantId, weaponId: _$args.weaponId),
     );
@@ -417,7 +417,7 @@ abstract class _$ResinSyncStateNotifier extends $Notifier<GameDataSyncStatus> {
   GameDataSyncStatus build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<GameDataSyncStatus, GameDataSyncStatus>;
     final element =
         ref.element
@@ -427,6 +427,6 @@ abstract class _$ResinSyncStateNotifier extends $Notifier<GameDataSyncStatus> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

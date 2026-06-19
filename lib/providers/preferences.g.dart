@@ -48,7 +48,7 @@ abstract class _$PreferencesStateNotifier extends $Notifier<PreferencesState> {
   PreferencesState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<PreferencesState, PreferencesState>;
     final element =
         ref.element
@@ -58,6 +58,6 @@ abstract class _$PreferencesStateNotifier extends $Notifier<PreferencesState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

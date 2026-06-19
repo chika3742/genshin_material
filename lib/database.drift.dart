@@ -3399,14 +3399,13 @@ final class $$BookmarkMaterialGroupTableTableReferences
     $BookmarkMaterialItemTableTable,
     List<BookmarkMaterialItem>
   >
-  _bookmarkMaterialItemTableRefsTable(_$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(
-        db.bookmarkMaterialItemTable,
-        aliasName: $_aliasNameGenerator(
-          db.bookmarkMaterialGroupTable.groupHash,
-          db.bookmarkMaterialItemTable.groupHash,
-        ),
-      );
+  _bookmarkMaterialItemTableRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.bookmarkMaterialItemTable,
+    aliasName:
+        'bookmark_material_group_table__group_hash__bookmark_material_item_table__group_hash',
+  );
 
   $$BookmarkMaterialItemTableTableProcessedTableManager
   get bookmarkMaterialItemTableRefs {
@@ -3765,13 +3764,11 @@ final class $$BookmarkMaterialItemTableTableReferences
     super.$_typedResult,
   );
 
-  static $BookmarkMaterialGroupTableTable _groupHashTable(_$AppDatabase db) =>
-      db.bookmarkMaterialGroupTable.createAlias(
-        $_aliasNameGenerator(
-          db.bookmarkMaterialItemTable.groupHash,
-          db.bookmarkMaterialGroupTable.groupHash,
-        ),
-      );
+  static $BookmarkMaterialGroupTableTable _groupHashTable(
+    _$AppDatabase db,
+  ) => db.bookmarkMaterialGroupTable.createAlias(
+    'bookmark_material_item_table__group_hash__bookmark_material_group_table__group_hash',
+  );
 
   $$BookmarkMaterialGroupTableTableProcessedTableManager get groupHash {
     final $_column = $_itemColumn<String>('group_hash')!;
@@ -4121,10 +4118,8 @@ final class $$BookmarkArtifactTableTableReferences
   _bookmarkArtifactSetTableRefsTable(_$AppDatabase db) =>
       MultiTypedResultKey.fromTable(
         db.bookmarkArtifactSetTable,
-        aliasName: $_aliasNameGenerator(
-          db.bookmarkArtifactTable.id,
-          db.bookmarkArtifactSetTable.id,
-        ),
+        aliasName:
+            'bookmark_artifact_table__id__bookmark_artifact_set_table__id',
       );
 
   $$BookmarkArtifactSetTableTableProcessedTableManager
@@ -4149,10 +4144,8 @@ final class $$BookmarkArtifactTableTableReferences
   _bookmarkArtifactPieceTableRefsTable(_$AppDatabase db) =>
       MultiTypedResultKey.fromTable(
         db.bookmarkArtifactPieceTable,
-        aliasName: $_aliasNameGenerator(
-          db.bookmarkArtifactTable.id,
-          db.bookmarkArtifactPieceTable.id,
-        ),
+        aliasName:
+            'bookmark_artifact_table__id__bookmark_artifact_piece_table__id',
       );
 
   $$BookmarkArtifactPieceTableTableProcessedTableManager
@@ -4568,10 +4561,7 @@ final class $$BookmarkArtifactSetTableTableReferences
 
   static $BookmarkArtifactTableTable _idTable(_$AppDatabase db) =>
       db.bookmarkArtifactTable.createAlias(
-        $_aliasNameGenerator(
-          db.bookmarkArtifactSetTable.id,
-          db.bookmarkArtifactTable.id,
-        ),
+        'bookmark_artifact_set_table__id__bookmark_artifact_table__id',
       );
 
   $$BookmarkArtifactTableTableProcessedTableManager get id {
@@ -4882,10 +4872,7 @@ final class $$BookmarkArtifactPieceTableTableReferences
 
   static $BookmarkArtifactTableTable _idTable(_$AppDatabase db) =>
       db.bookmarkArtifactTable.createAlias(
-        $_aliasNameGenerator(
-          db.bookmarkArtifactPieceTable.id,
-          db.bookmarkArtifactTable.id,
-        ),
+        'bookmark_artifact_piece_table__id__bookmark_artifact_table__id',
       );
 
   $$BookmarkArtifactTableTableProcessedTableManager get id {

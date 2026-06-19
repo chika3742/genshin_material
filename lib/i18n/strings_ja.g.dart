@@ -44,9 +44,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// ja: '原神素材ノート'
 	String get appName => '原神素材ノート';
 
-	late final TranslationsCommonJa common = TranslationsCommonJa.internal(_root);
-	late final TranslationsSearchJa search = TranslationsSearchJa.internal(_root);
-	late final TranslationsTutorialJa tutorial = TranslationsTutorialJa.internal(_root);
+	late final Translations$common$ja common = Translations$common$ja.internal(_root);
+	late final Translations$search$ja search = Translations$search$ja.internal(_root);
+	late final Translations$tutorial$ja tutorial = Translations$tutorial$ja.internal(_root);
 	Map<String, String> get purposes => {
 		'ascension': 'Lvアップ・突破',
 		'normalAttack': '通常攻撃',
@@ -58,32 +58,32 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 		'elementalSkill': '元素スキル',
 		'elementalBurst': '元素爆発',
 	};
-	late final TranslationsUpdatesJa updates = TranslationsUpdatesJa.internal(_root);
-	late final TranslationsErrorsJa errors = TranslationsErrorsJa.internal(_root);
-	late final TranslationsPagesJa pages = TranslationsPagesJa.internal(_root);
-	late final TranslationsBookmarksPageJa bookmarksPage = TranslationsBookmarksPageJa.internal(_root);
-	late final TranslationsCharacterDetailsPageJa characterDetailsPage = TranslationsCharacterDetailsPageJa.internal(_root);
-	late final TranslationsWeaponDetailsPageJa weaponDetailsPage = TranslationsWeaponDetailsPageJa.internal(_root);
-	late final TranslationsMaterialDetailsPageJa materialDetailsPage = TranslationsMaterialDetailsPageJa.internal(_root);
-	late final TranslationsMaterialCardJa materialCard = TranslationsMaterialCardJa.internal(_root);
-	late final TranslationsArtifactsPageJa artifactsPage = TranslationsArtifactsPageJa.internal(_root);
-	late final TranslationsArtifactDetailsPageJa artifactDetailsPage = TranslationsArtifactDetailsPageJa.internal(_root);
-	late final TranslationsFurnishingSetsPageJa furnishingSetsPage = TranslationsFurnishingSetsPageJa.internal(_root);
-	late final TranslationsDailyPageJa dailyPage = TranslationsDailyPageJa.internal(_root);
-	late final TranslationsResinCalcPageJa resinCalcPage = TranslationsResinCalcPageJa.internal(_root);
-	late final TranslationsMorePageJa morePage = TranslationsMorePageJa.internal(_root);
-	late final TranslationsReleaseNotesPageJa releaseNotesPage = TranslationsReleaseNotesPageJa.internal(_root);
-	late final TranslationsSettingsPageJa settingsPage = TranslationsSettingsPageJa.internal(_root);
-	late final TranslationsFarmCountSettingsPageJa farmCountSettingsPage = TranslationsFarmCountSettingsPageJa.internal(_root);
-	late final TranslationsHoyolabJa hoyolab = TranslationsHoyolabJa.internal(_root);
+	late final Translations$updates$ja updates = Translations$updates$ja.internal(_root);
+	late final Translations$errors$ja errors = Translations$errors$ja.internal(_root);
+	late final Translations$pages$ja pages = Translations$pages$ja.internal(_root);
+	late final Translations$bookmarksPage$ja bookmarksPage = Translations$bookmarksPage$ja.internal(_root);
+	late final Translations$characterDetailsPage$ja characterDetailsPage = Translations$characterDetailsPage$ja.internal(_root);
+	late final Translations$weaponDetailsPage$ja weaponDetailsPage = Translations$weaponDetailsPage$ja.internal(_root);
+	late final Translations$materialDetailsPage$ja materialDetailsPage = Translations$materialDetailsPage$ja.internal(_root);
+	late final Translations$materialCard$ja materialCard = Translations$materialCard$ja.internal(_root);
+	late final Translations$artifactsPage$ja artifactsPage = Translations$artifactsPage$ja.internal(_root);
+	late final Translations$artifactDetailsPage$ja artifactDetailsPage = Translations$artifactDetailsPage$ja.internal(_root);
+	late final Translations$furnishingSetsPage$ja furnishingSetsPage = Translations$furnishingSetsPage$ja.internal(_root);
+	late final Translations$dailyPage$ja dailyPage = Translations$dailyPage$ja.internal(_root);
+	late final Translations$resinCalcPage$ja resinCalcPage = Translations$resinCalcPage$ja.internal(_root);
+	late final Translations$morePage$ja morePage = Translations$morePage$ja.internal(_root);
+	late final Translations$releaseNotesPage$ja releaseNotesPage = Translations$releaseNotesPage$ja.internal(_root);
+	late final Translations$settingsPage$ja settingsPage = Translations$settingsPage$ja.internal(_root);
+	late final Translations$farmCountSettingsPage$ja farmCountSettingsPage = Translations$farmCountSettingsPage$ja.internal(_root);
+	late final Translations$hoyolab$ja hoyolab = Translations$hoyolab$ja.internal(_root);
 	Map<String, String> get whereToGet => {
 		'chests': '宝箱、任務報酬など',
 	};
 }
 
 // Path: common
-class TranslationsCommonJa {
-	TranslationsCommonJa.internal(this._root);
+class Translations$common$ja {
+	Translations$common$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -217,8 +217,8 @@ class TranslationsCommonJa {
 }
 
 // Path: search
-class TranslationsSearchJa {
-	TranslationsSearchJa.internal(this._root);
+class Translations$search$ja {
+	Translations$search$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -230,12 +230,12 @@ class TranslationsSearchJa {
 	/// ja: '検索結果が見つかりません'
 	String get noResults => '検索結果が見つかりません';
 
-	late final TranslationsSearchTargetsJa targets = TranslationsSearchTargetsJa.internal(_root);
+	late final Translations$search$targets$ja targets = Translations$search$targets$ja.internal(_root);
 }
 
 // Path: tutorial
-class TranslationsTutorialJa {
-	TranslationsTutorialJa.internal(this._root);
+class Translations$tutorial$ja {
+	Translations$tutorial$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -249,8 +249,8 @@ class TranslationsTutorialJa {
 }
 
 // Path: updates
-class TranslationsUpdatesJa {
-	TranslationsUpdatesJa.internal(this._root);
+class Translations$updates$ja {
+	Translations$updates$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -294,8 +294,8 @@ class TranslationsUpdatesJa {
 }
 
 // Path: errors
-class TranslationsErrorsJa {
-	TranslationsErrorsJa.internal(this._root);
+class Translations$errors$ja {
+	Translations$errors$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -321,8 +321,8 @@ class TranslationsErrorsJa {
 }
 
 // Path: pages
-class TranslationsPagesJa {
-	TranslationsPagesJa.internal(this._root);
+class Translations$pages$ja {
+	Translations$pages$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -402,8 +402,8 @@ class TranslationsPagesJa {
 }
 
 // Path: bookmarksPage
-class TranslationsBookmarksPageJa {
-	TranslationsBookmarksPageJa.internal(this._root);
+class Translations$bookmarksPage$ja {
+	Translations$bookmarksPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -450,8 +450,8 @@ class TranslationsBookmarksPageJa {
 }
 
 // Path: characterDetailsPage
-class TranslationsCharacterDetailsPageJa {
-	TranslationsCharacterDetailsPageJa.internal(this._root);
+class Translations$characterDetailsPage$ja {
+	Translations$characterDetailsPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -465,8 +465,8 @@ class TranslationsCharacterDetailsPageJa {
 }
 
 // Path: weaponDetailsPage
-class TranslationsWeaponDetailsPageJa {
-	TranslationsWeaponDetailsPageJa.internal(this._root);
+class Translations$weaponDetailsPage$ja {
+	Translations$weaponDetailsPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -480,8 +480,8 @@ class TranslationsWeaponDetailsPageJa {
 }
 
 // Path: materialDetailsPage
-class TranslationsMaterialDetailsPageJa {
-	TranslationsMaterialDetailsPageJa.internal(this._root);
+class Translations$materialDetailsPage$ja {
+	Translations$materialDetailsPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -504,8 +504,8 @@ class TranslationsMaterialDetailsPageJa {
 }
 
 // Path: materialCard
-class TranslationsMaterialCardJa {
-	TranslationsMaterialCardJa.internal(this._root);
+class Translations$materialCard$ja {
+	Translations$materialCard$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -528,8 +528,8 @@ class TranslationsMaterialCardJa {
 }
 
 // Path: artifactsPage
-class TranslationsArtifactsPageJa {
-	TranslationsArtifactsPageJa.internal(this._root);
+class Translations$artifactsPage$ja {
+	Translations$artifactsPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -551,8 +551,8 @@ class TranslationsArtifactsPageJa {
 }
 
 // Path: artifactDetailsPage
-class TranslationsArtifactDetailsPageJa {
-	TranslationsArtifactDetailsPageJa.internal(this._root);
+class Translations$artifactDetailsPage$ja {
+	Translations$artifactDetailsPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -602,8 +602,8 @@ class TranslationsArtifactDetailsPageJa {
 }
 
 // Path: furnishingSetsPage
-class TranslationsFurnishingSetsPageJa {
-	TranslationsFurnishingSetsPageJa.internal(this._root);
+class Translations$furnishingSetsPage$ja {
+	Translations$furnishingSetsPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -650,8 +650,8 @@ class TranslationsFurnishingSetsPageJa {
 }
 
 // Path: dailyPage
-class TranslationsDailyPageJa {
-	TranslationsDailyPageJa.internal(this._root);
+class Translations$dailyPage$ja {
+	Translations$dailyPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -674,8 +674,8 @@ class TranslationsDailyPageJa {
 }
 
 // Path: resinCalcPage
-class TranslationsResinCalcPageJa {
-	TranslationsResinCalcPageJa.internal(this._root);
+class Translations$resinCalcPage$ja {
+	Translations$resinCalcPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -734,8 +734,8 @@ class TranslationsResinCalcPageJa {
 }
 
 // Path: morePage
-class TranslationsMorePageJa {
-	TranslationsMorePageJa.internal(this._root);
+class Translations$morePage$ja {
+	Translations$morePage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -767,8 +767,8 @@ class TranslationsMorePageJa {
 }
 
 // Path: releaseNotesPage
-class TranslationsReleaseNotesPageJa {
-	TranslationsReleaseNotesPageJa.internal(this._root);
+class Translations$releaseNotesPage$ja {
+	Translations$releaseNotesPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -782,8 +782,8 @@ class TranslationsReleaseNotesPageJa {
 }
 
 // Path: settingsPage
-class TranslationsSettingsPageJa {
-	TranslationsSettingsPageJa.internal(this._root);
+class Translations$settingsPage$ja {
+	Translations$settingsPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -827,8 +827,8 @@ class TranslationsSettingsPageJa {
 }
 
 // Path: farmCountSettingsPage
-class TranslationsFarmCountSettingsPageJa {
-	TranslationsFarmCountSettingsPageJa.internal(this._root);
+class Translations$farmCountSettingsPage$ja {
+	Translations$farmCountSettingsPage$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -863,8 +863,8 @@ class TranslationsFarmCountSettingsPageJa {
 }
 
 // Path: hoyolab
-class TranslationsHoyolabJa {
-	TranslationsHoyolabJa.internal(this._root);
+class Translations$hoyolab$ja {
+	Translations$hoyolab$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -986,8 +986,8 @@ class TranslationsHoyolabJa {
 }
 
 // Path: search.targets
-class TranslationsSearchTargetsJa {
-	TranslationsSearchTargetsJa.internal(this._root);
+class Translations$search$targets$ja {
+	Translations$search$targets$ja.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
