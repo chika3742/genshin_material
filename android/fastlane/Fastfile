@@ -26,7 +26,7 @@ platform :android do
     desc "Deploy a new version to the Google Play"
     lane :upload do
         app_version = ENV["APP_VERSION"]
-        is_test_version = app_version.include?("-")
+        is_test_version = ENV["DEPLOY_CHANNEL"] != "prod"
 
         Dir.chdir("../../build/app/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib") do
             sh("zip -r ../../../../../../../../android/native_debug_symbols.zip ./* -x *x86/*")

@@ -13,14 +13,14 @@ jobs:
     outputs:
       build_num: ${{ steps.build-attr.outputs.build_num }}
       build_name: ${{ steps.build-attr.outputs.build_name }}
-      asset_channel: ${{ steps.build-attr.outputs.asset_channel }}
+      channel: ${{ steps.build-attr.outputs.channel }}
 
     steps:
       - id: build-attr
         run: |
           echo "build_num=$(($GITHUB_RUN_NUMBER + $BUILD_NUM_OFFSET))" >> $GITHUB_OUTPUT
           echo "build_name=`echo "$GITHUB_REF_NAME" | perl -nle "print $& while m/(?<=v)\d+\.\d+\.\d+/g"`" >> $GITHUB_OUTPUT
-          echo "asset_channel=$([[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] && echo "prod" || echo "dev")" >> $GITHUB_OUTPUT
+          echo "channel=$([[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] && echo "prod" || echo "dev")" >> $GITHUB_OUTPUT
 
   deploy-app-store:
     name: Deploy to App Store
@@ -29,7 +29,8 @@ jobs:
     with:
       build-name: ${{ needs.build-attr.outputs.build_name }}
       build-number: ${{ needs.build-attr.outputs.build_num }}
-      build-options: "--dart-define=ASSET_CHANNEL=${{ needs.build-attr.outputs.asset_channel }}"
+      build-options: "--dart-define=ASSET_CHANNEL=${{ needs.build-attr.outputs.channel }}"
+      deploy-channel: ${{ needs.build-attr.outputs.channel }}
       xcode-version: '26.5'
     secrets:
       provisioning_profile_1_base64: ${{ secrets.APPLE_PROVISIONING_PROFILE_BASE64 }}
@@ -50,7 +51,8 @@ jobs:
     with:
       build-name: ${{ needs.build-attr.outputs.build_name }}
       build-number: ${{ needs.build-attr.outputs.build_num }}
-      build-options: "--dart-define=ASSET_CHANNEL=${{ needs.build-attr.outputs.asset_channel }}"
+      build-options: "--dart-define=ASSET_CHANNEL=${{ needs.build-attr.outputs.channel }}"
+      deploy-channel: ${{ needs.build-attr.outputs.channel }}
       wif-audience: ${{ vars.WIF_AUDIENCE }}
     secrets:
       keystore_base64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}

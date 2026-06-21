@@ -54,7 +54,7 @@ platform :ios do
         )
 
         app_version = ENV["APP_VERSION"]
-        is_test_version = app_version.include?("-")
+        is_test_version = ENV["DEPLOY_CHANNEL"] != "prod"
 
         if is_test_version
             upload_to_testflight(
