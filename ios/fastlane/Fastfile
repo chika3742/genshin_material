@@ -76,7 +76,7 @@ platform :ios do
               app_version: app_version,
               skip_screenshots: true,
               precheck_include_in_app_purchases: false,
-              submit_for_review: true,
+              submit_for_review: false,
               force: true,
               ipa: "../build/ios/ipa/GenshinMaterial.ipa",
             )
