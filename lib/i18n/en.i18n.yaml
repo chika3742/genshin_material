@@ -117,6 +117,7 @@ bookmarksPage:
   noBookmarks: No bookmarks yet. Try finding something in the Database tab!
   character: Character
   weapon: Weapon
+  artifacts: Artifacts
   artifactSet: Artifact Set
   artifactPiece: Artifact
   main: Main

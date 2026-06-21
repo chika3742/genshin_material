@@ -114,6 +114,7 @@ bookmarksPage:
   noBookmarks: ブックマークがありません。「データベース」タブから探してみましょう！
   character: キャラクター
   weapon: 武器
+  artifacts: 聖遺物
   artifactSet: 聖遺物セット
   artifactPiece: 聖遺物
   main: メイン
