@@ -15,7 +15,7 @@ import "filter_state.dart";
 part "preferences.freezed.dart";
 part "preferences.g.dart";
 
-@riverpod
+@Riverpod(keepAlive: true)
 class PreferencesStateNotifier extends _$PreferencesStateNotifier {
   @override
   PreferencesState build() {

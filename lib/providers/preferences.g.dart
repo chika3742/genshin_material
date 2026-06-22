@@ -20,7 +20,7 @@ final class PreferencesStateNotifierProvider
         argument: null,
         retry: null,
         name: r'preferencesStateProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -42,7 +42,7 @@ final class PreferencesStateNotifierProvider
 }
 
 String _$preferencesStateNotifierHash() =>
-    r'c07843a42de385aeb74203b998fe3368dd5fcfa7';
+    r'ec19dbae39610064c28b6772de499673dc22015f';
 
 abstract class _$PreferencesStateNotifier extends $Notifier<PreferencesState> {
   PreferencesState build();
