@@ -68,8 +68,10 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
               TextButton(
                 onPressed: () {
-                  ref.read(preferencesStateProvider.notifier)
-                      .addBannerReadKey(rc.getString(RemoteConfigKey.bannerKey));
+                  if (mounted) {
+                    ref.read(preferencesStateProvider.notifier)
+                        .addBannerReadKey(rc.getString(RemoteConfigKey.bannerKey));
+                  }
                   scfMessenger.hideCurrentMaterialBanner();
                 },
                 child: Text(tr.common.dismiss),
