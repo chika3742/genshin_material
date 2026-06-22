@@ -20,7 +20,7 @@ final class PreferencesStateNotifierProvider
         argument: null,
         retry: null,
         name: r'preferencesStateProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
