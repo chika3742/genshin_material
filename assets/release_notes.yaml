@@ -1,13 +1,15 @@
 # コピー用改行
 
-- releasedOn: 2026/06/16
-  version: 4.8.0
+- releasedOn: 2026/06/22
+  version: 4.8.1
   contents:
     locales:
       ja: |
-        てすてす
+        # 改善
+        - 聖遺物ブックマーク一覧表示を分離しました。
       en: |
-        testtest
+        # Improvement
+        - Separated the artifact bookmark list view.
 
 - releasedOn: 2026/06/11
   version: 4.7.7
