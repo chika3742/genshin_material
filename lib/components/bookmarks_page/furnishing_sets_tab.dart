@@ -91,6 +91,7 @@ class BookmarkFurnishingSetsTab extends HookConsumerWidget {
                   children: [FurnishingTable(
                     setId: set.id,
                     hideCompleted: true,
+                    nested: true,
                     items: set.consistsOf.map((e) {
                       return FurnishingSetComponentItem(
                         furnishing: assetData.furnishings[e.furnishingId]!,
