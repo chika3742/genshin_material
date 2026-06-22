@@ -27,6 +27,7 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     final baseTime = DateTime.now();
     await state.pref.resin.setValue(resin);
     await state.pref.resinBaseTime.setValueWithConversion(baseTime);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
@@ -38,6 +39,7 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
       final baseTime = DateTime.now().subtract(Duration(seconds: offset));
       await state.pref.resinBaseTime.setValueWithConversion(baseTime);
     }
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
@@ -45,11 +47,13 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     await state.pref.hyvServer.setValue(server.region);
     await state.pref.hyvServerName.setValue(server.name);
     await state.pref.hyvUserName.setValue(username);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setUid(String uid) async {
     await state.pref.hyvUid.setValue(uid);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
@@ -60,46 +64,55 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     await state.pref.hyvServerName.setValue(null);
     await state.pref.hyvUserName.setValue(null);
     await state.pref.hyvUid.setValue(null);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setSyncResin(bool value) async {
     await state.pref.syncResin.setValue(value);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setSyncCharaState(bool value) async {
     await state.pref.syncCharaState.setValue(value);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setSyncWeaponState(bool value) async {
     await state.pref.syncWeaponState.setValue(value);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setAutoRemoveBookmarks(bool value) async {
     await state.pref.autoRemoveBookmarks.setValue(value);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setSyncBagLackNums(bool value) async {
     await state.pref.syncBagLackNums.setValue(value);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setShowItemNameOnCard(bool value) async {
     await state.pref.showItemNameOnCard.setValue(value);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setDailyResetServer(GameServer server) async {
     await state.pref.dailyResetServer.setValueWithConversion(server);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setIndexSheetTutorialShown() async {
     await state.pref.indexSheetTutorialShown.setValue(true);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
@@ -107,31 +120,37 @@ class PreferencesStateNotifier extends _$PreferencesStateNotifier {
     final keys = List<String>.from(state.pref.bannerReadKeys.value);
     keys.add(key);
     await state.pref.bannerReadKeys.setValue(keys);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setAdventureRank(int value) async {
     await state.pref.adventureRank.setValue(value);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setCondensedMultiplier(double value) async {
     await state.pref.condensedMultiplier.setValue(value);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setShowFarmCount(bool value) async {
     await state.pref.showFarmCount.setValue(value);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setCharacterSortType(CharacterSortType type) async {
     await state.pref.characterSortType.setValueWithConversion(type);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 
   Future<void> setWeaponSortType(WeaponSortType type) async {
     await state.pref.weaponSortType.setValueWithConversion(type);
+    if (!ref.mounted) return;
     state = PreferencesState.fromSharedPreferences(state.pref);
   }
 }
