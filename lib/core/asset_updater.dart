@@ -20,6 +20,7 @@ import "../models/common.dart" as common;
 import "asset_cache.dart";
 import "asset_loader.dart";
 import "errors.dart";
+import "silent_exception.dart";
 
 class AssetUpdater {
   AssetUpdater({
@@ -319,7 +320,7 @@ enum AssetUpdateProgressState {
   bool get isBusy => isUpdating || isChecking;
 }
 
-class SchemaVersionMismatchException implements Exception {
+class SchemaVersionMismatchException extends SilentException implements Exception {
   final int remote;
   final int runtime;
 

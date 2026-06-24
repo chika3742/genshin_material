@@ -15,8 +15,10 @@ String getErrorMessage(Object? error, {String prefix = ""}) {
     CredentialVerificationException() => tr.hoyolab.credentialVerificationFailed,
     SocketException() => tr.updates.noInternet,
     HoyolabApiException(:final retcode, :final originalMessage) => switch (retcode) {
-      Retcode.characterDoesNotExist => tr.hoyolab.characterDoesNotExist,
-      Retcode.dataNotPublic => tr.hoyolab.realtimeNotesNotEnabled,
+      -502002 => tr.hoyolab.characterDataAccessNotAllowed,
+      -502001 => tr.hoyolab.characterDoesNotExist,
+      10102 => tr.hoyolab.realtimeNotesNotEnabled,
+      -100 => tr.hoyolab.loginExpired,
       _ => "($originalMessage)",
     },
     DriftRemoteException() => tr.errors.dbError,
