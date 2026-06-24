@@ -15,6 +15,11 @@ T _$identity<T>(T value) => value;
 mixin _$MaterialBookmarkFrame {
 
  String? get materialId; int get level; Purpose get purposeType;
+/// Create a copy of MaterialBookmarkFrame
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MaterialBookmarkFrameCopyWith<MaterialBookmarkFrame> get copyWith => _$MaterialBookmarkFrameCopyWithImpl<MaterialBookmarkFrame>(this as MaterialBookmarkFrame, _$identity);
 
 
 
@@ -35,7 +40,38 @@ String toString() {
 
 }
 
+/// @nodoc
+abstract mixin class $MaterialBookmarkFrameCopyWith<$Res>  {
+  factory $MaterialBookmarkFrameCopyWith(MaterialBookmarkFrame value, $Res Function(MaterialBookmarkFrame) _then) = _$MaterialBookmarkFrameCopyWithImpl;
+@useResult
+$Res call({
+ String materialId, int level, Purpose purposeType
+});
 
+
+
+
+}
+/// @nodoc
+class _$MaterialBookmarkFrameCopyWithImpl<$Res>
+    implements $MaterialBookmarkFrameCopyWith<$Res> {
+  _$MaterialBookmarkFrameCopyWithImpl(this._self, this._then);
+
+  final MaterialBookmarkFrame _self;
+  final $Res Function(MaterialBookmarkFrame) _then;
+
+/// Create a copy of MaterialBookmarkFrame
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? materialId = null,Object? level = null,Object? purposeType = null,}) {
+  return _then(_self.copyWith(
+materialId: null == materialId ? _self.materialId! : materialId // ignore: cast_nullable_to_non_nullable
+as String,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as int,purposeType: null == purposeType ? _self.purposeType : purposeType // ignore: cast_nullable_to_non_nullable
+as Purpose,
+  ));
+}
+
+}
 
 
 
@@ -51,6 +87,11 @@ class MaterialBookmarkFrameNormal implements MaterialBookmarkFrame {
  final  int quantity;
 @override final  Purpose purposeType;
 
+/// Create a copy of MaterialBookmarkFrame
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MaterialBookmarkFrameNormalCopyWith<MaterialBookmarkFrameNormal> get copyWith => _$MaterialBookmarkFrameNormalCopyWithImpl<MaterialBookmarkFrameNormal>(this, _$identity);
 
 
 
@@ -71,8 +112,40 @@ String toString() {
 
 }
 
+/// @nodoc
+abstract mixin class $MaterialBookmarkFrameNormalCopyWith<$Res> implements $MaterialBookmarkFrameCopyWith<$Res> {
+  factory $MaterialBookmarkFrameNormalCopyWith(MaterialBookmarkFrameNormal value, $Res Function(MaterialBookmarkFrameNormal) _then) = _$MaterialBookmarkFrameNormalCopyWithImpl;
+@override @useResult
+$Res call({
+ String materialId, int level, int quantity, Purpose purposeType
+});
 
 
+
+
+}
+/// @nodoc
+class _$MaterialBookmarkFrameNormalCopyWithImpl<$Res>
+    implements $MaterialBookmarkFrameNormalCopyWith<$Res> {
+  _$MaterialBookmarkFrameNormalCopyWithImpl(this._self, this._then);
+
+  final MaterialBookmarkFrameNormal _self;
+  final $Res Function(MaterialBookmarkFrameNormal) _then;
+
+/// Create a copy of MaterialBookmarkFrame
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? materialId = null,Object? level = null,Object? quantity = null,Object? purposeType = null,}) {
+  return _then(MaterialBookmarkFrameNormal(
+materialId: null == materialId ? _self.materialId : materialId // ignore: cast_nullable_to_non_nullable
+as String,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as int,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as int,purposeType: null == purposeType ? _self.purposeType : purposeType // ignore: cast_nullable_to_non_nullable
+as Purpose,
+  ));
+}
+
+
+}
 
 /// @nodoc
 
@@ -86,6 +159,11 @@ class MaterialBookmarkFrameExp implements MaterialBookmarkFrame {
  final  int exp;
 @override@JsonKey() final  Purpose purposeType;
 
+/// Create a copy of MaterialBookmarkFrame
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MaterialBookmarkFrameExpCopyWith<MaterialBookmarkFrameExp> get copyWith => _$MaterialBookmarkFrameExpCopyWithImpl<MaterialBookmarkFrameExp>(this, _$identity);
 
 
 
@@ -106,8 +184,40 @@ String toString() {
 
 }
 
+/// @nodoc
+abstract mixin class $MaterialBookmarkFrameExpCopyWith<$Res> implements $MaterialBookmarkFrameCopyWith<$Res> {
+  factory $MaterialBookmarkFrameExpCopyWith(MaterialBookmarkFrameExp value, $Res Function(MaterialBookmarkFrameExp) _then) = _$MaterialBookmarkFrameExpCopyWithImpl;
+@override @useResult
+$Res call({
+ String? materialId, int level, int exp, Purpose purposeType
+});
 
 
+
+
+}
+/// @nodoc
+class _$MaterialBookmarkFrameExpCopyWithImpl<$Res>
+    implements $MaterialBookmarkFrameExpCopyWith<$Res> {
+  _$MaterialBookmarkFrameExpCopyWithImpl(this._self, this._then);
+
+  final MaterialBookmarkFrameExp _self;
+  final $Res Function(MaterialBookmarkFrameExp) _then;
+
+/// Create a copy of MaterialBookmarkFrame
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? materialId = freezed,Object? level = null,Object? exp = null,Object? purposeType = null,}) {
+  return _then(MaterialBookmarkFrameExp(
+materialId: freezed == materialId ? _self.materialId : materialId // ignore: cast_nullable_to_non_nullable
+as String?,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as int,exp: null == exp ? _self.exp : exp // ignore: cast_nullable_to_non_nullable
+as int,purposeType: null == purposeType ? _self.purposeType : purposeType // ignore: cast_nullable_to_non_nullable
+as Purpose,
+  ));
+}
+
+
+}
 
 /// @nodoc
 mixin _$MaterialUsage {

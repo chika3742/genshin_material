@@ -67,7 +67,7 @@ class MaterialCardMaterial {
   }
 }
 
-@freezed
+@Freezed(copyWith: true)
 sealed class MaterialBookmarkFrame with _$MaterialBookmarkFrame {
   const factory MaterialBookmarkFrame({
     required String materialId,
