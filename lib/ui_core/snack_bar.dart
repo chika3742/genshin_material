@@ -7,7 +7,11 @@ void showSnackBar({
   bool error = false,
   SnackBarAction? action,
 }) {
-  duration ??= error ? const Duration(seconds: 10) : const Duration(seconds: 4);
+  duration ??= switch ((error, action)) {
+    (true, _) => const Duration(seconds: 15),
+    (_, != null) => const Duration(seconds: 10),
+    _ => const Duration(seconds: 4),
+  };
   final messenger = ScaffoldMessenger.of(context);
   messenger.clearSnackBars();
   messenger.showSnackBar(
@@ -31,6 +35,7 @@ SnackBar createSnackBar({
   return SnackBar(
     content: Text(message, style: TextStyle(fontWeight: messageFontWeight)),
     action: action,
+    persist: false,
     duration: duration,
     behavior: SnackBarBehavior.floating,
     dismissDirection: DismissDirection.horizontal,
