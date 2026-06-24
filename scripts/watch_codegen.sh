@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-fvm dart run build_runner watch --delete-conflicting-outputs --force-aot &
+fvm dart run build_runner watch --force-aot &
 pid1=$!
 
 fvm dart run slang watch &
