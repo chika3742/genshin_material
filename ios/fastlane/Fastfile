@@ -15,10 +15,29 @@
 
 require "yaml"
 
+APP_STORE_RELEASE_NOTES_LENGTH_LIMIT = 4000
+
 locale_map = {
   "ja" => "ja",
   "en" => "en-US",
 }
+
+continue_message_map = {
+  "ja" => "\n続きはアプリ内の更新履歴をご覧ください。",
+  "en" => "\nSee the full release notes in the app.",
+}
+
+def truncate_release_notes(content, max_length, continue_message)
+  return content if content.length <= max_length
+
+  available_length = max_length - continue_message.length
+  truncated = ""
+  content.each_line do |line|
+    break if (truncated + line).length > available_length
+    truncated += line
+  end
+  truncated.rstrip + continue_message
+end
 
 default_platform(:ios)
 
@@ -70,7 +89,8 @@ platform :ios do
             version_entry["contents"]["locales"].each do |locale, contents|
                 path = "./metadata/#{locale_map[locale]}/release_notes.txt"
                 FileUtils.mkdir_p(File.dirname(path))
-                File.write(path, contents)
+                truncated = truncate_release_notes(contents, APP_STORE_RELEASE_NOTES_LENGTH_LIMIT, continue_message_map[locale])
+                File.write(path, truncated)
             end
             upload_to_app_store(
               app_version: app_version,
