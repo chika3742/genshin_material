@@ -12,6 +12,7 @@ import "package:http/http.dart" as http;
 import "../constants/remote_config_key.dart";
 import "../i18n/strings.g.dart";
 import "../models/hoyolab_api.dart";
+import "silent_exception.dart";
 
 const maxBatchComputeItems = 8;
 
@@ -258,29 +259,26 @@ class HoyolabApi {
   }
 }
 
-class HoyolabApiException implements Exception {
+class HoyolabApiException extends SilentException implements Exception {
   final int retcode;
   final String originalMessage;
 
   const HoyolabApiException(this.retcode, this.originalMessage);
 
-  String getMessage(String prepend) => "$prepend\n${switch (retcode) {
-    -502002 => tr.hoyolab.characterDataAccessNotAllowed,
-    Retcode.characterDoesNotExist => tr.hoyolab.characterDoesNotExist,
-    -100 => tr.hoyolab.loginExpired,
-    10102 => tr.hoyolab.realtimeNotesNotEnabled,
-    _ => "($retcode: $originalMessage)",
-  }}";
-
   @override
   String toString() {
     return "HoyolabApiException: $originalMessage, retcode: $retcode";
   }
-}
 
-class Retcode {
-  static const characterDoesNotExist = -502001;
-  static const dataNotPublic = 10102;
+  static const _knownRetcodes = [
+    -502002, // character data access not allowed
+    -502001, // character does not exist
+    10102, // realtime notes not enabled
+    -100, // login expired
+  ];
+
+  @override
+  bool get isSilent => _knownRetcodes.contains(retcode);
 }
 
 class HoyolabApiUtils {

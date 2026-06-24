@@ -169,13 +169,9 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: DefaultTextStyle(
               style: TextStyle(color: Theme.of(context).colorScheme.error),
-              child: () {
-                final error = isRealtimeNotesEnabled.error;
-                if (error is HoyolabApiException) {
-                  return Text(error.getMessage(tr.hoyolab.failedToLoadPermissionState));
-                }
-                return Text(tr.hoyolab.failedToLoadPermissionState);
-              }(),
+              child: Text(
+                getErrorMessage(isRealtimeNotesEnabled.error, prefix: tr.hoyolab.failedToLoadPermissionState),
+              ),
             ),
           ),
           SwitchListTile(
@@ -291,7 +287,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
         gameRoles.value[server] = result.list.firstOrNull;
       } on HoyolabApiException catch (e, st) {
         log("Failed to load game role for server ${server.region}", error: e, stackTrace: st);
-        errorText.value = e.getMessage(tr.hoyolab.failedToLoadGameRole);
+        errorText.value = getErrorMessage(e, prefix: tr.hoyolab.failedToLoadGameRole);
       } catch (e, st) {
         log("Failed to load game role for server ${server.region}", error: e, stackTrace: st);
         errorText.value = tr.hoyolab.failedToLoadGameRole;
