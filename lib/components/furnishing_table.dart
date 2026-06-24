@@ -12,6 +12,7 @@ import "../providers/database_provider.dart";
 import "../providers/versions.dart";
 import "../routes.dart";
 import "../ui_core/dialog.dart";
+import "../ui_core/page_handoff_horizontal_scroll.dart";
 import "furnishing_counter.dart";
 import "item_source_widget.dart";
 
@@ -30,11 +31,18 @@ class FurnishingTable extends HookConsumerWidget {
   final List<FurnishingSetComponentItem> items;
   final bool hideCompleted;
 
+  /// If `true`, the horizontal scroll hands off the gesture to an ancestor
+  /// [PageHandoffScope]'s [PageController] when dragged rightward at the left
+  /// edge. Enable this only when the table is nested inside a [PageView] that
+  /// the user can swipe between. Has no effect outside a [PageHandoffScope].
+  final bool nested;
+
   const FurnishingTable({
     super.key,
     required this.setId,
     required this.items,
     this.hideCompleted = false,
+    this.nested = false,
   });
 
   static const tableHorizontalMargin = 16.0;
@@ -86,9 +94,7 @@ class FurnishingTable extends HookConsumerWidget {
       );
     }
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
+    final table = DataTable(
         horizontalMargin: tableHorizontalMargin,
         columnSpacing: tableColumnSpacing,
         dataRowMinHeight: tableDataRowMinHeight,
@@ -154,7 +160,20 @@ class FurnishingTable extends HookConsumerWidget {
               ],
             ),
         ],
-      ),
+      );
+
+    // Subscribe unconditionally — Flutter requires InheritedWidget
+    // dependencies to be stable across a widget's lifetime.
+    final outerPageController = PageHandoffScope.maybeOf(context);
+    if (nested && outerPageController != null) {
+      return PageHandoffHorizontalScroll(
+        pageController: outerPageController,
+        child: table,
+      );
+    }
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: table,
     );
   }
 }
