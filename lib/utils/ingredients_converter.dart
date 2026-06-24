@@ -103,19 +103,30 @@ List<MaterialBookmarkFrame> toMaterialBookmarkFrames({
   return result;
 }
 
-/// Merges the ingredients of the same id in the list.
+/// Merges frames sharing the same material id, summing quantities for
+/// frames that also share the same `(purposeType, level)`.
 List<MaterialCardMaterial> mergeMaterialBookmarkFrames(List<MaterialBookmarkFrame> frames) {
-  final merged = <String?, List<MaterialBookmarkFrame>>{};
-  for (final frame in frames) {
-    (merged[frame.materialId] ??= []).add(frame);
-  }
+  return frames.groupListsBy((e) => e.materialId).entries.map((entry) {
+    final levels = entry.value
+        .groupListsBy((e) => (e.purposeType, e.level))
+        .values
+        .map(_sumFramesAtSameLevel)
+        .toList();
+    return MaterialCardMaterial(id: entry.key, levels: levels);
+  }).toList();
+}
 
-  return merged.entries.map(
-    (e) => MaterialCardMaterial(
-      id: e.key,
-      levels: e.value,
-    ),
-  ).toList();
+/// Reduces frames sharing the same `(materialId, purposeType, level)` into a
+/// single frame whose quantity/exp is the sum of all inputs.
+MaterialBookmarkFrame _sumFramesAtSameLevel(List<MaterialBookmarkFrame> frames) {
+  return switch (frames.first) {
+    MaterialBookmarkFrameNormal() => frames
+        .cast<MaterialBookmarkFrameNormal>()
+        .reduce((acc, f) => acc.copyWith(quantity: acc.quantity + f.quantity)),
+    MaterialBookmarkFrameExp() => frames
+        .cast<MaterialBookmarkFrameExp>()
+        .reduce((acc, f) => acc.copyWith(exp: acc.exp + f.exp)),
+  };
 }
 
 List<MaterialCardMaterial> sortMaterials(
