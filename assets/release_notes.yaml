@@ -1,6 +1,29 @@
 # コピー用改行
 
 - releasedOn: 2026/06/22
+  version: 4.8.2
+  contents:
+    locales:
+      ja: |
+        # 改善
+        - 調度品ブックマーク画面で、調度品の入手先が確認できるようになりました。
+        - 更新履歴の英語（US）翻訳を追加しました。本体設定でアプリの言語を切り替えると表示されます。
+        
+        # 不具合修正
+        - 表示されるモラの個数と実際にブックマークされるモラの個数が一致しない不具合を修正しました。
+        - 定期的に発生していた内部エラーを修正しました。
+        - 画面下部の通知が自動的に消えない問題を修正しました。
+      en: |
+        # Improvements
+        - You can now check where furnishings are obtained from on the furnishing bookmark screen.
+        - Added English (US) translations for the release notes. They are shown when you switch the app's language in the system settings.
+
+        # Bug Fixes
+        - Fixed a bug where the displayed number of Mora did not match the actual number of Mora bookmarked.
+        - Fixed an internal error that occurred periodically.
+        - Fixed an issue where the notification at the bottom of the screen would not disappear automatically.
+
+- releasedOn: 2026/06/22
   version: 4.8.1
   contents:
     locales:
