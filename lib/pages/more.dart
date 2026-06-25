@@ -15,6 +15,7 @@ import "../core/errors.dart";
 import "../core/remote_config_keys.dart";
 import "../data/repositories/remote_config_repository.dart";
 import "../data/services/launch_url.dart" hide launchUrlString;
+import "../providers/banner_notifier.dart";
 
 class MorePage extends ConsumerStatefulWidget {
   const MorePage({super.key});
@@ -29,6 +30,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
   @override
   Widget build(BuildContext context) {
     final remoteConfig = ref.watch(remoteConfigProvider);
+    final banner = ref.watch(bannerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -55,14 +57,14 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
             location: const ReleaseNotesRoute().location,
           ),
           const Divider(),
-          if (remoteConfig.get(RemoteConfigKeys.showBanner))
+          if (banner != null)
             SimpleListTile(
               leadingIcon: Symbols.release_alert,
               tileColor: Theme.of(context).colorScheme.primaryContainer,
-              title: remoteConfig.get(RemoteConfigKeys.bannerText),
+              title: banner.text,
               trailingIcon: Symbols.open_in_browser,
               onTap: () {
-                ref.read(launchUrlStringProvider)(remoteConfig.get(RemoteConfigKeys.bannerActionUrl));
+                ref.read(launchUrlStringProvider)(banner.actionUrl);
               },
             ),
           SimpleListTile(
