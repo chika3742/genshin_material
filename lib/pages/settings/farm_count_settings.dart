@@ -5,9 +5,10 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../components/list_tile.dart";
 import "../../core/asset_cache.dart";
+import "../../core/pref_keys.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/drop_rates.dart";
-import "../../providers/preferences.dart";
+import "../../providers/pref_notifier.dart";
 import "../../ui_core/bottom_sheet.dart";
 import "../../ui_core/layout.dart";
 
@@ -20,15 +21,9 @@ class FarmCountSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final (
-      advRank,
-      condensedMultiplier,
-      showFarmCount,
-    ) = ref.watch(preferencesStateProvider.select((e) => (
-      e.adventureRank,
-      e.condensedMultiplier,
-      e.showFarmCount,
-    )));
+    final advRank = ref.watch(prefProvider(PrefKeys.adventureRank));
+    final condensedMultiplier = ref.watch(prefProvider(PrefKeys.condensedMultiplier));
+    final showFarmCount = ref.watch(prefProvider(PrefKeys.showFarmCount));
 
     String multiplierText(double n) {
       return tr.farmCountSettingsPage.multiplier(n: n.toStringAsFixed(0))
@@ -52,8 +47,7 @@ class FarmCountSettingsPage extends ConsumerWidget {
             title: Text(tr.farmCountSettingsPage.showFarmCount),
             value: showFarmCount,
             onChanged: (value) {
-              ref.read(preferencesStateProvider.notifier)
-                  .setShowFarmCount(value);
+              ref.read(prefProvider(PrefKeys.showFarmCount).notifier).set(value);
             },
           ),
           SimpleListTile(
@@ -80,8 +74,8 @@ class FarmCountSettingsPage extends ConsumerWidget {
                             squeeze: 1.2,
                             useMagnifier: true,
                             onSelectedItemChanged: (int value) {
-                              ref.read(preferencesStateProvider.notifier)
-                                  .setAdventureRank(value + 1);
+                              ref.read(prefProvider(PrefKeys.adventureRank).notifier)
+                                  .set(value + 1);
                             },
                             children: List.generate(maxAdventureRank, (idx) {
                               return Center(
@@ -119,8 +113,8 @@ class FarmCountSettingsPage extends ConsumerWidget {
               );
 
               if (result != null) {
-                await ref.read(preferencesStateProvider.notifier)
-                    .setCondensedMultiplier(result);
+                await ref.read(prefProvider(PrefKeys.condensedMultiplier).notifier)
+                    .set(result);
               }
             },
           ),

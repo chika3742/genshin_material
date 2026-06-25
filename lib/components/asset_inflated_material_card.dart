@@ -2,8 +2,9 @@ import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
+import "../core/pref_keys.dart";
 import "../models/common.dart";
-import "../providers/preferences.dart";
+import "../providers/pref_notifier.dart";
 import "../providers/versions.dart";
 import "material_card.dart";
 
@@ -37,7 +38,7 @@ class AssetInflatedMaterialCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetData = ref.watch(assetDataProvider).requireValue;
-    final showItemNameOnCard = ref.watch(preferencesStateProvider.select((s) => s.showItemNameOnCard));
+    final showItemNameOnCard = ref.watch(prefProvider(PrefKeys.showItemNameOnCard));
 
     final List<MaterialCardEntry> entries = switch (materialId) {
       null => targetType.getExpItemConf(assetData).mapIndexed((i, expItem) {

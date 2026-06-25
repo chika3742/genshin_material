@@ -1,9 +1,9 @@
-import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../core/pref_keys.dart";
 import "../models/common.dart";
-import "preferences.dart";
+import "pref_notifier.dart";
 
 part "filter_state.freezed.dart";
 part "filter_state.g.dart";
@@ -12,7 +12,7 @@ part "filter_state.g.dart";
 class CharacterFilterStateNotifier extends _$CharacterFilterStateNotifier {
   @override
   CharacterFilterState build() {
-    final sortType = ref.watch(preferencesStateProvider.select((p) => p.characterSortType));
+    final sortType = ref.watch(prefProvider(PrefKeys.characterSortType));
     return CharacterFilterState(sortType: sortType);
   }
 
@@ -34,7 +34,7 @@ class CharacterFilterStateNotifier extends _$CharacterFilterStateNotifier {
 
   void setSortType(CharacterSortType sortType) {
     state = state.copyWith(sortType: sortType);
-    ref.read(preferencesStateProvider.notifier).setCharacterSortType(sortType);
+    ref.read(prefProvider(PrefKeys.characterSortType).notifier).set(sortType);
   }
 
   void clear() {
@@ -100,13 +100,13 @@ sealed class ArtifactFilterState with _$ArtifactFilterState {
 class WeaponFilterStateNotifier extends _$WeaponFilterStateNotifier {
   @override
   WeaponFilterState build() {
-    final sortType = ref.watch(preferencesStateProvider.select((p) => p.weaponSortType));
+    final sortType = ref.watch(prefProvider(PrefKeys.weaponSortType));
     return WeaponFilterState(sortType: sortType);
   }
 
   void setSortType(WeaponSortType sortType) {
     state = state.copyWith(sortType: sortType);
-    ref.read(preferencesStateProvider.notifier).setWeaponSortType(sortType);
+    ref.read(prefProvider(PrefKeys.weaponSortType).notifier).set(sortType);
   }
 
   void clear() {

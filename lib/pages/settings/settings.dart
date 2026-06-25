@@ -4,10 +4,11 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../../components/list_subheader.dart";
 import "../../components/list_tile.dart";
+import "../../core/pref_keys.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/common.dart";
 import "../../providers/asset_updating_state.dart";
-import "../../providers/preferences.dart";
+import "../../providers/pref_notifier.dart";
 import "../../routes.dart";
 import "../../ui_core/bottom_sheet.dart";
 
@@ -16,7 +17,8 @@ class SettingsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(preferencesStateProvider);
+    final showItemNameOnCard = ref.watch(prefProvider(PrefKeys.showItemNameOnCard));
+    final dailyResetServer = ref.watch(prefProvider(PrefKeys.dailyResetServer));
 
     final updatingState = ref.watch(assetUpdatingStateProvider);
 
@@ -30,21 +32,21 @@ class SettingsPage extends HookConsumerWidget {
           CheckboxListTile(
             title: Text(tr.settingsPage.showItemNameOnCard),
             subtitle: Text(tr.settingsPage.showItemNameOnCardDesc),
-            value: prefs.showItemNameOnCard,
+            value: showItemNameOnCard,
             onChanged: (value) {
-              ref.read(preferencesStateProvider.notifier).setShowItemNameOnCard(value!);
+              ref.read(prefProvider(PrefKeys.showItemNameOnCard).notifier).set(value!);
             },
           ),
           SimpleListTile(
             title: tr.settingsPage.dailyResetServer,
-            subtitle: prefs.dailyResetServer.description,
+            subtitle: dailyResetServer.description,
             trailingIcon: Symbols.menu_open,
             onTap: () {
               showSelectBottomSheet(
                 context: context,
                 title: Text(tr.settingsPage.dailyResetServer),
                 subtitle: Text(tr.settingsPage.dailyResetServerDesc),
-                selectedValue: prefs.dailyResetServer,
+                selectedValue: dailyResetServer,
                 items: [
                   for (final server in GameServer.values)
                     SelectBottomSheetItem(
@@ -54,7 +56,7 @@ class SettingsPage extends HookConsumerWidget {
                 ],
               ).then((value) {
                 if (value != null) {
-                  ref.read(preferencesStateProvider.notifier).setDailyResetServer(value);
+                  ref.read(prefProvider(PrefKeys.dailyResetServer).notifier).set(value);
                 }
               });
             },

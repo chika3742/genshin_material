@@ -2,18 +2,17 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:tutorial_coach_mark/tutorial_coach_mark.dart";
 
+import "../core/pref_keys.dart";
 import "../i18n/strings.g.dart";
 import "../main.dart";
-import "../providers/preferences.dart";
+import "../providers/pref_notifier.dart";
 
 void showIndexSheetTutorialIfNeeded(BuildContext context, GlobalKey fabKey, WidgetRef ref) {
   if (isScreenshotMode) {
     return;
   }
 
-  final prefs = ref.read(preferencesStateProvider);
-
-  if (prefs.indexSheetTutorialShown) {
+  if (ref.read(prefProvider(PrefKeys.indexSheetTutorialShown))) {
     return;
   }
 
@@ -49,7 +48,7 @@ void showIndexSheetTutorialIfNeeded(BuildContext context, GlobalKey fabKey, Widg
     ],
     onFinish: () {
       if (ref.context.mounted) {
-        ref.read(preferencesStateProvider.notifier).setIndexSheetTutorialShown();
+        ref.read(prefProvider(PrefKeys.indexSheetTutorialShown).notifier).set(true);
       }
     },
   ).show(context: context, rootOverlay: true);

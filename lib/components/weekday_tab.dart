@@ -2,8 +2,9 @@ import "package:flutter/material.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../composables/use_periodic_timer.dart";
+import "../core/pref_keys.dart";
 import "../models/common.dart";
-import "../providers/preferences.dart";
+import "../providers/pref_notifier.dart";
 import "../utils/daily_material_weekday.dart";
 
 class WeekdayTab extends StatefulHookConsumerWidget implements PreferredSizeWidget {
@@ -32,7 +33,7 @@ class _WeekdayTabState extends ConsumerState<WeekdayTab> {
       }
     });
 
-    final pref = ref.watch(preferencesStateProvider);
+    final dailyResetServer = ref.watch(prefProvider(PrefKeys.dailyResetServer));
 
     return TabBar(
       controller: widget._tabController,
@@ -40,12 +41,12 @@ class _WeekdayTabState extends ConsumerState<WeekdayTab> {
         for (final tab in widget.tabs)
           Tab(
             child: Container(
-              key: ValueKey(getCurrentDailyMaterialWeekday(pref.dailyResetServer)),
+              key: ValueKey(getCurrentDailyMaterialWeekday(dailyResetServer)),
               padding: const EdgeInsets.symmetric(
                 vertical: 4,
                 horizontal: 8,
               ),
-              decoration: tab.getIsToday(pref.dailyResetServer) ? BoxDecoration(
+              decoration: tab.getIsToday(dailyResetServer) ? BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Theme.of(context).colorScheme.inversePrimary,
               ) : null,

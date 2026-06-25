@@ -16,6 +16,7 @@ import "../../../components/material_card_list.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
+import "../../../core/pref_keys.dart";
 import "../../../database.dart";
 import "../../../db/bookmark_db_extension.dart";
 import "../../../db/in_game_character_state_db_extension.dart";
@@ -26,7 +27,7 @@ import "../../../models/ingredients.dart";
 import "../../../models/level_range_values.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
-import "../../../providers/preferences.dart";
+import "../../../providers/pref_notifier.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
@@ -55,8 +56,8 @@ class CharacterDetailsPage extends HookConsumerWidget {
     } as CharacterWithLargeImage;
 
     final db = ref.watch(appDatabaseProvider);
-    final (uid, syncCharaState) = ref.watch(preferencesStateProvider
-        .select((e) => (e.hyvUid, e.syncCharaState)));
+    final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
+    final syncCharaState = ref.watch(prefProvider(PrefKeys.syncCharaState));
 
     final csResult = useMemoized(() => uid != null
         ? db.getCharacterState(uid, character.id)
@@ -126,7 +127,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       return {(character as ListedCharacter).element: character};
     });
 
-    final prefs = ref.watch(preferencesStateProvider);
+    final autoRemoveBookmarks = ref.watch(prefProvider(PrefKeys.autoRemoveBookmarks));
     final db = ref.watch(appDatabaseProvider);
 
     final variant = useState(
@@ -159,7 +160,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
             }
           }
 
-          if (prefs.autoRemoveBookmarks) {
+          if (autoRemoveBookmarks) {
             db.deleteObsoleteBookmarks(
               characterId: variant.value.id,
               levels: result.value!.levels!,

@@ -10,9 +10,12 @@ import "../../components/game_data_sync_indicator.dart";
 import "../../components/list_subheader.dart";
 import "../../composables/use_periodic_timer.dart";
 import "../../constants/remote_config_key.dart";
+import "../../core/pref_keys.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/game_data_sync.dart";
-import "../../providers/preferences.dart";
+import "../../providers/hoyolab_credential.dart";
+import "../../providers/pref_notifier.dart";
+import "../../providers/resin.dart";
 import "../../utils/resin_calculator.dart";
 
 class ResinCalcPage extends HookConsumerWidget {
@@ -20,23 +23,25 @@ class ResinCalcPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(preferencesStateProvider);
+    final resinSnapshot = ref.watch(resinProvider);
+    final syncResin = ref.watch(prefProvider(PrefKeys.syncResin));
+    final isLinked = ref.watch(isLinkedWithHoyolabProvider);
 
-    final resinController = useTextEditingController(text: prefs.resin?.toString() ?? "");
+    final resinController = useTextEditingController(text: resinSnapshot.resin?.toString() ?? "");
     final resinInput = useValueListenable(resinController);
 
     useEffect(() {
-      if (prefs.isLinkedWithHoyolab) {
+      if (isLinked) {
         ref.read(resinSyncStateProvider.notifier).syncResin();
       }
       return null;
-    }, [prefs.isLinkedWithHoyolab, prefs.syncResin]);
+    }, [isLinked, syncResin]);
     useEffect(() {
-      if (prefs.isLinkedWithHoyolab) {
-        resinController.text = prefs.resin?.toString() ?? "";
+      if (isLinked) {
+        resinController.text = resinSnapshot.resin?.toString() ?? "";
       }
       return null;
-    }, [prefs.resin]);
+    }, [resinSnapshot.resin]);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -59,7 +64,7 @@ class ResinCalcPage extends HookConsumerWidget {
                           child: TextFormField(
                             controller: resinController,
                             keyboardType: TextInputType.number,
-                            enabled: !prefs.isLinkedWithHoyolab || !prefs.syncResin,
+                            enabled: !isLinked || !syncResin,
                             decoration: InputDecoration(
                               labelText: tr.resinCalcPage.currentResin,
                               border: const OutlineInputBorder(),
@@ -68,7 +73,7 @@ class ResinCalcPage extends HookConsumerWidget {
                                 icon: const Icon(Icons.clear),
                                 onPressed: () {
                                   resinController.clear();
-                                  ref.read(preferencesStateProvider.notifier).setResin(null);
+                                  ref.read(resinProvider.notifier).setResin(null);
                                 },
                               ) : null,
                             ),
@@ -82,20 +87,20 @@ class ResinCalcPage extends HookConsumerWidget {
                               FilteringTextInputFormatter.digitsOnly,
                             ],
                             onChanged: (value) {
-                              final prefNotifier = ref.read(preferencesStateProvider.notifier);
+                              final notifier = ref.read(resinProvider.notifier);
                               if (value.isNotEmpty) {
                                 final resin = int.tryParse(value);
                                 if (resin == null) {
                                   return;
                                 }
-                                prefNotifier.setResin(resin);
+                                notifier.setResin(resin);
                               } else {
-                                prefNotifier.setResin(null);
+                                notifier.setResin(null);
                               }
                             },
                           ),
                         ),
-                        if (prefs.syncResin && prefs.isLinkedWithHoyolab) Padding(
+                        if (syncResin && isLinked) Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Consumer(
                             builder: (context, ref, _) {
@@ -122,9 +127,9 @@ class ResinCalcPage extends HookConsumerWidget {
                           maxWidth: MediaQuery.of(context).size.width,
                           child: SwitchListTile(
                             title: Text(tr.hoyolab.syncResin),
-                            value: prefs.syncResin,
-                            onChanged: prefs.isLinkedWithHoyolab ? (value) {
-                              ref.read(preferencesStateProvider.notifier).setSyncResin(value);
+                            value: syncResin,
+                            onChanged: isLinked ? (value) {
+                              ref.read(prefProvider(PrefKeys.syncResin).notifier).set(value);
                               if (value) {
                                 ref.read(resinSyncStateProvider.notifier).syncResin();
                               }
@@ -154,13 +159,13 @@ class _CalcResult extends HookConsumerWidget {
       currentTime.value = DateTime.now();
     });
 
-    final prefs = ref.watch(preferencesStateProvider);
+    final resinSnapshot = ref.watch(resinProvider);
 
     ResinCalculationResult? calcResult;
-    if (prefs.resin != null && prefs.resinBaseTime != null) {
+    if (resinSnapshot.resin != null && resinSnapshot.baseTime != null) {
       calcResult = calculateResinRecovery(
-        currentResin: prefs.resin!,
-        baseTime: prefs.resinBaseTime!,
+        currentResin: resinSnapshot.resin!,
+        baseTime: resinSnapshot.baseTime!,
         maxResin: maxResin,
         minutesPerResin: minutesPerResinRecovery,
       );
@@ -231,11 +236,11 @@ class _CalcResult extends HookConsumerWidget {
                       ),
                     ),
                   ),
-                  if (prefs.resinBaseTime != null)
+                  if (resinSnapshot.baseTime != null)
                     Text.rich(
                       tr.resinCalcPage.asOf(
                         time: TextSpan(
-                          text: _formatDateTime(prefs.resinBaseTime!),
+                          text: _formatDateTime(resinSnapshot.baseTime!),
                         ),
                         text: (text) => TextSpan(text: text),
                       ),

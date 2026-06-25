@@ -6,9 +6,10 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../composables/use_asset_update_progress.dart";
 import "../constants/remote_config_key.dart";
+import "../core/pref_keys.dart";
 import "../i18n/strings.g.dart";
 import "../providers/asset_updating_state.dart";
-import "../providers/preferences.dart";
+import "../providers/pref_notifier.dart";
 import "../ui_core/custom_tabs.dart";
 
 class HomePage extends ConsumerStatefulWidget {
@@ -53,9 +54,10 @@ class _HomePageState extends ConsumerState<HomePage> {
 
       final rc = FirebaseRemoteConfig.instance;
       if (rc.getBool(RemoteConfigKey.bannerShown)) {
-        final prefs = ref.read(preferencesStateProvider);
+        final bannerReadKeys = ref.read(prefProvider(PrefKeys.bannerReadKeys));
         final scfMessenger = ScaffoldMessenger.of(context);
-        if (!prefs.bannerReadKeys.contains(rc.getString(RemoteConfigKey.bannerKey))) {
+        final bannerKey = rc.getString(RemoteConfigKey.bannerKey);
+        if (!bannerReadKeys.contains(bannerKey)) {
           scfMessenger.showMaterialBanner(MaterialBanner(
             key: UniqueKey(),
             content: Text(rc.getString(RemoteConfigKey.bannerText)),
@@ -68,8 +70,8 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
               TextButton(
                 onPressed: () {
-                  ref.read(preferencesStateProvider.notifier)
-                      .addBannerReadKey(rc.getString(RemoteConfigKey.bannerKey));
+                  ref.read(prefProvider(PrefKeys.bannerReadKeys).notifier)
+                      .set([...bannerReadKeys, bannerKey]);
                   scfMessenger.hideCurrentMaterialBanner();
                 },
                 child: Text(tr.common.dismiss),

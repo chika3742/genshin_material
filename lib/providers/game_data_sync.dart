@@ -2,13 +2,13 @@ import "dart:developer";
 
 import "package:collection/collection.dart";
 import "package:drift/drift.dart" hide JsonKey;
-import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../components/game_data_sync_indicator.dart";
 import "../core/asset_cache.dart";
 import "../core/hoyolab_api.dart";
+import "../core/pref_keys.dart";
 import "../core/secure_storage.dart";
 import "../database.dart";
 import "../db/in_game_character_state_db_extension.dart";
@@ -19,7 +19,8 @@ import "../models/hoyolab_api.dart";
 import "../models/weapon.dart";
 import "../utils/lists.dart";
 import "database_provider.dart";
-import "preferences.dart";
+import "pref_notifier.dart";
+import "resin.dart";
 import "versions.dart";
 
 part "game_data_sync.freezed.dart";
@@ -71,11 +72,12 @@ class GameDataSyncCached extends _$GameDataSyncCached {
   @override
   Future<GameDataSyncResult?> build({ required String variantId, String? weaponId }) async {
     final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(preferencesStateProvider.select((e) => e.hyvUid));
+    final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
     if (uid == null) return null; // uid is not set
 
-    final syncState = ref.watch(preferencesStateProvider
-        .select((e) => weaponId == null ? e.syncCharaState : e.syncWeaponState));
+    final syncState = weaponId == null
+        ? ref.watch(prefProvider(PrefKeys.syncCharaState))
+        : ref.watch(prefProvider(PrefKeys.syncWeaponState));
     if (!syncState) {
       return null; // sync level is disabled
     }
@@ -134,7 +136,8 @@ class GameDataSyncCached extends _$GameDataSyncCached {
 @riverpod
 Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, String? weaponId }) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final (uid, server) = ref.watch(preferencesStateProvider.select((e) => (e.hyvUid, e.hyvServer)));
+  final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
+  final server = ref.watch(prefProvider(PrefKeys.hyvServer));
   final hoyolabCookie = await getHoyolabCookie();
 
   if (uid == null || server == null || hoyolabCookie == null) {
@@ -204,8 +207,9 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
 @riverpod
 Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entries) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final (hyvUid, hyvServer, syncBagLackNums) = ref.watch(preferencesStateProvider
-      .select((s) => (s.hyvUid, s.hyvServer, s.syncBagLackNums)));
+  final hyvUid = ref.watch(prefProvider(PrefKeys.hyvUid));
+  final hyvServer = ref.watch(prefProvider(PrefKeys.hyvServer));
+  final syncBagLackNums = ref.watch(prefProvider(PrefKeys.syncBagLackNums));
   final hoyolabCookie = await getHoyolabCookie();
 
   if (hyvServer == null || hyvUid == null || hoyolabCookie == null) {
@@ -282,26 +286,27 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
   }
 
   Future<void> syncResin() async {
-    final prefs = ref.read(preferencesStateProvider);
-
-    if (!prefs.syncResin) {
+    final syncResin = ref.read(prefProvider(PrefKeys.syncResin));
+    if (!syncResin) {
       return;
     }
 
-    assert(prefs.hyvServer != null && prefs.hyvUid != null);
+    final hyvServer = ref.read(prefProvider(PrefKeys.hyvServer));
+    final hyvUid = ref.read(prefProvider(PrefKeys.hyvUid));
+    assert(hyvServer != null && hyvUid != null);
 
     final hoyolabCookie = await getHoyolabCookie();
     if (hoyolabCookie == null) {
       state = const GameDataSyncStatus.error(error: "No hoyolab cookie");
       return; // error
     }
-    final api = HoyolabApi(cookie: hoyolabCookie, uid: prefs.hyvUid!, region: prefs.hyvServer!);
+    final api = HoyolabApi(cookie: hoyolabCookie, uid: hyvUid!, region: hyvServer!);
 
     state = const GameDataSyncStatus.syncing();
 
     try {
       final dailyNote = await api.getDailyNote();
-      await ref.read(preferencesStateProvider.notifier)
+      await ref.read(resinProvider.notifier)
           .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
     } on Exception catch (e, st) {
       state = GameDataSyncStatus.error(error: e);

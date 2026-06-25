@@ -4,6 +4,7 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
+import "../core/pref_keys.dart";
 import "../db/bookmark_db_extension.dart";
 import "../db/material_card_to_companions.dart";
 import "../i18n/strings.g.dart";
@@ -11,7 +12,7 @@ import "../models/bookmark.dart";
 import "../models/common.dart";
 import "../models/material_bookmark_frame.dart";
 import "../providers/database_provider.dart";
-import "../providers/preferences.dart";
+import "../providers/pref_notifier.dart";
 import "../providers/versions.dart";
 import "../ui_core/snack_bar.dart";
 import "../utils/farm_counts.dart";
@@ -39,17 +40,10 @@ class MaterialItem extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final db = ref.watch(appDatabaseProvider);
-    final (
-      adventureRank,
-      condensedMultiplier,
-      dailyResetServer,
-      showFarmCount,
-    ) = ref.watch(preferencesStateProvider.select((s) => (
-      s.adventureRank,
-      s.condensedMultiplier,
-      s.dailyResetServer,
-      s.showFarmCount,
-    )));
+    final adventureRank = ref.watch(prefProvider(PrefKeys.adventureRank));
+    final condensedMultiplier = ref.watch(prefProvider(PrefKeys.condensedMultiplier));
+    final dailyResetServer = ref.watch(prefProvider(PrefKeys.dailyResetServer));
+    final showFarmCount = ref.watch(prefProvider(PrefKeys.showFarmCount));
 
     final bookmarkedMaterials = useStream(
       useMemoized(
