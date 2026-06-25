@@ -1,16 +1,16 @@
-import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../composables/use_asset_update_progress.dart";
-import "../constants/remote_config_key.dart";
 import "../core/pref_keys.dart";
+import "../core/remote_config_keys.dart";
+import "../data/repositories/remote_config_repository.dart";
+import "../data/services/launch_url.dart";
 import "../i18n/strings.g.dart";
 import "../providers/asset_updating_state.dart";
 import "../providers/pref_notifier.dart";
-import "../ui_core/custom_tabs.dart";
 
 class HomePage extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -52,21 +52,21 @@ class _HomePageState extends ConsumerState<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(assetUpdatingStateProvider.notifier).checkForUpdate();
 
-      final rc = FirebaseRemoteConfig.instance;
-      if (rc.getBool(RemoteConfigKey.bannerShown)) {
+      final rcRepo = ref.read(remoteConfigProvider);
+      if (rcRepo.get(RemoteConfigKeys.showBanner)) {
         final bannerReadKeys = ref.read(prefProvider(PrefKeys.bannerReadKeys));
-        final scfMessenger = ScaffoldMessenger.of(context);
-        final bannerKey = rc.getString(RemoteConfigKey.bannerKey);
+        final bannerKey = rcRepo.get(RemoteConfigKeys.bannerKey);
         if (!bannerReadKeys.contains(bannerKey)) {
+          final scfMessenger = ScaffoldMessenger.of(context);
           scfMessenger.showMaterialBanner(MaterialBanner(
             key: UniqueKey(),
-            content: Text(rc.getString(RemoteConfigKey.bannerText)),
+            content: Text(rcRepo.get(RemoteConfigKeys.bannerText)),
             actions: [
               TextButton(
                 onPressed: () {
-                  launchCustomTab(rc.getString(RemoteConfigKey.bannerActionUrl));
+                  ref.read(launchUrlStringProvider)(rcRepo.get(RemoteConfigKeys.bannerActionUrl));
                 },
-                child: Text(rc.getString(RemoteConfigKey.bannerActionText)),
+                child: Text(rcRepo.get(RemoteConfigKeys.bannerActionText)),
               ),
               TextButton(
                 onPressed: () {

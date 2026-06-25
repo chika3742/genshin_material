@@ -1,4 +1,3 @@
-import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
@@ -12,8 +11,10 @@ import "../../../i18n/strings.g.dart";
 import "../../../providers/versions.dart";
 import "../../../routes.dart";
 import "../../../ui_core/custom_tabs.dart";
-import "../constants/remote_config_key.dart";
 import "../core/errors.dart";
+import "../core/remote_config_keys.dart";
+import "../data/repositories/remote_config_repository.dart";
+import "../data/services/launch_url.dart" hide launchUrlString;
 
 class MorePage extends ConsumerStatefulWidget {
   const MorePage({super.key});
@@ -27,7 +28,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final rc = FirebaseRemoteConfig.instance;
+    final remoteConfig = ref.watch(remoteConfigProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,13 +41,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
             leadingIcon: Symbols.settings,
             location: SettingsRoute().location,
           ),
-          // SimpleListTile(
-          //   title: tr.pages.account,
-          //   subtitle: tr.morePage.accountDesc,
-          //   leadingIcon: Symbols.account_box,
-          //   location: AccountRoute().location,
-          // ),
-          if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+          if (remoteConfig.get(RemoteConfigKeys.hoyolabLinkEnabled))
             SimpleListTile(
               title: tr.pages.hoyolabIntegrationSettings,
               subtitle: tr.morePage.hoyolabIntegrationSettingsDesc,
@@ -60,14 +55,14 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
             location: const ReleaseNotesRoute().location,
           ),
           const Divider(),
-          if (rc.getBool(RemoteConfigKey.bannerShown))
+          if (remoteConfig.get(RemoteConfigKeys.showBanner))
             SimpleListTile(
               leadingIcon: Symbols.release_alert,
               tileColor: Theme.of(context).colorScheme.primaryContainer,
-              title: rc.getString(RemoteConfigKey.bannerText),
+              title: remoteConfig.get(RemoteConfigKeys.bannerText),
               trailingIcon: Symbols.open_in_browser,
               onTap: () {
-                launchCustomTab(rc.getString(RemoteConfigKey.bannerActionUrl));
+                ref.read(launchUrlStringProvider)(remoteConfig.get(RemoteConfigKeys.bannerActionUrl));
               },
             ),
           SimpleListTile(
