@@ -69,6 +69,7 @@ platform :android do
             aab: "../build/app/outputs/bundle/release/app-release.aab",
             mapping_paths: ["../build/app/outputs/mapping/release/mapping.txt", "./native_debug_symbols.zip"],
             track: is_test_version ? "internal" : "production",
+            release_status: is_test_version ? "completed" : "draft",
             skip_upload_metadata: true,
             skip_upload_images: true,
             skip_upload_screenshots: true,
