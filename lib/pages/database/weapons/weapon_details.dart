@@ -15,6 +15,7 @@ import "../../../components/level_slider.dart";
 import "../../../components/material_card_list.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
+import "../../../core/pref_keys.dart";
 import "../../../database.dart";
 import "../../../db/bookmark_db_extension.dart";
 import "../../../db/in_game_weapon_state_db_extension.dart";
@@ -25,7 +26,7 @@ import "../../../models/level_range_values.dart";
 import "../../../models/weapon.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
-import "../../../providers/preferences.dart";
+import "../../../providers/pref_notifier.dart";
 import "../../../ui_core/layout.dart";
 import "../../../utils/filtering.dart";
 
@@ -54,8 +55,8 @@ class WeaponDetailsPage extends HookConsumerWidget {
     }
 
     final db = ref.watch(appDatabaseProvider);
-    final (uid, syncWeaponState) = ref.watch(preferencesStateProvider
-        .select((e) => (e.hyvUid, e.syncWeaponState)));
+    final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
+    final syncWeaponState = ref.watch(prefProvider(PrefKeys.syncWeaponState));
 
     final characters = useMemoized(() =>
         filterCharactersByWeaponType(assetData.characters.values, weapon.type));

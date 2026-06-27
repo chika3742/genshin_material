@@ -6,9 +6,10 @@ import "../components/character_small_card.dart";
 import "../components/list_tile.dart";
 import "../components/weekday_tab.dart";
 import "../core/asset_cache.dart";
+import "../core/pref_keys.dart";
 import "../i18n/strings.g.dart";
 import "../models/material.dart";
-import "../providers/preferences.dart";
+import "../providers/pref_notifier.dart";
 import "../providers/versions.dart";
 import "../routes.dart";
 import "../ui_core/layout.dart";
@@ -40,11 +41,11 @@ class DailyPage extends HookConsumerWidget {
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pref = ref.watch(preferencesStateProvider);
+    final dailyResetServer = ref.watch(prefProvider(PrefKeys.dailyResetServer));
 
     final tabController = useTabController(
       initialLength: tabs.length,
-      initialIndex: tabs.indexWhere((tab) => tab.getIsToday(pref.dailyResetServer)),
+      initialIndex: tabs.indexWhere((tab) => tab.getIsToday(dailyResetServer)),
     );
 
     return Scaffold(

@@ -20,8 +20,11 @@ fvm flutter test
 # Run a single test file
 fvm flutter test test/unit/utils_test.dart
 
-# Code generation (Freezed, Riverpod, go_router, Drift, slang)
-./scripts/codegen.sh
+# Code generation (Freezed, Riverpod, go_router, others using build_runner)
+./scripts/build_runner.sh
+
+# Slang (localization) code generation
+./scripts/slang.sh
 
 # Update Pigeon platform channel code
 ./scripts/run_pigeon.sh

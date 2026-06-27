@@ -9,12 +9,14 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "../../components/center_text.dart";
 import "../../components/list_subheader.dart";
 import "../../core/hoyolab_api.dart";
+import "../../core/pref_keys.dart";
 import "../../core/secure_storage.dart";
 import "../../i18n/strings.g.dart";
 import "../../main.dart";
 import "../../models/hoyolab_api.dart";
+import "../../providers/hoyolab_credential.dart";
 import "../../providers/miscellaneous.dart";
-import "../../providers/preferences.dart";
+import "../../providers/pref_notifier.dart";
 import "../../routes.dart";
 import "../../ui_core/bottom_sheet.dart";
 import "../../ui_core/dialog.dart";
@@ -33,7 +35,13 @@ class HoyolabIntegrationSettingsPage extends StatefulHookConsumerWidget {
 class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrationSettingsPage> {
   @override
   Widget build(BuildContext context) {
-    final prefs = ref.watch(preferencesStateProvider);
+    final cred = ref.watch(hoyolabCredentialProvider);
+    final isLinked = ref.watch(isLinkedWithHoyolabProvider);
+    final syncCharaState = ref.watch(prefProvider(PrefKeys.syncCharaState));
+    final syncWeaponState = ref.watch(prefProvider(PrefKeys.syncWeaponState));
+    final syncBagLackNums = ref.watch(prefProvider(PrefKeys.syncBagLackNums));
+    final autoRemoveBookmarks = ref.watch(prefProvider(PrefKeys.autoRemoveBookmarks));
+    final syncResin = ref.watch(prefProvider(PrefKeys.syncResin));
 
     final isSignedIn = useState(false);
     useEffect(() {
@@ -86,7 +94,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                   if (ref.context.mounted) {
                     showLoadingModal(context);
                     try {
-                      await ref.read(preferencesStateProvider.notifier).clearHoyolabCredential();
+                      await ref.read(hoyolabCredentialProvider.notifier).clear();
                       isSignedIn.value = false;
                     } finally {
                       if (context.mounted) {
@@ -102,10 +110,10 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             leading: const Icon(Symbols.dns),
             title: Text(tr.hoyolab.changeServer),
             subtitle: () {
-              if (prefs.hyvServer == null || prefs.hyvServerName == null) {
+              if (cred.hyvServer == null || cred.hyvServerName == null) {
                 return Text(tr.hoyolab.noServerSelected);
               }
-              return Text(tr.hoyolab.current(server: prefs.hyvServerName!));
+              return Text(tr.hoyolab.current(server: cred.hyvServerName!));
             }(),
             trailing: const Icon(Symbols.menu_open),
             onTap: () {
@@ -114,9 +122,9 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
           ),
 
           ListSubheader(tr.hoyolab.userInfo),
-          if (prefs.hyvServer != null && prefs.hyvUserName != null && prefs.hyvUid != null) ListTile(
-            title: Text(prefs.hyvUserName!),
-            subtitle: Text("UID: ${prefs.hyvUid!}"),
+          if (cred.hyvServer != null && cred.hyvUserName != null && cred.hyvUid != null) ListTile(
+            title: Text(cred.hyvUserName!),
+            subtitle: Text("UID: ${cred.hyvUid!}"),
           ) else ListTile(
             title: Text(tr.hoyolab.plsSelectServer, style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
@@ -124,43 +132,38 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
           ListSubheader(tr.hoyolab.syncSettings),
           SwitchListTile(
             title: Text(tr.hoyolab.syncCharaState),
-            value: prefs.syncCharaState,
-            onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateProvider.notifier)
-                  .setSyncCharaState(value);
+            value: syncCharaState,
+            onChanged: isLinked ? (value) {
+              ref.read(prefProvider(PrefKeys.syncCharaState).notifier).set(value);
             } : null,
           ),
           SwitchListTile(
             title: Text(tr.hoyolab.syncWeaponState),
-            value: prefs.syncWeaponState,
-            onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateProvider.notifier)
-                  .setSyncWeaponState(value);
+            value: syncWeaponState,
+            onChanged: isLinked ? (value) {
+              ref.read(prefProvider(PrefKeys.syncWeaponState).notifier).set(value);
             } : null,
           ),
           SwitchListTile(
             title: Text(tr.hoyolab.syncBagLackNums),
-            value: prefs.syncBagLackNums,
-            onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateProvider.notifier)
-                  .setSyncBagLackNums(value);
+            value: syncBagLackNums,
+            onChanged: isLinked ? (value) {
+              ref.read(prefProvider(PrefKeys.syncBagLackNums).notifier).set(value);
             } : null,
           ),
           SwitchListTile(
             title: Text(tr.hoyolab.autoRemoveBookmarks),
             subtitle: Text(tr.hoyolab.autoRemoveBookmarksDesc),
-            value: prefs.autoRemoveBookmarks,
-            onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateProvider.notifier)
-                  .setAutoRemoveBookmarks(value);
+            value: autoRemoveBookmarks,
+            onChanged: isLinked ? (value) {
+              ref.read(prefProvider(PrefKeys.autoRemoveBookmarks).notifier).set(value);
             } : null,
           ),
           SwitchListTile(
             title: Text(tr.hoyolab.syncResin),
-            value: prefs.syncResin,
-            onChanged: prefs.isLinkedWithHoyolab ? (value) {
-              ref.read(preferencesStateProvider.notifier)
-                  .setSyncResin(value);
+            value: syncResin,
+            onChanged: isLinked ? (value) {
+              ref.read(prefProvider(PrefKeys.syncResin).notifier).set(value);
             } : null,
           ),
           ListSubheader(tr.hoyolab.accessPermission),
@@ -261,10 +264,10 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
     // set initial selected server
     useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, _) {
-      final prefs = ref.read(preferencesStateProvider);
+      final hyvServer = ref.read(prefProvider(PrefKeys.hyvServer));
       final servers = serversSnapshot.data?.data?.list;
       if (servers != null) {
-        selectedServer.value = servers.firstWhereOrNull((e) => e.region == prefs.hyvServer);
+        selectedServer.value = servers.firstWhereOrNull((e) => e.region == hyvServer);
       }
     });
 
@@ -303,17 +306,17 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
           child: IconButton.filled(
             icon: Icon(Symbols.check),
             iconSize: 32,
-            onPressed: selectedServer.value != null && gameRoles.value[selectedServer.value!] != null ? () {
+            onPressed: selectedServer.value != null && gameRoles.value[selectedServer.value!] != null ? () async {
               if (selectedServer.value == null || gameRoles.value[selectedServer.value!] == null) {
                 return;
               }
 
               final server = selectedServer.value!;
               final gameRole = gameRoles.value[server]!;
-              ref.read(preferencesStateProvider.notifier)
-                ..setHoyolabServer(server, gameRole.nickname)
-                ..setUid(gameRole.uid);
-              Navigator.of(context).pop();
+              final notifier = ref.read(hoyolabCredentialProvider.notifier);
+              await notifier.setServer(server, gameRole.nickname);
+              await notifier.setUid(gameRole.uid);
+              if (context.mounted) Navigator.of(context).pop();
             } : null,
           ),
         ),

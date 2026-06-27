@@ -16,8 +16,8 @@ import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/filter_state.dart";
+import "../../../providers/hoyolab_credential.dart";
 import "../../../providers/miscellaneous.dart";
-import "../../../providers/preferences.dart";
 import "../../../routes.dart";
 import "../../../ui_core/bottom_sheet.dart";
 import "../../../ui_core/katakana_compare.dart";
@@ -229,7 +229,7 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(preferencesStateProvider);
+    final isLinked = ref.watch(isLinkedWithHoyolabProvider);
 
     return DataAssetScope(
       useScaffold: false,
@@ -246,14 +246,14 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
                         selected: ref.watch(characterFilterStateProvider.select((it) => it.possessionStatus == status)),
                         leading: Icon(status == PossessionStatus.owned ? Symbols.place_item : Symbols.hide_source),
                         label: Text(tr.common.possessionStatus[status.name]!),
-                        onSelected: prefs.isLinkedWithHoyolab ? (selected) {
+                        onSelected: isLinked ? (selected) {
                           ref.read(characterFilterStateProvider.notifier)
                               .setPossessionStatus(selected ? status : null);
                         } : null,
                       ),
                   ],
                 ),
-                if (!prefs.isLinkedWithHoyolab)
+                if (!isLinked)
                   Text(tr.common.possessionNoteNotSignedIn, style: Theme.of(context).textTheme.labelMedium)
                 else
                   Text(tr.common.possessionNote, style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold)),

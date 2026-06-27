@@ -21,6 +21,7 @@ import "core/theme.dart";
 // import "firebase_options.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
+import "providers/pref_notifier.dart";
 import "providers/versions.dart";
 import "routes.dart";
 
@@ -46,9 +47,7 @@ void main() async {
     cardinalResolver: (n, {few, many, one, other, two, zero}) => other!,
   );
   spInstance = await SharedPreferencesWithCache.create(
-    cacheOptions: const SharedPreferencesWithCacheOptions(
-      allowList: null,
-    ),
+    cacheOptions: const SharedPreferencesWithCacheOptions(),
   );
   LicenseRegistry.addLicense(() async* {
     final licenses = [
@@ -86,6 +85,9 @@ void main() async {
   runApp(
     ProviderScope(
       observers: [ProviderErrorObserver()],
+      overrides: [
+        sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
+      ],
       child: const Restartable(
         child: MyApp(),
       ),
