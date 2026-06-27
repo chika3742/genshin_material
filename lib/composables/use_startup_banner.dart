@@ -38,8 +38,8 @@ void useStartupBanner(BannerData? banner, {
     });
 
     return null;
-  // 依存配列を空にすることで、アプリ起動中にリモートコンフィグが更新されても
-  // バナーの表示状態が変化しないようにしている（意図的な設計）。
-  // バナーの表示内容の変更はアプリ再起動後に反映される。
+  // Intentionally empty dependency array: banner state should not change during
+  // the app session even if Remote Config is updated in real-time. Changes to
+  // the banner will take effect after the app is restarted.
   }, []);
 }

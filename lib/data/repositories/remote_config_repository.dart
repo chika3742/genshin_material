@@ -21,10 +21,11 @@ class RemoteConfigRepository {
     };
   }
 
-  /// Firebase Remote Config のサーバーサイドプッシュによるリアルタイム更新を購読する。
-  /// [FirebaseRemoteConfig.onConfigUpdated] はポーリング間隔（[minimumFetchInterval]）とは
-  /// 独立した仕組みであり、Firebase コンソールで値が更新されると即座に通知が届く。
-  /// [FirebaseRemoteConfig.activate] を呼ぶことで、更新された値をローカルキャッシュに反映する。
+  /// Subscribes to real-time updates pushed server-side by Firebase Remote Config.
+  /// [FirebaseRemoteConfig.onConfigUpdated] operates independently of the polling
+  /// interval ([minimumFetchInterval]) and delivers notifications immediately when
+  /// values are updated in the Firebase console.
+  /// Calling [FirebaseRemoteConfig.activate] applies the updated values to the local cache.
   StreamSubscription<RemoteConfigUpdate> listenConfigUpdate() {
     return _rc.onConfigUpdated.listen((event) async {
       await _rc.activate();
@@ -35,9 +36,9 @@ class RemoteConfigRepository {
     await _rc.ensureInitialized();
     await _rc.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(minutes: 1),
-      // minimumFetchInterval はバックグラウンドポーリングの最小間隔。
-      // リアルタイム更新は listenConfigUpdate() のサーバーサイドプッシュで行うため、
-      // デバッグ時も短い間隔を設定する必要はない。
+      // minimumFetchInterval controls the background polling interval.
+      // Since real-time updates are delivered via server-side push in listenConfigUpdate(),
+      // a short interval is not necessary even in debug mode.
       minimumFetchInterval: const Duration(hours: 12),
     ));
     await _rc.setDefaults(RemoteConfigKeys.defaults);
