@@ -43,7 +43,7 @@ final class CharacterFilterStateNotifierProvider
 }
 
 String _$characterFilterStateNotifierHash() =>
-    r'5e116beb870a8250c1a4ea399b9331373b0b708b';
+    r'ac27618fd013d5223f92894ae978ebb29c96d379';
 
 abstract class _$CharacterFilterStateNotifier
     extends $Notifier<CharacterFilterState> {
@@ -152,7 +152,7 @@ final class WeaponFilterStateNotifierProvider
 }
 
 String _$weaponFilterStateNotifierHash() =>
-    r'226d2c0c301b882679f6f654ee93b000254f6117';
+    r'9397a98c393937cd1f9386e40c2bf2f58cdb6d85';
 
 abstract class _$WeaponFilterStateNotifier
     extends $Notifier<WeaponFilterState> {

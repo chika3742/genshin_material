@@ -9,11 +9,12 @@ part of 'resin.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Resin)
-final resinProvider = ResinProvider._();
+@ProviderFor(ResinNotifier)
+final resinProvider = ResinNotifierProvider._();
 
-final class ResinProvider extends $NotifierProvider<Resin, ResinSnapshot> {
-  ResinProvider._()
+final class ResinNotifierProvider
+    extends $NotifierProvider<ResinNotifier, ResinSnapshot> {
+  ResinNotifierProvider._()
     : super(
         from: null,
         argument: null,
@@ -25,11 +26,11 @@ final class ResinProvider extends $NotifierProvider<Resin, ResinSnapshot> {
       );
 
   @override
-  String debugGetCreateSourceHash() => _$resinHash();
+  String debugGetCreateSourceHash() => _$resinNotifierHash();
 
   @$internal
   @override
-  Resin create() => Resin();
+  ResinNotifier create() => ResinNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(ResinSnapshot value) {
@@ -40,9 +41,9 @@ final class ResinProvider extends $NotifierProvider<Resin, ResinSnapshot> {
   }
 }
 
-String _$resinHash() => r'e5b27146772c5f19563723c2e609f6110b411aee';
+String _$resinNotifierHash() => r'f29c93f8b91ece03a5acbc7656aee24035042cf1';
 
-abstract class _$Resin extends $Notifier<ResinSnapshot> {
+abstract class _$ResinNotifier extends $Notifier<ResinSnapshot> {
   ResinSnapshot build();
   @$mustCallSuper
   @override

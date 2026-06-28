@@ -55,7 +55,7 @@ int? calculateCurrentResin({
     return null;
   }
 
-  final resinDelta = const Clock().now().difference(baseTime).inMinutes ~/ minutesPerResin;
+  final resinDelta = clock.now().difference(baseTime).inMinutes ~/ minutesPerResin;
   return math.min(currentResin + resinDelta, maxResin);
 }
 
