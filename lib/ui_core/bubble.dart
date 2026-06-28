@@ -29,7 +29,7 @@ Future<T?> showModalBubble<T>({
 }) {
   assert(targetKey.currentContext != null, "The targetKey must have a context.");
 
-  final renderBox = targetKey.currentContext!.findRenderObject() as RenderBox;
+  final renderBox = targetKey.currentContext!.findRenderObject()! as RenderBox;
   final widgetPos = renderBox.localToGlobal(Offset.zero);
 
   return showModal<T>(
@@ -63,11 +63,11 @@ class Bubble extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final childKey = useMemoized(() => GlobalKey());
+    final childKey = useMemoized(GlobalKey.new);
     final childWidth = useState<double?>(null);
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final renderBox = childKey.currentContext!.findRenderObject() as RenderBox;
+        final renderBox = childKey.currentContext!.findRenderObject()! as RenderBox;
         childWidth.value = renderBox.size.width;
       });
       return null;
@@ -86,7 +86,7 @@ class Bubble extends HookWidget {
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width - 32,
               ),
-              child: Container(
+              child: DecoratedBox(
                 decoration: ShapeDecoration(
                   shadows: [
                     BoxShadow(

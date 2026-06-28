@@ -110,7 +110,7 @@ class ScrollableBottomSheet extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final contentKey = useMemoized(() => GlobalKey());
+    final contentKey = useMemoized(GlobalKey.new);
 
     final childRenderBoxSize = useState<Size?>(null);
     final availableHeight = useRef<double?>(null);

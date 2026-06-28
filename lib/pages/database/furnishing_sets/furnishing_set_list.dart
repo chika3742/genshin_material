@@ -27,7 +27,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fabKey = useMemoized(() => GlobalKey());
+    final fabKey = useMemoized(GlobalKey.new);
     final scrollController = useScrollController();
 
     useEffect(() {

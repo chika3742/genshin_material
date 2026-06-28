@@ -30,7 +30,7 @@ class CharacterListItem extends ConsumerWidget {
         onTap: () {
           CharacterDetailsRoute(id: character.id).go(context);
         },
-        child: Container(
+        child: DecoratedBox(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: FileImage(character.getImageFile(assetDir)),
@@ -39,7 +39,7 @@ class CharacterListItem extends ConsumerWidget {
           ),
           child: Align(
             alignment: Alignment.bottomRight,
-            child: Container(
+            child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   stops: const [0.0, 0.2, 1.0],

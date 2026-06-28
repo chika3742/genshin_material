@@ -30,7 +30,7 @@ class WeaponListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fabKey = useMemoized(() => GlobalKey());
+    final fabKey = useMemoized(GlobalKey.new);
     final filterState = ref.watch(weaponFilterStateProvider);
 
     final weaponsGroupedByType = useMemoized(

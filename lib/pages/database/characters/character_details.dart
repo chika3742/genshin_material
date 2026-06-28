@@ -119,7 +119,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       if (character is CharacterGroup) {
         return Map.fromEntries(
           character.variantIds.map((e) {
-            final variant = (assetData.characters[e] as CharacterVariant);
+            final variant = assetData.characters[e]! as CharacterVariant;
             return MapEntry(variant.element, variant);
           }),
         );

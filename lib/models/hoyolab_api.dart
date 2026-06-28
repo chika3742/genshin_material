@@ -20,7 +20,7 @@ sealed class HoyolabApiResult<T> with _$HoyolabApiResult<T> {
       _$HoyolabApiResultFromJson(json, fromJsonT);
 
   static HoyolabApiResult<HoyolabListData<I>> fromJsonList<I>(Map<String, dynamic> json, I Function(Object?) fromJsonItem) {
-    return HoyolabApiResult.fromJson(json, (Object? it) => HoyolabListData.fromJson(it as Map<String, dynamic>, fromJsonItem));
+    return HoyolabApiResult.fromJson(json, (Object? it) => HoyolabListData.fromJson(it! as Map<String, dynamic>, fromJsonItem));
   }
 
   bool get hasError => retcode != 0;
@@ -36,7 +36,7 @@ sealed class HoyolabListData<T> with _$HoyolabListData<T> {
       _$HoyolabListDataFromJson(json, fromJsonT);
 
   static HoyolabListData<T> fromJsonT<T>(Object? json, T Function(Map<String, dynamic>) fromJsonT) {
-    return HoyolabListData.fromJson(json as Map<String, dynamic>, (e) => fromJsonT(e as Map<String, dynamic>));
+    return HoyolabListData.fromJson(json! as Map<String, dynamic>, (e) => fromJsonT(e! as Map<String, dynamic>));
   }
 }
 

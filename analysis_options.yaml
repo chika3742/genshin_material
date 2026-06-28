@@ -41,6 +41,11 @@ linter:
     - eol_at_end_of_file
     - prefer_relative_imports
     - directives_ordering
+    - sized_box_shrink_expand
+    - unnecessary_lambdas
+    - use_colored_box
+    - use_decorated_box
+    - cast_nullable_to_non_nullable
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
