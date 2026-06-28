@@ -9,7 +9,7 @@ part "resin.g.dart";
 typedef ResinSnapshot = ({int? resin, DateTime? baseTime});
 
 @riverpod
-class Resin extends _$Resin {
+class ResinNotifier extends _$ResinNotifier {
   @override
   ResinSnapshot build() {
     final resin = ref.watch(prefProvider(PrefKeys.resin));
@@ -24,6 +24,22 @@ class Resin extends _$Resin {
   }
 
   Future<void> setResinWithRecoveryTime(int resin, int recoveryTime) async {
+    // When the synced resin is already at max and the locally calculated resin
+    // is also at max, skip the update entirely. Updating only the stored resin
+    // count (without adjusting the base time) would cause the wasted resin
+    // calculation to produce an incorrect result.
+    if (resin >= maxResin && state.baseTime != null) {
+      final calculatedCurrent = calculateCurrentResin(
+        currentResin: state.resin,
+        baseTime: state.baseTime,
+        maxResin: maxResin,
+        minutesPerResin: minutesPerResinRecovery,
+      );
+      if (calculatedCurrent != null && calculatedCurrent >= maxResin) {
+        return;
+      }
+    }
+
     await ref.read(prefProvider(PrefKeys.resin).notifier).set(resin);
     if (state.baseTime == null || resin < maxResin) {
       final offset = (maxResin - resin) * minutesPerResinRecovery * 60 - recoveryTime;

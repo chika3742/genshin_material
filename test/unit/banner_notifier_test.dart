@@ -7,6 +7,7 @@ import "package:genshin_material/providers/pref_notifier.dart";
 
 import "../utils/banner_mocks.dart";
 import "../utils/banner_mocks.mocks.dart";
+import "../utils/in_memory_pref_notifier.dart";
 
 void main() {
   ProviderContainer makeContainer(

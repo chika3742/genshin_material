@@ -27,7 +27,7 @@ final class SharedPreferencesWithCacheProvider
         argument: null,
         retry: null,
         name: r'sharedPreferencesWithCacheProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -56,7 +56,7 @@ final class SharedPreferencesWithCacheProvider
 }
 
 String _$sharedPreferencesWithCacheHash() =>
-    r'a8bb95b8fe75a76cbf8c75cdc42ddad47ec6d4d3';
+    r'fb72df7f5ec8ca6f6ad43895e0445e4a9e503f53';
 
 @ProviderFor(PrefNotifier)
 final prefProvider = PrefNotifierFamily._();
@@ -69,7 +69,7 @@ final class PrefNotifierProvider<PrefT, ConvT>
   }) : super(
          retry: null,
          name: r'prefProvider',
-         isAutoDispose: true,
+         isAutoDispose: false,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -113,7 +113,7 @@ final class PrefNotifierProvider<PrefT, ConvT>
   }
 }
 
-String _$prefNotifierHash() => r'16a5df526b5ada6e71f1911bf42cb508f37c5807';
+String _$prefNotifierHash() => r'8f7e0401e2dbd545e8f1e745438c48a9840bae7c';
 
 final class PrefNotifierFamily extends $Family {
   PrefNotifierFamily._()
@@ -122,7 +122,7 @@ final class PrefNotifierFamily extends $Family {
         name: r'prefProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: true,
+        isAutoDispose: false,
       );
 
   PrefNotifierProvider<PrefT, ConvT> call<PrefT, ConvT>(
