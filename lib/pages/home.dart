@@ -1,18 +1,16 @@
-import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../composables/use_asset_update_progress.dart";
-import "../constants/remote_config_key.dart";
-import "../core/pref_keys.dart";
+import "../composables/use_startup_banner.dart";
+import "../data/services/launch_url.dart";
 import "../i18n/strings.g.dart";
 import "../providers/asset_updating_state.dart";
-import "../providers/pref_notifier.dart";
-import "../ui_core/custom_tabs.dart";
+import "../providers/banner_notifier.dart";
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends StatefulHookConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
   const HomePage({super.key, required this.navigationShell});
@@ -51,40 +49,18 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(assetUpdatingStateProvider.notifier).checkForUpdate();
-
-      final rc = FirebaseRemoteConfig.instance;
-      if (rc.getBool(RemoteConfigKey.bannerShown)) {
-        final bannerReadKeys = ref.read(prefProvider(PrefKeys.bannerReadKeys));
-        final scfMessenger = ScaffoldMessenger.of(context);
-        final bannerKey = rc.getString(RemoteConfigKey.bannerKey);
-        if (!bannerReadKeys.contains(bannerKey)) {
-          scfMessenger.showMaterialBanner(MaterialBanner(
-            key: UniqueKey(),
-            content: Text(rc.getString(RemoteConfigKey.bannerText)),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  launchCustomTab(rc.getString(RemoteConfigKey.bannerActionUrl));
-                },
-                child: Text(rc.getString(RemoteConfigKey.bannerActionText)),
-              ),
-              TextButton(
-                onPressed: () {
-                  ref.read(prefProvider(PrefKeys.bannerReadKeys).notifier)
-                      .set([...bannerReadKeys, bannerKey]);
-                  scfMessenger.hideCurrentMaterialBanner();
-                },
-                child: Text(tr.common.dismiss),
-              ),
-            ],
-          ));
-        }
-      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final banner = ref.watch(bannerProvider);
+    useStartupBanner(
+      banner,
+      launchUrlString: ref.watch(launchUrlStringProvider),
+      markAsRead: () => ref.read(bannerProvider.notifier).markAsRead(),
+    );
+
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         destinations: navDestinations,

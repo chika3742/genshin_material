@@ -13,12 +13,13 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
-import "constants/remote_config_key.dart";
+import "composables/use_remote_config_listener.dart";
 import "core/provider_error_observer.dart";
 import "core/secure_storage.dart";
 import "core/theme.dart";
 // ignore: uri_does_not_exist
 // import "firebase_options.dart";
+import "data/repositories/remote_config_repository.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
 import "providers/pref_notifier.dart";
@@ -72,21 +73,15 @@ void main() async {
   };
 
   final remoteConfig = FirebaseRemoteConfig.instance;
-  await remoteConfig.setConfigSettings(RemoteConfigSettings(
-    fetchTimeout: const Duration(minutes: 1),
-    minimumFetchInterval: kReleaseMode ? const Duration(hours: 12) : const Duration(minutes: 1),
-  ));
-  await remoteConfig.setDefaults(const {
-    RemoteConfigKey.bannerShown: false,
-    RemoteConfigKey.hoyolabLinkEnabled: false,
-  });
-  await remoteConfig.fetchAndActivate();
+  final remoteConfigRepo = RemoteConfigRepository(remoteConfig);
+  await remoteConfigRepo.initialize();
 
   runApp(
     ProviderScope(
       observers: [ProviderErrorObserver()],
       overrides: [
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
+        remoteConfigProvider.overrideWithValue(remoteConfigRepo),
       ],
       child: const Restartable(
         child: MyApp(),
@@ -112,6 +107,7 @@ class MyApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(assetDataProvider);
     ref.watch(appDatabaseProvider);
+    useRemoteConfigListener(ref);
 
     const appTitle = "Genshin Material";
 
