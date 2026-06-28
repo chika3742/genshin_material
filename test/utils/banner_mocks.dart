@@ -15,7 +15,7 @@ void stubBannerRemoteConfig(MockRemoteConfigRepository mock, {
   String bannerActionText = "",
   String bannerActionUrl = "",
 }) {
-  when(mock.get<bool>(RemoteConfigKeys.bannerShown)).thenReturn(bannerShown);
+  when(mock.get<bool>(RemoteConfigKeys.showBanner)).thenReturn(bannerShown);
   when(mock.get<String>(RemoteConfigKeys.bannerKey)).thenReturn(bannerKey);
   when(mock.get<String>(RemoteConfigKeys.bannerText)).thenReturn(bannerText);
   when(mock.get<String>(RemoteConfigKeys.bannerActionText)).thenReturn(bannerActionText);
