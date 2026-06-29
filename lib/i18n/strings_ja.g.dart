@@ -79,6 +79,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	Map<String, String> get whereToGet => {
 		'chests': '宝箱、任務報酬など',
 	};
+	late final Translations$android$ja android = Translations$android$ja.internal(_root);
+	late final Translations$notification$ja notification = Translations$notification$ja.internal(_root);
 }
 
 // Path: common
@@ -318,6 +320,9 @@ class Translations$errors$ja {
 
 	/// ja: 'データベースエラーが発生しました。'
 	String get dbError => 'データベースエラーが発生しました。';
+
+	/// ja: '日替わり素材通知を表示するには、通知を許可してください。'
+	String get notificationPermissionRevoked => '日替わり素材通知を表示するには、通知を許可してください。';
 }
 
 // Path: pages
@@ -810,6 +815,36 @@ class Translations$settingsPage$ja {
 	/// ja: '表示に使用する冒険ランクなどを設定できます。'
 	String get farmCountSettingsDesc => '表示に使用する冒険ランクなどを設定できます。';
 
+	/// ja: '通知'
+	String get notification => '通知';
+
+	/// ja: '日替わり素材の通知時刻'
+	String get dailyMaterialNotification => '日替わり素材の通知時刻';
+
+	/// ja: 'ブックマークした素材を獲得可能な日に通知します。通知は、通知時刻の時点でのサーバー上の曜日を基準に行われます。現在の設定において、入手可能な素材が切り替わるのは $time （端末時間）です。'
+	String dailyMaterialNotificationDesc({required Object time}) => 'ブックマークした素材を獲得可能な日に通知します。通知は、通知時刻の時点でのサーバー上の曜日を基準に行われます。現在の設定において、入手可能な素材が切り替わるのは ${time} （端末時間）です。';
+
+	/// ja: 'タップして設定'
+	String get tapToSet => 'タップして設定';
+
+	/// ja: 'この機能を利用するには、通知を許可する必要があります。'
+	String get needToAllowNotificationPermission => 'この機能を利用するには、通知を許可する必要があります。';
+
+	/// ja: '設定を開く'
+	String get openSettings => '設定を開く';
+
+	/// ja: '正確な時間に通知することを許可'
+	String get notifyOnExactTime => '正確な時間に通知することを許可';
+
+	/// ja: 'タップして許可画面に移動'
+	String get notifyOnExactTimeSubtitle => 'タップして許可画面に移動';
+
+	/// ja: '許可がない場合、通知が最大10分遅延する可能性があります。本アプリではバッテリーへの影響は軽微です。'
+	String get notifyOnExactTimeExplanation => '許可がない場合、通知が最大10分遅延する可能性があります。本アプリではバッテリーへの影響は軽微です。';
+
+	/// ja: '通知権限を許可'
+	String get grantNotification => '通知権限を許可';
+
 	/// ja: 'アセットデータ'
 	String get assetData => 'アセットデータ';
 
@@ -988,6 +1023,26 @@ class Translations$hoyolab$ja {
 	String get charaSyncSuccess => 'ゲームデータと同期しました';
 }
 
+// Path: android
+class Translations$android$ja {
+	Translations$android$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$android$notificationChannels$ja notificationChannels = Translations$android$notificationChannels$ja.internal(_root);
+}
+
+// Path: notification
+class Translations$notification$ja {
+	Translations$notification$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$notification$dailyMaterial$ja dailyMaterial = Translations$notification$dailyMaterial$ja.internal(_root);
+}
+
 // Path: search.targets
 class Translations$search$targets$ja {
 	Translations$search$targets$ja.internal(this._root);
@@ -1016,6 +1071,49 @@ class Translations$search$targets$ja {
 
 	/// ja: '調度品'
 	String get furnishings => '調度品';
+}
+
+// Path: android.notificationChannels
+class Translations$android$notificationChannels$ja {
+	Translations$android$notificationChannels$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$android$notificationChannels$dailyMaterial$ja dailyMaterial = Translations$android$notificationChannels$dailyMaterial$ja.internal(_root);
+}
+
+// Path: notification.dailyMaterial
+class Translations$notification$dailyMaterial$ja {
+	Translations$notification$dailyMaterial$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// ja: '本日獲得できる素材'
+	String get title => '本日獲得できる素材';
+
+	/// ja: '${characters}の素材は本日獲得可能です'
+	String body({required Object characters}) => '${characters}の素材は本日獲得可能です';
+
+	/// ja: '、'
+	String get separator => '、';
+}
+
+// Path: android.notificationChannels.dailyMaterial
+class Translations$android$notificationChannels$dailyMaterial$ja {
+	Translations$android$notificationChannels$dailyMaterial$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// ja: '日替わり素材'
+	String get name => '日替わり素材';
+
+	/// ja: '素材を獲得できる日に通知します'
+	String get description => '素材を獲得できる日に通知します';
 }
 
 /// The flat map containing all translations for locale <ja>.
@@ -1100,6 +1198,7 @@ extension on Translations {
 			'errors.artifactNotFound' => '聖遺物が見つかりません',
 			'errors.tryAgainLater' => 'しばらくしてから再度お試しください。',
 			'errors.dbError' => 'データベースエラーが発生しました。',
+			'errors.notificationPermissionRevoked' => '日替わり素材通知を表示するには、通知を許可してください。',
 			'pages.characters' => 'キャラクター',
 			'pages.characterDetails' => ({required Object character}) => '${character} - キャラクター',
 			'pages.weapons' => '武器',
@@ -1219,6 +1318,16 @@ extension on Translations {
 			'settingsPage.dailyResetServer' => '日替わり素材のサーバー時間',
 			'settingsPage.dailyResetServerDesc' => '日替わり素材が更新される時間の基準とするゲームサーバーを選択します。',
 			'settingsPage.farmCountSettingsDesc' => '表示に使用する冒険ランクなどを設定できます。',
+			'settingsPage.notification' => '通知',
+			'settingsPage.dailyMaterialNotification' => '日替わり素材の通知時刻',
+			'settingsPage.dailyMaterialNotificationDesc' => ({required Object time}) => 'ブックマークした素材を獲得可能な日に通知します。通知は、通知時刻の時点でのサーバー上の曜日を基準に行われます。現在の設定において、入手可能な素材が切り替わるのは ${time} （端末時間）です。',
+			'settingsPage.tapToSet' => 'タップして設定',
+			'settingsPage.needToAllowNotificationPermission' => 'この機能を利用するには、通知を許可する必要があります。',
+			'settingsPage.openSettings' => '設定を開く',
+			'settingsPage.notifyOnExactTime' => '正確な時間に通知することを許可',
+			'settingsPage.notifyOnExactTimeSubtitle' => 'タップして許可画面に移動',
+			'settingsPage.notifyOnExactTimeExplanation' => '許可がない場合、通知が最大10分遅延する可能性があります。本アプリではバッテリーへの影響は軽微です。',
+			'settingsPage.grantNotification' => '通知権限を許可',
 			'settingsPage.assetData' => 'アセットデータ',
 			'settingsPage.checkAssetUpdate' => 'アセットデータの更新を確認',
 			'settingsPage.checkAssetUpdateDesc' => 'アプリ内データのアップデートをチェックします。',
@@ -1273,6 +1382,11 @@ extension on Translations {
 			'hoyolab.unknownError' => '不明なエラーが発生しました。',
 			'hoyolab.charaSyncSuccess' => 'ゲームデータと同期しました',
 			'whereToGet.chests' => '宝箱、任務報酬など',
+			'android.notificationChannels.dailyMaterial.name' => '日替わり素材',
+			'android.notificationChannels.dailyMaterial.description' => '素材を獲得できる日に通知します',
+			'notification.dailyMaterial.title' => '本日獲得できる素材',
+			'notification.dailyMaterial.body' => ({required Object characters}) => '${characters}の素材は本日獲得可能です',
+			'notification.dailyMaterial.separator' => '、',
 			_ => null,
 		};
 	}

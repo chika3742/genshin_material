@@ -1,13 +1,7 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
-/gradle.xml
-assetWizardSettings.xml
-deploymentTargetSelector.xml
-appInsightsSettings.xml
-/caches/
+**
+
+!/AndroidProjectSystem.xml
+!/kotlinc.xml
+!/misc.xml
+!/runConfigurations.xml
+!/compiler.xml

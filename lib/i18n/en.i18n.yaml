@@ -1,5 +1,5 @@
 appName: Genshin Material Notebook
-common: 
+common:
   ok: OK
   cancel: Cancel
   signOut: Sign Out
@@ -9,13 +9,13 @@ common:
   goalLevel: Goal Level
   currentLevel: Current Level
   index: Index
-  seconds(rich): 
+  seconds(rich):
     other: $n ${unit(seconds)}
     one: $n ${unit(second)}
-  minutes(rich): 
+  minutes(rich):
     other: $n ${unit(minutes)}
     one: $n ${unit(minute)}
-  hours(rich): 
+  hours(rich):
     other: $n ${unit(hours)}
     one: $n ${unit(hour)}
   element: Element
@@ -39,16 +39,16 @@ common:
   none: None
   selected: "Selected: $character"
   possession: Possession
-  possessionStatus(map): 
+  possessionStatus(map):
     owned: Owned
     notOwned: Not owned
   possessionNoteNotSignedIn: By linking with HoYoLAB, you can synchronize your possession status.
   possessionNote: Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".
   dismiss: Dismiss
-search: 
+search:
   hint: Search for $target...
   noResults: No search results found
-  targets: 
+  targets:
     characters: characters
     weapons: weapons
     materials: materials
@@ -56,19 +56,19 @@ search:
     artifactPieces: artifact pieces
     furnishingSets: furnishing sets
     furnishings: furnishings
-tutorial: 
+tutorial:
   indexSheet: Table of contents
   indexSheetDesc: Tap this button to quickly navigate to the section you're looking for.
-purposes(map): 
+purposes(map):
   ascension: Level Up/Ascension
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill
   elementalBurst: Elemental Burst
-talentTypes(map): 
+talentTypes(map):
   normalAttack: Normal Attack
   elementalSkill: Elemental Skill
   elementalBurst: Elemental Burst
-updates: 
+updates:
   downloading: Downloading data updates...
   failedToLoad: Failed to load data. Try re-downloading from 'Settings' -> 'Re-download Assets'.
   failedToDownload: Failed to download data update.
@@ -81,14 +81,15 @@ updates:
   completed: Data update completed.
   installing: Installing...
   pleaseWaitUntilComplete: Please wait until data update is complete.
-errors: 
+errors:
   characterNotFound: Character not found
   weaponNotFound: Weapon not found
   materialNotFound: Material not found
   artifactNotFound: Artifact not found
   tryAgainLater: Please try again later.
   dbError: A database error occurred.
-pages: 
+  notificationPermissionRevoked: Please allow notifications to show daily material notifications.
+pages:
   characters: Characters
   characterDetails: $character - Character
   weapons: Weapons
@@ -113,7 +114,7 @@ pages:
   wishes: Wish Pity Counter
   more: More
   hoyolabIntegrationSettings: HoYoLAB Integration Settings
-bookmarksPage: 
+bookmarksPage:
   noBookmarks: No bookmarks yet. Try finding something in the Database tab!
   character: Character
   weapon: Weapon
@@ -128,33 +129,33 @@ bookmarksPage:
   byMaterial: Material
   furnishings: Furnishings
   allFurnishingsAreCrafted: All furnishings in this set have been crafted.
-characterDetailsPage: 
+characterDetailsPage:
   equippedWeapon: Equipped Weapon
   favoriteFurnishingSets: Favorite Furnishing Sets
-weaponDetailsPage: 
+weaponDetailsPage:
   characterToEquip: Character to Equip this Weapon
   skillEffect: Skill Effect
-materialDetailsPage: 
+materialDetailsPage:
   charactersUsing: Characters Using This Material
   weaponsUsing: Weapons Using This Material
   availableToday: Available Today
   source: How to Obtain
   toTeyvatMap: To Teyvat Map
-materialCard: 
+materialCard:
   reBookmark: Re-bookmark in current range
   reBookmarkDesc: Remove the bookmark of this material once, then bookmark it again in the current slider range
   unBookmark: Remove bookmark
   unBookmarkDesc: Remove the bookmark of this material
   unBookmarked: Removed from bookmarks
-artifactsPage: 
-  bonusTypes(map): 
+artifactsPage:
+  bonusTypes(map):
     1-pc: 1-Pc Set Bonus
     2-pc: 2-Pc Set Bonus
     4-pc: 4-Pc Set Bonus
   effectList: Effect List
   kindOfEffect: Kind of Effect
   effectFilteringNote: Displays artifact sets that include any of the selected items.
-artifactDetailsPage: 
+artifactDetailsPage:
   maxRarity: Max Rarity
   bookmarkSet: Bookmark Set(s)
   bookmarkPiece: Bookmark by Piece
@@ -169,7 +170,7 @@ artifactDetailsPage:
   subStats: Sub Stats
   unspecified: Unspecified
   nSet: $n-Pieces
-furnishingSetsPage: 
+furnishingSetsPage:
   furnishingList: Furnishing List
   type: Type
   image: Image
@@ -183,13 +184,13 @@ furnishingSetsPage:
   addedToBookmarks: Added to Bookmarks
   removedFromBookmarks: Removed from Bookmarks
   furnishingSetsUsingThisFurnishing: Furnishing Sets Using This Furnishing
-dailyPage: 
+dailyPage:
   mondayAndThursday: Mon/Thu
   tuesdayAndFriday: Tue/Fri
   wednesdayAndSaturday: Wed/Sat
   talentMaterials: Talent Materials
   weaponMaterials: Weapon Materials
-resinCalcPage: 
+resinCalcPage:
   currentResin: Current Resin
   resin: Resin
   recoveryTime: Recovered At
@@ -205,7 +206,7 @@ resinCalcPage:
   howToUseContent: |
     Enter your current resin count to calculate the time when your resin will be fully recovered and the time remaining until full recovery based on the time you entered.
     By linking with @:pages.hoyolabIntegrationSettings, you can synchronize your current resin count. If you use this feature, please note that "@:resinCalcPage.recoveredTime" and "@:resinCalcPage.wastedResin" will not be accurately calculated if you have not synchronized after using resin for the last time or recovering it with items, etc.
-morePage: 
+morePage:
   accountDesc: You can sync bookmarks etc. between devices.
   hoyolabIntegrationSettingsDesc: Link with HoYoLAB to sync in-game data
   github: GitHub
@@ -214,23 +215,33 @@ morePage:
   buyMeACoffeeDesc: Support the developer by buying a coffee.
   x: X (for announcements)
   xDesc: Notices related to this app are posted here.
-releaseNotesPage: 
+releaseNotesPage:
   featureUpdates: Feature Updates
   assetUpdates: Asset Updates
-settingsPage: 
+settingsPage:
   display: Display
   showItemNameOnCard: Show Item Name on Card
   showItemNameOnCardDesc: Show the item name on the card that displays the number of uses.
   dailyResetServer: Daily Material Server Time
   dailyResetServerDesc: Select the game server to use as the reference time for daily materials reset.
   farmCountSettingsDesc: Set the configs like AR for calculating the farming count.
+  notification: Notifications
+  dailyMaterialNotification: Daily Material Notification Time
+  dailyMaterialNotificationDesc: Notifies you on the days your bookmarked materials are available. Notifications are based on the day of the week on the server at the notification time. With the current settings, the available materials switch at $time (device time).
+  tapToSet: Tap to set
+  needToAllowNotificationPermission: You need to allow notifications to use this feature.
+  openSettings: Open Settings
+  notifyOnExactTime: Allow Notifications at the Exact Time
+  notifyOnExactTimeSubtitle: Tap to open the permission screen
+  notifyOnExactTimeExplanation: Without this permission, notifications may be delayed by up to 10 minutes. This app has only a minor impact on battery life.
+  grantNotification: Allow Notification Permission
   assetData: Assets
   checkAssetUpdate: Check Asset Update
   checkAssetUpdateDesc: Check for updates to the app's assets.
   reDownloadAssets: Re-download Assets
   reDownloadAssetsDesc: Please try this if the assets of the app are not loading properly.
   openSourceLicenses: Open Source Licenses
-farmCountSettingsPage: 
+farmCountSettingsPage:
   showFarmCount: Show Farming Count
   adventureRank: Adventure Rank
   skipRate: Multiplier for using Condensed Resin etc.
@@ -240,7 +251,7 @@ farmCountSettingsPage:
   note: Note
   multiplier: ${n} x
   noUseCondensed: (Not using Condensed Resin)
-hoyolab: 
+hoyolab:
   signIn: Sign in to HoYoLAB
   aboutHeading: About HoYoLAB Link
   about: |
@@ -283,5 +294,15 @@ hoyolab:
   weaponNotEquipped: This character does not equip this weapon.
   unknownError: An unknown error occurred.
   charaSyncSuccess: Successfully synced game data
-whereToGet(map): 
+whereToGet(map):
   chests: Chests, Quests
+android:
+  notificationChannels:
+    dailyMaterial:
+      name: Daily Materials
+      description: Notifies you on the days materials are available
+notification:
+  dailyMaterial:
+    title: Materials Available Today
+    body: Materials for ${characters} are available today
+    separator: ", "

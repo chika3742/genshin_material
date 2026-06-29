@@ -1,0 +1,64 @@
+import "dart:developer";
+
+import "package:drift/drift.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
+
+import "../core/pref_keys.dart";
+import "../data/services/local_notification.dart";
+import "../i18n/strings.g.dart";
+import "../providers/database_provider.dart";
+import "../providers/pref_notifier.dart";
+import "../ui_core/snack_bar.dart";
+import "../use_cases/reschedule_daily_material_notifications.dart";
+import "../utils/debouncer.dart";
+
+void useNotificationRescheduleListener(WidgetRef ref) {
+  final db = ref.watch(appDatabaseProvider);
+  final rescheduler = ref.watch(rescheduleDailyMaterialNotificationsProvider.future);
+
+  final context = useContext();
+  final stream = useMemoized(
+    () => db.tableUpdates(TableUpdateQuery.onTable(db.bookmarkMaterialGroupTable)),
+    [db],
+  );
+
+  final debouncer = useMemoized(() => Debouncer(Duration(milliseconds: 50)));
+  useEffect(() => debouncer.dispose, [debouncer]);
+
+  Future<void> schedule() async {
+    if (!ref.context.mounted) {
+      log("WidgetRef not mounted", name: "useNotificationRescheduleListener");
+      return;
+    }
+    debouncer(() async {
+      await (await rescheduler).execute();
+
+      // Warn only when the feature is enabled but the OS permission is missing.
+      if (ref.read(prefProvider(PrefKeys.dailyMaterialNotificationTime)) == null) {
+        return;
+      }
+      if (!await ref.read(localNotificationProvider).isNotificationGranted() && context.mounted) {
+        showSnackBar(context: context, message: tr.errors.notificationPermissionRevoked);
+      }
+    });
+  }
+
+  useOnStreamChange(stream, onData: (_) {
+    schedule();
+  });
+
+  ref.listen(prefProvider(PrefKeys.dailyMaterialNotificationTime), (_, _) {
+    schedule();
+  });
+
+  ref.listen(prefProvider(PrefKeys.dailyResetServer), (_, _) {
+    schedule();
+  });
+
+  useEffect(() {
+    // run once at startup
+    Future(schedule);
+    return null;
+  }, []);
+}
