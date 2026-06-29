@@ -1,6 +1,6 @@
 MIT License
 
-Copyright 2026 cq
+Copyright 2026 Chikamatsu Kazuya
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
@@ -14,16 +14,3 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
----
-
-Exception for Non-Code Assets:
-
-The following files are NOT covered by the MIT License and are proprietary. All rights reserved.
-
-  - android/app/src/main/res/mipmap-(h|m|xh|xxh|xxxh)dpi/(ic_launcher|ic_launcher_foreground|ic_launcher_round).webp
-  - ios/Runner/Assets.xcassets/AppIcon.appiconset/genshin_material_icon.png
-  - ios/Runner/Assets.xcassets/LaunchImage.imageset/genshin_material_launch_image.png
-
-These assets may not be used, copied, modified, or distributed without
-explicit written permission.
