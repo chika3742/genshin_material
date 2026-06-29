@@ -18,7 +18,7 @@ void main() {
             return false;
           }
 
-          final boldSpan = (widget.textSpan as TextSpan).children![1];
+          final boldSpan = (widget.textSpan! as TextSpan).children![1];
           return boldSpan.toPlainText() == "bold" && boldSpan.style!.fontWeight == FontWeight.bold;
         },
         description: "Second TextSpan's fontWeight is bold",

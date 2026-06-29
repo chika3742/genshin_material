@@ -165,7 +165,7 @@ class PopupMenuListTile<T> extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listTileKey = useMemoized(() => GlobalKey());
+    final listTileKey = useMemoized(GlobalKey.new);
 
     return ListTile(
       key: listTileKey,
@@ -175,7 +175,7 @@ class PopupMenuListTile<T> extends HookWidget {
       trailing: trailing,
       enabled: enabled,
       onTap: () async {
-        final renderBox = listTileKey.currentContext!.findRenderObject() as RenderBox;
+        final renderBox = listTileKey.currentContext!.findRenderObject()! as RenderBox;
         final size = renderBox.size;
         final offset = renderBox.localToGlobal(Offset.zero);
         final position = RelativeRect.fromLTRB(size.width, offset.dy + size.height, 16, offset.dy + size.height);

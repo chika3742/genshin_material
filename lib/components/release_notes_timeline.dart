@@ -33,7 +33,7 @@ class _ReleaseNotesTimelineState extends State<ReleaseNotesTimeline> {
         setState(() {
           tlContentsHeights = <int, double>{};
           tlContentsKeys.forEach((key, value) {
-            tlContentsHeights![key] = (value.currentContext!.findRenderObject() as RenderBox).size.height;
+            tlContentsHeights![key] = (value.currentContext!.findRenderObject()! as RenderBox).size.height;
           });
         });
       });

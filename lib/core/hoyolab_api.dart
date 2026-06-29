@@ -62,7 +62,7 @@ class HoyolabApi {
   Future<LookupServersResult> lookupServers() async {
     const url = "https://api-account-os.hoyolab.com/account/binding/api/getAllRegions?game_biz=hk4e_global";
     final result = await client.get(Uri.parse(url));
-    return HoyolabApiResult.fromJsonList(const JsonCodec().decode(result.body), (e) => HyvServer.fromJson(e as Map<String, dynamic>));
+    return HoyolabApiResult.fromJsonList(const JsonCodec().decode(result.body), (e) => HyvServer.fromJson(e! as Map<String, dynamic>));
   }
 
   Future<VerifyLTokenResult> verifyLToken() async {
@@ -75,7 +75,7 @@ class HoyolabApi {
       headers: headers,
     );
 
-    return HoyolabApiResult.fromJson(const JsonCodec().decode(result.body), (obj) => HyvUserInfo.fromJson((obj as Map<String, dynamic>)["user_info"]));
+    return HoyolabApiResult.fromJson(const JsonCodec().decode(result.body), (obj) => HyvUserInfo.fromJson((obj! as Map<String, dynamic>)["user_info"]));
   }
 
   Future<void> logout() async {
@@ -181,7 +181,7 @@ class HoyolabApi {
           "DS": _getDsToken(queryParameters: queryParameters),
         },
       ),
-      (obj) => DailyNote.fromJson(obj as Map<String, dynamic>),
+      (obj) => DailyNote.fromJson(obj! as Map<String, dynamic>),
     );
   }
 
@@ -212,7 +212,7 @@ class HoyolabApi {
         },
         body: body,
       ),
-      (obj) => CalcResult.fromJson(obj as Map<String, dynamic>),
+      (obj) => CalcResult.fromJson(obj! as Map<String, dynamic>),
     );
   }
 

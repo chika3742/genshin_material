@@ -109,16 +109,11 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
           ListTile(
             leading: const Icon(Symbols.dns),
             title: Text(tr.hoyolab.changeServer),
-            subtitle: () {
-              if (cred.hyvServer == null || cred.hyvServerName == null) {
-                return Text(tr.hoyolab.noServerSelected);
-              }
-              return Text(tr.hoyolab.current(server: cred.hyvServerName!));
-            }(),
+            subtitle: cred.hyvServer == null || cred.hyvServerName == null
+                ? Text(tr.hoyolab.noServerSelected)
+                : Text(tr.hoyolab.current(server: cred.hyvServerName!)),
             trailing: const Icon(Symbols.menu_open),
-            onTap: () {
-              _showServerSelectBottomSheet();
-            },
+            onTap: _showServerSelectBottomSheet,
           ),
 
           ListSubheader(tr.hoyolab.userInfo),

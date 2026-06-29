@@ -13,7 +13,7 @@ Map<String, dynamic> unwrapYamlMap(YamlMap map) {
 }
 
 List<dynamic> unwrapYamlList(YamlList list) {
-  return list.map((element) => unwrapYamlValue(element)).toList();
+  return list.map(unwrapYamlValue).toList();
 }
 
 /// Loads YAML, unwrap it, and asserts its root type.

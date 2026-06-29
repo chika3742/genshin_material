@@ -16,7 +16,7 @@ class GameDataSyncIndicator extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconKey = useMemoized(() => GlobalKey(), [status]);
+    final iconKey = useMemoized(GlobalKey.new, [status]);
 
     useValueChanged<GameDataSyncStatus, void>(status, (_, _) {
       if (status is _Error) {
