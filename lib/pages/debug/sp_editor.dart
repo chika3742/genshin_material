@@ -1,16 +1,19 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
-import "../../main.dart";
+import "../../providers/pref_notifier.dart";
 
-class SharedPreferencesEditorPage extends HookWidget {
+class SharedPreferencesEditorPage extends HookConsumerWidget {
   const SharedPreferencesEditorPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final prefs = useState(_getPreferences());
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sp = ref.watch(sharedPreferencesWithCacheProvider);
+    final prefs = useState(_getPreferences(sp));
 
     return Scaffold(
       appBar: AppBar(
@@ -43,25 +46,25 @@ class SharedPreferencesEditorPage extends HookWidget {
                       if (result == null) { return; }
 
                       if (e.value is String) {
-                        spInstance.setString(e.key, result);
+                        sp.setString(e.key, result);
                       } else if (e.value is int) {
-                        spInstance.setInt(e.key, int.parse(result));
+                        sp.setInt(e.key, int.parse(result));
                       } else if (e.value is double) {
-                        spInstance.setDouble(e.key, double.parse(result));
+                        sp.setDouble(e.key, double.parse(result));
                       } else if (e.value is bool) {
-                        spInstance.setBool(e.key, bool.parse(result));
+                        sp.setBool(e.key, bool.parse(result));
                       } else {
                         throw "Unsupported type: ${e.value.runtimeType}";
                       }
 
-                      prefs.value = _getPreferences();
+                      prefs.value = _getPreferences(sp);
                     },
                   ),
                   PopupMenuItem(
                     child: const Text("Delete"),
                     onTap: () {
-                      spInstance.remove(e.key);
-                      prefs.value = _getPreferences();
+                      sp.remove(e.key);
+                      prefs.value = _getPreferences(sp);
                     },
                   ),
                 ];
@@ -73,12 +76,12 @@ class SharedPreferencesEditorPage extends HookWidget {
     );
   }
 
-  Map<String, Object?> _getPreferences() {
-    final keys = spInstance.keys;
+  Map<String, Object?> _getPreferences(SharedPreferencesWithCache sp) {
+    final keys = sp.keys;
     final Map<String, Object?> prefs = {};
 
     for (final key in keys) {
-      prefs[key] = spInstance.get(key);
+      prefs[key] = sp.get(key);
     }
 
     return prefs;

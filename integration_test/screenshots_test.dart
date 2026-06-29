@@ -16,6 +16,7 @@ import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/asset_updating_state.dart";
 import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/game_data_sync.dart";
+import "package:genshin_material/providers/pref_notifier.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:integration_test/integration_test.dart";
 import "package:intl/date_symbol_data_local.dart";
@@ -61,7 +62,7 @@ void main() {
       locale: AppLocale.ja,
       cardinalResolver: (n, {few, many, one, other, two, zero}) => other!,
     );
-    spInstance = await SharedPreferencesWithCache.create(
+    final spInstance = await SharedPreferencesWithCache.create(
       cacheOptions: const SharedPreferencesWithCacheOptions(
         allowList: null,
       ),
@@ -70,6 +71,7 @@ void main() {
     await tester.pumpWidget(ProviderScope(
       overrides: [
         appDatabaseProvider.overrideWithValue(db),
+        sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
         gameDataSyncStateProvider(variantId: "amber").overrideWithValue(GameDataSyncStatus.synced()),
       ],
       child: const MyApp(),

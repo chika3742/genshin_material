@@ -26,8 +26,6 @@ import "providers/pref_notifier.dart";
 import "providers/versions.dart";
 import "routes.dart";
 
-late final SharedPreferencesWithCache spInstance;
-
 const isScreenshotMode = bool.fromEnvironment("SCREENSHOT_MODE");
 const assetChannel = String.fromEnvironment(
   "ASSET_CHANNEL",
@@ -47,7 +45,7 @@ void main() async {
     locale: AppLocale.ja,
     cardinalResolver: (n, {few, many, one, other, two, zero}) => other!,
   );
-  spInstance = await SharedPreferencesWithCache.create(
+  final spInstance = await SharedPreferencesWithCache.create(
     cacheOptions: const SharedPreferencesWithCacheOptions(),
   );
   LicenseRegistry.addLicense(() async* {
