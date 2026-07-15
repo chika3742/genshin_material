@@ -153,7 +153,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
             newState = newState.copyWith(
               rangeValues: {...newState.rangeValues}..[e.key] = LevelRangeValues(e.value, max(e.value, newState.rangeValues[e.key]!.end)),
             );
-            if (e.value == ingLevels.levels.keys.last) {
+            if (e.key != .ascension && e.value == ingLevels.levels.keys.last) {
               newState = newState.copyWith(
                 hiddenTalents: {...newState.hiddenTalents}..add(e.key),
               );
