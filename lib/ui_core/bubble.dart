@@ -100,7 +100,10 @@ class Bubble extends HookWidget {
                     tailPosition: targetPos.dx + targetSize.width / 2,
                   ),
                 ),
-                child: child,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: BubbleShapeBorder.bubbleTailHeight),
+                  child: child,
+                ),
               ),
             ),
           ),
