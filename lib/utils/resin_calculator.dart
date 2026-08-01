@@ -7,7 +7,7 @@ part "resin_calculator.freezed.dart";
 
 const maxResin = 200;
 const minutesPerResinRecovery = 8;
-const breakpoints = [40, 80, 120, 160];
+const breakpoints = [60, 120, 180];
 
 ResinCalculationResult calculateResinRecovery({
   required int currentResin,
