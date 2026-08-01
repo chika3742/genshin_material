@@ -153,7 +153,7 @@ artifactsPage:
     4-pc: 4-Pc Set Bonus
   effectList: Effect List
   kindOfEffect: Kind of Effect
-  effectFilteringNote: "* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags."
+  effectFilteringNote: Displays artifact sets that include any of the selected items.
 artifactDetailsPage: 
   maxRarity: Max Rarity
   bookmarkSet: Bookmark Set(s)

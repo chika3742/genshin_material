@@ -1,3 +1,4 @@
+import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
@@ -9,12 +10,31 @@ import "../../../components/effect_description.dart";
 import "../../../components/filter_bottom_sheet.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/artifact.dart";
 import "../../../providers/filter_state.dart";
 
 class ArtifactEffectListPage extends HookConsumerWidget {
   final AssetData assetData;
 
   const ArtifactEffectListPage({super.key, required this.assetData});
+
+  List<ArtifactSet> _filterAndSortSets(List<String> filterTags) {
+    final sets = assetData.artifactSets.values;
+    if (filterTags.isEmpty) {
+      return sets.toList();
+    }
+    final filtered = sets.where((e) => e.tags != null && e.tags!.any(filterTags.contains));
+    final sorted = filtered.sorted((a, b) {
+      final aCount = a.tags!.fold(0, (prev, e) => filterTags.contains(e) ? prev + 1 : prev);
+      final bCount = b.tags!.fold(0, (prev, e) => filterTags.contains(e) ? prev + 1 : prev);
+      return bCount - aCount;
+    });
+    return sorted;
+  }
+
+  Map<String, ArtifactTag> _flattenTags() {
+    return Map.fromEntries(assetData.artifactTags.map((e) => e.items).flattened.map((e) => MapEntry(e.id, e)));
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,16 +46,8 @@ class ArtifactEffectListPage extends HookConsumerWidget {
       ),
       body: HookBuilder(
         builder: (context) {
-          final sets = useMemoized(() => assetData.artifactSets.values.where((e) {
-            if (filterState.tags.isEmpty) {
-              return true;
-            }
-            if (e.tags == null) {
-              return false;
-            }
-
-            return filterState.tags.every(e.tags!.contains);
-          }).toList(), [filterState]);
+          final sets = useMemoized(() => _filterAndSortSets(filterState.tags), [filterState]);
+          final flattenedTags = useMemoized(_flattenTags, [assetData]);
 
           return CustomScrollView(
             slivers: [
@@ -83,6 +95,24 @@ class ArtifactEffectListPage extends HookConsumerWidget {
                                 Text(set.name.localized),
                               ],
                             ),
+                            SizedBox(height: 4),
+                            if (set.tags case final tags?)
+                              Wrap(
+                                spacing: 4,
+                                runSpacing: 4,
+                                children: tags.map((tag) => Chip(
+                                  label: Text(flattenedTags[tag]!.desc.localized),
+                                  shape: RoundedRectangleBorder(borderRadius: .circular(32)),
+                                  padding: .symmetric(horizontal: 4),
+                                  materialTapTargetSize: .shrinkWrap,
+                                  backgroundColor: filterState.tags.contains(tag)
+                                      ? Theme.of(context).colorScheme.primaryContainer
+                                      : null,
+                                  side: filterState.tags.contains(tag)
+                                      ? BorderSide.none
+                                      : null,
+                                )).toList(),
+                              ),
                             for (final bonus in set.bonuses) ...[
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),

@@ -345,7 +345,7 @@ class _Translations$artifactsPage$en extends Translations$artifactsPage$ja {
 	};
 	@override String get effectList => 'Effect List';
 	@override String get kindOfEffect => 'Kind of Effect';
-	@override String get effectFilteringNote => '* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags.';
+	@override String get effectFilteringNote => 'Displays artifact sets that include any of the selected items.';
 }
 
 // Path: artifactDetailsPage
@@ -712,7 +712,7 @@ extension on TranslationsEn {
 			'artifactsPage.bonusTypes.4-pc' => '4-Pc Set Bonus',
 			'artifactsPage.effectList' => 'Effect List',
 			'artifactsPage.kindOfEffect' => 'Kind of Effect',
-			'artifactsPage.effectFilteringNote' => '* This filtering only applies to 5-star artifacts only. Selecting multiple options will show artifacts that have all selected tags.',
+			'artifactsPage.effectFilteringNote' => 'Displays artifact sets that include any of the selected items.',
 			'artifactDetailsPage.maxRarity' => 'Max Rarity',
 			'artifactDetailsPage.bookmarkSet' => 'Bookmark Set(s)',
 			'artifactDetailsPage.bookmarkPiece' => 'Bookmark by Piece',

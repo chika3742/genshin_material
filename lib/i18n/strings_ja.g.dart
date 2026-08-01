@@ -549,8 +549,8 @@ class Translations$artifactsPage$ja {
 	/// ja: '効果の種類'
 	String get kindOfEffect => '効果の種類';
 
-	/// ja: '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。'
-	String get effectFilteringNote => '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。';
+	/// ja: '選択したもののうちいずれかを含む聖遺物セットを表示します。'
+	String get effectFilteringNote => '選択したもののうちいずれかを含む聖遺物セットを表示します。';
 }
 
 // Path: artifactDetailsPage
@@ -1157,7 +1157,7 @@ extension on Translations {
 			'artifactsPage.bonusTypes.4-pc' => '4セット効果',
 			'artifactsPage.effectList' => 'セット効果リスト',
 			'artifactsPage.kindOfEffect' => '効果の種類',
-			'artifactsPage.effectFilteringNote' => '※本フィルタリング機能は☆5聖遺物に対してのみ機能します。また、選択したものをすべて満たす聖遺物を表示します。',
+			'artifactsPage.effectFilteringNote' => '選択したもののうちいずれかを含む聖遺物セットを表示します。',
 			'artifactDetailsPage.maxRarity' => '最高レアリティ',
 			'artifactDetailsPage.bookmarkSet' => 'セットをブックマーク',
 			'artifactDetailsPage.bookmarkPiece' => '部位ごとにブックマーク',

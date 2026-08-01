@@ -1,17 +1,7 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
-/libraries/
-# GitHub Copilot persisted chat sessions
-/copilot/chatSessions
+**
 
-/watcherTasks.xml
-copilotDiffState.xml
-deviceManager.xml
-vcs.xml
-/caches/
+!/modules.xml
+!/misc.xml
+!/jsonSchemas.xml
+!/runConfigurations
+
