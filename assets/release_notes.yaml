@@ -1,5 +1,16 @@
 # コピー用改行
 
+- releasedOn: unreleased
+  version: unreleased
+  contents:
+    locales:
+      ja: |
+        # 変更
+        樹脂回復時刻計算機の表に表示される樹脂数を60/120/180個に変更しました。
+      en: |
+        # Changes
+        - Changed the resin quantities displayed in the table of the resin recovery time calculator to 60/120/180.
+
 - releasedOn: 2026/06/24
   version: 4.8.2
   contents:
