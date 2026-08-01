@@ -4,6 +4,7 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
+import "../../composables/use_scroll_to_top_on_status_bar_tap.dart";
 import "../../models/bookmark.dart";
 import "../../models/material_bookmark_frame.dart";
 import "../../providers/database_provider.dart";
@@ -42,6 +43,8 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
       builder: (context, scrollController) {
         return HookConsumer(
           builder: (context, ref, child) {
+            useScrollToTopOnStatusBarTap(scrollController);
+
             final assetData = ref.watch(assetDataProvider).value!;
             final bookmarks = ref.watch(bookmarksProvider(materialFilter: (materialId: materialId, hasWeapon: hasWeapon))).value;
 

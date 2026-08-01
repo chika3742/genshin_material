@@ -28,7 +28,6 @@ class FurnishingSetListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fabKey = useMemoized(GlobalKey.new);
-    final scrollController = useScrollController();
 
     useEffect(() {
       Future.delayed(const Duration(milliseconds: 350), () {
@@ -70,15 +69,13 @@ class FurnishingSetListPage extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
         onPressed: () {
-          _showIndexSheet(context, scrollController, furnishingSetsGrouped);
+          _showIndexSheet(context, PrimaryScrollController.of(context), furnishingSetsGrouped);
         },
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
       ),
       body: Scrollbar(
-        controller: scrollController,
         child: CustomScrollView(
-          controller: scrollController,
           slivers: [
             SliverToBoxAdapter(
               child: SimpleListTile(

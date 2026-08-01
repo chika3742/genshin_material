@@ -75,20 +75,27 @@ class WeaponListPage extends HookConsumerWidget {
     }, [assetData.weapons]);
 
     useEffect(() {
+      // show tutorial for index sheet
       Future.delayed(const Duration(milliseconds: 350), () {
         if (context.mounted) showIndexSheetTutorialIfNeeded(context, fabKey, ref);
       });
+
+      // set initial scroll position
+      double initialScrollOffset = 0;
+      if (equipCharacter != null) {
+        initialScrollOffset = getIndexScrollOffset(
+          listIndexItems,
+          assetData.characters[equipCharacter]!.weaponType,
+        );
+      }
+      if (initialScrollOffset != 0) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          PrimaryScrollController.of(context).jumpTo(initialScrollOffset);
+        });
+      }
+
       return null;
     }, []);
-
-    double initialScrollOffset = 0;
-    if (equipCharacter != null) {
-      initialScrollOffset = getIndexScrollOffset(
-        listIndexItems,
-        assetData.characters[equipCharacter]!.weaponType,
-      );
-    }
-    final scrollController = useScrollController(initialScrollOffset: initialScrollOffset);
 
     final String appBarTitle;
     if (equipCharacter != null) {
@@ -130,15 +137,13 @@ class WeaponListPage extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
         onPressed: () {
-          _showIndexSheet(context, scrollController, listIndexItems);
+          _showIndexSheet(context, PrimaryScrollController.of(context), listIndexItems);
         },
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
       ),
       body: Scrollbar(
-        controller: scrollController,
         child: CustomScrollView(
-          controller: scrollController,
           slivers: [
             ...assetData.weaponTypes.entries.map((e) {
               final typeId = e.key;

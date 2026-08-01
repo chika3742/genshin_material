@@ -27,7 +27,6 @@ class MaterialListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fabKey = useMemoized(GlobalKey.new);
-    final scrollController = useScrollController();
 
     useEffect(() {
       Future.delayed(const Duration(milliseconds: 350), () {
@@ -67,43 +66,39 @@ class MaterialListPage extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
         onPressed: () {
-          _showIndexSheet(context, scrollController, materialsGroupedByCategory);
+          _showIndexSheet(context, PrimaryScrollController.of(context), materialsGroupedByCategory);
         },
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
       ),
-      body: PrimaryScrollController(
-        controller: scrollController,
-        child: Scrollbar(
-          child: CustomScrollView(
-            controller: scrollController,
-            slivers: assetData.materialCategories.entries.map((e) {
-              final categoryId = e.key;
-              final categoryText = e.value.localized;
+      body: Scrollbar(
+        child: CustomScrollView(
+          slivers: assetData.materialCategories.entries.map((e) {
+            final categoryId = e.key;
+            final categoryText = e.value.localized;
 
-              return SliverStickyHeader.builder(
-                builder: (_, _) => StickyListHeader(categoryText),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                      final material = materialsGroupedByCategory[categoryId]![index];
+            return SliverStickyHeader.builder(
+              builder: (_, _) => StickyListHeader(categoryText),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    final material = materialsGroupedByCategory[categoryId]![index];
 
-                      return GameItemListTile(
-                        key: ValueKey(material.id),
-                        image: material.getImageFile(assetData.assetDir),
-                        name: material.name.localized,
-                        rarity: material.rarity,
-                        onTap: () {
-                          MaterialDetailsRoute(id: material.id).go(context);
-                        },
-                      );
-                    },
-                    childCount: materialsGroupedByCategory[categoryId]?.length ?? 0,
-                  ),
+                    return GameItemListTile(
+                      key: ValueKey(material.id),
+                      image: material.getImageFile(assetData.assetDir),
+                      name: material.name.localized,
+                      rarity: material.rarity,
+                      onTap: () {
+                        MaterialDetailsRoute(id: material.id).go(context);
+                      },
+                    );
+                  },
+                  childCount: materialsGroupedByCategory[categoryId]?.length ?? 0,
                 ),
-              );
-            }).toList(),
-          ),
+              ),
+            );
+          }).toList(),
         ),
       ),
     );
