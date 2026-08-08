@@ -2,7 +2,7 @@ name: Code Review with Claude
 on:
   pull_request:
     types:
-      - opened
+      - ready_for_review
       - synchronize
 
 jobs:
