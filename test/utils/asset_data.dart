@@ -77,7 +77,7 @@ Character buildTestCharacter({
   LocalizedText? name,
 }) {
   return Character(
-      id: "",
+      id: id,
       hyvIds: [],
       name: name ?? LocalizedText(locales: {}),
       jaPronunciation: "",
