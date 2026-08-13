@@ -15,7 +15,7 @@ String? getConcreteItemId(Ingredient ingredient, CharacterOrWeapon characterOrWe
         return ingredient.targetSpecific?[characterOrWeapon.id];
       }
 
-      final definition = characterOrWeapon.materials[ingredient.type];
+      final definition = characterOrWeapon.materials?[ingredient.type];
       if (definition == null) {
         log("Warning: No material definition found for type ${ingredient.type} in ${characterOrWeapon.id}");
         return null;

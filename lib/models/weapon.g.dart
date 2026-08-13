@@ -19,7 +19,12 @@ _Weapon _$WeaponFromJson(Map<String, dynamic> json) => _Weapon(
       ? null
       : LocalizedText.fromJson(json['weaponAffixDesc']),
   type: json['type'] as String,
-  materials: Map<String, String>.from(json['materials'] as Map),
+  materials: (json['materials'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(k, e as String),
+  ),
+  levelingDescription: json['levelingDescription'] == null
+      ? null
+      : LocalizedText.fromJson(json['levelingDescription']),
   source: json['source'] == null
       ? null
       : ItemSource.fromJson(json['source'] as Map<String, dynamic>),

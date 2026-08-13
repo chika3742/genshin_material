@@ -15,22 +15,22 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Weapon {
 
- String get id; bool get disableSync; int get hyvId; LocalizedText get name; String get jaPronunciation; String get imageUrl; int get rarity; WeaponSubStat? get subStat; LocalizedText? get weaponAffixDesc; WeaponType get type; Map<MaterialUsageType, String> get materials; ItemSource? get source;
+ String get id; bool get disableSync; int get hyvId; LocalizedText get name; String get jaPronunciation; String get imageUrl; int get rarity; WeaponSubStat? get subStat; LocalizedText? get weaponAffixDesc; WeaponType get type; Map<MaterialUsageType, String>? get materials; LocalizedText? get levelingDescription; ItemSource? get source;
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Weapon&&(identical(other.id, id) || other.id == id)&&(identical(other.disableSync, disableSync) || other.disableSync == disableSync)&&(identical(other.hyvId, hyvId) || other.hyvId == hyvId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.subStat, subStat) || other.subStat == subStat)&&(identical(other.weaponAffixDesc, weaponAffixDesc) || other.weaponAffixDesc == weaponAffixDesc)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.materials, materials)&&(identical(other.source, source) || other.source == source));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Weapon&&(identical(other.id, id) || other.id == id)&&(identical(other.disableSync, disableSync) || other.disableSync == disableSync)&&(identical(other.hyvId, hyvId) || other.hyvId == hyvId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.subStat, subStat) || other.subStat == subStat)&&(identical(other.weaponAffixDesc, weaponAffixDesc) || other.weaponAffixDesc == weaponAffixDesc)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.materials, materials)&&(identical(other.levelingDescription, levelingDescription) || other.levelingDescription == levelingDescription)&&(identical(other.source, source) || other.source == source));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,disableSync,hyvId,name,jaPronunciation,imageUrl,rarity,subStat,weaponAffixDesc,type,const DeepCollectionEquality().hash(materials),source);
+int get hashCode => Object.hash(runtimeType,id,disableSync,hyvId,name,jaPronunciation,imageUrl,rarity,subStat,weaponAffixDesc,type,const DeepCollectionEquality().hash(materials),levelingDescription,source);
 
 @override
 String toString() {
-  return 'Weapon(id: $id, disableSync: $disableSync, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, source: $source)';
+  return 'Weapon(id: $id, disableSync: $disableSync, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, levelingDescription: $levelingDescription, source: $source)';
 }
 
 
@@ -44,7 +44,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _Weapon extends Weapon {
-  const _Weapon({required this.id, this.disableSync = false, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.rarity, required this.subStat, required this.weaponAffixDesc, required this.type, required final  Map<MaterialUsageType, String> materials, this.source}): _materials = materials,super._();
+  const _Weapon({required this.id, this.disableSync = false, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.rarity, required this.subStat, required this.weaponAffixDesc, required this.type, final  Map<MaterialUsageType, String>? materials, this.levelingDescription, this.source}): _materials = materials,super._();
   factory _Weapon.fromJson(Map<String, dynamic> json) => _$WeaponFromJson(json);
 
 @override final  String id;
@@ -57,13 +57,16 @@ class _Weapon extends Weapon {
 @override final  WeaponSubStat? subStat;
 @override final  LocalizedText? weaponAffixDesc;
 @override final  WeaponType type;
- final  Map<MaterialUsageType, String> _materials;
-@override Map<MaterialUsageType, String> get materials {
+ final  Map<MaterialUsageType, String>? _materials;
+@override Map<MaterialUsageType, String>? get materials {
+  final value = _materials;
+  if (value == null) return null;
   if (_materials is EqualUnmodifiableMapView) return _materials;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_materials);
+  return EqualUnmodifiableMapView(value);
 }
 
+@override final  LocalizedText? levelingDescription;
 @override final  ItemSource? source;
 
 
@@ -71,16 +74,16 @@ class _Weapon extends Weapon {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Weapon&&(identical(other.id, id) || other.id == id)&&(identical(other.disableSync, disableSync) || other.disableSync == disableSync)&&(identical(other.hyvId, hyvId) || other.hyvId == hyvId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.subStat, subStat) || other.subStat == subStat)&&(identical(other.weaponAffixDesc, weaponAffixDesc) || other.weaponAffixDesc == weaponAffixDesc)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other._materials, _materials)&&(identical(other.source, source) || other.source == source));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Weapon&&(identical(other.id, id) || other.id == id)&&(identical(other.disableSync, disableSync) || other.disableSync == disableSync)&&(identical(other.hyvId, hyvId) || other.hyvId == hyvId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.subStat, subStat) || other.subStat == subStat)&&(identical(other.weaponAffixDesc, weaponAffixDesc) || other.weaponAffixDesc == weaponAffixDesc)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other._materials, _materials)&&(identical(other.levelingDescription, levelingDescription) || other.levelingDescription == levelingDescription)&&(identical(other.source, source) || other.source == source));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,disableSync,hyvId,name,jaPronunciation,imageUrl,rarity,subStat,weaponAffixDesc,type,const DeepCollectionEquality().hash(_materials),source);
+int get hashCode => Object.hash(runtimeType,id,disableSync,hyvId,name,jaPronunciation,imageUrl,rarity,subStat,weaponAffixDesc,type,const DeepCollectionEquality().hash(_materials),levelingDescription,source);
 
 @override
 String toString() {
-  return 'Weapon(id: $id, disableSync: $disableSync, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, source: $source)';
+  return 'Weapon(id: $id, disableSync: $disableSync, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, rarity: $rarity, subStat: $subStat, weaponAffixDesc: $weaponAffixDesc, type: $type, materials: $materials, levelingDescription: $levelingDescription, source: $source)';
 }
 
 
