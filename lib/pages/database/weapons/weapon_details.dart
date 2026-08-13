@@ -229,14 +229,21 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                               );
                             },
                           ),
-                        MaterialCardList(
-                          target: weapon,
-                          purposes: slider.purposes,
-                          ingredientConf: ingredients,
-                          lackNums: lackNums,
-                          ranges: state.value.rangeValues,
-                          wSelectedCharacter: state.value.selectedCharacterId,
-                        ),
+
+                        if (weapon.materials != null)
+                          MaterialCardList(
+                            target: weapon,
+                            purposes: slider.purposes,
+                            ingredientConf: ingredients,
+                            lackNums: lackNums,
+                            ranges: state.value.rangeValues,
+                            wSelectedCharacter: state.value.selectedCharacterId,
+                          )
+                        else if (weapon.levelingDescription case final levelingDescription?)
+                          Text(
+                            levelingDescription.localized,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
                       ],
                     ),
                   ),

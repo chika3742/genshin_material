@@ -22,7 +22,8 @@ sealed class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon, Searchable {
     required WeaponSubStat? subStat,
     required LocalizedText? weaponAffixDesc,
     required WeaponType type,
-    required Map<MaterialUsageType, String> materials,
+    Map<MaterialUsageType, String>? materials,
+    LocalizedText? levelingDescription,
     ItemSource? source,
   }) = _Weapon;
 

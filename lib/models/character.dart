@@ -46,7 +46,7 @@ extension LargeImageExt on CharacterWithLargeImage {
 }
 
 @Freezed(fallbackUnion: "default", toJson: false)
-sealed class Character extends CharacterBase with _$Character, CharacterOrWeapon, Searchable {
+sealed class Character extends CharacterBase with CharacterOrWeapon, _$Character, Searchable {
   const Character._();
 
   @Implements<CharacterWithLargeImage>()

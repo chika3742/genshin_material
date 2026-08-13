@@ -41,6 +41,9 @@ Iterable<Weapon> getWeaponsUsingMaterial(
   Iterable<Weapon> items,
 ) {
   return items.where((w) {
-    return materialUsagePredicate(material, w.materials);
+    if (w.materials == null) {
+      return false;
+    }
+    return materialUsagePredicate(material, w.materials!);
   });
 }

@@ -7,7 +7,7 @@ import "../main.dart";
 import "ingredients.dart";
 import "localized_text.dart";
 
-const dataSchemaVersion = 7;
+const dataSchemaVersion = 8;
 
 typedef CharacterId = String;
 typedef WeaponId = String;
@@ -46,7 +46,7 @@ mixin Searchable {
 mixin CharacterOrWeapon {
   String get id;
   int get rarity;
-  MaterialDefinitions get materials;
+  MaterialDefinitions? get materials;
 }
 
 enum Purpose {
