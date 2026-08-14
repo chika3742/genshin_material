@@ -160,11 +160,11 @@ class RescheduleDailyMaterialNotifications {
 }
 
 @riverpod
-Future<RescheduleDailyMaterialNotifications> rescheduleDailyMaterialNotifications(Ref ref) async {
+RescheduleDailyMaterialNotifications rescheduleDailyMaterialNotifications(Ref ref) {
   return RescheduleDailyMaterialNotifications(
     ref.watch(localNotificationProvider),
     ref.watch(appDatabaseProvider),
-    assetData: await ref.watch(assetDataProvider.future),
+    assetData: ref.watch(assetDataProvider).value,
     gameServer: ref.watch(prefProvider(PrefKeys.dailyResetServer)),
     notificationTime: ref.watch(prefProvider(PrefKeys.dailyMaterialNotificationTime)),
   );
