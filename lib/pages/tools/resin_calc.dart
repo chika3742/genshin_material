@@ -49,97 +49,93 @@ class ResinCalcPage extends HookConsumerWidget {
         appBar: AppBar(
           title: Text(tr.pages.resinCalc),
         ),
-        body: Column(
+        body: ListView( // to avoid jumping scroll position: https://github.com/flutter/flutter/issues/145078
+          padding: const EdgeInsets.all(16),
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 8.0,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 8.0,
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: resinController,
-                            keyboardType: TextInputType.number,
-                            enabled: !isLinked || !syncResin,
-                            decoration: InputDecoration(
-                              labelText: tr.resinCalcPage.currentResin,
-                              border: const OutlineInputBorder(),
-                              suffixText: "/ $maxResin",
-                              suffixIcon: resinInput.text.isNotEmpty ? IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  resinController.clear();
-                                  ref.read(resinProvider.notifier).setResin(null);
-                                },
-                              ) : null,
-                            ),
-                            inputFormatters: [
-                              TextInputFormatter.withFunction((oldValue, newValue) {
-                                if ((int.tryParse(newValue.text) ?? 0) >= maxResin) {
-                                  return TextEditingValue(text: maxResin.toString());
-                                }
-                                return newValue;
-                              }),
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            onChanged: (value) {
-                              final notifier = ref.read(resinProvider.notifier);
-                              if (value.isNotEmpty) {
-                                final resin = int.tryParse(value);
-                                if (resin == null) {
-                                  return;
-                                }
-                                notifier.setResin(resin);
-                              } else {
-                                notifier.setResin(null);
-                              }
+                    Expanded(
+                      child: TextFormField(
+                        controller: resinController,
+                        keyboardType: TextInputType.number,
+                        enabled: !isLinked || !syncResin,
+                        decoration: InputDecoration(
+                          labelText: tr.resinCalcPage.currentResin,
+                          border: const OutlineInputBorder(),
+                          suffixText: "/ $maxResin",
+                          suffixIcon: resinInput.text.isNotEmpty ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              resinController.clear();
+                              ref.read(resinProvider.notifier).setResin(null);
                             },
-                          ),
+                          ) : null,
                         ),
-                        if (syncResin && isLinked) Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Consumer(
-                            builder: (context, ref, _) {
-                              return GameDataSyncIndicator(
-                                status: ref.watch(resinSyncStateProvider),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
+                        inputFormatters: [
+                          TextInputFormatter.withFunction((oldValue, newValue) {
+                            if ((int.tryParse(newValue.text) ?? 0) >= maxResin) {
+                              return TextEditingValue(text: maxResin.toString());
+                            }
+                            return newValue;
+                          }),
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        onChanged: (value) {
+                          final notifier = ref.read(resinProvider.notifier);
+                          if (value.isNotEmpty) {
+                            final resin = int.tryParse(value);
+                            if (resin == null) {
+                              return;
+                            }
+                            notifier.setResin(resin);
+                          } else {
+                            notifier.setResin(null);
+                          }
+                        },
+                      ),
                     ),
-
-                    const _CalcResult(),
-
-                    const SizedBox(height: 8), // 24px spacing (GappedColumn)
-                    ListSubheader(tr.resinCalcPage.howToUse, padding: EdgeInsets.zero),
-                    Text(tr.resinCalcPage.howToUseContent),
-
-                    if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
-                      ...[
-                        ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
-                        OverflowBox(
-                          fit: OverflowBoxFit.deferToChild,
-                          maxWidth: MediaQuery.of(context).size.width,
-                          child: SwitchListTile(
-                            title: Text(tr.hoyolab.syncResin),
-                            value: syncResin,
-                            onChanged: isLinked ? (value) {
-                              ref.read(prefProvider(PrefKeys.syncResin).notifier).set(value);
-                              if (value) {
-                                ref.read(resinSyncStateProvider.notifier).syncResin();
-                              }
-                            } : null,
-                          ),
-                        ),
-                      ],
+                    if (syncResin && isLinked) Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Consumer(
+                        builder: (context, ref, _) {
+                          return GameDataSyncIndicator(
+                            status: ref.watch(resinSyncStateProvider),
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
-              ),
+
+                const _CalcResult(),
+
+                const SizedBox(height: 8), // 24px spacing (GappedColumn)
+                ListSubheader(tr.resinCalcPage.howToUse, padding: EdgeInsets.zero),
+                Text(tr.resinCalcPage.howToUseContent),
+
+                if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+                  ...[
+                    ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
+                    OverflowBox(
+                      fit: OverflowBoxFit.deferToChild,
+                      maxWidth: MediaQuery.of(context).size.width,
+                      child: SwitchListTile(
+                        title: Text(tr.hoyolab.syncResin),
+                        value: syncResin,
+                        onChanged: isLinked ? (value) {
+                          ref.read(prefProvider(PrefKeys.syncResin).notifier).set(value);
+                          if (value) {
+                            ref.read(resinSyncStateProvider.notifier).syncResin();
+                          }
+                        } : null,
+                      ),
+                    ),
+                  ],
+              ],
             ),
           ],
         ),
