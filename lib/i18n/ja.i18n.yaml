@@ -86,6 +86,7 @@ errors:
   tryAgainLater: しばらくしてから再度お試しください。
   dbError: データベースエラーが発生しました。
   notificationPermissionRevoked: 日替わり素材通知を表示するには、通知を許可してください。
+  notificationRegistrationFailed: 通知の登録に失敗しました。
 pages:
   characters: キャラクター
   characterDetails: $character - キャラクター

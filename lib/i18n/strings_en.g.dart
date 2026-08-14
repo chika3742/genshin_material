@@ -226,6 +226,7 @@ class _Translations$errors$en extends Translations$errors$ja {
 	@override String get tryAgainLater => 'Please try again later.';
 	@override String get dbError => 'A database error occurred.';
 	@override String get notificationPermissionRevoked => 'Please allow notifications to show daily material notifications.';
+	@override String get notificationRegistrationFailed => 'Failed to register notifications.';
 }
 
 // Path: pages
@@ -722,6 +723,7 @@ extension on TranslationsEn {
 			'errors.tryAgainLater' => 'Please try again later.',
 			'errors.dbError' => 'A database error occurred.',
 			'errors.notificationPermissionRevoked' => 'Please allow notifications to show daily material notifications.',
+			'errors.notificationRegistrationFailed' => 'Failed to register notifications.',
 			'pages.characters' => 'Characters',
 			'pages.characterDetails' => ({required Object character}) => '${character} - Character',
 			'pages.weapons' => 'Weapons',

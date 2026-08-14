@@ -89,6 +89,7 @@ errors:
   tryAgainLater: Please try again later.
   dbError: A database error occurred.
   notificationPermissionRevoked: Please allow notifications to show daily material notifications.
+  notificationRegistrationFailed: Failed to register notifications.
 pages:
   characters: Characters
   characterDetails: $character - Character

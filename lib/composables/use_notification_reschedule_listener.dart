@@ -1,6 +1,7 @@
 import "dart:developer";
 
 import "package:drift/drift.dart";
+import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
@@ -32,14 +33,22 @@ void useNotificationRescheduleListener(WidgetRef ref) {
       return;
     }
     debouncer(() async {
-      await (await rescheduler).execute();
+      try {
+        await (await rescheduler).execute();
+      } catch (e, st) {
+        FirebaseCrashlytics.instance.recordError(e, st);
+        if (context.mounted) {
+          showSnackBar(context: context, message: tr.errors.notificationRegistrationFailed, error: true);
+        }
+        return;
+      }
 
       // Warn only when the feature is enabled but the OS permission is missing.
       if (ref.read(prefProvider(PrefKeys.dailyMaterialNotificationTime)) == null) {
         return;
       }
       if (!await ref.read(localNotificationProvider).isNotificationGranted() && context.mounted) {
-        showSnackBar(context: context, message: tr.errors.notificationPermissionRevoked);
+        showSnackBar(context: context, message: tr.errors.notificationPermissionRevoked, error: true);
       }
     });
   }

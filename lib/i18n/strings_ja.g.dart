@@ -323,6 +323,9 @@ class Translations$errors$ja {
 
 	/// ja: '日替わり素材通知を表示するには、通知を許可してください。'
 	String get notificationPermissionRevoked => '日替わり素材通知を表示するには、通知を許可してください。';
+
+	/// ja: '通知の登録に失敗しました。'
+	String get notificationRegistrationFailed => '通知の登録に失敗しました。';
 }
 
 // Path: pages
@@ -1199,6 +1202,7 @@ extension on Translations {
 			'errors.tryAgainLater' => 'しばらくしてから再度お試しください。',
 			'errors.dbError' => 'データベースエラーが発生しました。',
 			'errors.notificationPermissionRevoked' => '日替わり素材通知を表示するには、通知を許可してください。',
+			'errors.notificationRegistrationFailed' => '通知の登録に失敗しました。',
 			'pages.characters' => 'キャラクター',
 			'pages.characterDetails' => ({required Object character}) => '${character} - キャラクター',
 			'pages.weapons' => '武器',
