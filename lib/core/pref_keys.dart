@@ -23,4 +23,5 @@ abstract final class PrefKeys {
   static const dailyResetServer = EnumPrefKey("dailyResetServer", GameServer.values, GameServer.asia);
   static const characterSortType = EnumPrefKey("characterSortType", CharacterSortType.values);
   static const weaponSortType = EnumPrefKey("weaponSortType", WeaponSortType.values);
+  static const dailyMaterialNotificationTime = TimeOfDayPrefKey("dailyMaterialNotificationTime");
 }

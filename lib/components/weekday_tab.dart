@@ -10,9 +10,9 @@ import "../utils/daily_material_weekday.dart";
 class WeekdayTab extends StatefulHookConsumerWidget implements PreferredSizeWidget {
   const WeekdayTab({
     super.key,
-    required TabController tabController,
+    required this._tabController,
     required this.tabs,
-  }) : _tabController = tabController;
+  });
 
   final TabController _tabController;
   final List<DailyTab> tabs;

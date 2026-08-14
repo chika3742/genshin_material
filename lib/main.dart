@@ -7,6 +7,7 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
@@ -20,6 +21,7 @@ import "core/theme.dart";
 // ignore: uri_does_not_exist
 // import "firebase_options.dart";
 import "data/repositories/remote_config_repository.dart";
+import "data/services/local_notification.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
 import "providers/pref_notifier.dart";
@@ -38,6 +40,7 @@ bool get disableImages => (Platform.isIOS || Platform.isMacOS) && !linkedWithHoy
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   LocaleSettings.useDeviceLocaleSync();
+  await LocalNotification.initializeTimezone();
   await initializeDateFormatting("ja_JP", null);
   // avoid plural resolver not configured warning
   // (Japanese doesn't have plural forms)
@@ -74,12 +77,16 @@ void main() async {
   final remoteConfigRepo = RemoteConfigRepository(remoteConfig);
   await remoteConfigRepo.initialize();
 
+  final localNotification = LocalNotification(FlutterLocalNotificationsPlugin());
+  await localNotification.initialize();
+
   runApp(
     ProviderScope(
       observers: [ProviderErrorObserver()],
       overrides: [
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
         remoteConfigProvider.overrideWithValue(remoteConfigRepo),
+        localNotificationProvider.overrideWithValue(localNotification),
       ],
       child: const Restartable(
         child: MyApp(),

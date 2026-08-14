@@ -1,16 +1,21 @@
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../../components/list_subheader.dart";
 import "../../components/list_tile.dart";
+import "../../composables/use_refreshable_future.dart";
 import "../../core/pref_keys.dart";
+import "../../data/services/local_notification.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/common.dart";
 import "../../providers/asset_updating_state.dart";
 import "../../providers/pref_notifier.dart";
 import "../../routes.dart";
 import "../../ui_core/bottom_sheet.dart";
+import "../../ui_core/snack_bar.dart";
+import "../../utils/daily_material_weekday.dart";
 
 class SettingsPage extends HookConsumerWidget {
   const SettingsPage({super.key});
@@ -19,8 +24,24 @@ class SettingsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final showItemNameOnCard = ref.watch(prefProvider(PrefKeys.showItemNameOnCard));
     final dailyResetServer = ref.watch(prefProvider(PrefKeys.dailyResetServer));
+    final dailyNotificationTime = ref.watch(prefProvider(PrefKeys.dailyMaterialNotificationTime));
 
     final updatingState = ref.watch(assetUpdatingStateProvider);
+
+    final (AsyncSnapshot(data: permissionState), refresh) = useRefreshableFuture<(bool, bool)>(() {
+      final service = ref.read(localNotificationProvider);
+      return (
+        service.shouldRequestExactAlarmPermission(),
+        service.isNotificationGranted(),
+      ).wait;
+    });
+    useOnAppLifecycleStateChange((previous, current) {
+      if (current == .resumed) {
+        refresh();
+      }
+    });
+    final shouldRequestExactAlarm = permissionState?.$1 ?? false;
+    final notificationGranted = permissionState?.$2 ?? false;
 
     return Scaffold(
       appBar: AppBar(
@@ -67,6 +88,68 @@ class SettingsPage extends HookConsumerWidget {
             subtitle: tr.settingsPage.farmCountSettingsDesc,
             location: FarmCountSettingsRoute().location,
           ),
+
+          ListSubheader(tr.settingsPage.notification),
+          SimpleListTile(
+            title: tr.settingsPage.dailyMaterialNotification,
+            subtitle: dailyNotificationTime == null
+                ? tr.settingsPage.tapToSet
+                : notificationGranted
+                  ? dailyNotificationTime.format(context)
+                  : tr.settingsPage.grantNotification,
+            trailingIcon: Symbols.menu_open,
+            onTap: () async {
+              if (!await _requestNotificationPermissionIfNotGranted(ref, context)) {
+                return;
+              }
+
+              if (!context.mounted) {
+                return;
+              }
+              final result = await showTimePicker(
+                context: context,
+                initialTime: dailyNotificationTime ?? TimeOfDay.now(),
+                helpText: tr.settingsPage.dailyMaterialNotification,
+                confirmText: tr.common.ok,
+                cancelText: tr.common.cancel,
+              );
+              if (result == null) {
+                return;
+              }
+
+              ref.read(prefProvider(PrefKeys.dailyMaterialNotificationTime).notifier)
+                  .set(result);
+            },
+            trailing: dailyNotificationTime != null ? IconButton(
+              icon: Icon(Symbols.clear),
+              onPressed: () {
+                ref.read(prefProvider(PrefKeys.dailyMaterialNotificationTime).notifier)
+                    .set(null);
+              },
+            ) : null,
+          ),
+          SimpleListTile(
+            leadingIcon: Symbols.info,
+            subtitle: tr.settingsPage.dailyMaterialNotificationDesc(time: getDailyMaterialUpdateTimeInLocalTime(dailyResetServer).format(context)),
+          ),
+          if (shouldRequestExactAlarm)
+            ...[
+              SwitchListTile(
+                title: Text(tr.settingsPage.notifyOnExactTime),
+                subtitle: Text(tr.settingsPage.notifyOnExactTimeSubtitle),
+                value: false,
+                onChanged: (_) async {
+                  await ref.read(localNotificationProvider)
+                      .requestExactAlarmPermission();
+                  refresh();
+                },
+              ),
+              SimpleListTile(
+                leadingIcon: Symbols.info,
+                subtitle: tr.settingsPage.notifyOnExactTimeExplanation,
+              ),
+            ],
+
           ListSubheader(tr.settingsPage.assetData),
           SimpleListTile(
             title: tr.settingsPage.checkAssetUpdate,
@@ -89,5 +172,29 @@ class SettingsPage extends HookConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<bool> _requestNotificationPermissionIfNotGranted(WidgetRef ref, BuildContext context) async {
+    final notification = ref.read(localNotificationProvider);
+    if (await notification.isNotificationGranted()) {
+      return true;
+    }
+
+    final requestPermissionResult = await notification.requestPermission();
+    if (requestPermissionResult) {
+      return true;
+    }
+    if (context.mounted) {
+      showSnackBar(
+        context: context,
+        message: tr.settingsPage.needToAllowNotificationPermission,
+        action: SnackBarAction(
+          label: tr.settingsPage.openSettings,
+          onPressed: notification.openSystemSettings,
+        ),
+      );
+    }
+
+    return false;
   }
 }

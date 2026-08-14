@@ -1,12 +1,10 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/core/asset_cache.dart";
-import "package:genshin_material/models/asset_release_version.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/ingredients.dart";
 import "package:genshin_material/models/level_range_values.dart";
-import "package:genshin_material/models/localized_text.dart";
-import "package:genshin_material/models/material.dart";
 import "package:genshin_material/utils/material_calculator.dart";
+
+import "../utils/asset_data.dart";
 
 class _TestTarget with CharacterOrWeapon {
   @override
@@ -21,54 +19,6 @@ class _TestTarget with CharacterOrWeapon {
     required this.rarity,
     required this.materials,
   });
-}
-
-AssetData _buildTestAssetData({
-  Map<String, Material> materials = const {},
-  Map<String, int> materialSortOrder = const {},
-}) {
-  return AssetData(
-    assetDir: "",
-    version: AssetReleaseVersion(
-      createdAt: DateTime(2024),
-      dataVersion: "test",
-      channel: AssetChannel.dev,
-      distUrl: "",
-      schemaVersion: 0,
-    ),
-    characters: {},
-    characterIngredients: IngredientConfigurations(
-      expItems: [],
-      rarities: {},
-      sliders: [],
-      ingredientTables: {},
-    ),
-    weapons: {},
-    weaponIngredients: IngredientConfigurations(
-      expItems: [],
-      rarities: {},
-      sliders: [],
-      ingredientTables: {},
-    ),
-    weaponSubStats: {},
-    weaponTypes: {},
-    elements: {},
-    materials: materials,
-    materialCategories: {},
-    materialSortOrder: materialSortOrder,
-    dailyMaterials: DailyMaterials(talent: {}, weapon: {}),
-    specialCharactersUsingMaterials: {},
-    artifactSets: {},
-    artifactPieceTypes: {},
-    stats: {},
-    artifactPossibleSubStats: [],
-    artifactPieces: {},
-    artifactTags: [],
-    furnishingSets: {},
-    furnishings: {},
-    furnishingSetTypes: {},
-    dropRates: [],
-  );
 }
 
 IngredientConfigurations _buildIngredientConf({
@@ -89,18 +39,6 @@ IngredientConfigurations _buildIngredientConf({
         levels: levels,
       ),
     },
-  );
-}
-
-Material _buildMaterial(String id, String category) {
-  return Material(
-    id: id,
-    hyvId: 0,
-    name: LocalizedText(locales: {}),
-    jaPronunciation: "",
-    imageUrl: "",
-    rarity: 1,
-    category: category,
   );
 }
 
@@ -205,7 +143,7 @@ void main() {
   });
 
   group("calculateFullQuantities", () {
-    final assetData = _buildTestAssetData();
+    final assetData = buildTestAssetData();
     const target = _TestTarget(id: "char_a", rarity: 5, materials: {});
 
     test("fixed 素材を複数レベルにわたって合算する", () {
@@ -291,10 +229,10 @@ void main() {
     const target = _TestTarget(id: "char_d", rarity: 5, materials: {});
 
     test("range.start と一致するレベルは除外される (start 排他)", () {
-      final assetData = _buildTestAssetData(
+      final assetData = buildTestAssetData(
         materials: {
-          "mat_a": _buildMaterial("mat_a", "cat"),
-          "mat_b": _buildMaterial("mat_b", "cat"),
+          "mat_a": buildTestMaterial(id: "mat_a", category: "cat"),
+          "mat_b": buildTestMaterial(id: "mat_b", category: "cat"),
         },
       );
       final conf = _buildIngredientConf(
@@ -316,10 +254,10 @@ void main() {
     });
 
     test("range.end と一致するレベルは含まれる (end 包含)", () {
-      final assetData = _buildTestAssetData(
+      final assetData = buildTestAssetData(
         materials: {
-          "mat_c": _buildMaterial("mat_c", "cat"),
-          "mat_d": _buildMaterial("mat_d", "cat"),
+          "mat_c": buildTestMaterial(id: "mat_c", category: "cat"),
+          "mat_d": buildTestMaterial(id: "mat_d", category: "cat"),
         },
       );
       final conf = _buildIngredientConf(
@@ -350,7 +288,7 @@ void main() {
         },
       );
       final result = generateMaterialCardsFromRange(
-        _buildTestAssetData(),
+        buildTestAssetData(),
         conf,
         target,
         {Purpose.ascension: const LevelRangeValues(25, 30)},
@@ -359,10 +297,10 @@ void main() {
     });
 
     test("exp が先頭、sortOrder 大の素材が末尾になる", () {
-      final assetData = _buildTestAssetData(
+      final assetData = buildTestAssetData(
         materials: {
-          "mat_low": _buildMaterial("mat_low", "cat"),
-          "mat_high": _buildMaterial("mat_high", "cat"),
+          "mat_low": buildTestMaterial(id: "mat_low", category: "cat"),
+          "mat_high": buildTestMaterial(id: "mat_high", category: "cat"),
         },
         materialSortOrder: {
           "id:mat_low": 5,

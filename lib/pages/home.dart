@@ -4,6 +4,7 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../composables/use_asset_update_progress.dart";
+import "../composables/use_notification_reschedule_listener.dart";
 import "../composables/use_startup_banner.dart";
 import "../data/services/launch_url.dart";
 import "../i18n/strings.g.dart";
@@ -60,6 +61,8 @@ class _HomePageState extends ConsumerState<HomePage> {
       launchUrlString: ref.watch(launchUrlStringProvider),
       markAsRead: () => ref.read(bannerProvider.notifier).markAsRead(),
     );
+
+    useNotificationRescheduleListener(ref);
 
     return Scaffold(
       bottomNavigationBar: NavigationBar(

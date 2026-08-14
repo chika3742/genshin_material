@@ -85,6 +85,8 @@ errors:
   artifactNotFound: 聖遺物が見つかりません
   tryAgainLater: しばらくしてから再度お試しください。
   dbError: データベースエラーが発生しました。
+  notificationPermissionRevoked: 日替わり素材通知を表示するには、通知を許可してください。
+  notificationRegistrationFailed: 通知の登録に失敗しました。
 pages:
   characters: キャラクター
   characterDetails: $character - キャラクター
@@ -221,6 +223,16 @@ settingsPage:
   dailyResetServer: 日替わり素材のサーバー時間
   dailyResetServerDesc: 日替わり素材が更新される時間の基準とするゲームサーバーを選択します。
   farmCountSettingsDesc: 表示に使用する冒険ランクなどを設定できます。
+  notification: 通知
+  dailyMaterialNotification: 日替わり素材の通知時刻
+  dailyMaterialNotificationDesc: ブックマークした素材を獲得可能な日に通知します。通知は、通知時刻の時点でのサーバー上の曜日を基準に行われます。現在の設定において、入手可能な素材が切り替わるのは $time （端末時間）です。
+  tapToSet: タップして設定
+  needToAllowNotificationPermission: この機能を利用するには、通知を許可する必要があります。
+  openSettings: 設定を開く
+  notifyOnExactTime: 正確な時間に通知することを許可
+  notifyOnExactTimeSubtitle: タップして許可画面に移動
+  notifyOnExactTimeExplanation: 許可がない場合、通知が最大10分遅延する可能性があります。本アプリではバッテリーへの影響は軽微です。
+  grantNotification: 通知権限を許可
   assetData: アセットデータ
   checkAssetUpdate: アセットデータの更新を確認
   checkAssetUpdateDesc: アプリ内データのアップデートをチェックします。
@@ -284,3 +296,13 @@ hoyolab:
   charaSyncSuccess: ゲームデータと同期しました
 whereToGet(map):
   chests: 宝箱、任務報酬など
+android:
+  notificationChannels:
+    dailyMaterial:
+      name: 日替わり素材
+      description: 素材を獲得できる日に通知します
+notification:
+  dailyMaterial:
+    title: 本日獲得できる素材
+    body: ${characters}の素材は本日獲得可能です
+    separator: 、

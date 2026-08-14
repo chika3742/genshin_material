@@ -1,3 +1,5 @@
+import "package:flutter/material.dart";
+
 sealed class PrefKey<PrefT, ConvT> {
   final String key;
 
@@ -54,6 +56,25 @@ final class DateTimeIsoPrefKey extends PrefKey<String?, DateTime?> {
   @override
   DateTime? fromPref(String? pref) =>
       pref != null ? DateTime.tryParse(pref) : null;
+}
+
+final class TimeOfDayPrefKey extends PrefKey<String?, TimeOfDay?> {
+  @override
+  final String? defaultValue;
+
+  const TimeOfDayPrefKey(super.key, [this.defaultValue]);
+
+  @override
+  String? toPref(TimeOfDay? input) => input != null ? "${input.hour}:${input.minute}" : null;
+
+  @override
+  TimeOfDay? fromPref(String? pref) {
+    if (pref == null) {
+      return null;
+    }
+    final split = pref.split(":");
+    return TimeOfDay(hour: int.parse(split[0]), minute: int.parse(split[1]));
+  }
 }
 
 final class EnumPrefKey<E extends Enum> extends PrefKey<String, E> {

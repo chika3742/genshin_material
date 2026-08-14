@@ -34,6 +34,8 @@ android {
     ndkVersion = "29.0.14206865"
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true // needed for flutter_local_notifications
+
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -86,4 +88,8 @@ flutter {
     source = "../.."
 }
 
-dependencies {}
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")  // needed desugaring for flutter_local_notifications
+    implementation("androidx.window:window:1.0.0")  // fix for crash when using desugaring on Android 12L+
+    implementation("androidx.window:window-java:1.0.0")  // fix for crash when using desugaring on Android 12L+
+}

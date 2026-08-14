@@ -87,6 +87,7 @@ enum GameServer {
 
   const GameServer(this.serverTimeZoneOffset, this.description);
 
+  /// Timezone offset from UTC
   final Duration serverTimeZoneOffset;
   final String description;
 }

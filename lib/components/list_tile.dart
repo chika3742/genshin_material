@@ -19,6 +19,7 @@ class SimpleListTile extends StatelessWidget {
   final String? subtitle;
   final IconData? leadingIcon;
   final Widget? leading;
+  final Widget? trailing;
   final IconData? trailingIcon;
   final bool enabled;
   final Color? tileColor;
@@ -37,6 +38,7 @@ class SimpleListTile extends StatelessWidget {
     this.leadingIcon,
     this.leading,
     this.trailingIcon,
+    this.trailing,
     this.enabled = true,
     this.tileColor,
     this.location,
@@ -54,11 +56,11 @@ class SimpleListTile extends StatelessWidget {
       leading: leading ?? (leadingIcon != null ? Icon(leadingIcon) : null),
       enabled: enabled,
       tileColor: tileColor,
-      trailing: trailingIcon != null
+      trailing: trailing ?? (trailingIcon != null
           ? Icon(trailingIcon)
           : location != null
               ? const Icon(Symbols.chevron_right)
-              : null,
+              : null),
       onTap: location != null
           ? () {
               switch (routingStrategy) {

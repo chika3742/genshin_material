@@ -1,6 +1,17 @@
 # コピー用改行
 
 - releasedOn: 2026/08/08
+  version: 4.9.0
+  contents:
+    locales:
+      ja: |
+        # 機能追加
+        - 日替わり素材通知機能を追加しました。ブックマークした日替わり素材のうち、獲得できる素材を毎日決まった時間に通知します。その他→設定 から通知時刻を設定できます。
+      en: |
+        # Changes
+
+
+- releasedOn: 2026/08/08
   version: 4.8.3
   contents:
     locales:
@@ -8,10 +19,12 @@
         # 変更
         - 聖遺物セット効果リストにおける、効果の種類のフィルタリング方式を変更しました。また、効果タグが表示されるようになりました。
         - 樹脂回復時刻計算機の表に表示される樹脂数を60/120/180個に変更しました。
+        - iOSにおいて、ステータスバータップ時の「一番上にスクロール」が働かないスクロール部分があった問題を修正しました。
       en: |
         # Changes
         - Changed the filtering method for effect types in the artifact set effect list. In addition, effect tags are now displayed.
         - Changed the resin quantities displayed in the table of the resin recovery time calculator to 60/120/180.
+        - Fixed an issue in iOS where tapping the status bar failed to scroll to the top in certain scrollable areas.
 
 - releasedOn: 2026/06/24
   version: 4.8.2

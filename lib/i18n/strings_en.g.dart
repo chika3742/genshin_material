@@ -75,6 +75,8 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	@override Map<String, String> get whereToGet => {
 		'chests': 'Chests, Quests',
 	};
+	@override late final _Translations$android$en android = _Translations$android$en._(_root);
+	@override late final _Translations$notification$en notification = _Translations$notification$en._(_root);
 }
 
 // Path: common
@@ -223,6 +225,8 @@ class _Translations$errors$en extends Translations$errors$ja {
 	@override String get artifactNotFound => 'Artifact not found';
 	@override String get tryAgainLater => 'Please try again later.';
 	@override String get dbError => 'A database error occurred.';
+	@override String get notificationPermissionRevoked => 'Please allow notifications to show daily material notifications.';
+	@override String get notificationRegistrationFailed => 'Failed to register notifications.';
 }
 
 // Path: pages
@@ -484,6 +488,16 @@ class _Translations$settingsPage$en extends Translations$settingsPage$ja {
 	@override String get dailyResetServer => 'Daily Material Server Time';
 	@override String get dailyResetServerDesc => 'Select the game server to use as the reference time for daily materials reset.';
 	@override String get farmCountSettingsDesc => 'Set the configs like AR for calculating the farming count.';
+	@override String get notification => 'Notifications';
+	@override String get dailyMaterialNotification => 'Daily Material Notification Time';
+	@override String dailyMaterialNotificationDesc({required Object time}) => 'Notifies you on the days your bookmarked materials are available. Notifications are based on the day of the week on the server at the notification time. With the current settings, the available materials switch at ${time} (device time).';
+	@override String get tapToSet => 'Tap to set';
+	@override String get needToAllowNotificationPermission => 'You need to allow notifications to use this feature.';
+	@override String get openSettings => 'Open Settings';
+	@override String get notifyOnExactTime => 'Allow Notifications at the Exact Time';
+	@override String get notifyOnExactTimeSubtitle => 'Tap to open the permission screen';
+	@override String get notifyOnExactTimeExplanation => 'Without this permission, notifications may be delayed by up to 10 minutes. This app has only a minor impact on battery life.';
+	@override String get grantNotification => 'Allow Notification Permission';
 	@override String get assetData => 'Assets';
 	@override String get checkAssetUpdate => 'Check Asset Update';
 	@override String get checkAssetUpdateDesc => 'Check for updates to the app\'s assets.';
@@ -557,6 +571,26 @@ class _Translations$hoyolab$en extends Translations$hoyolab$ja {
 	@override String get charaSyncSuccess => 'Successfully synced game data';
 }
 
+// Path: android
+class _Translations$android$en extends Translations$android$ja {
+	_Translations$android$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$android$notificationChannels$en notificationChannels = _Translations$android$notificationChannels$en._(_root);
+}
+
+// Path: notification
+class _Translations$notification$en extends Translations$notification$ja {
+	_Translations$notification$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$notification$dailyMaterial$en dailyMaterial = _Translations$notification$dailyMaterial$en._(_root);
+}
+
 // Path: search.targets
 class _Translations$search$targets$en extends Translations$search$targets$ja {
 	_Translations$search$targets$en._(TranslationsEn root) : this._root = root, super.internal(root);
@@ -571,6 +605,39 @@ class _Translations$search$targets$en extends Translations$search$targets$ja {
 	@override String get artifactPieces => 'artifact pieces';
 	@override String get furnishingSets => 'furnishing sets';
 	@override String get furnishings => 'furnishings';
+}
+
+// Path: android.notificationChannels
+class _Translations$android$notificationChannels$en extends Translations$android$notificationChannels$ja {
+	_Translations$android$notificationChannels$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$android$notificationChannels$dailyMaterial$en dailyMaterial = _Translations$android$notificationChannels$dailyMaterial$en._(_root);
+}
+
+// Path: notification.dailyMaterial
+class _Translations$notification$dailyMaterial$en extends Translations$notification$dailyMaterial$ja {
+	_Translations$notification$dailyMaterial$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Materials Available Today';
+	@override String body({required Object characters}) => 'Materials for ${characters} are available today';
+	@override String get separator => ', ';
+}
+
+// Path: android.notificationChannels.dailyMaterial
+class _Translations$android$notificationChannels$dailyMaterial$en extends Translations$android$notificationChannels$dailyMaterial$ja {
+	_Translations$android$notificationChannels$dailyMaterial$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get name => 'Daily Materials';
+	@override String get description => 'Notifies you on the days materials are available';
 }
 
 /// The flat map containing all translations for locale <en>.
@@ -655,6 +722,8 @@ extension on TranslationsEn {
 			'errors.artifactNotFound' => 'Artifact not found',
 			'errors.tryAgainLater' => 'Please try again later.',
 			'errors.dbError' => 'A database error occurred.',
+			'errors.notificationPermissionRevoked' => 'Please allow notifications to show daily material notifications.',
+			'errors.notificationRegistrationFailed' => 'Failed to register notifications.',
 			'pages.characters' => 'Characters',
 			'pages.characterDetails' => ({required Object character}) => '${character} - Character',
 			'pages.weapons' => 'Weapons',
@@ -774,6 +843,16 @@ extension on TranslationsEn {
 			'settingsPage.dailyResetServer' => 'Daily Material Server Time',
 			'settingsPage.dailyResetServerDesc' => 'Select the game server to use as the reference time for daily materials reset.',
 			'settingsPage.farmCountSettingsDesc' => 'Set the configs like AR for calculating the farming count.',
+			'settingsPage.notification' => 'Notifications',
+			'settingsPage.dailyMaterialNotification' => 'Daily Material Notification Time',
+			'settingsPage.dailyMaterialNotificationDesc' => ({required Object time}) => 'Notifies you on the days your bookmarked materials are available. Notifications are based on the day of the week on the server at the notification time. With the current settings, the available materials switch at ${time} (device time).',
+			'settingsPage.tapToSet' => 'Tap to set',
+			'settingsPage.needToAllowNotificationPermission' => 'You need to allow notifications to use this feature.',
+			'settingsPage.openSettings' => 'Open Settings',
+			'settingsPage.notifyOnExactTime' => 'Allow Notifications at the Exact Time',
+			'settingsPage.notifyOnExactTimeSubtitle' => 'Tap to open the permission screen',
+			'settingsPage.notifyOnExactTimeExplanation' => 'Without this permission, notifications may be delayed by up to 10 minutes. This app has only a minor impact on battery life.',
+			'settingsPage.grantNotification' => 'Allow Notification Permission',
 			'settingsPage.assetData' => 'Assets',
 			'settingsPage.checkAssetUpdate' => 'Check Asset Update',
 			'settingsPage.checkAssetUpdateDesc' => 'Check for updates to the app\'s assets.',
@@ -828,6 +907,11 @@ extension on TranslationsEn {
 			'hoyolab.unknownError' => 'An unknown error occurred.',
 			'hoyolab.charaSyncSuccess' => 'Successfully synced game data',
 			'whereToGet.chests' => 'Chests, Quests',
+			'android.notificationChannels.dailyMaterial.name' => 'Daily Materials',
+			'android.notificationChannels.dailyMaterial.description' => 'Notifies you on the days materials are available',
+			'notification.dailyMaterial.title' => 'Materials Available Today',
+			'notification.dailyMaterial.body' => ({required Object characters}) => 'Materials for ${characters} are available today',
+			'notification.dailyMaterial.separator' => ', ',
 			_ => null,
 		};
 	}
