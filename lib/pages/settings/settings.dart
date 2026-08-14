@@ -190,7 +190,7 @@ class SettingsPage extends HookConsumerWidget {
         message: tr.settingsPage.needToAllowNotificationPermission,
         action: SnackBarAction(
           label: tr.settingsPage.openSettings,
-          onPressed: LocalNotification.openSystemSettings,
+          onPressed: notification.openSystemSettings,
         ),
       );
     }

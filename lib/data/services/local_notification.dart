@@ -1,4 +1,3 @@
-import "package:app_settings/app_settings.dart";
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import "package:flutter_timezone/flutter_timezone.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
@@ -119,8 +118,8 @@ class LocalNotification {
     );
   }
 
-  static Future<void> openSystemSettings() {
-    return AppSettings.openAppSettings(type: .notification);
+  Future<void> openSystemSettings() {
+    return _plugin.openAppNotificationSettings();
   }
 
   Future<void> schedule({
