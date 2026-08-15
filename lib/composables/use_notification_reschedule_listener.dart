@@ -69,11 +69,16 @@ void useNotificationRescheduleListener(WidgetRef ref) {
 
   // trigger after the AssetData becomes available, and after an asset update
   // replaces it (the notification bodies and weekdays come from it).
-  // fireImmediately covers the startup reschedule regardless of whether
-  // AssetData has already resolved by the time this widget first builds.
   ref.listen(assetDataProvider, (prev, next) {
     if (next.value != null && !identical(prev?.value, next.value)) {
       schedule();
     }
   });
+
+  // fire on startup (guarantee run even if the widget mounted after AssetData
+  // becomes available)
+  useEffect(() {
+    schedule();
+    return null;
+  }, []);
 }
