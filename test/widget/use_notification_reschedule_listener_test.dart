@@ -129,12 +129,6 @@ void main() {
     ));
   }
 
-  testWidgets("Reschedules once at startup", (tester) async {
-    await pumpHost(tester);
-
-    verify(rescheduler.execute()).called(1);
-  });
-
   testWidgets("Reschedules when the bookmark group table changes", (tester) async {
     await pumpHost(tester);
     clearInteractions(rescheduler);
@@ -199,7 +193,8 @@ void main() {
     when(notification.isNotificationGranted()).thenAnswer((_) async => false);
 
     await pumpHost(tester);
-    await tester.pump();
+    assetDataCompleter.complete(buildTestAssetData());
+    await drain(tester);
 
     expect(find.text(tr.errors.notificationPermissionRevoked), findsOneWidget);
 
@@ -211,7 +206,8 @@ void main() {
     when(notification.isNotificationGranted()).thenAnswer((_) async => false);
 
     await pumpHost(tester, time: null);
-    await tester.pump();
+    assetDataCompleter.complete(buildTestAssetData());
+    await drain(tester);
 
     verify(rescheduler.execute()).called(1);
     verifyNever(notification.isNotificationGranted());
