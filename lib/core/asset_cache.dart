@@ -12,6 +12,7 @@ import "../models/localized_text.dart";
 import "../models/material.dart";
 import "../models/weapon.dart";
 import "asset_loader.dart";
+import "errors.dart";
 
 part "asset_cache.freezed.dart";
 
@@ -28,7 +29,7 @@ class AssetDataCacheProvider {
     version = await loader.getCurrentVersion();
 
     if (version == null) {
-      throw StateError("No available asset is installed.");
+      throw NoInstalledAssetException();
     }
 
     final weaponsMeta = WeaponsMeta.fromJson(
