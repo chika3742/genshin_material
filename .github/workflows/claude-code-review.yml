@@ -44,4 +44,4 @@ jobs:
               }
             '\
             --allowed-tools "mcp__github_public__*"\
-            --append-system-prompt "返答はすべて日本語で行うこと。依存するライブラリのAPIを確認する必要が生じたときは、`mcp__github_public__*`のツールを使用すること。"
+            --append-system-prompt "返答はすべて日本語で行うこと。依存するライブラリのAPIを確認する必要が生じたときは、`mcp__github_public__*`のツールを使用すること。レビューにはLint/Testの結果を用いないこと。flutter analyzeを実行したり、CIの結果を取得したりしない。"
