@@ -16,13 +16,11 @@ final rescheduleDailyMaterialNotificationsProvider =
 final class RescheduleDailyMaterialNotificationsProvider
     extends
         $FunctionalProvider<
-          AsyncValue<RescheduleDailyMaterialNotifications>,
           RescheduleDailyMaterialNotifications,
-          FutureOr<RescheduleDailyMaterialNotifications>
+          RescheduleDailyMaterialNotifications,
+          RescheduleDailyMaterialNotifications
         >
-    with
-        $FutureModifier<RescheduleDailyMaterialNotifications>,
-        $FutureProvider<RescheduleDailyMaterialNotifications> {
+    with $Provider<RescheduleDailyMaterialNotifications> {
   RescheduleDailyMaterialNotificationsProvider._()
     : super(
         from: null,
@@ -40,15 +38,24 @@ final class RescheduleDailyMaterialNotificationsProvider
 
   @$internal
   @override
-  $FutureProviderElement<RescheduleDailyMaterialNotifications> $createElement(
+  $ProviderElement<RescheduleDailyMaterialNotifications> $createElement(
     $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
+  ) => $ProviderElement(pointer);
 
   @override
-  FutureOr<RescheduleDailyMaterialNotifications> create(Ref ref) {
+  RescheduleDailyMaterialNotifications create(Ref ref) {
     return rescheduleDailyMaterialNotifications(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(RescheduleDailyMaterialNotifications value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride:
+          $SyncValueProvider<RescheduleDailyMaterialNotifications>(value),
+    );
   }
 }
 
 String _$rescheduleDailyMaterialNotificationsHash() =>
-    r'b403fad457ace97abcf945858d51d95b9780aaa9';
+    r'52f0773878018cf0f18563cc8badef5eed63021d';

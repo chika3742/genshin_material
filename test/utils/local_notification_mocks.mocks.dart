@@ -76,6 +76,15 @@ class MockLocalNotification extends _i1.Mock implements _i2.LocalNotification {
           as _i3.Future<bool>);
 
   @override
+  _i3.Future<void> openSystemSettings() =>
+      (super.noSuchMethod(
+            Invocation.method(#openSystemSettings, []),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
   _i3.Future<void> schedule({
     required int? id,
     required String? title,

@@ -1,14 +1,22 @@
+import "dart:async";
+
 import "package:clock/clock.dart";
 import "package:collection/collection.dart";
 import "package:drift/drift.dart";
 import "package:drift/native.dart";
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
+import "package:genshin_material/core/asset_cache.dart";
+import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/data/services/local_notification.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/localized_text.dart";
+import "package:genshin_material/providers/database_provider.dart";
+import "package:genshin_material/providers/pref_notifier.dart";
+import "package:genshin_material/providers/versions.dart";
 import "package:genshin_material/use_cases/reschedule_daily_material_notifications.dart";
 import "package:mockito/mockito.dart";
 import "package:timezone/data/latest_10y.dart" as tz;
@@ -16,6 +24,7 @@ import "package:timezone/timezone.dart" as tz;
 import "package:uuid/v4.dart";
 
 import "../../utils/asset_data.dart";
+import "../../utils/in_memory_pref_notifier.dart";
 import "../../utils/local_notification_mocks.dart";
 
 typedef _TestMaterialBookmarkInsertable = ({
@@ -705,6 +714,64 @@ void main() {
             tz.TZDateTime.local(2026, 6, day, notificationTime.hour, notificationTime.minute);
         expectScheduled([
           [1, contains("旅人"), dt(29)], // 6/29: Monday
+          [4, contains("旅人"), dt(32)],
+          [7, contains("旅人"), dt(35)],
+        ]);
+      });
+    });
+
+    group("Provider", () {
+      ProviderContainer makeContainer(FutureOr<AssetData> Function(Ref) createAssetData) {
+        return ProviderContainer.test(overrides: [
+          appDatabaseProvider.overrideWithValue(db),
+          localNotificationProvider.overrideWithValue(mockLocalNotification),
+          assetDataProvider.overrideWith(createAssetData),
+          prefProvider(PrefKeys.dailyMaterialNotificationTime)
+              .overrideWith(() => InMemoryPrefNotifier(const TimeOfDay(hour: 16, minute: 0))),
+          prefProvider(PrefKeys.dailyResetServer)
+              .overrideWith(() => InMemoryPrefNotifier(GameServer.asia)),
+        ]);
+      }
+
+      test("Cancels every notification without scheduling while the asset data is still loading", () async {
+        // Never completes: the asset data stays loading for the whole test.
+        final container = makeContainer((_) => Completer<AssetData>().future);
+
+        await insertBookmarks([
+          (
+            materialId: "a",
+            groupHash: "ax",
+            characterId: "x",
+          ),
+        ]);
+
+        // Reading synchronously is the point: the provider must not suspend
+        // until the asset data is ready.
+        await container.read(rescheduleDailyMaterialNotificationsProvider).execute();
+
+        expectNothingScheduled();
+        expectAllCanceled();
+      });
+
+      test("Schedules once the asset data is available", () async {
+        final container = makeContainer((_) => assetData);
+
+        await insertBookmarks([
+          (
+            materialId: "a",
+            groupHash: "ax",
+            characterId: "x",
+          ),
+        ]);
+
+        // 2026/6/29: Monday
+        await withClock(Clock.fixed(tz.TZDateTime.local(2026, 6, 29)), () async {
+          await container.read(rescheduleDailyMaterialNotificationsProvider).execute();
+        });
+
+        tz.TZDateTime dt(int day) => tz.TZDateTime.local(2026, 6, day, 16, 0);
+        expectScheduled([
+          [1, contains("旅人"), dt(29)],
           [4, contains("旅人"), dt(32)],
           [7, contains("旅人"), dt(35)],
         ]);

@@ -12,6 +12,7 @@ import "../../i18n/strings.g.dart";
 import "../../models/common.dart";
 import "../../providers/asset_updating_state.dart";
 import "../../providers/pref_notifier.dart";
+import "../../providers/versions.dart";
 import "../../routes.dart";
 import "../../ui_core/bottom_sheet.dart";
 import "../../ui_core/snack_bar.dart";
@@ -27,6 +28,7 @@ class SettingsPage extends HookConsumerWidget {
     final dailyNotificationTime = ref.watch(prefProvider(PrefKeys.dailyMaterialNotificationTime));
 
     final updatingState = ref.watch(assetUpdatingStateProvider);
+    final assetDataAvailable = ref.watch(assetDataProvider).value != null;
 
     final (AsyncSnapshot(data: permissionState), refresh) = useRefreshableFuture<(bool, bool)>(() {
       final service = ref.read(localNotificationProvider);
@@ -98,6 +100,7 @@ class SettingsPage extends HookConsumerWidget {
                   ? dailyNotificationTime.format(context)
                   : tr.settingsPage.grantNotification,
             trailingIcon: Symbols.menu_open,
+            enabled: assetDataAvailable,
             onTap: () async {
               if (!await _requestNotificationPermissionIfNotGranted(ref, context)) {
                 return;

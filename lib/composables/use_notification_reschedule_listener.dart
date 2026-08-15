@@ -10,13 +10,13 @@ import "../data/services/local_notification.dart";
 import "../i18n/strings.g.dart";
 import "../providers/database_provider.dart";
 import "../providers/pref_notifier.dart";
+import "../providers/versions.dart";
 import "../ui_core/snack_bar.dart";
 import "../use_cases/reschedule_daily_material_notifications.dart";
 import "../utils/debouncer.dart";
 
 void useNotificationRescheduleListener(WidgetRef ref) {
   final db = ref.watch(appDatabaseProvider);
-  final rescheduler = ref.watch(rescheduleDailyMaterialNotificationsProvider.future);
 
   final context = useContext();
   final stream = useMemoized(
@@ -34,7 +34,9 @@ void useNotificationRescheduleListener(WidgetRef ref) {
     }
     debouncer(() async {
       try {
-        await (await rescheduler).execute();
+        // Resolved at fire time: the listeners below run before the widget
+        // rebuilds, so an instance captured during build would be stale.
+        await ref.read(rescheduleDailyMaterialNotificationsProvider).execute();
       } catch (e, st) {
         FirebaseCrashlytics.instance.recordError(e, st);
         if (context.mounted) {
@@ -65,9 +67,13 @@ void useNotificationRescheduleListener(WidgetRef ref) {
     schedule();
   });
 
-  useEffect(() {
-    // run once at startup
-    Future(schedule);
-    return null;
-  }, []);
+  // trigger after the AssetData becomes available, and after an asset update
+  // replaces it (the notification bodies and weekdays come from it).
+  // fireImmediately covers the startup reschedule regardless of whether
+  // AssetData has already resolved by the time this widget first builds.
+  ref.listen(assetDataProvider, (prev, next) {
+    if (next.value != null && !identical(prev?.value, next.value)) {
+      schedule();
+    }
+  });
 }
