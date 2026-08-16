@@ -8,7 +8,7 @@ on:
 
 jobs:
   claude:
-    if: github.event.pull_request.author_association == 'OWNER' && (github.event.action != 'synchronize' || !github.event.pull_request.draft)
+    if: github.event.pull_request.author_association == 'OWNER' && !github.event.pull_request.draft
     runs-on: ubuntu-latest
     permissions:
       contents: read
