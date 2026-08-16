@@ -206,6 +206,8 @@ void main() {
     when(notification.isNotificationGranted()).thenAnswer((_) async => false);
 
     await pumpHost(tester, time: null);
+    clearInteractions(rescheduler);
+
     assetDataCompleter.complete(buildTestAssetData());
     await drain(tester);
 
