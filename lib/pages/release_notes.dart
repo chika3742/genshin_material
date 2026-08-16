@@ -51,6 +51,7 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
         controller: _tabController,
         children: [
           _buildReleaseNotesTab(
+            key: PageStorageKey("release-notes_features"),
             provider: featuresReleaseNotesDataProvider,
             versionPrefix: "v",
             color: Theme.of(context).colorScheme.primary,
@@ -59,6 +60,7 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
             useScaffold: false,
             builder: (_, _) {
               return _buildReleaseNotesTab(
+                key: PageStorageKey("release-notes_data"),
                 provider: assetsReleaseNotesDataProvider,
                 versionPrefix: "D",
                 color: Theme.of(context).colorScheme.secondary,
@@ -71,11 +73,13 @@ class _ReleaseNotesPageState extends State<ReleaseNotesPage> with SingleTickerPr
   }
 
   Widget _buildReleaseNotesTab({
+    Key? key,
     required ProviderBase<AsyncValue<List<ReleaseNote>>> provider,
     required String versionPrefix,
     required Color color,
   }) {
     return TimelineTheme(
+      key: key,
       data: TimelineThemeData(
         color: color,
       ),

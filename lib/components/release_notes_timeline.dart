@@ -27,69 +27,66 @@ class ReleaseNotesTimeline extends StatelessWidget {
     final tileCount = items.length * 2;
     final safeArea = MediaQuery.paddingOf(context);
 
-    // Laid out eagerly: a lazy list can only estimate the scroll extent of these
-    // variable-height tiles, which makes the scrollbar jump around.
-    return SingleChildScrollView(
+    final tileBuilder = TimelineTileBuilder.connected(
+      itemCount: tileCount,
+      firstConnectorBuilder: (context) => Connector.dashedLine(),
+      lastConnectorBuilder: (context) => Connector.dashedLine(),
+      nodePositionBuilder: (context, index) => 0.05,
+      // `tileCount - 2` is the last header tile, so everything below its dot is dashed.
+      connectorBuilder: (context, index, type) =>
+          index == tileCount - 2 ? Connector.dashedLine() : Connector.solidLine(),
+      indicatorBuilder: (context, index) {
+        if (index.isOdd) {
+          // Invisible, but as wide as the dots: a narrower node would shift the line.
+          return const SizedBox(width: _indicatorSize);
+        }
+
+        final itemIndex = index ~/ 2;
+        final isDot = itemIndex == items.length - 1 ||
+            isMinorVersionUpdated(items[itemIndex + 1].version, items[itemIndex].version);
+
+        return isDot
+            ? Indicator.dot(size: _indicatorSize)
+            : Indicator.outlined(size: _indicatorSize);
+      },
+      contentsBuilder: (context, index) {
+        final item = items[index ~/ 2];
+
+        if (index.isOdd) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: ReleaseNoteContents(contentsText: item.contents.localized),
+          );
+        }
+
+        return Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            constraints: const BoxConstraints(minHeight: _headerHeight),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            margin: _headerMargin,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "$versionPrefix${item.version}",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text(item.releasedOn),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    return Timeline.tileBuilder(
       padding: EdgeInsets.fromLTRB(16.0, safeArea.top, 16.0, safeArea.bottom),
-      child: FixedTimeline.tileBuilder(
-        mainAxisSize: MainAxisSize.min,
-        builder: TimelineTileBuilder.connected(
-          itemCount: tileCount,
-          firstConnectorBuilder: (context) => Connector.dashedLine(),
-          lastConnectorBuilder: (context) => Connector.dashedLine(),
-          nodePositionBuilder: (context, index) => 0.05,
-          // `tileCount - 2` is the last header tile, so everything below its dot is dashed.
-          connectorBuilder: (context, index, type) =>
-              index == tileCount - 2 ? Connector.dashedLine() : Connector.solidLine(),
-          indicatorBuilder: (context, index) {
-            if (index.isOdd) {
-              // Invisible, but as wide as the dots: a narrower node would shift the line.
-              return const SizedBox(width: _indicatorSize);
-            }
-
-            final itemIndex = index ~/ 2;
-            final isDot = itemIndex == items.length - 1 ||
-                isMinorVersionUpdated(items[itemIndex + 1].version, items[itemIndex].version);
-
-            return isDot
-                ? Indicator.dot(size: _indicatorSize)
-                : Indicator.outlined(size: _indicatorSize);
-          },
-          contentsBuilder: (context, index) {
-            final item = items[index ~/ 2];
-
-            if (index.isOdd) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: ReleaseNoteContents(contentsText: item.contents.localized),
-              );
-            }
-
-            return Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                constraints: const BoxConstraints(minHeight: _headerHeight),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                margin: _headerMargin,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "$versionPrefix${item.version}",
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    Text(item.releasedOn),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+      builder: tileBuilder,
     );
   }
 }

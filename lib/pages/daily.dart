@@ -58,6 +58,7 @@ class DailyPage extends HookConsumerWidget {
         children: [
           for (final tab in tabs)
             SingleChildScrollView(
+              key: PageStorageKey("daily_${tab.id}"),
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

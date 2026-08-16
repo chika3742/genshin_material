@@ -2,6 +2,7 @@ import "package:genshin_material/core/asset_cache.dart";
 import "package:genshin_material/models/asset_release_version.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
+import "package:genshin_material/models/furnishing_set.dart";
 import "package:genshin_material/models/ingredients.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/models/material.dart";
@@ -10,6 +11,8 @@ AssetData buildTestAssetData({
   Map<String, Character> characters = const {},
   Map<String, Material> materials = const {},
   Map<String, int> materialSortOrder = const {},
+  Map<String, FurnishingSet> furnishingSets = const {},
+  Map<String, Furnishing> furnishings = const {},
 }) {
   return AssetData(
     assetDir: "",
@@ -48,8 +51,8 @@ AssetData buildTestAssetData({
     artifactPossibleSubStats: [],
     artifactPieces: {},
     artifactTags: [],
-    furnishingSets: {},
-    furnishings: {},
+    furnishingSets: furnishingSets,
+    furnishings: furnishings,
     furnishingSetTypes: {},
     dropRates: [],
   );
