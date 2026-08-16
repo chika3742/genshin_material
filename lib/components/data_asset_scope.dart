@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "../core/asset_cache.dart";
+import "../core/errors.dart";
 import "../i18n/strings.g.dart";
 import "../providers/asset_updating_state.dart";
 import "../providers/versions.dart";
@@ -25,7 +26,8 @@ class DataAssetScope extends ConsumerWidget {
       // Valid assets present
       return builder(context, assetData.value!);
     }
-    if (updatingState.state.isUpdating) {
+    if (updatingState.state.isUpdating
+        || (updatingState.state.isChecking && assetData.error is NoInstalledAssetException)) {
       // No installed assets present and installation process running
       return _wrapWithScaffoldIfNeeded(CenterText(tr.updates.pleaseWaitUntilComplete));
     }
