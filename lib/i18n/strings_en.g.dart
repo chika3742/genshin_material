@@ -293,6 +293,7 @@ class _Translations$characterDetailsPage$en extends Translations$characterDetail
 
 	// Translations
 	@override String get equippedWeapon => 'Equipped Weapon';
+	@override String get unknownWeapon => 'Unknown';
 	@override String get favoriteFurnishingSets => 'Favorite Furnishing Sets';
 }
 
@@ -763,6 +764,7 @@ extension on TranslationsEn {
 			'bookmarksPage.furnishings' => 'Furnishings',
 			'bookmarksPage.allFurnishingsAreCrafted' => 'All furnishings in this set have been crafted.',
 			'characterDetailsPage.equippedWeapon' => 'Equipped Weapon',
+			'characterDetailsPage.unknownWeapon' => 'Unknown',
 			'characterDetailsPage.favoriteFurnishingSets' => 'Favorite Furnishing Sets',
 			'weaponDetailsPage.characterToEquip' => 'Character to Equip this Weapon',
 			'weaponDetailsPage.skillEffect' => 'Skill Effect',

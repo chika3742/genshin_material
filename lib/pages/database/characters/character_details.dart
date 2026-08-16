@@ -180,6 +180,8 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       });
     }
 
+    final equippedWeapon = assetData.weapons[state.value.equippedWeaponId];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -313,19 +315,23 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                   FullWidth(
                     child: ListTile(
                       title: Text(tr.characterDetailsPage.equippedWeapon),
-                      subtitle: Text(assetData.weapons[state.value.equippedWeaponId]!.name.localized),
-                      leading: Image.file(
-                        assetData.weapons[state.value.equippedWeaponId]!.getImageFile(assetData.assetDir),
-                        width: 50,
-                        height: 50,
-                      ),
-                      trailing: const Icon(Symbols.chevron_right),
-                      onTap: () {
-                        WeaponDetailsRoute(
-                          id: state.value.equippedWeaponId!,
-                          initialSelectedCharacter: variant.value.id,
-                        ).push(context);
-                      },
+                      subtitle: Text(equippedWeapon?.name.localized ?? tr.characterDetailsPage.unknownWeapon),
+                      leading: equippedWeapon != null
+                          ? Image.file(
+                              equippedWeapon.getImageFile(assetData.assetDir),
+                              width: 50,
+                              height: 50,
+                            )
+                          : const Icon(Symbols.question_mark, size: 38),
+                      trailing: equippedWeapon != null ? const Icon(Symbols.chevron_right) : null,
+                      onTap: equippedWeapon != null
+                          ? () {
+                              WeaponDetailsRoute(
+                                id: state.value.equippedWeaponId!,
+                                initialSelectedCharacter: variant.value.id,
+                              ).push(context);
+                            }
+                          : null,
                     ),
                   ),
 
