@@ -11,7 +11,7 @@ import "../../ui_core/snack_bar.dart";
 import "../../view_models/bookmarks/artifact_bookmark_list_view_model.dart";
 import "../async_value_widget.dart";
 import "../center_text.dart";
-import "item_link_button.dart";
+import "../item_link_button.dart";
 
 class BookmarksArtifactsTab extends ConsumerWidget {
   const BookmarksArtifactsTab({super.key});

@@ -10,7 +10,7 @@ import "../../models/character.dart";
 import "../../models/common.dart";
 import "../../providers/versions.dart";
 import "../../routes.dart";
-import "item_link_button.dart";
+import "../item_link_button.dart";
 
 class BookmarkPurposeHeader extends ConsumerWidget {
   const BookmarkPurposeHeader({super.key, required this.group});
