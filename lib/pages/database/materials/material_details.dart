@@ -47,83 +47,81 @@ class MaterialDetailsPage extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(tr.pages.materialDetails(material: material.name.localized)),
       ),
-      body: Scrollbar(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 16,
-            children: [
-              GameItemInfoBox(
-                itemImage: Image.file(
-                  material.getImageFile(assetData.assetDir),
-                  width: 50,
-                  height: 50,
-                ),
-                children: [
-                  RarityStars(count: material.rarity),
-                  Text(
-                    assetData.materialCategories[material.category]!.localized,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  if (material.getDailyMaterialAvailable(GameServer.asia))
-                    Row(
-                      spacing: 8.0,
-                      children: [
-                        const Icon(Symbols.event_available, color: Colors.green),
-                        Text(tr.materialDetailsPage.availableToday),
-                      ],
-                    ),
-                ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 16,
+          children: [
+            GameItemInfoBox(
+              itemImage: Image.file(
+                material.getImageFile(assetData.assetDir),
+                width: 50,
+                height: 50,
               ),
-
-              Main(children: [
-                if (material.source != null)
-                  Section(
-                    heading: SectionHeading(tr.materialDetailsPage.source),
-                    child: ItemSourceWidget(material.source!),
+              children: [
+                RarityStars(count: material.rarity),
+                Text(
+                  assetData.materialCategories[material.category]!.localized,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                if (material.getDailyMaterialAvailable(GameServer.asia))
+                  Row(
+                    spacing: 8.0,
+                    children: [
+                      const Icon(Symbols.event_available, color: Colors.green),
+                      Text(tr.materialDetailsPage.availableToday),
+                    ],
                   ),
+              ],
+            ),
 
-                if (charactersUsingMaterial.isNotEmpty)
-                  Section(
-                    heading: SectionHeading(tr.materialDetailsPage.charactersUsing),
-                    child: Wrap(
-                      children: [
-                        for (final character in charactersUsingMaterial)
-                          CharacterSmallCard(character),
-                      ],
-                    ),
-                  ),
+            Main(children: [
+              if (material.source != null)
+                Section(
+                  heading: SectionHeading(tr.materialDetailsPage.source),
+                  child: ItemSourceWidget(material.source!),
+                ),
 
-                if (weaponsUsingMaterial.isNotEmpty)
-                  Section(
-                    heading: SectionHeading(tr.materialDetailsPage.weaponsUsing),
-                    child: Column(
-                      children: [
-                        for (final weaponTypes in weaponsUsingMaterial.groupListsBy((w) => w.type).entries)
-                          ...[
-                            SectionInnerHeading(assetData.weaponTypes[weaponTypes.key]!.name.localized),
-                            Column(
-                              children: [
-                                for (final weapon in weaponTypes.value)
-                                  GameItemListTile(
-                                    image: weapon.getImageFile(assetData.assetDir),
-                                    name: weapon.name.localized,
-                                    rarity: weapon.rarity,
-                                    rounded: true,
-                                    onTap: () {
-                                      WeaponDetailsRoute(id: weapon.id).push(context);
-                                    },
-                                  ),
-                              ],
-                            ),
-                          ],
-                      ],
-                    ),
+              if (charactersUsingMaterial.isNotEmpty)
+                Section(
+                  heading: SectionHeading(tr.materialDetailsPage.charactersUsing),
+                  child: Wrap(
+                    children: [
+                      for (final character in charactersUsingMaterial)
+                        CharacterSmallCard(character),
+                    ],
                   ),
-              ]),
-            ],
-          ),
+                ),
+
+              if (weaponsUsingMaterial.isNotEmpty)
+                Section(
+                  heading: SectionHeading(tr.materialDetailsPage.weaponsUsing),
+                  child: Column(
+                    children: [
+                      for (final weaponTypes in weaponsUsingMaterial.groupListsBy((w) => w.type).entries)
+                        ...[
+                          SectionInnerHeading(assetData.weaponTypes[weaponTypes.key]!.name.localized),
+                          Column(
+                            children: [
+                              for (final weapon in weaponTypes.value)
+                                GameItemListTile(
+                                  image: weapon.getImageFile(assetData.assetDir),
+                                  name: weapon.name.localized,
+                                  rarity: weapon.rarity,
+                                  rounded: true,
+                                  onTap: () {
+                                    WeaponDetailsRoute(id: weapon.id).push(context);
+                                  },
+                                ),
+                            ],
+                          ),
+                        ],
+                    ],
+                  ),
+                ),
+            ]),
+          ],
         ),
       ),
     );

@@ -71,35 +71,33 @@ class MaterialListPage extends HookConsumerWidget {
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
       ),
-      body: Scrollbar(
-        child: CustomScrollView(
-          slivers: assetData.materialCategories.entries.map((e) {
-            final categoryId = e.key;
-            final categoryText = e.value.localized;
+      body: CustomScrollView(
+        slivers: assetData.materialCategories.entries.map((e) {
+          final categoryId = e.key;
+          final categoryText = e.value.localized;
 
-            return SliverStickyHeader.builder(
-              builder: (_, _) => StickyListHeader(categoryText),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                    final material = materialsGroupedByCategory[categoryId]![index];
+          return SliverStickyHeader.builder(
+            builder: (_, _) => StickyListHeader(categoryText),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                  final material = materialsGroupedByCategory[categoryId]![index];
 
-                    return GameItemListTile(
-                      key: ValueKey(material.id),
-                      image: material.getImageFile(assetData.assetDir),
-                      name: material.name.localized,
-                      rarity: material.rarity,
-                      onTap: () {
-                        MaterialDetailsRoute(id: material.id).go(context);
-                      },
-                    );
-                  },
-                  childCount: materialsGroupedByCategory[categoryId]?.length ?? 0,
-                ),
+                  return GameItemListTile(
+                    key: ValueKey(material.id),
+                    image: material.getImageFile(assetData.assetDir),
+                    name: material.name.localized,
+                    rarity: material.rarity,
+                    onTap: () {
+                      MaterialDetailsRoute(id: material.id).go(context);
+                    },
+                  );
+                },
+                childCount: materialsGroupedByCategory[categoryId]?.length ?? 0,
               ),
-            );
-          }).toList(),
-        ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

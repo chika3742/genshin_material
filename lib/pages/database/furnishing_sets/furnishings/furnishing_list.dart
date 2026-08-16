@@ -45,22 +45,20 @@ class FurnishingListPage extends ConsumerWidget {
           ),
         ],
       ),
-      body: Scrollbar(
-        child: ListView.builder(
-          itemCount: furnishings.length,
-          itemBuilder: (context, index) {
-            final furnishing = furnishings[index];
-            return SimpleListTile(
-              leading: Image.file(
-                furnishing.getImageFile(assetData.assetDir),
-                width: listTileFurnishingImageSize,
-                height: listTileFurnishingImageSize,
-              ),
-              title: furnishing.name.localized,
-              location: FurnishingDetailsRoute(id: furnishing.id).location,
-            );
-          },
-        ),
+      body: ListView.builder(
+        itemCount: furnishings.length,
+        itemBuilder: (context, index) {
+          final furnishing = furnishings[index];
+          return SimpleListTile(
+            leading: Image.file(
+              furnishing.getImageFile(assetData.assetDir),
+              width: listTileFurnishingImageSize,
+              height: listTileFurnishingImageSize,
+            ),
+            title: furnishing.name.localized,
+            location: FurnishingDetailsRoute(id: furnishing.id).location,
+          );
+        },
       ),
     );
   }

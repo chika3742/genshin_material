@@ -157,113 +157,111 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(tr.pages.weaponDetails(weapon: weapon.name.localized)),
       ),
-      body: Scrollbar(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 16,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: GameItemInfoBox(
-                      itemImage: Image.file(
-                        weapon.getImageFile(assetData.assetDir),
-                        width: 50,
-                        height: 50,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 16,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: GameItemInfoBox(
+                    itemImage: Image.file(
+                      weapon.getImageFile(assetData.assetDir),
+                      width: 50,
+                      height: 50,
+                    ),
+                    children: [
+                      RarityStars(count: weapon.rarity),
+                      Text(
+                        assetData.weaponTypes[weapon.type]!.name.localized,
+                        style: Theme.of(context).textTheme.titleSmall,
                       ),
-                      children: [
-                        RarityStars(count: weapon.rarity),
-                        Text(
-                          assetData.weaponTypes[weapon.type]!.name.localized,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
-                  if (enableSync)
-                    Consumer(
-                      builder: (context, ref, _) {
-                        final syncStatus = ref.watch(gameDataSyncStateProvider(
-                            variantId: state.value.selectedCharacterId,
-                            weaponId: weapon.id,
-                          ));
-                        return syncStatus != null
-                            ? GameDataSyncIndicator(
-                                status: syncStatus,
-                              )
-                            : const SizedBox.shrink();
-                      },
-                  ),
-                ],
-              ),
+                ),
+                if (enableSync)
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final syncStatus = ref.watch(gameDataSyncStateProvider(
+                          variantId: state.value.selectedCharacterId,
+                          weaponId: weapon.id,
+                        ));
+                      return syncStatus != null
+                          ? GameDataSyncIndicator(
+                              status: syncStatus,
+                            )
+                          : const SizedBox.shrink();
+                    },
+                ),
+              ],
+            ),
 
-              CharacterSelectDropdown(
-                label: tr.weaponDetailsPage.characterToEquip,
-                characters: characters,
-                initialValue: state.value.selectedCharacterId,
-                onChanged: (value) {
-                  state.value = state.value.copyWith(
-                    selectedCharacterId: value!,
-                  );
-                },
-              ),
+            CharacterSelectDropdown(
+              label: tr.weaponDetailsPage.characterToEquip,
+              characters: characters,
+              initialValue: state.value.selectedCharacterId,
+              onChanged: (value) {
+                state.value = state.value.copyWith(
+                  selectedCharacterId: value!,
+                );
+              },
+            ),
 
-              Main(children: [
-                for (final slider in ingredients.sliders)
-                  Section(
-                    heading: SectionHeading(slider.title.localized),
-                    child: Column(
-                      spacing: 16,
-                      crossAxisAlignment: .stretch,
-                      children: [
-                        for (final purpose in slider.purposes)
-                          _buildSlider(
-                            ingredients,
-                            purpose,
-                            state.value.rangeValues[purpose]!,
-                            onRangeChanged: (value) {
-                              state.value = state.value.copyWith(
-                                rangeValues: {...state.value.rangeValues}..[purpose] = value,
-                              );
-                            },
-                          ),
-
-                        if (weapon.materials != null)
-                          MaterialCardList(
-                            target: weapon,
-                            purposes: slider.purposes,
-                            ingredientConf: ingredients,
-                            lackNums: lackNums,
-                            ranges: state.value.rangeValues,
-                            wSelectedCharacter: state.value.selectedCharacterId,
-                          )
-                        else if (weapon.levelingDescription case final levelingDescription?)
-                          Text(
-                            levelingDescription.localized,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                      ],
-                    ),
-                  ),
-
+            Main(children: [
+              for (final slider in ingredients.sliders)
                 Section(
-                  heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: EffectDescription(weapon.weaponAffixDesc?.localized ?? tr.common.none),
+                  heading: SectionHeading(slider.title.localized),
+                  child: Column(
+                    spacing: 16,
+                    crossAxisAlignment: .stretch,
+                    children: [
+                      for (final purpose in slider.purposes)
+                        _buildSlider(
+                          ingredients,
+                          purpose,
+                          state.value.rangeValues[purpose]!,
+                          onRangeChanged: (value) {
+                            state.value = state.value.copyWith(
+                              rangeValues: {...state.value.rangeValues}..[purpose] = value,
+                            );
+                          },
+                        ),
+
+                      if (weapon.materials != null)
+                        MaterialCardList(
+                          target: weapon,
+                          purposes: slider.purposes,
+                          ingredientConf: ingredients,
+                          lackNums: lackNums,
+                          ranges: state.value.rangeValues,
+                          wSelectedCharacter: state.value.selectedCharacterId,
+                        )
+                      else if (weapon.levelingDescription case final levelingDescription?)
+                        Text(
+                          levelingDescription.localized,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                    ],
                   ),
                 ),
 
-                if (weapon.source != null)
-                  Section(
-                    heading: SectionHeading(tr.materialDetailsPage.source),
-                    child: ItemSourceWidget(weapon.source!),
-                  ),
-              ]),
-            ],
-          ),
+              Section(
+                heading: SectionHeading(tr.weaponDetailsPage.skillEffect),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: EffectDescription(weapon.weaponAffixDesc?.localized ?? tr.common.none),
+                ),
+              ),
+
+              if (weapon.source != null)
+                Section(
+                  heading: SectionHeading(tr.materialDetailsPage.source),
+                  child: ItemSourceWidget(weapon.source!),
+                ),
+            ]),
+          ],
         ),
       ),
     );
