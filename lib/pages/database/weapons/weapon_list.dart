@@ -142,37 +142,35 @@ class WeaponListPage extends HookConsumerWidget {
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
       ),
-      body: Scrollbar(
-        child: CustomScrollView(
-          slivers: [
-            ...assetData.weaponTypes.entries.map((e) {
-              final typeId = e.key;
-              final categoryText = e.value.name.localized;
-              final weapons = weaponsGroupedByType[typeId] ?? [];
+      body: CustomScrollView(
+        slivers: [
+          ...assetData.weaponTypes.entries.map((e) {
+            final typeId = e.key;
+            final categoryText = e.value.name.localized;
+            final weapons = weaponsGroupedByType[typeId] ?? [];
 
-              return SliverStickyHeader.builder(
-                builder: (_, _) => StickyListHeader(categoryText),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                      final weapon = weapons[index];
+            return SliverStickyHeader.builder(
+              builder: (_, _) => StickyListHeader(categoryText),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    final weapon = weapons[index];
 
-                      return GameItemListTile(
-                        image: weapon.getImageFile(assetData.assetDir),
-                        name: weapon.name.localized,
-                        rarity: weapon.rarity,
-                        onTap: () {
-                          WeaponDetailsRoute(id: weapon.id, initialSelectedCharacter: equipCharacter).push(context);
-                        },
-                      );
-                    },
-                    childCount: weapons.length,
-                  ),
+                    return GameItemListTile(
+                      image: weapon.getImageFile(assetData.assetDir),
+                      name: weapon.name.localized,
+                      rarity: weapon.rarity,
+                      onTap: () {
+                        WeaponDetailsRoute(id: weapon.id, initialSelectedCharacter: equipCharacter).push(context);
+                      },
+                    );
+                  },
+                  childCount: weapons.length,
                 ),
-              );
-            }),
-          ],
-        ),
+              ),
+            );
+          }),
+        ],
       ),
     );
   }

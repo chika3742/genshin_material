@@ -170,23 +170,21 @@ class CharacterListPage extends HookConsumerWidget {
           ),
         ),
       ),
-      body: Scrollbar(
-        child: GridView.builder(
-          padding: EdgeInsets.all(16.0),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200,
-            mainAxisSpacing: 8.0,
-            crossAxisSpacing: 8.0,
-            childAspectRatio: 2,
-          ),
-          itemCount: characters.length,
-          itemBuilder: (context, index) {
-            return CharacterListItem(
-              key: ValueKey(characters[index].id),
-              characters[index],
-            );
-          },
+      body: GridView.builder(
+        padding: EdgeInsets.all(16.0),
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 200,
+          mainAxisSpacing: 8.0,
+          crossAxisSpacing: 8.0,
+          childAspectRatio: 2,
         ),
+        itemCount: characters.length,
+        itemBuilder: (context, index) {
+          return CharacterListItem(
+            key: ValueKey(characters[index].id),
+            characters[index],
+          );
+        },
       ),
     );
   }

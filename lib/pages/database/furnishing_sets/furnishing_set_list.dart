@@ -74,47 +74,45 @@ class FurnishingSetListPage extends HookConsumerWidget {
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
       ),
-      body: Scrollbar(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: SimpleListTile(
-                title: tr.furnishingSetsPage.furnishingList,
-                trailingIcon: Symbols.chevron_right,
-                location: const FurnishingListRoute().location,
-              ),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: SimpleListTile(
+              title: tr.furnishingSetsPage.furnishingList,
+              trailingIcon: Symbols.chevron_right,
+              location: const FurnishingListRoute().location,
             ),
-            ...assetData.furnishingSetTypes.entries.map((e) {
-              final typeId = e.key;
-              final categoryText = e.value.localized;
-              final sets = furnishingSetsGrouped[typeId] ?? [];
+          ),
+          ...assetData.furnishingSetTypes.entries.map((e) {
+            final typeId = e.key;
+            final categoryText = e.value.localized;
+            final sets = furnishingSetsGrouped[typeId] ?? [];
 
-              return SliverStickyHeader.builder(
-                builder: (_, _) => StickyListHeader(categoryText),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      final set = sets[index];
-                      return SizedBox(
-                        height: listTileHeight,
-                        child: SimpleListTile(
-                          key: ValueKey(set.id),
-                          leading: Image.file(
-                            set.getImageFile(assetData.assetDir),
-                            width: listTileFurnishingSetImageWidth,
-                          ),
-                          title: set.name.localized,
-                          location: FurnishingSetDetailsRoute(id: set.id).location,
+            return SliverStickyHeader.builder(
+              builder: (_, _) => StickyListHeader(categoryText),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final set = sets[index];
+                    return SizedBox(
+                      height: listTileHeight,
+                      child: SimpleListTile(
+                        key: ValueKey(set.id),
+                        leading: Image.file(
+                          set.getImageFile(assetData.assetDir),
+                          width: listTileFurnishingSetImageWidth,
                         ),
-                      );
-                    },
-                    childCount: sets.length,
-                  ),
+                        title: set.name.localized,
+                        location: FurnishingSetDetailsRoute(id: set.id).location,
+                      ),
+                    );
+                  },
+                  childCount: sets.length,
                 ),
-              );
-            }),
-          ],
-        ),
+              ),
+            );
+          }),
+        ],
       ),
     );
   }

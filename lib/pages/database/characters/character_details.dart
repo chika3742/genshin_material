@@ -204,206 +204,204 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
           ),
         ],
       ),
-      body: Scrollbar(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: SafeArea(
-            child: Column(
-              spacing: 16,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // character information
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: GameItemInfoBox(
-                        itemImage: Image.file(
-                          variant.value.getSmallImageFile(assetData.assetDir),
-                          width: 70,
-                          height: 70,
-                        ),
-                        children: [
-                          // rarity
-                          RarityStars(count: character.rarity),
-                          // element
-                          Row(
-                            children: [
-                              Image.file(
-                                assetData.elements[variant.value.element]!.getImageFile(assetData.assetDir),
-                                width: 26,
-                                height: 26,
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(assetData.elements[variant.value.element]!.text.localized),
-                            ],
-                          ),
-                          // weapon type
-                          Text(assetData.weaponTypes[character.weaponType]!.name.localized),
-                        ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: SafeArea(
+          child: Column(
+            spacing: 16,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // character information
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: GameItemInfoBox(
+                      itemImage: Image.file(
+                        variant.value.getSmallImageFile(assetData.assetDir),
+                        width: 70,
+                        height: 70,
                       ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Consumer(
-                          builder: (context, ref, _) {
-                            if (variant.value.disableSync) {
-                              return const SizedBox();
-                            }
-                            final state = ref.watch(gameDataSyncStateProvider(variantId: variant.value.id));
-                            return state != null ? GameDataSyncIndicator(
-                              status: state,
-                            ) : SizedBox();
-                          },
-                        ),
-                        const SizedBox(height: 8),
+                        // rarity
+                        RarityStars(count: character.rarity),
+                        // element
                         Row(
                           children: [
-                            IconButton(
-                              icon: const Icon(Symbols.swords),
-                              onPressed: () {
-                                WeaponListRoute(equipCharacterId: variant.value.id).push(context);
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Symbols.person_play),
-                              onPressed: () {
-                                ArtifactListRoute(equipCharacterId: variant.value.id).push(context);
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                // character variant dropdown
-                if (variants.length > 1)
-                  DropdownButtonFormField(
-                    initialValue: variant.value.element,
-                    items: variants.entries.map((e) {
-                      return DropdownMenuItem(
-                        value: e.key,
-                        child: Row(
-                          children: [
                             Image.file(
-                              assetData.elements[e.value.element]!
-                                  .getImageFile(assetData.assetDir),
-                              width: 25,
-                              height: 25,
+                              assetData.elements[variant.value.element]!.getImageFile(assetData.assetDir),
+                              width: 26,
+                              height: 26,
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
                             const SizedBox(width: 4),
-                            Text(assetData.elements[e.value.element]!.text.localized),
+                            Text(assetData.elements[variant.value.element]!.text.localized),
                           ],
                         ),
-                      );
-                    }).toList(),
-                    decoration: InputDecoration(
-                      label: Text(tr.common.element),
-                      border: const OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      variant.value = variants[value]!;
-                    },
-                  ),
-
-                if (state.value.equippedWeaponId != null)
-                  FullWidth(
-                    child: ListTile(
-                      title: Text(tr.characterDetailsPage.equippedWeapon),
-                      subtitle: Text(equippedWeapon?.name.localized ?? tr.characterDetailsPage.unknownWeapon),
-                      leading: equippedWeapon != null
-                          ? Image.file(
-                              equippedWeapon.getImageFile(assetData.assetDir),
-                              width: 50,
-                              height: 50,
-                            )
-                          : const Icon(Symbols.question_mark, size: 38),
-                      trailing: equippedWeapon != null ? const Icon(Symbols.chevron_right) : null,
-                      onTap: equippedWeapon != null
-                          ? () {
-                              WeaponDetailsRoute(
-                                id: state.value.equippedWeaponId!,
-                                initialSelectedCharacter: variant.value.id,
-                              ).push(context);
-                            }
-                          : null,
+                        // weapon type
+                        Text(assetData.weaponTypes[character.weaponType]!.name.localized),
+                      ],
                     ),
                   ),
-
-                Main(children: [
-                  for (final sliderGroup in ingredients.sliders)
-                    Section(
-                      heading: SectionHeading(sliderGroup.title.localized),
-                      child: Column(
-                        spacing: 16.0,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Consumer(
+                        builder: (context, ref, _) {
+                          if (variant.value.disableSync) {
+                            return const SizedBox();
+                          }
+                          final state = ref.watch(gameDataSyncStateProvider(variantId: variant.value.id));
+                          return state != null ? GameDataSyncIndicator(
+                            status: state,
+                          ) : SizedBox();
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
                         children: [
-                          Column(
-                            spacing: 8.0,
-                            children: [
-                              for (final purpose in sliderGroup.purposes)
-                                _buildSlider(
-                                  ingredients,
-                                  variant.value,
-                                  purpose,
-                                  state.value.rangeValues[purpose]!,
-                                  active: !state.value.hiddenTalents.contains(purpose),
-                                  onActiveChanged: (value) {
-                                    state.value = state.value.copyWith(
-                                      hiddenTalents: value
-                                          ? ({...state.value.hiddenTalents}..remove(purpose))
-                                          : ({...state.value.hiddenTalents}..add(purpose)),
-                                    );
-                                  },
-                                  onRangeChanged: (value) {
-                                    state.value = state.value.copyWith(
-                                      rangeValues: {...state.value.rangeValues}..[purpose] = value,
-                                    );
-                                  },
-                                  preferredTargetType: sliderGroup.preferredTargetType,
-                                ),
-                            ],
+                          IconButton(
+                            icon: const Icon(Symbols.swords),
+                            onPressed: () {
+                              WeaponListRoute(equipCharacterId: variant.value.id).push(context);
+                            },
                           ),
-                          MaterialCardList(
-                            target: variant.value,
-                            purposes: sliderGroup.purposes,
-                            ingredientConf: ingredients,
-                            lackNums: lackNums,
-                            ranges: state.value.rangeValues.retainKeys(sliderGroup
-                                .purposes.whereNot((e) => state.value.hiddenTalents.contains(e)).toSet()),
+                          IconButton(
+                            icon: const Icon(Symbols.person_play),
+                            onPressed: () {
+                              ArtifactListRoute(equipCharacterId: variant.value.id).push(context);
+                            },
                           ),
                         ],
                       ),
-                    ),
+                    ],
+                  ),
+                ],
+              ),
 
-                  Section(
-                    heading: SectionHeading(tr.characterDetailsPage.favoriteFurnishingSets),
-                    child: Column(
-                      children: assetData.furnishingSets.values
-                          .where((e) => e.favoriteCharacterHyvIds
-                          .any((id) => character.hyvIds.contains(id))).map((e) {
-                        return FullWidth(
-                          child: SimpleListTile(
-                            leading: Image.file(
-                              e.getImageFile(assetData.assetDir),
-                              width: listTileFurnishingSetImageWidth,
-                            ),
-                            title: e.name.localized,
-                            location: FurnishingSetDetailsRoute(id: e.id).location,
-                            routingStrategy: RoutingStrategy.push,
+              // character variant dropdown
+              if (variants.length > 1)
+                DropdownButtonFormField(
+                  initialValue: variant.value.element,
+                  items: variants.entries.map((e) {
+                    return DropdownMenuItem(
+                      value: e.key,
+                      child: Row(
+                        children: [
+                          Image.file(
+                            assetData.elements[e.value.element]!
+                                .getImageFile(assetData.assetDir),
+                            width: 25,
+                            height: 25,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
-                        );
-                      }).toList(),
+                          const SizedBox(width: 4),
+                          Text(assetData.elements[e.value.element]!.text.localized),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    label: Text(tr.common.element),
+                    border: const OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    variant.value = variants[value]!;
+                  },
+                ),
+
+              if (state.value.equippedWeaponId != null)
+                FullWidth(
+                  child: ListTile(
+                    title: Text(tr.characterDetailsPage.equippedWeapon),
+                    subtitle: Text(equippedWeapon?.name.localized ?? tr.characterDetailsPage.unknownWeapon),
+                    leading: equippedWeapon != null
+                        ? Image.file(
+                            equippedWeapon.getImageFile(assetData.assetDir),
+                            width: 50,
+                            height: 50,
+                          )
+                        : const Icon(Symbols.question_mark, size: 38),
+                    trailing: equippedWeapon != null ? const Icon(Symbols.chevron_right) : null,
+                    onTap: equippedWeapon != null
+                        ? () {
+                            WeaponDetailsRoute(
+                              id: state.value.equippedWeaponId!,
+                              initialSelectedCharacter: variant.value.id,
+                            ).push(context);
+                          }
+                        : null,
+                  ),
+                ),
+
+              Main(children: [
+                for (final sliderGroup in ingredients.sliders)
+                  Section(
+                    heading: SectionHeading(sliderGroup.title.localized),
+                    child: Column(
+                      spacing: 16.0,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Column(
+                          spacing: 8.0,
+                          children: [
+                            for (final purpose in sliderGroup.purposes)
+                              _buildSlider(
+                                ingredients,
+                                variant.value,
+                                purpose,
+                                state.value.rangeValues[purpose]!,
+                                active: !state.value.hiddenTalents.contains(purpose),
+                                onActiveChanged: (value) {
+                                  state.value = state.value.copyWith(
+                                    hiddenTalents: value
+                                        ? ({...state.value.hiddenTalents}..remove(purpose))
+                                        : ({...state.value.hiddenTalents}..add(purpose)),
+                                  );
+                                },
+                                onRangeChanged: (value) {
+                                  state.value = state.value.copyWith(
+                                    rangeValues: {...state.value.rangeValues}..[purpose] = value,
+                                  );
+                                },
+                                preferredTargetType: sliderGroup.preferredTargetType,
+                              ),
+                          ],
+                        ),
+                        MaterialCardList(
+                          target: variant.value,
+                          purposes: sliderGroup.purposes,
+                          ingredientConf: ingredients,
+                          lackNums: lackNums,
+                          ranges: state.value.rangeValues.retainKeys(sliderGroup
+                              .purposes.whereNot((e) => state.value.hiddenTalents.contains(e)).toSet()),
+                        ),
+                      ],
                     ),
                   ),
-                ]),
-              ],
-            ),
+
+                Section(
+                  heading: SectionHeading(tr.characterDetailsPage.favoriteFurnishingSets),
+                  child: Column(
+                    children: assetData.furnishingSets.values
+                        .where((e) => e.favoriteCharacterHyvIds
+                        .any((id) => character.hyvIds.contains(id))).map((e) {
+                      return FullWidth(
+                        child: SimpleListTile(
+                          leading: Image.file(
+                            e.getImageFile(assetData.assetDir),
+                            width: listTileFurnishingSetImageWidth,
+                          ),
+                          title: e.name.localized,
+                          location: FurnishingSetDetailsRoute(id: e.id).location,
+                          routingStrategy: RoutingStrategy.push,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ]),
+            ],
           ),
         ),
       ),

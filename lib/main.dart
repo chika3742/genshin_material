@@ -156,6 +156,19 @@ class MyApp extends HookConsumerWidget {
         DefaultCupertinoLocalizations.delegate,
         DefaultWidgetsLocalizations.delegate,
       ],
+      scrollBehavior: const ScrollbarOnAllPlatformsScrollBehavior(),
+    );
+  }
+}
+
+class ScrollbarOnAllPlatformsScrollBehavior extends MaterialScrollBehavior {
+  const ScrollbarOnAllPlatformsScrollBehavior();
+
+  @override
+  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+    return Scrollbar(
+      controller: details.controller,
+      child: child,
     );
   }
 }
