@@ -471,6 +471,9 @@ class Translations$characterDetailsPage$ja {
 	/// ja: '装備中の武器'
 	String get equippedWeapon => '装備中の武器';
 
+	/// ja: '不明'
+	String get unknownWeapon => '不明';
+
 	/// ja: '好きな調度品セット'
 	String get favoriteFurnishingSets => '好きな調度品セット';
 }
@@ -1242,6 +1245,7 @@ extension on Translations {
 			'bookmarksPage.furnishings' => '調度品',
 			'bookmarksPage.allFurnishingsAreCrafted' => 'すべての調度品が作成済みです',
 			'characterDetailsPage.equippedWeapon' => '装備中の武器',
+			'characterDetailsPage.unknownWeapon' => '不明',
 			'characterDetailsPage.favoriteFurnishingSets' => '好きな調度品セット',
 			'weaponDetailsPage.characterToEquip' => '武器を装備させるキャラクター',
 			'weaponDetailsPage.skillEffect' => 'スキル効果',

@@ -132,6 +132,7 @@ bookmarksPage:
   allFurnishingsAreCrafted: All furnishings in this set have been crafted.
 characterDetailsPage:
   equippedWeapon: Equipped Weapon
+  unknownWeapon: Unknown
   favoriteFurnishingSets: Favorite Furnishing Sets
 weaponDetailsPage:
   characterToEquip: Character to Equip this Weapon
