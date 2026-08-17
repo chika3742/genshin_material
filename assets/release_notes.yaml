@@ -19,8 +19,19 @@
         - 一部のスクロール領域でスクロールバーが表示されない問題を修正しました。
         - アプリの初回起動時、一瞬だけ「データの読み込みに失敗しました」と表示される問題を修正しました。
       en: |
-        # Changes
+        # New Features
+        - Added a daily material notification feature. Among your bookmarked daily materials, it notifies you every day at a set time about the ones available that day. You can set the notification time from More → Settings.
 
+        # Adjustments
+        - You can now navigate from the set effect list to the artifact details.
+        - Fixed the filter button in place in the set effect list.
+
+        # Bug Fixes
+        - Fixed an issue where the character details screen crashed when a weapon that does not exist in the app's data was equipped in game.
+        - Fixed an issue in the resin calculator where the position could jump when you kept scrolling after reaching the end of the scrollable range.
+        - Fixed an issue where the scroll position, expansion state, and other states were sometimes not retained when switching tabs or scrolling.
+        - Fixed an issue where scrollbars were not displayed in some scrollable areas.
+        - Fixed an issue where "Failed to load data" was briefly displayed on the app's first launch.
 
 - releasedOn: 2026/08/08
   version: 4.8.3
