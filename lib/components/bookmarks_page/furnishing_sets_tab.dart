@@ -37,9 +37,9 @@ class BookmarkFurnishingSetsTab extends HookConsumerWidget {
               key: ValueKey(set.id),
               builder: (context, ref, child) {
                 final controller = useExpansibleController();
-                final isExpanded = useListenable(controller).isExpanded;
 
                 return ExpansionTile(
+                  key: PageStorageKey("bookmarks_furnishing-sets_${set.id}"),
                   controller: controller,
                   leading: Image.file(
                     set.getImageFile(assetData.assetDir),
@@ -74,11 +74,17 @@ class BookmarkFurnishingSetsTab extends HookConsumerWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: AnimatedRotation(
-                          duration: Durations.medium2,
-                          curve: Easing.emphasizedDecelerate,
-                          turns: isExpanded ? 0.5 : 0,
-                          child: Icon(Symbols.keyboard_arrow_down),
+                        child: HookBuilder(
+                          builder: (context) {
+                            final isExpanded = useListenable(controller).isExpanded;
+
+                            return AnimatedRotation(
+                              duration: Durations.medium2,
+                              curve: Easing.emphasizedDecelerate,
+                              turns: isExpanded ? 0.5 : 0,
+                              child: Icon(Symbols.keyboard_arrow_down),
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -89,6 +95,7 @@ class BookmarkFurnishingSetsTab extends HookConsumerWidget {
                     duration: Durations.medium2,
                   ),
                   children: [FurnishingTable(
+                    key: PageStorageKey("bookmarks_furnishing-sets_${set.id}"),
                     setId: set.id,
                     hideCompleted: true,
                     nested: true,

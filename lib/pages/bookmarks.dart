@@ -79,10 +79,10 @@ class BookmarksPage extends HookConsumerWidget {
           child: PageView(
             controller: pageController,
             children: [
-              BookmarksPurposeGroupedTab(),
-              BookmarksMaterialGroupedTab(),
-              BookmarksArtifactsTab(),
-              BookmarkFurnishingSetsTab(),
+              BookmarksPurposeGroupedTab(key: PageStorageKey("bookmarks_purposes")),
+              BookmarksMaterialGroupedTab(key: PageStorageKey("bookmarks_materials")),
+              BookmarksArtifactsTab(key: PageStorageKey("bookmarks_artifacts")),
+              BookmarkFurnishingSetsTab(key: PageStorageKey("bookmarks_furnishing-sets")),
             ],
           ),
         ),
