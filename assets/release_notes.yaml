@@ -1,6 +1,17 @@
 # コピー用改行
 
-- releasedOn: 2026/08/08
+- releasedOn: 2026/08/17
+  version: 4.9.1
+  contents:
+    locales:
+      ja: |
+        # 緊急修正
+        - Androidにおいて、アプリが起動しない問題を修正しました。
+      en: |
+        # Hot Fix
+        - 
+
+- releasedOn: 2026/08/17
   version: 4.9.0
   contents:
     locales:
