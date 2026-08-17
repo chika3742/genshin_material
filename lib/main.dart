@@ -166,6 +166,9 @@ class ScrollbarOnAllPlatformsScrollBehavior extends MaterialScrollBehavior {
 
   @override
   Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+    if (details.direction == .right || details.direction == .left) {
+      return child;
+    }
     return Scrollbar(
       controller: details.controller,
       child: child,
