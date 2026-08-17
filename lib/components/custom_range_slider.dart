@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import "package:material_ui/material_ui.dart";
 
 /// A custom range slider that responds to drag gestures inside the selected range,
 /// in addition to the standard thumb interactions.

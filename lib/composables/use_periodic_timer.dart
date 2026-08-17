@@ -1,6 +1,6 @@
 import "dart:async";
 
-import "package:flutter/cupertino.dart";
+import "package:cupertino_ui/cupertino_ui.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 
 void usePeriodicTimer(Duration duration, void Function(Timer timer) callback) {

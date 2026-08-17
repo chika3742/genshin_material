@@ -1,7 +1,7 @@
 import "dart:convert";
 import "dart:io";
 
-import "package:flutter/cupertino.dart";
+import "package:cupertino_ui/cupertino_ui.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/constants/urls.dart";
 import "package:genshin_material/core/asset_updater.dart";

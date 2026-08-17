@@ -1,5 +1,5 @@
 import "package:firebase_remote_config/firebase_remote_config.dart";
-import "package:flutter/material.dart";
+import "package:material_ui/material_ui.dart";
 import "package:flutter/rendering.dart";
 import "package:flutter/services.dart";
 import "package:flutter_hooks/flutter_hooks.dart";

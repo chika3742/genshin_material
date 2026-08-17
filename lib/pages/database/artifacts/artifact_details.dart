@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../../../components/artifact_bookmark_dialog.dart";
 import "../../../components/center_text.dart";

@@ -1,6 +1,6 @@
 import "dart:math";
 
-import "package:flutter/material.dart";
+import "package:material_ui/material_ui.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 
 import "../composables/use_scroll_to_top_on_status_bar_tap.dart";
