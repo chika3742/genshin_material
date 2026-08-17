@@ -11,11 +11,15 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   exclude:
-    - build
-    - ios
-    - android
     - lib/**.g.dart
     - lib/**.freezed.dart
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 
 plugins:
   riverpod_lint: 3.1.4
