@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'artifact.dart';
@@ -9,6 +9,7 @@ part of 'artifact.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -44,7 +45,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _ArtifactSet extends ArtifactSet {
-  const _ArtifactSet({required this.id, required this.name, required this.jaPronunciation, required this.maxRarity, final  List<String>? tags, required final  Map<ArtifactPieceTypeId, ArtifactPieceId> consistsOf, required final  List<ArtifactSetBonus> bonuses}): _tags = tags,_consistsOf = consistsOf,_bonuses = bonuses,super._();
+  const _ArtifactSet({required this.id, required this.name, required this.jaPronunciation, required this.maxRarity,  List<String>? tags, required  Map<ArtifactPieceTypeId, ArtifactPieceId> consistsOf, required  List<ArtifactSetBonus> bonuses}): _tags = tags,_consistsOf = consistsOf,_bonuses = bonuses,super._();
   factory _ArtifactSet.fromJson(Map<String, dynamic> json) => _$ArtifactSetFromJson(json);
 
 @override final  String id;
@@ -259,7 +260,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _ArtifactsMeta implements ArtifactsMeta {
-  const _ArtifactsMeta({required final  Map<StatId, LocalizedText> stats, required final  Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes, required final  List<StatId> possibleSubStats, required this.tags}): _stats = stats,_pieceTypes = pieceTypes,_possibleSubStats = possibleSubStats;
+  const _ArtifactsMeta({required  Map<StatId, LocalizedText> stats, required  Map<ArtifactPieceTypeId, ArtifactPieceType> pieceTypes, required  List<StatId> possibleSubStats, required this.tags}): _stats = stats,_pieceTypes = pieceTypes,_possibleSubStats = possibleSubStats;
   factory _ArtifactsMeta.fromJson(Map<String, dynamic> json) => _$ArtifactsMetaFromJson(json);
 
  final  Map<StatId, LocalizedText> _stats;
@@ -341,7 +342,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _ArtifactPieceType implements ArtifactPieceType {
-  const _ArtifactPieceType({required this.id, required this.desc, required final  List<StatId> possibleMainStats}): _possibleMainStats = possibleMainStats;
+  const _ArtifactPieceType({required this.id, required this.desc, required  List<StatId> possibleMainStats}): _possibleMainStats = possibleMainStats;
   factory _ArtifactPieceType.fromJson(Map<String, dynamic> json) => _$ArtifactPieceTypeFromJson(json);
 
 @override final  ArtifactPieceTypeId id;
@@ -472,7 +473,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _ArtifactTagCategoriesInternal implements ArtifactTagCategoriesInternal {
-  const _ArtifactTagCategoriesInternal({required final  List<ArtifactTagCategory> categories}): _categories = categories;
+  const _ArtifactTagCategoriesInternal({required  List<ArtifactTagCategory> categories}): _categories = categories;
   factory _ArtifactTagCategoriesInternal.fromJson(Map<String, dynamic> json) => _$ArtifactTagCategoriesInternalFromJson(json);
 
  final  List<ArtifactTagCategory> _categories;
@@ -539,7 +540,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _ArtifactTagCategory implements ArtifactTagCategory {
-  const _ArtifactTagCategory({required this.desc, required final  List<ArtifactTag> items}): _items = items;
+  const _ArtifactTagCategory({required this.desc, required  List<ArtifactTag> items}): _items = items;
   factory _ArtifactTagCategory.fromJson(Map<String, dynamic> json) => _$ArtifactTagCategoryFromJson(json);
 
 @override final  LocalizedText desc;

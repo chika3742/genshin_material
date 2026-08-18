@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'character.dart';
@@ -9,6 +9,7 @@ part of 'character.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 Character _$CharacterFromJson(
@@ -64,7 +65,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class ListedCharacter extends Character implements CharacterWithLargeImage, CharacterOrVariant {
-  const ListedCharacter({required this.id, this.disableSync = false, required final  List<int> hyvIds, required this.name, required this.jaPronunciation, required this.imageUrl, required this.smallImageUrl, required this.rarity, required this.weaponType, required this.element, required final  Talents talents, required final  MaterialDefinitions materials, final  String? $type}): _hyvIds = hyvIds,_talents = talents,_materials = materials,$type = $type ?? 'default',super._();
+  const ListedCharacter({required this.id, this.disableSync = false, required  List<int> hyvIds, required this.name, required this.jaPronunciation, required this.imageUrl, required this.smallImageUrl, required this.rarity, required this.weaponType, required this.element, required  Talents talents, required  MaterialDefinitions materials,  String? $type}): _hyvIds = hyvIds,_talents = talents,_materials = materials,$type = $type ?? 'default',super._();
   factory ListedCharacter.fromJson(Map<String, dynamic> json) => _$ListedCharacterFromJson(json);
 
 @override final  String id;
@@ -129,7 +130,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class CharacterGroup extends Character implements CharacterWithLargeImage {
-  const CharacterGroup({required this.id, required final  List<int> hyvIds, required this.name, required this.jaPronunciation, required this.imageUrl, required this.smallImageUrl, required this.rarity, required this.weaponType, required final  List<String> variantIds, required final  MaterialDefinitions materials, final  String? $type}): _hyvIds = hyvIds,_variantIds = variantIds,_materials = materials,$type = $type ?? 'group',super._();
+  const CharacterGroup({required this.id, required  List<int> hyvIds, required this.name, required this.jaPronunciation, required this.imageUrl, required this.smallImageUrl, required this.rarity, required this.weaponType, required  List<String> variantIds, required  MaterialDefinitions materials,  String? $type}): _hyvIds = hyvIds,_variantIds = variantIds,_materials = materials,$type = $type ?? 'group',super._();
   factory CharacterGroup.fromJson(Map<String, dynamic> json) => _$CharacterGroupFromJson(json);
 
 @override final  String id;
@@ -192,7 +193,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class CharacterVariant extends Character implements CharacterOrVariant {
-  const CharacterVariant({required this.id, this.disableSync = false, required this.parentId, required this.name, required this.jaPronunciation, required this.smallImageUrl, required this.rarity, required this.element, required this.weaponType, required final  Talents talents, required final  MaterialDefinitions materials, final  String? $type}): _talents = talents,_materials = materials,$type = $type ?? 'variant',super._();
+  const CharacterVariant({required this.id, this.disableSync = false, required this.parentId, required this.name, required this.jaPronunciation, required this.smallImageUrl, required this.rarity, required this.element, required this.weaponType, required  Talents talents, required  MaterialDefinitions materials,  String? $type}): _talents = talents,_materials = materials,$type = $type ?? 'variant',super._();
   factory CharacterVariant.fromJson(Map<String, dynamic> json) => _$CharacterVariantFromJson(json);
 
 @override final  String id;
@@ -279,7 +280,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _CharacterTalent implements CharacterTalent {
-  const _CharacterTalent({required final  List<int> idList, required this.name}): _idList = idList;
+  const _CharacterTalent({required  List<int> idList, required this.name}): _idList = idList;
   factory _CharacterTalent.fromJson(Map<String, dynamic> json) => _$CharacterTalentFromJson(json);
 
  final  List<int> _idList;

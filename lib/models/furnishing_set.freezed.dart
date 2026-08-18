@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'furnishing_set.dart';
@@ -9,6 +9,7 @@ part of 'furnishing_set.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -110,7 +111,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _FurnishingSetMeta implements FurnishingSetMeta {
-  const _FurnishingSetMeta({required final  Map<FurnishingSetTypeId, LocalizedText> setTypes}): _setTypes = setTypes;
+  const _FurnishingSetMeta({required  Map<FurnishingSetTypeId, LocalizedText> setTypes}): _setTypes = setTypes;
   factory _FurnishingSetMeta.fromJson(Map<String, dynamic> json) => _$FurnishingSetMetaFromJson(json);
 
  final  Map<FurnishingSetTypeId, LocalizedText> _setTypes;
@@ -244,7 +245,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _FurnishingSet extends FurnishingSet {
-  const _FurnishingSet({required this.id, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.type, required final  List<int> favoriteCharacterHyvIds, required final  List<FurnishingSetComponent> consistsOf}): _favoriteCharacterHyvIds = favoriteCharacterHyvIds,_consistsOf = consistsOf,super._();
+  const _FurnishingSet({required this.id, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.type, required  List<int> favoriteCharacterHyvIds, required  List<FurnishingSetComponent> consistsOf}): _favoriteCharacterHyvIds = favoriteCharacterHyvIds,_consistsOf = consistsOf,super._();
   factory _FurnishingSet.fromJson(Map<String, dynamic> json) => _$FurnishingSetFromJson(json);
 
 @override final  String id;

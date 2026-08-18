@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'character_details.dart';
@@ -9,12 +9,13 @@ part of 'character_details.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CharacterDetailsPageState {
 
- Map<Purpose, LevelRangeValues> get rangeValues; Set<Purpose> get hiddenTalents; Map<Purpose, GlobalKey> get talentSectionKeys; String? get equippedWeaponId;
+ Map<Purpose, LevelRangeValues> get rangeValues; Set<Purpose> get hiddenTalents; Map<Purpose, GlobalKey<State<StatefulWidget>>> get talentSectionKeys; String? get equippedWeaponId;
 /// Create a copy of _CharacterDetailsPageState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +46,7 @@ abstract mixin class _$CharacterDetailsPageStateCopyWith<$Res>  {
   factory _$CharacterDetailsPageStateCopyWith(_CharacterDetailsPageState value, $Res Function(_CharacterDetailsPageState) _then) = __$CharacterDetailsPageStateCopyWithImpl;
 @useResult
 $Res call({
- Map<Purpose, LevelRangeValues> rangeValues, Set<Purpose> hiddenTalents, Map<Purpose, GlobalKey> talentSectionKeys, String? equippedWeaponId
+ Map<Purpose, LevelRangeValues> rangeValues, Set<Purpose> hiddenTalents, Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys, String? equippedWeaponId
 });
 
 
@@ -63,11 +64,11 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res>
 /// Create a copy of _CharacterDetailsPageState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? rangeValues = null,Object? hiddenTalents = null,Object? talentSectionKeys = null,Object? equippedWeaponId = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(_CharacterDetailsPageState(
 rangeValues: null == rangeValues ? _self.rangeValues : rangeValues // ignore: cast_nullable_to_non_nullable
 as Map<Purpose, LevelRangeValues>,hiddenTalents: null == hiddenTalents ? _self.hiddenTalents : hiddenTalents // ignore: cast_nullable_to_non_nullable
 as Set<Purpose>,talentSectionKeys: null == talentSectionKeys ? _self.talentSectionKeys : talentSectionKeys // ignore: cast_nullable_to_non_nullable
-as Map<Purpose, GlobalKey>,equippedWeaponId: freezed == equippedWeaponId ? _self.equippedWeaponId : equippedWeaponId // ignore: cast_nullable_to_non_nullable
+as Map<Purpose, GlobalKey<State<StatefulWidget>>>,equippedWeaponId: freezed == equippedWeaponId ? _self.equippedWeaponId : equippedWeaponId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -80,7 +81,7 @@ as String?,
 
 
 class __CharacterDetailsPageState implements _CharacterDetailsPageState {
-  const __CharacterDetailsPageState({required final  Map<Purpose, LevelRangeValues> rangeValues, required final  Set<Purpose> hiddenTalents, required final  Map<Purpose, GlobalKey> talentSectionKeys, required this.equippedWeaponId}): _rangeValues = rangeValues,_hiddenTalents = hiddenTalents,_talentSectionKeys = talentSectionKeys;
+  const __CharacterDetailsPageState({required  Map<Purpose, LevelRangeValues> rangeValues, required  Set<Purpose> hiddenTalents, required  Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys, required this.equippedWeaponId}): _rangeValues = rangeValues,_hiddenTalents = hiddenTalents,_talentSectionKeys = talentSectionKeys;
   
 
  final  Map<Purpose, LevelRangeValues> _rangeValues;
@@ -97,8 +98,8 @@ class __CharacterDetailsPageState implements _CharacterDetailsPageState {
   return EqualUnmodifiableSetView(_hiddenTalents);
 }
 
- final  Map<Purpose, GlobalKey> _talentSectionKeys;
-@override Map<Purpose, GlobalKey> get talentSectionKeys {
+ final  Map<Purpose, GlobalKey<State<StatefulWidget>>> _talentSectionKeys;
+@override Map<Purpose, GlobalKey<State<StatefulWidget>>> get talentSectionKeys {
   if (_talentSectionKeys is EqualUnmodifiableMapView) return _talentSectionKeys;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableMapView(_talentSectionKeys);
@@ -136,7 +137,7 @@ abstract mixin class _$_CharacterDetailsPageStateCopyWith<$Res> implements _$Cha
   factory _$_CharacterDetailsPageStateCopyWith(__CharacterDetailsPageState value, $Res Function(__CharacterDetailsPageState) _then) = __$_CharacterDetailsPageStateCopyWithImpl;
 @override @useResult
 $Res call({
- Map<Purpose, LevelRangeValues> rangeValues, Set<Purpose> hiddenTalents, Map<Purpose, GlobalKey> talentSectionKeys, String? equippedWeaponId
+ Map<Purpose, LevelRangeValues> rangeValues, Set<Purpose> hiddenTalents, Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys, String? equippedWeaponId
 });
 
 
@@ -158,7 +159,7 @@ class __$_CharacterDetailsPageStateCopyWithImpl<$Res>
 rangeValues: null == rangeValues ? _self._rangeValues : rangeValues // ignore: cast_nullable_to_non_nullable
 as Map<Purpose, LevelRangeValues>,hiddenTalents: null == hiddenTalents ? _self._hiddenTalents : hiddenTalents // ignore: cast_nullable_to_non_nullable
 as Set<Purpose>,talentSectionKeys: null == talentSectionKeys ? _self._talentSectionKeys : talentSectionKeys // ignore: cast_nullable_to_non_nullable
-as Map<Purpose, GlobalKey>,equippedWeaponId: freezed == equippedWeaponId ? _self.equippedWeaponId : equippedWeaponId // ignore: cast_nullable_to_non_nullable
+as Map<Purpose, GlobalKey<State<StatefulWidget>>>,equippedWeaponId: freezed == equippedWeaponId ? _self.equippedWeaponId : equippedWeaponId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

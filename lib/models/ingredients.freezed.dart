@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'ingredients.dart';
@@ -9,6 +9,7 @@ part of 'ingredients.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -141,7 +142,7 @@ String toString() {
 @JsonSerializable()
 
 class IngredientByType implements Ingredient {
-  const IngredientByType({required this.type, required this.quantity, this.craftLevel, final  Map<String, MaterialId?>? targetSpecific, final  String? $type}): _targetSpecific = targetSpecific,$type = $type ?? 'byType';
+  const IngredientByType({required this.type, required this.quantity, this.craftLevel,  Map<String, MaterialId?>? targetSpecific,  String? $type}): _targetSpecific = targetSpecific,$type = $type ?? 'byType';
   factory IngredientByType.fromJson(Map<String, dynamic> json) => _$IngredientByTypeFromJson(json);
 
  final  String type;
@@ -191,7 +192,7 @@ String toString() {
 @JsonSerializable()
 
 class IngredientExp implements Ingredient {
-  const IngredientExp({required this.exp, final  String? $type}): $type = $type ?? 'exp';
+  const IngredientExp({required this.exp,  String? $type}): $type = $type ?? 'exp';
   factory IngredientExp.fromJson(Map<String, dynamic> json) => _$IngredientExpFromJson(json);
 
  final  int exp;
@@ -230,7 +231,7 @@ String toString() {
 @JsonSerializable()
 
 class IngredientWithFixedId implements Ingredient {
-  const IngredientWithFixedId({required this.itemId, required this.quantity, final  String? $type}): $type = $type ?? 'fixed';
+  const IngredientWithFixedId({required this.itemId, required this.quantity,  String? $type}): $type = $type ?? 'fixed';
   factory IngredientWithFixedId.fromJson(Map<String, dynamic> json) => _$IngredientWithFixedIdFromJson(json);
 
  final  String itemId;
@@ -299,7 +300,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _SliderEntry implements SliderEntry {
-  const _SliderEntry({required this.title, required final  List<Purpose> purposes, this.preferredTargetType}): _purposes = purposes;
+  const _SliderEntry({required this.title, required  List<Purpose> purposes, this.preferredTargetType}): _purposes = purposes;
   factory _SliderEntry.fromJson(Map<String, dynamic> json) => _$SliderEntryFromJson(json);
 
 @override final  LocalizedText title;
@@ -370,7 +371,7 @@ String toString() {
 @JsonSerializable()
 
 class _IngredientLevels implements IngredientLevels {
-  const _IngredientLevels({required final  List<int> sliderTicks, required final  Map<int, List<Ingredient>> levels}): _sliderTicks = sliderTicks,_levels = levels;
+  const _IngredientLevels({required  List<int> sliderTicks, required  Map<int, List<Ingredient>> levels}): _sliderTicks = sliderTicks,_levels = levels;
   factory _IngredientLevels.fromJson(Map<String, dynamic> json) => _$IngredientLevelsFromJson(json);
 
  final  List<int> _sliderTicks;
@@ -449,7 +450,7 @@ String toString() {
 @JsonSerializable()
 
 class _IngredientPurposes implements IngredientPurposes {
-  const _IngredientPurposes({required final  Map<Purpose, String> purposes}): _purposes = purposes;
+  const _IngredientPurposes({required  Map<Purpose, String> purposes}): _purposes = purposes;
   factory _IngredientPurposes.fromJson(Map<String, dynamic> json) => _$IngredientPurposesFromJson(json);
 
  final  Map<Purpose, String> _purposes;
@@ -519,7 +520,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _IngredientConfigurations extends IngredientConfigurations {
-  const _IngredientConfigurations({required final  List<ExpItem> expItems, required final  Map<int, IngredientPurposes> rarities, required final  List<SliderEntry> sliders, required final  Map<String, IngredientLevels> ingredientTables}): _expItems = expItems,_rarities = rarities,_sliders = sliders,_ingredientTables = ingredientTables,super._();
+  const _IngredientConfigurations({required  List<ExpItem> expItems, required  Map<int, IngredientPurposes> rarities, required  List<SliderEntry> sliders, required  Map<String, IngredientLevels> ingredientTables}): _expItems = expItems,_rarities = rarities,_sliders = sliders,_ingredientTables = ingredientTables,super._();
   factory _IngredientConfigurations.fromJson(Map<String, dynamic> json) => _$IngredientConfigurationsFromJson(json);
 
  final  List<ExpItem> _expItems;

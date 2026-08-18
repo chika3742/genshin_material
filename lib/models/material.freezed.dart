@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'material.dart';
@@ -9,6 +9,7 @@ part of 'material.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -44,7 +45,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _Material extends Material {
-  const _Material({required this.id, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.rarity, required this.category, this.groupId, this.craftLevel, final  List<DayOfWeek>? availableDays, this.source}): _availableDays = availableDays,super._();
+  const _Material({required this.id, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.rarity, required this.category, this.groupId, this.craftLevel,  List<DayOfWeek>? availableDays, this.source}): _availableDays = availableDays,super._();
   factory _Material.fromJson(Map<String, dynamic> json) => _$MaterialFromJson(json);
 
 @override final  String id;
@@ -150,7 +151,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class TeyvatMapItemSource implements ItemSource {
-  const TeyvatMapItemSource({required this.typeId, this.center, final  String? $type}): $type = $type ?? 'teyvatMap';
+  const TeyvatMapItemSource({required this.typeId, this.center,  String? $type}): $type = $type ?? 'teyvatMap';
   factory TeyvatMapItemSource.fromJson(Map<String, dynamic> json) => _$TeyvatMapItemSourceFromJson(json);
 
  final  String typeId;
@@ -187,7 +188,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class TextItemSource implements ItemSource {
-  const TextItemSource({required this.text, final  String? $type}): $type = $type ?? 'text';
+  const TextItemSource({required this.text,  String? $type}): $type = $type ?? 'text';
   factory TextItemSource.fromJson(Map<String, dynamic> json) => _$TextItemSourceFromJson(json);
 
  final  LocalizedText text;
@@ -223,7 +224,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class SourceListItemSource implements ItemSource {
-  const SourceListItemSource({required final  List<LocalizedText> list, final  String? $type}): _list = list,$type = $type ?? 'sourceList';
+  const SourceListItemSource({required  List<LocalizedText> list,  String? $type}): _list = list,$type = $type ?? 'sourceList';
   factory SourceListItemSource.fromJson(Map<String, dynamic> json) => _$SourceListItemSourceFromJson(json);
 
  final  List<LocalizedText> _list;
@@ -294,7 +295,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _MaterialsMeta implements MaterialsMeta {
-  const _MaterialsMeta({required final  Map<MaterialCategoryType, LocalizedText> categories, required final  Map<String, int> sortOrder, required this.daily, required final  Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials}): _categories = categories,_sortOrder = sortOrder,_specialCharactersUsingMaterials = specialCharactersUsingMaterials;
+  const _MaterialsMeta({required  Map<MaterialCategoryType, LocalizedText> categories, required  Map<String, int> sortOrder, required this.daily, required  Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials}): _categories = categories,_sortOrder = sortOrder,_specialCharactersUsingMaterials = specialCharactersUsingMaterials;
   factory _MaterialsMeta.fromJson(Map<String, dynamic> json) => _$MaterialsMetaFromJson(json);
 
  final  Map<MaterialCategoryType, LocalizedText> _categories;
@@ -376,7 +377,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _DailyMaterials implements DailyMaterials {
-  const _DailyMaterials({required final  Map<String, List<DailyMaterial>> talent, required final  Map<String, List<DailyMaterial>> weapon}): _talent = talent,_weapon = weapon;
+  const _DailyMaterials({required  Map<String, List<DailyMaterial>> talent, required  Map<String, List<DailyMaterial>> weapon}): _talent = talent,_weapon = weapon;
   factory _DailyMaterials.fromJson(Map<String, dynamic> json) => _$DailyMaterialsFromJson(json);
 
  final  Map<String, List<DailyMaterial>> _talent;
@@ -450,7 +451,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _DailyMaterial implements DailyMaterial {
-  const _DailyMaterial({required this.description, required final  List<String> items}): _items = items;
+  const _DailyMaterial({required this.description, required  List<String> items}): _items = items;
   factory _DailyMaterial.fromJson(Map<String, dynamic> json) => _$DailyMaterialFromJson(json);
 
 @override final  LocalizedText description;

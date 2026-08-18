@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'drop_rates.dart';
@@ -9,6 +9,7 @@ part of 'drop_rates.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -44,7 +45,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _DropRateEntry extends DropRateEntry {
-  const _DropRateEntry({required this.description, this.note, required this.target, required final  List<DropRate> originalRate, required this.condensedAvailable}): _originalRate = originalRate,super._();
+  const _DropRateEntry({required this.description, this.note, required this.target, required  List<DropRate> originalRate, required this.condensedAvailable}): _originalRate = originalRate,super._();
   factory _DropRateEntry.fromJson(Map<String, dynamic> json) => _$DropRateEntryFromJson(json);
 
 @override final  LocalizedText description;
@@ -117,7 +118,7 @@ String toString() {
 @JsonSerializable()
 
 class _DropRateTarget implements DropRateTarget {
-  const _DropRateTarget({this.category, this.rarity, final  List<String>? ids}): _ids = ids;
+  const _DropRateTarget({this.category, this.rarity,  List<String>? ids}): _ids = ids;
   factory _DropRateTarget.fromJson(Map<String, dynamic> json) => _$DropRateTargetFromJson(json);
 
 @override final  String? category;
