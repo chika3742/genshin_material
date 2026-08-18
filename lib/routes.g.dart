@@ -15,6 +15,7 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
       routes: [
         GoRouteData.$route(
           path: '/bookmarks',
+          hasOverriddenOnExit: false,
           factory: $BookmarksNavRoute._fromState,
         ),
       ],
@@ -23,68 +24,82 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
       routes: [
         GoRouteData.$route(
           path: '/database',
+          hasOverriddenOnExit: false,
           factory: $DatabaseNavRoute._fromState,
           routes: [
             GoRouteData.$route(
               path: 'characters',
+              hasOverriddenOnExit: false,
               factory: $CharacterListRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: ':id',
+                  hasOverriddenOnExit: false,
                   factory: $CharacterDetailsRoute._fromState,
                 ),
               ],
             ),
             GoRouteData.$route(
               path: 'weapons',
+              hasOverriddenOnExit: false,
               factory: $WeaponListRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: ':id',
+                  hasOverriddenOnExit: false,
                   factory: $WeaponDetailsRoute._fromState,
                 ),
               ],
             ),
             GoRouteData.$route(
               path: 'materials',
+              hasOverriddenOnExit: false,
               factory: $MaterialListRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: ':id',
+                  hasOverriddenOnExit: false,
                   factory: $MaterialDetailsRoute._fromState,
                 ),
               ],
             ),
             GoRouteData.$route(
               path: 'artifacts',
+              hasOverriddenOnExit: false,
               factory: $ArtifactListRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'effects',
+                  hasOverriddenOnExit: false,
                   factory: $ArtifactEffectListRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: ':id',
+                  hasOverriddenOnExit: false,
                   factory: $ArtifactDetailsRoute._fromState,
                 ),
               ],
             ),
             GoRouteData.$route(
               path: 'furnishing-sets',
+              hasOverriddenOnExit: false,
               factory: $FurnishingSetListRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'furnishings',
+                  hasOverriddenOnExit: false,
                   factory: $FurnishingListRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: ':id',
+                      hasOverriddenOnExit: false,
                       factory: $FurnishingDetailsRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: ':id',
+                  hasOverriddenOnExit: false,
                   factory: $FurnishingSetDetailsRoute._fromState,
                 ),
               ],
@@ -95,17 +110,23 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
     ),
     StatefulShellBranchData.$branch(
       routes: [
-        GoRouteData.$route(path: '/daily', factory: $DailyNavRoute._fromState),
+        GoRouteData.$route(
+          path: '/daily',
+          hasOverriddenOnExit: false,
+          factory: $DailyNavRoute._fromState,
+        ),
       ],
     ),
     StatefulShellBranchData.$branch(
       routes: [
         GoRouteData.$route(
           path: '/tools',
+          hasOverriddenOnExit: false,
           factory: $ToolsNavRoute._fromState,
           routes: [
             GoRouteData.$route(
               path: 'resin-calc',
+              hasOverriddenOnExit: false,
               factory: $ResinCalcRoute._fromState,
             ),
           ],
@@ -116,15 +137,18 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
       routes: [
         GoRouteData.$route(
           path: '/more',
+          hasOverriddenOnExit: false,
           factory: $MoreNavRoute._fromState,
           routes: [
             GoRouteData.$route(
               path: 'settings',
+              hasOverriddenOnExit: false,
               parentNavigatorKey: SettingsRoute.$parentNavigatorKey,
               factory: $SettingsRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'farm-count',
+                  hasOverriddenOnExit: false,
                   parentNavigatorKey:
                       FarmCountSettingsRoute.$parentNavigatorKey,
                   factory: $FarmCountSettingsRoute._fromState,
@@ -133,22 +157,26 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
             ),
             GoRouteData.$route(
               path: 'account',
+              hasOverriddenOnExit: false,
               parentNavigatorKey: AccountRoute.$parentNavigatorKey,
               factory: $AccountRoute._fromState,
             ),
             GoRouteData.$route(
               path: 'release-notes',
+              hasOverriddenOnExit: false,
               parentNavigatorKey: ReleaseNotesRoute.$parentNavigatorKey,
               factory: $ReleaseNotesRoute._fromState,
             ),
             GoRouteData.$route(
               path: 'hoyolab-integration',
+              hasOverriddenOnExit: false,
               parentNavigatorKey:
                   HoyolabIntegrationSettingsRoute.$parentNavigatorKey,
               factory: $HoyolabIntegrationSettingsRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'sign-in',
+                  hasOverriddenOnExit: false,
                   parentNavigatorKey: HoyolabSignInRoute.$parentNavigatorKey,
                   factory: $HoyolabSignInRoute._fromState,
                 ),
@@ -156,23 +184,28 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
             ),
             GoRouteData.$route(
               path: 'licenses',
+              hasOverriddenOnExit: false,
               parentNavigatorKey: LicensesRoute.$parentNavigatorKey,
               factory: $LicensesRoute._fromState,
             ),
             GoRouteData.$route(
               path: 'debug',
+              hasOverriddenOnExit: false,
               factory: $DebugMenuRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'sp-editor',
+                  hasOverriddenOnExit: false,
                   factory: $DebugSharedPreferencesEditorRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'drift-db-viewer',
+                  hasOverriddenOnExit: false,
                   factory: $DebugDriftDbViewerRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'component-gallery',
+                  hasOverriddenOnExit: false,
                   factory: $DebugComponentGalleryRoute._fromState,
                 ),
               ],

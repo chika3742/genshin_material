@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'asset_cache.dart';
@@ -9,6 +9,7 @@ part of 'asset_cache.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -43,7 +44,7 @@ String toString() {
 
 
 class _AssetData implements AssetData {
-  const _AssetData({required this.assetDir, required this.version, required final  Map<CharacterId, Character> characters, required this.characterIngredients, required final  Map<WeaponId, Weapon> weapons, required this.weaponIngredients, required final  Map<WeaponSubStat, LocalizedText> weaponSubStats, required final  Map<WeaponType, WeaponTypeInfo> weaponTypes, required final  Map<TeyvatElement, Element> elements, required final  Map<MaterialId, Material> materials, required final  Map<MaterialCategoryType, LocalizedText> materialCategories, required final  Map<String, int> materialSortOrder, required this.dailyMaterials, required final  Map<ArtifactSetId, ArtifactSet> artifactSets, required final  Map<ArtifactPieceTypeId, ArtifactPieceType> artifactPieceTypes, required final  Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials, required final  Map<StatId, LocalizedText> stats, required final  List<StatId> artifactPossibleSubStats, required final  Map<ArtifactPieceId, ArtifactPiece> artifactPieces, required final  List<ArtifactTagCategory> artifactTags, required final  Map<FurnishingSetId, FurnishingSet> furnishingSets, required final  Map<FurnishingId, Furnishing> furnishings, required final  Map<FurnishingSetTypeId, LocalizedText> furnishingSetTypes, required final  List<DropRateEntry> dropRates}): _characters = characters,_weapons = weapons,_weaponSubStats = weaponSubStats,_weaponTypes = weaponTypes,_elements = elements,_materials = materials,_materialCategories = materialCategories,_materialSortOrder = materialSortOrder,_artifactSets = artifactSets,_artifactPieceTypes = artifactPieceTypes,_specialCharactersUsingMaterials = specialCharactersUsingMaterials,_stats = stats,_artifactPossibleSubStats = artifactPossibleSubStats,_artifactPieces = artifactPieces,_artifactTags = artifactTags,_furnishingSets = furnishingSets,_furnishings = furnishings,_furnishingSetTypes = furnishingSetTypes,_dropRates = dropRates;
+  const _AssetData({required this.assetDir, required this.version, required  Map<CharacterId, Character> characters, required this.characterIngredients, required  Map<WeaponId, Weapon> weapons, required this.weaponIngredients, required  Map<WeaponSubStat, LocalizedText> weaponSubStats, required  Map<WeaponType, WeaponTypeInfo> weaponTypes, required  Map<TeyvatElement, Element> elements, required  Map<MaterialId, Material> materials, required  Map<MaterialCategoryType, LocalizedText> materialCategories, required  Map<String, int> materialSortOrder, required this.dailyMaterials, required  Map<ArtifactSetId, ArtifactSet> artifactSets, required  Map<ArtifactPieceTypeId, ArtifactPieceType> artifactPieceTypes, required  Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials, required  Map<StatId, LocalizedText> stats, required  List<StatId> artifactPossibleSubStats, required  Map<ArtifactPieceId, ArtifactPiece> artifactPieces, required  List<ArtifactTagCategory> artifactTags, required  Map<FurnishingSetId, FurnishingSet> furnishingSets, required  Map<FurnishingId, Furnishing> furnishings, required  Map<FurnishingSetTypeId, LocalizedText> furnishingSetTypes, required  List<DropRateEntry> dropRates}): _characters = characters,_weapons = weapons,_weaponSubStats = weaponSubStats,_weaponTypes = weaponTypes,_elements = elements,_materials = materials,_materialCategories = materialCategories,_materialSortOrder = materialSortOrder,_artifactSets = artifactSets,_artifactPieceTypes = artifactPieceTypes,_specialCharactersUsingMaterials = specialCharactersUsingMaterials,_stats = stats,_artifactPossibleSubStats = artifactPossibleSubStats,_artifactPieces = artifactPieces,_artifactTags = artifactTags,_furnishingSets = furnishingSets,_furnishings = furnishings,_furnishingSetTypes = furnishingSetTypes,_dropRates = dropRates;
   
 
 @override final  String assetDir;

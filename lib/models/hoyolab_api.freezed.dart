@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'hoyolab_api.dart';
@@ -9,6 +9,7 @@ part of 'hoyolab_api.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -114,7 +115,7 @@ String toString() {
 @JsonSerializable(genericArgumentFactories: true)
 
 class _HoyolabListData<T> implements HoyolabListData<T> {
-  const _HoyolabListData({required final  List<T> list}): _list = list;
+  const _HoyolabListData({required  List<T> list}): _list = list;
   factory _HoyolabListData.fromJson(Map<String, dynamic> json,T Function(Object?) fromJsonT) => _$HoyolabListDataFromJson(json,fromJsonT);
 
  final  List<T> _list;
@@ -387,7 +388,7 @@ String toString() {
 @JsonSerializable()
 
 class _AvatarListResultItem extends AvatarListResultItem {
-  const _AvatarListResultItem({required this.id, required this.name, @JsonKey(name: "level_current") required this.currentLevel, @JsonKey(name: "max_level") required this.maxLevel, @JsonKey(name: "skill_list") required final  List<AvatarSkill> skills, this.weapon}): _skills = skills,super._();
+  const _AvatarListResultItem({required this.id, required this.name, @JsonKey(name: "level_current") required this.currentLevel, @JsonKey(name: "max_level") required this.maxLevel, @JsonKey(name: "skill_list") required  List<AvatarSkill> skills, this.weapon}): _skills = skills,super._();
   factory _AvatarListResultItem.fromJson(Map<String, dynamic> json) => _$AvatarListResultItemFromJson(json);
 
 @override final  int id;
@@ -598,7 +599,7 @@ String toString() {
 @JsonSerializable()
 
 class _GameRecordCard implements GameRecordCard {
-  const _GameRecordCard({@JsonKey(name: "game_id", unknownEnumValue: GameType.starrail) required this.gameType, @JsonKey(name: "data_switches") required final  List<DataSwitchMetadata> dataSwitches}): _dataSwitches = dataSwitches;
+  const _GameRecordCard({@JsonKey(name: "game_id", unknownEnumValue: GameType.starrail) required this.gameType, @JsonKey(name: "data_switches") required  List<DataSwitchMetadata> dataSwitches}): _dataSwitches = dataSwitches;
   factory _GameRecordCard.fromJson(Map<String, dynamic> json) => _$GameRecordCardFromJson(json);
 
 @override@JsonKey(name: "game_id", unknownEnumValue: GameType.starrail) final  GameType gameType;
@@ -825,7 +826,7 @@ class _$CalcComputeItemCopyWithImpl<$Res>
 /// Create a copy of CalcComputeItem
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? avatarId = freezed,Object? currentAvatarLevel = freezed,Object? elementAttrId = freezed,Object? targetAvatarLevel = freezed,Object? skills = freezed,Object? weapon = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(CalcComputeItem(
 avatarId: freezed == avatarId ? _self.avatarId : avatarId // ignore: cast_nullable_to_non_nullable
 as int?,currentAvatarLevel: freezed == currentAvatarLevel ? _self.currentAvatarLevel : currentAvatarLevel // ignore: cast_nullable_to_non_nullable
 as int?,elementAttrId: freezed == elementAttrId ? _self.elementAttrId : elementAttrId // ignore: cast_nullable_to_non_nullable
@@ -844,7 +845,7 @@ as CalcComputeWeapon?,
 @JsonSerializable(createFactory: false)
 
 class _CalcComputeItem implements CalcComputeItem {
-  const _CalcComputeItem({@JsonKey(name: "avatar_id") this.avatarId, @JsonKey(name: "avatar_level_current") this.currentAvatarLevel, @JsonKey(name: "element_attr_id") this.elementAttrId, @JsonKey(name: "avatar_level_target") this.targetAvatarLevel, @JsonKey(name: "skill_list") final  List<CalcComputeSkill>? skills, this.weapon}): _skills = skills;
+  const _CalcComputeItem({@JsonKey(name: "avatar_id") this.avatarId, @JsonKey(name: "avatar_level_current") this.currentAvatarLevel, @JsonKey(name: "element_attr_id") this.elementAttrId, @JsonKey(name: "avatar_level_target") this.targetAvatarLevel, @JsonKey(name: "skill_list")  List<CalcComputeSkill>? skills, this.weapon}): _skills = skills;
   
 
 @override@JsonKey(name: "avatar_id") final  int? avatarId;
@@ -1173,7 +1174,7 @@ String toString() {
 @JsonSerializable()
 
 class _CalcResult implements CalcResult {
-  const _CalcResult({@JsonKey(name: "overall_consume") required final  List<CalcConsumptionItem> overallConsume}): _overallConsume = overallConsume;
+  const _CalcResult({@JsonKey(name: "overall_consume") required  List<CalcConsumptionItem> overallConsume}): _overallConsume = overallConsume;
   factory _CalcResult.fromJson(Map<String, dynamic> json) => _$CalcResultFromJson(json);
 
  final  List<CalcConsumptionItem> _overallConsume;

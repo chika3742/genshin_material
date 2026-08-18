@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'weapon.dart';
@@ -9,6 +9,7 @@ part of 'weapon.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -44,7 +45,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _Weapon extends Weapon {
-  const _Weapon({required this.id, this.disableSync = false, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.rarity, required this.subStat, required this.weaponAffixDesc, required this.type, final  Map<MaterialUsageType, String>? materials, this.levelingDescription, this.source}): _materials = materials,super._();
+  const _Weapon({required this.id, this.disableSync = false, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.rarity, required this.subStat, required this.weaponAffixDesc, required this.type,  Map<MaterialUsageType, String>? materials, this.levelingDescription, this.source}): _materials = materials,super._();
   factory _Weapon.fromJson(Map<String, dynamic> json) => _$WeaponFromJson(json);
 
 @override final  String id;
@@ -125,7 +126,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _WeaponsMeta implements WeaponsMeta {
-  const _WeaponsMeta({required final  Map<WeaponSubStat, LocalizedText> subStats, required final  Map<WeaponType, WeaponTypeInfo> types}): _subStats = subStats,_types = types;
+  const _WeaponsMeta({required  Map<WeaponSubStat, LocalizedText> subStats, required  Map<WeaponType, WeaponTypeInfo> types}): _subStats = subStats,_types = types;
   factory _WeaponsMeta.fromJson(Map<String, dynamic> json) => _$WeaponsMetaFromJson(json);
 
  final  Map<WeaponSubStat, LocalizedText> _subStats;

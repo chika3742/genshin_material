@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'artifact_bookmark_list_view_model.dart';
@@ -9,6 +9,7 @@ part of 'artifact_bookmark_list_view_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -43,7 +44,7 @@ String toString() {
 
 
 class ArtifactSetBookmarkItemState implements ArtifactBookmarkItemState {
-  const ArtifactSetBookmarkItemState({required this.id, required this.characterId, required this.orderIndex, required final  List<String> sets, required final  Map<String, String?> mainStats, required final  List<String> subStats}): _sets = sets,_mainStats = mainStats,_subStats = subStats;
+  const ArtifactSetBookmarkItemState({required this.id, required this.characterId, required this.orderIndex, required  List<String> sets, required  Map<String, String?> mainStats, required  List<String> subStats}): _sets = sets,_mainStats = mainStats,_subStats = subStats;
   
 
 @override final  int id;
@@ -98,7 +99,7 @@ String toString() {
 
 
 class ArtifactPieceBookmarkItemState implements ArtifactBookmarkItemState {
-  const ArtifactPieceBookmarkItemState({required this.id, required this.characterId, required this.orderIndex, required this.piece, required this.mainStat, required final  List<String> subStats}): _subStats = subStats;
+  const ArtifactPieceBookmarkItemState({required this.id, required this.characterId, required this.orderIndex, required this.piece, required this.mainStat, required  List<String> subStats}): _subStats = subStats;
   
 
 @override final  int id;

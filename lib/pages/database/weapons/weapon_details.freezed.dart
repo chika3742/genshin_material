@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'weapon_details.dart';
@@ -9,6 +9,7 @@ part of 'weapon_details.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -63,7 +64,7 @@ class __$WeaponDetailsPageStateCopyWithImpl<$Res>
 /// Create a copy of _WeaponDetailsPageState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? rangeValues = null,Object? selectedCharacterId = null,}) {
-  return _then(_self.copyWith(
+  return _then(_WeaponDetailsPageState(
 rangeValues: null == rangeValues ? _self.rangeValues : rangeValues // ignore: cast_nullable_to_non_nullable
 as Map<Purpose, LevelRangeValues>,selectedCharacterId: null == selectedCharacterId ? _self.selectedCharacterId : selectedCharacterId // ignore: cast_nullable_to_non_nullable
 as CharacterId,
@@ -78,7 +79,7 @@ as CharacterId,
 
 
 class __WeaponDetailsPageState extends _WeaponDetailsPageState {
-  const __WeaponDetailsPageState({required final  Map<Purpose, LevelRangeValues> rangeValues, required this.selectedCharacterId}): _rangeValues = rangeValues,super._();
+  const __WeaponDetailsPageState({required  Map<Purpose, LevelRangeValues> rangeValues, required this.selectedCharacterId}): _rangeValues = rangeValues,super._();
   
 
  final  Map<Purpose, LevelRangeValues> _rangeValues;
