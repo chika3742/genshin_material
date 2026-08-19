@@ -1,12 +1,13 @@
+import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/data/repositories/remote_config_repository.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
-import "banner_mocks.mocks.dart";
+import "stub_remote_config.mocks.dart";
 
 @GenerateMocks([RemoteConfigRepository])
-void stubBannerRemoteConfig(MockRemoteConfigRepository mock, {
+void stubRemoteConfig(MockRemoteConfigRepository mock, {
   bool bannerShown = false,
   String bannerKey = "",
   String bannerText = "",
@@ -18,4 +19,5 @@ void stubBannerRemoteConfig(MockRemoteConfigRepository mock, {
   when(mock.get<String>(RemoteConfigKeys.bannerText)).thenReturn(bannerText);
   when(mock.get<String>(RemoteConfigKeys.bannerActionText)).thenReturn(bannerActionText);
   when(mock.get<String>(RemoteConfigKeys.bannerActionUrl)).thenReturn(bannerActionUrl);
+  when(mock.listenConfigUpdate()).thenReturn(Stream<RemoteConfigUpdate>.empty().listen(null));
 }
