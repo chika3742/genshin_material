@@ -1,5 +1,5 @@
 import "package:drift/native.dart";
-import "package:flutter/material.dart";
+import "package:material_ui/material_ui.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/bookmarks_page/furnishing_sets_tab.dart";
 import "package:genshin_material/components/furnishing_table.dart";
