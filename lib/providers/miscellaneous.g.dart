@@ -95,3 +95,44 @@ final class OwnedCharactersProvider
 }
 
 String _$ownedCharactersHash() => r'e9693b8c8121bbb44d5d37a35bb2576025b61e6b';
+
+@ProviderFor(shouldHideImages)
+final shouldHideImagesProvider = ShouldHideImagesProvider._();
+
+final class ShouldHideImagesProvider
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  ShouldHideImagesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'shouldHideImagesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$shouldHideImagesHash();
+
+  @$internal
+  @override
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    return shouldHideImages(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$shouldHideImagesHash() => r'1e201552690f74cdab9e9b24ed1c3bc4ffe5466e';

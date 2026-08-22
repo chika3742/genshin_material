@@ -6,8 +6,8 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../i18n/strings.g.dart";
 import "../../models/bookmark.dart";
-import "../../models/character.dart";
 import "../../models/common.dart";
+import "../../providers/asset_image_resolver.dart";
 import "../../providers/versions.dart";
 import "../../routes.dart";
 import "../item_link_button.dart";
@@ -20,6 +20,7 @@ class BookmarkPurposeHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetData = ref.watch(assetDataProvider).value!;
+    final images = ref.watch(assetImageResolverProvider);
 
     return Row(
       children: [
@@ -27,7 +28,7 @@ class BookmarkPurposeHeader extends ConsumerWidget {
           onTap: () {
             CharacterDetailsRoute(id: group.characterId).push(context);
           },
-          child: Image.file(assetData.characters[group.characterId]!.getSmallImageFile(assetData.assetDir), width: 35, height: 35),
+          child: Image.file(images.getSmallFile(assetData.characters[group.characterId]!), width: 35, height: 35),
         ),
         const Spacer(),
         _GroupTypeText(group),
@@ -65,6 +66,7 @@ class _GroupTypeText extends HookConsumerWidget {
     assert(assetDataAsync.value != null, "Must be used in a DataAssetScope");
 
     final assetData = assetDataAsync.value!;
+    final images = ref.watch(assetImageResolverProvider);
 
     final first = group.bookmarks.first as BookmarkWithMaterialDetails;
     if (first.group.weaponId == null) {
@@ -85,7 +87,7 @@ class _GroupTypeText extends HookConsumerWidget {
         child: Row(
           children: [
             _buildText(tr.bookmarksPage.weapon),
-            Image.file(weapon.getImageFile(assetData.assetDir), width: 35, height: 35),
+            Image.file(images.getFile(weapon), width: 35, height: 35),
           ],
         ),
       );

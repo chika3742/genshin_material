@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "../../../components/artifact_bookmark_dialog.dart";
 import "../../../components/center_text.dart";
@@ -8,9 +9,10 @@ import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
+import "../../../providers/asset_image_resolver.dart";
 import "../../../ui_core/layout.dart";
 
-class ArtifactDetailsPage extends StatelessWidget {
+class ArtifactDetailsPage extends ConsumerWidget {
   final AssetData assetData;
   final String id;
   final CharacterId? initialSelectedCharacter;
@@ -23,7 +25,8 @@ class ArtifactDetailsPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final images = ref.watch(assetImageResolverProvider);
     final artifactSet = assetData.artifactSets[id];
     if (artifactSet == null) {
       return Scaffold(
@@ -47,8 +50,7 @@ class ArtifactDetailsPage extends StatelessWidget {
               children: [
                 GameItemInfoBox(
                   itemImage: Image.file(
-                    artifactSet.getFirstPiece(assetData)
-                        .getImageFile(assetData.assetDir),
+                    images.getFile(artifactSet.getFirstPiece(assetData)),
                     width: 50,
                     height: 50,
                   ),
@@ -130,7 +132,7 @@ class ArtifactDetailsPage extends StatelessWidget {
                         height: 56,
                         child: ListTile(
                           leading: Image.file(
-                            piece.getImageFile(assetData.assetDir),
+                            images.getFile(piece),
                             width: 32,
                             height: 32,
                           ),

@@ -11,6 +11,7 @@ import "../i18n/strings.g.dart";
 import "../models/bookmark.dart";
 import "../models/common.dart";
 import "../models/material_bookmark_frame.dart";
+import "../providers/asset_image_resolver.dart";
 import "../providers/database_provider.dart";
 import "../providers/pref_notifier.dart";
 import "../providers/versions.dart";
@@ -185,6 +186,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
     if (assetData == null) {
       return const SizedBox();
     }
+    final images = ref.watch(assetImageResolverProvider);
 
     final expConf = targetType.getExpItemConf(assetData)[expItemIndex];
     final itemId = materialId ?? expConf.itemId;
@@ -208,7 +210,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
               children: [
                 const Icon(Icons.bookmark_added),
                 Image.file(
-                  assetData.materials[itemId]!.getImageFile(assetData.assetDir),
+                  images.getFile(assetData.materials[itemId]!),
                   width: 28,
                   height: 28,
                 ),
@@ -222,7 +224,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
 
                 const Icon(Symbols.sliders),
                 Image.file(
-                  assetData.materials[itemId]!.getImageFile(assetData.assetDir),
+                  images.getFile(assetData.materials[itemId]!),
                   width: 28,
                   height: 28,
                 ),

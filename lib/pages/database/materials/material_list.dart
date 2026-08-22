@@ -14,6 +14,7 @@ import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/material.dart" as models;
+import "../../../providers/asset_image_resolver.dart";
 import "../../../routes.dart";
 import "../../../ui_core/list_index_bottom_sheet.dart";
 import "../../../ui_core/tutorial.dart";
@@ -26,6 +27,7 @@ class MaterialListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final images = ref.watch(assetImageResolverProvider);
     final fabKey = useMemoized(GlobalKey.new);
 
     useEffect(() {
@@ -52,7 +54,7 @@ class MaterialListPage extends HookConsumerWidget {
             resultItemBuilder: (context, item) {
               return SearchResultListTile(
                 image: Image.file(
-                  item.getImageFile(assetData.assetDir),
+                  images.getFile(item),
                   width: searchResultImageSize,
                   height: searchResultImageSize,
                 ),
@@ -66,7 +68,7 @@ class MaterialListPage extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
         onPressed: () {
-          _showIndexSheet(context, PrimaryScrollController.of(context), materialsGroupedByCategory);
+          _showIndexSheet(context, PrimaryScrollController.of(context), materialsGroupedByCategory, images);
         },
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
@@ -85,7 +87,7 @@ class MaterialListPage extends HookConsumerWidget {
 
                   return GameItemListTile(
                     key: ValueKey(material.id),
-                    image: material.getImageFile(assetData.assetDir),
+                    image: images.getFile(material),
                     name: material.name.localized,
                     rarity: material.rarity,
                     onTap: () {
@@ -102,7 +104,12 @@ class MaterialListPage extends HookConsumerWidget {
     );
   }
 
-  Future<void> _showIndexSheet(BuildContext context, ScrollController scrollController, Map<MaterialCategoryType, List<models.Material>> materialsGroupedByCategory) async {
+  Future<void> _showIndexSheet(
+    BuildContext context,
+    ScrollController scrollController,
+    Map<MaterialCategoryType, List<models.Material>> materialsGroupedByCategory,
+    AssetImageResolver images,
+  ) async {
     await showListIndexBottomSheetWithScroll(
       context: context,
       items: assetData.materialCategories.entries.map((e) {
@@ -111,7 +118,7 @@ class MaterialListPage extends HookConsumerWidget {
 
         return ListIndexItem(
           title: e.value.localized,
-          image: entries!.first.getImageFile(assetData.assetDir),
+          image: images.getFile(entries!.first),
           value: categoryId,
           itemCount: entries.length,
         );

@@ -25,6 +25,7 @@ import "../../../models/character.dart";
 import "../../../models/common.dart";
 import "../../../models/ingredients.dart";
 import "../../../models/level_range_values.dart";
+import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/pref_notifier.dart";
@@ -105,6 +106,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final character = this.character; // for type guard
+    final images = ref.watch(assetImageResolverProvider);
 
     final state = useState(useMemoized(() => _CharacterDetailsPageState.init(
       ingredients: assetData.characterIngredients,
@@ -218,7 +220,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                   Expanded(
                     child: GameItemInfoBox(
                       itemImage: Image.file(
-                        variant.value.getSmallImageFile(assetData.assetDir),
+                        images.getSmallFile(variant.value),
                         width: 70,
                         height: 70,
                       ),
@@ -317,7 +319,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                     subtitle: Text(equippedWeapon?.name.localized ?? tr.characterDetailsPage.unknownWeapon),
                     leading: equippedWeapon != null
                         ? Image.file(
-                            equippedWeapon.getImageFile(assetData.assetDir),
+                            images.getFile(equippedWeapon),
                             width: 50,
                             height: 50,
                           )
@@ -389,7 +391,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                       return FullWidth(
                         child: SimpleListTile(
                           leading: Image.file(
-                            e.getImageFile(assetData.assetDir),
+                            images.getFile(e),
                             width: listTileFurnishingSetImageWidth,
                           ),
                           title: e.name.localized,

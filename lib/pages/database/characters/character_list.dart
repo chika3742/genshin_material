@@ -15,6 +15,7 @@ import "../../../constants/remote_config_key.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
+import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/filter_state.dart";
 import "../../../providers/hoyolab_credential.dart";
 import "../../../providers/miscellaneous.dart";
@@ -33,6 +34,7 @@ class CharacterListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filterState = ref.watch(characterFilterStateProvider);
+    final images = ref.watch(assetImageResolverProvider);
 
     var charactersIterable = assetData.characters.values
         .whereType<CharacterWithLargeImage>();
@@ -100,7 +102,7 @@ class CharacterListPage extends HookConsumerWidget {
             resultItemBuilder: (context, item) {
               return SearchResultListTile(
                 image: Image.file(
-                  item.getSmallImageFile(assetData.assetDir),
+                  images.getSmallFile(item),
                   width: searchResultImageSize,
                   height: searchResultImageSize,
                 ),

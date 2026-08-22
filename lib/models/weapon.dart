@@ -8,7 +8,7 @@ part "weapon.freezed.dart";
 part "weapon.g.dart";
 
 @Freezed(toJson: false)
-sealed class Weapon with _$Weapon, ImageGetter, CharacterOrWeapon, Searchable {
+sealed class Weapon with _$Weapon, HasImage, CharacterOrWeapon, Searchable {
   const Weapon._();
 
   const factory Weapon({

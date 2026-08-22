@@ -12,6 +12,7 @@ import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
+import "../../../providers/asset_image_resolver.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
 import "../../../utils/material_usage.dart";
@@ -26,6 +27,7 @@ class MaterialDetailsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // final bagCountInfoKey = useMemoized(() => GlobalKey());
 
+    final images = ref.watch(assetImageResolverProvider);
     final material = assetData.materials[id];
     if (material == null) {
       return Scaffold(
@@ -55,7 +57,7 @@ class MaterialDetailsPage extends HookConsumerWidget {
           children: [
             GameItemInfoBox(
               itemImage: Image.file(
-                material.getImageFile(assetData.assetDir),
+                images.getFile(material),
                 width: 50,
                 height: 50,
               ),
@@ -106,7 +108,7 @@ class MaterialDetailsPage extends HookConsumerWidget {
                             children: [
                               for (final weapon in weaponTypes.value)
                                 GameItemListTile(
-                                  image: weapon.getImageFile(assetData.assetDir),
+                                  image: images.getFile(weapon),
                                   name: weapon.name.localized,
                                   rarity: weapon.rarity,
                                   rounded: true,

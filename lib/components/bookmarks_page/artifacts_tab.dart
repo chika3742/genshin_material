@@ -3,7 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../../i18n/strings.g.dart";
-import "../../models/character.dart";
+import "../../providers/asset_image_resolver.dart";
 import "../../providers/versions.dart";
 import "../../routes.dart";
 import "../../ui_core/dialog.dart";
@@ -96,6 +96,7 @@ class _ArtifactSetDetails extends ConsumerWidget {
     assert(assetDataAsync.value != null, "Must be used in a DataAssetScope");
 
     final assetData = assetDataAsync.value!;
+    final images = ref.watch(assetImageResolverProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,9 +113,7 @@ class _ArtifactSetDetails extends ConsumerWidget {
                   child: Row(
                     children: [
                       Image.file(
-                        assetData.artifactSets[set]!
-                            .getFirstPiece(assetData)
-                            .getImageFile(assetData.assetDir),
+                        images.getFile(assetData.artifactSets[set]!.getFirstPiece(assetData)),
                         width: 35,
                         height: 35,
                       ),
@@ -171,6 +170,7 @@ class _ArtifactPieceDetails extends ConsumerWidget {
     assert(assetDataAsync.value != null, "Must be used in a DataAssetScope");
 
     final assetData = assetDataAsync.value!;
+    final images = ref.watch(assetImageResolverProvider);
 
     final piece = assetData.artifactPieces[bookmark.piece]!;
     final setId = piece.parentId;
@@ -185,7 +185,7 @@ class _ArtifactPieceDetails extends ConsumerWidget {
           },
           child: Row(
             children: [
-              Image.file(piece.getImageFile(assetData.assetDir), width: 35, height: 35),
+              Image.file(images.getFile(piece), width: 35, height: 35),
               const SizedBox(width: 8),
               Flexible(
                 child: Wrap(
@@ -231,6 +231,7 @@ class _Header extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetData = ref.watch(assetDataProvider).requireValue;
+    final images = ref.watch(assetImageResolverProvider);
     final typeText = switch (state) {
       ArtifactSetBookmarkItemState() => tr.bookmarksPage.artifactSet,
       ArtifactPieceBookmarkItemState() => tr.bookmarksPage.artifactPiece,
@@ -242,7 +243,7 @@ class _Header extends ConsumerWidget {
           onTap: () {
             CharacterDetailsRoute(id: state.characterId).push(context);
           },
-          child: Image.file(assetData.characters[state.characterId]!.getSmallImageFile(assetData.assetDir), width: 35, height: 35),
+          child: Image.file(images.getSmallFile(assetData.characters[state.characterId]!), width: 35, height: 35),
         ),
         const Spacer(),
         Padding(

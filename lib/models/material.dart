@@ -9,7 +9,7 @@ part "material.freezed.dart";
 part "material.g.dart";
 
 @Freezed(toJson: false)
-sealed class Material with _$Material, ImageGetter, Searchable {
+sealed class Material with _$Material, HasImage, Searchable {
   const Material._();
 
   const factory Material({

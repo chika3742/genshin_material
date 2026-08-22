@@ -13,6 +13,7 @@ import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/furnishing_set.dart";
+import "../../../providers/asset_image_resolver.dart";
 import "../../../routes.dart";
 import "../../../ui_core/list_index_bottom_sheet.dart";
 import "../../../ui_core/tutorial.dart";
@@ -27,6 +28,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final images = ref.watch(assetImageResolverProvider);
     final fabKey = useMemoized(GlobalKey.new);
 
     useEffect(() {
@@ -55,7 +57,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
             resultItemBuilder: (context, item) {
               return SearchResultListTile(
                 image: Image.file(
-                  item.getImageFile(assetData.assetDir),
+                  images.getFile(item),
                   width: searchResultImageSize,
                   height: searchResultImageSize,
                 ),
@@ -69,7 +71,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: fabKey,
         onPressed: () {
-          _showIndexSheet(context, PrimaryScrollController.of(context), furnishingSetsGrouped);
+          _showIndexSheet(context, PrimaryScrollController.of(context), furnishingSetsGrouped, images);
         },
         icon: const Icon(Symbols.list),
         label: Text(tr.common.index),
@@ -99,7 +101,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
                       child: SimpleListTile(
                         key: ValueKey(set.id),
                         leading: Image.file(
-                          set.getImageFile(assetData.assetDir),
+                          images.getFile(set),
                           width: listTileFurnishingSetImageWidth,
                         ),
                         title: set.name.localized,
@@ -121,6 +123,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
     BuildContext context,
     ScrollController scrollController,
     FurnishingSetsGrouped furnishingSetsGrouped,
+    AssetImageResolver images,
   ) async {
     await showListIndexBottomSheetWithScroll(
       context: context,
@@ -130,7 +133,7 @@ class FurnishingSetListPage extends HookConsumerWidget {
 
         return ListIndexItem(
           title: e.value.localized,
-          image: entries.first.getImageFile(assetData.assetDir),
+          image: images.getFile(entries.first),
           value: typeId,
           itemCount: entries.length,
         );

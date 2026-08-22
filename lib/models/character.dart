@@ -1,9 +1,6 @@
-import "dart:io";
 
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:path/path.dart" as path;
 
-import "../main.dart";
 import "common.dart";
 import "localized_text.dart";
 
@@ -14,16 +11,14 @@ typedef CharacterList = List<Character>;
 
 typedef Talents = Map<TalentType, CharacterTalent>;
 
-sealed class CharacterBase {
+sealed class CharacterBase implements HasSmallImage {
   const CharacterBase();
 
   LocalizedText get name;
   String get jaPronunciation;
-  String get smallImageUrl;
 }
 
-abstract class CharacterWithLargeImage extends CharacterBase with CharacterOrWeapon {
-  String get imageUrl;
+abstract class CharacterWithLargeImage extends CharacterBase with CharacterOrWeapon implements HasImage {
   List<int> get hyvIds;
   WeaponType get weaponType;
 }
@@ -33,16 +28,6 @@ abstract class CharacterOrVariant extends CharacterBase with CharacterOrWeapon {
   TeyvatElement get element;
   Talents get talents;
   bool get disableSync;
-}
-
-extension SmallImageExt on CharacterBase {
-  File getSmallImageFile(String localAssetPath) =>
-      File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, smallImageUrl));
-}
-
-extension LargeImageExt on CharacterWithLargeImage {
-  File getImageFile(String localAssetPath) =>
-      File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, imageUrl));
 }
 
 @Freezed(fallbackUnion: "default", toJson: false)

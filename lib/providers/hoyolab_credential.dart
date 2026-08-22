@@ -41,11 +41,14 @@ class HoyolabCredential extends _$HoyolabCredential {
 
   Future<void> clear() async {
     await HoyolabApi(cookie: await getHoyolabCookie()).logout();
-    await deleteHoyolabCookie();
-    await ref.read(prefProvider(PrefKeys.hyvServer).notifier).set(null);
-    await ref.read(prefProvider(PrefKeys.hyvServerName).notifier).set(null);
-    await ref.read(prefProvider(PrefKeys.hyvUserName).notifier).set(null);
-    await ref.read(prefProvider(PrefKeys.hyvUid).notifier).set(null);
+    await Future.wait([
+      deleteHoyolabCookie(),
+      ref.read(prefProvider(PrefKeys.hyvServer).notifier).set(null),
+      ref.read(prefProvider(PrefKeys.hyvServerName).notifier).set(null),
+      ref.read(prefProvider(PrefKeys.hyvUserName).notifier).set(null),
+      ref.read(prefProvider(PrefKeys.hyvUid).notifier).set(null),
+    ]);
+    await ref.read(isHoyolabSignedInProvider.notifier).refresh();
   }
 }
 
@@ -57,4 +60,19 @@ bool isLinkedWithHoyolab(Ref ref) {
       cred.hyvUserName != null &&
       cred.hyvUid != null &&
       FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled);
+}
+
+@riverpod
+bool isHoyolabSignedInInitial(Ref ref) {
+  return false; // Will be overridden on runtime.
+}
+
+@Riverpod(keepAlive: true)
+class IsHoyolabSignedIn extends _$IsHoyolabSignedIn {
+  @override
+  bool build() => ref.watch(isHoyolabSignedInInitialProvider);
+
+  Future<void> refresh() async {
+    state = await hasHoyolabCookie();
+  }
 }

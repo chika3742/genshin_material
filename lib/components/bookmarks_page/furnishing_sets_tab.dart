@@ -5,6 +5,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../constants/dimens.dart";
 import "../../i18n/strings.g.dart";
+import "../../providers/asset_image_resolver.dart";
 import "../../providers/versions.dart";
 import "../../routes.dart";
 import "../../ui_core/snack_bar.dart";
@@ -19,6 +20,7 @@ class BookmarkFurnishingSetsTab extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetData = ref.watch(assetDataProvider).requireValue;
+    final images = ref.watch(assetImageResolverProvider);
     final setsAsync = ref.watch(furnishingSetBookmarkListViewModelProvider);
 
     return AsyncValueWidget(
@@ -42,7 +44,7 @@ class BookmarkFurnishingSetsTab extends HookConsumerWidget {
                   key: PageStorageKey("bookmarks_furnishing-sets_${set.id}"),
                   controller: controller,
                   leading: Image.file(
-                    set.getImageFile(assetData.assetDir),
+                    images.getFile(set),
                     width: listTileFurnishingSetImageWidth,
                   ),
                   title: Text(set.name.localized),

@@ -41,7 +41,7 @@ sealed class ArtifactSet extends ArtifactSetOrPiece with _$ArtifactSet {
 }
 
 @Freezed(toJson: false)
-sealed class ArtifactPiece extends ArtifactSetOrPiece with _$ArtifactPiece, ImageGetter {
+sealed class ArtifactPiece extends ArtifactSetOrPiece with _$ArtifactPiece, HasImage {
   const ArtifactPiece._();
 
   const factory ArtifactPiece({

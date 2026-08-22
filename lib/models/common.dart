@@ -1,9 +1,6 @@
-import "dart:io";
-
 import "package:path/path.dart" as path;
 
 import "../core/asset_cache.dart";
-import "../main.dart";
 import "ingredients.dart";
 import "localized_text.dart";
 
@@ -31,11 +28,12 @@ String getBlankImagePath(String localAssetPath) {
   return path.join(localAssetPath, "img", "blank.png");
 }
 
-mixin ImageGetter {
+mixin HasImage {
   String get imageUrl;
+}
 
-  File getImageFile(String localAssetPath) =>
-      File(disableImages ? getBlankImagePath(localAssetPath) : path.join(localAssetPath, imageUrl));
+mixin HasSmallImage {
+  String get smallImageUrl;
 }
 
 mixin Searchable {

@@ -11,6 +11,7 @@ import "../models/artifact.dart";
 import "../models/bookmark.dart";
 import "../models/character.dart";
 import "../models/common.dart";
+import "../providers/asset_image_resolver.dart";
 import "../providers/database_provider.dart";
 import "../providers/versions.dart";
 import "../ui_core/page_transition.dart";
@@ -44,6 +45,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
     if (assetData == null) {
       throw StateError("Asset data not loaded");
     }
+    final images = ref.watch(assetImageResolverProvider);
 
     final characters = useMemoized(() => assetData.characters.values.whereType<CharacterOrVariant>().toList());
 
@@ -116,9 +118,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                     if (firstSetId != null)
                       ListTile(
                         leading: Image.file(
-                          assetData.artifactSets[firstSetId]!
-                              .getFirstPiece(assetData)
-                              .getImageFile(assetData.assetDir),
+                          images.getFile(assetData.artifactSets[firstSetId]!.getFirstPiece(assetData)),
                           width: 36,
                         ),
                         title: Text("${assetData.artifactSets[firstSetId]!.name.localized} (${tr.artifactDetailsPage.nSet(n: state.value.secondSetId != null ? "2" : "4")})"),
@@ -126,9 +126,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                     if (state.value.secondSetId != null)
                       ListTile(
                         leading: Image.file(
-                          assetData.artifactSets[state.value.secondSetId]!
-                              .getFirstPiece(assetData)
-                              .getImageFile(assetData.assetDir),
+                          images.getFile(assetData.artifactSets[state.value.secondSetId]!.getFirstPiece(assetData)),
                           width: 36,
                         ),
                         title: Text("${assetData.artifactSets[state.value.secondSetId]!.name.localized} (${tr.artifactDetailsPage.nSet(n: "2")})"),
@@ -142,7 +140,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                     if (pieceId != null)
                       ListTile(
                         leading: Image.file(
-                          assetData.artifactPieces[pieceId]!.getImageFile(assetData.assetDir),
+                          images.getFile(assetData.artifactPieces[pieceId]!),
                           width: 36,
                         ),
                         title: Text(assetData.artifactPieces[pieceId]!.name.localized),
@@ -290,7 +288,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
   }
 }
 
-class SecondArtifactChooserScreen extends HookWidget {
+class SecondArtifactChooserScreen extends HookConsumerWidget {
   final AssetData assetData;
   final String? excludedSetId;
   final String? selectedSetId;
@@ -305,7 +303,8 @@ class SecondArtifactChooserScreen extends HookWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final images = ref.watch(assetImageResolverProvider);
     final artifactSets = useMemoized(() => assetData.artifactSets.values
         .where((set) => set.id != excludedSetId && set.bonuses.length >= 2).toList());
 
@@ -324,8 +323,7 @@ class SecondArtifactChooserScreen extends HookWidget {
               return Material(
                 child: ListTile(
                   leading: Image.file(
-                    artifactSet.getFirstPiece(assetData)
-                        .getImageFile(assetData.assetDir),
+                    images.getFile(artifactSet.getFirstPiece(assetData)),
                     width: 36,
                   ),
                   title: Text(artifactSet.name.localized),

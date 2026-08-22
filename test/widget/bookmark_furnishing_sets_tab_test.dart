@@ -8,6 +8,7 @@ import "package:genshin_material/db/furnishing_db_extension.dart";
 import "package:genshin_material/models/furnishing_set.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/providers/database_provider.dart";
+import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
@@ -54,6 +55,7 @@ void main() {
       ProviderScope(
         overrides: [
           appDatabaseProvider.overrideWithValue(db),
+          shouldHideImagesProvider.overrideWithValue(false),
           // Returned synchronously: the tab calls `requireValue` on it.
           assetDataProvider.overrideWith((ref) => buildTestAssetData(
             furnishingSets: {set.id: set},
