@@ -5,9 +5,9 @@ import "package:genshin_material/data/repositories/remote_config_repository.dart
 import "package:genshin_material/providers/banner_notifier.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 
-import "../utils/banner_mocks.dart";
-import "../utils/banner_mocks.mocks.dart";
 import "../utils/in_memory_pref_notifier.dart";
+import "../utils/stub_remote_config.dart";
+import "../utils/stub_remote_config.mocks.dart";
 
 void main() {
   ProviderContainer makeContainer(
@@ -26,7 +26,7 @@ void main() {
 
   test("returns null when bannerShown is false", () {
     final mockRc = MockRemoteConfigRepository();
-    stubBannerRemoteConfig(mockRc, bannerShown: false);
+    stubRemoteConfig(mockRc, bannerShown: false);
 
     final container = makeContainer(mockRc);
 
@@ -35,7 +35,7 @@ void main() {
 
   test("returns BannerData when bannerShown is true and key is unread", () {
     final mockRc = MockRemoteConfigRepository();
-    stubBannerRemoteConfig(mockRc,
+    stubRemoteConfig(mockRc,
       bannerShown: true,
       bannerKey: "v1",
       bannerText: "Hello",
@@ -54,7 +54,7 @@ void main() {
 
   test("returns null when bannerShown is true but key is already read", () {
     final mockRc = MockRemoteConfigRepository();
-    stubBannerRemoteConfig(mockRc,
+    stubRemoteConfig(mockRc,
       bannerShown: true,
       bannerKey: "v1",
       bannerText: "Hello",
@@ -67,7 +67,7 @@ void main() {
 
   test("markAsRead hides the banner by adding key to read list", () async {
     final mockRc = MockRemoteConfigRepository();
-    stubBannerRemoteConfig(mockRc,
+    stubRemoteConfig(mockRc,
       bannerShown: true,
       bannerKey: "v1",
       bannerText: "Hello",

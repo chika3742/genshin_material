@@ -1,5 +1,4 @@
 import "dart:async";
-import "dart:io";
 
 import "package:drift/native.dart";
 import "package:firebase_core/firebase_core.dart";
@@ -7,6 +6,8 @@ import "package:flutter/cupertino.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/game_data_sync_indicator.dart";
+import "package:genshin_material/data/repositories/remote_config_repository.dart";
+import "package:genshin_material/data/services/local_notification.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/i18n/strings.g.dart";
@@ -21,21 +22,23 @@ import "package:genshin_material/providers/versions.dart";
 import "package:integration_test/integration_test.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
-import "package:path/path.dart" as p;
 import "package:shared_preferences/shared_preferences.dart";
 
+import "../../test/utils/local_notification_mocks.dart";
+import "../../test/utils/stub_remote_config.dart";
+import "../../test/utils/stub_remote_config.mocks.dart";
+import "screenshot_server.dart";
+
 const locale = String.fromEnvironment("LOCALE", defaultValue: "ja-JP");
-const screenshotDir = String.fromEnvironment("SCREENSHOT_DIR");
-const screenshotNameFormat = String.fromEnvironment("SCREENSHOT_NAME_FORMAT");
 
 void main() {
   late AppDatabase db;
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
 
-  setUp(() {
+  setUp(() async {
     db = AppDatabase(NativeDatabase.memory());
-    Firebase.initializeApp();
+    await Firebase.initializeApp();
   });
   tearDown(() async {
     await db.close();
@@ -44,8 +47,7 @@ void main() {
   testWidgets("take screenshots", (tester) async {
     int index = 1;
     Future<void> takeScreenshot() async {
-      final screenshotName = screenshotNameFormat.replaceAll("{index}", index.toString());
-      await binding.takeScreenshot(p.join(screenshotDir, "$screenshotName.png"));
+      await ScreenshotServer.sendScreenshotRequest(index.toString());
       index++;
     }
 
@@ -68,11 +70,23 @@ void main() {
       ),
     );
 
+    final rcMock = MockRemoteConfigRepository();
+    stubRemoteConfig(
+      rcMock,
+      bannerActionText: "",
+      bannerActionUrl: "",
+      bannerKey: "",
+      bannerShown: false,
+      bannerText: "",
+    );
+
     await tester.pumpWidget(ProviderScope(
       overrides: [
         appDatabaseProvider.overrideWithValue(db),
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
         gameDataSyncStateProvider(variantId: "amber").overrideWithValue(GameDataSyncStatus.synced()),
+        remoteConfigProvider.overrideWithValue(rcMock),
+        localNotificationProvider.overrideWithValue(MockLocalNotification()),
       ],
       child: const MyApp(),
     ));
@@ -80,7 +94,7 @@ void main() {
     final container = ProviderScope.containerOf(tester.element(find.byType(MyApp)));
 
     // wait until assets are downloaded
-    final completer = Completer();
+    final completer = Completer<void>();
     container.listen(assetUpdatingStateProvider.select((e) => e.state), (_, curr) {
       if (!curr.isBusy) {
         completer.complete();
@@ -99,7 +113,7 @@ void main() {
         materialId: "everflame-seed",
         quantity: 12,
         purposeType: Purpose.ascension,
-        upperLevel: 80,
+        upperLevel: 71,
       ),
       MaterialBookmarkInsertable(
         characterId: "amber",
@@ -107,7 +121,7 @@ void main() {
         materialId: "small-lamp-grass",
         quantity: 45,
         purposeType: Purpose.ascension,
-        upperLevel: 80,
+        upperLevel: 71,
       ),
       MaterialBookmarkInsertable(
         characterId: "amber",
@@ -115,7 +129,7 @@ void main() {
         materialId: "everflame-seed",
         quantity: 20,
         purposeType: Purpose.ascension,
-        upperLevel: 90,
+        upperLevel: 81,
       ),
       MaterialBookmarkInsertable(
         characterId: "amber",
@@ -123,7 +137,7 @@ void main() {
         materialId: "small-lamp-grass",
         quantity: 60,
         purposeType: Purpose.ascension,
-        upperLevel: 90,
+        upperLevel: 81,
       ),
       MaterialBookmarkInsertable(
         characterId: "amber",
@@ -172,10 +186,6 @@ void main() {
 
     await tester.pumpAndSettle();
     await tester.pump(const Duration(seconds: 5)); // wait until the snackbar is dismissed
-
-    if (Platform.isAndroid) {
-      await binding.convertFlutterSurfaceToImage();
-    }
 
     // top screen (bookmarks)
     await takeScreenshot();
