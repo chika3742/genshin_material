@@ -6,6 +6,8 @@ import "package:path_provider/path_provider.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/asset_updater.dart";
+import "../core/remote_config_keys.dart";
+import "../data/repositories/remote_config_repository.dart";
 import "versions.dart";
 
 part "asset_updating_state.freezed.dart";
@@ -29,9 +31,11 @@ class AssetUpdatingStateNotifier extends _$AssetUpdatingStateNotifier {
       assetsDir: await getAssetsDirectoryPath(),
       tempDir: (await getTemporaryDirectory()).path,
     );
+    final minAssetSchemaVer = ref.read(remoteConfigProvider)
+        .get(RemoteConfigKeys.minimumAssetSchemaVersion);
 
     try {
-      await updater.checkForUpdate(force: force);
+      await updater.checkForUpdate(force: force, minimumSchemaVersion: minAssetSchemaVer);
     } catch (e, st) {
       _setError(e, st);
       _updateState(AssetUpdateProgressState.errorWhileChecking);

@@ -1,10 +1,10 @@
-import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../constants/remote_config_key.dart";
-import "../core/hoyolab_api.dart";
 import "../core/pref_keys.dart";
-import "../core/secure_storage.dart";
+import "../core/remote_config_keys.dart";
+import "../data/repositories/remote_config_repository.dart";
+import "../data/repositories/secure_storage_repository.dart";
+import "../data/services/hoyolab_api/hoyolab_api.dart";
 import "../models/hoyolab_api.dart";
 import "pref_notifier.dart";
 
@@ -30,9 +30,11 @@ class HoyolabCredential extends _$HoyolabCredential {
   }
 
   Future<void> setServer(HyvServer server, String username) async {
-    await ref.read(prefProvider(PrefKeys.hyvServer).notifier).set(server.region);
-    await ref.read(prefProvider(PrefKeys.hyvServerName).notifier).set(server.name);
-    await ref.read(prefProvider(PrefKeys.hyvUserName).notifier).set(username);
+    await Future.wait([
+      ref.read(prefProvider(PrefKeys.hyvServer).notifier).set(server.region),
+      ref.read(prefProvider(PrefKeys.hyvServerName).notifier).set(server.name),
+      ref.read(prefProvider(PrefKeys.hyvUserName).notifier).set(username),
+    ]);
   }
 
   Future<void> setUid(String uid) async {
@@ -40,9 +42,10 @@ class HoyolabCredential extends _$HoyolabCredential {
   }
 
   Future<void> clear() async {
-    await HoyolabApi(cookie: await getHoyolabCookie()).logout();
+    final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
+    await api.logout();
     await Future.wait([
-      deleteHoyolabCookie(),
+      ref.read(secureStorageRepositoryProvider).deleteHoyolabCookie(),
       ref.read(prefProvider(PrefKeys.hyvServer).notifier).set(null),
       ref.read(prefProvider(PrefKeys.hyvServerName).notifier).set(null),
       ref.read(prefProvider(PrefKeys.hyvUserName).notifier).set(null),
@@ -53,16 +56,17 @@ class HoyolabCredential extends _$HoyolabCredential {
 }
 
 @riverpod
-bool isLinkedWithHoyolab(Ref ref) {
+bool isHoyolabLinkAvailable(Ref ref) {
   final cred = ref.watch(hoyolabCredentialProvider);
-  return cred.hyvServer != null &&
+  return ref.watch(isHoyolabSignedInProvider) &&
+      cred.hyvServer != null &&
       cred.hyvServerName != null &&
       cred.hyvUserName != null &&
       cred.hyvUid != null &&
-      FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled);
+      ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 bool isHoyolabSignedInInitial(Ref ref) {
   return false; // Will be overridden on runtime.
 }
@@ -73,6 +77,6 @@ class IsHoyolabSignedIn extends _$IsHoyolabSignedIn {
   bool build() => ref.watch(isHoyolabSignedInInitialProvider);
 
   Future<void> refresh() async {
-    state = await hasHoyolabCookie();
+    state = await ref.read(secureStorageRepositoryProvider).hasHoyolabCookie();
   }
 }

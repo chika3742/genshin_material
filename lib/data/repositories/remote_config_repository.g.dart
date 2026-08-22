@@ -26,7 +26,7 @@ final class RemoteConfigProvider
         argument: null,
         retry: null,
         name: r'remoteConfigProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -54,4 +54,4 @@ final class RemoteConfigProvider
   }
 }
 
-String _$remoteConfigHash() => r'e71dbe3d0f614a5396d736a7c9efdf322fcfaae3';
+String _$remoteConfigHash() => r'8b478aeac77cebfead600aefc83eb0b40964df4c';

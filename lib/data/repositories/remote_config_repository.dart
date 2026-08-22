@@ -46,7 +46,7 @@ class RemoteConfigRepository {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 RemoteConfigRepository remoteConfig(Ref ref) {
   throw StateError("Provider must be initialized with `remoteConfigProvider.overrideWithValue`.");
 }

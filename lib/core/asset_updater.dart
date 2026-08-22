@@ -4,15 +4,12 @@ import "dart:developer";
 import "dart:io";
 
 import "package:archive/archive_io.dart";
-import "package:firebase_core/firebase_core.dart";
-import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/foundation.dart";
 import "package:http/http.dart" as http;
 import "package:path/path.dart" as path;
 import "package:path_provider/path_provider.dart";
 import "package:uuid/uuid.dart";
 
-import "../constants/remote_config_key.dart";
 import "../constants/urls.dart";
 import "../main.dart";
 import "../models/asset_release_version.dart";
@@ -52,16 +49,12 @@ class AssetUpdater {
 
   /// Checks for updates and sets [foundUpdate] if an update is available.
   /// When [force] is true, it will always sets [foundUpdate] to the latest release.
-  Future<void> checkForUpdate({bool force = false, int? minimumSchemaVersion}) async {
+  Future<void> checkForUpdate({bool force = false, required int minimumSchemaVersion}) async {
     final releases = await _fetchAssetRelease(assetChannel);
-
-    minimumSchemaVersion ??= Firebase.apps.isNotEmpty
-        ? FirebaseRemoteConfig.instance.getInt(RemoteConfigKey.minimumAssetSchemaVersion)
-        : 0;
 
     final latestRelease = releases.fold<AssetReleaseVersion?>(null, (prev, element) {
       // ignore minimumSchemaVersion when force download mode
-      if ((!force && element.schemaVersion < minimumSchemaVersion!)
+      if ((!force && element.schemaVersion < minimumSchemaVersion)
           || element.schemaVersion != dataSchemaVersion) {
         // Skip releases which are lower than minimum or higher than current
         // schema version

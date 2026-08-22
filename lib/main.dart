@@ -14,11 +14,11 @@ import "package:shared_preferences/shared_preferences.dart";
 
 import "composables/use_remote_config_listener.dart";
 import "core/provider_error_observer.dart";
-import "core/secure_storage.dart";
 import "core/theme.dart";
 // ignore: uri_does_not_exist
 // import "firebase_options.dart";
 import "data/repositories/remote_config_repository.dart";
+import "data/repositories/secure_storage_repository.dart";
 import "data/services/local_notification.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
@@ -59,7 +59,7 @@ void main() async {
     }
   });
 
-  final hoyolabSignedIn = await hasHoyolabCookie();
+  final hoyolabSignedIn = await SecureStorageRepository().hasHoyolabCookie();
 
   // Firebase
   await Firebase.initializeApp();

@@ -8,9 +8,10 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../components/center_text.dart";
 import "../../components/list_subheader.dart";
-import "../../core/hoyolab_api.dart";
+import "../../core/errors.dart";
 import "../../core/pref_keys.dart";
-import "../../core/secure_storage.dart";
+import "../../data/repositories/secure_storage_repository.dart";
+import "../../data/services/hoyolab_api/hoyolab_api.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
 import "../../providers/hoyolab_credential.dart";
@@ -35,20 +36,13 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
   @override
   Widget build(BuildContext context) {
     final cred = ref.watch(hoyolabCredentialProvider);
-    final isLinked = ref.watch(isLinkedWithHoyolabProvider);
+    final isLinked = ref.watch(isHoyolabLinkAvailableProvider);
     final syncCharaState = ref.watch(prefProvider(PrefKeys.syncCharaState));
     final syncWeaponState = ref.watch(prefProvider(PrefKeys.syncWeaponState));
     final syncBagLackNums = ref.watch(prefProvider(PrefKeys.syncBagLackNums));
     final autoRemoveBookmarks = ref.watch(prefProvider(PrefKeys.autoRemoveBookmarks));
     final syncResin = ref.watch(prefProvider(PrefKeys.syncResin));
-
-    final isSignedIn = useState(false);
-    useEffect(() {
-      () async {
-        isSignedIn.value = await hasHoyolabCookie();
-      }();
-      return null;
-    }, []);
+    final isSignedIn = ref.watch(isHoyolabSignedInProvider);
 
     final isRealtimeNotesEnabled = ref.watch(realtimeNotesActivationStateProvider);
 
@@ -56,7 +50,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
       appBar: AppBar(
         title: Text(tr.pages.hoyolabIntegrationSettings),
       ),
-      body: !isSignedIn.value ? ListView(
+      body: !isSignedIn ? ListView(
         children: [
           ListTile(
             leading: const Icon(Symbols.login),
@@ -67,7 +61,6 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                   await HoyolabSignInRoute().push<String>(context);
               if (result != null && context.mounted) {
                 await _signInToHoyolab(result);
-                isSignedIn.value = await hasHoyolabCookie();
               }
             },
           ),
@@ -93,7 +86,6 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                     showLoadingModal(context);
                     try {
                       await ref.read(hoyolabCredentialProvider.notifier).clear();
-                      isSignedIn.value = false;
                     } finally {
                       if (context.mounted) {
                         Navigator.pop(context);
@@ -192,7 +184,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
     showLoadingModal(context);
 
     try {
-      await setHoyolabCookie(cookie);
+      await ref.read(secureStorageRepositoryProvider).setHoyolabCookie(cookie);
     } catch (e, st) {
       log("Failed to set hoyolab cookie", error: e, stackTrace: st);
       if (mounted) {
@@ -250,7 +242,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final serversSnapshot = useFuture(useMemoized(() => HoyolabApi().lookupServers()));
+    final serversSnapshot = useFuture(useMemoized(() => ref.watch(hoyolabPreAuthApiProvider).lookupServers()));
 
     final selectedServer = useState<HyvServer?>(null);
     final gameRoles = useState<Map<HyvServer, HyvUserGameRole?>>({});
@@ -276,11 +268,11 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
       loadingGameRoleServers.value = [...loadingGameRoleServers.value..add(server)];
 
-      final api = HoyolabApi(cookie: await getHoyolabCookie(), region: server.region);
+      final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
       try {
         errorText.value = null;
 
-        final result = await api.getUserGameRoles();
+        final result = await api.getUserGameRoles(server.region);
 
         gameRoles.value[server] = result.list.firstOrNull;
       } on HoyolabApiException catch (e, st) {

@@ -7,9 +7,9 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../components/game_data_sync_indicator.dart";
 import "../core/asset_cache.dart";
-import "../core/hoyolab_api.dart";
 import "../core/pref_keys.dart";
-import "../core/secure_storage.dart";
+import "../data/services/hoyolab_api/hoyolab_api.dart";
+import "../data/services/hoyolab_api/looper.dart";
 import "../database.dart";
 import "../db/in_game_character_state_db_extension.dart";
 import "../db/in_game_weapon_state_db_extension.dart";
@@ -136,16 +136,8 @@ class GameDataSyncCached extends _$GameDataSyncCached {
 @riverpod
 Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, String? weaponId }) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
-  final server = ref.watch(prefProvider(PrefKeys.hyvServer));
-  final hoyolabCookie = await getHoyolabCookie();
+  final api = await ref.watch(hoyolabAuthenticatedServerApiProvider.future);
 
-  if (uid == null || server == null || hoyolabCookie == null) {
-    return GameDataSyncResult(
-      errorType: GameDataSyncErrorType.unknown,
-      error: "One or more of Hoyolab server, uid, cookie is not set",
-    );
-  }
   if (assetData == null) {
     return GameDataSyncResult(
       errorType: GameDataSyncErrorType.unknown,
@@ -153,15 +145,9 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
     );
   }
 
-  final api = HoyolabApi(
-    cookie: hoyolabCookie,
-    uid: uid,
-    region: server,
-  );
-
   final (character, variant) = _extractCharacter(assetData.characters, variantId);
 
-  final charaInfo = await HoyolabApiUtils.loopUntilCharacter(
+  final charaInfo = await loopUntilCharacter(
     character.hyvIds,
     (page) {
       return HoyolabApi.queue.run(() => api.avatarList(
@@ -207,27 +193,15 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
 @riverpod
 Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entries) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final hyvUid = ref.watch(prefProvider(PrefKeys.hyvUid));
-  final hyvServer = ref.watch(prefProvider(PrefKeys.hyvServer));
+  final api = await ref.watch(hoyolabAuthenticatedServerApiProvider.future);
   final syncBagLackNums = ref.watch(prefProvider(PrefKeys.syncBagLackNums));
-  final hoyolabCookie = await getHoyolabCookie();
 
-  if (hyvServer == null || hyvUid == null || hoyolabCookie == null) {
-    log("Hoyolab server, uid, or cookie is not set");
-    return null;
-  }
   if (!syncBagLackNums) {
     return null; // bag lack number sync is disabled
   }
   if (assetData == null) {
     throw StateError("Asset data is not loaded");
   }
-
-  final api = HoyolabApi(
-    cookie: hoyolabCookie,
-    uid: hyvUid,
-    region: hyvServer,
-  );
 
   final requests = entries.map((e) {
     final (character, variant) = _extractCharacter(assetData.characters, e.variantId);
@@ -291,16 +265,7 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
       return;
     }
 
-    final hyvServer = ref.read(prefProvider(PrefKeys.hyvServer));
-    final hyvUid = ref.read(prefProvider(PrefKeys.hyvUid));
-    assert(hyvServer != null && hyvUid != null);
-
-    final hoyolabCookie = await getHoyolabCookie();
-    if (hoyolabCookie == null) {
-      state = const GameDataSyncStatus.error(error: "No hoyolab cookie");
-      return; // error
-    }
-    final api = HoyolabApi(cookie: hoyolabCookie, uid: hyvUid!, region: hyvServer!);
+    final api = await ref.watch(hoyolabAuthenticatedServerApiProvider.future);
 
     state = const GameDataSyncStatus.syncing();
 
@@ -350,7 +315,7 @@ Map<Purpose, int> _toCharacterLevels(AvatarListResultItem charaInfo) {
 }
 
 Future<CalcResult?> _computeBag({
-  required HoyolabApi api,
+  required HoyolabAuthenticatedServerApi api,
   required AssetData assetData,
   required List<_ComputeBagRequestItem> requests,
 }) async {
@@ -428,14 +393,14 @@ CalcComputeItem _createCalcComputeRequest({
 }
 
 Future<int> _determineAvatarId({
-  required HoyolabApi api,
+  required HoyolabAuthenticatedServerApi api,
   required List<int> ids,
   required int weaponTypeFilter,
 }) async {
   if (ids.length > 2) {
-    final result = await HoyolabApiUtils.loopUntilCharacter(
+    final result = await loopUntilCharacter(
       ids,
-          (page) {
+      (page) {
         return api.avatarList(
           page,
           elementIds: [],

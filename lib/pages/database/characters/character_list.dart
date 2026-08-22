@@ -1,5 +1,4 @@
 import "package:collection/collection.dart";
-import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/material.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
@@ -11,8 +10,9 @@ import "../../../components/filter_bottom_sheet.dart";
 import "../../../components/horizontal_chip_list.dart";
 import "../../../components/search.dart";
 import "../../../constants/dimens.dart";
-import "../../../constants/remote_config_key.dart";
 import "../../../core/asset_cache.dart";
+import "../../../core/remote_config_keys.dart";
+import "../../../data/repositories/remote_config_repository.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/asset_image_resolver.dart";
@@ -127,7 +127,7 @@ class CharacterListPage extends HookConsumerWidget {
 
               Icon(Symbols.filter_alt),
 
-              if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+              if (ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled))
                 FilterChipWithMenu( // possession
                   selected: filterState.possessionStatus != null,
                   label: Text(tr.common.possession),
@@ -229,14 +229,14 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLinked = ref.watch(isLinkedWithHoyolabProvider);
+    final isLinked = ref.watch(isHoyolabLinkAvailableProvider);
 
     return DataAssetScope(
       useScaffold: false,
       builder: (context, assetData) {
         return FilterBottomSheet(
           categories: [
-            if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+            if (ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled))
               ...[
                 FilteringCategory(
                   labelText: tr.common.possession,

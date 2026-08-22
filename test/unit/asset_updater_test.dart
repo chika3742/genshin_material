@@ -39,7 +39,7 @@ void main() {
       httpClient: client,
       dataSchemaVersion: 0,
     );
-    await updater.checkForUpdate();
+    await updater.checkForUpdate(minimumSchemaVersion: 0);
     expect(updater.isUpdateAvailable, true);
 
     WidgetsFlutterBinding.ensureInitialized();
@@ -48,14 +48,14 @@ void main() {
     await Directory(updater.currentAssetDir).create(recursive: true);
     await File(path.join(updater.currentAssetDir, "version.json"))
         .writeAsString('{"createdAt": "2024-01-01T00:00:00Z", "dataVersion": "test", "channel": "dev", "distUrl": "", "schemaVersion": 0}');
-    await updater.checkForUpdate();
+    await updater.checkForUpdate(minimumSchemaVersion: 0);
     expect(updater.isUpdateAvailable, false);
 
     // latest version is newer than current
     when(client.get(Uri.parse("$assetReleasesUrl?channel=dev"))).thenAnswer((_) async {
       return http.Response('[{"createdAt": "2024-06-01T00:00:00Z", "dataVersion": "test", "channel": "dev", "distUrl": "", "schemaVersion": 0}]', 200);
     });
-    await updater.checkForUpdate();
+    await updater.checkForUpdate(minimumSchemaVersion: 0);
     expect(updater.isUpdateAvailable, true);
   });
 
