@@ -22,7 +22,7 @@ analyzer:
     - linux/**
 
 plugins:
-  riverpod_lint: 3.1.4
+  riverpod_lint: ^3.1.8
   better_require_trailing_commas: ^2.0.4
 
 linter:
