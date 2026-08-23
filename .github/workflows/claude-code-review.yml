@@ -43,5 +43,5 @@ jobs:
                 }
               }
             '\
-            --allowed-tools "mcp__github_public__*"\
-            --append-system-prompt "返答はすべて日本語で行うこと。依存するライブラリのAPIを確認する必要が生じたときは、`mcp__github_public__*`のツールを使用すること。特に、想像で存在しないAPIをでっち上げないよう、よく確認すること。レビューにはLint/Testの結果を用いないこと。flutter analyzeを実行したり、CIの結果を取得したりしない。そしてそれは当然のことであり、その旨を最終結果に出力しないこと。"
+            --allowed-tools "mcp__github_public__*,mcp__github_inline_comment__create_inline_comment"\
+            --append-system-prompt "返答はすべて日本語で行うこと。特定のコード部分に関するレビューはインラインコメントを使用すること。依存するライブラリのAPIを確認する必要が生じたときは、`mcp__github_public__*`のツールを使用すること。特に、想像で存在しないAPIをでっち上げないよう、よく確認すること。レビューにはLint/Testの結果を用いないこと。flutter analyzeを実行したり、CIの結果を取得したりしない。そしてそれは当然のことであり、その旨を最終結果に出力しないこと。"
