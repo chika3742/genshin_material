@@ -1,12 +1,14 @@
+import "dart:developer";
+
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../core/pref_keys.dart";
-import "../core/remote_config_keys.dart";
-import "../data/repositories/remote_config_repository.dart";
-import "../data/repositories/secure_storage_repository.dart";
-import "../data/services/hoyolab_api/hoyolab_api.dart";
-import "../models/hoyolab_api.dart";
-import "pref_notifier.dart";
+import "../../core/pref_keys.dart";
+import "../../core/remote_config_keys.dart";
+import "../../models/hoyolab_api.dart";
+import "../../providers/pref_notifier.dart";
+import "hoyolab_api_repositories.dart";
+import "remote_config_repository.dart";
+import "secure_storage_repository.dart";
 
 part "hoyolab_credential.g.dart";
 
@@ -42,16 +44,24 @@ class HoyolabCredential extends _$HoyolabCredential {
   }
 
   Future<void> clear() async {
-    final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
-    await api.logout();
+    try {
+      // revoke API token
+      final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
+      await api.logout();
+      // clear cookie
+      await ref.read(secureStorageRepositoryProvider).deleteHoyolabCookie();
+      await ref.read(isHoyolabSignedInProvider.notifier).refresh();
+    } catch (e, st) {
+      // Even if the remote logout fails (offline / feature disabled),
+      // local credentials must still be discarded.
+      log("Failed to log out from HoYoLAB", error: e, stackTrace: st);
+    }
     await Future.wait([
-      ref.read(secureStorageRepositoryProvider).deleteHoyolabCookie(),
       ref.read(prefProvider(PrefKeys.hyvServer).notifier).set(null),
       ref.read(prefProvider(PrefKeys.hyvServerName).notifier).set(null),
       ref.read(prefProvider(PrefKeys.hyvUserName).notifier).set(null),
       ref.read(prefProvider(PrefKeys.hyvUid).notifier).set(null),
     ]);
-    await ref.read(isHoyolabSignedInProvider.notifier).refresh();
   }
 }
 

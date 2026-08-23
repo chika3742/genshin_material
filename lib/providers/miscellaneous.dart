@@ -3,12 +3,12 @@ import "dart:io";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/pref_keys.dart";
-import "../data/services/hoyolab_api/hoyolab_api.dart";
+import "../data/repositories/hoyolab_api_repositories.dart";
+import "../data/repositories/hoyolab_credential.dart";
 import "../db/in_game_character_state_db_extension.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "database_provider.dart";
-import "hoyolab_credential.dart";
 import "pref_notifier.dart";
 
 part "miscellaneous.g.dart";
@@ -28,10 +28,9 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
   }
 
   Future<void> updateValue(bool value) async {
-    final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
-
-    state = AsyncLoading();
+    state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
+      final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
       await api.changeDataSwitch(DataSwitchType.enableRealtimeNotes, value);
       return value;
     });

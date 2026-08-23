@@ -55,4 +55,4 @@ final class SecureStorageRepositoryProvider
 }
 
 String _$secureStorageRepositoryHash() =>
-    r'95cdb6049535e3ecd4f5edf992dd49d92661f676';
+    r'298cfba6c11cea44d545b560b390b3b74169002b';

@@ -10,11 +10,10 @@ import "../../components/center_text.dart";
 import "../../components/list_subheader.dart";
 import "../../core/errors.dart";
 import "../../core/pref_keys.dart";
-import "../../data/repositories/secure_storage_repository.dart";
-import "../../data/services/hoyolab_api/hoyolab_api.dart";
+import "../../data/repositories/hoyolab_api_repositories.dart";
+import "../../data/repositories/hoyolab_credential.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
-import "../../providers/hoyolab_credential.dart";
 import "../../providers/miscellaneous.dart";
 import "../../providers/pref_notifier.dart";
 import "../../routes.dart";
@@ -23,6 +22,7 @@ import "../../ui_core/dialog.dart";
 import "../../ui_core/error_messages.dart";
 import "../../ui_core/progress_indicator.dart";
 import "../../ui_core/snack_bar.dart";
+import "../../use_cases/store_hoyolab_credential.dart";
 import "../../utils/show_loading_modal.dart";
 
 class HoyolabIntegrationSettingsPage extends StatefulHookConsumerWidget {
@@ -184,7 +184,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
     showLoadingModal(context);
 
     try {
-      await ref.read(secureStorageRepositoryProvider).setHoyolabCookie(cookie);
+      await ref.read(storeHoyolabCredentialProvider).execute(cookie);
     } catch (e, st) {
       log("Failed to set hoyolab cookie", error: e, stackTrace: st);
       if (mounted) {
@@ -242,7 +242,8 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final serversSnapshot = useFuture(useMemoized(() => ref.watch(hoyolabPreAuthApiProvider).lookupServers()));
+    final api = ref.watch(hoyolabPreAuthApiProvider);
+    final serversSnapshot = useFuture(useMemoized(api.lookupServers, [api]));
 
     final selectedServer = useState<HyvServer?>(null);
     final gameRoles = useState<Map<HyvServer, HyvUserGameRole?>>({});
@@ -268,10 +269,10 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
       loadingGameRoleServers.value = [...loadingGameRoleServers.value..add(server)];
 
-      final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
       try {
         errorText.value = null;
 
+        final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
         final result = await api.getUserGameRoles(server.region);
 
         gameRoles.value[server] = result.list.firstOrNull;

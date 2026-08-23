@@ -3,24 +3,19 @@ import "dart:convert";
 import "dart:developer";
 
 import "package:http/http.dart" as http;
-import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../../core/errors.dart";
-import "../../../core/pref_keys.dart";
-import "../../../core/remote_config_keys.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/hoyolab_api.dart";
-import "../../../providers/pref_notifier.dart";
-import "../../repositories/remote_config_repository.dart";
-import "../../repositories/secure_storage_repository.dart";
 import "hoyolab_api_internal_utils.dart";
-
-part "hoyolab_api.g.dart";
 
 base class HoyolabApi {
   final http.Client _client;
 
   HoyolabApi([http.Client? client]) : _client = client ?? http.Client();
+
+  void close() {
+    _client.close();
+  }
 
   static final queue = ApiRequestQueue(
     interval: const Duration(milliseconds: 500),
@@ -141,12 +136,11 @@ final class HoyolabAuthenticatedApi extends HoyolabApi {
   }
 }
 
-final class HoyolabAuthenticatedServerApi extends HoyolabApi {
-  final String cookie;
+final class HoyolabAuthenticatedServerApi extends HoyolabAuthenticatedApi {
   final String region;
   final String uid;
 
-  HoyolabAuthenticatedServerApi(this.cookie, this.region, this.uid, [super.client]);
+  HoyolabAuthenticatedServerApi(super.cookie, this.region, this.uid, [super.client]);
 
   Future<AvatarListResult> avatarList(int page, {List<int> elementIds = const [], List<int> weaponCatIds = const []}) {
     const url = "https://sg-act-public-api.hoyolab.com/event/e20200928calculate/v1/sync/avatar/list";
@@ -220,51 +214,4 @@ final class HoyolabAuthenticatedServerApi extends HoyolabApi {
       (obj) => CalcResult.fromJson(obj! as Map<String, dynamic>),
     );
   }
-}
-
-@Riverpod(keepAlive: true)
-HoyolabPreAuthApi hoyolabPreAuthApi(Ref ref) {
-  if (!ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled)) {
-    throw HoyolabLinkDisabledException();
-  }
-
-  return HoyolabPreAuthApi();
-}
-
-@riverpod
-Future<HoyolabAuthenticatedApi> hoyolabAuthenticatedApi(Ref ref) async {
-  if (!ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled)) {
-    throw HoyolabLinkDisabledException();
-  }
-
-  final secureStorage = ref.watch(secureStorageRepositoryProvider);
-
-  final cookie = await secureStorage.getHoyolabCookie();
-  if (cookie == null) {
-    throw HoyolabUnauthenticatedException();
-  }
-
-  return HoyolabAuthenticatedApi(cookie);
-}
-
-@riverpod
-Future<HoyolabAuthenticatedServerApi> hoyolabAuthenticatedServerApi(Ref ref) async {
-  if (!ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled)) {
-    throw HoyolabLinkDisabledException();
-  }
-
-  final secureStorage = ref.watch(secureStorageRepositoryProvider);
-
-  final cookie = await secureStorage.getHoyolabCookie();
-  if (cookie == null) {
-    throw HoyolabUnauthenticatedException();
-  }
-
-  final region = ref.watch(prefProvider(PrefKeys.hyvServer));
-  final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
-  if (region == null || uid == null) {
-    throw HoyolabServerNotSelectedException();
-  }
-
-  return HoyolabAuthenticatedServerApi(cookie, region, uid);
 }

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'hoyolab_api.dart';
+part of 'hoyolab_api_repositories.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -54,7 +54,7 @@ final class HoyolabPreAuthApiProvider
   }
 }
 
-String _$hoyolabPreAuthApiHash() => r'1865fb01921786681e4f44af879d3d7d0cf30871';
+String _$hoyolabPreAuthApiHash() => r'cb4c468c382d0938d5300c5db4d17a9ba7f02831';
 
 @ProviderFor(hoyolabAuthenticatedApi)
 final hoyolabAuthenticatedApiProvider = HoyolabAuthenticatedApiProvider._();
@@ -75,7 +75,7 @@ final class HoyolabAuthenticatedApiProvider
         argument: null,
         retry: null,
         name: r'hoyolabAuthenticatedApiProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -96,7 +96,7 @@ final class HoyolabAuthenticatedApiProvider
 }
 
 String _$hoyolabAuthenticatedApiHash() =>
-    r'52cfcbb8b164a609423fad24e4259baae8c1f93a';
+    r'27a84b197976e0714b04da4b8b410593ebeee037';
 
 @ProviderFor(hoyolabAuthenticatedServerApi)
 final hoyolabAuthenticatedServerApiProvider =
@@ -118,7 +118,7 @@ final class HoyolabAuthenticatedServerApiProvider
         argument: null,
         retry: null,
         name: r'hoyolabAuthenticatedServerApiProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -139,4 +139,4 @@ final class HoyolabAuthenticatedServerApiProvider
 }
 
 String _$hoyolabAuthenticatedServerApiHash() =>
-    r'5f7590c40945f82fe2f45c9ac7de1080ecdacbd9';
+    r'50eaad81e78aea1c7d0c5854deaaa902d84a7e48';

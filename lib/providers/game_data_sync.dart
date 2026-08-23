@@ -2,12 +2,15 @@ import "dart:developer";
 
 import "package:collection/collection.dart";
 import "package:drift/drift.dart" hide JsonKey;
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../components/game_data_sync_indicator.dart";
 import "../core/asset_cache.dart";
 import "../core/pref_keys.dart";
+import "../data/repositories/hoyolab_api_repositories.dart";
+import "../data/repositories/hoyolab_credential.dart";
 import "../data/services/hoyolab_api/hoyolab_api.dart";
 import "../data/services/hoyolab_api/looper.dart";
 import "../database.dart";
@@ -72,8 +75,12 @@ class GameDataSyncCached extends _$GameDataSyncCached {
   @override
   Future<GameDataSyncResult?> build({ required String variantId, String? weaponId }) async {
     final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
-    if (uid == null) return null; // uid is not set
+    final isFeatureAvailable = ref.watch(isHoyolabLinkAvailableProvider);
+    if (!isFeatureAvailable) {
+      return null;
+    }
+
+    final uid = ref.watch(hoyolabCredentialProvider.select((s) => s.hyvUid))!;
 
     final syncState = weaponId == null
         ? ref.watch(prefProvider(PrefKeys.syncCharaState))
@@ -136,7 +143,6 @@ class GameDataSyncCached extends _$GameDataSyncCached {
 @riverpod
 Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, String? weaponId }) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final api = await ref.watch(hoyolabAuthenticatedServerApiProvider.future);
 
   if (assetData == null) {
     return GameDataSyncResult(
@@ -144,6 +150,8 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
       error: "Asset data is not loaded",
     );
   }
+
+  final api = await ref.watch(hoyolabAuthenticatedServerApiProvider.future);
 
   final (character, variant) = _extractCharacter(assetData.characters, variantId);
 
@@ -193,15 +201,17 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
 @riverpod
 Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entries) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final api = await ref.watch(hoyolabAuthenticatedServerApiProvider.future);
   final syncBagLackNums = ref.watch(prefProvider(PrefKeys.syncBagLackNums));
+  final linkAvailable = ref.watch(isHoyolabLinkAvailableProvider);
 
-  if (!syncBagLackNums) {
-    return null; // bag lack number sync is disabled
+  if (!linkAvailable || !syncBagLackNums) {
+    return null; // HoYoLAB link unavailable or bag lack number sync is disabled
   }
   if (assetData == null) {
     throw StateError("Asset data is not loaded");
   }
+
+  final api = await ref.watch(hoyolabAuthenticatedServerApiProvider.future);
 
   final requests = entries.map((e) {
     final (character, variant) = _extractCharacter(assetData.characters, e.variantId);
@@ -265,11 +275,15 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
       return;
     }
 
-    final api = await ref.watch(hoyolabAuthenticatedServerApiProvider.future);
+    final isFeatureAvailable = ref.read(isHoyolabLinkAvailableProvider);
+    if (!isFeatureAvailable) {
+      return;
+    }
 
     state = const GameDataSyncStatus.syncing();
 
     try {
+      final api = await ref.read(hoyolabAuthenticatedServerApiProvider.future);
       final dailyNote = await api.getDailyNote();
       await ref.read(resinProvider.notifier)
           .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
