@@ -1,42 +1,22 @@
+import "dart:async";
 import "dart:convert";
 import "dart:io";
 
 import "package:http/http.dart" as http;
 import "package:path/path.dart" as p;
 
-void main() async {
-  if (!Platform.isMacOS) {
-    throw UnsupportedError("Only macOS hosts are supported");
-  }
-
-  final clientOs = Platform.environment["CLIENT_OS"];
-  if (clientOs == null) {
-    throw ArgumentError.notNull("CLIENT_OS environment variable");
-  }
-  final screenshotDir = Platform.environment["SCREENSHOT_DIR"];
-  if (screenshotDir == null) {
-    throw ArgumentError.notNull("SCREENSHOT_DIR environment variable");
-  }
-  final screenshotNameFormat = Platform.environment["SCREENSHOT_NAME_FORMAT"];
-  if (screenshotNameFormat == null) {
-    throw ArgumentError.notNull("SCREENSHOT_NAME_FORMAT environment variable");
-  }
-  final deviceId = Platform.environment["DEVICE_ID"];
-  if (deviceId == null) {
-    throw ArgumentError.notNull("DEVICE_ID environment variable");
-  }
-
-  await ScreenshotServer(clientOs, screenshotDir, screenshotNameFormat, deviceId)
-      .listen();
-}
-
+/// Host-side HTTP server that captures a screenshot of the device under test
+/// whenever the on-device test asks for one.
+///
+/// Started in-process by `take_screenshots.dart`; the on-device test only uses
+/// [sendScreenshotRequest].
 class ScreenshotServer {
   final String clientOs;
   final String screenshotDir;
   final String screenshotNameFormat;
   final String deviceId;
 
-  const ScreenshotServer(
+  ScreenshotServer(
     this.clientOs,
     this.screenshotDir,
     this.screenshotNameFormat,
@@ -45,8 +25,21 @@ class ScreenshotServer {
 
   static const port = 51237;
 
+  HttpServer? _server;
+
+  /// Binds the server and starts serving in the background.
   Future<void> listen() async {
     final server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
+    _server = server;
+    unawaited(_serve(server));
+  }
+
+  Future<void> close() async {
+    await _server?.close(force: true);
+    _server = null;
+  }
+
+  Future<void> _serve(HttpServer server) async {
     await for (final req in server) {
       if (req.uri.path != "/capture" || req.method != "POST") {
         req.response.statusCode = 404;
@@ -92,7 +85,7 @@ class ScreenshotServer {
           if (widthResult.exitCode != 0) {
             throw "magick exited with non-zero exit code: ${widthResult.exitCode}. \n\n${widthResult.stderr}";
           }
-          final verificationResult = await Process.run("magick", [screenshotPath, "-crop", "1x1+${int.parse(widthResult.stdout.toString().trim()) / 2}+60", "-format", "%[hex:p{0,0}]", "-alpha", "off", "info:"]);
+          final verificationResult = await Process.run("magick", [screenshotPath, "-crop", "1x1+${int.parse(widthResult.stdout.toString().trim()) ~/ 2}+60", "-format", "%[hex:p{0,0}]", "-alpha", "off", "info:"]);
           if (verificationResult.exitCode != 0) {
             throw "magick exited with non-zero exit code: ${verificationResult.exitCode}. \n\n${verificationResult.stderr}";
           }
