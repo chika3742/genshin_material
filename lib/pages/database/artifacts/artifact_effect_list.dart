@@ -13,6 +13,7 @@ import "../../../components/item_link_button.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/artifact.dart";
+import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/filter_state.dart";
 import "../../../routes.dart";
 
@@ -42,6 +43,7 @@ class ArtifactEffectListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filterState = ref.watch(artifactFilterStateProvider);
+    final images = ref.watch(assetImageResolverProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -96,7 +98,7 @@ class ArtifactEffectListPage extends HookConsumerWidget {
                           child: Row(
                             spacing: 8.0,
                             children: [
-                              Image.file(set.getFirstPiece(assetData).getImageFile(assetData.assetDir), width: 35, height: 35),
+                              Image.file(images.getFile(set.getFirstPiece(assetData)), width: 35, height: 35),
                               Text(set.name.localized),
                             ],
                           ),

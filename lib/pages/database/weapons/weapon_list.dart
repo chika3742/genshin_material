@@ -13,6 +13,7 @@ import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
+import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/filter_state.dart";
 import "../../../routes.dart";
 import "../../../ui_core/bottom_sheet.dart";
@@ -30,6 +31,7 @@ class WeaponListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final images = ref.watch(assetImageResolverProvider);
     final fabKey = useMemoized(GlobalKey.new);
     final filterState = ref.watch(weaponFilterStateProvider);
 
@@ -67,12 +69,12 @@ class WeaponListPage extends HookConsumerWidget {
 
         return ListIndexItem(
           title: e.value.name.localized,
-          image: entries.first.getImageFile(assetData.assetDir),
+          image: images.getFile(entries.first),
           value: typeId,
           itemCount: entries.length,
         );
       }).toList();
-    }, [assetData.weapons]);
+    }, [assetData.weapons, images]);
 
     useEffect(() {
       // show tutorial for index sheet
@@ -123,7 +125,7 @@ class WeaponListPage extends HookConsumerWidget {
             resultItemBuilder: (context, item) {
               return SearchResultListTile(
                 image: Image.file(
-                  item.getImageFile(assetData.assetDir),
+                  images.getFile(item),
                   width: searchResultImageSize,
                   height: searchResultImageSize,
                 ),
@@ -157,7 +159,7 @@ class WeaponListPage extends HookConsumerWidget {
                     final weapon = weapons[index];
 
                     return GameItemListTile(
-                      image: weapon.getImageFile(assetData.assetDir),
+                      image: images.getFile(weapon),
                       name: weapon.name.localized,
                       rarity: weapon.rarity,
                       onTap: () {

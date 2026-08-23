@@ -1,5 +1,3 @@
-import "dart:io";
-
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:firebase_remote_config/firebase_remote_config.dart";
@@ -24,6 +22,7 @@ import "data/repositories/remote_config_repository.dart";
 import "data/services/local_notification.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
+import "providers/hoyolab_credential.dart";
 import "providers/pref_notifier.dart";
 import "providers/versions.dart";
 import "routes.dart";
@@ -33,9 +32,6 @@ const assetChannel = String.fromEnvironment(
   "ASSET_CHANNEL",
   defaultValue: kReleaseMode ? "prod" : "dev",
 );
-
-bool linkedWithHoyolab = false;
-bool get disableImages => (Platform.isIOS || Platform.isMacOS) && !linkedWithHoyolab;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,7 +59,7 @@ void main() async {
     }
   });
 
-  linkedWithHoyolab = await hasHoyolabCookie();
+  final hoyolabSignedIn = await hasHoyolabCookie();
 
   // Firebase
   await Firebase.initializeApp();
@@ -87,6 +83,7 @@ void main() async {
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
         remoteConfigProvider.overrideWithValue(remoteConfigRepo),
         localNotificationProvider.overrideWithValue(localNotification),
+        isHoyolabSignedInInitialProvider.overrideWithValue(hoyolabSignedIn),
       ],
       child: const Restartable(
         child: MyApp(),

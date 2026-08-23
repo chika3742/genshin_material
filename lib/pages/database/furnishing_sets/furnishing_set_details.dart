@@ -13,6 +13,7 @@ import "../../../db/furnishing_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
+import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
 import "../../../ui_core/dialog.dart";
 import "../../../ui_core/layout.dart";
@@ -32,6 +33,7 @@ class FurnishingSetDetailsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final images = ref.watch(assetImageResolverProvider);
     final set = assetData.furnishingSets[id];
     if (set == null) {
       return Scaffold(
@@ -61,7 +63,7 @@ class FurnishingSetDetailsPage extends ConsumerWidget {
                   Expanded(
                     child: GameItemInfoBox(
                       itemImage: Image.file(
-                        set.getImageFile(assetData.assetDir),
+                        images.getFile(set),
                         width: furnishingSetImageWidth,
                       ),
                       children: [

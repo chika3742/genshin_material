@@ -1,6 +1,7 @@
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../../components/list_tile.dart";
@@ -10,17 +11,19 @@ import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/artifact.dart";
 import "../../../models/common.dart";
+import "../../../providers/asset_image_resolver.dart";
 import "../../../routes.dart";
 import "../../../utils/filtering.dart";
 
-class ArtifactListPage extends HookWidget {
+class ArtifactListPage extends HookConsumerWidget {
   final AssetData assetData;
   final CharacterId? equipCharacter;
 
   const ArtifactListPage({super.key, required this.assetData, required this.equipCharacter});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final images = ref.watch(assetImageResolverProvider);
     final filteringRarity = useState<int?>(null);
     final sets = useMemoized(
           () {
@@ -63,10 +66,8 @@ class ArtifactListPage extends HookWidget {
             },
             resultItemBuilder: (context, item) {
               final image = switch (item) {
-                ArtifactSet(:final getFirstPiece) =>
-                    getFirstPiece(assetData).getImageFile(assetData.assetDir),
-                ArtifactPiece(:final getImageFile) =>
-                    getImageFile(assetData.assetDir),
+                ArtifactSet() => images.getFile(item.getFirstPiece(assetData)),
+                ArtifactPiece() => images.getFile(item),
               };
               return SearchResultListTile(
                 image: Image.file(
@@ -124,8 +125,7 @@ class ArtifactListPage extends HookWidget {
 
               return GameItemListTile(
                 key: ValueKey(set.id),
-                image: set.getFirstPiece(assetData)
-                    .getImageFile(assetData.assetDir),
+                image: images.getFile(set.getFirstPiece(assetData)),
                 name: set.name.localized,
                 rarity: set.maxRarity,
                 onTap: () {

@@ -12,7 +12,6 @@ import "../../core/hoyolab_api.dart";
 import "../../core/pref_keys.dart";
 import "../../core/secure_storage.dart";
 import "../../i18n/strings.g.dart";
-import "../../main.dart";
 import "../../models/hoyolab_api.dart";
 import "../../providers/hoyolab_credential.dart";
 import "../../providers/miscellaneous.dart";
@@ -69,7 +68,6 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
               if (result != null && context.mounted) {
                 await _signInToHoyolab(result);
                 isSignedIn.value = await hasHoyolabCookie();
-                linkedWithHoyolab = isSignedIn.value;
               }
             },
           ),
@@ -202,6 +200,8 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
         showSnackBar(context: context, message: getErrorMessage(e, prefix: tr.hoyolab.failedToSignIn), error: true);
       }
       return;
+    } finally {
+      await ref.read(isHoyolabSignedInProvider.notifier).refresh();
     }
 
     bool? isRealtimeNotesEnabled;

@@ -24,6 +24,7 @@ import "../../../models/common.dart";
 import "../../../models/ingredients.dart";
 import "../../../models/level_range_values.dart";
 import "../../../models/weapon.dart";
+import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/pref_notifier.dart";
@@ -111,6 +112,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final images = ref.watch(assetImageResolverProvider);
     final ingredients = assetData.weaponIngredients;
 
     final state = useState(_WeaponDetailsPageState.init(
@@ -168,7 +170,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                 Expanded(
                   child: GameItemInfoBox(
                     itemImage: Image.file(
-                      weapon.getImageFile(assetData.assetDir),
+                      images.getFile(weapon),
                       width: 50,
                       height: 50,
                     ),

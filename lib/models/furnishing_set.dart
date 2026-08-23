@@ -8,7 +8,7 @@ part "furnishing_set.freezed.dart";
 part "furnishing_set.g.dart";
 
 @Freezed(toJson: false)
-sealed class Furnishing with _$Furnishing, ImageGetter, Searchable {
+sealed class Furnishing with _$Furnishing, HasImage, Searchable {
   const Furnishing._();
 
   const factory Furnishing({
@@ -46,7 +46,7 @@ sealed class FurnishingSetComponent with _$FurnishingSetComponent {
 }
 
 @Freezed(toJson: false)
-sealed class FurnishingSet with _$FurnishingSet, ImageGetter, Searchable {
+sealed class FurnishingSet with _$FurnishingSet, HasImage, Searchable {
   const FurnishingSet._();
 
   const factory FurnishingSet({

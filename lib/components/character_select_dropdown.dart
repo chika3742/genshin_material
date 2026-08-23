@@ -3,6 +3,7 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../models/character.dart";
 import "../models/common.dart";
+import "../providers/asset_image_resolver.dart";
 import "../providers/versions.dart";
 
 class CharacterSelectDropdown extends HookConsumerWidget {
@@ -25,10 +26,10 @@ class CharacterSelectDropdown extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ac = ref.watch(assetDataProvider);
-    if (ac.value == null) {
+    if (ref.watch(assetDataProvider).value == null) {
       throw "Must be used within an DataAssetScope.";
     }
+    final images = ref.watch(assetImageResolverProvider);
 
     return DropdownButtonFormField(
       initialValue: initialValue,
@@ -39,7 +40,7 @@ class CharacterSelectDropdown extends HookConsumerWidget {
             child: Row(
               children: [
                 Image.file(
-                  character.getSmallImageFile(ac.value!.assetDir),
+                  images.getSmallFile(character),
                   width: 40,
                   height: 40,
                 ),

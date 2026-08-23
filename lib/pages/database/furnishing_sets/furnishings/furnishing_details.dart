@@ -6,6 +6,7 @@ import "../../../../components/item_source_widget.dart";
 import "../../../../components/list_tile.dart";
 import "../../../../constants/dimens.dart";
 import "../../../../i18n/strings.g.dart";
+import "../../../../providers/asset_image_resolver.dart";
 import "../../../../providers/versions.dart";
 import "../../../../routes.dart";
 import "../../../../ui_core/layout.dart";
@@ -20,6 +21,7 @@ class FurnishingDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetData = ref.watch(assetDataProvider).value!;
+    final images = ref.watch(assetImageResolverProvider);
     final furnishing = assetData.furnishings[id];
     if (furnishing == null) {
       return Scaffold(
@@ -46,7 +48,7 @@ class FurnishingDetailsPage extends ConsumerWidget {
             spacing: 16,
             children: [
               Image.file(
-                furnishing.getImageFile(assetData.assetDir),
+                images.getFile(furnishing),
                 width: furnishingImageSize,
                 height: furnishingImageSize,
               ),
@@ -70,7 +72,7 @@ class FurnishingDetailsPage extends ConsumerWidget {
                         children: includedInSets.map((set) {
                           return SimpleListTile(
                             leading: Image.file(
-                              set.getImageFile(assetData.assetDir),
+                              images.getFile(set),
                               width: listTileFurnishingSetImageWidth,
                             ),
                             title: set.name.localized,

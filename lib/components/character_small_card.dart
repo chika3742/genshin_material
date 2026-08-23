@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "../models/character.dart";
+import "../providers/asset_image_resolver.dart";
 import "../providers/versions.dart";
 import "../routes.dart";
 
@@ -12,10 +13,10 @@ class CharacterSmallCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetDir = ref.watch(assetDataProvider).value?.assetDir;
-    if (assetDir == null) {
+    if (ref.watch(assetDataProvider).value == null) {
       return const SizedBox();
     }
+    final images = ref.watch(assetImageResolverProvider);
 
     return Card(
       child: InkWell(
@@ -26,7 +27,7 @@ class CharacterSmallCard extends ConsumerWidget {
         child: Column(
           children: [
             Image.file(
-              character.getSmallImageFile(assetDir),
+              images.getSmallFile(character),
               width: 75,
               height: 75,
             ),

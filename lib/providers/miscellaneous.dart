@@ -1,3 +1,5 @@
+import "dart:io";
+
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/hoyolab_api.dart";
@@ -7,6 +9,7 @@ import "../db/in_game_character_state_db_extension.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "database_provider.dart";
+import "hoyolab_credential.dart";
 import "pref_notifier.dart";
 
 part "miscellaneous.g.dart";
@@ -50,4 +53,13 @@ Future<List<CharacterId>?> ownedCharacters(Ref ref) async {
   }
   final db = ref.watch(appDatabaseProvider);
   return await db.getSyncedCharacters(uid);
+}
+
+@riverpod
+bool shouldHideImages(Ref ref) {
+  if (!Platform.isIOS && !Platform.isMacOS) {
+    return false;
+  }
+
+  return !ref.watch(isHoyolabSignedInProvider);
 }

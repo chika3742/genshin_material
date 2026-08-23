@@ -9,6 +9,7 @@ import "../core/asset_cache.dart";
 import "../core/pref_keys.dart";
 import "../i18n/strings.g.dart";
 import "../models/material.dart";
+import "../providers/asset_image_resolver.dart";
 import "../providers/pref_notifier.dart";
 import "../providers/versions.dart";
 import "../routes.dart";
@@ -42,6 +43,7 @@ class DailyPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dailyResetServer = ref.watch(prefProvider(PrefKeys.dailyResetServer));
+    final images = ref.watch(assetImageResolverProvider);
 
     final tabController = useTabController(
       initialLength: tabs.length,
@@ -116,7 +118,7 @@ class DailyPage extends HookConsumerWidget {
                                     for (final weapon in e.value)
                                       GameItemListTile(
                                         name: weapon.name.localized,
-                                        image: weapon.getImageFile(assetData.assetDir),
+                                        image: images.getFile(weapon),
                                         rounded: true,
                                         rarity: weapon.rarity,
                                         onTap: () {
@@ -152,6 +154,7 @@ class _DailyMaterialHeading extends ConsumerWidget {
     if (assetData == null) {
       return const SizedBox();
     }
+    final images = ref.watch(assetImageResolverProvider);
 
     return Card(
       color: Theme.of(context).colorScheme.tertiaryContainer,
@@ -165,7 +168,7 @@ class _DailyMaterialHeading extends ConsumerWidget {
                   MaterialDetailsRoute(id: dm).push(context);
                 },
                 child: Image.file(
-                  assetData.materials[dm]!.getImageFile(assetData.assetDir),
+                  images.getFile(assetData.materials[dm]!),
                   width: 35,
                   height: 35,
                 ),

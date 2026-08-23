@@ -3,6 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:google_fonts/google_fonts.dart";
 
 import "../models/character.dart";
+import "../providers/asset_image_resolver.dart";
 import "../providers/versions.dart";
 import "../routes.dart";
 
@@ -13,10 +14,10 @@ class CharacterListItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetDir = ref.watch(assetDataProvider).value?.assetDir;
-    if (assetDir == null) {
+    if (ref.watch(assetDataProvider).value == null) {
       return const SizedBox();
     }
+    final images = ref.watch(assetImageResolverProvider);
 
     const containerBorderRadius = 8.0;
 
@@ -33,7 +34,7 @@ class CharacterListItem extends ConsumerWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: FileImage(character.getImageFile(assetDir)),
+              image: FileImage(images.getFile(character)),
             ),
             borderRadius: BorderRadius.circular(containerBorderRadius),
           ),

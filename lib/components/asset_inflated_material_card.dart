@@ -4,6 +4,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "../core/pref_keys.dart";
 import "../models/common.dart";
+import "../providers/asset_image_resolver.dart";
 import "../providers/pref_notifier.dart";
 import "../providers/versions.dart";
 import "material_card.dart";
@@ -38,6 +39,7 @@ class AssetInflatedMaterialCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetData = ref.watch(assetDataProvider).requireValue;
+    final images = ref.watch(assetImageResolverProvider);
     final showItemNameOnCard = ref.watch(prefProvider(PrefKeys.showItemNameOnCard));
 
     final List<MaterialCardEntry> entries = switch (materialId) {
@@ -45,7 +47,7 @@ class AssetInflatedMaterialCard extends ConsumerWidget {
         final material = assetData.materials[expItem.itemId]!;
         return MaterialCardEntry(
           id: expItem.itemId,
-          image: material.getImageFile(assetData.assetDir),
+          image: images.getFile(material),
           name: showItemNameOnCard ? material.name.localized : null,
           rarity: material.rarity,
           quantity: (quantity / expItem.expPerItem).ceil(),
@@ -57,7 +59,7 @@ class AssetInflatedMaterialCard extends ConsumerWidget {
         final material = assetData.materials[materialId]!;
         return [MaterialCardEntry(
           id: material.id,
-          image: material.getImageFile(assetData.assetDir),
+          image: images.getFile(material),
           name: showItemNameOnCard ? material.name.localized : null,
           rarity: material.rarity,
           quantity: quantity,

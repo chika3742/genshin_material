@@ -8,8 +8,8 @@ import "../db/furnishing_db_extension.dart";
 import "../i18n/strings.g.dart";
 import "../models/common.dart";
 import "../models/furnishing_set.dart";
+import "../providers/asset_image_resolver.dart";
 import "../providers/database_provider.dart";
-import "../providers/versions.dart";
 import "../routes.dart";
 import "../ui_core/dialog.dart";
 import "../ui_core/page_handoff_horizontal_scroll.dart";
@@ -54,7 +54,7 @@ class FurnishingTable extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetData = ref.watch(assetDataProvider).value!;
+    final images = ref.watch(assetImageResolverProvider);
     final db = ref.watch(appDatabaseProvider);
 
     final counts = useStream(
@@ -128,7 +128,7 @@ class FurnishingTable extends HookConsumerWidget {
               cells: [
                 DataCell(
                   Image.file(
-                    item.furnishing.getImageFile(assetData.assetDir),
+                    images.getFile(item.furnishing),
                     height: tableImageSize,
                   ),
                   onTap: () {
