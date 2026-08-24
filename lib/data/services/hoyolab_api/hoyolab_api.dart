@@ -11,11 +11,7 @@ import "hoyolab_api_internal_utils.dart";
 base class HoyolabApi {
   final http.Client _client;
 
-  HoyolabApi([http.Client? client]) : _client = client ?? http.Client();
-
-  void close() {
-    _client.close();
-  }
+  const HoyolabApi({required this._client});
 
   static final queue = ApiRequestQueue(
     interval: const Duration(milliseconds: 500),
@@ -49,7 +45,7 @@ base class HoyolabApi {
 }
 
 final class HoyolabPreAuthApi extends HoyolabApi {
-  HoyolabPreAuthApi([super.client]);
+  const HoyolabPreAuthApi({required super.client});
 
   Future<LookupServersResult> lookupServers() async {
     const url = "https://api-account-os.hoyolab.com/account/binding/api/getAllRegions?game_biz=hk4e_global";
@@ -72,7 +68,7 @@ final class HoyolabPreAuthApi extends HoyolabApi {
 final class HoyolabAuthenticatedApi extends HoyolabApi {
   final String cookie;
 
-  HoyolabAuthenticatedApi(this.cookie, [super.client]);
+  const HoyolabAuthenticatedApi(this.cookie, {required super.client});
 
   Future<void> logout() async {
     const url = "https://passport-api-sg.hoyolab.com/account/ma-passport/api/logout";
@@ -140,7 +136,7 @@ final class HoyolabAuthenticatedServerApi extends HoyolabAuthenticatedApi {
   final String region;
   final String uid;
 
-  HoyolabAuthenticatedServerApi(super.cookie, this.region, this.uid, [super.client]);
+  const HoyolabAuthenticatedServerApi(super.cookie, this.region, this.uid, {required super.client});
 
   Future<AvatarListResult> avatarList(int page, {List<int> elementIds = const [], List<int> weaponCatIds = const []}) {
     const url = "https://sg-act-public-api.hoyolab.com/event/e20200928calculate/v1/sync/avatar/list";

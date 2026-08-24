@@ -1,6 +1,5 @@
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
-import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -12,17 +11,14 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
-import "composables/use_remote_config_listener.dart";
 import "core/provider_error_observer.dart";
 import "core/theme.dart";
 import "data/repositories/hoyolab_credential.dart";
-// ignore: uri_does_not_exist
-// import "firebase_options.dart";
-import "data/repositories/remote_config_repository.dart";
 import "data/repositories/secure_storage_repository.dart";
 import "data/services/local_notification.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
+import "providers/miscellaneous.dart";
 import "providers/pref_notifier.dart";
 import "providers/versions.dart";
 import "routes.dart";
@@ -38,7 +34,7 @@ void main() async {
   LocaleSettings.useDeviceLocaleSync();
   await LocalNotification.initializeTimezone();
   await initializeDateFormatting("ja_JP", null);
-  // avoid plural resolver not configured warning
+  // avoid plural resolver warns about not configured
   // (Japanese doesn't have plural forms)
   LocaleSettings.setPluralResolver(
     locale: AppLocale.ja,
@@ -69,19 +65,16 @@ void main() async {
     return true;
   };
 
-  final remoteConfig = FirebaseRemoteConfig.instance;
-  final remoteConfigRepo = RemoteConfigRepository(remoteConfig);
-  await remoteConfigRepo.initialize();
-
   final localNotification = LocalNotification(FlutterLocalNotificationsPlugin());
   await localNotification.initialize();
+
+  _EagerInitialization.deferFirstFrame();
 
   runApp(
     ProviderScope(
       observers: [ProviderErrorObserver()],
       overrides: [
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
-        remoteConfigProvider.overrideWithValue(remoteConfigRepo),
         localNotificationProvider.overrideWithValue(localNotification),
         isHoyolabSignedInInitialProvider.overrideWithValue(hoyolabSignedIn),
       ],
@@ -109,51 +102,52 @@ class MyApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(assetDataProvider);
     ref.watch(appDatabaseProvider);
-    useRemoteConfigListener(ref);
 
     const appTitle = "Genshin Material";
 
-    return MaterialApp.router(
-      title: appTitle,
-      debugShowCheckedModeBanner: !isScreenshotMode,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
-        extensions: [
-          ComponentThemeExtension(
-            starColor: Colors.orange,
-            rarity1Color: Colors.grey.shade600,
-            rarity2Color: Colors.green,
-            rarity3Color: Colors.blue,
-            rarity4Color: Colors.purple,
-            rarity5Color: Colors.orange.shade700,
-          ),
-        ],
-        textTheme: GoogleFonts.mPlus2TextTheme(),
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.orange,
-          brightness: Brightness.dark,
+    return _EagerInitialization(
+      child: MaterialApp.router(
+        title: appTitle,
+        debugShowCheckedModeBanner: !isScreenshotMode,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+          extensions: [
+            ComponentThemeExtension(
+              starColor: Colors.orange,
+              rarity1Color: Colors.grey.shade600,
+              rarity2Color: Colors.green,
+              rarity3Color: Colors.blue,
+              rarity4Color: Colors.purple,
+              rarity5Color: Colors.orange.shade700,
+            ),
+          ],
+          textTheme: GoogleFonts.mPlus2TextTheme(),
         ),
-        extensions: [
-          ComponentThemeExtension(
-            starColor: Colors.yellow,
-            rarity1Color: Colors.grey,
-            rarity2Color: Colors.green,
-            rarity3Color: Colors.blue,
-            rarity4Color: Colors.purple.shade300,
-            rarity5Color: Colors.orange,
+        darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.orange,
+            brightness: Brightness.dark,
           ),
+          extensions: [
+            ComponentThemeExtension(
+              starColor: Colors.yellow,
+              rarity1Color: Colors.grey,
+              rarity2Color: Colors.green,
+              rarity3Color: Colors.blue,
+              rarity4Color: Colors.purple.shade300,
+              rarity5Color: Colors.orange,
+            ),
+          ],
+          textTheme: GoogleFonts.mPlus2TextTheme(ThemeData.dark().textTheme),
+        ),
+        routerConfig: _router,
+        localizationsDelegates: const [
+          DefaultMaterialLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate,
+          DefaultWidgetsLocalizations.delegate,
         ],
-        textTheme: GoogleFonts.mPlus2TextTheme(ThemeData.dark().textTheme),
+        scrollBehavior: const ScrollbarOnAllPlatformsScrollBehavior(),
       ),
-      routerConfig: _router,
-      localizationsDelegates: const [
-        DefaultMaterialLocalizations.delegate,
-        DefaultCupertinoLocalizations.delegate,
-        DefaultWidgetsLocalizations.delegate,
-      ],
-      scrollBehavior: const ScrollbarOnAllPlatformsScrollBehavior(),
     );
   }
 }
@@ -211,5 +205,59 @@ class _RestartableState extends ConsumerState<Restartable> {
   @override
   Widget build(BuildContext context) {
     return currentChild;
+  }
+}
+
+class _EagerInitialization extends HookConsumerWidget {
+  final Widget child;
+
+  const _EagerInitialization({required this.child});
+
+  static int _deferredCount = 0;
+
+  static void deferFirstFrame() {
+    WidgetsBinding.instance.deferFirstFrame();
+    _deferredCount++;
+  }
+
+  static void allowFirstFrame() {
+    if (_deferredCount <= 0) {
+      return;
+    }
+
+    _deferredCount--;
+    WidgetsBinding.instance.allowFirstFrame();
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(appStartupProvider);
+    if (state.isLoading) {
+      return SizedBox.shrink();
+    }
+    allowFirstFrame();
+    if (state.hasError) {
+      return _AppStartupErrorScreen();
+    }
+    return child;
+  }
+}
+
+class _AppStartupErrorScreen extends StatelessWidget {
+  const _AppStartupErrorScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(tr.errors.startup),
+        ),
+        body: Padding(
+          padding: .all(16),
+          child: Text(tr.errors.startupInstruction, style: TextStyle(fontSize: 16)),
+        ),
+      ),
+    );
   }
 }

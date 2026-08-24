@@ -3,6 +3,7 @@ import "dart:developer";
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:flutter_riverpod/misc.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
@@ -12,6 +13,7 @@ import "../../core/errors.dart";
 import "../../core/pref_keys.dart";
 import "../../data/repositories/hoyolab_api_repositories.dart";
 import "../../data/repositories/hoyolab_credential.dart";
+import "../../data/services/hoyolab_api/hoyolab_api.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
 import "../../providers/miscellaneous.dart";
@@ -242,109 +244,132 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final api = ref.watch(hoyolabPreAuthApiProvider);
-    final serversSnapshot = useFuture(useMemoized(api.lookupServers, [api]));
+    final HoyolabPreAuthApi api;
+    try {
+      api = ref.watch(hoyolabPreAuthApiProvider);
+    } on ProviderException catch (e) {
+      return ScrollableBottomSheet(
+        title: Text(tr.hoyolab.serverSelect, style: Theme.of(context).textTheme.titleMedium),
+        builder: (context) {
+          return SafeArea(
+            child: SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text("${tr.hoyolab.failedToLoadServerList} ${getErrorMessage(e.exception)}"),
+              ),
+            ),
+          );
+        },
+      );
+    }
 
-    final selectedServer = useState<HyvServer?>(null);
-    final gameRoles = useState<Map<HyvServer, HyvUserGameRole?>>({});
-    final loadingGameRoleServers = useState<List<HyvServer>>([]);
-    final errorText = useState<String?>(null);
+    return HookConsumer(
+      builder: (context, ref, child) {
+        final serversSnapshot = useFuture(useMemoized(api.lookupServers, [api]));
 
-    // set initial selected server
-    useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, _) {
-      final hyvServer = ref.read(prefProvider(PrefKeys.hyvServer));
-      final servers = serversSnapshot.data?.data?.list;
-      if (servers != null) {
-        selectedServer.value = servers.firstWhereOrNull((e) => e.region == hyvServer);
-      }
-    });
+        final selectedServer = useState<HyvServer?>(null);
+        final gameRoles = useState<Map<HyvServer, HyvUserGameRole?>>({});
+        final loadingGameRoleServers = useState<List<HyvServer>>([]);
+        final errorText = useState<String?>(null);
 
-    // Load game roles when server is selected
-    useValueChanged<HyvServer?, void>(selectedServer.value, (_, _) async {
-      if (selectedServer.value != null && gameRoles.value.containsKey(selectedServer.value)) {
-        return; // Already loaded
-      }
+        // set initial selected server
+        useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, _) {
+          final hyvServer = ref.read(prefProvider(PrefKeys.hyvServer));
+          final servers = serversSnapshot.data?.data?.list;
+          if (servers != null) {
+            selectedServer.value = servers.firstWhereOrNull((e) => e.region == hyvServer);
+          }
+        });
 
-      final server = selectedServer.value!;
+        // Load game roles when server is selected
+        useValueChanged<HyvServer?, void>(selectedServer.value, (_, _) async {
+          if (selectedServer.value != null && gameRoles.value.containsKey(selectedServer.value)) {
+            return; // Already loaded
+          }
 
-      loadingGameRoleServers.value = [...loadingGameRoleServers.value..add(server)];
+          final server = selectedServer.value!;
 
-      try {
-        errorText.value = null;
+          loadingGameRoleServers.value = [...loadingGameRoleServers.value..add(server)];
 
-        final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
-        final result = await api.getUserGameRoles(server.region);
+          try {
+            errorText.value = null;
 
-        gameRoles.value[server] = result.list.firstOrNull;
-      } on HoyolabApiException catch (e, st) {
-        log("Failed to load game role for server ${server.region}", error: e, stackTrace: st);
-        errorText.value = getErrorMessage(e, prefix: tr.hoyolab.failedToLoadGameRole);
-      } catch (e, st) {
-        log("Failed to load game role for server ${server.region}", error: e, stackTrace: st);
-        errorText.value = tr.hoyolab.failedToLoadGameRole;
-      } finally {
-        loadingGameRoleServers.value = [...loadingGameRoleServers.value..remove(server)];
-      }
-    });
+            final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
+            final result = await api.getUserGameRoles(server.region);
 
-    return ScrollableBottomSheet(
-      title: Text(tr.hoyolab.serverSelect, style: Theme.of(context).textTheme.titleMedium),
-      actions: [
-        SizedBox(
-          child: IconButton.filled(
-            icon: Icon(Symbols.check),
-            iconSize: 32,
-            onPressed: selectedServer.value != null && gameRoles.value[selectedServer.value!] != null ? () async {
-              if (selectedServer.value == null || gameRoles.value[selectedServer.value!] == null) {
-                return;
-              }
+            gameRoles.value[server] = result.list.firstOrNull;
+          } on HoyolabApiException catch (e, st) {
+            log("Failed to load game role for server ${server.region}", error: e, stackTrace: st);
+            errorText.value = getErrorMessage(e, prefix: tr.hoyolab.failedToLoadGameRole);
+          } catch (e, st) {
+            log("Failed to load game role for server ${server.region}", error: e, stackTrace: st);
+            errorText.value = tr.hoyolab.failedToLoadGameRole;
+          } finally {
+            loadingGameRoleServers.value = [...loadingGameRoleServers.value..remove(server)];
+          }
+        });
 
-              final server = selectedServer.value!;
-              final gameRole = gameRoles.value[server]!;
-              final notifier = ref.read(hoyolabCredentialProvider.notifier);
-              await notifier.setServer(server, gameRole.nickname);
-              await notifier.setUid(gameRole.uid);
-              if (context.mounted) Navigator.of(context).pop();
-            } : null,
-          ),
-        ),
-      ],
-      builder: (context) {
-        return SafeArea(
-          minimum: const EdgeInsets.only(bottom: 16),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: 340),
-            child: Column(
-              spacing: 16.0,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
+        return ScrollableBottomSheet(
+          title: Text(tr.hoyolab.serverSelect, style: Theme.of(context).textTheme.titleMedium),
+          actions: [
+            SizedBox(
+              child: IconButton.filled(
+                icon: Icon(Symbols.check),
+                iconSize: 32,
+                onPressed: selectedServer.value != null && gameRoles.value[selectedServer.value!] != null ? () async {
+                  if (selectedServer.value == null || gameRoles.value[selectedServer.value!] == null) {
+                    return;
+                  }
+
+                  final server = selectedServer.value!;
+                  final gameRole = gameRoles.value[server]!;
+                  final notifier = ref.read(hoyolabCredentialProvider.notifier);
+                  await notifier.setServer(server, gameRole.nickname);
+                  await notifier.setUid(gameRole.uid);
+                  if (context.mounted) Navigator.of(context).pop();
+                } : null,
+              ),
+            ),
+          ],
+          builder: (context) {
+            return SafeArea(
+              minimum: const EdgeInsets.only(bottom: 16),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: 340),
+                child: Column(
+                  spacing: 16.0,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AnimatedLinearProgressIndicator(show: serversSnapshot.connectionState != ConnectionState.done),
-                    if (serversSnapshot.connectionState == ConnectionState.done)
-                      _buildServerList(context, selectedServer, serversSnapshot),
+                    Stack(
+                      children: [
+                        AnimatedLinearProgressIndicator(show: serversSnapshot.connectionState != ConnectionState.done),
+                        if (serversSnapshot.connectionState == ConnectionState.done)
+                          _buildServerList(context, selectedServer, serversSnapshot),
+                      ],
+                    ),
+                    Visibility(
+                      visible: selectedServer.value != null,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: AnimatedSwitcher(
+                          duration: Durations.medium1,
+                          child: loadingGameRoleServers.value.isEmpty
+                              ? _UserGameRoleWidget(gameRoles.value[selectedServer.value])
+                              : const SmallCircularProgressIndicator(),
+                        ) ,
+                      ),
+                    ),
+                    Visibility(
+                      visible: errorText.value != null,
+                      child: Text(errorText.value ?? "", style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                    ),
+                    SizedBox(height: 40), // size of OK button
                   ],
                 ),
-                Visibility(
-                  visible: selectedServer.value != null,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: AnimatedSwitcher(
-                      duration: Durations.medium1,
-                      child: loadingGameRoleServers.value.isEmpty
-                          ? _UserGameRoleWidget(gameRoles.value[selectedServer.value])
-                          : const SmallCircularProgressIndicator(),
-                    ) ,
-                  ),
-                ),
-                Visibility(
-                  visible: errorText.value != null,
-                  child: Text(errorText.value ?? "", style: TextStyle(color: Theme.of(context).colorScheme.error)),
-                ),
-                SizedBox(height: 40), // size of OK button
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );

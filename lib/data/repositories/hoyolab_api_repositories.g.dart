@@ -54,7 +54,7 @@ final class HoyolabPreAuthApiProvider
   }
 }
 
-String _$hoyolabPreAuthApiHash() => r'cb4c468c382d0938d5300c5db4d17a9ba7f02831';
+String _$hoyolabPreAuthApiHash() => r'1a66710881070817310760715d16f87acb8324e4';
 
 @ProviderFor(hoyolabAuthenticatedApi)
 final hoyolabAuthenticatedApiProvider = HoyolabAuthenticatedApiProvider._();
@@ -96,7 +96,7 @@ final class HoyolabAuthenticatedApiProvider
 }
 
 String _$hoyolabAuthenticatedApiHash() =>
-    r'27a84b197976e0714b04da4b8b410593ebeee037';
+    r'9d3e4a3b9f2b2dc5c5e20e85441c04796f74f92e';
 
 @ProviderFor(hoyolabAuthenticatedServerApi)
 final hoyolabAuthenticatedServerApiProvider =
@@ -139,4 +139,4 @@ final class HoyolabAuthenticatedServerApiProvider
 }
 
 String _$hoyolabAuthenticatedServerApiHash() =>
-    r'50eaad81e78aea1c7d0c5854deaaa902d84a7e48';
+    r'd9cfd0152a4df66d4835738c831a27b959ce1029';

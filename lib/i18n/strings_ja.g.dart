@@ -303,6 +303,15 @@ class Translations$errors$ja {
 
 	// Translations
 
+	/// ja: 'アプリの起動に失敗しました'
+	String get startup => 'アプリの起動に失敗しました';
+
+	/// ja: 'アプリの起動処理に失敗しました。アプリを再起動しても改善しない場合は、開発者にご連絡ください（X: @gms_material）。'
+	String get startupInstruction => 'アプリの起動処理に失敗しました。アプリを再起動しても改善しない場合は、開発者にご連絡ください（X: @gms_material）。';
+
+	/// ja: 'HoYoLAB連携機能は現在ご利用いただけません。'
+	String get hoyolabLinkDisabled => 'HoYoLAB連携機能は現在ご利用いただけません。';
+
 	/// ja: 'キャラクターが見つかりません'
 	String get characterNotFound => 'キャラクターが見つかりません';
 
@@ -1198,6 +1207,9 @@ extension on Translations {
 			'updates.completed' => '更新が完了しました。',
 			'updates.installing' => 'インストールしています...',
 			'updates.pleaseWaitUntilComplete' => 'データ更新が完了するまでお待ちください。',
+			'errors.startup' => 'アプリの起動に失敗しました',
+			'errors.startupInstruction' => 'アプリの起動処理に失敗しました。アプリを再起動しても改善しない場合は、開発者にご連絡ください（X: @gms_material）。',
+			'errors.hoyolabLinkDisabled' => 'HoYoLAB連携機能は現在ご利用いただけません。',
 			'errors.characterNotFound' => 'キャラクターが見つかりません',
 			'errors.weaponNotFound' => '武器が見つかりません',
 			'errors.materialNotFound' => '素材が見つかりません',

@@ -5,6 +5,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 import "../core/pref_keys.dart";
 import "../data/repositories/hoyolab_api_repositories.dart";
 import "../data/repositories/hoyolab_credential.dart";
+import "../data/repositories/remote_config_value.dart";
 import "../db/in_game_character_state_db_extension.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
@@ -12,6 +13,13 @@ import "database_provider.dart";
 import "pref_notifier.dart";
 
 part "miscellaneous.g.dart";
+
+@riverpod
+Future<void> appStartup(Ref ref) async {
+  await Future.wait([
+    ref.watch(initializeRemoteConfigProvider.future),
+  ]);
+}
 
 @riverpod
 class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {

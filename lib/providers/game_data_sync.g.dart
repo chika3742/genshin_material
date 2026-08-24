@@ -411,7 +411,7 @@ final class ResinSyncStateNotifierProvider
 }
 
 String _$resinSyncStateNotifierHash() =>
-    r'0e72a4127bda479b652fe79417549754c6699eb4';
+    r'12dd0811bd5ccb360916de203ecfd6fca60b7bbd';
 
 abstract class _$ResinSyncStateNotifier extends $Notifier<GameDataSyncStatus> {
   GameDataSyncStatus build();

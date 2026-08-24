@@ -17,6 +17,8 @@ import "../../../components/rarity_stars.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/pref_keys.dart";
+import "../../../core/remote_config_keys.dart";
+import "../../../data/repositories/remote_config_value.dart";
 import "../../../database.dart";
 import "../../../db/bookmark_db_extension.dart";
 import "../../../db/in_game_character_state_db_extension.dart";
@@ -192,18 +194,19 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
           ),
         ),
         actions: [
-          PopupMenuButton(
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem(
-                  child: Text(tr.pages.hoyolabIntegrationSettings),
-                  onTap: () {
-                    HoyolabIntegrationSettingsRoute().push(context);
-                  },
-                ),
-              ];
-            },
-          ),
+          if (ref.watch(remoteConfigValueProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
+            PopupMenuButton(
+              itemBuilder: (context) {
+                return [
+                  PopupMenuItem(
+                    child: Text(tr.pages.hoyolabIntegrationSettings),
+                    onTap: () {
+                      HoyolabIntegrationSettingsRoute().push(context);
+                    },
+                  ),
+                ];
+              },
+            ),
         ],
       ),
       body: SingleChildScrollView(

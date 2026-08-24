@@ -79,6 +79,9 @@ updates:
   installing: インストールしています...
   pleaseWaitUntilComplete: データ更新が完了するまでお待ちください。
 errors:
+  startup: アプリの起動に失敗しました
+  startupInstruction: "アプリの起動処理に失敗しました。アプリを再起動しても改善しない場合は、開発者にご連絡ください（X: @gms_material）。"
+  hoyolabLinkDisabled: HoYoLAB連携機能は現在ご利用いただけません。
   characterNotFound: キャラクターが見つかりません
   weaponNotFound: 武器が見つかりません
   materialNotFound: 素材が見つかりません

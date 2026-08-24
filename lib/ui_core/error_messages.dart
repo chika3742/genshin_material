@@ -21,6 +21,7 @@ String getErrorMessage(Object? error, {String prefix = ""}) {
     },
     DriftRemoteException() => tr.errors.dbError,
     NoCompatibleAssetException() => tr.updates.noCompatibleAsset,
+    HoyolabLinkDisabledException() => tr.errors.hoyolabLinkDisabled,
     _ => "",
   };
 }

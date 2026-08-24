@@ -11,7 +11,7 @@ import "../../composables/use_periodic_timer.dart";
 import "../../core/pref_keys.dart";
 import "../../core/remote_config_keys.dart";
 import "../../data/repositories/hoyolab_credential.dart";
-import "../../data/repositories/remote_config_repository.dart";
+import "../../data/repositories/remote_config_value.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/game_data_sync.dart";
 import "../../providers/pref_notifier.dart";
@@ -117,7 +117,7 @@ class ResinCalcPage extends HookConsumerWidget {
                 ListSubheader(tr.resinCalcPage.howToUse, padding: EdgeInsets.zero),
                 Text(tr.resinCalcPage.howToUseContent),
 
-                if (ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled))
+                if (ref.watch(remoteConfigValueProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
                   ...[
                     ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
                     OverflowBox(

@@ -3,7 +3,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/pref_keys.dart";
 import "../core/remote_config_keys.dart";
-import "../data/repositories/remote_config_repository.dart";
+import "../data/repositories/remote_config_value.dart";
 import "pref_notifier.dart";
 
 part "banner_notifier.g.dart";
@@ -22,23 +22,28 @@ sealed class BannerData with _$BannerData {
 class BannerNotifier extends _$BannerNotifier {
   @override
   BannerData? build() {
-    final rc = ref.watch(remoteConfigProvider);
+    if (!ref.watch(remoteConfigValueProvider(RemoteConfigKeys.showBanner))) {
+      return null;
+    }
+
     final bannerReadKeys = ref.watch(prefProvider(PrefKeys.bannerReadKeys));
-    if (!rc.get(RemoteConfigKeys.showBanner)
-        || bannerReadKeys.contains(rc.get(RemoteConfigKeys.bannerKey))) {
+    // Keep the watched value in a local: inlining it into `contains(Object?)`
+    // would infer the provider as RemoteConfigValueProvider<Object>.
+    final bannerKey = ref.watch(remoteConfigValueProvider(RemoteConfigKeys.bannerKey));
+    if (bannerReadKeys.contains(bannerKey)) {
       return null;
     }
     return BannerData(
-      text: rc.get(RemoteConfigKeys.bannerText),
-      actionText: rc.get(RemoteConfigKeys.bannerActionText),
-      actionUrl: rc.get(RemoteConfigKeys.bannerActionUrl),
+      text: ref.watch(remoteConfigValueProvider(RemoteConfigKeys.bannerText)),
+      actionText: ref.watch(remoteConfigValueProvider(RemoteConfigKeys.bannerActionText)),
+      actionUrl: ref.watch(remoteConfigValueProvider(RemoteConfigKeys.bannerActionUrl)),
     );
   }
 
   Future<void> markAsRead() async {
-    final rc = ref.read(remoteConfigProvider);
     final bannerReadKeys = ref.read(prefProvider(PrefKeys.bannerReadKeys));
+    final bannerKey = ref.read(remoteConfigValueProvider(RemoteConfigKeys.bannerKey));
     await ref.read(prefProvider(PrefKeys.bannerReadKeys).notifier)
-        .set([...bannerReadKeys, rc.get(RemoteConfigKeys.bannerKey)]);
+        .set([...bannerReadKeys, bannerKey]);
   }
 }

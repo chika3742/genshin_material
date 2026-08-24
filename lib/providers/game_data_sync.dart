@@ -280,19 +280,34 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
       return;
     }
 
+    // Defer out of the build phase.
+    await Future.delayed(Duration.zero);
+
+    if (!ref.mounted) {
+      return;
+    }
     state = const GameDataSyncStatus.syncing();
 
     try {
       final api = await ref.read(hoyolabAuthenticatedServerApiProvider.future);
       final dailyNote = await api.getDailyNote();
+      if (!ref.mounted) {
+        return;
+      }
       await ref.read(resinProvider.notifier)
           .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
     } on Exception catch (e, st) {
+      if (!ref.mounted) {
+        return;
+      }
       state = GameDataSyncStatus.error(error: e);
       log("Error syncing resin", error: e, stackTrace: st);
       return; // error
     }
 
+    if (!ref.mounted) {
+      return;
+    }
     state = const GameDataSyncStatus.synced();
   }
 }

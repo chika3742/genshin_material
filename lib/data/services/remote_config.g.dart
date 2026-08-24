@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'remote_config_repository.dart';
+part of 'remote_config.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -13,13 +13,8 @@ part of 'remote_config_repository.dart';
 final remoteConfigProvider = RemoteConfigProvider._();
 
 final class RemoteConfigProvider
-    extends
-        $FunctionalProvider<
-          RemoteConfigRepository,
-          RemoteConfigRepository,
-          RemoteConfigRepository
-        >
-    with $Provider<RemoteConfigRepository> {
+    extends $FunctionalProvider<RemoteConfig, RemoteConfig, RemoteConfig>
+    with $Provider<RemoteConfig> {
   RemoteConfigProvider._()
     : super(
         from: null,
@@ -36,22 +31,21 @@ final class RemoteConfigProvider
 
   @$internal
   @override
-  $ProviderElement<RemoteConfigRepository> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
+  $ProviderElement<RemoteConfig> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
-  RemoteConfigRepository create(Ref ref) {
+  RemoteConfig create(Ref ref) {
     return remoteConfig(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(RemoteConfigRepository value) {
+  Override overrideWithValue(RemoteConfig value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<RemoteConfigRepository>(value),
+      providerOverride: $SyncValueProvider<RemoteConfig>(value),
     );
   }
 }
 
-String _$remoteConfigHash() => r'8b478aeac77cebfead600aefc83eb0b40964df4c';
+String _$remoteConfigHash() => r'41947b5b784f73d8a71119786700c59533b9c316';

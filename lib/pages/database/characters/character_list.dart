@@ -13,7 +13,7 @@ import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/remote_config_keys.dart";
 import "../../../data/repositories/hoyolab_credential.dart";
-import "../../../data/repositories/remote_config_repository.dart";
+import "../../../data/repositories/remote_config_value.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/asset_image_resolver.dart";
@@ -127,7 +127,7 @@ class CharacterListPage extends HookConsumerWidget {
 
               Icon(Symbols.filter_alt),
 
-              if (ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled))
+              if (ref.watch(remoteConfigValueProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
                 FilterChipWithMenu( // possession
                   selected: filterState.possessionStatus != null,
                   label: Text(tr.common.possession),
@@ -236,7 +236,7 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
       builder: (context, assetData) {
         return FilterBottomSheet(
           categories: [
-            if (ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled))
+            if (ref.watch(remoteConfigValueProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
               ...[
                 FilteringCategory(
                   labelText: tr.common.possession,

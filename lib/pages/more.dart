@@ -13,7 +13,7 @@ import "../../../routes.dart";
 import "../../../ui_core/custom_tabs.dart";
 import "../core/errors.dart";
 import "../core/remote_config_keys.dart";
-import "../data/repositories/remote_config_repository.dart";
+import "../data/repositories/remote_config_value.dart";
 import "../data/services/launch_url.dart" hide launchUrlString;
 import "../providers/banner_notifier.dart";
 
@@ -29,7 +29,6 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final remoteConfig = ref.watch(remoteConfigProvider);
     final banner = ref.watch(bannerProvider);
 
     return Scaffold(
@@ -43,7 +42,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
             leadingIcon: Symbols.settings,
             location: SettingsRoute().location,
           ),
-          if (remoteConfig.get(RemoteConfigKeys.hoyolabLinkEnabled))
+          if (ref.watch(remoteConfigValueProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
             SimpleListTile(
               title: tr.pages.hoyolabIntegrationSettings,
               subtitle: tr.morePage.hoyolabIntegrationSettingsDesc,

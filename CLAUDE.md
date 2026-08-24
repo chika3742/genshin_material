@@ -74,7 +74,7 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 
 - **Riverpod 3** with code generation. Provider functions take a plain `Ref` (no generic type argument).
 - Widget state uses `flutter_hooks` via `HookConsumerWidget` / `HookWidget`. Reusable hook logic lives in `lib/composables/`.
-- Providers that need runtime-constructed dependencies are declared to `throw StateError` and are overridden in `main.dart`'s `ProviderScope`: `sharedPreferencesWithCacheProvider`, `remoteConfigProvider`, `localNotificationProvider`, `isHoyolabSignedInInitialProvider`. When adding such a provider, override it in `main.dart` **and** in tests.
+- Providers that need runtime-constructed dependencies are declared to `throw StateError` and are overridden in `main.dart`'s `ProviderScope`: `sharedPreferencesWithCacheProvider`, `localNotificationProvider`, `isHoyolabSignedInInitialProvider`. When adding such a provider, override it in `main.dart` **and** in tests.
 - `ProviderErrorObserver` (`lib/core/provider_error_observer.dart`) logs provider errors globally.
 - Database is accessed via `appDatabaseProvider`; all complex queries are implemented as extension methods in `lib/db/`.
 
@@ -85,9 +85,9 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 
 ### Remote Config
 
-- `RemoteConfigRepository` (`lib/data/repositories/remote_config_repository.dart`) wraps `FirebaseRemoteConfig`; access it via `remoteConfigProvider`.
-- Keys are typed constants in `RemoteConfigKeys` (`lib/core/remote_config_keys.dart`), read with `ref.watch(remoteConfigProvider).get(RemoteConfigKeys.xxx)`. Defaults for keys that gate features go in `RemoteConfigKeys.defaults`.
-- Real-time config pushes are applied by `useRemoteConfigListener` (called from `MyApp`); the polling interval is intentionally long (12h).
+- `RemoteConfig` (`lib/data/services/remote_config.dart`) wraps `FirebaseRemoteConfig`; access it via `remoteConfigProvider`.
+- Keys are typed constants in `RemoteConfigKeys` (`lib/core/remote_config_keys.dart`), read with `ref.watch(remoteConfigValueProvider(RemoteConfigKeys.xxx))` (`lib/data/repositories/remote_config_value.dart`) — never call `remoteConfigProvider.get()` from consumers. Defaults for keys that gate features go in `RemoteConfigKeys.defaults`.
+- In tests, stub individual keys with `remoteConfigValueProvider(RemoteConfigKeys.xxx).overrideWithValue(...)`.
 
 ### Database (Drift)
 

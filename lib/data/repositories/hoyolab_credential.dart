@@ -7,7 +7,7 @@ import "../../core/remote_config_keys.dart";
 import "../../models/hoyolab_api.dart";
 import "../../providers/pref_notifier.dart";
 import "hoyolab_api_repositories.dart";
-import "remote_config_repository.dart";
+import "remote_config_value.dart";
 import "secure_storage_repository.dart";
 
 part "hoyolab_credential.g.dart";
@@ -48,14 +48,14 @@ class HoyolabCredential extends _$HoyolabCredential {
       // revoke API token
       final api = await ref.read(hoyolabAuthenticatedApiProvider.future);
       await api.logout();
-      // clear cookie
-      await ref.read(secureStorageRepositoryProvider).deleteHoyolabCookie();
-      await ref.read(isHoyolabSignedInProvider.notifier).refresh();
     } catch (e, st) {
       // Even if the remote logout fails (offline / feature disabled),
       // local credentials must still be discarded.
       log("Failed to log out from HoYoLAB", error: e, stackTrace: st);
     }
+    // clear cookie
+    await ref.read(secureStorageRepositoryProvider).deleteHoyolabCookie();
+    await ref.read(isHoyolabSignedInProvider.notifier).refresh();
     await Future.wait([
       ref.read(prefProvider(PrefKeys.hyvServer).notifier).set(null),
       ref.read(prefProvider(PrefKeys.hyvServerName).notifier).set(null),
@@ -73,7 +73,7 @@ bool isHoyolabLinkAvailable(Ref ref) {
       cred.hyvServerName != null &&
       cred.hyvUserName != null &&
       cred.hyvUid != null &&
-      ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled);
+      ref.watch(remoteConfigValueProvider(RemoteConfigKeys.hoyolabLinkEnabled));
 }
 
 @Riverpod(keepAlive: true)
