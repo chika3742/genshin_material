@@ -37,6 +37,24 @@ fvm dart run drift_dev make-migrations
 
 ## Architecture
 
+### Layering
+
+```
+lib/
+  data/repositories/  Wrappers over external state stores (Remote Config, secure storage)
+  data/services/      Wrappers over external I/O (HoYoLAB API, local notifications, url_launcher)
+  use_cases/          Single-purpose application logic spanning repositories/services/db
+  view_models/        Per-screen state derived from db + assets
+  providers/          Cross-cutting Riverpod providers (db, prefs, assets, sync, credentials)
+  composables/        flutter_hooks-based reusable widget logic (`useXxx`)
+  core/               App-wide infrastructure (asset pipeline, errors, keys, theme)
+  pages/, components/ UI
+  db/                 Drift query extension methods
+  models/             Freezed/JSON models
+```
+
+Repositories, services, use cases, and view models each declare their own `@riverpod` factory in the same file — provider declarations are colocated with the class they expose, not centralized.
+
 ### Data Flow: Remote Assets
 
 Game data (characters, weapons, materials, artifacts, furnishings) is **not bundled** with the app. It is fetched at runtime from a remote asset server (`matnote-assets.chikach.net`) and stored locally.
@@ -76,11 +94,13 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 
 ### HoYoLAB Integration
 
-- `HoyolabApi` (`lib/core/hoyolab_api.dart`) communicates with HoYoLAB endpoints to sync in-game state (character levels, weapon states, material bag counts, resin).
-- All API calls are serialized through `ApiRequestQueue` (500ms minimum interval between calls).
-- The feature is gated by Firebase Remote Config key `hoyolabLinkEnabled`.
-- Credentials (cookie) are stored via `flutter_secure_storage`.
-- On iOS/macOS, images from asset files are disabled (`disableImages` flag in `main.dart`) unless the user has linked with HoYoLAB.
+- `lib/data/services/hoyolab_api/hoyolab_api.dart` communicates with HoYoLAB endpoints to sync in-game state (character levels, weapon states, material bag counts, resin). The API is split by auth level: `HoyolabApi` (base) → `HoyolabPreAuthApi` (server lookup, token verification) → `HoyolabAuthenticatedApi` → `HoyolabAuthenticatedServerApi` (needs region + UID).
+- Obtain instances via `hoyolabPreAuthApiProvider` / `hoyolabAuthenticatedApiProvider` / `hoyolabAuthenticatedServerApiProvider`. These throw `HoyolabLinkDisabledException` / `HoyolabUnauthenticatedException` / `HoyolabServerNotSelectedException` (all `SilentException`) when preconditions are unmet, so callers do not re-check the gates themselves.
+- All API calls are serialized through `ApiRequestQueue` (`hoyolab_api_internal_utils.dart`, 500ms minimum interval between calls).
+- The feature is gated by Remote Config key `RemoteConfigKeys.hoyolabLinkEnabled`.
+- The cookie is stored via `SecureStorageRepository` (`lib/data/repositories/secure_storage_repository.dart`). Sign-in goes through the `StoreHoyolabCredential` use case (verify, then persist); sign-out through `hoyolabCredentialProvider.clear()`.
+- Sign-in state is `isHoyolabSignedInProvider` (seeded synchronously at startup by `isHoyolabSignedInInitialProvider`); linked-and-usable state is `isHoyolabLinkAvailableProvider`.
+- On iOS/macOS, item images are replaced by a blank image unless the user has linked with HoYoLAB (`shouldHideImagesProvider` in `lib/providers/miscellaneous.dart`).
 - `HoyolabIntegrationApi` in `pigeon.dart` defines the platform channel used to retrieve cookies from the native WebView sign-in flow.
 
 ### Internationalization (slang)

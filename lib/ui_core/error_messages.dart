@@ -4,8 +4,6 @@ import "package:drift/isolate.dart";
 
 import "../core/asset_updater.dart";
 import "../core/errors.dart";
-import "../core/hoyolab_api.dart";
-import "../core/secure_storage.dart";
 import "../i18n/strings.g.dart";
 
 String getErrorMessage(Object? error, {String prefix = ""}) {
@@ -23,6 +21,7 @@ String getErrorMessage(Object? error, {String prefix = ""}) {
     },
     DriftRemoteException() => tr.errors.dbError,
     NoCompatibleAssetException() => tr.updates.noCompatibleAsset,
+    HoyolabLinkDisabledException() => tr.errors.hoyolabLinkDisabled,
     _ => "",
   };
 }

@@ -11,9 +11,9 @@ import "../../components/list_subheader.dart";
 import "../../composables/use_periodic_timer.dart";
 import "../../constants/remote_config_key.dart";
 import "../../core/pref_keys.dart";
+import "../../data/repositories/hoyolab_credential.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/game_data_sync.dart";
-import "../../providers/hoyolab_credential.dart";
 import "../../providers/pref_notifier.dart";
 import "../../providers/resin.dart";
 import "../../utils/resin_calculator.dart";
@@ -25,7 +25,7 @@ class ResinCalcPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final resinSnapshot = ref.watch(resinProvider);
     final syncResin = ref.watch(prefProvider(PrefKeys.syncResin));
-    final isLinked = ref.watch(isLinkedWithHoyolabProvider);
+    final isLinked = ref.watch(isHoyolabLinkAvailableProvider);
 
     final resinController = useTextEditingController(text: resinSnapshot.resin?.toString() ?? "");
     final resinInput = useValueListenable(resinController);

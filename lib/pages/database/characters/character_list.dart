@@ -13,11 +13,11 @@ import "../../../components/search.dart";
 import "../../../constants/dimens.dart";
 import "../../../constants/remote_config_key.dart";
 import "../../../core/asset_cache.dart";
+import "../../../data/repositories/hoyolab_credential.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/filter_state.dart";
-import "../../../providers/hoyolab_credential.dart";
 import "../../../providers/miscellaneous.dart";
 import "../../../routes.dart";
 import "../../../ui_core/bottom_sheet.dart";
@@ -229,7 +229,7 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLinked = ref.watch(isLinkedWithHoyolabProvider);
+    final isLinked = ref.watch(isHoyolabLinkAvailableProvider);
 
     return DataAssetScope(
       useScaffold: false,

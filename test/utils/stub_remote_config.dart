@@ -14,6 +14,7 @@ void stubRemoteConfig(MockRemoteConfigRepository mock, {
   String bannerActionText = "",
   String bannerActionUrl = "",
 }) {
+  when(mock.get<bool>(RemoteConfigKeys.hoyolabLinkEnabled)).thenReturn(false);
   when(mock.get<bool>(RemoteConfigKeys.showBanner)).thenReturn(bannerShown);
   when(mock.get<String>(RemoteConfigKeys.bannerKey)).thenReturn(bannerKey);
   when(mock.get<String>(RemoteConfigKeys.bannerText)).thenReturn(bannerText);

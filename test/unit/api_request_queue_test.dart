@@ -1,5 +1,5 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/core/hoyolab_api.dart";
+import "package:genshin_material/data/services/hoyolab_api/hoyolab_api_internal_utils.dart";
 
 void main() {
   test("ApiRateLimiter", () async {

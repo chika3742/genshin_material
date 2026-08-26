@@ -303,6 +303,9 @@ class Translations$errors$ja {
 
 	// Translations
 
+	/// ja: 'HoYoLAB連携機能は現在ご利用いただけません。'
+	String get hoyolabLinkDisabled => 'HoYoLAB連携機能は現在ご利用いただけません。';
+
 	/// ja: 'キャラクターが見つかりません'
 	String get characterNotFound => 'キャラクターが見つかりません';
 
@@ -1198,6 +1201,7 @@ extension on Translations {
 			'updates.completed' => '更新が完了しました。',
 			'updates.installing' => 'インストールしています...',
 			'updates.pleaseWaitUntilComplete' => 'データ更新が完了するまでお待ちください。',
+			'errors.hoyolabLinkDisabled' => 'HoYoLAB連携機能は現在ご利用いただけません。',
 			'errors.characterNotFound' => 'キャラクターが見つかりません',
 			'errors.weaponNotFound' => '武器が見つかりません',
 			'errors.materialNotFound' => '素材が見つかりません',

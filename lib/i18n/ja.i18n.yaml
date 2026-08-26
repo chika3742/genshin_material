@@ -79,6 +79,7 @@ updates:
   installing: インストールしています...
   pleaseWaitUntilComplete: データ更新が完了するまでお待ちください。
 errors:
+  hoyolabLinkDisabled: HoYoLAB連携機能は現在ご利用いただけません。
   characterNotFound: キャラクターが見つかりません
   weaponNotFound: 武器が見つかりません
   materialNotFound: 素材が見つかりません
