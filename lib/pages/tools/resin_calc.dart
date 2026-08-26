@@ -8,9 +8,9 @@ import "package:intl/intl.dart";
 
 import "../../components/game_data_sync_indicator.dart";
 import "../../components/list_subheader.dart";
-import "../../composables/use_periodic_timer.dart";
 import "../../constants/remote_config_key.dart";
 import "../../core/pref_keys.dart";
+import "../../hooks/use_periodic_timer.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/game_data_sync.dart";
 import "../../providers/hoyolab_credential.dart";

@@ -3,10 +3,10 @@ import "package:go_router/go_router.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
-import "../composables/use_asset_update_progress.dart";
-import "../composables/use_notification_reschedule_listener.dart";
-import "../composables/use_startup_banner.dart";
 import "../data/services/launch_url.dart";
+import "../hooks/use_asset_update_progress.dart";
+import "../hooks/use_notification_reschedule_listener.dart";
+import "../hooks/use_startup_banner.dart";
 import "../i18n/strings.g.dart";
 import "../providers/asset_updating_state.dart";
 import "../providers/banner_notifier.dart";

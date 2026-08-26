@@ -12,7 +12,6 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
-import "composables/use_remote_config_listener.dart";
 import "core/provider_error_observer.dart";
 import "core/secure_storage.dart";
 import "core/theme.dart";
@@ -20,6 +19,7 @@ import "core/theme.dart";
 // import "firebase_options.dart";
 import "data/repositories/remote_config_repository.dart";
 import "data/services/local_notification.dart";
+import "hooks/use_remote_config_listener.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
 import "providers/hoyolab_credential.dart";

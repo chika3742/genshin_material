@@ -62,7 +62,7 @@ bool isLinkedWithHoyolab(Ref ref) {
       FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 bool isHoyolabSignedInInitial(Ref ref) {
   return false; // Will be overridden on runtime.
 }

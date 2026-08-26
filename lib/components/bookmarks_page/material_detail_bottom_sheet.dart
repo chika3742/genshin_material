@@ -4,7 +4,7 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../../composables/use_scroll_to_top_on_status_bar_tap.dart";
+import "../../hooks/use_scroll_to_top_on_status_bar_tap.dart";
 import "../../models/bookmark.dart";
 import "../../models/material_bookmark_frame.dart";
 import "../../providers/database_provider.dart";
