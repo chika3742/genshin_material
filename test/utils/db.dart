@@ -12,11 +12,20 @@ AppDatabase createTestDatabase() {
 
 /// Builds a [MaterialBookmarkInsertable] for [AppDatabase.addMaterialBookmarks].
 ///
-/// Pass [weaponId] to build a weapon bookmark instead of a character one.
+/// [materialId] has no default on purpose: a null one marks the bookmark as an
+/// EXP item bookmark rather than an ordinary material one, so the choice is
+/// always explicit. Pass [weaponId] to build a weapon bookmark instead of a
+/// character one.
+///
+/// Beware that [MaterialBookmarkInsertable.hash] is derived from
+/// `characterId`, `purposeType`, `weaponId`, `materialId` and `upperLevel` —
+/// not from [quantity] — and that `addMaterialBookmarks` skips rows whose hash
+/// already exists. Two bookmarks that differ only in [quantity] therefore
+/// insert a single row.
 MaterialBookmarkInsertable buildMaterialBookmark({
+  required MaterialId? materialId,
   CharacterId characterId = "char_1",
   WeaponId? weaponId,
-  MaterialId? materialId,
   Purpose purposeType = Purpose.ascension,
   int upperLevel = 40,
   int quantity = 1,
