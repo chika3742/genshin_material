@@ -2,17 +2,33 @@ import "package:genshin_material/core/asset_cache.dart";
 import "package:genshin_material/models/asset_release_version.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
+import "package:genshin_material/models/drop_rates.dart";
 import "package:genshin_material/models/furnishing_set.dart";
 import "package:genshin_material/models/ingredients.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/models/material.dart";
+import "package:genshin_material/models/weapon.dart";
+
+IngredientConfigurations _emptyIngredientConfigurations() {
+  return const IngredientConfigurations(
+    expItems: [],
+    rarities: {},
+    sliders: [],
+    ingredientTables: {},
+  );
+}
 
 AssetData buildTestAssetData({
-  Map<String, Character> characters = const {},
-  Map<String, Material> materials = const {},
+  Map<CharacterId, Character> characters = const {},
+  Map<MaterialId, Material> materials = const {},
   Map<String, int> materialSortOrder = const {},
-  Map<String, FurnishingSet> furnishingSets = const {},
-  Map<String, Furnishing> furnishings = const {},
+  Map<FurnishingSetId, FurnishingSet> furnishingSets = const {},
+  Map<FurnishingId, Furnishing> furnishings = const {},
+  Map<WeaponId, Weapon> weapons = const {},
+  IngredientConfigurations? characterIngredients,
+  IngredientConfigurations? weaponIngredients,
+  List<DropRateEntry> dropRates = const [],
+  Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials = const {},
 }) {
   return AssetData(
     assetDir: "",
@@ -24,19 +40,9 @@ AssetData buildTestAssetData({
       schemaVersion: 0,
     ),
     characters: characters,
-    characterIngredients: IngredientConfigurations(
-      expItems: [],
-      rarities: {},
-      sliders: [],
-      ingredientTables: {},
-    ),
-    weapons: {},
-    weaponIngredients: IngredientConfigurations(
-      expItems: [],
-      rarities: {},
-      sliders: [],
-      ingredientTables: {},
-    ),
+    characterIngredients: characterIngredients ?? _emptyIngredientConfigurations(),
+    weapons: weapons,
+    weaponIngredients: weaponIngredients ?? _emptyIngredientConfigurations(),
     weaponSubStats: {},
     weaponTypes: {},
     elements: {},
@@ -44,7 +50,7 @@ AssetData buildTestAssetData({
     materialCategories: {},
     materialSortOrder: materialSortOrder,
     dailyMaterials: DailyMaterials(talent: {}, weapon: {}),
-    specialCharactersUsingMaterials: {},
+    specialCharactersUsingMaterials: specialCharactersUsingMaterials,
     artifactSets: {},
     artifactPieceTypes: {},
     stats: {},
@@ -54,7 +60,7 @@ AssetData buildTestAssetData({
     furnishingSets: furnishingSets,
     furnishings: furnishings,
     furnishingSetTypes: {},
-    dropRates: [],
+    dropRates: dropRates,
   );
 }
 
@@ -91,5 +97,50 @@ Character buildTestCharacter({
       element: "",
       talents: {},
       materials: {},
+  );
+}
+
+Weapon buildTestWeapon({
+  WeaponId id = "",
+  int rarity = 5,
+  MaterialDefinitions? materials,
+  LocalizedText? name,
+  WeaponType type = "",
+  WeaponSubStat? subStat,
+}) {
+  return Weapon(
+    id: id,
+    hyvId: 0,
+    name: name ?? LocalizedText(locales: {}),
+    jaPronunciation: "",
+    imageUrl: "",
+    rarity: rarity,
+    subStat: subStat,
+    weaponAffixDesc: null,
+    type: type,
+    materials: materials,
+  );
+}
+
+/// Builds an [IngredientConfigurations] holding a single ingredient table,
+/// wired to [rarity] and [purpose].
+IngredientConfigurations buildIngredientConfigurations({
+  required int rarity,
+  required Purpose purpose,
+  required Map<int, List<Ingredient>> levels,
+  List<ExpItem> expItems = const [],
+}) {
+  return IngredientConfigurations(
+    expItems: expItems,
+    rarities: {
+      rarity: IngredientPurposes(purposes: {purpose: "table"}),
+    },
+    sliders: [],
+    ingredientTables: {
+      "table": IngredientLevels(
+        sliderTicks: levels.keys.toList()..sort(),
+        levels: levels,
+      ),
+    },
   );
 }
