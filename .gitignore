@@ -33,6 +33,7 @@ migrate_working_dir/
 .pub/
 /build/
 coverage/
+/test/coverage_all_imports_test.dart
 
 # Symbolication related
 app.*.symbols
