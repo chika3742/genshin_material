@@ -84,10 +84,12 @@ if [ "$report_only" = false ]; then
     echo "void main() {}"
   } > "$coverage_helper"
 
-  # Removed first so that a leftover report from an earlier run can never be
-  # mistaken for this one's. Failing tests still produce coverage, and seeing
-  # it is most useful exactly then, so hold the status and exit with it later.
-  rm -f coverage/lcov.info
+  # Both are removed first so that a leftover report from an earlier run can
+  # never be mistaken for this one's — CI guards the summary step on
+  # lcov-filtered.info, so leaving that behind would defeat the check. Failing
+  # tests still produce coverage, and seeing it is most useful exactly then, so
+  # hold the status and exit with it later.
+  rm -f coverage/lcov.info coverage/lcov-filtered.info
   fvm flutter test --coverage || test_status=$?
 fi
 
@@ -100,7 +102,9 @@ fi
 
 # `--ignore-errors unused` keeps the script alive when a pattern matches nothing
 # (e.g. no mockito mocks were touched by the executed tests).
-lcov --remove coverage/lcov.info \
+# -q drops the progress chatter and lcov's own trailing summary, which would
+# otherwise be duplicated into the CI job summary. Warnings and errors remain.
+lcov -q --remove coverage/lcov.info \
   "*.g.dart" \
   "*.freezed.dart" \
   "*.drift.dart" \
@@ -117,7 +121,7 @@ lcov --remove coverage/lcov.info \
 # percentage alone hides per-directory movement: most of lib/ is UI code that
 # this effort deliberately leaves untested, which dominates the total.
 echo
-echo "Coverage by directory (worst first):"
+echo "Coverage by directory (most uncovered lines first):"
 awk -F: '
   /^SF:/ {
     path = $2
