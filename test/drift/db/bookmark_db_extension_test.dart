@@ -1,52 +1,20 @@
-import "package:drift/native.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
-import "package:genshin_material/models/bookmark.dart";
 import "package:genshin_material/models/common.dart";
+
+import "../../utils/db.dart";
 
 void main() {
   late AppDatabase db;
 
   setUp(() {
-    db = AppDatabase(NativeDatabase.memory());
+    db = createTestDatabase();
   });
 
   tearDown(() async {
     await db.close();
   });
-
-  MaterialBookmarkInsertable makeCharacterBookmark({
-    required String characterId,
-    required Purpose purpose,
-    required int upperLevel,
-    String? materialId,
-  }) {
-    return MaterialBookmarkInsertable(
-      characterId: characterId,
-      weaponId: null,
-      materialId: materialId,
-      quantity: 1,
-      upperLevel: upperLevel,
-      purposeType: purpose,
-    );
-  }
-
-  MaterialBookmarkInsertable makeWeaponBookmark({
-    required String characterId,
-    required String weaponId,
-    required int upperLevel,
-    String? materialId,
-  }) {
-    return MaterialBookmarkInsertable(
-      characterId: characterId,
-      weaponId: weaponId,
-      materialId: materialId,
-      quantity: 1,
-      upperLevel: upperLevel,
-      purposeType: Purpose.ascension,
-    );
-  }
 
   group("getCharacterMaterialBookmarkLevelRanges", () {
     test("returns empty map when no bookmarks", () async {
@@ -56,10 +24,11 @@ void main() {
 
     test("returns single bookmark range correctly", () async {
       await db.addMaterialBookmarks([
-        makeCharacterBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
-          purpose: Purpose.ascension,
+          purposeType: Purpose.ascension,
           upperLevel: 40,
+          materialId: null,
         ),
       ]);
 
@@ -73,21 +42,21 @@ void main() {
     test("aggregates min/max across multiple bookmarks for same purpose",
         () async {
       await db.addMaterialBookmarks([
-        makeCharacterBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
-          purpose: Purpose.ascension,
+          purposeType: Purpose.ascension,
           upperLevel: 20,
           materialId: "mat_a",
         ),
-        makeCharacterBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
-          purpose: Purpose.ascension,
+          purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: "mat_b",
         ),
-        makeCharacterBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
-          purpose: Purpose.ascension,
+          purposeType: Purpose.ascension,
           upperLevel: 60,
           materialId: "mat_c",
         ),
@@ -101,15 +70,15 @@ void main() {
 
     test("returns separate ranges per purpose", () async {
       await db.addMaterialBookmarks([
-        makeCharacterBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
-          purpose: Purpose.ascension,
+          purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: "mat_asc",
         ),
-        makeCharacterBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
-          purpose: Purpose.normalAttack,
+          purposeType: Purpose.normalAttack,
           upperLevel: 6,
           materialId: "mat_na",
         ),
@@ -124,15 +93,16 @@ void main() {
 
     test("does not include weapon bookmarks", () async {
       await db.addMaterialBookmarks([
-        makeCharacterBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
-          purpose: Purpose.ascension,
+          purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: "char_mat",
         ),
-        makeWeaponBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
           weaponId: "weapon_1",
+          purposeType: Purpose.ascension,
           upperLevel: 70,
           materialId: "weapon_mat",
         ),
@@ -146,15 +116,15 @@ void main() {
 
     test("does not include bookmarks for other characters", () async {
       await db.addMaterialBookmarks([
-        makeCharacterBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
-          purpose: Purpose.ascension,
+          purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: "mat_c1",
         ),
-        makeCharacterBookmark(
+        buildMaterialBookmark(
           characterId: "char_2",
-          purpose: Purpose.ascension,
+          purposeType: Purpose.ascension,
           upperLevel: 80,
           materialId: "mat_c2",
         ),
@@ -174,10 +144,12 @@ void main() {
 
     test("returns single weapon bookmark range correctly", () async {
       await db.addMaterialBookmarks([
-        makeWeaponBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
           weaponId: "weapon_1",
+          purposeType: Purpose.ascension,
           upperLevel: 50,
+          materialId: null,
         ),
       ]);
 
@@ -191,15 +163,17 @@ void main() {
     test("aggregates across multiple characters sharing the same weapon",
         () async {
       await db.addMaterialBookmarks([
-        makeWeaponBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
           weaponId: "weapon_1",
+          purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: "wmat_a",
         ),
-        makeWeaponBookmark(
+        buildMaterialBookmark(
           characterId: "char_2",
           weaponId: "weapon_1",
+          purposeType: Purpose.ascension,
           upperLevel: 70,
           materialId: "wmat_b",
         ),
@@ -213,15 +187,16 @@ void main() {
 
     test("does not include character bookmarks", () async {
       await db.addMaterialBookmarks([
-        makeCharacterBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
-          purpose: Purpose.ascension,
+          purposeType: Purpose.ascension,
           upperLevel: 80,
           materialId: "char_mat",
         ),
-        makeWeaponBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
           weaponId: "weapon_1",
+          purposeType: Purpose.ascension,
           upperLevel: 50,
           materialId: "weapon_mat",
         ),
@@ -235,15 +210,17 @@ void main() {
 
     test("does not include bookmarks for other weapons", () async {
       await db.addMaterialBookmarks([
-        makeWeaponBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
           weaponId: "weapon_1",
+          purposeType: Purpose.ascension,
           upperLevel: 50,
           materialId: "wmat_1",
         ),
-        makeWeaponBookmark(
+        buildMaterialBookmark(
           characterId: "char_1",
           weaponId: "weapon_2",
+          purposeType: Purpose.ascension,
           upperLevel: 80,
           materialId: "wmat_2",
         ),
