@@ -19,10 +19,26 @@ jobs:
       - name: Init Flutter SDK
         uses: chika3742/setup-fvm@v3
 
+      - name: Install lcov
+        run: sudo apt-get install -y lcov
+
       - name: Lint
         id: lint
         run: fvm flutter analyze
 
       - name: Test
+        id: test
         if: ${{ !cancelled() && contains(fromJSON('["success", "failure"]'), steps.lint.outcome) }}
-        run: fvm flutter test
+        run: ./scripts/coverage.sh
+
+      # Reporting only: coverage never fails the job.
+      - name: Report coverage
+        if: ${{ !cancelled() && contains(fromJSON('["success", "failure"]'), steps.test.outcome) && hashFiles('coverage/lcov-filtered.info') != '' }}
+        run: |
+          {
+            echo "## Coverage"
+            echo ""
+            echo '```'
+            lcov --summary coverage/lcov-filtered.info
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
