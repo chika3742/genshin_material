@@ -1,14 +1,15 @@
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_riverpod/misc.dart" show Override;
-import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/asset_cache.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
 
-/// Creates a [ProviderContainer] with the overrides most tests need, disposing
-/// it automatically at the end of the test.
+/// Creates a [ProviderContainer] with the overrides most tests need.
+///
+/// Built with `ProviderContainer.test`, so it is disposed at the end of the
+/// test and left-behind containers are reported.
 ///
 /// Riverpod rejects overriding the same provider twice within one container
 /// while asserts are enabled — and `flutter test` always runs with asserts
@@ -26,7 +27,7 @@ ProviderContainer createTestContainer({
   bool shouldHideImages = false,
   List<Override> overrides = const [],
 }) {
-  final container = ProviderContainer.test(
+  return ProviderContainer.test(
     overrides: [
       if (assetData != null)
         // Returned synchronously: consumers call `requireValue` on it.
@@ -36,10 +37,4 @@ ProviderContainer createTestContainer({
       ...overrides,
     ],
   );
-  // Redundant — `ProviderContainer.test` registers this too and `dispose` is
-  // idempotent — but kept so the disposal guarantee does not depend on that
-  // implementation detail.
-  addTearDown(container.dispose);
-
-  return container;
 }
