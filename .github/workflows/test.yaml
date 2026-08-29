@@ -20,7 +20,9 @@ jobs:
         uses: chika3742/setup-fvm@v3
 
       - name: Install lcov
-        run: sudo apt-get install -y lcov
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lcov
 
       - name: Lint
         id: lint
@@ -31,14 +33,15 @@ jobs:
         if: ${{ !cancelled() && contains(fromJSON('["success", "failure"]'), steps.lint.outcome) }}
         run: ./scripts/coverage.sh
 
-      # Reporting only: coverage never fails the job.
+      # Reporting only: a failure to summarize never fails the job.
       - name: Report coverage
         if: ${{ !cancelled() && contains(fromJSON('["success", "failure"]'), steps.test.outcome) && hashFiles('coverage/lcov-filtered.info') != '' }}
+        continue-on-error: true
         run: |
           {
             echo "## Coverage"
             echo ""
             echo '```'
-            lcov --summary coverage/lcov-filtered.info
+            lcov --summary coverage/lcov-filtered.info || echo "(failed to summarize coverage)"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
