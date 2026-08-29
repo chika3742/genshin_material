@@ -21,27 +21,6 @@ class _TestTarget with CharacterOrWeapon {
   });
 }
 
-IngredientConfigurations _buildIngredientConf({
-  required int rarity,
-  required Purpose purpose,
-  required Map<int, List<Ingredient>> levels,
-  List<ExpItem> expItems = const [],
-}) {
-  return IngredientConfigurations(
-    expItems: expItems,
-    rarities: {
-      rarity: IngredientPurposes(purposes: {purpose: "table"}),
-    },
-    sliders: [],
-    ingredientTables: {
-      "table": IngredientLevels(
-        sliderTicks: levels.keys.toList()..sort(),
-        levels: levels,
-      ),
-    },
-  );
-}
-
 void main() {
   group("calculateLackNum", () {
     final expConf = IngredientConfigurations(
@@ -147,7 +126,7 @@ void main() {
     const target = _TestTarget(id: "char_a", rarity: 5, materials: {});
 
     test("fixed 素材を複数レベルにわたって合算する", () {
-      final conf = _buildIngredientConf(
+      final conf = buildIngredientConfigurations(
         rarity: 5,
         purpose: Purpose.ascension,
         levels: {
@@ -160,7 +139,7 @@ void main() {
     });
 
     test("exp 素材は null キーで集計される", () {
-      final conf = _buildIngredientConf(
+      final conf = buildIngredientConfigurations(
         rarity: 5,
         purpose: Purpose.ascension,
         levels: {
@@ -179,7 +158,7 @@ void main() {
         rarity: 4,
         materials: {"ascension_gem": "id:vayuda_turquoise_sliver"},
       );
-      final conf = _buildIngredientConf(
+      final conf = buildIngredientConfigurations(
         rarity: 4,
         purpose: Purpose.ascension,
         levels: {
@@ -235,7 +214,7 @@ void main() {
           "mat_b": buildTestMaterial(id: "mat_b", category: "cat"),
         },
       );
-      final conf = _buildIngredientConf(
+      final conf = buildIngredientConfigurations(
         rarity: 5,
         purpose: Purpose.ascension,
         levels: {
@@ -260,7 +239,7 @@ void main() {
           "mat_d": buildTestMaterial(id: "mat_d", category: "cat"),
         },
       );
-      final conf = _buildIngredientConf(
+      final conf = buildIngredientConfigurations(
         rarity: 5,
         purpose: Purpose.ascension,
         levels: {
@@ -279,7 +258,7 @@ void main() {
     });
 
     test("範囲にマッチするレベルが存在しない場合は空リストを返す", () {
-      final conf = _buildIngredientConf(
+      final conf = buildIngredientConfigurations(
         rarity: 5,
         purpose: Purpose.ascension,
         levels: {
