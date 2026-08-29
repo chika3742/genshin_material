@@ -54,6 +54,14 @@ if [[ ! "$lcov_version" =~ ([0-9]+)\.[0-9]+ ]] || [ "${BASH_REMATCH[1]}" -lt 2 ]
   exit 1
 fi
 
+# Flutter reports line coverage only — its tracefiles carry no function or
+# branch records at all — but lcov enables both by default and newer versions
+# then fail with "(empty) function coverage enabled but no corresponding
+# coverpoints found". Turning them off drops the meaningless FNF:0/FNH:0
+# records; the line data is unchanged. `empty` is ignored as well, in case a
+# future version raises it for some other absent metric.
+lcov_opts=(--rc function_coverage=0 --rc branch_coverage=0)
+
 if [ "$generate_html" = true ] && ! command -v genhtml > /dev/null; then
   echo "genhtml is not installed (it ships with lcov)." >&2
   print_lcov_install_hint
@@ -104,7 +112,7 @@ fi
 # (e.g. no mockito mocks were touched by the executed tests).
 # -q drops the progress chatter and lcov's own trailing summary, which would
 # otherwise be duplicated into the CI job summary. Warnings and errors remain.
-lcov -q --remove coverage/lcov.info \
+lcov -q "${lcov_opts[@]}" --remove coverage/lcov.info \
   "*.g.dart" \
   "*.freezed.dart" \
   "*.drift.dart" \
@@ -113,11 +121,12 @@ lcov -q --remove coverage/lcov.info \
   "lib/i18n/*" \
   "lib/firebase_options.dart" \
   "lib/routes.dart" \
-  --ignore-errors unused \
+  --ignore-errors unused,empty \
   -o coverage/lcov-filtered.info
 
-# `lcov --list` would show this, but lcov 2.0 prints every rate as 0.0% for
-# these tracefiles, so the breakdown is computed here instead. The overall
+# `lcov --list` would show this, but lcov 2.0 (checked against 2.0-1) prints
+# every rate as 0.0% for these tracefiles — reproduced on a four-line synthetic
+# one — so the breakdown is computed here instead. The overall
 # percentage alone hides per-directory movement: most of lib/ is UI code that
 # this effort deliberately leaves untested, which dominates the total.
 echo
@@ -137,14 +146,14 @@ awk -F: '
 ' coverage/lcov-filtered.info \
   | sort -rn \
   | awk -F'\t' '
-      BEGIN { printf "%-46s %7s %7s %7s\n", "Directory", "Hit", "Total", "Rate" }
-      { printf "%-46s %7d %7d %6.1f%%\n", $4, $2, $3, ($3 ? 100 * $2 / $3 : 0) }'
+      BEGIN { printf "%-46s %7s %7s %7s %7s\n", "Directory", "Hit", "Miss", "Total", "Rate" }
+      { printf "%-46s %7d %7d %7d %6.1f%%\n", $4, $2, $1, $3, ($3 ? 100 * $2 / $3 : 0) }'
 echo
 
-lcov --summary coverage/lcov-filtered.info
+lcov "${lcov_opts[@]}" --summary coverage/lcov-filtered.info
 
 if [ "$generate_html" = true ]; then
-  genhtml coverage/lcov-filtered.info -o coverage/html
+  genhtml "${lcov_opts[@]}" coverage/lcov-filtered.info -o coverage/html
   echo "HTML report: coverage/html/index.html"
 fi
 
