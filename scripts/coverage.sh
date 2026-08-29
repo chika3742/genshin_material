@@ -93,7 +93,9 @@ fi
 
 if [ ! -f coverage/lcov.info ]; then
   echo "coverage/lcov.info was not generated; skipping the report." >&2
-  exit "${test_status:-1}"
+  # Always non-zero: a missing tracefile is a failure in its own right, whether
+  # or not the tests passed.
+  exit "$(( test_status != 0 ? test_status : 1 ))"
 fi
 
 # `--ignore-errors unused` keeps the script alive when a pattern matches nothing
