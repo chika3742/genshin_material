@@ -20,17 +20,30 @@ for arg in "$@"; do
   esac
 done
 
+# `--ignore-errors unused` below is an lcov 2.0 error class; 1.x rejects it.
+print_lcov_install_hint() {
+  echo "lcov 2.0 or newer is required." >&2
+  echo "  Debian/Ubuntu: sudo apt-get install lcov  (needs Ubuntu 24.04 or newer;" >&2
+  echo "                 22.04 ships lcov 1.16, which is too old)" >&2
+  echo "  macOS:         brew install lcov" >&2
+}
+
 if ! command -v lcov > /dev/null; then
   echo "lcov is not installed." >&2
-  echo "  Debian/Ubuntu: sudo apt-get install lcov" >&2
-  echo "  macOS:         brew install lcov" >&2
+  print_lcov_install_hint
+  exit 1
+fi
+
+lcov_version="$(lcov --version)"
+if [[ ! "$lcov_version" =~ ([0-9]+)\.[0-9]+ ]] || [ "${BASH_REMATCH[1]}" -lt 2 ]; then
+  echo "Found: $lcov_version" >&2
+  print_lcov_install_hint
   exit 1
 fi
 
 if [ "$generate_html" = true ] && ! command -v genhtml > /dev/null; then
   echo "genhtml is not installed (it ships with lcov)." >&2
-  echo "  Debian/Ubuntu: sudo apt-get install lcov" >&2
-  echo "  macOS:         brew install lcov" >&2
+  print_lcov_install_hint
   exit 1
 fi
 
