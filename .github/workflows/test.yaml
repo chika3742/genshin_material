@@ -42,6 +42,6 @@ jobs:
             echo "## Coverage"
             echo ""
             echo '```'
-            lcov --summary coverage/lcov-filtered.info || echo "(failed to summarize coverage)"
+            ./scripts/coverage.sh --report-only || echo "(failed to summarize coverage)"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
