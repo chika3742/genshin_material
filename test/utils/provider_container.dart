@@ -9,7 +9,8 @@ import "package:genshin_material/providers/versions.dart";
 /// Creates a [ProviderContainer] with the overrides most tests need.
 ///
 /// Built with `ProviderContainer.test`, so it is disposed at the end of the
-/// test and left-behind containers are reported.
+/// test and left-behind containers are reported. Call it from a test body or
+/// `setUp`; the `addTearDown` behind that is unavailable in `setUpAll`.
 ///
 /// Riverpod rejects overriding the same provider twice within one container
 /// while asserts are enabled — and `flutter test` always runs with asserts

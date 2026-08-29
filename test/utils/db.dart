@@ -24,6 +24,9 @@ AppDatabase createTestDatabase() {
 /// have to spell out the fields they care about.
 ///
 /// Pass [weaponId] to build a weapon bookmark; leave it out for a character one.
+/// Likewise [materialId]: omitting it stores the bookmark with no material,
+/// which is how exp items are represented — the same default the per-file
+/// helpers in `test/drift/db/bookmark_db_extension_test.dart` use.
 MaterialBookmarkInsertable buildTestMaterialBookmark({
   CharacterId characterId = "char_1",
   WeaponId? weaponId,
