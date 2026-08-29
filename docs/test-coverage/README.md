@@ -155,6 +155,73 @@ fvm flutter test            # 全テスト green
 - [ ] W6: テスト容易化リファクタ + `lib/core/` のテスト
 - [ ] 全体をまとめて PR を 1 本作成
 
+## 各エージェントに渡すプロンプト
+
+以下をそのままコピーして、別セッション / 別エージェントに渡してください。
+`W0` は必ず単独で先に完了させ、その後 `W1`〜`W6` を並行して走らせます。
+
+### W0（先行必須・単独で実行）
+
+```
+リポジトリ chika3742/genshin_material のブランチ claude/test-coverage-improvement-plan-x14ldp で作業してください。
+
+docs/test-coverage/README.md と docs/test-coverage/W0.md を読み、W0.md に書かれた作業をすべて実行してください。
+README.md の「共通ルール」と「ファイル所有権」に必ず従い、W0 の担当パス以外は変更しないでください。
+
+完了したら同じブランチにコミットして push してください（PR は作成しないでください）。
+最後に W0.md の「報告事項」に挙がっている項目、特に ./scripts/coverage.sh が出力したベースラインのカバレッジ率を報告してください。この値を後続の W1〜W6 が基準にします。
+```
+
+### W1〜W6（W0 完了後、並行して実行可）
+
+下のテンプレートの `{N}` を `1`〜`6` に、`{TITLE}` を対応するタイトルに置き換えてください。
+
+```
+リポジトリ chika3742/genshin_material のブランチ claude/test-coverage-improvement-plan-x14ldp で作業してください。
+先行ワークストリーム W0（カバレッジ計測基盤と共通テストヘルパの整備）は完了済みです。まず git pull で最新を取り込んでください。
+
+docs/test-coverage/README.md と docs/test-coverage/W{N}.md を読み、W{N}.md に書かれた作業をすべて実行してください（{TITLE}）。
+
+重要:
+- README.md の「共通ルール」と「ファイル所有権」に必ず従ってください。他のワークストリームが並行して動いているため、W{N} の担当パス以外は絶対に変更しないでください。
+- W{N}.md の「触ってはいけないファイル」を必ず守ってください。
+- 既存のテストを 1 本も壊さないでください。
+- 完了条件（fvm flutter analyze / fvm flutter test / ./scripts/coverage.sh）をすべて満たしてから完了としてください。すべての Flutter コマンドに fvm を前置してください。
+
+完了したら同じブランチにコミットして push してください（PR は作成しないでください）。
+最後に W{N}.md の「報告事項」に挙がっている項目をすべて報告してください。テスト不能と判断して飛ばした対象がある場合は、必ず理由とともに列挙してください。
+```
+
+`{TITLE}` の対応:
+
+| `{N}` | `{TITLE}` |
+|---|---|
+| 1 | `lib/utils/` 純粋ロジックのテスト |
+| 2 | `lib/models/` のロジックのテスト |
+| 3 | `lib/db/` 拡張と DB 周辺のテスト |
+| 4 | ViewModel と Provider のテスト |
+| 5 | 共通コンポーネントの widget テスト |
+| 6 | テスト容易化リファクタ + `lib/core/` のテスト |
+
+### W6 を並行させる場合の追加指示
+
+W6 は唯一 `lib/` 本体を広く変更します。W1〜W5 と同時に走らせるなら、W6 のプロンプトに次の一文を足してください。
+
+```
+このワークストリームは lib/ 本体を変更します。他のワークストリームと並行して動いているため、push の直前に必ず git pull --rebase で最新を取り込み、コンフリクトを解消してからテストを再実行してください。
+```
+
+### 全ワークストリーム完了後
+
+```
+リポジトリ chika3742/genshin_material のブランチ claude/test-coverage-improvement-plan-x14ldp で、docs/test-coverage/ の W0〜W6 がすべて完了しています。
+
+1. docs/test-coverage/README.md の進捗チェックリストをすべてチェック済みに更新してください。
+2. fvm flutter analyze と fvm flutter test と ./scripts/coverage.sh を実行し、すべて通ることを確認してください。
+3. W0 のベースラインと最終的なカバレッジ率を比較してください。
+4. main 向けの PR を 1 本作成してください。本文には各ワークストリームで追加したテストの概要、カバレッジの変化、W6 のリファクタ内容、および後続タスク（lib/providers/game_data_sync.dart など）を記載してください。
+```
+
 ## 後続タスク（今回は着手しない）
 
 - `lib/providers/game_data_sync.dart`（470 行）— 最大の未テスト領域。W6 の Remote Config 注入リファクタが入って初めてテスト可能になる。
