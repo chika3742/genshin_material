@@ -5,6 +5,12 @@ set -euo pipefail
 # Runs the test suite with coverage, strips generated code from the report and
 # prints a summary. Pass --html to additionally render an HTML report into
 # coverage/html.
+#
+# The denominator covers every lib/ file reachable from the app, not just the
+# ones a test happens to load, so files no test touches are counted with zero
+# hit lines and the percentage stays comparable between runs. Files that are
+# unreachable from the app, or that hold no executable code at all, never make
+# it into the report.
 
 generate_html=false
 for arg in "$@"; do

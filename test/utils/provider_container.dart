@@ -10,13 +10,16 @@ import "package:genshin_material/providers/versions.dart";
 /// Creates a [ProviderContainer] with the overrides most tests need, disposing
 /// it automatically at the end of the test.
 ///
-/// Change these defaults through the named parameters ([assetData], [db],
-/// [shouldHideImages]) only. Riverpod rejects overriding the same provider
-/// twice within one container while asserts are enabled — and `flutter test`
-/// always runs with asserts enabled — so passing `assetDataProvider`,
-/// `appDatabaseProvider` or `shouldHideImagesProvider` through [overrides]
-/// throws `AssertionError: Tried to override a provider twice within the same
-/// container`. Reserve [overrides] for every other provider.
+/// Riverpod rejects overriding the same provider twice within one container
+/// while asserts are enabled — and `flutter test` always runs with asserts
+/// enabled — so it throws `AssertionError: Tried to override a provider twice
+/// within the same container`. That means:
+///
+/// - never pass `shouldHideImagesProvider` through [overrides]; it is always
+///   overridden here, so use [shouldHideImages] instead;
+/// - `assetDataProvider` and `appDatabaseProvider` are only overridden when
+///   [assetData] / [db] are given, so pass either the named parameter or your
+///   own override through [overrides] — not both.
 ProviderContainer createTestContainer({
   AssetData? assetData,
   AppDatabase? db,

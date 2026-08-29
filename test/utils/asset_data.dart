@@ -80,8 +80,10 @@ Material buildTestMaterial({
 }
 
 Character buildTestCharacter({
-  String id = "",
+  CharacterId id = "",
   LocalizedText? name,
+  int rarity = 5,
+  MaterialDefinitions materials = const {},
 }) {
   return Character(
       id: id,
@@ -90,11 +92,11 @@ Character buildTestCharacter({
       jaPronunciation: "",
       imageUrl: "",
       smallImageUrl: "",
-      rarity: 5,
+      rarity: rarity,
       weaponType: "",
       element: "",
       talents: {},
-      materials: {},
+      materials: materials,
   );
 }
 
