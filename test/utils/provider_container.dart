@@ -10,8 +10,13 @@ import "package:genshin_material/providers/versions.dart";
 /// Creates a [ProviderContainer] with the overrides most tests need, disposing
 /// it automatically at the end of the test.
 ///
-/// Anything passed in [overrides] is applied last, so callers can override the
-/// defaults set up here.
+/// Change these defaults through the named parameters ([assetData], [db],
+/// [shouldHideImages]) only. Riverpod rejects overriding the same provider
+/// twice within one container while asserts are enabled — and `flutter test`
+/// always runs with asserts enabled — so passing `assetDataProvider`,
+/// `appDatabaseProvider` or `shouldHideImagesProvider` through [overrides]
+/// throws `AssertionError: Tried to override a provider twice within the same
+/// container`. Reserve [overrides] for every other provider.
 ProviderContainer createTestContainer({
   AssetData? assetData,
   AppDatabase? db,
@@ -28,8 +33,9 @@ ProviderContainer createTestContainer({
       ...overrides,
     ],
   );
-  // `ProviderContainer.test` already registers this, but `dispose` is
-  // idempotent and this keeps the guarantee explicit.
+  // Redundant — `ProviderContainer.test` registers this too and `dispose` is
+  // idempotent — but kept so the disposal guarantee does not depend on that
+  // implementation detail.
   addTearDown(container.dispose);
 
   return container;

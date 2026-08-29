@@ -9,14 +9,12 @@ import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/models/material.dart";
 import "package:genshin_material/models/weapon.dart";
 
-IngredientConfigurations _emptyIngredientConfigurations() {
-  return const IngredientConfigurations(
-    expItems: [],
-    rarities: {},
-    sliders: [],
-    ingredientTables: {},
-  );
-}
+const _emptyIngredientConfigurations = IngredientConfigurations(
+  expItems: [],
+  rarities: {},
+  sliders: [],
+  ingredientTables: {},
+);
 
 AssetData buildTestAssetData({
   Map<CharacterId, Character> characters = const {},
@@ -25,8 +23,8 @@ AssetData buildTestAssetData({
   Map<FurnishingSetId, FurnishingSet> furnishingSets = const {},
   Map<FurnishingId, Furnishing> furnishings = const {},
   Map<WeaponId, Weapon> weapons = const {},
-  IngredientConfigurations? characterIngredients,
-  IngredientConfigurations? weaponIngredients,
+  IngredientConfigurations characterIngredients = _emptyIngredientConfigurations,
+  IngredientConfigurations weaponIngredients = _emptyIngredientConfigurations,
   List<DropRateEntry> dropRates = const [],
   Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials = const {},
 }) {
@@ -40,9 +38,9 @@ AssetData buildTestAssetData({
       schemaVersion: 0,
     ),
     characters: characters,
-    characterIngredients: characterIngredients ?? _emptyIngredientConfigurations(),
+    characterIngredients: characterIngredients,
     weapons: weapons,
-    weaponIngredients: weaponIngredients ?? _emptyIngredientConfigurations(),
+    weaponIngredients: weaponIngredients,
     weaponSubStats: {},
     weaponTypes: {},
     elements: {},
