@@ -801,4 +801,94 @@ void main() {
       );
     });
   });
+
+  group("watchMaterialBookmarks", () {
+    test("returns an empty list when nothing is bookmarked", () async {
+      expect(await db.watchMaterialBookmarks().first, isEmpty);
+    });
+
+    test("returns the character and the weapon bookmarks together", () async {
+      await db.addMaterialBookmarks([
+        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
+        buildMaterialBookmark(
+          characterId: "char_1",
+          weaponId: "weapon_1",
+          materialId: "mat_b",
+        ),
+      ]);
+
+      final rows = await db.watchMaterialBookmarks().first;
+
+      expect(rows, hasLength(2));
+      expect(
+        rows.map((e) => e.item.materialId),
+        containsAll(["mat_a", "mat_b"]),
+      );
+    });
+  });
+
+  group("watchMaterialBookmarksByHashes", () {
+    test("returns only the items of the given hashes", () async {
+      final target = buildMaterialBookmark(
+        characterId: "char_1",
+        materialId: "mat_a",
+      );
+      await db.addMaterialBookmarks([
+        target,
+        buildMaterialBookmark(characterId: "char_1", materialId: "mat_b"),
+      ]);
+
+      final rows = await db.watchMaterialBookmarksByHashes([target.hash]).first;
+
+      expect(rows, hasLength(1));
+      expect(rows.single.item.hash, target.hash);
+    });
+
+    test("returns an empty list when no hash is given", () async {
+      await db.addMaterialBookmarks([
+        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
+      ]);
+
+      expect(await db.watchMaterialBookmarksByHashes([]).first, isEmpty);
+    });
+  });
+
+  group("removeArtifactBookmarkById", () {
+    test("deletes the artifact and cascades into the piece table", () async {
+      await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
+        characterId: "char_1",
+        piece: "piece_1",
+        mainStat: null,
+        subStats: const [],
+      ));
+      final artifact = (await db.select(db.bookmarkArtifactTable).get()).single;
+
+      await db.removeArtifactBookmarkById(artifact.id);
+
+      expect(await db.select(db.bookmarkArtifactTable).get(), isEmpty);
+      expect(await db.select(db.bookmarkArtifactPieceTable).get(), isEmpty);
+    });
+
+    test("keeps the other artifact bookmarks", () async {
+      await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
+        characterId: "char_1",
+        piece: "piece_1",
+        mainStat: null,
+        subStats: const [],
+      ));
+      await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
+        characterId: "char_2",
+        piece: "piece_2",
+        mainStat: null,
+        subStats: const [],
+      ));
+      final artifacts = await db.select(db.bookmarkArtifactTable).get();
+
+      await db.removeArtifactBookmarkById(artifacts.first.id);
+
+      final remaining = await db.select(db.bookmarkArtifactTable).get();
+      expect(remaining, hasLength(1));
+      expect(remaining.single.id, artifacts.last.id);
+    });
+  });
 }
