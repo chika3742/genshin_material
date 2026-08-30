@@ -205,7 +205,7 @@ void main() {
 
     test("範囲に何も入らなければコールバックは呼ばれない", () {
       var callCount = 0;
-      runInMapKeyRange(map, const LevelRangeValues(40, 40), (_, __) {
+      runInMapKeyRange(map, const LevelRangeValues(40, 40), (_, _) {
         callCount++;
       });
 

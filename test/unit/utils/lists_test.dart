@@ -123,11 +123,12 @@ void main() {
     });
 
     test("型引数が違えば == が false になる", () {
-      expect(EqualityList<int>([]) == EqualityList<String>([]), isFalse);
+      final Object other = EqualityList<String>([]);
+
+      expect(EqualityList<int>([]) == other, isFalse);
     });
 
     test("素の List と比較しても == は false になる", () {
-      // ignore: unrelated_type_equality_checks
       expect(EqualityList([1, 2, 3]) == [1, 2, 3], isFalse);
     });
 
