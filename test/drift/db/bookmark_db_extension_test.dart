@@ -1,3 +1,4 @@
+import "package:drift/drift.dart" show OrderingTerm;
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
@@ -16,6 +17,12 @@ void main() {
   tearDown(() async {
     await db.close();
   });
+
+  // SQLite does not guarantee the row order of a query without an ORDER BY,
+  // so the artifact rows are always read back ordered by their id.
+  Future<List<BookmarkArtifact>> readArtifactsById() =>
+      (db.select(db.bookmarkArtifactTable)
+        ..orderBy([(t) => OrderingTerm.asc(t.id)])).get();
 
   group("getCharacterMaterialBookmarkLevelRanges", () {
     test("returns empty map when no bookmarks", () async {
@@ -486,7 +493,7 @@ void main() {
     test("inserts a row into both the common and the set table", () async {
       await db.addArtifactSetBookmark(buildSetInsertable());
 
-      final artifacts = await db.select(db.bookmarkArtifactTable).get();
+      final artifacts = await readArtifactsById();
       final sets = await db.select(db.bookmarkArtifactSetTable).get();
 
       expect(artifacts, hasLength(1));
@@ -504,7 +511,7 @@ void main() {
       await db.addArtifactSetBookmark(buildSetInsertable());
       await db.addArtifactSetBookmark(buildSetInsertable(characterId: "char_2"));
 
-      final artifacts = await db.select(db.bookmarkArtifactTable).get();
+      final artifacts = await readArtifactsById();
 
       expect(artifacts, hasLength(2));
       expect(
@@ -538,7 +545,7 @@ void main() {
     test("inserts a row into both the common and the piece table", () async {
       await db.addArtifactPieceBookmark(buildPieceInsertable());
 
-      final artifacts = await db.select(db.bookmarkArtifactTable).get();
+      final artifacts = await readArtifactsById();
       final pieces = await db.select(db.bookmarkArtifactPieceTable).get();
 
       expect(artifacts, hasLength(1));
@@ -611,11 +618,11 @@ void main() {
         mainStat: null,
         subStats: const [],
       ));
-      final before = await db.select(db.bookmarkArtifactTable).get();
+      final before = await readArtifactsById();
 
       await db.updateArtifactOrderIndex(before.first.id, "a5");
 
-      final after = await db.select(db.bookmarkArtifactTable).get();
+      final after = await readArtifactsById();
       expect(after.firstWhere((e) => e.id == before.first.id).orderIndex, "a5");
       expect(
         after.firstWhere((e) => e.id == before.last.id).orderIndex,
@@ -698,6 +705,97 @@ void main() {
       );
 
       expect(await db.select(db.bookmarkMaterialGroupTable).get(), isEmpty);
+    });
+
+    test("applies the level of each given purpose independently", () async {
+      await db.addMaterialBookmarks([
+        buildMaterialBookmark(
+          characterId: "char_1",
+          materialId: "asc_low",
+          purposeType: Purpose.ascension,
+          upperLevel: 40,
+        ),
+        buildMaterialBookmark(
+          characterId: "char_1",
+          materialId: "asc_high",
+          purposeType: Purpose.ascension,
+          upperLevel: 60,
+        ),
+        buildMaterialBookmark(
+          characterId: "char_1",
+          materialId: "na_low",
+          purposeType: Purpose.normalAttack,
+          upperLevel: 4,
+        ),
+        buildMaterialBookmark(
+          characterId: "char_1",
+          materialId: "na_high",
+          purposeType: Purpose.normalAttack,
+          upperLevel: 8,
+        ),
+      ]);
+
+      final deleted = await db.deleteObsoleteBookmarks(
+        characterId: "char_1",
+        levels: {Purpose.ascension: 40, Purpose.normalAttack: 4},
+      );
+
+      expect(deleted, isTrue);
+      final remaining = await db.select(db.bookmarkMaterialItemTable).get();
+      expect(remaining, hasLength(2));
+      expect(
+        remaining.map((e) => e.materialId),
+        containsAll(["asc_high", "na_high"]),
+      );
+    });
+
+    test("deletes the bookmarks up to the level and keeps the ones above it",
+        () async {
+      await db.addMaterialBookmarks([
+        buildMaterialBookmark(
+          characterId: "char_1",
+          materialId: "mat_21",
+          upperLevel: 21,
+        ),
+        buildMaterialBookmark(
+          characterId: "char_1",
+          materialId: "mat_41",
+          upperLevel: 41,
+        ),
+        buildMaterialBookmark(
+          characterId: "char_1",
+          materialId: "mat_51",
+          upperLevel: 51,
+        ),
+      ]);
+
+      final deleted = await db.deleteObsoleteBookmarks(
+        characterId: "char_1",
+        levels: {Purpose.ascension: 50},
+      );
+
+      expect(deleted, isTrue);
+      final remaining = await db.select(db.bookmarkMaterialItemTable).get();
+      expect(remaining, hasLength(1));
+      expect(remaining.single.materialId, "mat_51");
+    });
+
+    test("keeps a bookmark one level above the given level", () async {
+      await db.addMaterialBookmarks([
+        buildMaterialBookmark(
+          characterId: "char_1",
+          materialId: "mat_51",
+          upperLevel: 51,
+        ),
+      ]);
+
+      final deleted = await db.deleteObsoleteBookmarks(
+        characterId: "char_1",
+        levels: {Purpose.ascension: 50},
+      );
+
+      expect(deleted, isFalse);
+      expect(await db.select(db.bookmarkMaterialItemTable).get(), hasLength(1));
     });
 
     test("only deletes the purposes that are given", () async {
@@ -861,11 +959,11 @@ void main() {
         mainStat: null,
         subStats: const [],
       ));
-      final artifact = (await db.select(db.bookmarkArtifactTable).get()).single;
+      final artifact = (await readArtifactsById()).single;
 
       await db.removeArtifactBookmarkById(artifact.id);
 
-      expect(await db.select(db.bookmarkArtifactTable).get(), isEmpty);
+      expect(await readArtifactsById(), isEmpty);
       expect(await db.select(db.bookmarkArtifactPieceTable).get(), isEmpty);
     });
 
@@ -882,11 +980,11 @@ void main() {
         mainStat: null,
         subStats: const [],
       ));
-      final artifacts = await db.select(db.bookmarkArtifactTable).get();
+      final artifacts = await readArtifactsById();
 
       await db.removeArtifactBookmarkById(artifacts.first.id);
 
-      final remaining = await db.select(db.bookmarkArtifactTable).get();
+      final remaining = await readArtifactsById();
       expect(remaining, hasLength(1));
       expect(remaining.single.id, artifacts.last.id);
     });

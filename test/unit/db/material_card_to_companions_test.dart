@@ -50,7 +50,11 @@ void main() {
       final companions = materialCardToCompanions(
         MaterialCardMaterial(
           levels: const [
-            MaterialBookmarkFrame.exp(level: 50, exp: 12500),
+            MaterialBookmarkFrame.exp(
+              materialId: "mat_from_frame",
+              level: 50,
+              exp: 12500,
+            ),
           ],
         ),
         const MaterialUsage(characterId: "char_1"),

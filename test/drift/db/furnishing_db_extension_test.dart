@@ -1,3 +1,4 @@
+import "package:drift/drift.dart" show Value;
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/furnishing_db_extension.dart";
@@ -64,13 +65,24 @@ void main() {
       expect(identical(second, first), isFalse);
     });
 
-    test("Re-emits an equal list when only another set changes", () async {
+    test("Stays empty when only another set changes", () async {
       final queue = createStreamQueue(db.watchFurnishingCraftCounts("set_1"));
       expect(await queue.next, isEmpty);
 
       await db.updateFurnishingCraftCount("set_2", "chair", 1);
 
-      expect(await queue.next, isEmpty);
+      // Whether the write re-runs the query is drift's business — it
+      // invalidates per table, not per row — so this asserts the value the
+      // stream settles on rather than how many times it fired. The timeout is
+      // only reached when nothing is emitted at all, which leaves the value at
+      // the empty list that was already checked above.
+      expect(
+        await queue.peek.timeout(
+          const Duration(seconds: 1),
+          onTimeout: () => const <FurnishingCraftCount>[],
+        ),
+        isEmpty,
+      );
     });
   });
 
@@ -195,13 +207,25 @@ void main() {
   });
 
   group("watchFurnishingSetBookmarks", () {
-    test("Emits every bookmarked set", () async {
-      await db.setFurnishingSetBookmark("set_1", true);
-      await db.setFurnishingSetBookmark("set_2", true);
+    // `createdAt` defaults to `currentDateAndTime`, which is only accurate to
+    // the second, so the rows are inserted directly with an explicit one —
+    // and in the reverse order — to pin the `createdAt` ordering of the query.
+    Future<void> addBookmarkAt(String setId, DateTime createdAt) {
+      return db.into(db.furnishingSetBookmarkTable).insert(
+        FurnishingSetBookmarkCompanion.insert(
+          setId: setId,
+          createdAt: Value(createdAt),
+        ),
+      );
+    }
+
+    test("Emits every bookmarked set, oldest first", () async {
+      await addBookmarkAt("set_2", DateTime.utc(2024, 1, 2));
+      await addBookmarkAt("set_1", DateTime.utc(2024, 1, 1));
 
       final bookmarks = await db.watchFurnishingSetBookmarks().first;
 
-      expect(bookmarks.map((e) => e.setId), containsAll(["set_1", "set_2"]));
+      expect(bookmarks.map((e) => e.setId), ["set_1", "set_2"]);
     });
   });
 
@@ -234,7 +258,7 @@ void main() {
     // `getSingle()` throws when the query matches no row, so removing a set
     // that is not bookmarked fails instead of being a no-op.
     test("Throws when the set is not bookmarked", () async {
-      expect(db.removeFurnishingSetBookmark("set_1"), throwsStateError);
+      await expectLater(db.removeFurnishingSetBookmark("set_1"), throwsStateError);
     });
   });
 }

@@ -69,6 +69,25 @@ void main() {
       expect(rows.single.equippedWeaponId, "weapon_2");
     });
 
+    // This looks like a bug, and the test pins today's behaviour rather than
+    // the desired one. `insertOnConflictUpdate` writes only the columns the
+    // companion carries, so an absent `equippedWeaponId` leaves the stored one
+    // untouched. The sync path passes `Value.absentIfNull(...)`
+    // (`lib/providers/game_data_sync.dart:124`), so once a character has been
+    // synced with a weapon, unequipping it in game can never clear the stored
+    // weapon: the state keeps pointing at the weapon the character no longer
+    // holds.
+    test("Keeps the previously equipped weapon when it is not given", () async {
+      await db.setCharacterState(
+        buildCharacterState(equippedWeaponId: "weapon_1"),
+      );
+      await db.setCharacterState(buildCharacterState());
+
+      final rows = await readCharacterStates();
+      expect(rows, hasLength(1));
+      expect(rows.single.equippedWeaponId, "weapon_1");
+    });
+
     test("Keeps the same character of another uid as a separate row", () async {
       await db.setCharacterState(buildCharacterState(uid: "uid_1"));
       await db.setCharacterState(buildCharacterState(uid: "uid_2"));
