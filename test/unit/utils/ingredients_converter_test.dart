@@ -16,7 +16,7 @@ void main() {
       },
     );
 
-    test("targetSpecific に自身の id があれば materials の定義より優先される", () {
+    test("prefers targetSpecific over the materials definition", () {
       final character = buildTestCharacter(
         id: "char_1",
         materials: const {"gem": "id:gem_lv1"},
@@ -36,7 +36,7 @@ void main() {
       );
     });
 
-    test("targetSpecific に自身の id が無ければ materials の定義に従う", () {
+    test("falls back to the materials definition when targetSpecific has no entry", () {
       final character = buildTestCharacter(
         id: "char_1",
         materials: const {"gem": "id:gem_lv1"},
@@ -56,7 +56,7 @@ void main() {
       );
     });
 
-    test("targetSpecific の値が null なら null を返す", () {
+    test("returns null when the targetSpecific entry is null", () {
       final character = buildTestCharacter(
         id: "char_1",
         materials: const {"gem": "id:gem_lv1"},
@@ -76,7 +76,7 @@ void main() {
       );
     });
 
-    test("id: 形式の定義をそのまま解決する", () {
+    test("resolves an id: definition as is", () {
       final character = buildTestCharacter(
         id: "char_1",
         materials: const {"gem": "id:gem_lv2"},
@@ -92,7 +92,7 @@ void main() {
       );
     });
 
-    test("group: 形式は groupId と craftLevel の両方が一致する素材を引く", () {
+    test("resolves a group: definition by both groupId and craftLevel", () {
       final character = buildTestCharacter(
         id: "char_1",
         materials: const {"gem": "group:gem"},
@@ -116,7 +116,7 @@ void main() {
       );
     });
 
-    test("該当する type の定義が無ければ null を返す", () {
+    test("returns null when the type has no definition", () {
       final character = buildTestCharacter(id: "char_1");
 
       expect(
@@ -129,7 +129,28 @@ void main() {
       );
     });
 
-    test("未知の type prefix なら throw する", () {
+    // Pins the current behaviour: a group: definition matching no material
+    // trips the assert instead of returning null the way every other failure
+    // path in this function does. In a release build the assert is stripped
+    // and the `material!` right after it throws a TypeError instead. Update
+    // this test when the production code starts returning null.
+    test("throws when a group: definition matches no material", () {
+      final character = buildTestCharacter(
+        id: "char_1",
+        materials: const {"gem": "group:gem"},
+      );
+
+      expect(
+        () => getConcreteItemId(
+          const Ingredient.byType(type: "gem", quantity: 1, craftLevel: 99),
+          character,
+          assetData,
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+
+    test("throws on an unknown type prefix", () {
       final character = buildTestCharacter(
         id: "char_1",
         materials: const {"gem": "unknown:gem"},
@@ -145,7 +166,7 @@ void main() {
       );
     });
 
-    test("IngredientWithFixedId は itemId を、IngredientExp は exp を返す", () {
+    test("returns itemId for a fixed ingredient and exp for an exp one", () {
       final character = buildTestCharacter(id: "char_1");
 
       expect(
@@ -175,14 +196,14 @@ void main() {
       50: const [Ingredient.exp(exp: 50)],
     };
 
-    test("start は含まず end は含む", () {
+    test("excludes start and includes end", () {
       expect(
         narrowLevelMap(map, const LevelRangeValues(20, 40)).keys,
         [30, 40],
       );
     });
 
-    test("範囲に何も入らなければ空の Map を返す", () {
+    test("returns an empty map when nothing falls in the range", () {
       expect(narrowLevelMap(map, const LevelRangeValues(40, 40)), isEmpty);
     });
   });
@@ -194,7 +215,7 @@ void main() {
       40: const [Ingredient.exp(exp: 40)],
     };
 
-    test("start は含まず end は含む範囲だけコールバックが呼ばれる", () {
+    test("calls back only for levels above start and up to end", () {
       final calledLevels = <int>[];
       runInMapKeyRange(map, const LevelRangeValues(20, 40), (level, _) {
         calledLevels.add(level);
@@ -203,7 +224,7 @@ void main() {
       expect(calledLevels, [30, 40]);
     });
 
-    test("範囲に何も入らなければコールバックは呼ばれない", () {
+    test("never calls back when nothing falls in the range", () {
       var callCount = 0;
       runInMapKeyRange(map, const LevelRangeValues(40, 40), (_, _) {
         callCount++;
@@ -220,7 +241,7 @@ void main() {
       },
     );
 
-    test("通常の素材は MaterialBookmarkFrameNormal に変換される", () {
+    test("converts an ordinary material into a normal frame", () {
       final frames = toMaterialBookmarkFrames(
         level: 40,
         ingredients: const [Ingredient.fixed(itemId: "mora", quantity: 100)],
@@ -239,7 +260,7 @@ void main() {
       ]);
     });
 
-    test("exp 材は MaterialBookmarkFrameExp に変換される", () {
+    test("converts an exp ingredient into an exp frame", () {
       final frames = toMaterialBookmarkFrames(
         level: 40,
         ingredients: const [Ingredient.exp(exp: 1000)],
@@ -253,11 +274,11 @@ void main() {
       ]);
     });
 
-    test("materialId が null になる要素はスキップされる", () {
+    test("skips ingredients that resolve to a null material id", () {
       final frames = toMaterialBookmarkFrames(
         level: 40,
         ingredients: const [
-          // "gem" の定義を持たないキャラなので null になる
+          // The character has no "gem" definition, so this resolves to null.
           Ingredient.byType(type: "gem", quantity: 1),
           Ingredient.fixed(itemId: "mora", quantity: 100),
         ],
@@ -272,7 +293,7 @@ void main() {
   });
 
   group("mergeMaterialBookmarkFrames", () {
-    test("同一の (purposeType, level) は数量が合算される", () {
+    test("sums quantities sharing the same (purposeType, level)", () {
       final merged = mergeMaterialBookmarkFrames(const [
         MaterialBookmarkFrame(
           materialId: "mora",
@@ -301,7 +322,7 @@ void main() {
       expect(merged.single.sum, 300);
     });
 
-    test("purposeType か level が異なれば別のフレームとして残る", () {
+    test("keeps frames apart when purposeType or level differs", () {
       final merged = mergeMaterialBookmarkFrames(const [
         MaterialBookmarkFrame(
           materialId: "mora",
@@ -328,7 +349,7 @@ void main() {
       expect(merged.single.sum, 600);
     });
 
-    test("exp フレームと通常フレームが混在しても素材ごとに分かれる", () {
+    test("groups exp frames separately from normal ones", () {
       final merged = mergeMaterialBookmarkFrames(const [
         MaterialBookmarkFrame(
           materialId: "mora",
@@ -356,7 +377,7 @@ void main() {
   });
 
   group("sortMaterials", () {
-    test("id: の優先度、category: の優先度、exp の順で並ぶ", () {
+    test("orders by exp first, then the id: and category: sort priorities", () {
       final assetData = buildTestAssetData(
         materials: {
           "gem": buildTestMaterial(id: "gem", category: "gems"),

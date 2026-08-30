@@ -7,7 +7,7 @@ import "../../utils/asset_data.dart";
 
 void main() {
   group("sortedDescendingByRarity", () {
-    test("レアリティの降順に並ぶ", () {
+    test("orders by descending rarity", () {
       final weapons = [
         buildTestWeapon(id: "r3", rarity: 3),
         buildTestWeapon(id: "r5", rarity: 5),
@@ -20,7 +20,7 @@ void main() {
       );
     });
 
-    test("同じレアリティ内では元の順序が保持される", () {
+    test("keeps the original order within a rarity", () {
       final weapons = [
         buildTestWeapon(id: "r4_a", rarity: 4),
         buildTestWeapon(id: "r5_a", rarity: 5),
@@ -34,13 +34,13 @@ void main() {
       );
     });
 
-    test("空のリストは空のまま", () {
+    test("leaves an empty list empty", () {
       expect(<Weapon>[].sortedDescendingByRarity(), isEmpty);
     });
   });
 
   group("groupByType", () {
-    test("weaponTypes に与えた順序に従って並ぶ", () {
+    test("orders the groups by the given weaponTypes", () {
       final weapons = [
         buildTestWeapon(id: "bow_1", type: "bow"),
         buildTestWeapon(id: "sword_1", type: "sword"),
@@ -54,7 +54,7 @@ void main() {
       expect(grouped["sword"]!.map((e) => e.id), ["sword_1"]);
     });
 
-    test("リストに存在しない種別はキーに現れない", () {
+    test("omits types that no weapon in the list has", () {
       final weapons = [buildTestWeapon(id: "sword_1", type: "sword")];
 
       expect(
@@ -62,12 +62,31 @@ void main() {
         ["sword"],
       );
     });
+
+    // The comparator is `weaponTypes.indexOf(a) - weaponTypes.indexOf(b)`, so
+    // every type missing from weaponTypes maps to -1 and they all compare
+    // equal. The SplayTreeMap then treats them as one key and silently drops
+    // all but one group. This pins the current behaviour: the production code
+    // relies on weaponTypes covering every type, and does not enforce it.
+    test("collapses types missing from weaponTypes into a single group", () {
+      final weapons = [
+        buildTestWeapon(id: "catalyst_1", type: "catalyst"),
+        buildTestWeapon(id: "polearm_1", type: "polearm"),
+      ];
+
+      final grouped = weapons.groupByType(const ["sword", "bow"]);
+
+      expect(grouped, hasLength(1));
+      // The first key inserted survives, but the value of the last one wins.
+      expect(grouped.keys, ["catalyst"]);
+      expect(grouped["catalyst"]!.map((e) => e.id), ["polearm_1"]);
+    });
   });
 
   group("mapInLevelRange", () {
     final map = {20: "a", 30: "b", 40: "c", 50: "d"};
 
-    test("start は含まず end は含む", () {
+    test("excludes start and includes end", () {
       expect(
         map.mapInLevelRange(
           const LevelRangeValues(20, 40),
@@ -77,7 +96,7 @@ void main() {
       );
     });
 
-    test("範囲に何も入らなければ空になる", () {
+    test("yields nothing when the range covers no key", () {
       expect(
         map.mapInLevelRange(
           const LevelRangeValues(40, 40),
@@ -91,26 +110,26 @@ void main() {
   group("indexOfCeilToNearest", () {
     final list = [20, 40, 50];
 
-    test("完全に一致する要素の index を返す", () {
+    test("returns the index of an exact match", () {
       expect(list.indexOfCeilToNearest(40), 1);
     });
 
-    test("一致しなければ直後の要素の index を返す", () {
+    test("returns the index of the next element when there is no exact match", () {
       expect(list.indexOfCeilToNearest(35), 1);
       expect(list.indexOfCeilToNearest(1), 0);
     });
 
-    test("すべての要素より大きければ -1 を返す", () {
+    test("returns -1 when the target exceeds every element", () {
       expect(list.indexOfCeilToNearest(60), -1);
     });
 
-    test("空のリストなら -1 を返す", () {
+    test("returns -1 for an empty list", () {
       expect(<int>[].indexOfCeilToNearest(1), -1);
     });
   });
 
   group("EqualityList", () {
-    test("内容が同じなら == が true になり hashCode も一致する", () {
+    test("equal contents compare equal and share a hashCode", () {
       final a = EqualityList([1, 2, 3]);
       final b = EqualityList([1, 2, 3]);
 
@@ -118,21 +137,21 @@ void main() {
       expect(a.hashCode, b.hashCode);
     });
 
-    test("内容が違えば == が false になる", () {
+    test("different contents do not compare equal", () {
       expect(EqualityList([1, 2, 3]) == EqualityList([1, 2]), isFalse);
     });
 
-    test("型引数が違えば == が false になる", () {
+    test("a different type argument does not compare equal", () {
       final Object other = EqualityList<String>([]);
 
       expect(EqualityList<int>([]) == other, isFalse);
     });
 
-    test("素の List と比較しても == は false になる", () {
+    test("a plain List does not compare equal", () {
       expect(EqualityList([1, 2, 3]) == [1, 2, 3], isFalse);
     });
 
-    test("List として読み書きできる", () {
+    test("reads and writes like a List", () {
       final list = EqualityList([1, 2, 3]);
 
       expect(list.length, 3);

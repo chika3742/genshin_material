@@ -4,7 +4,7 @@ import "package:yaml/yaml.dart";
 
 void main() {
   group("unwrapYamlValue", () {
-    test("YamlMap が素の Map になる", () {
+    test("turns a YamlMap into a plain Map", () {
       final unwrapped = unwrapYamlValue(loadYaml("a: 1"));
 
       expect(unwrapped, isNot(isA<YamlMap>()));
@@ -12,7 +12,7 @@ void main() {
       expect(unwrapped, {"a": 1});
     });
 
-    test("YamlList が素の List になる", () {
+    test("turns a YamlList into a plain List", () {
       final unwrapped = unwrapYamlValue(loadYaml("- 1\n- 2\n"));
 
       expect(unwrapped, isNot(isA<YamlList>()));
@@ -20,7 +20,7 @@ void main() {
       expect(unwrapped, [1, 2]);
     });
 
-    test("ネストした YamlMap / YamlList が再帰的に変換される", () {
+    test("unwraps nested YamlMap and YamlList values recursively", () {
       final unwrapped = unwrapYamlValue(
         loadYaml("a:\n  b:\n    - 1\n    - c: 2\n"),
       ) as Map<String, dynamic>;
@@ -40,7 +40,7 @@ void main() {
       });
     });
 
-    test("スカラーはそのまま返る", () {
+    test("passes scalars through unchanged", () {
       expect(unwrapYamlValue(1), 1);
       expect(unwrapYamlValue("a"), "a");
       expect(unwrapYamlValue(true), isTrue);
@@ -49,7 +49,7 @@ void main() {
   });
 
   group("loadYamlUnwrapped", () {
-    test("ルート型が一致すれば返る", () {
+    test("returns the value when the root type matches", () {
       expect(
         loadYamlUnwrapped<Map<String, dynamic>>("a: 1"),
         {"a": 1},
@@ -60,7 +60,7 @@ void main() {
       );
     });
 
-    test("ルート型が一致しなければ throw する", () {
+    test("throws when the root type does not match", () {
       expect(
         () => loadYamlUnwrapped<List<dynamic>>("a: 1"),
         throwsA(startsWith("Root type of YAML is not")),

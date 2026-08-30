@@ -2,11 +2,11 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/utils/hash.dart";
 
-// これらの文字列は DB の主キーとして保存されるため、期待値をリテラルで固定して
-// 出力形式の変更を回帰として検出する。
+// These strings are stored as database primary keys, so the expected values
+// are pinned as literals to catch any change to their format.
 void main() {
   group("combineMaterialBookmarkElements", () {
-    test("すべての要素が揃っているとき", () {
+    test("joins every element when all of them are present", () {
       expect(
         combineMaterialBookmarkElements(
           "char_1",
@@ -19,7 +19,7 @@ void main() {
       );
     });
 
-    test("weaponId が null なら空文字になる", () {
+    test("writes an empty segment for a null weaponId", () {
       expect(
         combineMaterialBookmarkElements(
           "char_1",
@@ -32,7 +32,7 @@ void main() {
       );
     });
 
-    test("materialId が null なら空文字になる", () {
+    test("writes an empty segment for a null materialId", () {
       expect(
         combineMaterialBookmarkElements(
           "char_1",
@@ -45,7 +45,7 @@ void main() {
       );
     });
 
-    test("materialId と weaponId の両方が null のとき", () {
+    test("writes empty segments when both materialId and weaponId are null", () {
       expect(
         combineMaterialBookmarkElements(
           "char_1",
@@ -60,7 +60,7 @@ void main() {
   });
 
   group("generateBookmarkGroupHash", () {
-    test("すべての要素が揃っているとき", () {
+    test("joins every element when all of them are present", () {
       expect(
         generateBookmarkGroupHash(
           characterId: "char_1",
@@ -73,7 +73,7 @@ void main() {
       );
     });
 
-    test("任意の要素が null なら空文字になる", () {
+    test("writes empty segments for the omitted optional elements", () {
       expect(
         generateBookmarkGroupHash(
           characterId: "char_1",
@@ -83,7 +83,7 @@ void main() {
       );
     });
 
-    test("artifactSet は bookmarkId のみを持つ", () {
+    test("writes only the bookmarkId for the artifact types", () {
       expect(
         generateBookmarkGroupHash(
           characterId: "char_1",
@@ -92,9 +92,6 @@ void main() {
         ),
         "char_1:artifactSet:::12",
       );
-    });
-
-    test("artifactPiece は bookmarkId のみを持つ", () {
       expect(
         generateBookmarkGroupHash(
           characterId: "char_1",

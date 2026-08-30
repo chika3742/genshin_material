@@ -20,7 +20,7 @@ DropRateEntry buildTestDropRateEntry({
 
 void main() {
   group("getDropRateEntryForMaterial", () {
-    test("target.ids に素材の id が含まれるエントリを返す", () {
+    test("returns the entry whose target.ids contains the material id", () {
       final byIds = buildTestDropRateEntry(
         target: const DropRateTarget(ids: ["gem_lv1"]),
       );
@@ -34,7 +34,7 @@ void main() {
       );
     });
 
-    test("target.ids は target.category より優先される", () {
+    test("checks target.ids instead of target.category when both are set", () {
       final byIds = buildTestDropRateEntry(
         target: const DropRateTarget(ids: ["other"], category: "gems"),
       );
@@ -48,7 +48,7 @@ void main() {
       );
     });
 
-    test("category と rarity の両方が一致すれば返す", () {
+    test("matches on category and rarity together", () {
       final byCategory = buildTestDropRateEntry(
         target: const DropRateTarget(category: "gems", rarity: 3),
       );
@@ -69,7 +69,7 @@ void main() {
       );
     });
 
-    test("rarity が null なら category だけで一致する", () {
+    test("matches on category alone when the target rarity is null", () {
       final byCategory = buildTestDropRateEntry(
         target: const DropRateTarget(category: "gems"),
       );
@@ -83,7 +83,7 @@ void main() {
       );
     });
 
-    test("ids にも category にも当たらなければ null", () {
+    test("returns null when neither ids nor category matches", () {
       expect(
         getDropRateEntryForMaterial(
           [
@@ -97,7 +97,7 @@ void main() {
       );
     });
 
-    test("先に一致したエントリを返す", () {
+    test("returns the first matching entry", () {
       final first = buildTestDropRateEntry(
         target: const DropRateTarget(category: "gems"),
       );
@@ -118,11 +118,11 @@ void main() {
   group("calculateFarmCount", () {
     final material = buildTestMaterial(id: "gem_lv1", category: "gems");
 
-    test("該当するエントリが無ければ null", () {
+    test("returns null when no entry matches", () {
       expect(calculateFarmCount(material, [], 10, 45, 2), isNull);
     });
 
-    test("AR に対応するドロップ率が無ければ null", () {
+    test("returns null when no drop rate covers the AR", () {
       final entry = buildTestDropRateEntry(
         target: const DropRateTarget(category: "gems"),
         originalRate: const [DropRate(lowerAR: 45, rate: 0.5)],
@@ -131,7 +131,7 @@ void main() {
       expect(calculateFarmCount(material, [entry], 10, 40, 2), isNull);
     });
 
-    test("AR 以下で最も高い AR 帯のドロップ率を使う", () {
+    test("uses the last covering AR band of an ascending originalRate", () {
       final entry = buildTestDropRateEntry(
         target: const DropRateTarget(category: "gems"),
         originalRate: const [
@@ -144,7 +144,26 @@ void main() {
       expect(calculateFarmCount(material, [entry], 10, 40, 2), 40);
     });
 
-    test("condensedAvailable なら condensedMultiplier が乗算される", () {
+    // getDropRateForAR uses lastWhereOrNull, so it picks the last covering
+    // element in list order rather than the highest lowerAR. An unordered
+    // originalRate therefore yields the wrong band. This pins the current
+    // behaviour: the production code relies on the asset data being sorted
+    // ascending, and does not enforce it.
+    test("picks by list order, not by the highest lowerAR", () {
+      final entry = buildTestDropRateEntry(
+        target: const DropRateTarget(category: "gems"),
+        originalRate: const [
+          DropRate(lowerAR: 45, rate: 0.5),
+          DropRate(lowerAR: 35, rate: 0.25),
+        ],
+      );
+
+      // Both bands cover AR 45, and the last one in the list wins, so the
+      // 0.25 band is used even though 45 is the closest match.
+      expect(calculateFarmCount(material, [entry], 10, 45, 2), 40);
+    });
+
+    test("multiplies the rate by condensedMultiplier when condensedAvailable", () {
       final entry = buildTestDropRateEntry(
         target: const DropRateTarget(category: "gems"),
         originalRate: const [DropRate(lowerAR: 45, rate: 0.5)],
@@ -154,7 +173,7 @@ void main() {
       expect(calculateFarmCount(material, [entry], 10, 45, 2), 10);
     });
 
-    test("結果は切り上げられる", () {
+    test("rounds the result up", () {
       final entry = buildTestDropRateEntry(
         target: const DropRateTarget(category: "gems"),
         originalRate: const [DropRate(lowerAR: 45, rate: 0.3)],

@@ -43,15 +43,15 @@ Character _buildTestCharacterVariant({
 
 void main() {
   group("normalizeForSearch", () {
-    test("小文字化する", () {
+    test("lowercases the input", () {
       expect(normalizeForSearch("AbCd"), "abcd");
     });
 
-    test("ひらがなをカタカナに変換する", () {
+    test("converts hiragana to katakana", () {
       expect(normalizeForSearch("あいうえお"), "アイウエオ");
     });
 
-    test("カタカナと記号はそのまま残す", () {
+    test("leaves katakana and symbols untouched", () {
       expect(normalizeForSearch("アイウ・エオ"), "アイウ・エオ");
     });
   });
@@ -70,36 +70,36 @@ void main() {
       ),
     ];
 
-    test("クエリが空なら空配列を返す", () {
+    test("returns an empty list for an empty query", () {
       expect(filterBySearchQuery(items, ""), isEmpty);
     });
 
-    test("ひらがなのクエリでカタカナの名前に一致する", () {
+    test("matches a katakana name with a hiragana query", () {
       expect(
         filterBySearchQuery(items, "あいあん").map((e) => e.id),
         ["iron_chunk"],
       );
     });
 
-    test("大文字小文字を無視して一致する", () {
+    test("matches case insensitively", () {
       expect(
         filterBySearchQuery(items, "MORA").map((e) => e.id),
         ["mora"],
       );
     });
 
-    test("名前に無くても jaPronunciation で一致する", () {
+    test("matches on jaPronunciation when the name does not match", () {
       expect(
         filterBySearchQuery(items, "モラ").map((e) => e.id),
         ["mora"],
       );
     });
 
-    test("どこにも一致しなければ空配列を返す", () {
+    test("returns an empty list when nothing matches", () {
       expect(filterBySearchQuery(items, "存在しない名前"), isEmpty);
     });
 
-    test("前方一致した項目が先頭に来る", () {
+    test("puts prefix matches first", () {
       final sortTargets = [
         buildTestMaterial(
           id: "partial",
@@ -126,21 +126,21 @@ void main() {
       _buildTestCharacterGroup(id: "group", weaponType: "sword"),
     ];
 
-    test("weaponType が null なら CharacterOrVariant を全件返す", () {
+    test("returns every CharacterOrVariant when weaponType is null", () {
       expect(
         filterCharactersByWeaponType(characters, null).map((e) => e.id),
         ["sword_char", "bow_char", "sword_variant"],
       );
     });
 
-    test("weaponType が一致する CharacterOrVariant だけを返す", () {
+    test("returns only the CharacterOrVariant entries of the given weaponType", () {
       expect(
         filterCharactersByWeaponType(characters, "sword").map((e) => e.id),
         ["sword_char", "sword_variant"],
       );
     });
 
-    test("CharacterOrVariant でない要素は weaponType が一致しても除外される", () {
+    test("drops entries that are not a CharacterOrVariant even when the weaponType matches", () {
       expect(
         filterCharactersByWeaponType(characters, "sword").map((e) => e.id),
         isNot(contains("group")),

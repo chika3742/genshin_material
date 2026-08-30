@@ -7,31 +7,31 @@ void main() {
   final material = buildTestMaterial(id: "gem_lv1", groupId: "gem");
 
   group("materialUsagePredicate", () {
-    test("group: が groupId と一致すれば true", () {
+    test("returns true when group: matches the groupId", () {
       expect(materialUsagePredicate(material, const {"ascension": "group:gem"}), isTrue);
     });
 
-    test("group: が groupId と一致しなければ false", () {
+    test("returns false when group: does not match the groupId", () {
       expect(materialUsagePredicate(material, const {"ascension": "group:other"}), isFalse);
     });
 
-    test("id: が素材の id と一致すれば true", () {
+    test("returns true when id: matches the material id", () {
       expect(materialUsagePredicate(material, const {"ascension": "id:gem_lv1"}), isTrue);
     });
 
-    test("id: が素材の id と一致しなければ false", () {
+    test("returns false when id: does not match the material id", () {
       expect(materialUsagePredicate(material, const {"ascension": "id:gem_lv2"}), isFalse);
     });
 
-    test("runtimeType キーは一致していても無視される", () {
+    test("ignores the runtimeType key even when it matches", () {
       expect(materialUsagePredicate(material, const {"runtimeType": "id:gem_lv1"}), isFalse);
     });
 
-    test("未知の prefix なら false", () {
+    test("returns false for an unknown prefix", () {
       expect(materialUsagePredicate(material, const {"ascension": "unknown:gem_lv1"}), isFalse);
     });
 
-    test("定義が空なら false", () {
+    test("returns false for empty definitions", () {
       expect(materialUsagePredicate(material, const {}), isFalse);
     });
   });
@@ -43,14 +43,14 @@ void main() {
       buildTestCharacter(id: "special", materials: const {"ascension": "group:other"}),
     ];
 
-    test("素材定義が一致するキャラだけを返す", () {
+    test("returns only the characters whose definitions match", () {
       expect(
         getCharactersUsingMaterial(material, characters, const {}).map((e) => e.id),
         ["user"],
       );
     });
 
-    test("specialCharactersUsingMaterials に載っているキャラは強制的にヒットする", () {
+    test("forces a match for characters listed in specialCharactersUsingMaterials", () {
       expect(
         getCharactersUsingMaterial(material, characters, const {
           "gem_lv1": ["special"],
@@ -59,7 +59,7 @@ void main() {
       );
     });
 
-    test("別の素材に紐づく特例は影響しない", () {
+    test("ignores special entries keyed by another material", () {
       expect(
         getCharactersUsingMaterial(material, characters, const {
           "gem_lv2": ["special"],
@@ -70,23 +70,16 @@ void main() {
   });
 
   group("getWeaponsUsingMaterial", () {
-    final weapons = [
-      buildTestWeapon(id: "user", materials: const {"ascension": "id:gem_lv1"}),
-      buildTestWeapon(id: "non_user", materials: const {"ascension": "id:gem_lv2"}),
-      buildTestWeapon(id: "no_materials"),
-    ];
+    test("returns only the weapons whose definitions match, dropping those without materials", () {
+      final weapons = [
+        buildTestWeapon(id: "user", materials: const {"ascension": "id:gem_lv1"}),
+        buildTestWeapon(id: "non_user", materials: const {"ascension": "id:gem_lv2"}),
+        buildTestWeapon(id: "no_materials"),
+      ];
 
-    test("素材定義が一致する武器だけを返す", () {
       expect(
         getWeaponsUsingMaterial(material, weapons).map((e) => e.id),
         ["user"],
-      );
-    });
-
-    test("materials が null の武器は除外される", () {
-      expect(
-        getWeaponsUsingMaterial(material, weapons).map((e) => e.id),
-        isNot(contains("no_materials")),
       );
     });
   });
