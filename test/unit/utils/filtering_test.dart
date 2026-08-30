@@ -133,17 +133,12 @@ void main() {
       );
     });
 
-    test("returns only the CharacterOrVariant entries of the given weaponType", () {
+    test("returns the matching CharacterOrVariant entries, dropping the ones that are not", () {
+      // "group" is a CharacterGroup carrying the same weaponType, so it is
+      // excluded by the type check rather than by the weaponType.
       expect(
         filterCharactersByWeaponType(characters, "sword").map((e) => e.id),
         ["sword_char", "sword_variant"],
-      );
-    });
-
-    test("drops entries that are not a CharacterOrVariant even when the weaponType matches", () {
-      expect(
-        filterCharactersByWeaponType(characters, "sword").map((e) => e.id),
-        isNot(contains("group")),
       );
     });
   });
