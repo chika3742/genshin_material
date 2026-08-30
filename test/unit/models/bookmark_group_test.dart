@@ -237,6 +237,53 @@ void main() {
     });
   });
 
+  group("fromBookmarks with a level table that does not start at 1", () {
+    // The tables above all begin at 1, which makes the literal 1 that
+    // fromBookmarks falls back to indistinguishable from levelTicks.first.
+    // This table starts at 2 so the hardcoded fallback is pinned down.
+    const talentTicks = [2, 4, 6, 8];
+
+    final talentAssetData = buildTestAssetData(
+      characters: assetData.characters,
+      characterIngredients: buildIngredientConfigurations(
+        rarity: characterRarity,
+        purpose: Purpose.ascension,
+        levels: levelsOf(talentTicks),
+      ),
+    );
+
+    test("Falls back to 1 rather than to the first tick at index 0", () {
+      final group = BookmarkGroup.fromBookmarks(
+        [buildMaterialBookmark(upperLevel: 2)],
+        talentAssetData,
+      );
+
+      expect(group.levelRange!.start, 1);
+      expect(group.levelRange!.end, 2);
+    });
+
+    test("Falls back to 1 rather than to the first tick when absent", () {
+      // indexOf returns -1 for a level the table does not know about.
+      final group = BookmarkGroup.fromBookmarks(
+        [buildMaterialBookmark(upperLevel: 5)],
+        talentAssetData,
+      );
+
+      expect(group.levelRange!.start, 1);
+      expect(group.levelRange!.end, 5);
+    });
+
+    test("Still reads the previous tick for a level inside the table", () {
+      final group = BookmarkGroup.fromBookmarks(
+        [buildMaterialBookmark(upperLevel: 6)],
+        talentAssetData,
+      );
+
+      expect(group.levelRange!.start, 4);
+      expect(group.levelRange!.end, 6);
+    });
+  });
+
   group("fromBookmarks with artifact bookmarks", () {
     test("Uses the artifact row id as the hash of an artifact set", () {
       final artifact = buildArtifact(id: 12, orderIndex: "b3");
