@@ -2,6 +2,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/material_bag_count_db_extension.dart";
 
+import "../../utils/async.dart";
 import "../../utils/db.dart";
 
 void main() {
@@ -14,10 +15,6 @@ void main() {
   tearDown(() async {
     await db.close();
   });
-
-  // Drift query streams re-run their query asynchronously after the write that
-  // invalidated them, so give them a turn before asserting on the emissions.
-  Future<void> settle() => Future<void>.delayed(const Duration(milliseconds: 50));
 
   Future<List<MaterialBagCount>> readCounts() =>
       db.select(db.materialBagCountTable).get();
@@ -59,22 +56,14 @@ void main() {
     });
 
     test("Emits again when a watched count changes", () async {
-      final emissions = <List<MaterialBagCount>>[];
-      final subscription =
-          db.watchMaterialBagCounts("uid_1", [1]).listen(emissions.add);
-      addTearDown(subscription.cancel);
-      await settle();
+      final queue = createStreamQueue(db.watchMaterialBagCounts("uid_1", [1]));
+      expect(await queue.next, isEmpty);
 
       await db.updateMaterialBagCounts("uid_1", {1: 10});
-      await settle();
-      await db.updateMaterialBagCounts("uid_1", {1: 15});
-      await settle();
+      expect((await queue.next).single.count, 10);
 
-      expect(emissions.map((e) => e.map((c) => c.count).toList()), [
-        <int>[],
-        [10],
-        [15],
-      ]);
+      await db.updateMaterialBagCounts("uid_1", {1: 15});
+      expect((await queue.next).single.count, 15);
     });
   });
 

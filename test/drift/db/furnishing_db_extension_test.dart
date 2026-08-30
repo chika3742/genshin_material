@@ -2,6 +2,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/furnishing_db_extension.dart";
 
+import "../../utils/async.dart";
 import "../../utils/db.dart";
 
 void main() {
@@ -15,10 +16,6 @@ void main() {
     await db.close();
   });
 
-  // Drift query streams re-run their query asynchronously after the write that
-  // invalidated them, so give them a turn before asserting on the emissions.
-  Future<void> settle() => Future<void>.delayed(const Duration(milliseconds: 50));
-
   Future<List<FurnishingCraftCount>> readCraftCounts() =>
       db.select(db.furnishingCraftCountTable).get();
 
@@ -30,71 +27,50 @@ void main() {
       await db.updateFurnishingCraftCount("set_1", "chair", 1);
       await db.updateFurnishingCraftCount("set_2", "table", 2);
 
-      final emissions = <List<FurnishingCraftCount>>[];
-      final subscription =
-          db.watchFurnishingCraftCounts("set_1").listen(emissions.add);
-      addTearDown(subscription.cancel);
-      await settle();
+      final counts = await db.watchFurnishingCraftCounts("set_1").first;
 
-      expect(emissions, hasLength(1));
-      expect(emissions.single, hasLength(1));
-      expect(emissions.single.single.setId, "set_1");
-      expect(emissions.single.single.furnishingId, "chair");
-      expect(emissions.single.single.count, 1);
+      expect(counts, hasLength(1));
+      expect(counts.single.setId, "set_1");
+      expect(counts.single.furnishingId, "chair");
+      expect(counts.single.count, 1);
     });
 
     test("Emits again when a count of the set changes", () async {
-      final emissions = <List<FurnishingCraftCount>>[];
-      final subscription =
-          db.watchFurnishingCraftCounts("set_1").listen(emissions.add);
-      addTearDown(subscription.cancel);
-      await settle();
+      final queue = createStreamQueue(db.watchFurnishingCraftCounts("set_1"));
+      expect(await queue.next, isEmpty);
 
       await db.updateFurnishingCraftCount("set_1", "chair", 1);
-      await settle();
-      await db.updateFurnishingCraftCount("set_1", "chair", 2);
-      await settle();
+      expect((await queue.next).single.count, 1);
 
-      expect(emissions.map((e) => e.map((c) => c.count).toList()), [
-        <int>[],
-        [1],
-        [2],
-      ]);
+      await db.updateFurnishingCraftCount("set_1", "chair", 2);
+      expect((await queue.next).single.count, 2);
     });
 
     // `distinct()` is applied to a `Stream<List<FurnishingCraftCount>>`, and a
     // Dart `List` compares by identity, so an equal-but-new list is never
     // suppressed. These two tests pin the behaviour the app actually gets
-    // today: the filtered query result stays the same, yet the stream fires.
+    // today: the query result stays the same, yet the stream fires again —
+    // awaiting the next emission is what proves it is not suppressed.
     test("Re-emits an equal list when the same count is written again", () async {
       await db.updateFurnishingCraftCount("set_1", "chair", 1);
 
-      final emissions = <List<FurnishingCraftCount>>[];
-      final subscription =
-          db.watchFurnishingCraftCounts("set_1").listen(emissions.add);
-      addTearDown(subscription.cancel);
-      await settle();
+      final queue = createStreamQueue(db.watchFurnishingCraftCounts("set_1"));
+      final first = await queue.next;
 
       await db.updateFurnishingCraftCount("set_1", "chair", 1);
-      await settle();
+      final second = await queue.next;
 
-      expect(emissions, hasLength(2));
-      expect(emissions.first, emissions.last);
-      expect(identical(emissions.first, emissions.last), isFalse);
+      expect(second, first);
+      expect(identical(second, first), isFalse);
     });
 
     test("Re-emits an equal list when only another set changes", () async {
-      final emissions = <List<FurnishingCraftCount>>[];
-      final subscription =
-          db.watchFurnishingCraftCounts("set_1").listen(emissions.add);
-      addTearDown(subscription.cancel);
-      await settle();
+      final queue = createStreamQueue(db.watchFurnishingCraftCounts("set_1"));
+      expect(await queue.next, isEmpty);
 
       await db.updateFurnishingCraftCount("set_2", "chair", 1);
-      await settle();
 
-      expect(emissions, hasLength(2));
-      expect(emissions.every((e) => e.isEmpty), isTrue);
+      expect(await queue.next, isEmpty);
     });
   });
 
@@ -167,31 +143,26 @@ void main() {
 
   group("watchFurnishingSetBookmark", () {
     test("Maps the presence of a row to a bool", () async {
-      final emissions = <bool>[];
-      final subscription =
-          db.watchFurnishingSetBookmark("set_1").listen(emissions.add);
-      addTearDown(subscription.cancel);
-      await settle();
+      final queue = createStreamQueue(db.watchFurnishingSetBookmark("set_1"));
+      expect(await queue.next, isFalse);
 
       await db.setFurnishingSetBookmark("set_1", true);
-      await settle();
-      await db.setFurnishingSetBookmark("set_1", false);
-      await settle();
+      expect(await queue.next, isTrue);
 
-      expect(emissions, [false, true, false]);
+      await db.setFurnishingSetBookmark("set_1", false);
+      expect(await queue.next, isFalse);
     });
 
     test("Suppresses an unchanged bool caused by another set", () async {
-      final emissions = <bool>[];
-      final subscription =
-          db.watchFurnishingSetBookmark("set_1").listen(emissions.add);
-      addTearDown(subscription.cancel);
-      await settle();
+      final queue = createStreamQueue(db.watchFurnishingSetBookmark("set_1"));
+      expect(await queue.next, isFalse);
 
+      // Re-runs the query, but the result stays false and `distinct()` drops
+      // it, so the next emission is the one caused by set_1 itself.
       await db.setFurnishingSetBookmark("set_2", true);
-      await settle();
+      await db.setFurnishingSetBookmark("set_1", true);
 
-      expect(emissions, [false]);
+      expect(await queue.next, isTrue);
     });
   });
 
@@ -228,16 +199,9 @@ void main() {
       await db.setFurnishingSetBookmark("set_1", true);
       await db.setFurnishingSetBookmark("set_2", true);
 
-      final emissions = <List<FurnishingSetBookmark>>[];
-      final subscription =
-          db.watchFurnishingSetBookmarks().listen(emissions.add);
-      addTearDown(subscription.cancel);
-      await settle();
+      final bookmarks = await db.watchFurnishingSetBookmarks().first;
 
-      expect(
-        emissions.single.map((e) => e.setId),
-        containsAll(["set_1", "set_2"]),
-      );
+      expect(bookmarks.map((e) => e.setId), containsAll(["set_1", "set_2"]));
     });
   });
 
