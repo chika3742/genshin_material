@@ -1,4 +1,3 @@
-import "package:drift/drift.dart" show Value;
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/models/bookmark.dart";
 import "package:genshin_material/models/common.dart";
@@ -130,17 +129,17 @@ void main() {
       final insertable = buildInsertable(weaponId: "weapon_1");
       final companion = insertable.toGroupCompanion("a0");
 
-      expect(companion.groupHash, Value(insertable.groupHash));
-      expect(companion.characterId, const Value("char_1"));
-      expect(companion.weaponId, const Value("weapon_1"));
-      expect(companion.purposeType, const Value(Purpose.ascension));
-      expect(companion.orderIndex, const Value("a0"));
+      expect(companion.groupHash.value, insertable.groupHash);
+      expect(companion.characterId.value, "char_1");
+      expect(companion.weaponId.value, "weapon_1");
+      expect(companion.purposeType.value, Purpose.ascension);
+      expect(companion.orderIndex.value, "a0");
     });
 
     test("Leaves the weapon id absent when it is null", () {
       final companion = buildInsertable().toGroupCompanion("a0");
 
-      expect(companion.weaponId, const Value<WeaponId>.absent());
+      expect(companion.weaponId.present, isFalse);
     });
   });
 
@@ -149,17 +148,17 @@ void main() {
       final insertable = buildInsertable(quantity: 7, upperLevel: 60);
       final companion = insertable.toItemCompanion();
 
-      expect(companion.hash, Value(insertable.hash));
-      expect(companion.groupHash, Value(insertable.groupHash));
-      expect(companion.materialId, const Value("iron_chunk"));
-      expect(companion.quantity, const Value(7));
-      expect(companion.upperLevel, const Value(60));
+      expect(companion.hash.value, insertable.hash);
+      expect(companion.groupHash.value, insertable.groupHash);
+      expect(companion.materialId.value, "iron_chunk");
+      expect(companion.quantity.value, 7);
+      expect(companion.upperLevel.value, 60);
     });
 
     test("Leaves the material id absent for an exp bookmark", () {
       final companion = buildInsertable(materialId: null).toItemCompanion();
 
-      expect(companion.materialId, const Value<MaterialId>.absent());
+      expect(companion.materialId.present, isFalse);
     });
   });
 
@@ -174,22 +173,22 @@ void main() {
     test("Carries the character, the sub stats and the order index", () {
       final companion = insertable.toArtifactCompanion("a0");
 
-      expect(companion.characterId, const Value("char_1"));
-      expect(companion.subStats, const Value(["crit_rate", "crit_dmg"]));
-      expect(companion.orderIndex, const Value("a0"));
+      expect(companion.characterId.value, "char_1");
+      expect(companion.subStats.value, ["crit_rate", "crit_dmg"]);
+      expect(companion.orderIndex.value, "a0");
       // The row id is assigned by the database.
-      expect(companion.id, const Value<int>.absent());
+      expect(companion.id.present, isFalse);
     });
 
     test("Carries the sets and the main stats under the given row id", () {
       final companion = insertable.toSetCompanion(12);
 
-      expect(companion.id, const Value(12));
-      expect(companion.sets, const Value(["gladiator", "shimenawa"]));
-      expect(
-        companion.mainStats,
-        const Value({"sands": "atk_percent", "circlet": null}),
-      );
+      expect(companion.id.value, 12);
+      expect(companion.sets.value, ["gladiator", "shimenawa"]);
+      expect(companion.mainStats.value, {
+        "sands": "atk_percent",
+        "circlet": null,
+      });
     });
   });
 
@@ -204,18 +203,18 @@ void main() {
     test("Carries the character, the sub stats and the order index", () {
       final companion = insertable.toArtifactCompanion("a0");
 
-      expect(companion.characterId, const Value("char_1"));
-      expect(companion.subStats, const Value(["crit_rate"]));
-      expect(companion.orderIndex, const Value("a0"));
-      expect(companion.id, const Value<int>.absent());
+      expect(companion.characterId.value, "char_1");
+      expect(companion.subStats.value, ["crit_rate"]);
+      expect(companion.orderIndex.value, "a0");
+      expect(companion.id.present, isFalse);
     });
 
     test("Carries the piece and the main stat under the given row id", () {
       final companion = insertable.toPieceCompanion(34);
 
-      expect(companion.id, const Value(34));
-      expect(companion.piece, const Value("flower_of_life"));
-      expect(companion.mainStat, const Value("hp"));
+      expect(companion.id.value, 34);
+      expect(companion.piece.value, "flower_of_life");
+      expect(companion.mainStat.value, "hp");
     });
 
     test("Leaves the main stat absent when it is null", () {
@@ -226,7 +225,7 @@ void main() {
         subStats: const [],
       ).toPieceCompanion(34);
 
-      expect(companion.mainStat, const Value<StatId>.absent());
+      expect(companion.mainStat.present, isFalse);
     });
   });
 }
