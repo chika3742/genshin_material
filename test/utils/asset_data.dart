@@ -67,6 +67,7 @@ AssetData buildTestAssetData({
 
 Material buildTestMaterial({
   String id = "",
+  int hyvId = 0,
   String category = "",
   LocalizedText? name,
   String jaPronunciation = "",
@@ -77,7 +78,7 @@ Material buildTestMaterial({
 }) {
   return Material(
     id: id,
-    hyvId: 0,
+    hyvId: hyvId,
     name: name ?? LocalizedText(locales: {}),
     jaPronunciation: jaPronunciation,
     imageUrl: "",
