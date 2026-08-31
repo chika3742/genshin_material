@@ -20,6 +20,12 @@ fvm flutter test
 # Run a single test file
 fvm flutter test test/unit/utils_test.dart
 
+# Run all tests with coverage and print a per-directory summary (requires lcov)
+./scripts/coverage.sh
+
+# ...and additionally write an HTML report to coverage/html
+./scripts/coverage.sh --html
+
 # Code generation (Freezed, Riverpod, go_router, others using build_runner)
 ./scripts/build_runner.sh
 
@@ -61,7 +67,7 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 
 ### Database (Drift)
 
-- Schema is defined in `lib/database.dart` (`AppDatabase`, current version: 3).
+- Schema is defined in `lib/database.dart` (`AppDatabase`, current version: 4).
 - Row classes use `@UseRowClass` with freezed classes or `@DataClassName.custom` with sealed base classes.
 - Extension methods per table type live in `lib/db/` (e.g., `bookmark_db_extension.dart`).
 - Migration tests live in `test/drift/db/migration_test.dart`. Always update these when incrementing `schemaVersion`.
@@ -74,11 +80,19 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 - The shell has five tabs: Bookmarks, Database, Daily, Tools, More.
 - Routes that require assets wrap their page in `DataAssetScope`.
 
+### Firebase Remote Config
+
+- Keys are declared as typed constants on `RemoteConfigKeys` (`lib/core/remote_config_keys.dart`), built from the sealed `RemoteConfigKey<T>` hierarchy in `lib/models/remote_config_key.dart` (`BoolRemoteConfigKey` / `StringRemoteConfigKey` / `IntRemoteConfigKey`). `RemoteConfigKeys.defaults` holds the values passed to `setDefaults`.
+- Every read goes through `RemoteConfigRepository` (`lib/data/repositories/remote_config_repository.dart`); its `get<T>(key)` switches on the key type so the value type follows from the key. **Do not call `FirebaseRemoteConfig.instance` anywhere outside this repository.**
+- Widgets and providers obtain the repository via `ref.watch(remoteConfigProvider)`. The provider throws unless overridden: `main.dart` overrides it with `overrideWithValue` after `RemoteConfigRepository.initialize()`, and tests override it with a mock.
+- Classes that have no access to a `Ref` (`HoyolabApi`, `AssetUpdater`) take an optional `remoteConfig` constructor argument and otherwise fall back to the global Firebase instance. **Tests must always inject it** — `HoyolabApi` reads Remote Config in its constructor, and an uninjected `AssetUpdater` reaches Firebase from `checkForUpdate`.
+
 ### HoYoLAB Integration
 
 - `HoyolabApi` (`lib/core/hoyolab_api.dart`) communicates with HoYoLAB endpoints to sync in-game state (character levels, weapon states, material bag counts, resin).
 - All API calls are serialized through `ApiRequestQueue` (500ms minimum interval between calls).
-- The feature is gated by Firebase Remote Config key `hoyolabLinkEnabled`.
+- The feature is gated by `RemoteConfigKeys.hoyolabLinkEnabled`, read through `RemoteConfigRepository` as described above.
+- Time-dependent code (the DS token timestamp, `ApiRequestQueue` throttling) reads `clock.now()` from `package:clock` rather than `DateTime.now()`, so tests can pin it with `withClock`.
 - Credentials (cookie) are stored via `flutter_secure_storage`.
 - On iOS/macOS, images from asset files are disabled (`disableImages` flag in `main.dart`) unless the user has linked with HoYoLAB.
 - `HoyolabIntegrationApi` in `pigeon.dart` defines the platform channel used to retrieve cookies from the native WebView sign-in flow.
@@ -88,21 +102,22 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 - Base locale is **Japanese** (`ja`). English (`en`) is the secondary locale.
 - Source files: `lib/i18n/ja.i18n.yaml` and `lib/i18n/en.i18n.yaml`.
 - Generated accessor: `tr.<key>` (e.g., `tr.appName`).
-- After editing `.i18n.yaml` files, run `fvm dart run slang` (or `./scripts/codegen.sh`).
+- After editing `.i18n.yaml` files, run `./scripts/slang.sh`.
 
 ## Code Generation
 
-Generated files are committed to the repo. After any of the following changes, run `./scripts/codegen.sh`:
+Generated files are committed to the repo. After any of the following changes, run the matching command:
 
-| Change | Generator |
-|--------|-----------|
-| Add/edit `@freezed` class | freezed |
-| Add/edit `@riverpod` provider | riverpod_generator |
-| Add/edit GoRoute annotations | go_router_builder |
-| Add/edit `@JsonSerializable` | json_serializable |
-| Add/edit Drift tables | drift_dev |
-| Edit `pigeon.dart` | pigeon (via `./scripts/run_pigeon.sh`) |
-| Edit `.i18n.yaml` files | slang |
+| Change | Generator | Command |
+|--------|-----------|---------|
+| Add/edit `@freezed` class | freezed | `./scripts/build_runner.sh` |
+| Add/edit `@riverpod` provider | riverpod_generator | `./scripts/build_runner.sh` |
+| Add/edit GoRoute annotations | go_router_builder | `./scripts/build_runner.sh` |
+| Add/edit `@JsonSerializable` | json_serializable | `./scripts/build_runner.sh` |
+| Add/edit Drift tables | drift_dev | `./scripts/build_runner.sh` |
+| Add/edit `@GenerateMocks` / `@GenerateNiceMocks` in `test/` | mockito | `./scripts/build_runner.sh` |
+| Edit `pigeon.dart` | pigeon | `./scripts/run_pigeon.sh` |
+| Edit `.i18n.yaml` files | slang | `./scripts/slang.sh` |
 
 `build.yaml` configures Freezed to disable `copyWith`, `map`, and `when` globally. Override per-class with `@Freezed(copyWith: true, ...)` if needed.
 
@@ -116,6 +131,55 @@ Generated files are committed to the repo. After any of the following changes, r
 - All type IDs (character, weapon, material, etc.) are `typedef` aliases over `String`, defined in `lib/models/common.dart`. Use the specific typedef rather than raw `String` in signatures.
 - Models use sealed freezed classes. Do not add `copyWith`, `map`, or `when` unless overriding the global `build.yaml` config intentionally.
 - `@immutable` is applied to all GoRoute data classes.
+
+## Testing
+
+### Layout
+
+| Directory | Contents |
+|---|---|
+| `test/unit/` | Pure logic, models, providers, view models, `lib/core/` |
+| `test/widget/` | Widget tests; `test/widget/components/` for reusable components |
+| `test/drift/db/` | Drift database tests, including migrations |
+| `test/utils/` | Shared helpers — not tests themselves |
+
+### Shared helpers
+
+Reuse these rather than writing new equivalents.
+
+| File | Provides |
+|---|---|
+| `test/utils.dart` | `createScreenWithApp()`, `closeToDateTime()` |
+| `test/utils/asset_data.dart` | `buildTestAssetData()`, `buildTestMaterial()`, `buildTestCharacter()`, `buildTestWeapon()`, `buildIngredientConfigurations()` |
+| `test/utils/db.dart` | `createTestDatabase()`, `buildMaterialBookmark()` |
+| `test/utils/provider_container.dart` | `createTestContainer()` |
+| `test/utils/in_memory_pref.dart` | `overridePref()`, `InMemoryPrefNotifier` |
+| `test/utils/stub_remote_config.dart` | `stubRemoteConfig()`, `MockRemoteConfigRepository` |
+| `test/utils/local_notification_mocks.dart` | nice mock of `LocalNotification` |
+| `test/utils/async.dart` | `createStreamQueue()` |
+
+When extending `test/utils/asset_data.dart`, **only add optional parameters** — never change an existing signature.
+
+### Conventions
+
+The code conventions above apply to test code as well. In addition:
+
+- Imports within `test/` are relative; production code is imported as `package:genshin_material/...`.
+- Test and `group` names may be Japanese or English, but must be consistent within a single file.
+- **Do not hard-code locale-dependent strings.** `LocaleSettings` defaults to `ja`; assert against `tr.*` or a widget `Key` instead.
+- Database tests: create the database with `createTestDatabase()` in `setUp` and `close()` it in `tearDown`.
+- Provider tests: use `createTestContainer()`, which wraps `ProviderContainer.test` (self-disposing) and applies the overrides most tests need. Riverpod rejects overriding the same provider twice, so pass its named arguments rather than duplicating an override through `overrides`.
+- Preference-backed providers: `overridePref(key, value)` instead of setting up `SharedPreferences`.
+- Anything reading Remote Config needs `remoteConfigProvider` overridden with a `MockRemoteConfigRepository` stubbed by `stubRemoteConfig()`; classes taking a `remoteConfig` constructor argument need it injected directly.
+- Pin time with `withClock` from `package:clock` rather than waiting on real durations.
+- Await drift query streams with `createStreamQueue()` instead of a fixed delay.
+- mockito mocks require `@GenerateMocks` / `@GenerateNiceMocks` plus `./scripts/build_runner.sh`; commit the generated `*.mocks.dart`.
+
+### Coverage
+
+- `./scripts/coverage.sh` runs `fvm flutter test --coverage`, strips generated and localization sources from the tracefile into `coverage/lcov-filtered.info`, and prints a per-directory summary. `--html` additionally writes `coverage/html`. Requires `lcov` (`apt-get install lcov` / `brew install lcov`).
+- CI (`.github/workflows/test.yaml`) runs the same script and posts the lcov summary to the job summary. **Coverage is reported only — there is no threshold gate**, so a drop never fails the build.
+- `coverage/` is gitignored.
 
 ## Firebase
 
