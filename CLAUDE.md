@@ -138,7 +138,7 @@ Generated files are committed to the repo. After any of the following changes, r
 
 | Directory | Contents |
 |---|---|
-| `test/unit/` | Pure logic, models, providers, view models, `lib/core/` |
+| `test/unit/` | Pure logic that needs no database: models, providers, view models, `lib/core/`, `lib/data/`, and the pure helpers in `lib/db/` |
 | `test/widget/` | Widget tests; `test/widget/components/` for reusable components |
 | `test/drift/db/` | Drift database tests, including migrations |
 | `test/utils/` | Shared helpers — not tests themselves |
@@ -154,7 +154,7 @@ Reuse these rather than writing new equivalents.
 | `test/utils/db.dart` | `createTestDatabase()`, `buildMaterialBookmark()` |
 | `test/utils/provider_container.dart` | `createTestContainer()` |
 | `test/utils/in_memory_pref.dart` | `overridePref()`, `InMemoryPrefNotifier` |
-| `test/utils/stub_remote_config.dart` | `stubRemoteConfig()`, `MockRemoteConfigRepository` |
+| `test/utils/stub_remote_config.dart` | `stubRemoteConfig()` (`MockRemoteConfigRepository` itself comes from `stub_remote_config.mocks.dart` — import both) |
 | `test/utils/local_notification_mocks.dart` | nice mock of `LocalNotification` |
 | `test/utils/async.dart` | `createStreamQueue()` |
 
@@ -168,7 +168,7 @@ The code conventions above apply to test code as well. In addition:
 - Test and `group` names may be Japanese or English, but must be consistent within a single file.
 - **Do not hard-code locale-dependent strings.** `LocaleSettings` defaults to `ja`; assert against `tr.*` or a widget `Key` instead.
 - Database tests: create the database with `createTestDatabase()` in `setUp` and `close()` it in `tearDown`.
-- Provider tests: use `createTestContainer()`, which wraps `ProviderContainer.test` (self-disposing) and applies the overrides most tests need. Riverpod rejects overriding the same provider twice, so pass its named arguments rather than duplicating an override through `overrides`.
+- Provider tests: use `createTestContainer()`, which wraps `ProviderContainer.test` (self-disposing) and applies the overrides most tests need.
 - Preference-backed providers: `overridePref(key, value)` instead of setting up `SharedPreferences`.
 - Anything reading Remote Config needs `remoteConfigProvider` overridden with a `MockRemoteConfigRepository` stubbed by `stubRemoteConfig()`; classes taking a `remoteConfig` constructor argument need it injected directly.
 - Pin time with `withClock` from `package:clock` rather than waiting on real durations.
