@@ -24,8 +24,10 @@ import "remote_config_keys.dart";
 import "silent_exception.dart";
 
 class AssetUpdater {
-  /// [remoteConfig] is injected the same way [httpClient] is: optional, with a
-  /// fallback to the global Firebase instance when Firebase is initialized.
+  /// [remoteConfig] is optional. Unlike [httpClient], it is not resolved in the
+  /// initializer list: the field stays null when nothing is injected, and the
+  /// fallback to the global Firebase instance happens lazily in
+  /// [checkForUpdate] so that constructing an updater never touches Firebase.
   AssetUpdater({
     required this.assetsDir,
     this.tempDir,
@@ -60,12 +62,7 @@ class AssetUpdater {
   Future<void> checkForUpdate({bool force = false, int? minimumSchemaVersion}) async {
     final releases = await _fetchAssetRelease(assetChannel);
 
-    final config = remoteConfig ??
-        (Firebase.apps.isNotEmpty
-            ? RemoteConfigRepository(FirebaseRemoteConfig.instance)
-            : null);
-    minimumSchemaVersion ??=
-        config?.get(RemoteConfigKeys.minimumAssetSchemaVersion) ?? 0;
+    minimumSchemaVersion ??= _resolveMinimumSchemaVersion();
 
     final latestRelease = releases.fold<AssetReleaseVersion?>(null, (prev, element) {
       // ignore minimumSchemaVersion when force download mode
@@ -172,6 +169,17 @@ class AssetUpdater {
     }
 
     log("Installation completed!");
+  }
+
+  /// Falls back to the global Firebase instance when no repository was injected.
+  /// Only called when the caller did not pass a minimum schema version, so a
+  /// caller that passes one never touches Firebase.
+  int _resolveMinimumSchemaVersion() {
+    final config = remoteConfig ??
+        (Firebase.apps.isNotEmpty
+            ? RemoteConfigRepository(FirebaseRemoteConfig.instance)
+            : null);
+    return config?.get(RemoteConfigKeys.minimumAssetSchemaVersion) ?? 0;
   }
 
   Future<bool> _checkInstallation(String assetDir) async {

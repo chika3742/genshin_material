@@ -3,10 +3,11 @@ import "package:genshin_material/core/hoyolab_api.dart";
 
 const _interval = Duration(milliseconds: 500);
 
-/// Slightly past [_interval]: the queue subtracts the wall-clock time already
-/// spent from the delay it schedules, so the pending timer is never longer than
-/// the interval itself.
-const _pastInterval = Duration(milliseconds: 600);
+/// One tick short of [_interval]. `ApiRequestQueue` reads the time through
+/// `package:clock`, which `testWidgets` binds to the same fake clock that drives
+/// the timers, so the boundary is exact.
+const _justBeforeInterval = Duration(milliseconds: 499);
+const _oneTick = Duration(milliseconds: 1);
 
 void main() {
   late ApiRequestQueue queue;
@@ -34,10 +35,10 @@ void main() {
     await tester.pump();
     expect(ran, [1], reason: "the second action must not run immediately");
 
-    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump(_justBeforeInterval);
     expect(ran, [1], reason: "the interval has not elapsed yet");
 
-    await tester.pump(const Duration(milliseconds: 200));
+    await tester.pump(_oneTick);
     expect(ran, [1, 2]);
 
     await first;
@@ -55,10 +56,10 @@ void main() {
     await tester.pump();
     expect(ran, [1]);
 
-    await tester.pump(_pastInterval);
+    await tester.pump(_interval);
     expect(ran, [1, 2]);
 
-    await tester.pump(_pastInterval);
+    await tester.pump(_interval);
     expect(ran, [1, 2, 3]);
 
     await Future.wait(pending);
@@ -96,10 +97,10 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
     expect(ran, [1], reason: "the first action has just finished");
 
-    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump(_justBeforeInterval);
     expect(ran, [1], reason: "the wait starts after the first action ends");
 
-    await tester.pump(const Duration(milliseconds: 200));
+    await tester.pump(_oneTick);
     expect(ran, [1, 2]);
 
     await first;
@@ -111,7 +112,7 @@ void main() {
     final asyncResult = queue.run(() async => 42);
 
     await tester.pump();
-    await tester.pump(_pastInterval);
+    await tester.pump(_interval);
 
     expect(await result, "value");
     expect(await asyncResult, 42);
@@ -137,10 +138,10 @@ void main() {
     await tester.pump();
     expect(ran, isEmpty);
 
-    await tester.pump(_pastInterval);
+    await tester.pump(_interval);
     expect(ran, [2]);
 
-    await tester.pump(_pastInterval);
+    await tester.pump(_interval);
     expect(ran, [2, 3]);
 
     await matched;
@@ -161,7 +162,7 @@ void main() {
     await tester.pump();
     expect(ran, [1], reason: "the interval applies to a restarted queue too");
 
-    await tester.pump(_pastInterval);
+    await tester.pump(_interval);
     expect(ran, [1, 2]);
     await second;
   });

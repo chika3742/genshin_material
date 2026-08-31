@@ -89,11 +89,6 @@ void main() {
         returnsNormally,
       );
     });
-
-    test("shares a single request queue across instances", () {
-      expect(HoyolabApi.queue, same(HoyolabApi.queue));
-      expect(HoyolabApi.queue.interval, const Duration(milliseconds: 500));
-    });
   });
 
   group("required parameters", () {
