@@ -19,6 +19,7 @@ IngredientConfigurations _emptyIngredientConfigurations() {
 }
 
 AssetData buildTestAssetData({
+  String assetDir = "",
   Map<CharacterId, Character> characters = const {},
   Map<WeaponId, Weapon> weapons = const {},
   Map<MaterialId, Material> materials = const {},
@@ -31,7 +32,7 @@ AssetData buildTestAssetData({
   Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials = const {},
 }) {
   return AssetData(
-    assetDir: "",
+    assetDir: assetDir,
     version: AssetReleaseVersion(
       createdAt: DateTime(2024),
       dataVersion: "test",
@@ -71,6 +72,7 @@ Material buildTestMaterial({
   String category = "",
   LocalizedText? name,
   String jaPronunciation = "",
+  String imageUrl = "",
   int rarity = 1,
   String? groupId,
   int? craftLevel,
@@ -81,7 +83,7 @@ Material buildTestMaterial({
     hyvId: hyvId,
     name: name ?? LocalizedText(locales: {}),
     jaPronunciation: jaPronunciation,
-    imageUrl: "",
+    imageUrl: imageUrl,
     rarity: rarity,
     category: category,
     groupId: groupId,
