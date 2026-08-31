@@ -13,8 +13,11 @@ void stubRemoteConfig(MockRemoteConfigRepository mock, {
   String bannerText = "",
   String bannerActionText = "",
   String bannerActionUrl = "",
+  bool hoyolabLinkEnabled = false,
 }) {
   when(mock.get<bool>(RemoteConfigKeys.showBanner)).thenReturn(bannerShown);
+  when(mock.get<bool>(RemoteConfigKeys.hoyolabLinkEnabled))
+      .thenReturn(hoyolabLinkEnabled);
   when(mock.get<String>(RemoteConfigKeys.bannerKey)).thenReturn(bannerKey);
   when(mock.get<String>(RemoteConfigKeys.bannerText)).thenReturn(bannerText);
   when(mock.get<String>(RemoteConfigKeys.bannerActionText)).thenReturn(bannerActionText);
