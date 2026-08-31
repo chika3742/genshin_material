@@ -5,9 +5,8 @@ import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/core/secure_storage.dart";
 import "package:genshin_material/data/repositories/remote_config_repository.dart";
 import "package:genshin_material/providers/hoyolab_credential.dart";
-import "package:genshin_material/providers/pref_notifier.dart";
 
-import "../utils/in_memory_pref_notifier.dart";
+import "../utils/in_memory_pref.dart";
 import "../utils/stub_remote_config.dart";
 import "../utils/stub_remote_config.mocks.dart";
 
@@ -51,14 +50,10 @@ void main() {
   ProviderContainer createContainer() {
     return ProviderContainer.test(overrides: [
       remoteConfigProvider.overrideWithValue(remoteConfig),
-      prefProvider(PrefKeys.hyvServer)
-          .overrideWith(() => InMemoryPrefNotifier("os_asia")),
-      prefProvider(PrefKeys.hyvServerName)
-          .overrideWith(() => InMemoryPrefNotifier("Asia")),
-      prefProvider(PrefKeys.hyvUserName)
-          .overrideWith(() => InMemoryPrefNotifier("tester")),
-      prefProvider(PrefKeys.hyvUid)
-          .overrideWith(() => InMemoryPrefNotifier("800000000")),
+      overridePref(PrefKeys.hyvServer, "os_asia"),
+      overridePref(PrefKeys.hyvServerName, "Asia"),
+      overridePref(PrefKeys.hyvUserName, "tester"),
+      overridePref(PrefKeys.hyvUid, "800000000"),
       isHoyolabSignedInInitialProvider.overrideWithValue(true),
     ]);
   }
@@ -80,14 +75,10 @@ void main() {
       stubRemoteConfig(remoteConfig, hoyolabLinkEnabled: true);
       final container = ProviderContainer.test(overrides: [
         remoteConfigProvider.overrideWithValue(remoteConfig),
-        prefProvider(PrefKeys.hyvServer)
-            .overrideWith(() => InMemoryPrefNotifier("os_asia")),
-        prefProvider(PrefKeys.hyvServerName)
-            .overrideWith(() => InMemoryPrefNotifier("Asia")),
-        prefProvider(PrefKeys.hyvUserName)
-            .overrideWith(() => InMemoryPrefNotifier("tester")),
-        prefProvider(PrefKeys.hyvUid)
-            .overrideWith(() => InMemoryPrefNotifier<String?, String?>(null)),
+        overridePref(PrefKeys.hyvServer, "os_asia"),
+        overridePref(PrefKeys.hyvServerName, "Asia"),
+        overridePref(PrefKeys.hyvUserName, "tester"),
+        overridePref(PrefKeys.hyvUid, null),
       ]);
 
       expect(container.read(isLinkedWithHoyolabProvider), isFalse);

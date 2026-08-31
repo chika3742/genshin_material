@@ -18,7 +18,6 @@ import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/models/material_bookmark_frame.dart";
 import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
-import "package:genshin_material/providers/pref_notifier.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
@@ -27,7 +26,7 @@ import "package:path/path.dart" as path;
 import "../../utils.dart";
 import "../../utils/asset_data.dart";
 import "../../utils/db.dart";
-import "../../utils/in_memory_pref_notifier.dart";
+import "../../utils/in_memory_pref.dart";
 
 void main() {
   // The card renders the material image with Image.file, so the files it
@@ -156,16 +155,11 @@ void main() {
     bool showItemName = true,
   }) {
     return [
-      prefProvider(PrefKeys.showFarmCount)
-          .overrideWith(() => InMemoryPrefNotifier(showFarmCount)),
-      prefProvider(PrefKeys.showItemNameOnCard)
-          .overrideWith(() => InMemoryPrefNotifier(showItemName)),
-      prefProvider(PrefKeys.adventureRank)
-          .overrideWith(() => InMemoryPrefNotifier(60)),
-      prefProvider(PrefKeys.condensedMultiplier)
-          .overrideWith(() => InMemoryPrefNotifier(2.0)),
-      prefProvider(PrefKeys.dailyResetServer)
-          .overrideWith(() => InMemoryPrefNotifier(GameServer.asia)),
+      overridePref(PrefKeys.showFarmCount, showFarmCount),
+      overridePref(PrefKeys.showItemNameOnCard, showItemName),
+      overridePref(PrefKeys.adventureRank, 60),
+      overridePref(PrefKeys.condensedMultiplier, 2.0),
+      overridePref(PrefKeys.dailyResetServer, GameServer.asia),
     ];
   }
 

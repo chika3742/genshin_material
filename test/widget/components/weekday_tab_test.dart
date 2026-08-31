@@ -8,7 +8,7 @@ import "package:genshin_material/providers/pref_notifier.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../../utils.dart";
-import "../../utils/in_memory_pref_notifier.dart";
+import "../../utils/in_memory_pref.dart";
 
 void main() {
   // 20:00 UTC is already Tuesday on the Asia server (UTC+8, reset at 04:00)
@@ -38,8 +38,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          prefProvider(PrefKeys.dailyResetServer)
-              .overrideWith(() => InMemoryPrefNotifier(server)),
+          overridePref(PrefKeys.dailyResetServer, server),
         ],
         child: createScreenWithApp(
           Scaffold(

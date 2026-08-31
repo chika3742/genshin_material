@@ -5,7 +5,7 @@ import "package:genshin_material/data/repositories/remote_config_repository.dart
 import "package:genshin_material/providers/banner_notifier.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 
-import "../utils/in_memory_pref_notifier.dart";
+import "../utils/in_memory_pref.dart";
 import "../utils/stub_remote_config.dart";
 import "../utils/stub_remote_config.mocks.dart";
 
@@ -16,9 +16,7 @@ void main() {
   }) {
     final container = ProviderContainer(overrides: [
       remoteConfigProvider.overrideWithValue(mockRc),
-      prefProvider(PrefKeys.bannerReadKeys).overrideWith(
-        () => InMemoryPrefNotifier<List<String>, List<String>>(initialReadKeys),
-      ),
+      overridePref(PrefKeys.bannerReadKeys, initialReadKeys),
     ]);
     addTearDown(container.dispose);
     return container;
