@@ -5,21 +5,33 @@ import "dart:developer";
 import "dart:math" hide log;
 import "dart:typed_data";
 
+import "package:clock/clock.dart";
 import "package:crypto/crypto.dart";
 import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:http/http.dart" as http;
 
-import "../constants/remote_config_key.dart";
+import "../data/repositories/remote_config_repository.dart";
 import "../i18n/strings.g.dart";
 import "../models/hoyolab_api.dart";
+import "remote_config_keys.dart";
 import "silent_exception.dart";
 
 const maxBatchComputeItems = 8;
 
 class HoyolabApi {
-  HoyolabApi({this.cookie, this.region, this.uid, http.Client? client})
-      : client = client ?? http.Client() {
-    if (!FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled)) {
+  /// [remoteConfig] is optional so that the call sites which have no access to
+  /// a [Ref] keep working; it falls back to the global Firebase instance, which
+  /// requires Firebase to be initialized. Tests must always inject it.
+  HoyolabApi({
+    this.cookie,
+    this.region,
+    this.uid,
+    http.Client? client,
+    RemoteConfigRepository? remoteConfig,
+  }) : client = client ?? http.Client() {
+    final config =
+        remoteConfig ?? RemoteConfigRepository(FirebaseRemoteConfig.instance);
+    if (!config.get(RemoteConfigKeys.hoyolabLinkEnabled)) {
       throw StateError("Hoyolab link is disabled by remote");
     }
   }
@@ -219,7 +231,7 @@ class HoyolabApi {
   String _getDsToken({String body = "", Map<String, String> queryParameters = const {}}) {
     const salt = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w"; // global region (NOT APPLICABLE FOR MAINLAND CHINA)
 
-    final t = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
+    final t = (clock.now().millisecondsSinceEpoch / 1000).floor();
     final r = 100000 + Random().nextInt(100000);
     final q = queryParameters.entries.map((e) => "${e.key}=${Uri.encodeQueryComponent(e.value)}").join("&");
     final c = md5.convert(utf8.encode("salt=$salt&t=$t&r=$r&b=$body&q=$q"));
@@ -342,13 +354,13 @@ class ApiRequestQueue {
   Future<void> _processQueue() async {
     _isProcessing = true;
     while (_queue.isNotEmpty) {
-      final now = DateTime.now();
+      final now = clock.now();
       if (_lastRun != null && now.difference(_lastRun!) < interval) {
         await Future.delayed(interval - now.difference(_lastRun!));
       }
       final task = _queue.removeFirst();
       await task();
-      _lastRun = DateTime.now();
+      _lastRun = clock.now();
     }
     _isProcessing = false;
   }

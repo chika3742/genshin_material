@@ -1,4 +1,3 @@
-import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
 import "package:flutter/services.dart";
@@ -8,8 +7,9 @@ import "package:intl/intl.dart";
 
 import "../../components/game_data_sync_indicator.dart";
 import "../../components/list_subheader.dart";
-import "../../constants/remote_config_key.dart";
 import "../../core/pref_keys.dart";
+import "../../core/remote_config_keys.dart";
+import "../../data/repositories/remote_config_repository.dart";
 import "../../hooks/use_periodic_timer.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/game_data_sync.dart";
@@ -117,7 +117,7 @@ class ResinCalcPage extends HookConsumerWidget {
                 ListSubheader(tr.resinCalcPage.howToUse, padding: EdgeInsets.zero),
                 Text(tr.resinCalcPage.howToUseContent),
 
-                if (FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled))
+                if (ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled))
                   ...[
                     ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
                     OverflowBox(
