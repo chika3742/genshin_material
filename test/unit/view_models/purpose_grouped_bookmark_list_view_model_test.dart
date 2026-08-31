@@ -1,8 +1,12 @@
+import "dart:async";
+
 import "package:async/async.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
+import "package:fractional_indexing/fractional_indexing.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
+import "package:genshin_material/models/bookmark.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/view_models/bookmarks/purpose_grouped_bookmark_list_view_model.dart";
@@ -69,6 +73,50 @@ void main() {
     return createStreamQueue(db.select(db.bookmarkMaterialGroupTable).watch());
   }
 
+  /// Gives the group of [characterId] an order index past every other group,
+  /// so that the order index order stops matching the row insertion order.
+  Future<void> moveGroupToEnd(CharacterId characterId) async {
+    final rows = await db.select(db.bookmarkMaterialGroupTable).get();
+    final last = rows.map((e) => e.orderIndex).reduce(
+      (a, b) => a.compareTo(b) >= 0 ? a : b,
+    );
+    await db.updateMaterialGroupOrderIndex(
+      rows.firstWhere((e) => e.characterId == characterId).groupHash,
+      FractionalIndexer.generateKeyBetween(last, null)!,
+    );
+  }
+
+  /// Whether [keys] are in strictly ascending order.
+  bool isAscending(Iterable<String> keys) {
+    final list = keys.toList();
+    for (var i = 1; i < list.length; i++) {
+      if (list[i - 1].compareTo(list[i]) >= 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /// Completes with the next state whose groups satisfy [predicate].
+  /// `bookmarksProvider().future` only yields the value the provider already
+  /// holds, so a re-emission has to be listened for.
+  Future<List<BookmarkGroup>> nextGroupsWhere(
+    ProviderContainer container,
+    bool Function(List<BookmarkGroup> groups) predicate,
+  ) {
+    final completer = Completer<List<BookmarkGroup>>();
+    final subscription = container.listen(
+      purposeGroupedBookmarkListViewModelProvider,
+      (_, next) {
+        if (!completer.isCompleted && predicate(next.groups)) {
+          completer.complete(next.groups);
+        }
+      },
+    );
+    addTearDown(subscription.close);
+    return completer.future;
+  }
+
   /// Waits until the group identified by [groupHash] no longer carries
   /// [previous] as its order index, and returns the new one.
   Future<String> waitForNewOrderIndex(
@@ -116,13 +164,19 @@ void main() {
 
     test("sorts the groups by their order index", () async {
       await addGroupsFor(["char_1", "char_2", "char_3"]);
+      // The join behind `bookmarksProvider` has no ORDER BY, so the rows arrive
+      // in insertion order — which is also the order index order right after
+      // seeding. Push the first group behind the last one so that the two
+      // orders differ and the sort in `build` is the only thing that can
+      // produce the expected result.
+      await moveGroupToEnd("char_1");
       final container = await createContainer();
 
       final state = container.read(purposeGroupedBookmarkListViewModelProvider);
 
       expect(
         state.groups.map((e) => e.characterId).toList(),
-        ["char_1", "char_2", "char_3"],
+        ["char_2", "char_3", "char_1"],
       );
       final orderIndexes = state.groups.map((e) => e.orderIndex).toList();
       expect(orderIndexes, orderIndexes.toList()..sort());
@@ -265,22 +319,19 @@ void main() {
       final container = await createContainer();
       final notifier =
           container.read(purposeGroupedBookmarkListViewModelProvider.notifier);
-      final before = container.read(purposeGroupedBookmarkListViewModelProvider).groups;
-      final moved = before.first;
-      final queue = watchGroups();
+      // `reorder` reorders the list optimistically but leaves the moved group's
+      // own order index untouched, so the optimistic state is the one state
+      // whose order indexes are *not* ascending. Waiting for an ascending one
+      // therefore waits for a state rebuilt from the database.
+      final rebuilt = nextGroupsWhere(
+        container,
+        (groups) => isAscending(groups.map((e) => e.orderIndex)),
+      );
 
       notifier.reorder(0, 2);
-      await waitForNewOrderIndex(queue, moved.hash, moved.orderIndex);
-      // The bookmark stream re-emits after the write, which rebuilds the state
-      // from the database rather than from the optimistic list.
-      await container.read(bookmarksProvider().future);
 
       expect(
-        container
-            .read(purposeGroupedBookmarkListViewModelProvider)
-            .groups
-            .map((e) => e.characterId)
-            .toList(),
+        (await rebuilt).map((e) => e.characterId).toList(),
         ["char_2", "char_3", "char_1"],
       );
     });

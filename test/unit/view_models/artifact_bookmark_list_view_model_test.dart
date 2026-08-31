@@ -1,6 +1,7 @@
 import "package:drift/drift.dart" show OrderingTerm;
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
+import "package:fractional_indexing/fractional_indexing.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/models/bookmark.dart";
@@ -119,13 +120,25 @@ void main() {
       await addPieceBookmark(piece: "flower");
       await addSetBookmark(sets: ["set_1"]);
       await addPieceBookmark(piece: "plume");
+      // Without the `orderBy` the rows come back in id order, which right after
+      // seeding is also the order index order. Push the first row behind the
+      // last one so that the two orders differ and only the `orderBy` can
+      // produce the expected result.
+      final before = await readArtifactsById();
+      await db.updateArtifactOrderIndex(
+        before.first.id,
+        FractionalIndexer.generateKeyBetween(before.last.orderIndex, null)!,
+      );
       final container = createContainer();
 
       final items = await readItems(container);
 
+      expect(
+        items.map((e) => e.id).toList(),
+        [before[1].id, before[2].id, before[0].id],
+      );
       final orderIndexes = items.map((e) => e.orderIndex).toList();
       expect(orderIndexes, orderIndexes.toList()..sort());
-      expect(items.map((e) => e.id).toList(), [1, 2, 3]);
     });
 
     test("throws a StateError for a row with neither reference", () async {
@@ -294,7 +307,7 @@ void main() {
       expect(await orderIndexOf(before[2].id), before[2].orderIndex);
     });
 
-    test("persists the new order so that the next emission keeps it", () async {
+    test("persists the new order to the database", () async {
       final (container, before) = await seedThree();
       final notifier =
           container.read(artifactBookmarkListViewModelProvider.notifier);

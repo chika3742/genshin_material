@@ -41,6 +41,7 @@ void main() {
     );
     container.listen(bookmarksProvider(), (_, _) {});
     await container.read(bookmarksProvider().future);
+    container.listen(materialGroupedBookmarkListViewModelProvider, (_, _) {});
     return container;
   }
 
