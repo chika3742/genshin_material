@@ -68,16 +68,23 @@ AssetData buildTestAssetData({
 Material buildTestMaterial({
   String id = "",
   String category = "",
+  LocalizedText? name,
+  String jaPronunciation = "",
+  int rarity = 1,
+  String? groupId,
+  int? craftLevel,
   List<DayOfWeek>? availableDays,
 }) {
   return Material(
     id: id,
     hyvId: 0,
-    name: LocalizedText(locales: {}),
-    jaPronunciation: "",
+    name: name ?? LocalizedText(locales: {}),
+    jaPronunciation: jaPronunciation,
     imageUrl: "",
-    rarity: 1,
+    rarity: rarity,
     category: category,
+    groupId: groupId,
+    craftLevel: craftLevel,
     availableDays: availableDays,
   );
 }
@@ -85,18 +92,20 @@ Material buildTestMaterial({
 Character buildTestCharacter({
   String id = "",
   LocalizedText? name,
+  String jaPronunciation = "",
   int rarity = 5,
+  WeaponType weaponType = "",
   MaterialDefinitions materials = const {},
 }) {
   return Character(
     id: id,
     hyvIds: [],
     name: name ?? LocalizedText(locales: {}),
-    jaPronunciation: "",
+    jaPronunciation: jaPronunciation,
     imageUrl: "",
     smallImageUrl: "",
     rarity: rarity,
-    weaponType: "",
+    weaponType: weaponType,
     element: "",
     talents: {},
     materials: materials,
@@ -106,6 +115,7 @@ Character buildTestCharacter({
 Weapon buildTestWeapon({
   String id = "",
   LocalizedText? name,
+  String jaPronunciation = "",
   int rarity = 5,
   MaterialDefinitions? materials,
   WeaponType type = "",
@@ -115,7 +125,7 @@ Weapon buildTestWeapon({
     id: id,
     hyvId: 0,
     name: name ?? LocalizedText(locales: {}),
-    jaPronunciation: "",
+    jaPronunciation: jaPronunciation,
     imageUrl: "",
     rarity: rarity,
     subStat: subStat,

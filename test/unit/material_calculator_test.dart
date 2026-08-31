@@ -33,7 +33,7 @@ void main() {
       ingredientTables: {},
     );
 
-    test("fullQuantity が null なら null を返す", () {
+    test("returns null when fullQuantity is null", () {
       expect(
         calculateLackNum(
           expConf,
@@ -46,7 +46,7 @@ void main() {
       );
     });
 
-    test("lackNums が null なら null を返す", () {
+    test("returns null when lackNums is null", () {
       expect(
         calculateLackNum(
           expConf,
@@ -59,7 +59,7 @@ void main() {
       );
     });
 
-    test("通常素材: lackNum - (fullQuantity - currentQuantity)", () {
+    test("ordinary material: lackNum - (fullQuantity - currentQuantity)", () {
       expect(
         calculateLackNum(
           expConf,
@@ -72,7 +72,7 @@ void main() {
       );
     });
 
-    test("通常素材: itemId が lackNums に存在しない場合は null", () {
+    test("ordinary material: returns null when itemId is absent from lackNums", () {
       expect(
         calculateLackNum(
           expConf,
@@ -85,8 +85,8 @@ void main() {
       );
     });
 
-    test("exp 素材: isDefault=true のアイテムを使って計算する", () {
-      // isDefault=true の test_exp_item_1 (5000/item) が選ばれる
+    test("exp material: calculates with the isDefault=true item", () {
+      // test_exp_item_1 (5000/item), the isDefault=true one, is picked
       // need=10000, ceil(10000/5000)=2, lackNums=3 → 3-2=1
       expect(
         calculateLackNum(
@@ -100,7 +100,7 @@ void main() {
       );
     });
 
-    test("exp 素材: 割り切れない場合は切り上げ", () {
+    test("exp material: rounds up when the division is not exact", () {
       final conf = IngredientConfigurations(
         expItems: [const ExpItem(itemId: "exp_book", expPerItem: 2000, isDefault: true)],
         rarities: {},
@@ -125,7 +125,7 @@ void main() {
     final assetData = buildTestAssetData();
     const target = _TestTarget(id: "char_a", rarity: 5, materials: {});
 
-    test("fixed 素材を複数レベルにわたって合算する", () {
+    test("sums a fixed material across several levels", () {
       final conf = buildIngredientConfigurations(
         rarity: 5,
         purpose: Purpose.ascension,
@@ -138,7 +138,7 @@ void main() {
       expect(result, {"iron_chunk": 8});
     });
 
-    test("exp 素材は null キーで集計される", () {
+    test("aggregates exp materials under a null key", () {
       final conf = buildIngredientConfigurations(
         rarity: 5,
         purpose: Purpose.ascension,
@@ -152,7 +152,7 @@ void main() {
       expect(result, {null: 30000});
     });
 
-    test("byType + 'id:' 定義で素材 ID が解決される", () {
+    test("resolves the material id from a byType + 'id:' definition", () {
       const targetWithMat = _TestTarget(
         id: "char_b",
         rarity: 4,
@@ -169,7 +169,7 @@ void main() {
       expect(result, {"vayuda_turquoise_sliver": 1});
     });
 
-    test("複数 Purpose の同一素材が合算される", () {
+    test("sums the same material across several purposes", () {
       final conf = IngredientConfigurations(
         expItems: [],
         rarities: {
@@ -207,7 +207,7 @@ void main() {
   group("generateMaterialCardsFromRange", () {
     const target = _TestTarget(id: "char_d", rarity: 5, materials: {});
 
-    test("range.start と一致するレベルは除外される (start 排他)", () {
+    test("excludes the level equal to range.start (start is exclusive)", () {
       final assetData = buildTestAssetData(
         materials: {
           "mat_a": buildTestMaterial(id: "mat_a", category: "cat"),
@@ -232,7 +232,7 @@ void main() {
       expect(ids, ["mat_b"]);
     });
 
-    test("range.end と一致するレベルは含まれる (end 包含)", () {
+    test("includes the level equal to range.end (end is inclusive)", () {
       final assetData = buildTestAssetData(
         materials: {
           "mat_c": buildTestMaterial(id: "mat_c", category: "cat"),
@@ -257,7 +257,7 @@ void main() {
       expect(ids, ["mat_c", "mat_d"]);
     });
 
-    test("範囲にマッチするレベルが存在しない場合は空リストを返す", () {
+    test("returns an empty list when no level falls in the range", () {
       final conf = buildIngredientConfigurations(
         rarity: 5,
         purpose: Purpose.ascension,
@@ -275,7 +275,7 @@ void main() {
       expect(result, isEmpty);
     });
 
-    test("exp が先頭、sortOrder 大の素材が末尾になる", () {
+    test("puts exp first and the material with the largest sortOrder last", () {
       final assetData = buildTestAssetData(
         materials: {
           "mat_low": buildTestMaterial(id: "mat_low", category: "cat"),
@@ -312,7 +312,7 @@ void main() {
         {Purpose.ascension: const LevelRangeValues(0, 100)},
       );
       final ids = result.map((e) => e.id).toList();
-      // exp(priority=0) が先頭、mat_low(5) が次、mat_high(10) が末尾
+      // exp (priority=0) first, then mat_low (5), then mat_high (10)
       expect(ids, [null, "mat_low", "mat_high"]);
     });
   });
