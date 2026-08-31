@@ -12,22 +12,26 @@ import "package:path/path.dart" as path;
 import "package:path_provider/path_provider.dart";
 import "package:uuid/uuid.dart";
 
-import "../constants/remote_config_key.dart";
 import "../constants/urls.dart";
+import "../data/repositories/remote_config_repository.dart";
 import "../main.dart";
 import "../models/asset_release_version.dart";
 import "../models/common.dart" as common;
 import "asset_cache.dart";
 import "asset_loader.dart";
 import "errors.dart";
+import "remote_config_keys.dart";
 import "silent_exception.dart";
 
 class AssetUpdater {
+  /// [remoteConfig] is injected the same way [httpClient] is: optional, with a
+  /// fallback to the global Firebase instance when Firebase is initialized.
   AssetUpdater({
     required this.assetsDir,
     this.tempDir,
     http.Client? httpClient,
     int? dataSchemaVersion,
+    this.remoteConfig,
   })  : httpClient = httpClient ?? http.Client(),
         dataSchemaVersion = dataSchemaVersion ?? common.dataSchemaVersion,
         currentAssetDir = getCurrentAssetDirectoryPath(assetsDir);
@@ -38,6 +42,7 @@ class AssetUpdater {
   final String currentAssetDir;
   final String? tempDir;
   final http.Client httpClient;
+  final RemoteConfigRepository? remoteConfig;
 
   void Function()? onProgress;
   int receivedBytes = 0;
@@ -55,9 +60,12 @@ class AssetUpdater {
   Future<void> checkForUpdate({bool force = false, int? minimumSchemaVersion}) async {
     final releases = await _fetchAssetRelease(assetChannel);
 
-    minimumSchemaVersion ??= Firebase.apps.isNotEmpty
-        ? FirebaseRemoteConfig.instance.getInt(RemoteConfigKey.minimumAssetSchemaVersion)
-        : 0;
+    final config = remoteConfig ??
+        (Firebase.apps.isNotEmpty
+            ? RemoteConfigRepository(FirebaseRemoteConfig.instance)
+            : null);
+    minimumSchemaVersion ??=
+        config?.get(RemoteConfigKeys.minimumAssetSchemaVersion) ?? 0;
 
     final latestRelease = releases.fold<AssetReleaseVersion?>(null, (prev, element) {
       // ignore minimumSchemaVersion when force download mode

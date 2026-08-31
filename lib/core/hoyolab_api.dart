@@ -9,17 +9,28 @@ import "package:crypto/crypto.dart";
 import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:http/http.dart" as http;
 
-import "../constants/remote_config_key.dart";
+import "../data/repositories/remote_config_repository.dart";
 import "../i18n/strings.g.dart";
 import "../models/hoyolab_api.dart";
+import "remote_config_keys.dart";
 import "silent_exception.dart";
 
 const maxBatchComputeItems = 8;
 
 class HoyolabApi {
-  HoyolabApi({this.cookie, this.region, this.uid, http.Client? client})
-      : client = client ?? http.Client() {
-    if (!FirebaseRemoteConfig.instance.getBool(RemoteConfigKey.hoyolabLinkEnabled)) {
+  /// [remoteConfig] is optional so that the call sites which have no access to
+  /// a [Ref] keep working; it falls back to the global Firebase instance, which
+  /// requires Firebase to be initialized. Tests must always inject it.
+  HoyolabApi({
+    this.cookie,
+    this.region,
+    this.uid,
+    http.Client? client,
+    RemoteConfigRepository? remoteConfig,
+  }) : client = client ?? http.Client() {
+    final config =
+        remoteConfig ?? RemoteConfigRepository(FirebaseRemoteConfig.instance);
+    if (!config.get(RemoteConfigKeys.hoyolabLinkEnabled)) {
       throw StateError("Hoyolab link is disabled by remote");
     }
   }
