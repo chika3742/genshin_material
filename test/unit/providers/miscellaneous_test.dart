@@ -9,7 +9,6 @@ import "package:genshin_material/db/in_game_character_state_db_extension.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/hoyolab_credential.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
-import "package:genshin_material/providers/pref_notifier.dart";
 
 import "../../utils/db.dart";
 import "../../utils/in_memory_pref_notifier.dart";
@@ -44,8 +43,7 @@ void main() {
       return createTestContainer(
         db: db,
         overrides: [
-          prefProvider(PrefKeys.hyvUid)
-              .overrideWith(() => InMemoryPrefNotifier(uid)),
+          overridePref(PrefKeys.hyvUid, uid),
         ],
       );
     }

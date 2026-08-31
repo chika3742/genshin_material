@@ -16,9 +16,7 @@ void main() {
   }) {
     final container = ProviderContainer(overrides: [
       remoteConfigProvider.overrideWithValue(mockRc),
-      prefProvider(PrefKeys.bannerReadKeys).overrideWith(
-        () => InMemoryPrefNotifier<List<String>, List<String>>(initialReadKeys),
-      ),
+      overridePref(PrefKeys.bannerReadKeys, initialReadKeys),
     ]);
     addTearDown(container.dispose);
     return container;

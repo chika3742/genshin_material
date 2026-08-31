@@ -15,7 +15,6 @@ import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/providers/database_provider.dart";
-import "package:genshin_material/providers/pref_notifier.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:genshin_material/use_cases/reschedule_daily_material_notifications.dart";
 import "package:mockito/mockito.dart";
@@ -726,10 +725,11 @@ void main() {
           appDatabaseProvider.overrideWithValue(db),
           localNotificationProvider.overrideWithValue(mockLocalNotification),
           assetDataProvider.overrideWith(createAssetData),
-          prefProvider(PrefKeys.dailyMaterialNotificationTime)
-              .overrideWith(() => InMemoryPrefNotifier(const TimeOfDay(hour: 16, minute: 0))),
-          prefProvider(PrefKeys.dailyResetServer)
-              .overrideWith(() => InMemoryPrefNotifier(GameServer.asia)),
+          overridePref(
+            PrefKeys.dailyMaterialNotificationTime,
+            const TimeOfDay(hour: 16, minute: 0),
+          ),
+          overridePref(PrefKeys.dailyResetServer, GameServer.asia),
         ]);
       }
 

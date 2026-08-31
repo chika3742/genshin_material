@@ -1,7 +1,6 @@
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/pref_keys.dart";
-import "package:genshin_material/providers/pref_notifier.dart";
 import "package:genshin_material/providers/resin.dart";
 import "package:genshin_material/utils/resin_calculator.dart";
 
@@ -13,8 +12,8 @@ void main() {
 
   setUp(() {
     container = ProviderContainer.test(overrides: [
-      prefProvider(PrefKeys.resin).overrideWith(() => InMemoryPrefNotifier(null)),
-      prefProvider(PrefKeys.resinBaseTime).overrideWith(() => InMemoryPrefNotifier(null)),
+      overridePref(PrefKeys.resin, null),
+      overridePref(PrefKeys.resinBaseTime, null),
     ]);
     notifier = container.read(resinProvider.notifier);
   });

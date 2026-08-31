@@ -99,10 +99,8 @@ void main() {
         localNotificationProvider.overrideWithValue(notification),
         rescheduleDailyMaterialNotificationsProvider.overrideWith((ref) => rescheduler),
         assetDataProvider.overrideWith((ref) => assetDataCompleter.future),
-        prefProvider(PrefKeys.dailyMaterialNotificationTime)
-            .overrideWith(() => InMemoryPrefNotifier(time)),
-        prefProvider(PrefKeys.dailyResetServer)
-            .overrideWith(() => InMemoryPrefNotifier(GameServer.asia)),
+        overridePref(PrefKeys.dailyMaterialNotificationTime, time),
+        overridePref(PrefKeys.dailyResetServer, GameServer.asia),
       ],
       child: const MaterialApp(home: _Host()),
     ));
@@ -284,10 +282,8 @@ void main() {
           appDatabaseProvider.overrideWithValue(db),
           localNotificationProvider.overrideWithValue(notification),
           assetDataProvider.overrideWith((ref) => assetDataCompleter.future),
-          prefProvider(PrefKeys.dailyMaterialNotificationTime)
-              .overrideWith(() => InMemoryPrefNotifier(notificationTime)),
-          prefProvider(PrefKeys.dailyResetServer)
-              .overrideWith(() => InMemoryPrefNotifier(GameServer.asia)),
+          overridePref(PrefKeys.dailyMaterialNotificationTime, notificationTime),
+          overridePref(PrefKeys.dailyResetServer, GameServer.asia),
         ],
         child: const MaterialApp(home: _Host()),
       ));

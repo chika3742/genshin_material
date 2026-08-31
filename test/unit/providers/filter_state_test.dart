@@ -14,10 +14,8 @@ void main() {
     WeaponSortType weaponSortType = WeaponSortType.defaultSort,
   }) {
     return ProviderContainer.test(overrides: [
-      prefProvider(PrefKeys.characterSortType)
-          .overrideWith(() => InMemoryPrefNotifier(characterSortType)),
-      prefProvider(PrefKeys.weaponSortType)
-          .overrideWith(() => InMemoryPrefNotifier(weaponSortType)),
+      overridePref(PrefKeys.characterSortType, characterSortType),
+      overridePref(PrefKeys.weaponSortType, weaponSortType),
     ]);
   }
 

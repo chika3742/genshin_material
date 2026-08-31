@@ -38,8 +38,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          prefProvider(PrefKeys.dailyResetServer)
-              .overrideWith(() => InMemoryPrefNotifier(server)),
+          overridePref(PrefKeys.dailyResetServer, server),
         ],
         child: createScreenWithApp(
           Scaffold(
