@@ -155,6 +155,7 @@ void main() {
   group("SearchResultListTile", () {
     // The tile navigates through go_router, so this group needs a router
     // instead of the plain MaterialApp of createScreenWithApp.
+    const imageKey = Key("search-result-image");
     late GoRouter router;
 
     Future<void> openSearchWithRouter(WidgetTester tester) async {
@@ -169,7 +170,7 @@ void main() {
                   SearchButton<Material>(
                     queryCallback: (query) => filterBySearchQuery(items, query),
                     resultItemBuilder: (context, item) => SearchResultListTile(
-                      image: const SizedBox(width: 24, height: 24),
+                      image: const SizedBox(key: imageKey, width: 24, height: 24),
                       title: item.name.localized,
                       location: "/materials/${item.id}",
                     ),
@@ -222,12 +223,14 @@ void main() {
       await openSearchWithRouter(tester);
 
       expect(find.text(cranberry.name.localized), findsOne);
+      // The trailing chevron builds a SizedBox of its own, so only the key
+      // tells the given image apart from it.
       expect(
         find.descendant(
           of: find.byType(SearchResultListTile),
-          matching: find.byType(SizedBox),
+          matching: find.byKey(imageKey),
         ),
-        findsWidgets,
+        findsOne,
       );
     });
   });

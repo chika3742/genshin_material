@@ -12,19 +12,19 @@ void main() {
   const sliderWidth = 300.0;
   const thumbRadius = 10.0;
   const effectiveWidth = sliderWidth - thumbRadius * 2;
-  const min = 0.0;
-  const max = 100.0;
+  const minValue = 0.0;
+  const maxValue = 100.0;
   const initialValues = RangeValues(20, 80);
 
-  double pixelsPerValue(double value) => value / (max - min) * effectiveWidth;
+  double pixelsPerValue(double value) => value / (maxValue - minValue) * effectiveWidth;
 
-  double xForValue(double value) => thumbRadius + pixelsPerValue(value - min);
+  double xForValue(double value) => thumbRadius + pixelsPerValue(value - minValue);
 
   // The pan recognizer of the component and the horizontal drag recognizer of
   // the underlying RangeSlider share the gesture arena. The pan only wins when
   // a single pointer move exceeds kPanSlop, and it then anchors the range drag
   // where it was recognized -- not where the finger went down.
-  final panSlopInValue = (kPanSlop + 1) / effectiveWidth * (max - min);
+  final panSlopInValue = (kPanSlop + 1) / effectiveWidth * (maxValue - minValue);
 
   late List<RangeValues> changes;
   late List<RangeValues> starts;
@@ -50,8 +50,8 @@ void main() {
               width: sliderWidth,
               child: CustomRangeSlider(
                 values: values,
-                min: min,
-                max: max,
+                min: minValue,
+                max: maxValue,
                 divisions: divisions,
                 onChanged: enabled ? changes.add : null,
                 onChangeStart: starts.add,
@@ -141,7 +141,7 @@ void main() {
 
       expect(changes, isNotEmpty);
       final result = changes.last;
-      expect(result.end, max);
+      expect(result.end, maxValue);
       expect(result.start, closeTo(40, 0.001));
     });
 
@@ -152,7 +152,7 @@ void main() {
 
       expect(changes, isNotEmpty);
       final result = changes.last;
-      expect(result.start, min);
+      expect(result.start, minValue);
       expect(result.end, closeTo(60, 0.001));
     });
 
@@ -208,8 +208,8 @@ void main() {
 
       expect(changes, isNotEmpty);
       for (final values in changes) {
-        expect(values.start, greaterThanOrEqualTo(min));
-        expect(values.end, lessThanOrEqualTo(max));
+        expect(values.start, greaterThanOrEqualTo(minValue));
+        expect(values.end, lessThanOrEqualTo(maxValue));
       }
     });
   });
