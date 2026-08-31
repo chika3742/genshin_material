@@ -26,7 +26,7 @@ import "package:path/path.dart" as path;
 import "../../utils.dart";
 import "../../utils/asset_data.dart";
 import "../../utils/db.dart";
-import "../../utils/in_memory_pref_notifier.dart";
+import "../../utils/in_memory_pref.dart";
 
 void main() {
   // The card renders the material image with Image.file, so the files it

@@ -4,7 +4,7 @@ import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/providers/resin.dart";
 import "package:genshin_material/utils/resin_calculator.dart";
 
-import "../utils/in_memory_pref_notifier.dart";
+import "../utils/in_memory_pref.dart";
 
 void main() {
   late ProviderContainer container;

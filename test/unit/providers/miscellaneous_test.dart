@@ -11,7 +11,7 @@ import "package:genshin_material/providers/hoyolab_credential.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 
 import "../../utils/db.dart";
-import "../../utils/in_memory_pref_notifier.dart";
+import "../../utils/in_memory_pref.dart";
 import "../../utils/provider_container.dart";
 
 /// `shouldHideImages` only consults the sign-in state on Apple platforms; on

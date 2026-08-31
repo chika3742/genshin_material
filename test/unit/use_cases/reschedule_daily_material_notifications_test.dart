@@ -23,7 +23,7 @@ import "package:timezone/timezone.dart" as tz;
 import "package:uuid/v4.dart";
 
 import "../../utils/asset_data.dart";
-import "../../utils/in_memory_pref_notifier.dart";
+import "../../utils/in_memory_pref.dart";
 import "../../utils/local_notification_mocks.dart";
 
 typedef _TestMaterialBookmarkInsertable = ({

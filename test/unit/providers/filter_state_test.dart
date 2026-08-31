@@ -4,7 +4,7 @@ import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/providers/filter_state.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 
-import "../../utils/in_memory_pref_notifier.dart";
+import "../../utils/in_memory_pref.dart";
 
 void main() {
   /// Builds a container whose sort-type prefs are backed by memory instead of

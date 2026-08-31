@@ -6,7 +6,7 @@ import "package:genshin_material/core/secure_storage.dart";
 import "package:genshin_material/data/repositories/remote_config_repository.dart";
 import "package:genshin_material/providers/hoyolab_credential.dart";
 
-import "../utils/in_memory_pref_notifier.dart";
+import "../utils/in_memory_pref.dart";
 import "../utils/stub_remote_config.dart";
 import "../utils/stub_remote_config.mocks.dart";
 
