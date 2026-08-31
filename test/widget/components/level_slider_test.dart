@@ -113,7 +113,16 @@ void main() {
     testWidgets("paints the tick labels", (tester) async {
       await pumpSlider(tester);
 
-      expect(find.byType(CustomPaint), findsWidgets);
+      // The card border, the two field borders and the debug banner are
+      // CustomPaints as well, so only the painter type identifies the labels.
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is CustomPaint &&
+              widget.painter?.runtimeType.toString() == "_SliderLabelPainter",
+        ),
+        findsOne,
+      );
     });
 
     testWidgets("reports nothing when no callback is given", (tester) async {

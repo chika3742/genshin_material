@@ -5,6 +5,7 @@ import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/models/material.dart";
 import "package:genshin_material/utils/filtering.dart";
+import "package:go_router/go_router.dart";
 
 import "../../utils.dart";
 import "../../utils/asset_data.dart";
@@ -149,5 +150,85 @@ void main() {
     await search(tester, "berry");
 
     expect(find.text(tr.search.noResults), findsOne);
+  });
+
+  group("SearchResultListTile", () {
+    // The tile navigates through go_router, so this group needs a router
+    // instead of the plain MaterialApp of createScreenWithApp.
+    late GoRouter router;
+
+    Future<void> openSearchWithRouter(WidgetTester tester) async {
+      router = GoRouter(
+        initialLocation: "/",
+        routes: [
+          GoRoute(
+            path: "/",
+            builder: (context, state) => Scaffold(
+              appBar: AppBar(
+                actions: [
+                  SearchButton<Material>(
+                    queryCallback: (query) => filterBySearchQuery(items, query),
+                    resultItemBuilder: (context, item) => SearchResultListTile(
+                      image: const SizedBox(width: 24, height: 24),
+                      title: item.name.localized,
+                      location: "/materials/${item.id}",
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          GoRoute(
+            path: "/materials/:id",
+            builder: (context, state) =>
+                Scaffold(body: Text("details:${state.pathParameters["id"]}")),
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(MaterialApp.router(routerConfig: router));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(IconButton));
+      await tester.pumpAndSettle();
+      await search(tester, "cran");
+    }
+
+    tearDown(() {
+      router.dispose();
+    });
+
+    testWidgets("navigates to the location of the tapped result", (tester) async {
+      await openSearchWithRouter(tester);
+
+      await tester.tap(find.byType(SearchResultListTile));
+      await tester.pumpAndSettle();
+
+      expect(router.state.uri.toString(), "/materials/${cranberry.id}");
+      expect(find.text("details:${cranberry.id}"), findsOne);
+    });
+
+    testWidgets("closes the search page before navigating", (tester) async {
+      await openSearchWithRouter(tester);
+
+      await tester.tap(find.byType(SearchResultListTile));
+      await tester.pumpAndSettle();
+
+      // A route that was only covered would still be in the tree offstage, so
+      // the search page is gone from the navigator, not merely hidden.
+      expect(find.byType(TextField, skipOffstage: false), findsNothing);
+    });
+
+    testWidgets("shows the given title and image", (tester) async {
+      await openSearchWithRouter(tester);
+
+      expect(find.text(cranberry.name.localized), findsOne);
+      expect(
+        find.descendant(
+          of: find.byType(SearchResultListTile),
+          matching: find.byType(SizedBox),
+        ),
+        findsWidgets,
+      );
+    });
   });
 }

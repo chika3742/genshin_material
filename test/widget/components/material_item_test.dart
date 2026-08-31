@@ -10,10 +10,11 @@ import "package:genshin_material/core/theme.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/db/material_card_to_companions.dart";
+import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/drop_rates.dart";
+import "package:genshin_material/models/ingredients.dart";
 import "package:genshin_material/models/localized_text.dart";
-import "package:genshin_material/models/material.dart";
 import "package:genshin_material/models/material_bookmark_frame.dart";
 import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
@@ -40,6 +41,13 @@ void main() {
   const materialName = "Mat";
   const usage = MaterialUsage(characterId: "char_1");
 
+  // The EXP item configuration is read even for ordinary materials (see the
+  // bookmark bottom sheet), so it is part of the default asset data.
+  const expItemIdA = "exp_a";
+  const expItemIdB = "exp_b";
+  const expImageUrlA = "img/exp_a.png";
+  const expImageUrlB = "img/exp_b.png";
+
   // MaterialCard reads the rarity color off the theme extension without a
   // fallback, so the extension has to be in place for the card to build.
   final componentTheme = ThemeData(
@@ -62,6 +70,29 @@ void main() {
     imageUrl: imageUrl,
     category: "cat",
     rarity: 3,
+  );
+  final expMaterials = [
+    buildTestMaterial(
+      id: expItemIdA,
+      name: LocalizedText.untranslatable(text: "Exp A"),
+      imageUrl: expImageUrlA,
+      rarity: 4,
+    ),
+    buildTestMaterial(
+      id: expItemIdB,
+      name: LocalizedText.untranslatable(text: "Exp B"),
+      imageUrl: expImageUrlB,
+      rarity: 2,
+    ),
+  ];
+  final ingredients = buildIngredientConfigurations(
+    rarity: 3,
+    purpose: Purpose.ascension,
+    levels: const {},
+    expItems: const [
+      ExpItem(itemId: expItemIdA, expPerItem: 1000, isDefault: true),
+      ExpItem(itemId: expItemIdB, expPerItem: 200),
+    ],
   );
   final dropRate = DropRateEntry(
     description: LocalizedText.untranslatable(text: "drop"),
@@ -89,16 +120,30 @@ void main() {
     ],
   );
 
+  // Levels without a material id make the card an EXP card, which renders one
+  // entry per configured EXP item.
+  final expItem = MaterialCardMaterial(
+    levels: const [
+      MaterialBookmarkFrame.exp(level: 40, exp: 3000),
+    ],
+  );
+
   late AppDatabase db;
   late Directory assetDir;
 
   setUp(() {
     db = createTestDatabase();
     assetDir = Directory.systemTemp.createTempSync("material_item_test");
-    final imageFile = File(path.join(assetDir.path, imageUrl));
-    imageFile.parent.createSync(recursive: true);
-    imageFile.writeAsBytesSync(onePixelPng);
-    File(getBlankImagePath(assetDir.path)).writeAsBytesSync(onePixelPng);
+    for (final url in [imageUrl, expImageUrlA, expImageUrlB]) {
+      final imageFile = File(path.join(assetDir.path, url));
+      imageFile.parent.createSync(recursive: true);
+      imageFile.writeAsBytesSync(onePixelPng);
+    }
+    // The blank image lives in its own directory, which is not necessarily the
+    // one the material images were just created in.
+    final blankImage = File(getBlankImagePath(assetDir.path));
+    blankImage.parent.createSync(recursive: true);
+    blankImage.writeAsBytesSync(onePixelPng);
   });
 
   tearDown(() async {
@@ -132,8 +177,9 @@ void main() {
     bool withDropRate = true,
     int? lackNum,
     bool bookmarkable = false,
-    List<Material> materials = const [],
+    MaterialCardMaterial? card,
   }) async {
+    final cardItem = card ?? item;
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -143,8 +189,9 @@ void main() {
           assetDataProvider.overrideWith((ref) => buildTestAssetData(
             assetDir: assetDir.path,
             materials: {
-              for (final material in [material, ...materials]) material.id: material,
+              for (final material in [material, ...expMaterials]) material.id: material,
             },
+            characterIngredients: ingredients,
             dropRates: withDropRate ? [dropRate] : [],
           )),
           ...prefOverrides(
@@ -157,7 +204,7 @@ void main() {
             data: componentTheme,
             child: Scaffold(
               body: MaterialItem(
-                item: item,
+                item: cardItem,
                 targetType: MaterialTargetType.character,
                 lackNum: lackNum,
                 usage: bookmarkable ? usage : null,
@@ -259,7 +306,7 @@ void main() {
   });
 
   group("farm count", () {
-    testWidgets("shows the runs needed for the missing quantity", (tester) async {
+    testWidgets("shows the runs needed for the total quantity", (tester) async {
       await pumpItem(tester, showFarmCount: true);
 
       // 12 items at a rate of 2.0 per run.
@@ -329,6 +376,112 @@ void main() {
 
       expect(find.byIcon(Symbols.bookmark_added), findsOne);
       expect(await db.select(db.bookmarkMaterialItemTable).get(), hasLength(2));
+
+      await disposeTree(tester);
+    });
+
+    testWidgets("opens the bottom sheet from a partial state", (tester) async {
+      await db.addMaterialBookmarks(materialCardToCompanions(item, usage).take(1).toList());
+      await pumpItem(tester, bookmarkable: true);
+
+      await tester.tap(find.byIcon(Symbols.bookmark_remove));
+      await tester.pumpAndSettle();
+
+      expect(find.text(tr.materialCard.reBookmark), findsOne);
+      expect(find.text(tr.materialCard.unBookmark), findsOne);
+      // Nothing is decided until one of the options is picked.
+      expect(await db.select(db.bookmarkMaterialItemTable).get(), hasLength(1));
+
+      await disposeTree(tester);
+    });
+
+    testWidgets("re-bookmarks every level from a partial state", (tester) async {
+      await db.addMaterialBookmarks(materialCardToCompanions(item, usage).take(1).toList());
+      await pumpItem(tester, bookmarkable: true);
+
+      await tester.tap(find.byIcon(Symbols.bookmark_remove));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tr.materialCard.reBookmark));
+      await tester.pumpAndSettle();
+
+      expect(await db.select(db.bookmarkMaterialItemTable).get(), hasLength(2));
+      expect(find.byIcon(Symbols.bookmark_added), findsOne);
+
+      await disposeTree(tester);
+    });
+
+    testWidgets("drops the remaining bookmarks from a partial state", (tester) async {
+      await db.addMaterialBookmarks(materialCardToCompanions(item, usage).take(1).toList());
+      await pumpItem(tester, bookmarkable: true);
+
+      await tester.tap(find.byIcon(Symbols.bookmark_remove));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tr.materialCard.unBookmark));
+      await tester.pumpAndSettle();
+
+      expect(await db.select(db.bookmarkMaterialItemTable).get(), isEmpty);
+      expect(find.byIcon(Symbols.bookmark_add), findsOne);
+
+      await disposeTree(tester);
+    });
+
+    testWidgets("removes every bookmark when the bookmarked button is tapped", (tester) async {
+      await db.addMaterialBookmarks(materialCardToCompanions(item, usage));
+      await pumpItem(tester, bookmarkable: true);
+
+      await tester.tap(find.byIcon(Symbols.bookmark_added));
+      await tester.pumpAndSettle();
+
+      expect(await db.select(db.bookmarkMaterialItemTable).get(), isEmpty);
+      expect(find.byIcon(Symbols.bookmark_add), findsOne);
+      expect(find.text(tr.materialCard.unBookmarked), findsOne);
+
+      await disposeTree(tester);
+    });
+
+    testWidgets("restores the bookmarks from the snack bar", (tester) async {
+      await db.addMaterialBookmarks(materialCardToCompanions(item, usage));
+      await pumpItem(tester, bookmarkable: true);
+
+      await tester.tap(find.byIcon(Symbols.bookmark_added));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(tr.common.undo));
+      await tester.pumpAndSettle();
+
+      expect(await db.select(db.bookmarkMaterialItemTable).get(), hasLength(2));
+      expect(find.byIcon(Symbols.bookmark_added), findsOne);
+
+      await disposeTree(tester);
+    });
+  });
+
+  group("exp items", () {
+    testWidgets("renders one entry per configured exp item", (tester) async {
+      await pumpItem(tester, card: expItem);
+
+      // 3000 exp at 1000 per item.
+      expect(find.text("x3", findRichText: true), findsOne);
+      expect(find.byIcon(Symbols.swap_horiz), findsOne);
+
+      await disposeTree(tester);
+    });
+
+    testWidgets("swaps to the other exp item", (tester) async {
+      await pumpItem(tester, card: expItem);
+
+      await tester.tap(find.byIcon(Symbols.swap_horiz));
+      await tester.pumpAndSettle();
+
+      // 3000 exp at 200 per item.
+      expect(find.text("x15", findRichText: true), findsOne);
+
+      await disposeTree(tester);
+    });
+
+    testWidgets("shows the image of the exp item", (tester) async {
+      await pumpItem(tester, card: expItem);
+
+      expect(imagePathOf(tester), path.join(assetDir.path, expImageUrlA));
 
       await disposeTree(tester);
     });
