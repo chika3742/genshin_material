@@ -3,7 +3,6 @@ import "dart:io";
 import "package:drift/drift.dart" show Value;
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/in_game_character_state_db_extension.dart";
 import "package:genshin_material/models/common.dart";
@@ -11,7 +10,7 @@ import "package:genshin_material/providers/hoyolab_credential.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 
 import "../../utils/db.dart";
-import "../../utils/in_memory_pref.dart";
+import "../../utils/hoyolab_credential.dart";
 import "../../utils/provider_container.dart";
 
 /// `shouldHideImages` only consults the sign-in state on Apple platforms; on
@@ -42,9 +41,7 @@ void main() {
     ProviderContainer createContainer({String? uid}) {
       return createTestContainer(
         db: db,
-        overrides: [
-          overridePref(PrefKeys.hyvUid, uid),
-        ],
+        overrides: overrideHoyolabCredentialPrefs(uid: uid),
       );
     }
 

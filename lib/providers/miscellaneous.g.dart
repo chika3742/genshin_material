@@ -94,7 +94,7 @@ final class OwnedCharactersProvider
   }
 }
 
-String _$ownedCharactersHash() => r'e9693b8c8121bbb44d5d37a35bb2576025b61e6b';
+String _$ownedCharactersHash() => r'c94840d87939021d8d16ee467574f0bae6757648';
 
 @ProviderFor(shouldHideImages)
 final shouldHideImagesProvider = ShouldHideImagesProvider._();

@@ -3,7 +3,6 @@ import "dart:io";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/hoyolab_api.dart";
-import "../core/pref_keys.dart";
 import "../core/remote_config_keys.dart";
 import "../core/secure_storage.dart";
 import "../db/in_game_character_state_db_extension.dart";
@@ -12,7 +11,6 @@ import "../models/hoyolab_api.dart";
 import "database_provider.dart";
 import "hoyolab_credential.dart";
 import "http_client.dart";
-import "pref_notifier.dart";
 import "remote_config.dart";
 
 part "miscellaneous.g.dart";
@@ -58,7 +56,7 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
 
 @riverpod
 Future<List<CharacterId>?> ownedCharacters(Ref ref) async {
-  final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
+  final uid = ref.watch(hoyolabCredentialProvider).uidOrNull;
   if (uid == null) {
     return null;
   }
