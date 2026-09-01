@@ -10,17 +10,6 @@ Future<void> setHoyolabCookie(String cookie) async {
   await secureStorage.write(key: "hoyolab_cookie", value: cookie);
 }
 
-class CredentialVerificationException implements Exception {
-  final String message;
-
-  const CredentialVerificationException({required this.message});
-
-  @override
-  String toString() {
-    return "HoYoLAB Credential verification failed: $message";
-  }
-}
-
 Future<void> deleteHoyolabCookie() async {
   await secureStorage.delete(key: "hoyolab_cookie");
 }

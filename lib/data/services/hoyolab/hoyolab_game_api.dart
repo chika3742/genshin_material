@@ -14,7 +14,7 @@ class HoyolabGameApi extends HoyolabAuthenticatedApi {
     required super.cookie,
     required this.region,
     required this.uid,
-    super.client,
+    required super.client,
   });
 
   final String region;

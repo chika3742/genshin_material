@@ -8,17 +8,15 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../components/center_text.dart";
 import "../../components/list_subheader.dart";
-import "../../core/hoyolab_api.dart";
 import "../../core/pref_keys.dart";
-import "../../core/remote_config_keys.dart";
 import "../../core/secure_storage.dart";
+import "../../data/services/hoyolab/hoyolab_exceptions.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
+import "../../providers/hoyolab_api.dart";
 import "../../providers/hoyolab_credential.dart";
-import "../../providers/http_client.dart";
 import "../../providers/miscellaneous.dart";
 import "../../providers/pref_notifier.dart";
-import "../../providers/remote_config.dart";
 import "../../routes.dart";
 import "../../ui_core/bottom_sheet.dart";
 import "../../ui_core/dialog.dart";
@@ -257,10 +255,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final serversSnapshot = useFuture(useMemoized(
-      () => HoyolabApi(
-        client: ref.read(httpClientProvider),
-        enabled: ref.read(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)),
-      ).lookupServers(),
+      () => ref.read(hoyolabPublicApiProvider).lookupServers(),
     ));
 
     final selectedServer = useState<HyvServer?>(null);
@@ -287,16 +282,11 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
       loadingGameRoleServers.value = [...loadingGameRoleServers.value..add(server)];
 
-      final api = HoyolabApi(
-        cookie: await getHoyolabCookie(),
-        region: server.region,
-        client: ref.read(httpClientProvider),
-        enabled: ref.read(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)),
-      );
       try {
         errorText.value = null;
 
-        final result = await api.getUserGameRoles();
+        final api = await ref.read(hoyolabAccountApiProvider.future);
+        final result = await api.getUserGameRoles(server.region);
 
         gameRoles.value[server] = result.list.firstOrNull;
       } on HoyolabApiException catch (e, st) {

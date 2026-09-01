@@ -62,7 +62,7 @@ final class HoyolabCredentialProvider
   }
 }
 
-String _$hoyolabCredentialHash() => r'12ca970567592906bba7013562103f00cf4de809';
+String _$hoyolabCredentialHash() => r'ff81dc16c690e134de172e4e629eedae1d72778a';
 
 /// The single read/write path for the HoYoLAB server and user identity.
 ///
@@ -131,7 +131,7 @@ final class IsLinkedWithHoyolabProvider
 }
 
 String _$isLinkedWithHoyolabHash() =>
-    r'72219bca9d5efd00da094bead8d3e31207c62e1b';
+    r'a684099733f04615e95421ffc156d233b53042f1';
 
 @ProviderFor(isHoyolabSignedInInitial)
 final isHoyolabSignedInInitialProvider = IsHoyolabSignedInInitialProvider._();

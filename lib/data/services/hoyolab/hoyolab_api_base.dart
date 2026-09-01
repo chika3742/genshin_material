@@ -23,8 +23,8 @@ abstract class HoyolabApiBase {
   /// free of a Firebase dependency.
   HoyolabApiBase({
     required this.enabled,
-    http.Client? client,
-  }) : client = client ?? http.Client();
+    required this.client,
+  });
 
   final bool enabled;
   final http.Client client;
@@ -98,7 +98,7 @@ abstract class HoyolabAuthenticatedApi extends HoyolabApiBase {
   HoyolabAuthenticatedApi({
     required super.enabled,
     required this.cookie,
-    super.client,
+    required super.client,
   });
 
   final String cookie;

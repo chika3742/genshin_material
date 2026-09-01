@@ -1,12 +1,12 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../core/hoyolab_api.dart";
 import "../core/pref_keys.dart";
 import "../core/remote_config_keys.dart";
 import "../core/secure_storage.dart";
+import "../data/services/hoyolab/hoyolab_exceptions.dart";
 import "../models/hoyolab_api.dart";
-import "http_client.dart";
+import "hoyolab_api.dart";
 import "pref_notifier.dart";
 import "remote_config.dart";
 
@@ -71,11 +71,8 @@ class HoyolabCredential extends _$HoyolabCredential {
 
   /// Verifies [cookie] against HoYoLAB and stores it once it is known good.
   Future<void> signIn(String cookie) async {
-    final result = await HoyolabApi(
-      cookie: cookie,
-      remoteConfig: ref.read(remoteConfigServiceProvider),
-      client: ref.read(httpClientProvider),
-    ).verifyLToken();
+    final result =
+        await ref.read(hoyolabPublicApiProvider).verifyLToken(cookie);
     if (result.hasError) {
       throw CredentialVerificationException(message: result.message);
     }
@@ -108,11 +105,14 @@ class HoyolabCredential extends _$HoyolabCredential {
   }
 
   Future<void> clear() async {
-    await HoyolabApi(
-      cookie: await getHoyolabCookie(),
-      client: ref.read(httpClientProvider),
-      enabled: ref.read(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)),
-    ).logout();
+    if (await hasHoyolabCookie()) {
+      try {
+        await (await ref.read(hoyolabAccountApiProvider.future)).logout();
+      } on HoyolabLinkDisabledException {
+        // Telling HoYoLAB about the sign-out is a courtesy; a link that was
+        // switched off remotely must not strand the local credentials.
+      }
+    }
     await Future.wait([
       deleteHoyolabCookie(),
       ref.read(prefProvider(PrefKeys.hyvServer).notifier).set(null),
