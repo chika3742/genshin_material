@@ -7,7 +7,7 @@ import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "database_provider.dart";
 import "hoyolab_api.dart";
-import "hoyolab_credential.dart";
+import "hoyolab_game_server.dart";
 
 part "miscellaneous.g.dart";
 
@@ -40,7 +40,7 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
 
 @riverpod
 Future<List<CharacterId>?> ownedCharacters(Ref ref) async {
-  final uid = ref.watch(hoyolabCredentialProvider).uidOrNull;
+  final uid = ref.watch(hoyolabGameServerProvider).uidOrNull;
   if (uid == null) {
     return null;
   }

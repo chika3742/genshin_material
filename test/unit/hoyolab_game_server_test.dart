@@ -8,12 +8,12 @@ import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/core/secure_storage.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_exceptions.dart";
 import "package:genshin_material/models/hoyolab_api.dart";
-import "package:genshin_material/providers/hoyolab_credential.dart";
+import "package:genshin_material/providers/hoyolab_game_server.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
-import "../utils/hoyolab_credential.dart";
+import "../utils/hoyolab_game_server.dart";
 import "../utils/http_client.dart";
 import "../utils/http_client.mocks.dart";
 import "../utils/remote_config.dart";
@@ -72,7 +72,7 @@ void main() {
       overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, hoyolabLinkEnabled),
       // The APIs build on the mocked client, so nothing reaches the network.
       overrideHttpClient(client),
-      ...overrideHoyolabCredentialPrefs(
+      ...overrideHoyolabGameServerPrefs(
         server: server,
         serverName: serverName,
         userName: userName,
@@ -86,11 +86,11 @@ void main() {
     test("reports a linked state when every credential is stored", () {
       hoyolabLinkEnabled = true;
 
-      final credential = createContainer().read(hoyolabCredentialProvider);
+      final credential = createContainer().read(hoyolabGameServerProvider);
 
       expect(
         credential,
-        const HoyolabCredentialState.linked(
+        const HoyolabGameServerState.linked(
           server: "os_asia",
           serverName: "Asia",
           userName: "tester",
@@ -104,20 +104,20 @@ void main() {
       hoyolabLinkEnabled = true;
 
       final credential =
-          createContainer(uid: null).read(hoyolabCredentialProvider);
+          createContainer(uid: null).read(hoyolabGameServerProvider);
 
-      expect(credential, isA<UnlinkedHoyolabCredential>());
+      expect(credential, isA<UnlinkedHoyolabGameServer>());
     });
 
     test("exposes the uid through uidOrNull only when linked", () {
       hoyolabLinkEnabled = true;
 
       expect(
-        createContainer().read(hoyolabCredentialProvider).uidOrNull,
+        createContainer().read(hoyolabGameServerProvider).uidOrNull,
         "800000000",
       );
       expect(
-        createContainer(uid: null).read(hoyolabCredentialProvider).uidOrNull,
+        createContainer(uid: null).read(hoyolabGameServerProvider).uidOrNull,
         isNull,
       );
     });
@@ -160,7 +160,7 @@ void main() {
       );
 
       await container
-          .read(hoyolabCredentialProvider.notifier)
+          .read(hoyolabGameServerProvider.notifier)
           .link(server: server, role: role);
 
       expect(container.read(prefProvider(PrefKeys.hyvServer)), "os_euro");
@@ -179,12 +179,12 @@ void main() {
       );
 
       await container
-          .read(hoyolabCredentialProvider.notifier)
+          .read(hoyolabGameServerProvider.notifier)
           .link(server: server, role: role);
 
       expect(
-        container.read(hoyolabCredentialProvider),
-        const HoyolabCredentialState.linked(
+        container.read(hoyolabGameServerProvider),
+        const HoyolabGameServerState.linked(
           server: "os_euro",
           serverName: "Europe",
           userName: "traveler",
@@ -199,19 +199,19 @@ void main() {
     test("notifies the listeners exactly once", () async {
       hoyolabLinkEnabled = true;
       final container = createContainer();
-      final states = <HoyolabCredentialState>[];
+      final states = <HoyolabGameServerState>[];
       container.listen(
-        hoyolabCredentialProvider,
+        hoyolabGameServerProvider,
         (_, next) => states.add(next),
         fireImmediately: false,
       );
 
       await container
-          .read(hoyolabCredentialProvider.notifier)
+          .read(hoyolabGameServerProvider.notifier)
           .link(server: server, role: role);
 
       expect(states, hasLength(1));
-      expect(states.single, isA<LinkedHoyolabCredential>());
+      expect(states.single, isA<LinkedHoyolabGameServer>());
     });
   });
 
@@ -227,7 +227,7 @@ void main() {
       storage.clear();
       final container = createContainer();
 
-      await container.read(hoyolabCredentialProvider.notifier).signIn(_cookie);
+      await container.read(hoyolabGameServerProvider.notifier).signIn(_cookie);
 
       expect(await getHoyolabCookie(), _cookie);
     });
@@ -239,7 +239,7 @@ void main() {
       final container = createContainer();
 
       await expectLater(
-        container.read(hoyolabCredentialProvider.notifier).signIn(_cookie),
+        container.read(hoyolabGameServerProvider.notifier).signIn(_cookie),
         throwsA(isA<CredentialVerificationException>()),
       );
       expect(await hasHoyolabCookie(), isFalse);
@@ -251,7 +251,7 @@ void main() {
       final container = createContainer();
 
       await expectLater(
-        container.read(hoyolabCredentialProvider.notifier).signIn(_cookie),
+        container.read(hoyolabGameServerProvider.notifier).signIn(_cookie),
         throwsA(isA<HoyolabLinkDisabledException>()),
       );
       expect(await hasHoyolabCookie(), isFalse);
@@ -270,7 +270,7 @@ void main() {
       stubLogout();
       final container = createContainer();
 
-      await container.read(hoyolabCredentialProvider.notifier).clear();
+      await container.read(hoyolabGameServerProvider.notifier).clear();
 
       expect(await getHoyolabCookie(), isNull);
       expect(await hasHoyolabCookie(), isFalse);
@@ -281,10 +281,10 @@ void main() {
       stubLogout();
       final container = createContainer();
 
-      await container.read(hoyolabCredentialProvider.notifier).clear();
+      await container.read(hoyolabGameServerProvider.notifier).clear();
 
-      expect(container.read(hoyolabCredentialProvider),
-          isA<UnlinkedHoyolabCredential>());
+      expect(container.read(hoyolabGameServerProvider),
+          isA<UnlinkedHoyolabGameServer>());
       expect(container.read(prefProvider(PrefKeys.hyvServer)), isNull);
       expect(container.read(prefProvider(PrefKeys.hyvServerName)), isNull);
       expect(container.read(prefProvider(PrefKeys.hyvUserName)), isNull);
@@ -299,11 +299,11 @@ void main() {
       hoyolabLinkEnabled = false;
       final container = createContainer();
 
-      await container.read(hoyolabCredentialProvider.notifier).clear();
+      await container.read(hoyolabGameServerProvider.notifier).clear();
 
       expect(await hasHoyolabCookie(), isFalse);
-      expect(container.read(hoyolabCredentialProvider),
-          isA<UnlinkedHoyolabCredential>());
+      expect(container.read(hoyolabGameServerProvider),
+          isA<UnlinkedHoyolabGameServer>());
       expect(container.read(isLinkedWithHoyolabProvider), isFalse);
     });
 
@@ -312,11 +312,11 @@ void main() {
       storage.clear();
       final container = createContainer();
 
-      await container.read(hoyolabCredentialProvider.notifier).clear();
+      await container.read(hoyolabGameServerProvider.notifier).clear();
 
       verifyZeroInteractions(client);
-      expect(container.read(hoyolabCredentialProvider),
-          isA<UnlinkedHoyolabCredential>());
+      expect(container.read(hoyolabGameServerProvider),
+          isA<UnlinkedHoyolabGameServer>());
     });
   });
 }

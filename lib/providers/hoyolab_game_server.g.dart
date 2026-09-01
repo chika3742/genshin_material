@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'hoyolab_credential.dart';
+part of 'hoyolab_game_server.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -16,8 +16,8 @@ part of 'hoyolab_credential.dart';
 /// [build] and afterwards emits exactly one update per mutation, instead of one
 /// per written key.
 
-@ProviderFor(HoyolabCredential)
-final hoyolabCredentialProvider = HoyolabCredentialProvider._();
+@ProviderFor(HoyolabGameServer)
+final hoyolabGameServerProvider = HoyolabGameServerProvider._();
 
 /// The single read/write path for the HoYoLAB server and user identity.
 ///
@@ -26,8 +26,8 @@ final hoyolabCredentialProvider = HoyolabCredentialProvider._();
 /// what lets the notifier own the state: it reads the preferences once in
 /// [build] and afterwards emits exactly one update per mutation, instead of one
 /// per written key.
-final class HoyolabCredentialProvider
-    extends $NotifierProvider<HoyolabCredential, HoyolabCredentialState> {
+final class HoyolabGameServerProvider
+    extends $NotifierProvider<HoyolabGameServer, HoyolabGameServerState> {
   /// The single read/write path for the HoYoLAB server and user identity.
   ///
   /// The preferences behind it are a persistence backend only; nothing outside
@@ -35,34 +35,34 @@ final class HoyolabCredentialProvider
   /// what lets the notifier own the state: it reads the preferences once in
   /// [build] and afterwards emits exactly one update per mutation, instead of one
   /// per written key.
-  HoyolabCredentialProvider._()
+  HoyolabGameServerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'hoyolabCredentialProvider',
+        name: r'hoyolabGameServerProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$hoyolabCredentialHash();
+  String debugGetCreateSourceHash() => _$hoyolabGameServerHash();
 
   @$internal
   @override
-  HoyolabCredential create() => HoyolabCredential();
+  HoyolabGameServer create() => HoyolabGameServer();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(HoyolabCredentialState value) {
+  Override overrideWithValue(HoyolabGameServerState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<HoyolabCredentialState>(value),
+      providerOverride: $SyncValueProvider<HoyolabGameServerState>(value),
     );
   }
 }
 
-String _$hoyolabCredentialHash() => r'ff81dc16c690e134de172e4e629eedae1d72778a';
+String _$hoyolabGameServerHash() => r'5209beebb3d251852bedd38a87b9b3684ff6217a';
 
 /// The single read/write path for the HoYoLAB server and user identity.
 ///
@@ -72,18 +72,18 @@ String _$hoyolabCredentialHash() => r'ff81dc16c690e134de172e4e629eedae1d72778a';
 /// [build] and afterwards emits exactly one update per mutation, instead of one
 /// per written key.
 
-abstract class _$HoyolabCredential extends $Notifier<HoyolabCredentialState> {
-  HoyolabCredentialState build();
+abstract class _$HoyolabGameServer extends $Notifier<HoyolabGameServerState> {
+  HoyolabGameServerState build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
     final ref =
-        this.ref as $Ref<HoyolabCredentialState, HoyolabCredentialState>;
+        this.ref as $Ref<HoyolabGameServerState, HoyolabGameServerState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<HoyolabCredentialState, HoyolabCredentialState>,
-              HoyolabCredentialState,
+              AnyNotifier<HoyolabGameServerState, HoyolabGameServerState>,
+              HoyolabGameServerState,
               Object?,
               Object?
             >;
@@ -131,7 +131,7 @@ final class IsLinkedWithHoyolabProvider
 }
 
 String _$isLinkedWithHoyolabHash() =>
-    r'a684099733f04615e95421ffc156d233b53042f1';
+    r'e592fcfffbe1e80fdb1f1e55aa40900bee12e559';
 
 @ProviderFor(isHoyolabSignedInInitial)
 final isHoyolabSignedInInitialProvider = IsHoyolabSignedInInitialProvider._();

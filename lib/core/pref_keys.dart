@@ -6,7 +6,7 @@ abstract final class PrefKeys {
   static const resin = NullableIntPrefKey("resin");
   static const resinBaseTime = DateTimeIsoPrefKey("resinBaseTime");
   // The four HoYoLAB identity keys below are written and read as a unit.
-  // Access them only through `HoyolabCredential`, which owns their consistency.
+  // Access them only through `HoyolabGameServer`, which owns their consistency.
   static const hyvServer = NullableStringPrefKey("hyvServer");
   static const hyvServerName = NullableStringPrefKey("hyvServerName");
   static const hyvUserName = NullableStringPrefKey("hyvUserName");
