@@ -12,22 +12,22 @@ import "http_client.dart";
 
 part "hoyolab_api.g.dart";
 
-/// The API instances are only ever obtained from here, so that nothing has to
-/// assemble the credentials by hand.
-///
-/// Missing credentials are reported as a typed exception rather than as null,
-/// which keeps "unavailable" a single concept together with
-/// [HoyolabLinkDisabledException]. Consumers are expected to check
-/// [isHoyolabSignedInProvider] / [isLinkedWithHoyolabProvider] first; reaching
-/// an exception past those guards means the stored state is inconsistent, and
-/// is worth surfacing as an error.
-///
-/// The two asynchronous providers are kept alive on purpose. They read the
-/// cookie from the secure storage, which takes several event loop turns, and an
-/// auto-disposed provider that nobody listens to yet — `clear()` reads it
-/// through `ref.read` — would be torn down mid-load. Watching
-/// [isHoyolabSignedInProvider] and [hoyolabCredentialProvider] instead rebuilds
-/// them whenever the stored identity actually changes.
+// The API instances are only ever obtained from here, so that nothing has to
+// assemble the credentials by hand.
+//
+// Missing credentials are reported as a typed exception rather than as null,
+// which keeps "unavailable" a single concept together with
+// `HoyolabLinkDisabledException`. Consumers are expected to check
+// `isHoyolabSignedInProvider` / `isLinkedWithHoyolabProvider` first; reaching
+// an exception past those guards means the stored state is inconsistent, and is
+// worth surfacing as an error.
+//
+// The two asynchronous providers are kept alive on purpose. They read the
+// cookie from the secure storage, which takes several event loop turns, and an
+// auto-disposed provider that nobody listens to yet — `clear()` reads it
+// through `ref.read` — would be torn down mid-load. Watching
+// `isHoyolabSignedInProvider` and `hoyolabCredentialProvider` instead rebuilds
+// them whenever the stored identity actually changes.
 
 /// Riverpod retries a failed provider build on its own, which is right for a
 /// flaky read but wrong for a missing credential: nothing will appear until the
@@ -70,6 +70,8 @@ Future<HoyolabAccountApi> hoyolabAccountApi(Ref ref) async {
 Future<HoyolabGameApi> hoyolabGameApi(Ref ref) async {
   final enabled = _linkEnabled(ref);
   final client = ref.watch(httpClientProvider);
+  // See `hoyolabAccountApi`: the sign-in state is watched for its invalidation,
+  // the storage is still what answers.
   ref.watch(isHoyolabSignedInProvider);
   final credential = ref.watch(hoyolabCredentialProvider);
   final cookie = await getHoyolabCookie();
