@@ -14,7 +14,7 @@ import "../../data/services/hoyolab/hoyolab_exceptions.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
 import "../../providers/hoyolab_api.dart";
-import "../../providers/hoyolab_credential.dart";
+import "../../providers/hoyolab_game_server.dart";
 import "../../providers/miscellaneous.dart";
 import "../../providers/pref_notifier.dart";
 import "../../routes.dart";
@@ -35,7 +35,7 @@ class HoyolabIntegrationSettingsPage extends StatefulHookConsumerWidget {
 class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrationSettingsPage> {
   @override
   Widget build(BuildContext context) {
-    final cred = ref.watch(hoyolabCredentialProvider);
+    final cred = ref.watch(hoyolabGameServerProvider);
     final isLinked = ref.watch(isLinkedWithHoyolabProvider);
     final syncCharaState = ref.watch(prefProvider(PrefKeys.syncCharaState));
     final syncWeaponState = ref.watch(prefProvider(PrefKeys.syncWeaponState));
@@ -93,7 +93,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                   if (ref.context.mounted) {
                     showLoadingModal(context);
                     try {
-                      await ref.read(hoyolabCredentialProvider.notifier).clear();
+                      await ref.read(hoyolabGameServerProvider.notifier).clear();
                       isSignedIn.value = false;
                     } finally {
                       if (context.mounted) {
@@ -109,9 +109,9 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
             leading: const Icon(Symbols.dns),
             title: Text(tr.hoyolab.changeServer),
             subtitle: switch (cred) {
-              LinkedHoyolabCredential(:final serverName) =>
+              LinkedHoyolabGameServer(:final serverName) =>
                 Text(tr.hoyolab.current(server: serverName)),
-              UnlinkedHoyolabCredential() => Text(tr.hoyolab.noServerSelected),
+              UnlinkedHoyolabGameServer() => Text(tr.hoyolab.noServerSelected),
             },
             trailing: const Icon(Symbols.menu_open),
             onTap: _showServerSelectBottomSheet,
@@ -119,11 +119,11 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
 
           ListSubheader(tr.hoyolab.userInfo),
           switch (cred) {
-            LinkedHoyolabCredential(:final userName, :final uid) => ListTile(
+            LinkedHoyolabGameServer(:final userName, :final uid) => ListTile(
               title: Text(userName),
               subtitle: Text("UID: $uid"),
             ),
-            UnlinkedHoyolabCredential() => ListTile(
+            UnlinkedHoyolabGameServer() => ListTile(
               title: Text(tr.hoyolab.plsSelectServer, style: TextStyle(color: Theme.of(context).colorScheme.error)),
             ),
           },
@@ -198,7 +198,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
     showLoadingModal(context);
 
     try {
-      await ref.read(hoyolabCredentialProvider.notifier).signIn(cookie);
+      await ref.read(hoyolabGameServerProvider.notifier).signIn(cookie);
     } catch (e, st) {
       log("Failed to set hoyolab cookie", error: e, stackTrace: st);
       if (mounted) {
@@ -265,9 +265,9 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
     // set initial selected server
     useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, _) {
-      final cred = ref.read(hoyolabCredentialProvider);
+      final cred = ref.read(hoyolabGameServerProvider);
       final servers = serversSnapshot.data?.data?.list;
-      if (servers != null && cred is LinkedHoyolabCredential) {
+      if (servers != null && cred is LinkedHoyolabGameServer) {
         selectedServer.value = servers.firstWhereOrNull((e) => e.region == cred.server);
       }
     });
@@ -314,7 +314,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
               final server = selectedServer.value!;
               final gameRole = gameRoles.value[server]!;
-              await ref.read(hoyolabCredentialProvider.notifier)
+              await ref.read(hoyolabGameServerProvider.notifier)
                   .link(server: server, role: gameRole);
               if (context.mounted) Navigator.of(context).pop();
             } : null,

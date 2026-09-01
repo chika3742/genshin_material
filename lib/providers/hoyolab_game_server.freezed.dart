@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'hoyolab_credential.dart';
+part of 'hoyolab_game_server.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,7 +13,7 @@ part of 'hoyolab_credential.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$HoyolabCredentialState {
+mixin _$HoyolabGameServerState {
 
 
 
@@ -21,7 +21,7 @@ mixin _$HoyolabCredentialState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HoyolabCredentialState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HoyolabGameServerState);
 }
 
 
@@ -30,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'HoyolabCredentialState()';
+  return 'HoyolabGameServerState()';
 }
 
 
@@ -43,8 +43,8 @@ String toString() {
 /// @nodoc
 
 
-class UnlinkedHoyolabCredential extends HoyolabCredentialState {
-  const UnlinkedHoyolabCredential(): super._();
+class UnlinkedHoyolabGameServer extends HoyolabGameServerState {
+  const UnlinkedHoyolabGameServer(): super._();
   
 
 
@@ -54,7 +54,7 @@ class UnlinkedHoyolabCredential extends HoyolabCredentialState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnlinkedHoyolabCredential);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnlinkedHoyolabGameServer);
 }
 
 
@@ -63,7 +63,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'HoyolabCredentialState.unlinked()';
+  return 'HoyolabGameServerState.unlinked()';
 }
 
 
@@ -75,8 +75,8 @@ String toString() {
 /// @nodoc
 
 
-class LinkedHoyolabCredential extends HoyolabCredentialState {
-  const LinkedHoyolabCredential({required this.server, required this.serverName, required this.userName, required this.uid}): super._();
+class LinkedHoyolabGameServer extends HoyolabGameServerState {
+  const LinkedHoyolabGameServer({required this.server, required this.serverName, required this.userName, required this.uid}): super._();
   
 
 /// The region of the selected server, e.g. `os_asia`.
@@ -90,7 +90,7 @@ class LinkedHoyolabCredential extends HoyolabCredentialState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LinkedHoyolabCredential&&(identical(other.server, server) || other.server == server)&&(identical(other.serverName, serverName) || other.serverName == serverName)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.uid, uid) || other.uid == uid));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LinkedHoyolabGameServer&&(identical(other.server, server) || other.server == server)&&(identical(other.serverName, serverName) || other.serverName == serverName)&&(identical(other.userName, userName) || other.userName == userName)&&(identical(other.uid, uid) || other.uid == uid));
 }
 
 
@@ -99,7 +99,7 @@ int get hashCode => Object.hash(runtimeType,server,serverName,userName,uid);
 
 @override
 String toString() {
-  return 'HoyolabCredentialState.linked(server: $server, serverName: $serverName, userName: $userName, uid: $uid)';
+  return 'HoyolabGameServerState.linked(server: $server, serverName: $serverName, userName: $userName, uid: $uid)';
 }
 
 

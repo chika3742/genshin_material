@@ -7,15 +7,15 @@ import "../data/services/hoyolab/hoyolab_account_api.dart";
 import "../data/services/hoyolab/hoyolab_exceptions.dart";
 import "../data/services/hoyolab/hoyolab_game_api.dart";
 import "../data/services/hoyolab/hoyolab_public_api.dart";
-import "hoyolab_credential.dart";
+import "hoyolab_game_server.dart";
 import "http_client.dart";
 
 part "hoyolab_api.g.dart";
 
 // The API instances are only ever obtained from here, so that nothing has to
-// assemble the credentials by hand.
+// assemble the cookie and the game server by hand.
 //
-// Missing credentials are reported as a typed exception rather than as null,
+// A missing one is reported as a typed exception rather than as null,
 // which keeps "unavailable" a single concept together with
 // `HoyolabLinkDisabledException`. Consumers are expected to check
 // `isHoyolabSignedInProvider` / `isLinkedWithHoyolabProvider` first; reaching
@@ -26,14 +26,14 @@ part "hoyolab_api.g.dart";
 // cookie from the secure storage, which takes several event loop turns, and an
 // auto-disposed provider that nobody listens to yet — `clear()` reads it
 // through `ref.read` — would be torn down mid-load. Watching
-// `isHoyolabSignedInProvider` and `hoyolabCredentialProvider` instead rebuilds
+// `isHoyolabSignedInProvider` and `hoyolabGameServerProvider` instead rebuilds
 // them whenever the stored identity actually changes.
 
 /// Riverpod retries a failed provider build on its own, which is right for a
-/// flaky read but wrong for a missing credential: nothing will appear until the
+/// flaky read but wrong for an incomplete link: nothing will appear until the
 /// user signs in or picks a server, and each retry leaves the provider stuck in
 /// a loading state that consumers await forever.
-Duration? _retryUnlessCredentialIsMissing(int retryCount, Object error) {
+Duration? _retryUnlessLinkIsIncomplete(int retryCount, Object error) {
   if (error is HoyolabNotSignedInException ||
       error is HoyolabServerNotSelectedException) {
     return null;
@@ -52,7 +52,7 @@ HoyolabPublicApi hoyolabPublicApi(Ref ref) {
   );
 }
 
-@Riverpod(keepAlive: true, retry: _retryUnlessCredentialIsMissing)
+@Riverpod(keepAlive: true, retry: _retryUnlessLinkIsIncomplete)
 Future<HoyolabAccountApi> hoyolabAccountApi(Ref ref) async {
   final enabled = _linkEnabled(ref);
   final client = ref.watch(httpClientProvider);
@@ -66,26 +66,26 @@ Future<HoyolabAccountApi> hoyolabAccountApi(Ref ref) async {
   return HoyolabAccountApi(enabled: enabled, cookie: cookie, client: client);
 }
 
-@Riverpod(keepAlive: true, retry: _retryUnlessCredentialIsMissing)
+@Riverpod(keepAlive: true, retry: _retryUnlessLinkIsIncomplete)
 Future<HoyolabGameApi> hoyolabGameApi(Ref ref) async {
   final enabled = _linkEnabled(ref);
   final client = ref.watch(httpClientProvider);
   // See `hoyolabAccountApi`: the sign-in state is watched for its invalidation,
   // the storage is still what answers.
   ref.watch(isHoyolabSignedInProvider);
-  final credential = ref.watch(hoyolabCredentialProvider);
+  final gameServer = ref.watch(hoyolabGameServerProvider);
   final cookie = await getHoyolabCookie();
   if (cookie == null) {
     throw const HoyolabNotSignedInException();
   }
-  if (credential is! LinkedHoyolabCredential) {
+  if (gameServer is! LinkedHoyolabGameServer) {
     throw const HoyolabServerNotSelectedException();
   }
   return HoyolabGameApi(
     enabled: enabled,
     cookie: cookie,
     client: client,
-    region: credential.server,
-    uid: credential.uid,
+    region: gameServer.server,
+    uid: gameServer.uid,
   );
 }

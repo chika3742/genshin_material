@@ -5,7 +5,7 @@ const secureStorage = FlutterSecureStorage(
 );
 
 /// Persists [cookie]. Verifying it beforehand is the caller's job — see
-/// `HoyolabCredential.signIn`.
+/// `HoyolabGameServer.signIn`.
 Future<void> setHoyolabCookie(String cookie) async {
   await secureStorage.write(key: "hoyolab_cookie", value: cookie);
 }

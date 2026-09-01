@@ -5,7 +5,7 @@ import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_exceptions.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
 
-import "../../utils/hoyolab_credential.dart";
+import "../../utils/hoyolab_game_server.dart";
 import "../../utils/http_client.dart";
 import "../../utils/http_client.mocks.dart";
 import "../../utils/remote_config.dart";
@@ -50,7 +50,7 @@ void main() {
     return ProviderContainer.test(overrides: [
       overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, hoyolabLinkEnabled),
       overrideHttpClient(MockClient()),
-      ...overrideHoyolabCredentialPrefs(server: server, uid: uid),
+      ...overrideHoyolabGameServerPrefs(server: server, uid: uid),
     ]);
   }
 

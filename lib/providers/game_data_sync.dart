@@ -21,7 +21,7 @@ import "../models/weapon.dart";
 import "../utils/lists.dart";
 import "database_provider.dart";
 import "hoyolab_api.dart";
-import "hoyolab_credential.dart";
+import "hoyolab_game_server.dart";
 import "pref_notifier.dart";
 import "resin.dart";
 import "versions.dart";
@@ -75,7 +75,7 @@ class GameDataSyncCached extends _$GameDataSyncCached {
   @override
   Future<GameDataSyncResult?> build({ required String variantId, String? weaponId }) async {
     final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(hoyolabCredentialProvider).uidOrNull;
+    final uid = ref.watch(hoyolabGameServerProvider).uidOrNull;
     if (uid == null) return null; // uid is not set
 
     final syncState = weaponId == null

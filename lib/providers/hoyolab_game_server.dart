@@ -10,33 +10,34 @@ import "../models/hoyolab_api.dart";
 import "hoyolab_api.dart";
 import "pref_notifier.dart";
 
-part "hoyolab_credential.freezed.dart";
-part "hoyolab_credential.g.dart";
+part "hoyolab_game_server.freezed.dart";
+part "hoyolab_game_server.g.dart";
 
-/// The HoYoLAB account state that is persisted locally.
+/// The HoYoLAB game server the app is linked to, together with the game role
+/// played on it, as persisted locally.
 ///
 /// The four values are always written together, so they are modelled as a
 /// sealed type: a state where the server is known but the uid is not simply
 /// cannot be constructed.
 @freezed
-sealed class HoyolabCredentialState with _$HoyolabCredentialState {
-  const HoyolabCredentialState._();
+sealed class HoyolabGameServerState with _$HoyolabGameServerState {
+  const HoyolabGameServerState._();
 
   /// No server has been selected yet (the user may still be signed in).
-  const factory HoyolabCredentialState.unlinked() = UnlinkedHoyolabCredential;
+  const factory HoyolabGameServerState.unlinked() = UnlinkedHoyolabGameServer;
 
-  const factory HoyolabCredentialState.linked({
+  const factory HoyolabGameServerState.linked({
     /// The region of the selected server, e.g. `os_asia`.
     required String server,
     required String serverName,
     required String userName,
     required String uid,
-  }) = LinkedHoyolabCredential;
+  }) = LinkedHoyolabGameServer;
 
   /// Convenience accessor for the consumers that only need the uid.
   String? get uidOrNull => switch (this) {
-    LinkedHoyolabCredential(:final uid) => uid,
-    UnlinkedHoyolabCredential() => null,
+    LinkedHoyolabGameServer(:final uid) => uid,
+    UnlinkedHoyolabGameServer() => null,
   };
 }
 
@@ -48,9 +49,9 @@ sealed class HoyolabCredentialState with _$HoyolabCredentialState {
 /// [build] and afterwards emits exactly one update per mutation, instead of one
 /// per written key.
 @riverpod
-class HoyolabCredential extends _$HoyolabCredential {
+class HoyolabGameServer extends _$HoyolabGameServer {
   @override
-  HoyolabCredentialState build() {
+  HoyolabGameServerState build() {
     // Deliberately `read`, not `watch`: this notifier is the only writer, so
     // re-reading on every key write would only produce redundant rebuilds.
     final server = ref.read(prefProvider(PrefKeys.hyvServer));
@@ -59,9 +60,9 @@ class HoyolabCredential extends _$HoyolabCredential {
     final uid = ref.read(prefProvider(PrefKeys.hyvUid));
 
     if (server == null || serverName == null || userName == null || uid == null) {
-      return const HoyolabCredentialState.unlinked();
+      return const HoyolabGameServerState.unlinked();
     }
-    return HoyolabCredentialState.linked(
+    return HoyolabGameServerState.linked(
       server: server,
       serverName: serverName,
       userName: userName,
@@ -96,7 +97,7 @@ class HoyolabCredential extends _$HoyolabCredential {
       ref.read(prefProvider(PrefKeys.hyvUid).notifier).set(role.uid),
     ]);
 
-    state = HoyolabCredentialState.linked(
+    state = HoyolabGameServerState.linked(
       server: server.region,
       serverName: server.name,
       userName: role.nickname,
@@ -110,7 +111,7 @@ class HoyolabCredential extends _$HoyolabCredential {
         await (await ref.read(hoyolabAccountApiProvider.future)).logout();
       } on HoyolabLinkDisabledException {
         // Telling HoYoLAB about the sign-out is a courtesy; a link that was
-        // switched off remotely must not strand the local credentials.
+        // switched off remotely must not strand the local link state.
       }
     }
     await Future.wait([
@@ -121,14 +122,14 @@ class HoyolabCredential extends _$HoyolabCredential {
       ref.read(prefProvider(PrefKeys.hyvUid).notifier).set(null),
     ]);
 
-    state = const HoyolabCredentialState.unlinked();
+    state = const HoyolabGameServerState.unlinked();
     await ref.read(isHoyolabSignedInProvider.notifier).refresh();
   }
 }
 
 @riverpod
 bool isLinkedWithHoyolab(Ref ref) {
-  return ref.watch(hoyolabCredentialProvider) is LinkedHoyolabCredential &&
+  return ref.watch(hoyolabGameServerProvider) is LinkedHoyolabGameServer &&
       ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled));
 }
 

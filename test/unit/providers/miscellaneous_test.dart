@@ -9,13 +9,13 @@ import "package:genshin_material/database.dart";
 import "package:genshin_material/db/in_game_character_state_db_extension.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
-import "package:genshin_material/providers/hoyolab_credential.dart";
+import "package:genshin_material/providers/hoyolab_game_server.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
 import "../../utils/db.dart";
-import "../../utils/hoyolab_credential.dart";
+import "../../utils/hoyolab_game_server.dart";
 import "../../utils/http_client.mocks.dart";
 import "../../utils/provider_container.dart";
 
@@ -47,7 +47,7 @@ void main() {
     ProviderContainer createContainer({String? uid}) {
       return createTestContainer(
         db: db,
-        overrides: overrideHoyolabCredentialPrefs(uid: uid),
+        overrides: overrideHoyolabGameServerPrefs(uid: uid),
       );
     }
 
