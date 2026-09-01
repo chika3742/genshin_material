@@ -8,7 +8,7 @@ import "hoyolab_api_base.dart";
 /// [verifyLToken] takes the cookie as an argument instead of holding on to it,
 /// because it runs before the cookie is persisted.
 class HoyolabPublicApi extends HoyolabApiBase {
-  HoyolabPublicApi({required super.enabled, super.client});
+  HoyolabPublicApi({required super.enabled, required super.client});
 
   Future<LookupServersResult> lookupServers() async {
     ensureEnabled();

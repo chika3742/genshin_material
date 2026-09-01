@@ -2,14 +2,12 @@ import "dart:io";
 
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../core/hoyolab_api.dart";
-import "../core/secure_storage.dart";
 import "../db/in_game_character_state_db_extension.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "database_provider.dart";
+import "hoyolab_api.dart";
 import "hoyolab_credential.dart";
-import "http_client.dart";
 
 part "miscellaneous.g.dart";
 
@@ -17,12 +15,11 @@ part "miscellaneous.g.dart";
 class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
   @override
   Future<bool> build() async {
-    final cookie = await getHoyolabCookie();
-    if (cookie == null) {
+    if (!ref.watch(isHoyolabSignedInProvider)) {
       return false;
     }
 
-    final api = HoyolabApi(cookie: cookie, client: ref.read(httpClientProvider));
+    final api = await ref.watch(hoyolabAccountApiProvider.future);
     final result = await api.getGameRecordCards();
     return result.list
         .firstWhere((e) => e.gameType == GameType.genshin)
@@ -32,14 +29,10 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
   }
 
   Future<void> updateValue(bool value) async {
-    final cookie = await getHoyolabCookie();
-    if (cookie == null) {
-      throw StateError("cookie is null");
-    }
+    final api = await ref.read(hoyolabAccountApiProvider.future);
 
     state = const AsyncLoading();
-    await HoyolabApi(cookie: cookie, client: ref.read(httpClientProvider))
-        .changeDataSwitch(DataSwitchType.enableRealtimeNotes, value);
+    await api.changeDataSwitch(DataSwitchType.enableRealtimeNotes, value);
 
     state = AsyncData(value);
   }

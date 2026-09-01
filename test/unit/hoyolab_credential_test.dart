@@ -1,14 +1,16 @@
+import "dart:convert";
+
 import "package:flutter/services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:flutter_riverpod/misc.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/core/secure_storage.dart";
-import "package:genshin_material/data/services/remote_config_service.dart";
+import "package:genshin_material/data/services/hoyolab/hoyolab_exceptions.dart";
 import "package:genshin_material/models/hoyolab_api.dart";
 import "package:genshin_material/providers/hoyolab_credential.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
+import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
 import "../utils/hoyolab_credential.dart";
@@ -19,15 +21,22 @@ import "../utils/remote_config.dart";
 const _secureStorageChannel =
     MethodChannel("plugins.it_nomads.com/flutter_secure_storage");
 
+const _cookie = "ltoken_v2=token; ltuid_v2=123456;";
+
+String _okBody(Object? data) =>
+    jsonEncode({"retcode": 0, "message": "OK", "data": data});
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late Map<String, String> storage;
   late bool hoyolabLinkEnabled;
+  late MockClient client;
 
   setUp(() {
-    storage = {"hoyolab_cookie": "ltoken_v2=token; ltuid_v2=123456;"};
+    storage = {"hoyolab_cookie": _cookie};
     hoyolabLinkEnabled = false;
+    client = MockClient();
 
     // flutter_secure_storage has no plugin implementation in a unit test, so
     // its method channel is answered from an in-memory map.
@@ -53,18 +62,6 @@ void main() {
         .setMockMethodCallHandler(_secureStorageChannel, null);
   });
 
-  /// `clear()` still hands a `RemoteConfigService` to `HoyolabApi`, so the flag
-  /// has to be answered on the service as well as on the value provider.
-  List<Override> linkEnabled(bool enabled) {
-    final service = createRemoteConfigServiceMock();
-    when(service.get<bool>(RemoteConfigKeys.hoyolabLinkEnabled))
-        .thenReturn(enabled);
-    return [
-      overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, enabled),
-      remoteConfigServiceProvider.overrideWithValue(service),
-    ];
-  }
-
   ProviderContainer createContainer({
     String? server = "os_asia",
     String? serverName = "Asia",
@@ -72,8 +69,9 @@ void main() {
     String? uid = "800000000",
   }) {
     return ProviderContainer.test(overrides: [
-      ...linkEnabled(hoyolabLinkEnabled),
-      overrideHttpClient(MockClient()),
+      overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, hoyolabLinkEnabled),
+      // The APIs build on the mocked client, so nothing reaches the network.
+      overrideHttpClient(client),
       ...overrideHoyolabCredentialPrefs(
         server: server,
         serverName: serverName,
@@ -217,45 +215,108 @@ void main() {
     });
   });
 
-  group("clear", () {
-    // Pins the behaviour reported in the review of PR #485. `clear()` builds a
-    // `HoyolabApi` to call `logout()`, and that constructor throws when the
-    // remote flag is off. The throw happens before any local cleanup, so a user
-    // whose flag is turned off server-side while linked keeps their cookie and
-    // prefs forever, with no way to unlink from the UI.
-    test("leaves the cookie behind when the link is disabled by remote config",
-        () async {
-      hoyolabLinkEnabled = false;
+  group("signIn", () {
+    void stubVerifyLToken(String body) {
+      when(client.post(any, headers: anyNamed("headers")))
+          .thenAnswer((_) async => http.Response(body, 200));
+    }
+
+    test("stores the cookie once HoYoLAB accepted it", () async {
+      hoyolabLinkEnabled = true;
+      stubVerifyLToken(_okBody({"user_info": {"account_name": "tester"}}));
+      storage.clear();
       final container = createContainer();
 
-      await expectLater(
-        container.read(hoyolabCredentialProvider.notifier).clear(),
-        throwsStateError,
-      );
+      await container.read(hoyolabCredentialProvider.notifier).signIn(_cookie);
 
-      expect(
-        await getHoyolabCookie(),
-        isNotNull,
-        reason: "the cookie is never deleted because the constructor threw",
-      );
-      expect(await hasHoyolabCookie(), isTrue);
+      expect(await getHoyolabCookie(), _cookie);
     });
 
-    test("cannot be undone through the UI, which reads it as unlinked",
-        () async {
-      hoyolabLinkEnabled = false;
+    test("rejects a cookie HoYoLAB refused, without storing it", () async {
+      hoyolabLinkEnabled = true;
+      stubVerifyLToken(jsonEncode({"retcode": -100, "message": "Not logged in"}));
+      storage.clear();
       final container = createContainer();
 
       await expectLater(
-        container.read(hoyolabCredentialProvider.notifier).clear(),
-        throwsStateError,
+        container.read(hoyolabCredentialProvider.notifier).signIn(_cookie),
+        throwsA(isA<CredentialVerificationException>()),
       );
+      expect(await hasHoyolabCookie(), isFalse);
+    });
 
-      // The credentials are still stored, yet the app reports "not linked", so
-      // the unlink button the user would need is not shown.
-      expect(container.read(isLinkedWithHoyolabProvider), isFalse);
+    test("refuses to sign in while the link is disabled", () async {
+      hoyolabLinkEnabled = false;
+      storage.clear();
+      final container = createContainer();
+
+      await expectLater(
+        container.read(hoyolabCredentialProvider.notifier).signIn(_cookie),
+        throwsA(isA<HoyolabLinkDisabledException>()),
+      );
+      expect(await hasHoyolabCookie(), isFalse);
+      verifyZeroInteractions(client);
+    });
+  });
+
+  group("clear", () {
+    void stubLogout() {
+      when(client.post(any, headers: anyNamed("headers"), body: anyNamed("body")))
+          .thenAnswer((_) async => http.Response(_okBody(null), 200));
+    }
+
+    test("deletes the cookie", () async {
+      hoyolabLinkEnabled = true;
+      stubLogout();
+      final container = createContainer();
+
+      await container.read(hoyolabCredentialProvider.notifier).clear();
+
+      expect(await getHoyolabCookie(), isNull);
+      expect(await hasHoyolabCookie(), isFalse);
+    });
+
+    test("clears every stored credential", () async {
+      hoyolabLinkEnabled = true;
+      stubLogout();
+      final container = createContainer();
+
+      await container.read(hoyolabCredentialProvider.notifier).clear();
+
       expect(container.read(hoyolabCredentialProvider),
-          isA<LinkedHoyolabCredential>());
+          isA<UnlinkedHoyolabCredential>());
+      expect(container.read(prefProvider(PrefKeys.hyvServer)), isNull);
+      expect(container.read(prefProvider(PrefKeys.hyvServerName)), isNull);
+      expect(container.read(prefProvider(PrefKeys.hyvUserName)), isNull);
+      expect(container.read(prefProvider(PrefKeys.hyvUid)), isNull);
+    });
+
+    // Regression for the defect reported in the review of PR #485: unlinking
+    // used to throw before any local cleanup when the remote flag was off, so a
+    // user whose flag was turned off server-side kept their cookie and prefs
+    // forever, with no way to unlink from the UI.
+    test("unlinks even when the link is disabled by remote config", () async {
+      hoyolabLinkEnabled = false;
+      final container = createContainer();
+
+      await container.read(hoyolabCredentialProvider.notifier).clear();
+
+      expect(await hasHoyolabCookie(), isFalse);
+      expect(container.read(hoyolabCredentialProvider),
+          isA<UnlinkedHoyolabCredential>());
+      expect(container.read(isLinkedWithHoyolabProvider), isFalse);
+    });
+
+    test("skips the logout call when no cookie is stored", () async {
+      hoyolabLinkEnabled = true;
+      storage.clear();
+      final container = createContainer();
+
+      await container.read(hoyolabCredentialProvider.notifier).clear();
+
+      verifyZeroInteractions(client);
+      expect(container.read(hoyolabCredentialProvider),
+          isA<UnlinkedHoyolabCredential>());
     });
   });
 }

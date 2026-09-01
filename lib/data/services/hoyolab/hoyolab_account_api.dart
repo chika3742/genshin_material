@@ -12,7 +12,7 @@ class HoyolabAccountApi extends HoyolabAuthenticatedApi {
   HoyolabAccountApi({
     required super.enabled,
     required super.cookie,
-    super.client,
+    required super.client,
   });
 
   Future<void> logout() async {
