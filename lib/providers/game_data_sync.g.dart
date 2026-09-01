@@ -51,7 +51,7 @@ final class GameDataSyncCachedProvider
 }
 
 String _$gameDataSyncCachedHash() =>
-    r'7a0d88c2d7aa3c43377d31d4d1b95960f7bf191b';
+    r'5c60d949754970b65a95a067c45e32d6db53d0db';
 
 final class GameDataSyncCachedFamily extends $Family
     with

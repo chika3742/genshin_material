@@ -108,20 +108,25 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
           ListTile(
             leading: const Icon(Symbols.dns),
             title: Text(tr.hoyolab.changeServer),
-            subtitle: cred.hyvServer == null || cred.hyvServerName == null
-                ? Text(tr.hoyolab.noServerSelected)
-                : Text(tr.hoyolab.current(server: cred.hyvServerName!)),
+            subtitle: switch (cred) {
+              LinkedHoyolabCredential(:final serverName) =>
+                Text(tr.hoyolab.current(server: serverName)),
+              UnlinkedHoyolabCredential() => Text(tr.hoyolab.noServerSelected),
+            },
             trailing: const Icon(Symbols.menu_open),
             onTap: _showServerSelectBottomSheet,
           ),
 
           ListSubheader(tr.hoyolab.userInfo),
-          if (cred.hyvServer != null && cred.hyvUserName != null && cred.hyvUid != null) ListTile(
-            title: Text(cred.hyvUserName!),
-            subtitle: Text("UID: ${cred.hyvUid!}"),
-          ) else ListTile(
-            title: Text(tr.hoyolab.plsSelectServer, style: TextStyle(color: Theme.of(context).colorScheme.error)),
-          ),
+          switch (cred) {
+            LinkedHoyolabCredential(:final userName, :final uid) => ListTile(
+              title: Text(userName),
+              subtitle: Text("UID: $uid"),
+            ),
+            UnlinkedHoyolabCredential() => ListTile(
+              title: Text(tr.hoyolab.plsSelectServer, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+            ),
+          },
 
           ListSubheader(tr.hoyolab.syncSettings),
           SwitchListTile(
@@ -193,7 +198,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
     showLoadingModal(context);
 
     try {
-      await setHoyolabCookie(cookie, client: ref.read(httpClientProvider));
+      await ref.read(hoyolabCredentialProvider.notifier).signIn(cookie);
     } catch (e, st) {
       log("Failed to set hoyolab cookie", error: e, stackTrace: st);
       if (mounted) {
@@ -201,8 +206,6 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
         showSnackBar(context: context, message: getErrorMessage(e, prefix: tr.hoyolab.failedToSignIn), error: true);
       }
       return;
-    } finally {
-      await ref.read(isHoyolabSignedInProvider.notifier).refresh();
     }
 
     bool? isRealtimeNotesEnabled;
@@ -262,10 +265,10 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
     // set initial selected server
     useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, _) {
-      final hyvServer = ref.read(prefProvider(PrefKeys.hyvServer));
+      final cred = ref.read(hoyolabCredentialProvider);
       final servers = serversSnapshot.data?.data?.list;
-      if (servers != null) {
-        selectedServer.value = servers.firstWhereOrNull((e) => e.region == hyvServer);
+      if (servers != null && cred is LinkedHoyolabCredential) {
+        selectedServer.value = servers.firstWhereOrNull((e) => e.region == cred.server);
       }
     });
 
@@ -315,9 +318,8 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
 
               final server = selectedServer.value!;
               final gameRole = gameRoles.value[server]!;
-              final notifier = ref.read(hoyolabCredentialProvider.notifier);
-              await notifier.setServer(server, gameRole.nickname);
-              await notifier.setUid(gameRole.uid);
+              await ref.read(hoyolabCredentialProvider.notifier)
+                  .link(server: server, role: gameRole);
               if (context.mounted) Navigator.of(context).pop();
             } : null,
           ),

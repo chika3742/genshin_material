@@ -8,12 +8,33 @@ part of 'hoyolab_credential.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// The single read/write path for the HoYoLAB server and user identity.
+///
+/// The preferences behind it are a persistence backend only; nothing outside
+/// this notifier is allowed to touch [PrefKeys.hyvServer] and friends. That is
+/// what lets the notifier own the state: it reads the preferences once in
+/// [build] and afterwards emits exactly one update per mutation, instead of one
+/// per written key.
 
 @ProviderFor(HoyolabCredential)
 final hoyolabCredentialProvider = HoyolabCredentialProvider._();
 
+/// The single read/write path for the HoYoLAB server and user identity.
+///
+/// The preferences behind it are a persistence backend only; nothing outside
+/// this notifier is allowed to touch [PrefKeys.hyvServer] and friends. That is
+/// what lets the notifier own the state: it reads the preferences once in
+/// [build] and afterwards emits exactly one update per mutation, instead of one
+/// per written key.
 final class HoyolabCredentialProvider
-    extends $NotifierProvider<HoyolabCredential, HoyolabCredentialSnapshot> {
+    extends $NotifierProvider<HoyolabCredential, HoyolabCredentialState> {
+  /// The single read/write path for the HoYoLAB server and user identity.
+  ///
+  /// The preferences behind it are a persistence backend only; nothing outside
+  /// this notifier is allowed to touch [PrefKeys.hyvServer] and friends. That is
+  /// what lets the notifier own the state: it reads the preferences once in
+  /// [build] and afterwards emits exactly one update per mutation, instead of one
+  /// per written key.
   HoyolabCredentialProvider._()
     : super(
         from: null,
@@ -33,29 +54,36 @@ final class HoyolabCredentialProvider
   HoyolabCredential create() => HoyolabCredential();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(HoyolabCredentialSnapshot value) {
+  Override overrideWithValue(HoyolabCredentialState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<HoyolabCredentialSnapshot>(value),
+      providerOverride: $SyncValueProvider<HoyolabCredentialState>(value),
     );
   }
 }
 
-String _$hoyolabCredentialHash() => r'98020f8b552d60d4c1e170bcfaaa4c5c83d6049f';
+String _$hoyolabCredentialHash() => r'12ca970567592906bba7013562103f00cf4de809';
 
-abstract class _$HoyolabCredential
-    extends $Notifier<HoyolabCredentialSnapshot> {
-  HoyolabCredentialSnapshot build();
+/// The single read/write path for the HoYoLAB server and user identity.
+///
+/// The preferences behind it are a persistence backend only; nothing outside
+/// this notifier is allowed to touch [PrefKeys.hyvServer] and friends. That is
+/// what lets the notifier own the state: it reads the preferences once in
+/// [build] and afterwards emits exactly one update per mutation, instead of one
+/// per written key.
+
+abstract class _$HoyolabCredential extends $Notifier<HoyolabCredentialState> {
+  HoyolabCredentialState build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
     final ref =
-        this.ref as $Ref<HoyolabCredentialSnapshot, HoyolabCredentialSnapshot>;
+        this.ref as $Ref<HoyolabCredentialState, HoyolabCredentialState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<HoyolabCredentialSnapshot, HoyolabCredentialSnapshot>,
-              HoyolabCredentialSnapshot,
+              AnyNotifier<HoyolabCredentialState, HoyolabCredentialState>,
+              HoyolabCredentialState,
               Object?,
               Object?
             >;
@@ -103,7 +131,7 @@ final class IsLinkedWithHoyolabProvider
 }
 
 String _$isLinkedWithHoyolabHash() =>
-    r'99bdf3e2c5b3a1702d6bc1ad7a49ef4a4e5e9721';
+    r'72219bca9d5efd00da094bead8d3e31207c62e1b';
 
 @ProviderFor(isHoyolabSignedInInitial)
 final isHoyolabSignedInInitialProvider = IsHoyolabSignedInInitialProvider._();

@@ -28,6 +28,7 @@ import "../../../models/level_range_values.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
+import "../../../providers/hoyolab_credential.dart";
 import "../../../providers/pref_notifier.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
@@ -57,7 +58,7 @@ class CharacterDetailsPage extends HookConsumerWidget {
     } as CharacterWithLargeImage;
 
     final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
+    final uid = ref.watch(hoyolabCredentialProvider).uidOrNull;
     final syncCharaState = ref.watch(prefProvider(PrefKeys.syncCharaState));
 
     final csResult = useMemoized(() => uid != null

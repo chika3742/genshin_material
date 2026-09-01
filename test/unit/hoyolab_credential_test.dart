@@ -6,12 +6,14 @@ import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/core/secure_storage.dart";
 import "package:genshin_material/data/services/remote_config_service.dart";
+import "package:genshin_material/models/hoyolab_api.dart";
 import "package:genshin_material/providers/hoyolab_credential.dart";
+import "package:genshin_material/providers/pref_notifier.dart";
 import "package:mockito/mockito.dart";
 
+import "../utils/hoyolab_credential.dart";
 import "../utils/http_client.dart";
 import "../utils/http_client.mocks.dart";
-import "../utils/in_memory_pref.dart";
 import "../utils/remote_config.dart";
 
 const _secureStorageChannel =
@@ -21,9 +23,11 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late Map<String, String> storage;
+  late bool hoyolabLinkEnabled;
 
   setUp(() {
     storage = {"hoyolab_cookie": "ltoken_v2=token; ltuid_v2=123456;"};
+    hoyolabLinkEnabled = false;
 
     // flutter_secure_storage has no plugin implementation in a unit test, so
     // its method channel is answered from an in-memory map.
@@ -61,42 +65,155 @@ void main() {
     ];
   }
 
-  ProviderContainer createContainer({bool hoyolabLinkEnabled = false}) {
+  ProviderContainer createContainer({
+    String? server = "os_asia",
+    String? serverName = "Asia",
+    String? userName = "tester",
+    String? uid = "800000000",
+  }) {
     return ProviderContainer.test(overrides: [
       ...linkEnabled(hoyolabLinkEnabled),
       overrideHttpClient(MockClient()),
-      overridePref(PrefKeys.hyvServer, "os_asia"),
-      overridePref(PrefKeys.hyvServerName, "Asia"),
-      overridePref(PrefKeys.hyvUserName, "tester"),
-      overridePref(PrefKeys.hyvUid, "800000000"),
+      ...overrideHoyolabCredentialPrefs(
+        server: server,
+        serverName: serverName,
+        userName: userName,
+        uid: uid,
+      ),
       isHoyolabSignedInInitialProvider.overrideWithValue(true),
     ]);
   }
 
-  group("isLinkedWithHoyolab", () {
-    test("is true when every credential is stored and the link is enabled", () {
+  group("build", () {
+    test("reports a linked state when every credential is stored", () {
+      hoyolabLinkEnabled = true;
+
+      final credential = createContainer().read(hoyolabCredentialProvider);
+
       expect(
-        createContainer(hoyolabLinkEnabled: true)
-            .read(isLinkedWithHoyolabProvider),
-        isTrue,
+        credential,
+        const HoyolabCredentialState.linked(
+          server: "os_asia",
+          serverName: "Asia",
+          userName: "tester",
+          uid: "800000000",
+        ),
       );
     });
 
+    test("reports an unlinked state when one of the credentials is missing",
+        () {
+      hoyolabLinkEnabled = true;
+
+      final credential =
+          createContainer(uid: null).read(hoyolabCredentialProvider);
+
+      expect(credential, isA<UnlinkedHoyolabCredential>());
+    });
+
+    test("exposes the uid through uidOrNull only when linked", () {
+      hoyolabLinkEnabled = true;
+
+      expect(
+        createContainer().read(hoyolabCredentialProvider).uidOrNull,
+        "800000000",
+      );
+      expect(
+        createContainer(uid: null).read(hoyolabCredentialProvider).uidOrNull,
+        isNull,
+      );
+    });
+  });
+
+  group("isLinkedWithHoyolab", () {
+    test("is true when every credential is stored and the link is enabled", () {
+      hoyolabLinkEnabled = true;
+
+      expect(createContainer().read(isLinkedWithHoyolabProvider), isTrue);
+    });
+
     test("is false when the link is disabled by remote config", () {
+      hoyolabLinkEnabled = false;
+
       expect(createContainer().read(isLinkedWithHoyolabProvider), isFalse);
     });
 
     test("is false when one of the credentials is missing", () {
-      final container = ProviderContainer.test(overrides: [
-        ...linkEnabled(true),
-        overrideHttpClient(MockClient()),
-        overridePref(PrefKeys.hyvServer, "os_asia"),
-        overridePref(PrefKeys.hyvServerName, "Asia"),
-        overridePref(PrefKeys.hyvUserName, "tester"),
-        overridePref(PrefKeys.hyvUid, null),
-      ]);
+      hoyolabLinkEnabled = true;
 
-      expect(container.read(isLinkedWithHoyolabProvider), isFalse);
+      expect(
+        createContainer(uid: null).read(isLinkedWithHoyolabProvider),
+        isFalse,
+      );
+    });
+  });
+
+  group("link", () {
+    const server = HyvServer(region: "os_euro", name: "Europe");
+    const role = HyvUserGameRole(uid: "900000000", nickname: "traveler", level: 60);
+
+    test("writes every credential key", () async {
+      hoyolabLinkEnabled = true;
+      final container = createContainer(
+        server: null,
+        serverName: null,
+        userName: null,
+        uid: null,
+      );
+
+      await container
+          .read(hoyolabCredentialProvider.notifier)
+          .link(server: server, role: role);
+
+      expect(container.read(prefProvider(PrefKeys.hyvServer)), "os_euro");
+      expect(container.read(prefProvider(PrefKeys.hyvServerName)), "Europe");
+      expect(container.read(prefProvider(PrefKeys.hyvUserName)), "traveler");
+      expect(container.read(prefProvider(PrefKeys.hyvUid)), "900000000");
+    });
+
+    test("moves the state to linked", () async {
+      hoyolabLinkEnabled = true;
+      final container = createContainer(
+        server: null,
+        serverName: null,
+        userName: null,
+        uid: null,
+      );
+
+      await container
+          .read(hoyolabCredentialProvider.notifier)
+          .link(server: server, role: role);
+
+      expect(
+        container.read(hoyolabCredentialProvider),
+        const HoyolabCredentialState.linked(
+          server: "os_euro",
+          serverName: "Europe",
+          userName: "traveler",
+          uid: "900000000",
+        ),
+      );
+    });
+
+    // The whole point of routing the four keys through this notifier: writing
+    // them one by one used to rebuild the listeners once per key, and exposed
+    // an identity whose uid and server disagreed in between.
+    test("notifies the listeners exactly once", () async {
+      hoyolabLinkEnabled = true;
+      final container = createContainer();
+      final states = <HoyolabCredentialState>[];
+      container.listen(
+        hoyolabCredentialProvider,
+        (_, next) => states.add(next),
+        fireImmediately: false,
+      );
+
+      await container
+          .read(hoyolabCredentialProvider.notifier)
+          .link(server: server, role: role);
+
+      expect(states, hasLength(1));
+      expect(states.single, isA<LinkedHoyolabCredential>());
     });
   });
 
@@ -108,10 +225,13 @@ void main() {
     // prefs forever, with no way to unlink from the UI.
     test("leaves the cookie behind when the link is disabled by remote config",
         () async {
+      hoyolabLinkEnabled = false;
       final container = createContainer();
-      final notifier = container.read(hoyolabCredentialProvider.notifier);
 
-      await expectLater(notifier.clear(), throwsStateError);
+      await expectLater(
+        container.read(hoyolabCredentialProvider.notifier).clear(),
+        throwsStateError,
+      );
 
       expect(
         await getHoyolabCookie(),
@@ -121,22 +241,9 @@ void main() {
       expect(await hasHoyolabCookie(), isTrue);
     });
 
-    test("leaves the stored credentials behind when the link is disabled",
-        () async {
-      final container = createContainer();
-      final notifier = container.read(hoyolabCredentialProvider.notifier);
-
-      await expectLater(notifier.clear(), throwsStateError);
-
-      final credential = container.read(hoyolabCredentialProvider);
-      expect(credential.hyvServer, "os_asia");
-      expect(credential.hyvServerName, "Asia");
-      expect(credential.hyvUserName, "tester");
-      expect(credential.hyvUid, "800000000");
-    });
-
     test("cannot be undone through the UI, which reads it as unlinked",
         () async {
+      hoyolabLinkEnabled = false;
       final container = createContainer();
 
       await expectLater(
@@ -147,7 +254,8 @@ void main() {
       // The credentials are still stored, yet the app reports "not linked", so
       // the unlink button the user would need is not shown.
       expect(container.read(isLinkedWithHoyolabProvider), isFalse);
-      expect(container.read(hoyolabCredentialProvider).hyvUid, isNotNull);
+      expect(container.read(hoyolabCredentialProvider),
+          isA<LinkedHoyolabCredential>());
     });
   });
 }
