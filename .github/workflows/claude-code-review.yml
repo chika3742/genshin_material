@@ -1,14 +1,17 @@
 name: Code Review with Claude
 on:
+  issue_comment:
+    types:
+      - created
   pull_request:
     types:
       - opened
       - ready_for_review
-      - synchronize
 
 jobs:
   claude:
-    if: github.event.pull_request.author_association == 'OWNER' && !github.event.pull_request.draft
+    if: (github.event_name == 'pull_request' && github.event.pull_request.author_association == 'OWNER' && !github.event.pull_request.draft) ||
+        (github.event_name != 'issue_comment' || github.event.issue.pull_request && startsWith(github.event.comment.body, '/review') && github.event.comment.author_association == 'OWNER')
     runs-on: ubuntu-latest
     permissions:
       contents: read
