@@ -1,8 +1,8 @@
 import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter_riverpod/misc.dart";
-import "package:genshin_material/data/repositories/remote_config_repository.dart";
 import "package:genshin_material/data/services/remote_config_service.dart";
 import "package:genshin_material/models/remote_config_key.dart";
+import "package:genshin_material/providers/remote_config.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 

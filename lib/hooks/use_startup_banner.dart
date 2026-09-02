@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 
 import "../i18n/strings.g.dart";
-import "../providers/banner_notifier.dart";
+import "../models/banner_data.dart";
 
 void useStartupBanner(BannerData? banner, {
   required void Function(String url) launchUrlString,

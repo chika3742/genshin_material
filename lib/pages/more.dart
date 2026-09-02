@@ -1,7 +1,7 @@
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
-import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_svg/flutter_svg.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 import "package:url_launcher/url_launcher_string.dart";
 
@@ -13,11 +13,11 @@ import "../../../routes.dart";
 import "../../../ui_core/custom_tabs.dart";
 import "../core/errors.dart";
 import "../core/remote_config_keys.dart";
-import "../data/repositories/remote_config_repository.dart";
 import "../data/services/launch_url.dart" hide launchUrlString;
-import "../providers/banner_notifier.dart";
+import "../hooks/use_banner.dart";
+import "../providers/remote_config.dart";
 
-class MorePage extends ConsumerStatefulWidget {
+class MorePage extends StatefulHookConsumerWidget {
   const MorePage({super.key});
 
   @override
@@ -32,7 +32,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
     final hoyolabLinkEnabled = ref.watch(
       remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
     );
-    final banner = ref.watch(bannerProvider);
+    final banner = useBanner(ref).banner;
 
     return Scaffold(
       appBar: AppBar(

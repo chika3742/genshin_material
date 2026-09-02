@@ -9,12 +9,12 @@ import "../../components/game_data_sync_indicator.dart";
 import "../../components/list_subheader.dart";
 import "../../core/pref_keys.dart";
 import "../../core/remote_config_keys.dart";
-import "../../data/repositories/remote_config_repository.dart";
 import "../../hooks/use_periodic_timer.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/game_data_sync.dart";
 import "../../providers/hoyolab_credential.dart";
 import "../../providers/pref_notifier.dart";
+import "../../providers/remote_config.dart";
 import "../../providers/resin.dart";
 import "../../utils/resin_calculator.dart";
 

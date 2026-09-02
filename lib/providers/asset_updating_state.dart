@@ -7,8 +7,8 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/asset_updater.dart";
 import "../core/remote_config_keys.dart";
-import "../data/repositories/remote_config_repository.dart";
 import "http_client.dart";
+import "remote_config.dart";
 import "versions.dart";
 
 part "asset_updating_state.freezed.dart";

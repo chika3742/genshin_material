@@ -4,11 +4,11 @@ import "../core/hoyolab_api.dart";
 import "../core/pref_keys.dart";
 import "../core/remote_config_keys.dart";
 import "../core/secure_storage.dart";
-import "../data/repositories/remote_config_repository.dart";
 import "../data/services/remote_config_service.dart";
 import "../models/hoyolab_api.dart";
 import "http_client.dart";
 import "pref_notifier.dart";
+import "remote_config.dart";
 
 part "hoyolab_credential.g.dart";
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'remote_config_repository.dart';
+part of 'remote_config.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -21,6 +21,11 @@ part of 'remote_config_repository.dart';
 ///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
 /// );
 /// ```
+///
+/// `useRemoteConfigListener` invalidates the whole family when the server
+/// pushes an update, so a consumer that wants a value to stay put for the
+/// session has to say so itself — `use_startup_banner.dart` does that with an
+/// empty dependency array.
 
 @ProviderFor(remoteConfig)
 final remoteConfigProvider = RemoteConfigFamily._();
@@ -38,6 +43,11 @@ final remoteConfigProvider = RemoteConfigFamily._();
 ///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
 /// );
 /// ```
+///
+/// `useRemoteConfigListener` invalidates the whole family when the server
+/// pushes an update, so a consumer that wants a value to stay put for the
+/// session has to say so itself — `use_startup_banner.dart` does that with an
+/// empty dependency array.
 
 final class RemoteConfigProvider<T extends Object>
     extends $FunctionalProvider<T, T, T>
@@ -55,6 +65,11 @@ final class RemoteConfigProvider<T extends Object>
   ///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
   /// );
   /// ```
+  ///
+  /// `useRemoteConfigListener` invalidates the whole family when the server
+  /// pushes an update, so a consumer that wants a value to stay put for the
+  /// session has to say so itself — `use_startup_banner.dart` does that with an
+  /// empty dependency array.
   RemoteConfigProvider._({
     required RemoteConfigFamily super.from,
     required RemoteConfigKey<T> super.argument,
@@ -127,6 +142,11 @@ String _$remoteConfigHash() => r'10b8a90a403de77f110fa67eac63ae497045c7d1';
 ///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
 /// );
 /// ```
+///
+/// `useRemoteConfigListener` invalidates the whole family when the server
+/// pushes an update, so a consumer that wants a value to stay put for the
+/// session has to say so itself — `use_startup_banner.dart` does that with an
+/// empty dependency array.
 
 final class RemoteConfigFamily extends $Family {
   RemoteConfigFamily._()
@@ -151,6 +171,11 @@ final class RemoteConfigFamily extends $Family {
   ///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
   /// );
   /// ```
+  ///
+  /// `useRemoteConfigListener` invalidates the whole family when the server
+  /// pushes an update, so a consumer that wants a value to stay put for the
+  /// session has to say so itself — `use_startup_banner.dart` does that with an
+  /// empty dependency array.
 
   RemoteConfigProvider<T> call<T extends Object>(RemoteConfigKey<T> key) =>
       RemoteConfigProvider<T>._(argument: key, from: this);
@@ -175,70 +200,3 @@ final class RemoteConfigFamily extends $Family {
     },
   );
 }
-
-/// Keeps every Remote Config value in sync with what the server pushes.
-///
-/// The whole family is invalidated, so a consumer that wants a value to stay
-/// put for the session has to say so itself — `use_startup_banner.dart` does
-/// that with an empty dependency array.
-
-@ProviderFor(remoteConfigUpdateListener)
-final remoteConfigUpdateListenerProvider =
-    RemoteConfigUpdateListenerProvider._();
-
-/// Keeps every Remote Config value in sync with what the server pushes.
-///
-/// The whole family is invalidated, so a consumer that wants a value to stay
-/// put for the session has to say so itself — `use_startup_banner.dart` does
-/// that with an empty dependency array.
-
-final class RemoteConfigUpdateListenerProvider
-    extends
-        $FunctionalProvider<
-          StreamSubscription<RemoteConfigUpdate>,
-          StreamSubscription<RemoteConfigUpdate>,
-          StreamSubscription<RemoteConfigUpdate>
-        >
-    with $Provider<StreamSubscription<RemoteConfigUpdate>> {
-  /// Keeps every Remote Config value in sync with what the server pushes.
-  ///
-  /// The whole family is invalidated, so a consumer that wants a value to stay
-  /// put for the session has to say so itself — `use_startup_banner.dart` does
-  /// that with an empty dependency array.
-  RemoteConfigUpdateListenerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'remoteConfigUpdateListenerProvider',
-        isAutoDispose: false,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$remoteConfigUpdateListenerHash();
-
-  @$internal
-  @override
-  $ProviderElement<StreamSubscription<RemoteConfigUpdate>> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
-
-  @override
-  StreamSubscription<RemoteConfigUpdate> create(Ref ref) {
-    return remoteConfigUpdateListener(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(StreamSubscription<RemoteConfigUpdate> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride:
-          $SyncValueProvider<StreamSubscription<RemoteConfigUpdate>>(value),
-    );
-  }
-}
-
-String _$remoteConfigUpdateListenerHash() =>
-    r'19d2fd9ed566f4d7ef718fd7417e547e77e84779';
