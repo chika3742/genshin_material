@@ -19,7 +19,7 @@ import "core/theme.dart";
 // import "firebase_options.dart";
 import "data/repositories/remote_config_repository.dart";
 import "data/services/local_notification.dart";
-import "hooks/use_remote_config_listener.dart";
+import "data/services/remote_config_service.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
 import "providers/hoyolab_credential.dart";
@@ -70,8 +70,8 @@ void main() async {
   };
 
   final remoteConfig = FirebaseRemoteConfig.instance;
-  final remoteConfigRepo = RemoteConfigRepository(remoteConfig);
-  await remoteConfigRepo.initialize();
+  final remoteConfigService = RemoteConfigService(remoteConfig);
+  await remoteConfigService.initialize();
 
   final localNotification = LocalNotification(FlutterLocalNotificationsPlugin());
   await localNotification.initialize();
@@ -81,7 +81,7 @@ void main() async {
       observers: [ProviderErrorObserver()],
       overrides: [
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
-        remoteConfigProvider.overrideWithValue(remoteConfigRepo),
+        remoteConfigServiceProvider.overrideWithValue(remoteConfigService),
         localNotificationProvider.overrideWithValue(localNotification),
         isHoyolabSignedInInitialProvider.overrideWithValue(hoyolabSignedIn),
       ],
@@ -109,7 +109,7 @@ class MyApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(assetDataProvider);
     ref.watch(appDatabaseProvider);
-    useRemoteConfigListener(ref);
+    ref.watch(remoteConfigUpdateListenerProvider);
 
     const appTitle = "Genshin Material";
 

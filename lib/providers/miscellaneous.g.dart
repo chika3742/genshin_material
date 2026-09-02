@@ -35,7 +35,7 @@ final class RealtimeNotesActivationStateProvider
 }
 
 String _$realtimeNotesActivationStateHash() =>
-    r'fe12c5df9dc88c1d710f025dc1a52f71e5e1d5af';
+    r'b17fc5c911c36b0f64d48a2425b294f5a1b19229';
 
 abstract class _$RealtimeNotesActivationState extends $AsyncNotifier<bool> {
   FutureOr<bool> build();

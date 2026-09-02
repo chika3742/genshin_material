@@ -127,7 +127,7 @@ class CharacterListPage extends HookConsumerWidget {
 
               Icon(Symbols.filter_alt),
 
-              if (ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled))
+              if (ref.watch(remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
                 FilterChipWithMenu( // possession
                   selected: filterState.possessionStatus != null,
                   label: Text(tr.common.possession),
@@ -236,7 +236,7 @@ class CharacterFilterBottomSheet extends ConsumerWidget {
       builder: (context, assetData) {
         return FilterBottomSheet(
           categories: [
-            if (ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled))
+            if (ref.watch(remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
               ...[
                 FilteringCategory(
                   labelText: tr.common.possession,

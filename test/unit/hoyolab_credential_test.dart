@@ -3,12 +3,12 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/core/secure_storage.dart";
-import "package:genshin_material/data/repositories/remote_config_repository.dart";
 import "package:genshin_material/providers/hoyolab_credential.dart";
 
+import "../utils/http_client.dart";
+import "../utils/http_client.mocks.dart";
 import "../utils/in_memory_pref.dart";
-import "../utils/stub_remote_config.dart";
-import "../utils/stub_remote_config.mocks.dart";
+import "../utils/remote_config.dart";
 
 const _secureStorageChannel =
     MethodChannel("plugins.it_nomads.com/flutter_secure_storage");
@@ -17,11 +17,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late Map<String, String> storage;
-  late MockRemoteConfigRepository remoteConfig;
 
   setUp(() {
     storage = {"hoyolab_cookie": "ltoken_v2=token; ltuid_v2=123456;"};
-    remoteConfig = MockRemoteConfigRepository();
 
     // flutter_secure_storage has no plugin implementation in a unit test, so
     // its method channel is answered from an in-memory map.
@@ -47,9 +45,10 @@ void main() {
         .setMockMethodCallHandler(_secureStorageChannel, null);
   });
 
-  ProviderContainer createContainer() {
+  ProviderContainer createContainer({bool hoyolabLinkEnabled = false}) {
     return ProviderContainer.test(overrides: [
-      remoteConfigProvider.overrideWithValue(remoteConfig),
+      ...overrideRemoteConfigs(hoyolabLinkEnabled: hoyolabLinkEnabled),
+      overrideHttpClient(MockClient()),
       overridePref(PrefKeys.hyvServer, "os_asia"),
       overridePref(PrefKeys.hyvServerName, "Asia"),
       overridePref(PrefKeys.hyvUserName, "tester"),
@@ -60,21 +59,21 @@ void main() {
 
   group("isLinkedWithHoyolab", () {
     test("is true when every credential is stored and the link is enabled", () {
-      stubRemoteConfig(remoteConfig, hoyolabLinkEnabled: true);
-
-      expect(createContainer().read(isLinkedWithHoyolabProvider), isTrue);
+      expect(
+        createContainer(hoyolabLinkEnabled: true)
+            .read(isLinkedWithHoyolabProvider),
+        isTrue,
+      );
     });
 
     test("is false when the link is disabled by remote config", () {
-      stubRemoteConfig(remoteConfig);
-
       expect(createContainer().read(isLinkedWithHoyolabProvider), isFalse);
     });
 
     test("is false when one of the credentials is missing", () {
-      stubRemoteConfig(remoteConfig, hoyolabLinkEnabled: true);
       final container = ProviderContainer.test(overrides: [
-        remoteConfigProvider.overrideWithValue(remoteConfig),
+        ...overrideRemoteConfigs(hoyolabLinkEnabled: true),
+        overrideHttpClient(MockClient()),
         overridePref(PrefKeys.hyvServer, "os_asia"),
         overridePref(PrefKeys.hyvServerName, "Asia"),
         overridePref(PrefKeys.hyvUserName, "tester"),
@@ -93,7 +92,6 @@ void main() {
     // prefs forever, with no way to unlink from the UI.
     test("leaves the cookie behind when the link is disabled by remote config",
         () async {
-      stubRemoteConfig(remoteConfig);
       final container = createContainer();
       final notifier = container.read(hoyolabCredentialProvider.notifier);
 
@@ -109,7 +107,6 @@ void main() {
 
     test("leaves the stored credentials behind when the link is disabled",
         () async {
-      stubRemoteConfig(remoteConfig);
       final container = createContainer();
       final notifier = container.read(hoyolabCredentialProvider.notifier);
 
@@ -124,7 +121,6 @@ void main() {
 
     test("cannot be undone through the UI, which reads it as unlinked",
         () async {
-      stubRemoteConfig(remoteConfig);
       final container = createContainer();
 
       await expectLater(

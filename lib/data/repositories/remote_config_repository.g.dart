@@ -8,50 +8,239 @@ part of 'remote_config_repository.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// The single read path for a Remote Config value.
+///
+/// One provider per key, so a value is an ordinary node of the dependency
+/// graph: consumers `watch` it and rebuild when it is invalidated, and a test
+/// replaces one value with `overrideWithValue` instead of stubbing the whole
+/// service. The type follows from the key, so no type argument is needed at the
+/// call site:
+///
+/// ```dart
+/// final enabled = ref.watch(
+///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+/// );
+/// ```
 
-@ProviderFor(remoteConfig)
-final remoteConfigProvider = RemoteConfigProvider._();
+@ProviderFor(remoteConfigRepository)
+final remoteConfigRepositoryProvider = RemoteConfigRepositoryFamily._();
 
-final class RemoteConfigProvider
+/// The single read path for a Remote Config value.
+///
+/// One provider per key, so a value is an ordinary node of the dependency
+/// graph: consumers `watch` it and rebuild when it is invalidated, and a test
+/// replaces one value with `overrideWithValue` instead of stubbing the whole
+/// service. The type follows from the key, so no type argument is needed at the
+/// call site:
+///
+/// ```dart
+/// final enabled = ref.watch(
+///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+/// );
+/// ```
+
+final class RemoteConfigRepositoryProvider<T extends Object>
+    extends $FunctionalProvider<T, T, T>
+    with $Provider<T> {
+  /// The single read path for a Remote Config value.
+  ///
+  /// One provider per key, so a value is an ordinary node of the dependency
+  /// graph: consumers `watch` it and rebuild when it is invalidated, and a test
+  /// replaces one value with `overrideWithValue` instead of stubbing the whole
+  /// service. The type follows from the key, so no type argument is needed at the
+  /// call site:
+  ///
+  /// ```dart
+  /// final enabled = ref.watch(
+  ///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+  /// );
+  /// ```
+  RemoteConfigRepositoryProvider._({
+    required RemoteConfigRepositoryFamily super.from,
+    required RemoteConfigKey<T> super.argument,
+  }) : super(
+         retry: null,
+         name: r'remoteConfigRepositoryProvider',
+         isAutoDispose: false,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$remoteConfigRepositoryHash();
+
+  @override
+  String toString() {
+    return r'remoteConfigRepositoryProvider'
+        '<${T}>'
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $ProviderElement<T> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  T create(Ref ref) {
+    final argument = this.argument as RemoteConfigKey<T>;
+    return remoteConfigRepository<T>(ref, argument);
+  }
+
+  $R _captureGenerics<$R>($R Function<T extends Object>() cb) {
+    return cb<T>();
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(T value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<T>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is RemoteConfigRepositoryProvider &&
+        other.runtimeType == runtimeType &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(runtimeType, argument);
+  }
+}
+
+String _$remoteConfigRepositoryHash() =>
+    r'35c3eee770f6981154d3fca010e79186bdec4adf';
+
+/// The single read path for a Remote Config value.
+///
+/// One provider per key, so a value is an ordinary node of the dependency
+/// graph: consumers `watch` it and rebuild when it is invalidated, and a test
+/// replaces one value with `overrideWithValue` instead of stubbing the whole
+/// service. The type follows from the key, so no type argument is needed at the
+/// call site:
+///
+/// ```dart
+/// final enabled = ref.watch(
+///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+/// );
+/// ```
+
+final class RemoteConfigRepositoryFamily extends $Family {
+  RemoteConfigRepositoryFamily._()
+    : super(
+        retry: null,
+        name: r'remoteConfigRepositoryProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: false,
+      );
+
+  /// The single read path for a Remote Config value.
+  ///
+  /// One provider per key, so a value is an ordinary node of the dependency
+  /// graph: consumers `watch` it and rebuild when it is invalidated, and a test
+  /// replaces one value with `overrideWithValue` instead of stubbing the whole
+  /// service. The type follows from the key, so no type argument is needed at the
+  /// call site:
+  ///
+  /// ```dart
+  /// final enabled = ref.watch(
+  ///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+  /// );
+  /// ```
+
+  RemoteConfigRepositoryProvider<T> call<T extends Object>(
+    RemoteConfigKey<T> key,
+  ) => RemoteConfigRepositoryProvider<T>._(argument: key, from: this);
+
+  @override
+  String toString() => r'remoteConfigRepositoryProvider';
+
+  /// {@macro riverpod.override_with}
+  Override overrideWith(
+    T Function<T extends Object>(Ref ref, RemoteConfigKey<T> args) create,
+  ) => $FamilyOverride(
+    from: this,
+    createElement: (pointer) {
+      final provider = pointer.origin as RemoteConfigRepositoryProvider;
+      return provider._captureGenerics(<T extends Object>() {
+        provider as RemoteConfigRepositoryProvider<T>;
+        final argument = provider.argument as RemoteConfigKey<T>;
+        return provider
+            .$view(create: (ref) => create(ref, argument))
+            .$createElement(pointer);
+      });
+    },
+  );
+}
+
+/// Keeps every Remote Config value in sync with what the server pushes.
+///
+/// The whole family is invalidated, so a consumer that wants a value to stay
+/// put for the session has to say so itself — `use_startup_banner.dart` does
+/// that with an empty dependency array.
+
+@ProviderFor(remoteConfigUpdateListener)
+final remoteConfigUpdateListenerProvider =
+    RemoteConfigUpdateListenerProvider._();
+
+/// Keeps every Remote Config value in sync with what the server pushes.
+///
+/// The whole family is invalidated, so a consumer that wants a value to stay
+/// put for the session has to say so itself — `use_startup_banner.dart` does
+/// that with an empty dependency array.
+
+final class RemoteConfigUpdateListenerProvider
     extends
         $FunctionalProvider<
-          RemoteConfigRepository,
-          RemoteConfigRepository,
-          RemoteConfigRepository
+          StreamSubscription<RemoteConfigUpdate>,
+          StreamSubscription<RemoteConfigUpdate>,
+          StreamSubscription<RemoteConfigUpdate>
         >
-    with $Provider<RemoteConfigRepository> {
-  RemoteConfigProvider._()
+    with $Provider<StreamSubscription<RemoteConfigUpdate>> {
+  /// Keeps every Remote Config value in sync with what the server pushes.
+  ///
+  /// The whole family is invalidated, so a consumer that wants a value to stay
+  /// put for the session has to say so itself — `use_startup_banner.dart` does
+  /// that with an empty dependency array.
+  RemoteConfigUpdateListenerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'remoteConfigProvider',
-        isAutoDispose: true,
+        name: r'remoteConfigUpdateListenerProvider',
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$remoteConfigHash();
+  String debugGetCreateSourceHash() => _$remoteConfigUpdateListenerHash();
 
   @$internal
   @override
-  $ProviderElement<RemoteConfigRepository> $createElement(
+  $ProviderElement<StreamSubscription<RemoteConfigUpdate>> $createElement(
     $ProviderPointer pointer,
   ) => $ProviderElement(pointer);
 
   @override
-  RemoteConfigRepository create(Ref ref) {
-    return remoteConfig(ref);
+  StreamSubscription<RemoteConfigUpdate> create(Ref ref) {
+    return remoteConfigUpdateListener(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(RemoteConfigRepository value) {
+  Override overrideWithValue(StreamSubscription<RemoteConfigUpdate> value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<RemoteConfigRepository>(value),
+      providerOverride:
+          $SyncValueProvider<StreamSubscription<RemoteConfigUpdate>>(value),
     );
   }
 }
 
-String _$remoteConfigHash() => r'e71dbe3d0f614a5396d736a7c9efdf322fcfaae3';
+String _$remoteConfigUpdateListenerHash() =>
+    r'dd0f4de3d4938e23b8bf6f2067cfc0a62dc787dc';
