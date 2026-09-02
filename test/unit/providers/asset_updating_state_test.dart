@@ -5,24 +5,11 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/asset_updater.dart";
 import "package:genshin_material/providers/asset_updating_state.dart";
+import "package:mockito/mockito.dart";
 
-/// Fails every request. `AssetUpdater` builds its own `http.Client`, which on
-/// the VM wraps a `dart:io` `HttpClient`, so overriding the client factory is
-/// the only way to keep `checkForUpdate` off the network.
-class _FailingHttpClient implements HttpClient {
-  @override
-  dynamic noSuchMethod(Invocation invocation) {
-    if (invocation.isSetter) {
-      return null;
-    }
-    throw const SocketException("Network access is disabled in tests");
-  }
-}
-
-class _OfflineHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) => _FailingHttpClient();
-}
+import "../../utils/http_client.dart";
+import "../../utils/http_client.mocks.dart";
+import "../../utils/remote_config.dart";
 
 const _pathProviderChannel = MethodChannel("plugins.flutter.io/path_provider");
 
@@ -30,10 +17,16 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late Directory tempDir;
-  HttpOverrides? previousOverrides;
+  late MockClient client;
 
   setUp(() {
     tempDir = Directory.systemTemp.createTempSync("asset_updating_state_test");
+    client = MockClient();
+    // Every check in this file is expected to fail, so the client refuses the
+    // release index instead of reaching the network.
+    when(client.get(any)).thenAnswer(
+      (_) async => throw const SocketException("Network access is disabled in tests"),
+    );
     // path_provider has no plugin implementation in a unit test, so its method
     // channel is answered with a throw-away directory.
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
@@ -41,18 +34,18 @@ void main() {
       _pathProviderChannel,
       (call) async => tempDir.path,
     );
-    previousOverrides = HttpOverrides.current;
-    HttpOverrides.global = _OfflineHttpOverrides();
   });
 
   tearDown(() {
-    HttpOverrides.global = previousOverrides;
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(_pathProviderChannel, null);
     tempDir.deleteSync(recursive: true);
   });
 
-  ProviderContainer createContainer() => ProviderContainer.test();
+  ProviderContainer createContainer() => ProviderContainer.test(overrides: [
+        overrideHttpClient(client),
+        ...overrideRemoteConfigs(),
+      ]);
 
   AssetUpdatingStateNotifier createNotifier(ProviderContainer container) =>
       container.read(assetUpdatingStateProvider.notifier);

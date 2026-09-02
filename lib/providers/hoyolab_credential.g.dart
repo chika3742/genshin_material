@@ -41,7 +41,7 @@ final class HoyolabCredentialProvider
   }
 }
 
-String _$hoyolabCredentialHash() => r'08efd3a041ed0778924fa8423bdd6aefd262992a';
+String _$hoyolabCredentialHash() => r'98020f8b552d60d4c1e170bcfaaa4c5c83d6049f';
 
 abstract class _$HoyolabCredential
     extends $Notifier<HoyolabCredentialSnapshot> {
@@ -103,7 +103,7 @@ final class IsLinkedWithHoyolabProvider
 }
 
 String _$isLinkedWithHoyolabHash() =>
-    r'9bcf040cd2b79f08d3154539dba993b67f14e2a3';
+    r'3592dded24d258391df593afb42c9bfcb32deaa6';
 
 @ProviderFor(isHoyolabSignedInInitial)
 final isHoyolabSignedInInitialProvider = IsHoyolabSignedInInitialProvider._();

@@ -10,7 +10,7 @@ import "package:crypto/crypto.dart";
 import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:http/http.dart" as http;
 
-import "../data/repositories/remote_config_repository.dart";
+import "../data/services/remote_config_service.dart";
 import "../i18n/strings.g.dart";
 import "../models/hoyolab_api.dart";
 import "remote_config_keys.dart";
@@ -23,14 +23,14 @@ class HoyolabApi {
   /// a [Ref] keep working; it falls back to the global Firebase instance, which
   /// requires Firebase to be initialized. Tests must always inject it.
   HoyolabApi({
+    required this.client,
     this.cookie,
     this.region,
     this.uid,
-    http.Client? client,
-    RemoteConfigRepository? remoteConfig,
-  }) : client = client ?? http.Client() {
+    RemoteConfigService? remoteConfig,
+  }) {
     final config =
-        remoteConfig ?? RemoteConfigRepository(FirebaseRemoteConfig.instance);
+        remoteConfig ?? RemoteConfigService(FirebaseRemoteConfig.instance);
     if (!config.get(RemoteConfigKeys.hoyolabLinkEnabled)) {
       throw StateError("Hoyolab link is disabled by remote");
     }
