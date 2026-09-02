@@ -10,7 +10,7 @@ part "remote_config_service.g.dart";
 
 /// The only place that talks to the Firebase Remote Config SDK.
 ///
-/// Values are not read from here directly: `remoteConfigRepositoryProvider`
+/// Values are not read from here directly: `remoteConfigProvider`
 /// (`lib/data/repositories/remote_config_repository.dart`) wraps every key in a
 /// provider so that a value participates in the dependency graph.
 class RemoteConfigService {

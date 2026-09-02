@@ -30,7 +30,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
   @override
   Widget build(BuildContext context) {
     final hoyolabLinkEnabled = ref.watch(
-      remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+      remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
     );
     final banner = ref.watch(bannerProvider);
 

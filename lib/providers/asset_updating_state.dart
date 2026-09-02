@@ -38,7 +38,7 @@ class AssetUpdatingStateNotifier extends _$AssetUpdatingStateNotifier {
       await updater.checkForUpdate(
         force: force,
         minimumSchemaVersion: ref.read(
-          remoteConfigRepositoryProvider(RemoteConfigKeys.minimumAssetSchemaVersion),
+          remoteConfigProvider(RemoteConfigKeys.minimumAssetSchemaVersion),
         ),
       );
     } catch (e, st) {

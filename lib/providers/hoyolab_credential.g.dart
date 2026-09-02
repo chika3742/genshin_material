@@ -103,7 +103,7 @@ final class IsLinkedWithHoyolabProvider
 }
 
 String _$isLinkedWithHoyolabHash() =>
-    r'3592dded24d258391df593afb42c9bfcb32deaa6';
+    r'99bdf3e2c5b3a1702d6bc1ad7a49ef4a4e5e9721';
 
 @ProviderFor(isHoyolabSignedInInitial)
 final isHoyolabSignedInInitialProvider = IsHoyolabSignedInInitialProvider._();

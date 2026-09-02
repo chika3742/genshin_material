@@ -65,7 +65,7 @@ bool isLinkedWithHoyolab(Ref ref) {
       cred.hyvServerName != null &&
       cred.hyvUserName != null &&
       cred.hyvUid != null &&
-      ref.watch(remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled));
+      ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled));
 }
 
 @Riverpod(keepAlive: true)

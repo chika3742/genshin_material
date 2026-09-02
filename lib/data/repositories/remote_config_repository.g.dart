@@ -18,12 +18,12 @@ part of 'remote_config_repository.dart';
 ///
 /// ```dart
 /// final enabled = ref.watch(
-///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
 /// );
 /// ```
 
-@ProviderFor(remoteConfigRepository)
-final remoteConfigRepositoryProvider = RemoteConfigRepositoryFamily._();
+@ProviderFor(remoteConfig)
+final remoteConfigProvider = RemoteConfigFamily._();
 
 /// The single read path for a Remote Config value.
 ///
@@ -35,11 +35,11 @@ final remoteConfigRepositoryProvider = RemoteConfigRepositoryFamily._();
 ///
 /// ```dart
 /// final enabled = ref.watch(
-///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
 /// );
 /// ```
 
-final class RemoteConfigRepositoryProvider<T extends Object>
+final class RemoteConfigProvider<T extends Object>
     extends $FunctionalProvider<T, T, T>
     with $Provider<T> {
   /// The single read path for a Remote Config value.
@@ -52,26 +52,26 @@ final class RemoteConfigRepositoryProvider<T extends Object>
   ///
   /// ```dart
   /// final enabled = ref.watch(
-  ///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+  ///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
   /// );
   /// ```
-  RemoteConfigRepositoryProvider._({
-    required RemoteConfigRepositoryFamily super.from,
+  RemoteConfigProvider._({
+    required RemoteConfigFamily super.from,
     required RemoteConfigKey<T> super.argument,
   }) : super(
          retry: null,
-         name: r'remoteConfigRepositoryProvider',
+         name: r'remoteConfigProvider',
          isAutoDispose: false,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$remoteConfigRepositoryHash();
+  String debugGetCreateSourceHash() => _$remoteConfigHash();
 
   @override
   String toString() {
-    return r'remoteConfigRepositoryProvider'
+    return r'remoteConfigProvider'
         '<${T}>'
         '($argument)';
   }
@@ -84,7 +84,7 @@ final class RemoteConfigRepositoryProvider<T extends Object>
   @override
   T create(Ref ref) {
     final argument = this.argument as RemoteConfigKey<T>;
-    return remoteConfigRepository<T>(ref, argument);
+    return remoteConfig<T>(ref, argument);
   }
 
   $R _captureGenerics<$R>($R Function<T extends Object>() cb) {
@@ -101,7 +101,7 @@ final class RemoteConfigRepositoryProvider<T extends Object>
 
   @override
   bool operator ==(Object other) {
-    return other is RemoteConfigRepositoryProvider &&
+    return other is RemoteConfigProvider &&
         other.runtimeType == runtimeType &&
         other.argument == argument;
   }
@@ -112,8 +112,7 @@ final class RemoteConfigRepositoryProvider<T extends Object>
   }
 }
 
-String _$remoteConfigRepositoryHash() =>
-    r'35c3eee770f6981154d3fca010e79186bdec4adf';
+String _$remoteConfigHash() => r'10b8a90a403de77f110fa67eac63ae497045c7d1';
 
 /// The single read path for a Remote Config value.
 ///
@@ -125,15 +124,15 @@ String _$remoteConfigRepositoryHash() =>
 ///
 /// ```dart
 /// final enabled = ref.watch(
-///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
 /// );
 /// ```
 
-final class RemoteConfigRepositoryFamily extends $Family {
-  RemoteConfigRepositoryFamily._()
+final class RemoteConfigFamily extends $Family {
+  RemoteConfigFamily._()
     : super(
         retry: null,
-        name: r'remoteConfigRepositoryProvider',
+        name: r'remoteConfigProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: false,
@@ -149,16 +148,15 @@ final class RemoteConfigRepositoryFamily extends $Family {
   ///
   /// ```dart
   /// final enabled = ref.watch(
-  ///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+  ///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
   /// );
   /// ```
 
-  RemoteConfigRepositoryProvider<T> call<T extends Object>(
-    RemoteConfigKey<T> key,
-  ) => RemoteConfigRepositoryProvider<T>._(argument: key, from: this);
+  RemoteConfigProvider<T> call<T extends Object>(RemoteConfigKey<T> key) =>
+      RemoteConfigProvider<T>._(argument: key, from: this);
 
   @override
-  String toString() => r'remoteConfigRepositoryProvider';
+  String toString() => r'remoteConfigProvider';
 
   /// {@macro riverpod.override_with}
   Override overrideWith(
@@ -166,9 +164,9 @@ final class RemoteConfigRepositoryFamily extends $Family {
   ) => $FamilyOverride(
     from: this,
     createElement: (pointer) {
-      final provider = pointer.origin as RemoteConfigRepositoryProvider;
+      final provider = pointer.origin as RemoteConfigProvider;
       return provider._captureGenerics(<T extends Object>() {
-        provider as RemoteConfigRepositoryProvider<T>;
+        provider as RemoteConfigProvider<T>;
         final argument = provider.argument as RemoteConfigKey<T>;
         return provider
             .$view(create: (ref) => create(ref, argument))
@@ -243,4 +241,4 @@ final class RemoteConfigUpdateListenerProvider
 }
 
 String _$remoteConfigUpdateListenerHash() =>
-    r'dd0f4de3d4938e23b8bf6f2067cfc0a62dc787dc';
+    r'19d2fd9ed566f4d7ef718fd7417e547e77e84779';

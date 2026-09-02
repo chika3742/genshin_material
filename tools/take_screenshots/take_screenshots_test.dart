@@ -6,7 +6,9 @@ import "package:flutter/cupertino.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/game_data_sync_indicator.dart";
+import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/data/services/local_notification.dart";
+import "package:genshin_material/data/services/remote_config_service.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/i18n/strings.g.dart";
@@ -73,7 +75,17 @@ void main() {
         appDatabaseProvider.overrideWithValue(db),
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
         gameDataSyncStateProvider(variantId: "amber").overrideWithValue(GameDataSyncStatus.synced()),
-        ...overrideRemoteConfigs(),
+        // The app subscribes to config updates on startup, so the service
+        // itself has to be there; every value it reads is overridden below.
+        remoteConfigServiceProvider
+            .overrideWithValue(createRemoteConfigServiceMock()),
+        overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, false),
+        overrideRemoteConfig(RemoteConfigKeys.minimumAssetSchemaVersion, 0),
+        overrideRemoteConfig(RemoteConfigKeys.showBanner, false),
+        overrideRemoteConfig(RemoteConfigKeys.bannerKey, ""),
+        overrideRemoteConfig(RemoteConfigKeys.bannerText, ""),
+        overrideRemoteConfig(RemoteConfigKeys.bannerActionText, ""),
+        overrideRemoteConfig(RemoteConfigKeys.bannerActionUrl, ""),
         localNotificationProvider.overrideWithValue(MockLocalNotification()),
       ],
       child: const MyApp(),
