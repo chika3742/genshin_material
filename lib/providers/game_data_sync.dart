@@ -7,9 +7,10 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../components/game_data_sync_indicator.dart";
 import "../core/asset_cache.dart";
-import "../core/hoyolab_api.dart";
 import "../core/pref_keys.dart";
-import "../core/secure_storage.dart";
+import "../data/services/hoyolab/hoyolab_api_base.dart";
+import "../data/services/hoyolab/hoyolab_api_utils.dart";
+import "../data/services/hoyolab/hoyolab_game_api.dart";
 import "../database.dart";
 import "../db/in_game_character_state_db_extension.dart";
 import "../db/in_game_weapon_state_db_extension.dart";
@@ -19,7 +20,8 @@ import "../models/hoyolab_api.dart";
 import "../models/weapon.dart";
 import "../utils/lists.dart";
 import "database_provider.dart";
-import "http_client.dart";
+import "hoyolab_api.dart";
+import "hoyolab_game_server.dart";
 import "pref_notifier.dart";
 import "resin.dart";
 import "versions.dart";
@@ -73,7 +75,7 @@ class GameDataSyncCached extends _$GameDataSyncCached {
   @override
   Future<GameDataSyncResult?> build({ required String variantId, String? weaponId }) async {
     final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
+    final uid = ref.watch(hoyolabGameServerProvider).uidOrNull;
     if (uid == null) return null; // uid is not set
 
     final syncState = weaponId == null
@@ -137,11 +139,8 @@ class GameDataSyncCached extends _$GameDataSyncCached {
 @riverpod
 Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, String? weaponId }) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
-  final server = ref.watch(prefProvider(PrefKeys.hyvServer));
-  final hoyolabCookie = await getHoyolabCookie();
 
-  if (uid == null || server == null || hoyolabCookie == null) {
+  if (!ref.watch(isLinkedWithHoyolabProvider)) {
     return GameDataSyncResult(
       errorType: GameDataSyncErrorType.unknown,
       error: "One or more of Hoyolab server, uid, cookie is not set",
@@ -154,19 +153,14 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
     );
   }
 
-  final api = HoyolabApi(
-    cookie: hoyolabCookie,
-    uid: uid,
-    region: server,
-    client: ref.read(httpClientProvider),
-  );
+  final api = await ref.watch(hoyolabGameApiProvider.future);
 
   final (character, variant) = _extractCharacter(assetData.characters, variantId);
 
   final charaInfo = await HoyolabApiUtils.loopUntilCharacter(
     character.hyvIds,
     (page) {
-      return HoyolabApi.queue.run(() => api.avatarList(
+      return HoyolabApiBase.queue.run(() => api.avatarList(
         page,
         elementIds: [assetData.elements[variant.element]!.hyvId],
         weaponCatIds: [assetData.weaponTypes[variant.weaponType]!.hyvId],
@@ -209,12 +203,9 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
 @riverpod
 Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entries) async {
   final assetData = ref.watch(assetDataProvider).value;
-  final hyvUid = ref.watch(prefProvider(PrefKeys.hyvUid));
-  final hyvServer = ref.watch(prefProvider(PrefKeys.hyvServer));
   final syncBagLackNums = ref.watch(prefProvider(PrefKeys.syncBagLackNums));
-  final hoyolabCookie = await getHoyolabCookie();
 
-  if (hyvServer == null || hyvUid == null || hoyolabCookie == null) {
+  if (!ref.watch(isLinkedWithHoyolabProvider)) {
     log("Hoyolab server, uid, or cookie is not set");
     return null;
   }
@@ -225,12 +216,7 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
     throw StateError("Asset data is not loaded");
   }
 
-  final api = HoyolabApi(
-    cookie: hoyolabCookie,
-    uid: hyvUid,
-    region: hyvServer,
-    client: ref.read(httpClientProvider),
-  );
+  final api = await ref.watch(hoyolabGameApiProvider.future);
 
   final requests = entries.map((e) {
     final (character, variant) = _extractCharacter(assetData.characters, e.variantId);
@@ -242,7 +228,7 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
   }).toList();
 
   // fetch material lack numbers
-  final calcResult = await HoyolabApi.queue.run(() => _computeBag(
+  final calcResult = await HoyolabApiBase.queue.run(() => _computeBag(
     api: api,
     assetData: assetData,
     requests: requests,
@@ -294,25 +280,17 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
       return;
     }
 
-    final hyvServer = ref.read(prefProvider(PrefKeys.hyvServer));
-    final hyvUid = ref.read(prefProvider(PrefKeys.hyvUid));
-    assert(hyvServer != null && hyvUid != null);
-
-    final hoyolabCookie = await getHoyolabCookie();
-    if (hoyolabCookie == null) {
-      state = const GameDataSyncStatus.error(error: "No hoyolab cookie");
+    if (!ref.read(isLinkedWithHoyolabProvider)) {
+      state = const GameDataSyncStatus.error(
+        error: "One or more of Hoyolab server, uid, cookie is not set",
+      );
       return; // error
     }
-    final api = HoyolabApi(
-      cookie: hoyolabCookie,
-      uid: hyvUid!,
-      region: hyvServer!,
-      client: ref.read(httpClientProvider),
-    );
 
     state = const GameDataSyncStatus.syncing();
 
     try {
+      final api = await ref.read(hoyolabGameApiProvider.future);
       final dailyNote = await api.getDailyNote();
       await ref.read(resinProvider.notifier)
           .setResinWithRecoveryTime(dailyNote.currentResin, int.parse(dailyNote.resinRecoveryTime));
@@ -358,7 +336,7 @@ Map<Purpose, int> _toCharacterLevels(AvatarListResultItem charaInfo) {
 }
 
 Future<CalcResult?> _computeBag({
-  required HoyolabApi api,
+  required HoyolabGameApi api,
   required AssetData assetData,
   required List<_ComputeBagRequestItem> requests,
 }) async {
@@ -436,7 +414,7 @@ CalcComputeItem _createCalcComputeRequest({
 }
 
 Future<int> _determineAvatarId({
-  required HoyolabApi api,
+  required HoyolabGameApi api,
   required List<int> ids,
   required int weaponTypeFilter,
 }) async {

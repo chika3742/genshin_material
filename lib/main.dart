@@ -22,7 +22,7 @@ import "data/services/local_notification.dart";
 import "data/services/remote_config_service.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
-import "providers/hoyolab_credential.dart";
+import "providers/hoyolab_game_server.dart";
 import "providers/pref_notifier.dart";
 import "providers/versions.dart";
 import "routes.dart";

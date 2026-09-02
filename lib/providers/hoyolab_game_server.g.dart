@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'hoyolab_credential.dart';
+part of 'hoyolab_game_server.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -8,54 +8,82 @@ part of 'hoyolab_credential.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// The single read/write path for the HoYoLAB server and user identity.
+///
+/// The preferences behind it are a persistence backend only; nothing outside
+/// this notifier is allowed to touch [PrefKeys.hyvServer] and friends. That is
+/// what lets the notifier own the state: it reads the preferences once in
+/// [build] and afterwards emits exactly one update per mutation, instead of one
+/// per written key.
 
-@ProviderFor(HoyolabCredential)
-final hoyolabCredentialProvider = HoyolabCredentialProvider._();
+@ProviderFor(HoyolabGameServer)
+final hoyolabGameServerProvider = HoyolabGameServerProvider._();
 
-final class HoyolabCredentialProvider
-    extends $NotifierProvider<HoyolabCredential, HoyolabCredentialSnapshot> {
-  HoyolabCredentialProvider._()
+/// The single read/write path for the HoYoLAB server and user identity.
+///
+/// The preferences behind it are a persistence backend only; nothing outside
+/// this notifier is allowed to touch [PrefKeys.hyvServer] and friends. That is
+/// what lets the notifier own the state: it reads the preferences once in
+/// [build] and afterwards emits exactly one update per mutation, instead of one
+/// per written key.
+final class HoyolabGameServerProvider
+    extends $NotifierProvider<HoyolabGameServer, HoyolabGameServerState> {
+  /// The single read/write path for the HoYoLAB server and user identity.
+  ///
+  /// The preferences behind it are a persistence backend only; nothing outside
+  /// this notifier is allowed to touch [PrefKeys.hyvServer] and friends. That is
+  /// what lets the notifier own the state: it reads the preferences once in
+  /// [build] and afterwards emits exactly one update per mutation, instead of one
+  /// per written key.
+  HoyolabGameServerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'hoyolabCredentialProvider',
+        name: r'hoyolabGameServerProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$hoyolabCredentialHash();
+  String debugGetCreateSourceHash() => _$hoyolabGameServerHash();
 
   @$internal
   @override
-  HoyolabCredential create() => HoyolabCredential();
+  HoyolabGameServer create() => HoyolabGameServer();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(HoyolabCredentialSnapshot value) {
+  Override overrideWithValue(HoyolabGameServerState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<HoyolabCredentialSnapshot>(value),
+      providerOverride: $SyncValueProvider<HoyolabGameServerState>(value),
     );
   }
 }
 
-String _$hoyolabCredentialHash() => r'98020f8b552d60d4c1e170bcfaaa4c5c83d6049f';
+String _$hoyolabGameServerHash() => r'5209beebb3d251852bedd38a87b9b3684ff6217a';
 
-abstract class _$HoyolabCredential
-    extends $Notifier<HoyolabCredentialSnapshot> {
-  HoyolabCredentialSnapshot build();
+/// The single read/write path for the HoYoLAB server and user identity.
+///
+/// The preferences behind it are a persistence backend only; nothing outside
+/// this notifier is allowed to touch [PrefKeys.hyvServer] and friends. That is
+/// what lets the notifier own the state: it reads the preferences once in
+/// [build] and afterwards emits exactly one update per mutation, instead of one
+/// per written key.
+
+abstract class _$HoyolabGameServer extends $Notifier<HoyolabGameServerState> {
+  HoyolabGameServerState build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
     final ref =
-        this.ref as $Ref<HoyolabCredentialSnapshot, HoyolabCredentialSnapshot>;
+        this.ref as $Ref<HoyolabGameServerState, HoyolabGameServerState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<HoyolabCredentialSnapshot, HoyolabCredentialSnapshot>,
-              HoyolabCredentialSnapshot,
+              AnyNotifier<HoyolabGameServerState, HoyolabGameServerState>,
+              HoyolabGameServerState,
               Object?,
               Object?
             >;
@@ -103,7 +131,7 @@ final class IsLinkedWithHoyolabProvider
 }
 
 String _$isLinkedWithHoyolabHash() =>
-    r'99bdf3e2c5b3a1702d6bc1ad7a49ef4a4e5e9721';
+    r'e592fcfffbe1e80fdb1f1e55aa40900bee12e559';
 
 @ProviderFor(isHoyolabSignedInInitial)
 final isHoyolabSignedInInitialProvider = IsHoyolabSignedInInitialProvider._();

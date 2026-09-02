@@ -13,7 +13,7 @@ import "../../data/repositories/remote_config_repository.dart";
 import "../../hooks/use_periodic_timer.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/game_data_sync.dart";
-import "../../providers/hoyolab_credential.dart";
+import "../../providers/hoyolab_game_server.dart";
 import "../../providers/pref_notifier.dart";
 import "../../providers/resin.dart";
 import "../../utils/resin_calculator.dart";
