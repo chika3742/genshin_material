@@ -19,6 +19,7 @@ import "../models/hoyolab_api.dart";
 import "../models/weapon.dart";
 import "../utils/lists.dart";
 import "database_provider.dart";
+import "http_client.dart";
 import "pref_notifier.dart";
 import "resin.dart";
 import "versions.dart";
@@ -157,6 +158,7 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
     cookie: hoyolabCookie,
     uid: uid,
     region: server,
+    client: ref.read(httpClientProvider),
   );
 
   final (character, variant) = _extractCharacter(assetData.characters, variantId);
@@ -227,6 +229,7 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
     cookie: hoyolabCookie,
     uid: hyvUid,
     region: hyvServer,
+    client: ref.read(httpClientProvider),
   );
 
   final requests = entries.map((e) {
@@ -300,7 +303,12 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
       state = const GameDataSyncStatus.error(error: "No hoyolab cookie");
       return; // error
     }
-    final api = HoyolabApi(cookie: hoyolabCookie, uid: hyvUid!, region: hyvServer!);
+    final api = HoyolabApi(
+      cookie: hoyolabCookie,
+      uid: hyvUid!,
+      region: hyvServer!,
+      client: ref.read(httpClientProvider),
+    );
 
     state = const GameDataSyncStatus.syncing();
 

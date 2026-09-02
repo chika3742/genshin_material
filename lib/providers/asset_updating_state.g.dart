@@ -42,7 +42,7 @@ final class AssetUpdatingStateNotifierProvider
 }
 
 String _$assetUpdatingStateNotifierHash() =>
-    r'5962f72039b47050655fa77f75a52490f067a5d5';
+    r'45cfff1df21fb0f02961a11a1f6a61d248519420';
 
 abstract class _$AssetUpdatingStateNotifier
     extends $Notifier<AssetUpdatingState> {

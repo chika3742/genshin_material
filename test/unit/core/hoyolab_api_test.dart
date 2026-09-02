@@ -2,15 +2,14 @@ import "dart:convert";
 
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/hoyolab_api.dart";
+import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/hoyolab_api.dart";
 import "package:http/http.dart" as http;
-import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
-import "../../utils/stub_remote_config.dart";
-import "../../utils/stub_remote_config.mocks.dart";
-import "hoyolab_api_test.mocks.dart";
+import "../../utils/http_client.mocks.dart";
+import "../../utils/remote_config.mocks.dart";
 
 /// A cookie shaped the way `_getLtUid` expects: the id has to be surrounded by
 /// "; " and ";" for the lookup regexp to match.
@@ -24,15 +23,18 @@ String _okBody(Object? data) =>
 String _errorBody(int retcode, String message) =>
     jsonEncode({"retcode": retcode, "message": message});
 
-@GenerateMocks([http.Client])
+void _stubLinkEnabled(MockRemoteConfigService mock, bool enabled) {
+  when(mock.get<bool>(RemoteConfigKeys.hoyolabLinkEnabled)).thenReturn(enabled);
+}
+
 void main() {
   late MockClient client;
-  late MockRemoteConfigRepository remoteConfig;
+  late MockRemoteConfigService remoteConfig;
 
   setUp(() {
     client = MockClient();
-    remoteConfig = MockRemoteConfigRepository();
-    stubRemoteConfig(remoteConfig, hoyolabLinkEnabled: true);
+    remoteConfig = MockRemoteConfigService();
+    _stubLinkEnabled(remoteConfig, true);
     LocaleSettings.setLocaleSync(AppLocale.ja);
   });
 
@@ -78,7 +80,7 @@ void main() {
 
   group("constructor", () {
     test("throws when the HoYoLAB link is disabled by remote config", () {
-      stubRemoteConfig(remoteConfig);
+      _stubLinkEnabled(remoteConfig, false);
 
       expect(createApi, throwsStateError);
     });

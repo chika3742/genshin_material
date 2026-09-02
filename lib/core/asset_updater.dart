@@ -4,8 +4,6 @@ import "dart:developer";
 import "dart:io";
 
 import "package:archive/archive_io.dart";
-import "package:firebase_core/firebase_core.dart";
-import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter/foundation.dart";
 import "package:http/http.dart" as http;
 import "package:path/path.dart" as path;
@@ -13,29 +11,21 @@ import "package:path_provider/path_provider.dart";
 import "package:uuid/uuid.dart";
 
 import "../constants/urls.dart";
-import "../data/repositories/remote_config_repository.dart";
 import "../main.dart";
 import "../models/asset_release_version.dart";
 import "../models/common.dart" as common;
 import "asset_cache.dart";
 import "asset_loader.dart";
 import "errors.dart";
-import "remote_config_keys.dart";
 import "silent_exception.dart";
 
 class AssetUpdater {
-  /// [remoteConfig] is optional. Unlike [httpClient], it is not resolved in the
-  /// initializer list: the field stays null when nothing is injected, and the
-  /// fallback to the global Firebase instance happens lazily in
-  /// [checkForUpdate] so that constructing an updater never touches Firebase.
   AssetUpdater({
     required this.assetsDir,
+    required this.httpClient,
     this.tempDir,
-    http.Client? httpClient,
     int? dataSchemaVersion,
-    this.remoteConfig,
-  })  : httpClient = httpClient ?? http.Client(),
-        dataSchemaVersion = dataSchemaVersion ?? common.dataSchemaVersion,
+  })  : dataSchemaVersion = dataSchemaVersion ?? common.dataSchemaVersion,
         currentAssetDir = getCurrentAssetDirectoryPath(assetsDir);
 
   static const allowedResourceOrigins = ["https://matnote-assets.chikach.net"];
@@ -44,7 +34,6 @@ class AssetUpdater {
   final String currentAssetDir;
   final String? tempDir;
   final http.Client httpClient;
-  final RemoteConfigRepository? remoteConfig;
 
   void Function()? onProgress;
   int receivedBytes = 0;
@@ -59,14 +48,15 @@ class AssetUpdater {
 
   /// Checks for updates and sets [foundUpdate] if an update is available.
   /// When [force] is true, it will always sets [foundUpdate] to the latest release.
-  Future<void> checkForUpdate({bool force = false, int? minimumSchemaVersion}) async {
+  Future<void> checkForUpdate({
+    required int minimumSchemaVersion,
+    bool force = false,
+  }) async {
     final releases = await _fetchAssetRelease(assetChannel);
-
-    minimumSchemaVersion ??= _resolveMinimumSchemaVersion();
 
     final latestRelease = releases.fold<AssetReleaseVersion?>(null, (prev, element) {
       // ignore minimumSchemaVersion when force download mode
-      if ((!force && element.schemaVersion < minimumSchemaVersion!)
+      if ((!force && element.schemaVersion < minimumSchemaVersion)
           || element.schemaVersion != dataSchemaVersion) {
         // Skip releases which are lower than minimum or higher than current
         // schema version
@@ -169,17 +159,6 @@ class AssetUpdater {
     }
 
     log("Installation completed!");
-  }
-
-  /// Falls back to the global Firebase instance when no repository was injected.
-  /// Only called when the caller did not pass a minimum schema version, so a
-  /// caller that passes one never touches Firebase.
-  int _resolveMinimumSchemaVersion() {
-    final config = remoteConfig ??
-        (Firebase.apps.isNotEmpty
-            ? RemoteConfigRepository(FirebaseRemoteConfig.instance)
-            : null);
-    return config?.get(RemoteConfigKeys.minimumAssetSchemaVersion) ?? 0;
   }
 
   Future<bool> _checkInstallation(String assetDir) async {

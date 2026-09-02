@@ -10,6 +10,7 @@ import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "database_provider.dart";
 import "hoyolab_credential.dart";
+import "http_client.dart";
 import "pref_notifier.dart";
 
 part "miscellaneous.g.dart";
@@ -23,7 +24,7 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
       return false;
     }
 
-    final api = HoyolabApi(cookie: cookie);
+    final api = HoyolabApi(cookie: cookie, client: ref.read(httpClientProvider));
     final result = await api.getGameRecordCards();
     return result.list
         .firstWhere((e) => e.gameType == GameType.genshin)
@@ -39,7 +40,8 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
     }
 
     state = const AsyncLoading();
-    await HoyolabApi(cookie: cookie).changeDataSwitch(DataSwitchType.enableRealtimeNotes, value);
+    await HoyolabApi(cookie: cookie, client: ref.read(httpClientProvider))
+        .changeDataSwitch(DataSwitchType.enableRealtimeNotes, value);
 
     state = AsyncData(value);
   }

@@ -29,7 +29,9 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final remoteConfig = ref.watch(remoteConfigProvider);
+    final hoyolabLinkEnabled = ref.watch(
+      remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+    );
     final banner = ref.watch(bannerProvider);
 
     return Scaffold(
@@ -43,7 +45,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
             leadingIcon: Symbols.settings,
             location: SettingsRoute().location,
           ),
-          if (remoteConfig.get(RemoteConfigKeys.hoyolabLinkEnabled))
+          if (hoyolabLinkEnabled)
             SimpleListTile(
               title: tr.pages.hoyolabIntegrationSettings,
               subtitle: tr.morePage.hoyolabIntegrationSettingsDesc,
