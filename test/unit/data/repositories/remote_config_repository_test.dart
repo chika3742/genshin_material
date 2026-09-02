@@ -36,7 +36,7 @@ void main() {
     ]);
   }
 
-  group("remoteConfigRepository", () {
+  group("remoteConfig", () {
     test("returns the value of the key with the type the key declares", () {
       when(service.get<bool>(RemoteConfigKeys.hoyolabLinkEnabled))
           .thenReturn(true);
@@ -48,19 +48,19 @@ void main() {
 
       expect(
         container.read(
-          remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+          remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
         ),
         isTrue,
       );
       expect(
         container.read(
-          remoteConfigRepositoryProvider(RemoteConfigKeys.bannerText),
+          remoteConfigProvider(RemoteConfigKeys.bannerText),
         ),
         "Hi",
       );
       expect(
         container.read(
-          remoteConfigRepositoryProvider(
+          remoteConfigProvider(
             RemoteConfigKeys.minimumAssetSchemaVersion,
           ),
         ),
@@ -73,7 +73,7 @@ void main() {
           .thenReturn(true);
       final container = createContainer();
       final provider =
-          remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled);
+          remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled);
 
       container.read(provider);
       container.read(provider);
@@ -92,9 +92,9 @@ void main() {
           .thenAnswer((_) => bannerText);
       final container = createContainer();
       final enabledProvider =
-          remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled);
+          remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled);
       final textProvider =
-          remoteConfigRepositoryProvider(RemoteConfigKeys.bannerText);
+          remoteConfigProvider(RemoteConfigKeys.bannerText);
 
       container.listen(enabledProvider, (_, _) {});
       container.listen(textProvider, (_, _) {});
@@ -111,6 +111,25 @@ void main() {
       // put for the session says so itself, the way `useStartupBanner` does.
       expect(container.read(enabledProvider), isTrue);
       expect(container.read(textProvider), "after");
+    });
+
+    test("does nothing when the container is gone before activate() returns",
+        () async {
+      // `listenConfigUpdate` awaits `activate()` before calling back, so an
+      // event that is already in flight outlives `subscription.cancel()`.
+      late void Function() onActivated;
+      when(service.listenConfigUpdate(any)).thenAnswer((invocation) {
+        onActivated = invocation.positionalArguments.single as void Function();
+        return updates.stream.listen((_) {});
+      });
+      when(service.get<bool>(RemoteConfigKeys.hoyolabLinkEnabled))
+          .thenReturn(false);
+      final container = createContainer();
+      container.read(remoteConfigUpdateListenerProvider);
+
+      container.dispose();
+
+      expect(onActivated, returnsNormally);
     });
 
     test("cancels the subscription when it is disposed", () async {

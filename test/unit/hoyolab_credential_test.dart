@@ -1,9 +1,13 @@
 import "package:flutter/services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:flutter_riverpod/misc.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/pref_keys.dart";
+import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/core/secure_storage.dart";
+import "package:genshin_material/data/services/remote_config_service.dart";
 import "package:genshin_material/providers/hoyolab_credential.dart";
+import "package:mockito/mockito.dart";
 
 import "../utils/http_client.dart";
 import "../utils/http_client.mocks.dart";
@@ -45,9 +49,21 @@ void main() {
         .setMockMethodCallHandler(_secureStorageChannel, null);
   });
 
+  /// `clear()` still hands a `RemoteConfigService` to `HoyolabApi`, so the flag
+  /// has to be answered on the service as well as on the value provider.
+  List<Override> linkEnabled(bool enabled) {
+    final service = createRemoteConfigServiceMock();
+    when(service.get<bool>(RemoteConfigKeys.hoyolabLinkEnabled))
+        .thenReturn(enabled);
+    return [
+      overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, enabled),
+      remoteConfigServiceProvider.overrideWithValue(service),
+    ];
+  }
+
   ProviderContainer createContainer({bool hoyolabLinkEnabled = false}) {
     return ProviderContainer.test(overrides: [
-      ...overrideRemoteConfigs(hoyolabLinkEnabled: hoyolabLinkEnabled),
+      ...linkEnabled(hoyolabLinkEnabled),
       overrideHttpClient(MockClient()),
       overridePref(PrefKeys.hyvServer, "os_asia"),
       overridePref(PrefKeys.hyvServerName, "Asia"),
@@ -72,7 +88,7 @@ void main() {
 
     test("is false when one of the credentials is missing", () {
       final container = ProviderContainer.test(overrides: [
-        ...overrideRemoteConfigs(hoyolabLinkEnabled: true),
+        ...linkEnabled(true),
         overrideHttpClient(MockClient()),
         overridePref(PrefKeys.hyvServer, "os_asia"),
         overridePref(PrefKeys.hyvServerName, "Asia"),

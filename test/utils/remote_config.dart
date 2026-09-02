@@ -1,6 +1,5 @@
 import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter_riverpod/misc.dart";
-import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/data/repositories/remote_config_repository.dart";
 import "package:genshin_material/data/services/remote_config_service.dart";
 import "package:genshin_material/models/remote_config_key.dart";
@@ -12,59 +11,24 @@ import "remote_config.mocks.dart";
 /// Overrides the provider of a single Remote Config [key] with [value].
 ///
 /// The value type is inferred from the key, so the call site needs no type
-/// argument.
-///
-/// [MockRemoteConfigService] (generated from the annotation below) is only for
-/// the classes that still take a [RemoteConfigService] directly; anything
-/// reading through a provider uses this instead.
-@GenerateMocks([RemoteConfigService])
+/// argument. Override only the keys the test actually reads.
 Override overrideRemoteConfig<T extends Object>(RemoteConfigKey<T> key, T value) {
-  return remoteConfigRepositoryProvider(key).overrideWithValue(value);
+  return remoteConfigProvider(key).overrideWithValue(value);
 }
 
-/// Overrides every Remote Config key a test is likely to need in one go.
+/// A [RemoteConfigService] mock whose update stream never fires.
 ///
-/// The defaults match `RemoteConfigKeys.defaults` (everything off, strings
-/// empty), so a test only names the value it cares about.
+/// Only the tests that reach the service itself need one: those that mount the
+/// app (`remoteConfigUpdateListenerProvider` subscribes on startup) and those
+/// covering a class that still takes a [RemoteConfigService] directly. Reading
+/// a value goes through [overrideRemoteConfig] instead.
 ///
-/// [remoteConfigServiceProvider] is overridden with a mock answering the same
-/// values, so that the classes still taking a [RemoteConfigService] directly
-/// agree with what the providers report.
-List<Override> overrideRemoteConfigs({
-  bool hoyolabLinkEnabled = false,
-  bool showBanner = false,
-  String bannerKey = "",
-  String bannerText = "",
-  String bannerActionText = "",
-  String bannerActionUrl = "",
-  int minimumAssetSchemaVersion = 0,
-}) {
+/// `get` is left unstubbed on purpose — stub the keys the subject reads, so
+/// that an unexpected read fails loudly.
+@GenerateMocks([RemoteConfigService])
+MockRemoteConfigService createRemoteConfigServiceMock() {
   final service = MockRemoteConfigService();
-  when(service.get<bool>(RemoteConfigKeys.hoyolabLinkEnabled))
-      .thenReturn(hoyolabLinkEnabled);
-  when(service.get<bool>(RemoteConfigKeys.showBanner)).thenReturn(showBanner);
-  when(service.get<String>(RemoteConfigKeys.bannerKey)).thenReturn(bannerKey);
-  when(service.get<String>(RemoteConfigKeys.bannerText)).thenReturn(bannerText);
-  when(service.get<String>(RemoteConfigKeys.bannerActionText))
-      .thenReturn(bannerActionText);
-  when(service.get<String>(RemoteConfigKeys.bannerActionUrl))
-      .thenReturn(bannerActionUrl);
-  when(service.get<int>(RemoteConfigKeys.minimumAssetSchemaVersion))
-      .thenReturn(minimumAssetSchemaVersion);
   when(service.listenConfigUpdate(any))
       .thenReturn(const Stream<RemoteConfigUpdate>.empty().listen(null));
-
-  return [
-    remoteConfigServiceProvider.overrideWithValue(service),
-    overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, hoyolabLinkEnabled),
-    overrideRemoteConfig(RemoteConfigKeys.showBanner, showBanner),
-    overrideRemoteConfig(RemoteConfigKeys.bannerKey, bannerKey),
-    overrideRemoteConfig(RemoteConfigKeys.bannerText, bannerText),
-    overrideRemoteConfig(RemoteConfigKeys.bannerActionText, bannerActionText),
-    overrideRemoteConfig(RemoteConfigKeys.bannerActionUrl, bannerActionUrl),
-    overrideRemoteConfig(
-      RemoteConfigKeys.minimumAssetSchemaVersion,
-      minimumAssetSchemaVersion,
-    ),
-  ];
+  return service;
 }

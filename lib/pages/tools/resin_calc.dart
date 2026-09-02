@@ -117,7 +117,7 @@ class ResinCalcPage extends HookConsumerWidget {
                 ListSubheader(tr.resinCalcPage.howToUse, padding: EdgeInsets.zero),
                 Text(tr.resinCalcPage.howToUseContent),
 
-                if (ref.watch(remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
+                if (ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
                   ...[
                     ListSubheader(tr.pages.settings, padding: EdgeInsets.zero),
                     OverflowBox(

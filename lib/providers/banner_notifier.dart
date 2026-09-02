@@ -23,21 +23,21 @@ class BannerNotifier extends _$BannerNotifier {
   @override
   BannerData? build() {
     final bannerReadKeys = ref.watch(prefProvider(PrefKeys.bannerReadKeys));
-    final bannerKey = ref.watch(remoteConfigRepositoryProvider(RemoteConfigKeys.bannerKey));
-    if (!ref.watch(remoteConfigRepositoryProvider(RemoteConfigKeys.showBanner))
+    final bannerKey = ref.watch(remoteConfigProvider(RemoteConfigKeys.bannerKey));
+    if (!ref.watch(remoteConfigProvider(RemoteConfigKeys.showBanner))
         || bannerReadKeys.contains(bannerKey)) {
       return null;
     }
     return BannerData(
-      text: ref.watch(remoteConfigRepositoryProvider(RemoteConfigKeys.bannerText)),
-      actionText: ref.watch(remoteConfigRepositoryProvider(RemoteConfigKeys.bannerActionText)),
-      actionUrl: ref.watch(remoteConfigRepositoryProvider(RemoteConfigKeys.bannerActionUrl)),
+      text: ref.watch(remoteConfigProvider(RemoteConfigKeys.bannerText)),
+      actionText: ref.watch(remoteConfigProvider(RemoteConfigKeys.bannerActionText)),
+      actionUrl: ref.watch(remoteConfigProvider(RemoteConfigKeys.bannerActionUrl)),
     );
   }
 
   Future<void> markAsRead() async {
     final bannerReadKeys = ref.read(prefProvider(PrefKeys.bannerReadKeys));
-    final bannerKey = ref.read(remoteConfigRepositoryProvider(RemoteConfigKeys.bannerKey));
+    final bannerKey = ref.read(remoteConfigProvider(RemoteConfigKeys.bannerKey));
     await ref.read(prefProvider(PrefKeys.bannerReadKeys).notifier)
         .set([...bannerReadKeys, bannerKey]);
   }

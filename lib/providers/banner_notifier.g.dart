@@ -41,7 +41,7 @@ final class BannerNotifierProvider
   }
 }
 
-String _$bannerNotifierHash() => r'4de6440121fcd5cc355b60b04a71a899d055acf1';
+String _$bannerNotifierHash() => r'b9e23f9fdee0feb4cd70fec32060ecc0ff7e4928';
 
 abstract class _$BannerNotifier extends $Notifier<BannerData?> {
   BannerData? build();

@@ -18,11 +18,11 @@ part "remote_config_repository.g.dart";
 ///
 /// ```dart
 /// final enabled = ref.watch(
-///   remoteConfigRepositoryProvider(RemoteConfigKeys.hoyolabLinkEnabled),
+///   remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled),
 /// );
 /// ```
 @Riverpod(keepAlive: true)
-T remoteConfigRepository<T extends Object>(Ref ref, RemoteConfigKey<T> key) {
+T remoteConfig<T extends Object>(Ref ref, RemoteConfigKey<T> key) {
   return ref.watch(remoteConfigServiceProvider).get(key);
 }
 
@@ -33,8 +33,15 @@ T remoteConfigRepository<T extends Object>(Ref ref, RemoteConfigKey<T> key) {
 /// that with an empty dependency array.
 @Riverpod(keepAlive: true)
 StreamSubscription<RemoteConfigUpdate> remoteConfigUpdateListener(Ref ref) {
-  final subscription = ref.watch(remoteConfigServiceProvider)
-      .listenConfigUpdate(() => ref.invalidate(remoteConfigRepositoryProvider));
+  final subscription = ref.watch(remoteConfigServiceProvider).listenConfigUpdate(() {
+    // `listenConfigUpdate` awaits `activate()` before calling back, and
+    // cancelling a subscription cannot stop an event that is already in
+    // flight. Invalidating through a disposed ref throws, so check first.
+    if (!ref.mounted) {
+      return;
+    }
+    ref.invalidate(remoteConfigProvider);
+  });
   ref.onDispose(subscription.cancel);
   return subscription;
 }

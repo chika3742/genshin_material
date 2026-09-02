@@ -4,6 +4,7 @@ import "package:flutter/services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/asset_updater.dart";
+import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/providers/asset_updating_state.dart";
 import "package:mockito/mockito.dart";
 
@@ -44,7 +45,7 @@ void main() {
 
   ProviderContainer createContainer() => ProviderContainer.test(overrides: [
         overrideHttpClient(client),
-        ...overrideRemoteConfigs(),
+        overrideRemoteConfig(RemoteConfigKeys.minimumAssetSchemaVersion, 0),
       ]);
 
   AssetUpdatingStateNotifier createNotifier(ProviderContainer container) =>
