@@ -26,16 +26,21 @@ $ArtifactBookmarkDialogStateCopyWith<ArtifactBookmarkDialogState> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactBookmarkDialogState&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.firstSetId, firstSetId) || other.firstSetId == firstSetId)&&(identical(other.secondSetId, secondSetId) || other.secondSetId == secondSetId)&&(identical(other.pieceId, pieceId) || other.pieceId == pieceId)&&const DeepCollectionEquality().equals(other.mainStats, mainStats)&&const DeepCollectionEquality().equals(other.subStats, subStats));
+  final _this = this as ArtifactBookmarkDialogState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactBookmarkDialogState&&(identical(other.characterId, _this.characterId) || other.characterId == _this.characterId)&&(identical(other.firstSetId, _this.firstSetId) || other.firstSetId == _this.firstSetId)&&(identical(other.secondSetId, _this.secondSetId) || other.secondSetId == _this.secondSetId)&&(identical(other.pieceId, _this.pieceId) || other.pieceId == _this.pieceId)&&const DeepCollectionEquality().equals(other.mainStats, _this.mainStats)&&const DeepCollectionEquality().equals(other.subStats, _this.subStats));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,characterId,firstSetId,secondSetId,pieceId,const DeepCollectionEquality().hash(mainStats),const DeepCollectionEquality().hash(subStats));
+int get hashCode {
+  final _this = this as ArtifactBookmarkDialogState;
+  return Object.hash(runtimeType,_this.characterId,_this.firstSetId,_this.secondSetId,_this.pieceId,const DeepCollectionEquality().hash(_this.mainStats),const DeepCollectionEquality().hash(_this.subStats));
+}
 
 @override
 String toString() {
-  return 'ArtifactBookmarkDialogState(characterId: $characterId, firstSetId: $firstSetId, secondSetId: $secondSetId, pieceId: $pieceId, mainStats: $mainStats, subStats: $subStats)';
+  final _this = this as ArtifactBookmarkDialogState;
+  return 'ArtifactBookmarkDialogState(characterId: ${_this.characterId}, firstSetId: ${_this.firstSetId}, secondSetId: ${_this.secondSetId}, pieceId: ${_this.pieceId}, mainStats: ${_this.mainStats}, subStats: ${_this.subStats})';
 }
 
 
@@ -115,16 +120,18 @@ _$ArtifactBookmarkDialogStateCopyWith<_ArtifactBookmarkDialogState> get copyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactBookmarkDialogState&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.firstSetId, firstSetId) || other.firstSetId == firstSetId)&&(identical(other.secondSetId, secondSetId) || other.secondSetId == secondSetId)&&(identical(other.pieceId, pieceId) || other.pieceId == pieceId)&&const DeepCollectionEquality().equals(other._mainStats, _mainStats)&&const DeepCollectionEquality().equals(other._subStats, _subStats));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactBookmarkDialogState&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.firstSetId, firstSetId) || other.firstSetId == firstSetId)&&(identical(other.secondSetId, secondSetId) || other.secondSetId == secondSetId)&&(identical(other.pieceId, pieceId) || other.pieceId == pieceId)&&const DeepCollectionEquality().equals(other.mainStats, _mainStats)&&const DeepCollectionEquality().equals(other.subStats, _subStats));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,characterId,firstSetId,secondSetId,pieceId,const DeepCollectionEquality().hash(_mainStats),const DeepCollectionEquality().hash(_subStats));
+int get hashCode {
+    return Object.hash(runtimeType,characterId,firstSetId,secondSetId,pieceId,const DeepCollectionEquality().hash(_mainStats),const DeepCollectionEquality().hash(_subStats));
+}
 
 @override
 String toString() {
-  return 'ArtifactBookmarkDialogState(characterId: $characterId, firstSetId: $firstSetId, secondSetId: $secondSetId, pieceId: $pieceId, mainStats: $mainStats, subStats: $subStats)';
+    return 'ArtifactBookmarkDialogState(characterId: $characterId, firstSetId: $firstSetId, secondSetId: $secondSetId, pieceId: $pieceId, mainStats: $mainStats, subStats: $subStats)';
 }
 
 

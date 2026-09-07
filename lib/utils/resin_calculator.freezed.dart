@@ -21,16 +21,21 @@ mixin _$ResinCalculationResult {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ResinCalculationResult&&(identical(other.fullyReplenishedBy, fullyReplenishedBy) || other.fullyReplenishedBy == fullyReplenishedBy)&&(identical(other.timeToFull, timeToFull) || other.timeToFull == timeToFull)&&(identical(other.currentResin, currentResin) || other.currentResin == currentResin)&&(identical(other.wastedResin, wastedResin) || other.wastedResin == wastedResin)&&const DeepCollectionEquality().equals(other.breakpoints, breakpoints));
+  final _this = this as ResinCalculationResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ResinCalculationResult&&(identical(other.fullyReplenishedBy, _this.fullyReplenishedBy) || other.fullyReplenishedBy == _this.fullyReplenishedBy)&&(identical(other.timeToFull, _this.timeToFull) || other.timeToFull == _this.timeToFull)&&(identical(other.currentResin, _this.currentResin) || other.currentResin == _this.currentResin)&&(identical(other.wastedResin, _this.wastedResin) || other.wastedResin == _this.wastedResin)&&const DeepCollectionEquality().equals(other.breakpoints, _this.breakpoints));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,fullyReplenishedBy,timeToFull,currentResin,wastedResin,const DeepCollectionEquality().hash(breakpoints));
+int get hashCode {
+  final _this = this as ResinCalculationResult;
+  return Object.hash(runtimeType,_this.fullyReplenishedBy,_this.timeToFull,_this.currentResin,_this.wastedResin,const DeepCollectionEquality().hash(_this.breakpoints));
+}
 
 @override
 String toString() {
-  return 'ResinCalculationResult(fullyReplenishedBy: $fullyReplenishedBy, timeToFull: $timeToFull, currentResin: $currentResin, wastedResin: $wastedResin, breakpoints: $breakpoints)';
+  final _this = this as ResinCalculationResult;
+  return 'ResinCalculationResult(fullyReplenishedBy: ${_this.fullyReplenishedBy}, timeToFull: ${_this.timeToFull}, currentResin: ${_this.currentResin}, wastedResin: ${_this.wastedResin}, breakpoints: ${_this.breakpoints})';
 }
 
 
@@ -64,16 +69,18 @@ class _ResinCalculationResult implements ResinCalculationResult {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ResinCalculationResult&&(identical(other.fullyReplenishedBy, fullyReplenishedBy) || other.fullyReplenishedBy == fullyReplenishedBy)&&(identical(other.timeToFull, timeToFull) || other.timeToFull == timeToFull)&&(identical(other.currentResin, currentResin) || other.currentResin == currentResin)&&(identical(other.wastedResin, wastedResin) || other.wastedResin == wastedResin)&&const DeepCollectionEquality().equals(other._breakpoints, _breakpoints));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ResinCalculationResult&&(identical(other.fullyReplenishedBy, fullyReplenishedBy) || other.fullyReplenishedBy == fullyReplenishedBy)&&(identical(other.timeToFull, timeToFull) || other.timeToFull == timeToFull)&&(identical(other.currentResin, currentResin) || other.currentResin == currentResin)&&(identical(other.wastedResin, wastedResin) || other.wastedResin == wastedResin)&&const DeepCollectionEquality().equals(other.breakpoints, _breakpoints));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,fullyReplenishedBy,timeToFull,currentResin,wastedResin,const DeepCollectionEquality().hash(_breakpoints));
+int get hashCode {
+    return Object.hash(runtimeType,fullyReplenishedBy,timeToFull,currentResin,wastedResin,const DeepCollectionEquality().hash(_breakpoints));
+}
 
 @override
 String toString() {
-  return 'ResinCalculationResult(fullyReplenishedBy: $fullyReplenishedBy, timeToFull: $timeToFull, currentResin: $currentResin, wastedResin: $wastedResin, breakpoints: $breakpoints)';
+    return 'ResinCalculationResult(fullyReplenishedBy: $fullyReplenishedBy, timeToFull: $timeToFull, currentResin: $currentResin, wastedResin: $wastedResin, breakpoints: $breakpoints)';
 }
 
 
@@ -91,16 +98,21 @@ mixin _$ResinBreakpoint {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ResinBreakpoint&&(identical(other.resin, resin) || other.resin == resin)&&(identical(other.fullyReplenishedBy, fullyReplenishedBy) || other.fullyReplenishedBy == fullyReplenishedBy)&&(identical(other.timeToFull, timeToFull) || other.timeToFull == timeToFull));
+  final _this = this as ResinBreakpoint;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ResinBreakpoint&&(identical(other.resin, _this.resin) || other.resin == _this.resin)&&(identical(other.fullyReplenishedBy, _this.fullyReplenishedBy) || other.fullyReplenishedBy == _this.fullyReplenishedBy)&&(identical(other.timeToFull, _this.timeToFull) || other.timeToFull == _this.timeToFull));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,resin,fullyReplenishedBy,timeToFull);
+int get hashCode {
+  final _this = this as ResinBreakpoint;
+  return Object.hash(runtimeType,_this.resin,_this.fullyReplenishedBy,_this.timeToFull);
+}
 
 @override
 String toString() {
-  return 'ResinBreakpoint(resin: $resin, fullyReplenishedBy: $fullyReplenishedBy, timeToFull: $timeToFull)';
+  final _this = this as ResinBreakpoint;
+  return 'ResinBreakpoint(resin: ${_this.resin}, fullyReplenishedBy: ${_this.fullyReplenishedBy}, timeToFull: ${_this.timeToFull})';
 }
 
 
@@ -126,16 +138,18 @@ class _ResinBreakpoint implements ResinBreakpoint {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ResinBreakpoint&&(identical(other.resin, resin) || other.resin == resin)&&(identical(other.fullyReplenishedBy, fullyReplenishedBy) || other.fullyReplenishedBy == fullyReplenishedBy)&&(identical(other.timeToFull, timeToFull) || other.timeToFull == timeToFull));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ResinBreakpoint&&(identical(other.resin, resin) || other.resin == resin)&&(identical(other.fullyReplenishedBy, fullyReplenishedBy) || other.fullyReplenishedBy == fullyReplenishedBy)&&(identical(other.timeToFull, timeToFull) || other.timeToFull == timeToFull));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,resin,fullyReplenishedBy,timeToFull);
+int get hashCode {
+    return Object.hash(runtimeType,resin,fullyReplenishedBy,timeToFull);
+}
 
 @override
 String toString() {
-  return 'ResinBreakpoint(resin: $resin, fullyReplenishedBy: $fullyReplenishedBy, timeToFull: $timeToFull)';
+    return 'ResinBreakpoint(resin: $resin, fullyReplenishedBy: $fullyReplenishedBy, timeToFull: $timeToFull)';
 }
 
 

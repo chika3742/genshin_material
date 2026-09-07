@@ -22,16 +22,21 @@ mixin _$Furnishing {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Furnishing&&(identical(other.id, id) || other.id == id)&&(identical(other.hyvId, hyvId) || other.hyvId == hyvId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.source, source) || other.source == source));
+  final _this = this as Furnishing;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Furnishing&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.hyvId, _this.hyvId) || other.hyvId == _this.hyvId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.jaPronunciation, _this.jaPronunciation) || other.jaPronunciation == _this.jaPronunciation)&&(identical(other.imageUrl, _this.imageUrl) || other.imageUrl == _this.imageUrl)&&(identical(other.source, _this.source) || other.source == _this.source));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,hyvId,name,jaPronunciation,imageUrl,source);
+int get hashCode {
+  final _this = this as Furnishing;
+  return Object.hash(runtimeType,_this.id,_this.hyvId,_this.name,_this.jaPronunciation,_this.imageUrl,_this.source);
+}
 
 @override
 String toString() {
-  return 'Furnishing(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, source: $source)';
+  final _this = this as Furnishing;
+  return 'Furnishing(id: ${_this.id}, hyvId: ${_this.hyvId}, name: ${_this.name}, jaPronunciation: ${_this.jaPronunciation}, imageUrl: ${_this.imageUrl}, source: ${_this.source})';
 }
 
 
@@ -60,16 +65,18 @@ class _Furnishing extends Furnishing {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Furnishing&&(identical(other.id, id) || other.id == id)&&(identical(other.hyvId, hyvId) || other.hyvId == hyvId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.source, source) || other.source == source));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Furnishing&&(identical(other.id, id) || other.id == id)&&(identical(other.hyvId, hyvId) || other.hyvId == hyvId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.source, source) || other.source == source));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,hyvId,name,jaPronunciation,imageUrl,source);
+int get hashCode {
+    return Object.hash(runtimeType,id,hyvId,name,jaPronunciation,imageUrl,source);
+}
 
 @override
 String toString() {
-  return 'Furnishing(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, source: $source)';
+    return 'Furnishing(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, source: $source)';
 }
 
 
@@ -88,16 +95,21 @@ mixin _$FurnishingSetMeta {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FurnishingSetMeta&&const DeepCollectionEquality().equals(other.setTypes, setTypes));
+  final _this = this as FurnishingSetMeta;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FurnishingSetMeta&&const DeepCollectionEquality().equals(other.setTypes, _this.setTypes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(setTypes));
+int get hashCode {
+  final _this = this as FurnishingSetMeta;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.setTypes));
+}
 
 @override
 String toString() {
-  return 'FurnishingSetMeta(setTypes: $setTypes)';
+  final _this = this as FurnishingSetMeta;
+  return 'FurnishingSetMeta(setTypes: ${_this.setTypes})';
 }
 
 
@@ -127,16 +139,18 @@ class _FurnishingSetMeta implements FurnishingSetMeta {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FurnishingSetMeta&&const DeepCollectionEquality().equals(other._setTypes, _setTypes));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FurnishingSetMeta&&const DeepCollectionEquality().equals(other.setTypes, _setTypes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_setTypes));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_setTypes));
+}
 
 @override
 String toString() {
-  return 'FurnishingSetMeta(setTypes: $setTypes)';
+    return 'FurnishingSetMeta(setTypes: $setTypes)';
 }
 
 
@@ -157,16 +171,21 @@ mixin _$FurnishingSetComponent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FurnishingSetComponent&&(identical(other.furnishingId, furnishingId) || other.furnishingId == furnishingId)&&(identical(other.quantity, quantity) || other.quantity == quantity));
+  final _this = this as FurnishingSetComponent;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FurnishingSetComponent&&(identical(other.furnishingId, _this.furnishingId) || other.furnishingId == _this.furnishingId)&&(identical(other.quantity, _this.quantity) || other.quantity == _this.quantity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,furnishingId,quantity);
+int get hashCode {
+  final _this = this as FurnishingSetComponent;
+  return Object.hash(runtimeType,_this.furnishingId,_this.quantity);
+}
 
 @override
 String toString() {
-  return 'FurnishingSetComponent(furnishingId: $furnishingId, quantity: $quantity)';
+  final _this = this as FurnishingSetComponent;
+  return 'FurnishingSetComponent(furnishingId: ${_this.furnishingId}, quantity: ${_this.quantity})';
 }
 
 
@@ -194,16 +213,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FurnishingSetComponent&&(identical(other.furnishingId, furnishingId) || other.furnishingId == furnishingId)&&(identical(other.quantity, quantity) || other.quantity == quantity));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FurnishingSetComponent&&(identical(other.furnishingId, furnishingId) || other.furnishingId == furnishingId)&&(identical(other.quantity, quantity) || other.quantity == quantity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,furnishingId,quantity);
+int get hashCode {
+    return Object.hash(runtimeType,furnishingId,quantity);
+}
 
 @override
 String toString() {
-  return 'FurnishingSetComponent(furnishingId: $furnishingId, quantity: $quantity)';
+    return 'FurnishingSetComponent(furnishingId: $furnishingId, quantity: $quantity)';
 }
 
 
@@ -222,16 +243,21 @@ mixin _$FurnishingSet {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FurnishingSet&&(identical(other.id, id) || other.id == id)&&(identical(other.hyvId, hyvId) || other.hyvId == hyvId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.favoriteCharacterHyvIds, favoriteCharacterHyvIds)&&const DeepCollectionEquality().equals(other.consistsOf, consistsOf));
+  final _this = this as FurnishingSet;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FurnishingSet&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.hyvId, _this.hyvId) || other.hyvId == _this.hyvId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.jaPronunciation, _this.jaPronunciation) || other.jaPronunciation == _this.jaPronunciation)&&(identical(other.imageUrl, _this.imageUrl) || other.imageUrl == _this.imageUrl)&&(identical(other.type, _this.type) || other.type == _this.type)&&const DeepCollectionEquality().equals(other.favoriteCharacterHyvIds, _this.favoriteCharacterHyvIds)&&const DeepCollectionEquality().equals(other.consistsOf, _this.consistsOf));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,hyvId,name,jaPronunciation,imageUrl,type,const DeepCollectionEquality().hash(favoriteCharacterHyvIds),const DeepCollectionEquality().hash(consistsOf));
+int get hashCode {
+  final _this = this as FurnishingSet;
+  return Object.hash(runtimeType,_this.id,_this.hyvId,_this.name,_this.jaPronunciation,_this.imageUrl,_this.type,const DeepCollectionEquality().hash(_this.favoriteCharacterHyvIds),const DeepCollectionEquality().hash(_this.consistsOf));
+}
 
 @override
 String toString() {
-  return 'FurnishingSet(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, type: $type, favoriteCharacterHyvIds: $favoriteCharacterHyvIds, consistsOf: $consistsOf)';
+  final _this = this as FurnishingSet;
+  return 'FurnishingSet(id: ${_this.id}, hyvId: ${_this.hyvId}, name: ${_this.name}, jaPronunciation: ${_this.jaPronunciation}, imageUrl: ${_this.imageUrl}, type: ${_this.type}, favoriteCharacterHyvIds: ${_this.favoriteCharacterHyvIds}, consistsOf: ${_this.consistsOf})';
 }
 
 
@@ -274,16 +300,18 @@ class _FurnishingSet extends FurnishingSet {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FurnishingSet&&(identical(other.id, id) || other.id == id)&&(identical(other.hyvId, hyvId) || other.hyvId == hyvId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other._favoriteCharacterHyvIds, _favoriteCharacterHyvIds)&&const DeepCollectionEquality().equals(other._consistsOf, _consistsOf));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FurnishingSet&&(identical(other.id, id) || other.id == id)&&(identical(other.hyvId, hyvId) || other.hyvId == hyvId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.favoriteCharacterHyvIds, _favoriteCharacterHyvIds)&&const DeepCollectionEquality().equals(other.consistsOf, _consistsOf));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,hyvId,name,jaPronunciation,imageUrl,type,const DeepCollectionEquality().hash(_favoriteCharacterHyvIds),const DeepCollectionEquality().hash(_consistsOf));
+int get hashCode {
+    return Object.hash(runtimeType,id,hyvId,name,jaPronunciation,imageUrl,type,const DeepCollectionEquality().hash(_favoriteCharacterHyvIds),const DeepCollectionEquality().hash(_consistsOf));
+}
 
 @override
 String toString() {
-  return 'FurnishingSet(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, type: $type, favoriteCharacterHyvIds: $favoriteCharacterHyvIds, consistsOf: $consistsOf)';
+    return 'FurnishingSet(id: $id, hyvId: $hyvId, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, type: $type, favoriteCharacterHyvIds: $favoriteCharacterHyvIds, consistsOf: $consistsOf)';
 }
 
 

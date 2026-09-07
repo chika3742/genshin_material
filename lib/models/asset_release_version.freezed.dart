@@ -24,16 +24,21 @@ mixin _$AssetReleaseVersion {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AssetReleaseVersion&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.dataVersion, dataVersion) || other.dataVersion == dataVersion)&&(identical(other.channel, channel) || other.channel == channel)&&(identical(other.distUrl, distUrl) || other.distUrl == distUrl)&&(identical(other.schemaVersion, schemaVersion) || other.schemaVersion == schemaVersion));
+  final _this = this as AssetReleaseVersion;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AssetReleaseVersion&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.dataVersion, _this.dataVersion) || other.dataVersion == _this.dataVersion)&&(identical(other.channel, _this.channel) || other.channel == _this.channel)&&(identical(other.distUrl, _this.distUrl) || other.distUrl == _this.distUrl)&&(identical(other.schemaVersion, _this.schemaVersion) || other.schemaVersion == _this.schemaVersion));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,createdAt,dataVersion,channel,distUrl,schemaVersion);
+int get hashCode {
+  final _this = this as AssetReleaseVersion;
+  return Object.hash(runtimeType,_this.createdAt,_this.dataVersion,_this.channel,_this.distUrl,_this.schemaVersion);
+}
 
 @override
 String toString() {
-  return 'AssetReleaseVersion(createdAt: $createdAt, dataVersion: $dataVersion, channel: $channel, distUrl: $distUrl, schemaVersion: $schemaVersion)';
+  final _this = this as AssetReleaseVersion;
+  return 'AssetReleaseVersion(createdAt: ${_this.createdAt}, dataVersion: ${_this.dataVersion}, channel: ${_this.channel}, distUrl: ${_this.distUrl}, schemaVersion: ${_this.schemaVersion})';
 }
 
 
@@ -64,16 +69,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AssetReleaseVersion&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.dataVersion, dataVersion) || other.dataVersion == dataVersion)&&(identical(other.channel, channel) || other.channel == channel)&&(identical(other.distUrl, distUrl) || other.distUrl == distUrl)&&(identical(other.schemaVersion, schemaVersion) || other.schemaVersion == schemaVersion));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AssetReleaseVersion&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.dataVersion, dataVersion) || other.dataVersion == dataVersion)&&(identical(other.channel, channel) || other.channel == channel)&&(identical(other.distUrl, distUrl) || other.distUrl == distUrl)&&(identical(other.schemaVersion, schemaVersion) || other.schemaVersion == schemaVersion));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,createdAt,dataVersion,channel,distUrl,schemaVersion);
+int get hashCode {
+    return Object.hash(runtimeType,createdAt,dataVersion,channel,distUrl,schemaVersion);
+}
 
 @override
 String toString() {
-  return 'AssetReleaseVersion(createdAt: $createdAt, dataVersion: $dataVersion, channel: $channel, distUrl: $distUrl, schemaVersion: $schemaVersion)';
+    return 'AssetReleaseVersion(createdAt: $createdAt, dataVersion: $dataVersion, channel: $channel, distUrl: $distUrl, schemaVersion: $schemaVersion)';
 }
 
 

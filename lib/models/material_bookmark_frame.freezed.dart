@@ -26,16 +26,21 @@ $MaterialBookmarkFrameCopyWith<MaterialBookmarkFrame> get copyWith => _$Material
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialBookmarkFrame&&(identical(other.materialId, materialId) || other.materialId == materialId)&&(identical(other.level, level) || other.level == level)&&(identical(other.purposeType, purposeType) || other.purposeType == purposeType));
+  final _this = this as MaterialBookmarkFrame;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialBookmarkFrame&&(identical(other.materialId, _this.materialId) || other.materialId == _this.materialId)&&(identical(other.level, _this.level) || other.level == _this.level)&&(identical(other.purposeType, _this.purposeType) || other.purposeType == _this.purposeType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,materialId,level,purposeType);
+int get hashCode {
+  final _this = this as MaterialBookmarkFrame;
+  return Object.hash(runtimeType,_this.materialId,_this.level,_this.purposeType);
+}
 
 @override
 String toString() {
-  return 'MaterialBookmarkFrame(materialId: $materialId, level: $level, purposeType: $purposeType)';
+  final _this = this as MaterialBookmarkFrame;
+  return 'MaterialBookmarkFrame(materialId: ${_this.materialId}, level: ${_this.level}, purposeType: ${_this.purposeType})';
 }
 
 
@@ -98,16 +103,18 @@ $MaterialBookmarkFrameNormalCopyWith<MaterialBookmarkFrameNormal> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialBookmarkFrameNormal&&(identical(other.materialId, materialId) || other.materialId == materialId)&&(identical(other.level, level) || other.level == level)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.purposeType, purposeType) || other.purposeType == purposeType));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialBookmarkFrameNormal&&(identical(other.materialId, materialId) || other.materialId == materialId)&&(identical(other.level, level) || other.level == level)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.purposeType, purposeType) || other.purposeType == purposeType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,materialId,level,quantity,purposeType);
+int get hashCode {
+    return Object.hash(runtimeType,materialId,level,quantity,purposeType);
+}
 
 @override
 String toString() {
-  return 'MaterialBookmarkFrame(materialId: $materialId, level: $level, quantity: $quantity, purposeType: $purposeType)';
+    return 'MaterialBookmarkFrame(materialId: $materialId, level: $level, quantity: $quantity, purposeType: $purposeType)';
 }
 
 
@@ -170,16 +177,18 @@ $MaterialBookmarkFrameExpCopyWith<MaterialBookmarkFrameExp> get copyWith => _$Ma
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialBookmarkFrameExp&&(identical(other.materialId, materialId) || other.materialId == materialId)&&(identical(other.level, level) || other.level == level)&&(identical(other.exp, exp) || other.exp == exp)&&(identical(other.purposeType, purposeType) || other.purposeType == purposeType));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialBookmarkFrameExp&&(identical(other.materialId, materialId) || other.materialId == materialId)&&(identical(other.level, level) || other.level == level)&&(identical(other.exp, exp) || other.exp == exp)&&(identical(other.purposeType, purposeType) || other.purposeType == purposeType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,materialId,level,exp,purposeType);
+int get hashCode {
+    return Object.hash(runtimeType,materialId,level,exp,purposeType);
+}
 
 @override
 String toString() {
-  return 'MaterialBookmarkFrame.exp(materialId: $materialId, level: $level, exp: $exp, purposeType: $purposeType)';
+    return 'MaterialBookmarkFrame.exp(materialId: $materialId, level: $level, exp: $exp, purposeType: $purposeType)';
 }
 
 
@@ -229,16 +238,21 @@ mixin _$MaterialUsage {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialUsage&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.weaponId, weaponId) || other.weaponId == weaponId));
+  final _this = this as MaterialUsage;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialUsage&&(identical(other.characterId, _this.characterId) || other.characterId == _this.characterId)&&(identical(other.weaponId, _this.weaponId) || other.weaponId == _this.weaponId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,characterId,weaponId);
+int get hashCode {
+  final _this = this as MaterialUsage;
+  return Object.hash(runtimeType,_this.characterId,_this.weaponId);
+}
 
 @override
 String toString() {
-  return 'MaterialUsage(characterId: $characterId, weaponId: $weaponId)';
+  final _this = this as MaterialUsage;
+  return 'MaterialUsage(characterId: ${_this.characterId}, weaponId: ${_this.weaponId})';
 }
 
 
@@ -263,16 +277,18 @@ class _MaterialUsage implements MaterialUsage {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MaterialUsage&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.weaponId, weaponId) || other.weaponId == weaponId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MaterialUsage&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.weaponId, weaponId) || other.weaponId == weaponId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,characterId,weaponId);
+int get hashCode {
+    return Object.hash(runtimeType,characterId,weaponId);
+}
 
 @override
 String toString() {
-  return 'MaterialUsage(characterId: $characterId, weaponId: $weaponId)';
+    return 'MaterialUsage(characterId: $characterId, weaponId: $weaponId)';
 }
 
 

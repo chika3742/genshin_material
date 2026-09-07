@@ -29,16 +29,21 @@ mixin _$ReleaseNote {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReleaseNote&&(identical(other.releasedOn, releasedOn) || other.releasedOn == releasedOn)&&(identical(other.version, version) || other.version == version)&&(identical(other.contents, contents) || other.contents == contents));
+  final _this = this as ReleaseNote;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReleaseNote&&(identical(other.releasedOn, _this.releasedOn) || other.releasedOn == _this.releasedOn)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.contents, _this.contents) || other.contents == _this.contents));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,releasedOn,version,contents);
+int get hashCode {
+  final _this = this as ReleaseNote;
+  return Object.hash(runtimeType,_this.releasedOn,_this.version,_this.contents);
+}
 
 @override
 String toString() {
-  return 'ReleaseNote(releasedOn: $releasedOn, version: $version, contents: $contents)';
+  final _this = this as ReleaseNote;
+  return 'ReleaseNote(releasedOn: ${_this.releasedOn}, version: ${_this.version}, contents: ${_this.contents})';
 }
 
 
@@ -64,16 +69,18 @@ class LocalizedReleaseNote implements ReleaseNote {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalizedReleaseNote&&(identical(other.releasedOn, releasedOn) || other.releasedOn == releasedOn)&&(identical(other.version, version) || other.version == version)&&(identical(other.contents, contents) || other.contents == contents));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalizedReleaseNote&&(identical(other.releasedOn, releasedOn) || other.releasedOn == releasedOn)&&(identical(other.version, version) || other.version == version)&&(identical(other.contents, contents) || other.contents == contents));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,releasedOn,version,contents);
+int get hashCode {
+    return Object.hash(runtimeType,releasedOn,version,contents);
+}
 
 @override
 String toString() {
-  return 'ReleaseNote(releasedOn: $releasedOn, version: $version, contents: $contents)';
+    return 'ReleaseNote(releasedOn: $releasedOn, version: $version, contents: $contents)';
 }
 
 

@@ -42,16 +42,21 @@ mixin _$Character {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Character&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.smallImageUrl, smallImageUrl) || other.smallImageUrl == smallImageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&const DeepCollectionEquality().equals(other.materials, materials));
+  final _this = this as Character;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Character&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.jaPronunciation, _this.jaPronunciation) || other.jaPronunciation == _this.jaPronunciation)&&(identical(other.smallImageUrl, _this.smallImageUrl) || other.smallImageUrl == _this.smallImageUrl)&&(identical(other.rarity, _this.rarity) || other.rarity == _this.rarity)&&(identical(other.weaponType, _this.weaponType) || other.weaponType == _this.weaponType)&&const DeepCollectionEquality().equals(other.materials, _this.materials));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,jaPronunciation,smallImageUrl,rarity,weaponType,const DeepCollectionEquality().hash(materials));
+int get hashCode {
+  final _this = this as Character;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.jaPronunciation,_this.smallImageUrl,_this.rarity,_this.weaponType,const DeepCollectionEquality().hash(_this.materials));
+}
 
 @override
 String toString() {
-  return 'Character(id: $id, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, materials: $materials)';
+  final _this = this as Character;
+  return 'Character(id: ${_this.id}, name: ${_this.name}, jaPronunciation: ${_this.jaPronunciation}, smallImageUrl: ${_this.smallImageUrl}, rarity: ${_this.rarity}, weaponType: ${_this.weaponType}, materials: ${_this.materials})';
 }
 
 
@@ -108,16 +113,18 @@ final String $type;
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ListedCharacter&&(identical(other.id, id) || other.id == id)&&(identical(other.disableSync, disableSync) || other.disableSync == disableSync)&&const DeepCollectionEquality().equals(other._hyvIds, _hyvIds)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.smallImageUrl, smallImageUrl) || other.smallImageUrl == smallImageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&(identical(other.element, element) || other.element == element)&&const DeepCollectionEquality().equals(other._talents, _talents)&&const DeepCollectionEquality().equals(other._materials, _materials));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ListedCharacter&&(identical(other.id, id) || other.id == id)&&(identical(other.disableSync, disableSync) || other.disableSync == disableSync)&&const DeepCollectionEquality().equals(other.hyvIds, _hyvIds)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.smallImageUrl, smallImageUrl) || other.smallImageUrl == smallImageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&(identical(other.element, element) || other.element == element)&&const DeepCollectionEquality().equals(other.talents, _talents)&&const DeepCollectionEquality().equals(other.materials, _materials));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,disableSync,const DeepCollectionEquality().hash(_hyvIds),name,jaPronunciation,imageUrl,smallImageUrl,rarity,weaponType,element,const DeepCollectionEquality().hash(_talents),const DeepCollectionEquality().hash(_materials));
+int get hashCode {
+    return Object.hash(runtimeType,id,disableSync,const DeepCollectionEquality().hash(_hyvIds),name,jaPronunciation,imageUrl,smallImageUrl,rarity,weaponType,element,const DeepCollectionEquality().hash(_talents),const DeepCollectionEquality().hash(_materials));
+}
 
 @override
 String toString() {
-  return 'Character(id: $id, disableSync: $disableSync, hyvIds: $hyvIds, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
+    return 'Character(id: $id, disableSync: $disableSync, hyvIds: $hyvIds, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, element: $element, talents: $talents, materials: $materials)';
 }
 
 
@@ -171,16 +178,18 @@ final String $type;
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterGroup&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other._hyvIds, _hyvIds)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.smallImageUrl, smallImageUrl) || other.smallImageUrl == smallImageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&const DeepCollectionEquality().equals(other._variantIds, _variantIds)&&const DeepCollectionEquality().equals(other._materials, _materials));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterGroup&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other.hyvIds, _hyvIds)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.smallImageUrl, smallImageUrl) || other.smallImageUrl == smallImageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&const DeepCollectionEquality().equals(other.variantIds, _variantIds)&&const DeepCollectionEquality().equals(other.materials, _materials));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(_hyvIds),name,jaPronunciation,imageUrl,smallImageUrl,rarity,weaponType,const DeepCollectionEquality().hash(_variantIds),const DeepCollectionEquality().hash(_materials));
+int get hashCode {
+    return Object.hash(runtimeType,id,const DeepCollectionEquality().hash(_hyvIds),name,jaPronunciation,imageUrl,smallImageUrl,rarity,weaponType,const DeepCollectionEquality().hash(_variantIds),const DeepCollectionEquality().hash(_materials));
+}
 
 @override
 String toString() {
-  return 'Character.group(id: $id, hyvIds: $hyvIds, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, variantIds: $variantIds, materials: $materials)';
+    return 'Character.group(id: $id, hyvIds: $hyvIds, name: $name, jaPronunciation: $jaPronunciation, imageUrl: $imageUrl, smallImageUrl: $smallImageUrl, rarity: $rarity, weaponType: $weaponType, variantIds: $variantIds, materials: $materials)';
 }
 
 
@@ -229,16 +238,18 @@ final String $type;
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterVariant&&(identical(other.id, id) || other.id == id)&&(identical(other.disableSync, disableSync) || other.disableSync == disableSync)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.smallImageUrl, smallImageUrl) || other.smallImageUrl == smallImageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.element, element) || other.element == element)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&const DeepCollectionEquality().equals(other._talents, _talents)&&const DeepCollectionEquality().equals(other._materials, _materials));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterVariant&&(identical(other.id, id) || other.id == id)&&(identical(other.disableSync, disableSync) || other.disableSync == disableSync)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.smallImageUrl, smallImageUrl) || other.smallImageUrl == smallImageUrl)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.element, element) || other.element == element)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&const DeepCollectionEquality().equals(other.talents, _talents)&&const DeepCollectionEquality().equals(other.materials, _materials));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,disableSync,parentId,name,jaPronunciation,smallImageUrl,rarity,element,weaponType,const DeepCollectionEquality().hash(_talents),const DeepCollectionEquality().hash(_materials));
+int get hashCode {
+    return Object.hash(runtimeType,id,disableSync,parentId,name,jaPronunciation,smallImageUrl,rarity,element,weaponType,const DeepCollectionEquality().hash(_talents),const DeepCollectionEquality().hash(_materials));
+}
 
 @override
 String toString() {
-  return 'Character.variant(id: $id, disableSync: $disableSync, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, element: $element, weaponType: $weaponType, talents: $talents, materials: $materials)';
+    return 'Character.variant(id: $id, disableSync: $disableSync, parentId: $parentId, name: $name, jaPronunciation: $jaPronunciation, smallImageUrl: $smallImageUrl, rarity: $rarity, element: $element, weaponType: $weaponType, talents: $talents, materials: $materials)';
 }
 
 
@@ -257,16 +268,21 @@ mixin _$CharacterTalent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterTalent&&const DeepCollectionEquality().equals(other.idList, idList)&&(identical(other.name, name) || other.name == name));
+  final _this = this as CharacterTalent;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterTalent&&const DeepCollectionEquality().equals(other.idList, _this.idList)&&(identical(other.name, _this.name) || other.name == _this.name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(idList),name);
+int get hashCode {
+  final _this = this as CharacterTalent;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.idList),_this.name);
+}
 
 @override
 String toString() {
-  return 'CharacterTalent(idList: $idList, name: $name)';
+  final _this = this as CharacterTalent;
+  return 'CharacterTalent(idList: ${_this.idList}, name: ${_this.name})';
 }
 
 
@@ -297,16 +313,18 @@ class _CharacterTalent implements CharacterTalent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterTalent&&const DeepCollectionEquality().equals(other._idList, _idList)&&(identical(other.name, name) || other.name == name));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterTalent&&const DeepCollectionEquality().equals(other.idList, _idList)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_idList),name);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_idList),name);
+}
 
 @override
 String toString() {
-  return 'CharacterTalent(idList: $idList, name: $name)';
+    return 'CharacterTalent(idList: $idList, name: $name)';
 }
 
 

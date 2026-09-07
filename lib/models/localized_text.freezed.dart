@@ -21,7 +21,7 @@ mixin _$LocalizedText {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalizedText);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalizedText);
 }
 
 
@@ -30,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LocalizedText()';
+    return 'LocalizedText()';
 }
 
 
@@ -60,16 +60,18 @@ class TranslatableLocalizedText extends LocalizedText {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TranslatableLocalizedText&&const DeepCollectionEquality().equals(other._locales, _locales));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is TranslatableLocalizedText&&const DeepCollectionEquality().equals(other.locales, _locales));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_locales));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_locales));
+}
 
 @override
 String toString() {
-  return 'LocalizedText(locales: $locales)';
+    return 'LocalizedText(locales: $locales)';
 }
 
 
@@ -92,16 +94,18 @@ class UntranslatableLocalizedText extends LocalizedText {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UntranslatableLocalizedText&&(identical(other.text, text) || other.text == text));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UntranslatableLocalizedText&&(identical(other.text, text) || other.text == text));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,text);
+int get hashCode {
+    return Object.hash(runtimeType,text);
+}
 
 @override
 String toString() {
-  return 'LocalizedText.untranslatable(text: $text)';
+    return 'LocalizedText.untranslatable(text: $text)';
 }
 
 

@@ -26,16 +26,21 @@ $CharacterFilterStateCopyWith<CharacterFilterState> get copyWith => _$CharacterF
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterFilterState&&(identical(other.possessionStatus, possessionStatus) || other.possessionStatus == possessionStatus)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.element, element) || other.element == element)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&(identical(other.sortType, sortType) || other.sortType == sortType));
+  final _this = this as CharacterFilterState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterFilterState&&(identical(other.possessionStatus, _this.possessionStatus) || other.possessionStatus == _this.possessionStatus)&&(identical(other.rarity, _this.rarity) || other.rarity == _this.rarity)&&(identical(other.element, _this.element) || other.element == _this.element)&&(identical(other.weaponType, _this.weaponType) || other.weaponType == _this.weaponType)&&(identical(other.sortType, _this.sortType) || other.sortType == _this.sortType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,possessionStatus,rarity,element,weaponType,sortType);
+int get hashCode {
+  final _this = this as CharacterFilterState;
+  return Object.hash(runtimeType,_this.possessionStatus,_this.rarity,_this.element,_this.weaponType,_this.sortType);
+}
 
 @override
 String toString() {
-  return 'CharacterFilterState(possessionStatus: $possessionStatus, rarity: $rarity, element: $element, weaponType: $weaponType, sortType: $sortType)';
+  final _this = this as CharacterFilterState;
+  return 'CharacterFilterState(possessionStatus: ${_this.possessionStatus}, rarity: ${_this.rarity}, element: ${_this.element}, weaponType: ${_this.weaponType}, sortType: ${_this.sortType})';
 }
 
 
@@ -101,16 +106,18 @@ _$CharacterFilterStateCopyWith<_CharacterFilterState> get copyWith => __$Charact
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterFilterState&&(identical(other.possessionStatus, possessionStatus) || other.possessionStatus == possessionStatus)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.element, element) || other.element == element)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&(identical(other.sortType, sortType) || other.sortType == sortType));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterFilterState&&(identical(other.possessionStatus, possessionStatus) || other.possessionStatus == possessionStatus)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.element, element) || other.element == element)&&(identical(other.weaponType, weaponType) || other.weaponType == weaponType)&&(identical(other.sortType, sortType) || other.sortType == sortType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,possessionStatus,rarity,element,weaponType,sortType);
+int get hashCode {
+    return Object.hash(runtimeType,possessionStatus,rarity,element,weaponType,sortType);
+}
 
 @override
 String toString() {
-  return 'CharacterFilterState(possessionStatus: $possessionStatus, rarity: $rarity, element: $element, weaponType: $weaponType, sortType: $sortType)';
+    return 'CharacterFilterState(possessionStatus: $possessionStatus, rarity: $rarity, element: $element, weaponType: $weaponType, sortType: $sortType)';
 }
 
 
@@ -166,16 +173,21 @@ $ArtifactFilterStateCopyWith<ArtifactFilterState> get copyWith => _$ArtifactFilt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactFilterState&&const DeepCollectionEquality().equals(other.tags, tags));
+  final _this = this as ArtifactFilterState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactFilterState&&const DeepCollectionEquality().equals(other.tags, _this.tags));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(tags));
+int get hashCode {
+  final _this = this as ArtifactFilterState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.tags));
+}
 
 @override
 String toString() {
-  return 'ArtifactFilterState(tags: $tags)';
+  final _this = this as ArtifactFilterState;
+  return 'ArtifactFilterState(tags: ${_this.tags})';
 }
 
 
@@ -239,16 +251,18 @@ _$ArtifactFilterStateCopyWith<_ArtifactFilterState> get copyWith => __$ArtifactF
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactFilterState&&const DeepCollectionEquality().equals(other._tags, _tags));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactFilterState&&const DeepCollectionEquality().equals(other.tags, _tags));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_tags));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_tags));
+}
 
 @override
 String toString() {
-  return 'ArtifactFilterState(tags: $tags)';
+    return 'ArtifactFilterState(tags: $tags)';
 }
 
 
@@ -300,16 +314,21 @@ $WeaponFilterStateCopyWith<WeaponFilterState> get copyWith => _$WeaponFilterStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WeaponFilterState&&(identical(other.sortType, sortType) || other.sortType == sortType));
+  final _this = this as WeaponFilterState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WeaponFilterState&&(identical(other.sortType, _this.sortType) || other.sortType == _this.sortType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,sortType);
+int get hashCode {
+  final _this = this as WeaponFilterState;
+  return Object.hash(runtimeType,_this.sortType);
+}
 
 @override
 String toString() {
-  return 'WeaponFilterState(sortType: $sortType)';
+  final _this = this as WeaponFilterState;
+  return 'WeaponFilterState(sortType: ${_this.sortType})';
 }
 
 
@@ -367,16 +386,18 @@ _$WeaponFilterStateCopyWith<_WeaponFilterState> get copyWith => __$WeaponFilterS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WeaponFilterState&&(identical(other.sortType, sortType) || other.sortType == sortType));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WeaponFilterState&&(identical(other.sortType, sortType) || other.sortType == sortType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,sortType);
+int get hashCode {
+    return Object.hash(runtimeType,sortType);
+}
 
 @override
 String toString() {
-  return 'WeaponFilterState(sortType: $sortType)';
+    return 'WeaponFilterState(sortType: $sortType)';
 }
 
 

@@ -21,16 +21,21 @@ mixin _$GameDataSyncCharacter {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GameDataSyncCharacter&&(identical(other.variantId, variantId) || other.variantId == variantId)&&(identical(other.weaponId, weaponId) || other.weaponId == weaponId));
+  final _this = this as GameDataSyncCharacter;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GameDataSyncCharacter&&(identical(other.variantId, _this.variantId) || other.variantId == _this.variantId)&&(identical(other.weaponId, _this.weaponId) || other.weaponId == _this.weaponId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,variantId,weaponId);
+int get hashCode {
+  final _this = this as GameDataSyncCharacter;
+  return Object.hash(runtimeType,_this.variantId,_this.weaponId);
+}
 
 @override
 String toString() {
-  return 'GameDataSyncCharacter(variantId: $variantId, weaponId: $weaponId)';
+  final _this = this as GameDataSyncCharacter;
+  return 'GameDataSyncCharacter(variantId: ${_this.variantId}, weaponId: ${_this.weaponId})';
 }
 
 
@@ -55,16 +60,18 @@ class _GameDataSyncCharacter implements GameDataSyncCharacter {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GameDataSyncCharacter&&(identical(other.variantId, variantId) || other.variantId == variantId)&&(identical(other.weaponId, weaponId) || other.weaponId == weaponId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GameDataSyncCharacter&&(identical(other.variantId, variantId) || other.variantId == variantId)&&(identical(other.weaponId, weaponId) || other.weaponId == weaponId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,variantId,weaponId);
+int get hashCode {
+    return Object.hash(runtimeType,variantId,weaponId);
+}
 
 @override
 String toString() {
-  return 'GameDataSyncCharacter(variantId: $variantId, weaponId: $weaponId)';
+    return 'GameDataSyncCharacter(variantId: $variantId, weaponId: $weaponId)';
 }
 
 
@@ -82,16 +89,21 @@ mixin _$ComputeBagRequestItem {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ComputeBagRequestItem&&const DeepCollectionEquality().equals(other.ids, ids)&&(identical(other.variant, variant) || other.variant == variant)&&(identical(other.weaponId, weaponId) || other.weaponId == weaponId));
+  final _this = this as _ComputeBagRequestItem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ComputeBagRequestItem&&const DeepCollectionEquality().equals(other.ids, _this.ids)&&(identical(other.variant, _this.variant) || other.variant == _this.variant)&&(identical(other.weaponId, _this.weaponId) || other.weaponId == _this.weaponId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(ids),variant,weaponId);
+int get hashCode {
+  final _this = this as _ComputeBagRequestItem;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.ids),_this.variant,_this.weaponId);
+}
 
 @override
 String toString() {
-  return '_ComputeBagRequestItem(ids: $ids, variant: $variant, weaponId: $weaponId)';
+  final _this = this as _ComputeBagRequestItem;
+  return '_ComputeBagRequestItem(ids: ${_this.ids}, variant: ${_this.variant}, weaponId: ${_this.weaponId})';
 }
 
 
@@ -123,16 +135,18 @@ class __ComputeBagRequestItem implements _ComputeBagRequestItem {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is __ComputeBagRequestItem&&const DeepCollectionEquality().equals(other._ids, _ids)&&(identical(other.variant, variant) || other.variant == variant)&&(identical(other.weaponId, weaponId) || other.weaponId == weaponId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is __ComputeBagRequestItem&&const DeepCollectionEquality().equals(other.ids, _ids)&&(identical(other.variant, variant) || other.variant == variant)&&(identical(other.weaponId, weaponId) || other.weaponId == weaponId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_ids),variant,weaponId);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_ids),variant,weaponId);
+}
 
 @override
 String toString() {
-  return '_ComputeBagRequestItem(ids: $ids, variant: $variant, weaponId: $weaponId)';
+    return '_ComputeBagRequestItem(ids: $ids, variant: $variant, weaponId: $weaponId)';
 }
 
 
@@ -155,16 +169,21 @@ $GameDataSyncResultCopyWith<GameDataSyncResult> get copyWith => _$GameDataSyncRe
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GameDataSyncResult&&const DeepCollectionEquality().equals(other.levels, levels)&&(identical(other.equippedWeaponId, equippedWeaponId) || other.equippedWeaponId == equippedWeaponId)&&(identical(other.errorType, errorType) || other.errorType == errorType)&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.isStale, isStale) || other.isStale == isStale));
+  final _this = this as GameDataSyncResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GameDataSyncResult&&const DeepCollectionEquality().equals(other.levels, _this.levels)&&(identical(other.equippedWeaponId, _this.equippedWeaponId) || other.equippedWeaponId == _this.equippedWeaponId)&&(identical(other.errorType, _this.errorType) || other.errorType == _this.errorType)&&const DeepCollectionEquality().equals(other.error, _this.error)&&(identical(other.isStale, _this.isStale) || other.isStale == _this.isStale));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(levels),equippedWeaponId,errorType,const DeepCollectionEquality().hash(error),isStale);
+int get hashCode {
+  final _this = this as GameDataSyncResult;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.levels),_this.equippedWeaponId,_this.errorType,const DeepCollectionEquality().hash(_this.error),_this.isStale);
+}
 
 @override
 String toString() {
-  return 'GameDataSyncResult(levels: $levels, equippedWeaponId: $equippedWeaponId, errorType: $errorType, error: $error, isStale: $isStale)';
+  final _this = this as GameDataSyncResult;
+  return 'GameDataSyncResult(levels: ${_this.levels}, equippedWeaponId: ${_this.equippedWeaponId}, errorType: ${_this.errorType}, error: ${_this.error}, isStale: ${_this.isStale})';
 }
 
 
@@ -237,16 +256,18 @@ _$GameDataSyncResultCopyWith<_GameDataSyncResult> get copyWith => __$GameDataSyn
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GameDataSyncResult&&const DeepCollectionEquality().equals(other._levels, _levels)&&(identical(other.equippedWeaponId, equippedWeaponId) || other.equippedWeaponId == equippedWeaponId)&&(identical(other.errorType, errorType) || other.errorType == errorType)&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.isStale, isStale) || other.isStale == isStale));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GameDataSyncResult&&const DeepCollectionEquality().equals(other.levels, _levels)&&(identical(other.equippedWeaponId, equippedWeaponId) || other.equippedWeaponId == equippedWeaponId)&&(identical(other.errorType, errorType) || other.errorType == errorType)&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.isStale, isStale) || other.isStale == isStale));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_levels),equippedWeaponId,errorType,const DeepCollectionEquality().hash(error),isStale);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_levels),equippedWeaponId,errorType,const DeepCollectionEquality().hash(error),isStale);
+}
 
 @override
 String toString() {
-  return 'GameDataSyncResult(levels: $levels, equippedWeaponId: $equippedWeaponId, errorType: $errorType, error: $error, isStale: $isStale)';
+    return 'GameDataSyncResult(levels: $levels, equippedWeaponId: $equippedWeaponId, errorType: $errorType, error: $error, isStale: $isStale)';
 }
 
 

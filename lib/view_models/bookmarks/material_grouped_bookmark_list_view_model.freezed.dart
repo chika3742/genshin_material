@@ -21,16 +21,21 @@ mixin _$MaterialGroupedBookmarkListState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, materials));
+  final _this = this as MaterialGroupedBookmarkListState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, _this.materials));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(materials));
+int get hashCode {
+  final _this = this as MaterialGroupedBookmarkListState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.materials));
+}
 
 @override
 String toString() {
-  return 'MaterialGroupedBookmarkListState(materials: $materials)';
+  final _this = this as MaterialGroupedBookmarkListState;
+  return 'MaterialGroupedBookmarkListState(materials: ${_this.materials})';
 }
 
 
@@ -60,16 +65,18 @@ class _MaterialGroupedBookmarkListState implements MaterialGroupedBookmarkListSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other._materials, _materials));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, _materials));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials));
+}
 
 @override
 String toString() {
-  return 'MaterialGroupedBookmarkListState(materials: $materials)';
+    return 'MaterialGroupedBookmarkListState(materials: $materials)';
 }
 
 

@@ -26,16 +26,21 @@ _$WeaponDetailsPageStateCopyWith<_WeaponDetailsPageState> get copyWith => __$Wea
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WeaponDetailsPageState&&const DeepCollectionEquality().equals(other.rangeValues, rangeValues)&&(identical(other.selectedCharacterId, selectedCharacterId) || other.selectedCharacterId == selectedCharacterId));
+  final _this = this as _WeaponDetailsPageState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WeaponDetailsPageState&&const DeepCollectionEquality().equals(other.rangeValues, _this.rangeValues)&&(identical(other.selectedCharacterId, _this.selectedCharacterId) || other.selectedCharacterId == _this.selectedCharacterId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(rangeValues),selectedCharacterId);
+int get hashCode {
+  final _this = this as _WeaponDetailsPageState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.rangeValues),_this.selectedCharacterId);
+}
 
 @override
 String toString() {
-  return '_WeaponDetailsPageState(rangeValues: $rangeValues, selectedCharacterId: $selectedCharacterId)';
+  final _this = this as _WeaponDetailsPageState;
+  return '_WeaponDetailsPageState(rangeValues: ${_this.rangeValues}, selectedCharacterId: ${_this.selectedCharacterId})';
 }
 
 
@@ -101,16 +106,18 @@ _$_WeaponDetailsPageStateCopyWith<__WeaponDetailsPageState> get copyWith => __$_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is __WeaponDetailsPageState&&const DeepCollectionEquality().equals(other._rangeValues, _rangeValues)&&(identical(other.selectedCharacterId, selectedCharacterId) || other.selectedCharacterId == selectedCharacterId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is __WeaponDetailsPageState&&const DeepCollectionEquality().equals(other.rangeValues, _rangeValues)&&(identical(other.selectedCharacterId, selectedCharacterId) || other.selectedCharacterId == selectedCharacterId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_rangeValues),selectedCharacterId);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_rangeValues),selectedCharacterId);
+}
 
 @override
 String toString() {
-  return '_WeaponDetailsPageState(rangeValues: $rangeValues, selectedCharacterId: $selectedCharacterId)';
+    return '_WeaponDetailsPageState(rangeValues: $rangeValues, selectedCharacterId: $selectedCharacterId)';
 }
 
 

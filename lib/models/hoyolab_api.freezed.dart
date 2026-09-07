@@ -24,16 +24,21 @@ mixin _$HoyolabApiResult<T> {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HoyolabApiResult<T>&&(identical(other.retcode, retcode) || other.retcode == retcode)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.data, data));
+  final _this = this as HoyolabApiResult<T>;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HoyolabApiResult<T>&&(identical(other.retcode, _this.retcode) || other.retcode == _this.retcode)&&(identical(other.message, _this.message) || other.message == _this.message)&&const DeepCollectionEquality().equals(other.data, _this.data));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,retcode,message,const DeepCollectionEquality().hash(data));
+int get hashCode {
+  final _this = this as HoyolabApiResult<T>;
+  return Object.hash(runtimeType,_this.retcode,_this.message,const DeepCollectionEquality().hash(_this.data));
+}
 
 @override
 String toString() {
-  return 'HoyolabApiResult<$T>(retcode: $retcode, message: $message, data: $data)';
+  final _this = this as HoyolabApiResult<T>;
+  return 'HoyolabApiResult<$T>(retcode: ${_this.retcode}, message: ${_this.message}, data: ${_this.data})';
 }
 
 
@@ -62,16 +67,18 @@ Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HoyolabApiResult<T>&&(identical(other.retcode, retcode) || other.retcode == retcode)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.data, data));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HoyolabApiResult<T>&&(identical(other.retcode, retcode) || other.retcode == retcode)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.data, data));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,retcode,message,const DeepCollectionEquality().hash(data));
+int get hashCode {
+    return Object.hash(runtimeType,retcode,message,const DeepCollectionEquality().hash(data));
+}
 
 @override
 String toString() {
-  return 'HoyolabApiResult<$T>(retcode: $retcode, message: $message, data: $data)';
+    return 'HoyolabApiResult<$T>(retcode: $retcode, message: $message, data: $data)';
 }
 
 
@@ -92,16 +99,21 @@ mixin _$HoyolabListData<T> {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HoyolabListData<T>&&const DeepCollectionEquality().equals(other.list, list));
+  final _this = this as HoyolabListData<T>;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HoyolabListData<T>&&const DeepCollectionEquality().equals(other.list, _this.list));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(list));
+int get hashCode {
+  final _this = this as HoyolabListData<T>;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.list));
+}
 
 @override
 String toString() {
-  return 'HoyolabListData<$T>(list: $list)';
+  final _this = this as HoyolabListData<T>;
+  return 'HoyolabListData<$T>(list: ${_this.list})';
 }
 
 
@@ -134,16 +146,18 @@ Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HoyolabListData<T>&&const DeepCollectionEquality().equals(other._list, _list));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HoyolabListData<T>&&const DeepCollectionEquality().equals(other.list, _list));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_list));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_list));
+}
 
 @override
 String toString() {
-  return 'HoyolabListData<$T>(list: $list)';
+    return 'HoyolabListData<$T>(list: $list)';
 }
 
 
@@ -164,16 +178,21 @@ mixin _$HyvServer {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HyvServer&&(identical(other.region, region) || other.region == region)&&(identical(other.name, name) || other.name == name));
+  final _this = this as HyvServer;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HyvServer&&(identical(other.region, _this.region) || other.region == _this.region)&&(identical(other.name, _this.name) || other.name == _this.name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,region,name);
+int get hashCode {
+  final _this = this as HyvServer;
+  return Object.hash(runtimeType,_this.region,_this.name);
+}
 
 @override
 String toString() {
-  return 'HyvServer(region: $region, name: $name)';
+  final _this = this as HyvServer;
+  return 'HyvServer(region: ${_this.region}, name: ${_this.name})';
 }
 
 
@@ -201,16 +220,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HyvServer&&(identical(other.region, region) || other.region == region)&&(identical(other.name, name) || other.name == name));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HyvServer&&(identical(other.region, region) || other.region == region)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,region,name);
+int get hashCode {
+    return Object.hash(runtimeType,region,name);
+}
 
 @override
 String toString() {
-  return 'HyvServer(region: $region, name: $name)';
+    return 'HyvServer(region: $region, name: $name)';
 }
 
 
@@ -231,16 +252,21 @@ mixin _$HyvUserInfo {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HyvUserInfo&&(identical(other.accountName, accountName) || other.accountName == accountName));
+  final _this = this as HyvUserInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HyvUserInfo&&(identical(other.accountName, _this.accountName) || other.accountName == _this.accountName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,accountName);
+int get hashCode {
+  final _this = this as HyvUserInfo;
+  return Object.hash(runtimeType,_this.accountName);
+}
 
 @override
 String toString() {
-  return 'HyvUserInfo(accountName: $accountName)';
+  final _this = this as HyvUserInfo;
+  return 'HyvUserInfo(accountName: ${_this.accountName})';
 }
 
 
@@ -267,16 +293,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HyvUserInfo&&(identical(other.accountName, accountName) || other.accountName == accountName));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HyvUserInfo&&(identical(other.accountName, accountName) || other.accountName == accountName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,accountName);
+int get hashCode {
+    return Object.hash(runtimeType,accountName);
+}
 
 @override
 String toString() {
-  return 'HyvUserInfo(accountName: $accountName)';
+    return 'HyvUserInfo(accountName: $accountName)';
 }
 
 
@@ -297,16 +325,21 @@ mixin _$HyvUserGameRole {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HyvUserGameRole&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.level, level) || other.level == level));
+  final _this = this as HyvUserGameRole;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HyvUserGameRole&&(identical(other.uid, _this.uid) || other.uid == _this.uid)&&(identical(other.nickname, _this.nickname) || other.nickname == _this.nickname)&&(identical(other.level, _this.level) || other.level == _this.level));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uid,nickname,level);
+int get hashCode {
+  final _this = this as HyvUserGameRole;
+  return Object.hash(runtimeType,_this.uid,_this.nickname,_this.level);
+}
 
 @override
 String toString() {
-  return 'HyvUserGameRole(uid: $uid, nickname: $nickname, level: $level)';
+  final _this = this as HyvUserGameRole;
+  return 'HyvUserGameRole(uid: ${_this.uid}, nickname: ${_this.nickname}, level: ${_this.level})';
 }
 
 
@@ -335,16 +368,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HyvUserGameRole&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.level, level) || other.level == level));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HyvUserGameRole&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.level, level) || other.level == level));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uid,nickname,level);
+int get hashCode {
+    return Object.hash(runtimeType,uid,nickname,level);
+}
 
 @override
 String toString() {
-  return 'HyvUserGameRole(uid: $uid, nickname: $nickname, level: $level)';
+    return 'HyvUserGameRole(uid: $uid, nickname: $nickname, level: $level)';
 }
 
 
@@ -365,16 +400,21 @@ mixin _$AvatarListResultItem {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvatarListResultItem&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&const DeepCollectionEquality().equals(other.skills, skills)&&(identical(other.weapon, weapon) || other.weapon == weapon));
+  final _this = this as AvatarListResultItem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvatarListResultItem&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.currentLevel, _this.currentLevel) || other.currentLevel == _this.currentLevel)&&(identical(other.maxLevel, _this.maxLevel) || other.maxLevel == _this.maxLevel)&&const DeepCollectionEquality().equals(other.skills, _this.skills)&&(identical(other.weapon, _this.weapon) || other.weapon == _this.weapon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,currentLevel,maxLevel,const DeepCollectionEquality().hash(skills),weapon);
+int get hashCode {
+  final _this = this as AvatarListResultItem;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.currentLevel,_this.maxLevel,const DeepCollectionEquality().hash(_this.skills),_this.weapon);
+}
 
 @override
 String toString() {
-  return 'AvatarListResultItem(id: $id, name: $name, currentLevel: $currentLevel, maxLevel: $maxLevel, skills: $skills, weapon: $weapon)';
+  final _this = this as AvatarListResultItem;
+  return 'AvatarListResultItem(id: ${_this.id}, name: ${_this.name}, currentLevel: ${_this.currentLevel}, maxLevel: ${_this.maxLevel}, skills: ${_this.skills}, weapon: ${_this.weapon})';
 }
 
 
@@ -412,16 +452,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvatarListResultItem&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&const DeepCollectionEquality().equals(other._skills, _skills)&&(identical(other.weapon, weapon) || other.weapon == weapon));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvatarListResultItem&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&const DeepCollectionEquality().equals(other.skills, _skills)&&(identical(other.weapon, weapon) || other.weapon == weapon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,currentLevel,maxLevel,const DeepCollectionEquality().hash(_skills),weapon);
+int get hashCode {
+    return Object.hash(runtimeType,id,name,currentLevel,maxLevel,const DeepCollectionEquality().hash(_skills),weapon);
+}
 
 @override
 String toString() {
-  return 'AvatarListResultItem(id: $id, name: $name, currentLevel: $currentLevel, maxLevel: $maxLevel, skills: $skills, weapon: $weapon)';
+    return 'AvatarListResultItem(id: $id, name: $name, currentLevel: $currentLevel, maxLevel: $maxLevel, skills: $skills, weapon: $weapon)';
 }
 
 
@@ -442,16 +484,21 @@ mixin _$AvatarSkill {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvatarSkill&&(identical(other.groupId, groupId) || other.groupId == groupId)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel));
+  final _this = this as AvatarSkill;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvatarSkill&&(identical(other.groupId, _this.groupId) || other.groupId == _this.groupId)&&(identical(other.maxLevel, _this.maxLevel) || other.maxLevel == _this.maxLevel)&&(identical(other.currentLevel, _this.currentLevel) || other.currentLevel == _this.currentLevel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,groupId,maxLevel,currentLevel);
+int get hashCode {
+  final _this = this as AvatarSkill;
+  return Object.hash(runtimeType,_this.groupId,_this.maxLevel,_this.currentLevel);
+}
 
 @override
 String toString() {
-  return 'AvatarSkill(groupId: $groupId, maxLevel: $maxLevel, currentLevel: $currentLevel)';
+  final _this = this as AvatarSkill;
+  return 'AvatarSkill(groupId: ${_this.groupId}, maxLevel: ${_this.maxLevel}, currentLevel: ${_this.currentLevel})';
 }
 
 
@@ -480,16 +527,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvatarSkill&&(identical(other.groupId, groupId) || other.groupId == groupId)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvatarSkill&&(identical(other.groupId, groupId) || other.groupId == groupId)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,groupId,maxLevel,currentLevel);
+int get hashCode {
+    return Object.hash(runtimeType,groupId,maxLevel,currentLevel);
+}
 
 @override
 String toString() {
-  return 'AvatarSkill(groupId: $groupId, maxLevel: $maxLevel, currentLevel: $currentLevel)';
+    return 'AvatarSkill(groupId: $groupId, maxLevel: $maxLevel, currentLevel: $currentLevel)';
 }
 
 
@@ -510,16 +559,21 @@ mixin _$AvatarAuth {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvatarAuth&&(identical(other.avatarAuth, avatarAuth) || other.avatarAuth == avatarAuth));
+  final _this = this as AvatarAuth;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvatarAuth&&(identical(other.avatarAuth, _this.avatarAuth) || other.avatarAuth == _this.avatarAuth));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,avatarAuth);
+int get hashCode {
+  final _this = this as AvatarAuth;
+  return Object.hash(runtimeType,_this.avatarAuth);
+}
 
 @override
 String toString() {
-  return 'AvatarAuth(avatarAuth: $avatarAuth)';
+  final _this = this as AvatarAuth;
+  return 'AvatarAuth(avatarAuth: ${_this.avatarAuth})';
 }
 
 
@@ -546,16 +600,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvatarAuth&&(identical(other.avatarAuth, avatarAuth) || other.avatarAuth == avatarAuth));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvatarAuth&&(identical(other.avatarAuth, avatarAuth) || other.avatarAuth == avatarAuth));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,avatarAuth);
+int get hashCode {
+    return Object.hash(runtimeType,avatarAuth);
+}
 
 @override
 String toString() {
-  return 'AvatarAuth(avatarAuth: $avatarAuth)';
+    return 'AvatarAuth(avatarAuth: $avatarAuth)';
 }
 
 
@@ -576,16 +632,21 @@ mixin _$GameRecordCard {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GameRecordCard&&(identical(other.gameType, gameType) || other.gameType == gameType)&&const DeepCollectionEquality().equals(other.dataSwitches, dataSwitches));
+  final _this = this as GameRecordCard;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GameRecordCard&&(identical(other.gameType, _this.gameType) || other.gameType == _this.gameType)&&const DeepCollectionEquality().equals(other.dataSwitches, _this.dataSwitches));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,gameType,const DeepCollectionEquality().hash(dataSwitches));
+int get hashCode {
+  final _this = this as GameRecordCard;
+  return Object.hash(runtimeType,_this.gameType,const DeepCollectionEquality().hash(_this.dataSwitches));
+}
 
 @override
 String toString() {
-  return 'GameRecordCard(gameType: $gameType, dataSwitches: $dataSwitches)';
+  final _this = this as GameRecordCard;
+  return 'GameRecordCard(gameType: ${_this.gameType}, dataSwitches: ${_this.dataSwitches})';
 }
 
 
@@ -619,16 +680,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GameRecordCard&&(identical(other.gameType, gameType) || other.gameType == gameType)&&const DeepCollectionEquality().equals(other._dataSwitches, _dataSwitches));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GameRecordCard&&(identical(other.gameType, gameType) || other.gameType == gameType)&&const DeepCollectionEquality().equals(other.dataSwitches, _dataSwitches));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,gameType,const DeepCollectionEquality().hash(_dataSwitches));
+int get hashCode {
+    return Object.hash(runtimeType,gameType,const DeepCollectionEquality().hash(_dataSwitches));
+}
 
 @override
 String toString() {
-  return 'GameRecordCard(gameType: $gameType, dataSwitches: $dataSwitches)';
+    return 'GameRecordCard(gameType: $gameType, dataSwitches: $dataSwitches)';
 }
 
 
@@ -649,16 +712,21 @@ mixin _$DataSwitchMetadata {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DataSwitchMetadata&&(identical(other.switchId, switchId) || other.switchId == switchId)&&(identical(other.isPublic, isPublic) || other.isPublic == isPublic));
+  final _this = this as DataSwitchMetadata;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DataSwitchMetadata&&(identical(other.switchId, _this.switchId) || other.switchId == _this.switchId)&&(identical(other.isPublic, _this.isPublic) || other.isPublic == _this.isPublic));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,switchId,isPublic);
+int get hashCode {
+  final _this = this as DataSwitchMetadata;
+  return Object.hash(runtimeType,_this.switchId,_this.isPublic);
+}
 
 @override
 String toString() {
-  return 'DataSwitchMetadata(switchId: $switchId, isPublic: $isPublic)';
+  final _this = this as DataSwitchMetadata;
+  return 'DataSwitchMetadata(switchId: ${_this.switchId}, isPublic: ${_this.isPublic})';
 }
 
 
@@ -686,16 +754,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DataSwitchMetadata&&(identical(other.switchId, switchId) || other.switchId == switchId)&&(identical(other.isPublic, isPublic) || other.isPublic == isPublic));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DataSwitchMetadata&&(identical(other.switchId, switchId) || other.switchId == switchId)&&(identical(other.isPublic, isPublic) || other.isPublic == isPublic));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,switchId,isPublic);
+int get hashCode {
+    return Object.hash(runtimeType,switchId,isPublic);
+}
 
 @override
 String toString() {
-  return 'DataSwitchMetadata(switchId: $switchId, isPublic: $isPublic)';
+    return 'DataSwitchMetadata(switchId: $switchId, isPublic: $isPublic)';
 }
 
 
@@ -716,16 +786,21 @@ mixin _$DailyNote {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DailyNote&&(identical(other.currentResin, currentResin) || other.currentResin == currentResin)&&(identical(other.resinRecoveryTime, resinRecoveryTime) || other.resinRecoveryTime == resinRecoveryTime)&&(identical(other.currentHomeCoin, currentHomeCoin) || other.currentHomeCoin == currentHomeCoin));
+  final _this = this as DailyNote;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DailyNote&&(identical(other.currentResin, _this.currentResin) || other.currentResin == _this.currentResin)&&(identical(other.resinRecoveryTime, _this.resinRecoveryTime) || other.resinRecoveryTime == _this.resinRecoveryTime)&&(identical(other.currentHomeCoin, _this.currentHomeCoin) || other.currentHomeCoin == _this.currentHomeCoin));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,currentResin,resinRecoveryTime,currentHomeCoin);
+int get hashCode {
+  final _this = this as DailyNote;
+  return Object.hash(runtimeType,_this.currentResin,_this.resinRecoveryTime,_this.currentHomeCoin);
+}
 
 @override
 String toString() {
-  return 'DailyNote(currentResin: $currentResin, resinRecoveryTime: $resinRecoveryTime, currentHomeCoin: $currentHomeCoin)';
+  final _this = this as DailyNote;
+  return 'DailyNote(currentResin: ${_this.currentResin}, resinRecoveryTime: ${_this.resinRecoveryTime}, currentHomeCoin: ${_this.currentHomeCoin})';
 }
 
 
@@ -754,16 +829,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DailyNote&&(identical(other.currentResin, currentResin) || other.currentResin == currentResin)&&(identical(other.resinRecoveryTime, resinRecoveryTime) || other.resinRecoveryTime == resinRecoveryTime)&&(identical(other.currentHomeCoin, currentHomeCoin) || other.currentHomeCoin == currentHomeCoin));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DailyNote&&(identical(other.currentResin, currentResin) || other.currentResin == currentResin)&&(identical(other.resinRecoveryTime, resinRecoveryTime) || other.resinRecoveryTime == resinRecoveryTime)&&(identical(other.currentHomeCoin, currentHomeCoin) || other.currentHomeCoin == currentHomeCoin));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,currentResin,resinRecoveryTime,currentHomeCoin);
+int get hashCode {
+    return Object.hash(runtimeType,currentResin,resinRecoveryTime,currentHomeCoin);
+}
 
 @override
 String toString() {
-  return 'DailyNote(currentResin: $currentResin, resinRecoveryTime: $resinRecoveryTime, currentHomeCoin: $currentHomeCoin)';
+    return 'DailyNote(currentResin: $currentResin, resinRecoveryTime: $resinRecoveryTime, currentHomeCoin: $currentHomeCoin)';
 }
 
 
@@ -788,16 +865,21 @@ $CalcComputeItemCopyWith<CalcComputeItem> get copyWith => _$CalcComputeItemCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcComputeItem&&(identical(other.avatarId, avatarId) || other.avatarId == avatarId)&&(identical(other.currentAvatarLevel, currentAvatarLevel) || other.currentAvatarLevel == currentAvatarLevel)&&(identical(other.elementAttrId, elementAttrId) || other.elementAttrId == elementAttrId)&&(identical(other.targetAvatarLevel, targetAvatarLevel) || other.targetAvatarLevel == targetAvatarLevel)&&const DeepCollectionEquality().equals(other.skills, skills)&&(identical(other.weapon, weapon) || other.weapon == weapon));
+  final _this = this as CalcComputeItem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcComputeItem&&(identical(other.avatarId, _this.avatarId) || other.avatarId == _this.avatarId)&&(identical(other.currentAvatarLevel, _this.currentAvatarLevel) || other.currentAvatarLevel == _this.currentAvatarLevel)&&(identical(other.elementAttrId, _this.elementAttrId) || other.elementAttrId == _this.elementAttrId)&&(identical(other.targetAvatarLevel, _this.targetAvatarLevel) || other.targetAvatarLevel == _this.targetAvatarLevel)&&const DeepCollectionEquality().equals(other.skills, _this.skills)&&(identical(other.weapon, _this.weapon) || other.weapon == _this.weapon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,avatarId,currentAvatarLevel,elementAttrId,targetAvatarLevel,const DeepCollectionEquality().hash(skills),weapon);
+int get hashCode {
+  final _this = this as CalcComputeItem;
+  return Object.hash(runtimeType,_this.avatarId,_this.currentAvatarLevel,_this.elementAttrId,_this.targetAvatarLevel,const DeepCollectionEquality().hash(_this.skills),_this.weapon);
+}
 
 @override
 String toString() {
-  return 'CalcComputeItem(avatarId: $avatarId, currentAvatarLevel: $currentAvatarLevel, elementAttrId: $elementAttrId, targetAvatarLevel: $targetAvatarLevel, skills: $skills, weapon: $weapon)';
+  final _this = this as CalcComputeItem;
+  return 'CalcComputeItem(avatarId: ${_this.avatarId}, currentAvatarLevel: ${_this.currentAvatarLevel}, elementAttrId: ${_this.elementAttrId}, targetAvatarLevel: ${_this.targetAvatarLevel}, skills: ${_this.skills}, weapon: ${_this.weapon})';
 }
 
 
@@ -876,16 +958,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcComputeItem&&(identical(other.avatarId, avatarId) || other.avatarId == avatarId)&&(identical(other.currentAvatarLevel, currentAvatarLevel) || other.currentAvatarLevel == currentAvatarLevel)&&(identical(other.elementAttrId, elementAttrId) || other.elementAttrId == elementAttrId)&&(identical(other.targetAvatarLevel, targetAvatarLevel) || other.targetAvatarLevel == targetAvatarLevel)&&const DeepCollectionEquality().equals(other._skills, _skills)&&(identical(other.weapon, weapon) || other.weapon == weapon));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcComputeItem&&(identical(other.avatarId, avatarId) || other.avatarId == avatarId)&&(identical(other.currentAvatarLevel, currentAvatarLevel) || other.currentAvatarLevel == currentAvatarLevel)&&(identical(other.elementAttrId, elementAttrId) || other.elementAttrId == elementAttrId)&&(identical(other.targetAvatarLevel, targetAvatarLevel) || other.targetAvatarLevel == targetAvatarLevel)&&const DeepCollectionEquality().equals(other.skills, _skills)&&(identical(other.weapon, weapon) || other.weapon == weapon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,avatarId,currentAvatarLevel,elementAttrId,targetAvatarLevel,const DeepCollectionEquality().hash(_skills),weapon);
+int get hashCode {
+    return Object.hash(runtimeType,avatarId,currentAvatarLevel,elementAttrId,targetAvatarLevel,const DeepCollectionEquality().hash(_skills),weapon);
+}
 
 @override
 String toString() {
-  return 'CalcComputeItem(avatarId: $avatarId, currentAvatarLevel: $currentAvatarLevel, elementAttrId: $elementAttrId, targetAvatarLevel: $targetAvatarLevel, skills: $skills, weapon: $weapon)';
+    return 'CalcComputeItem(avatarId: $avatarId, currentAvatarLevel: $currentAvatarLevel, elementAttrId: $elementAttrId, targetAvatarLevel: $targetAvatarLevel, skills: $skills, weapon: $weapon)';
 }
 
 
@@ -939,16 +1023,21 @@ mixin _$CalcComputeSkill {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcComputeSkill&&(identical(other.id, id) || other.id == id)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.targetLevel, targetLevel) || other.targetLevel == targetLevel));
+  final _this = this as CalcComputeSkill;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcComputeSkill&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.currentLevel, _this.currentLevel) || other.currentLevel == _this.currentLevel)&&(identical(other.targetLevel, _this.targetLevel) || other.targetLevel == _this.targetLevel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,currentLevel,targetLevel);
+int get hashCode {
+  final _this = this as CalcComputeSkill;
+  return Object.hash(runtimeType,_this.id,_this.currentLevel,_this.targetLevel);
+}
 
 @override
 String toString() {
-  return 'CalcComputeSkill(id: $id, currentLevel: $currentLevel, targetLevel: $targetLevel)';
+  final _this = this as CalcComputeSkill;
+  return 'CalcComputeSkill(id: ${_this.id}, currentLevel: ${_this.currentLevel}, targetLevel: ${_this.targetLevel})';
 }
 
 
@@ -977,16 +1066,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcComputeSkill&&(identical(other.id, id) || other.id == id)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.targetLevel, targetLevel) || other.targetLevel == targetLevel));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcComputeSkill&&(identical(other.id, id) || other.id == id)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.targetLevel, targetLevel) || other.targetLevel == targetLevel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,currentLevel,targetLevel);
+int get hashCode {
+    return Object.hash(runtimeType,id,currentLevel,targetLevel);
+}
 
 @override
 String toString() {
-  return 'CalcComputeSkill(id: $id, currentLevel: $currentLevel, targetLevel: $targetLevel)';
+    return 'CalcComputeSkill(id: $id, currentLevel: $currentLevel, targetLevel: $targetLevel)';
 }
 
 
@@ -1007,16 +1098,21 @@ mixin _$AvatarWeapon {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvatarWeapon&&(identical(other.id, id) || other.id == id)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.name, name) || other.name == name)&&(identical(other.icon, icon) || other.icon == icon));
+  final _this = this as AvatarWeapon;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvatarWeapon&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.maxLevel, _this.maxLevel) || other.maxLevel == _this.maxLevel)&&(identical(other.currentLevel, _this.currentLevel) || other.currentLevel == _this.currentLevel)&&(identical(other.categoryId, _this.categoryId) || other.categoryId == _this.categoryId)&&(identical(other.rarity, _this.rarity) || other.rarity == _this.rarity)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.icon, _this.icon) || other.icon == _this.icon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,maxLevel,currentLevel,categoryId,rarity,name,icon);
+int get hashCode {
+  final _this = this as AvatarWeapon;
+  return Object.hash(runtimeType,_this.id,_this.maxLevel,_this.currentLevel,_this.categoryId,_this.rarity,_this.name,_this.icon);
+}
 
 @override
 String toString() {
-  return 'AvatarWeapon(id: $id, maxLevel: $maxLevel, currentLevel: $currentLevel, categoryId: $categoryId, rarity: $rarity, name: $name, icon: $icon)';
+  final _this = this as AvatarWeapon;
+  return 'AvatarWeapon(id: ${_this.id}, maxLevel: ${_this.maxLevel}, currentLevel: ${_this.currentLevel}, categoryId: ${_this.categoryId}, rarity: ${_this.rarity}, name: ${_this.name}, icon: ${_this.icon})';
 }
 
 
@@ -1049,16 +1145,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvatarWeapon&&(identical(other.id, id) || other.id == id)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.name, name) || other.name == name)&&(identical(other.icon, icon) || other.icon == icon));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvatarWeapon&&(identical(other.id, id) || other.id == id)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.name, name) || other.name == name)&&(identical(other.icon, icon) || other.icon == icon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,maxLevel,currentLevel,categoryId,rarity,name,icon);
+int get hashCode {
+    return Object.hash(runtimeType,id,maxLevel,currentLevel,categoryId,rarity,name,icon);
+}
 
 @override
 String toString() {
-  return 'AvatarWeapon(id: $id, maxLevel: $maxLevel, currentLevel: $currentLevel, categoryId: $categoryId, rarity: $rarity, name: $name, icon: $icon)';
+    return 'AvatarWeapon(id: $id, maxLevel: $maxLevel, currentLevel: $currentLevel, categoryId: $categoryId, rarity: $rarity, name: $name, icon: $icon)';
 }
 
 
@@ -1078,16 +1176,21 @@ mixin _$CalcComputeWeapon {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcComputeWeapon&&(identical(other.id, id) || other.id == id)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.targetLevel, targetLevel) || other.targetLevel == targetLevel)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.name, name) || other.name == name)&&(identical(other.icon, icon) || other.icon == icon));
+  final _this = this as CalcComputeWeapon;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcComputeWeapon&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.maxLevel, _this.maxLevel) || other.maxLevel == _this.maxLevel)&&(identical(other.currentLevel, _this.currentLevel) || other.currentLevel == _this.currentLevel)&&(identical(other.targetLevel, _this.targetLevel) || other.targetLevel == _this.targetLevel)&&(identical(other.categoryId, _this.categoryId) || other.categoryId == _this.categoryId)&&(identical(other.rarity, _this.rarity) || other.rarity == _this.rarity)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.icon, _this.icon) || other.icon == _this.icon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,maxLevel,currentLevel,targetLevel,categoryId,rarity,name,icon);
+int get hashCode {
+  final _this = this as CalcComputeWeapon;
+  return Object.hash(runtimeType,_this.id,_this.maxLevel,_this.currentLevel,_this.targetLevel,_this.categoryId,_this.rarity,_this.name,_this.icon);
+}
 
 @override
 String toString() {
-  return 'CalcComputeWeapon(id: $id, maxLevel: $maxLevel, currentLevel: $currentLevel, targetLevel: $targetLevel, categoryId: $categoryId, rarity: $rarity, name: $name, icon: $icon)';
+  final _this = this as CalcComputeWeapon;
+  return 'CalcComputeWeapon(id: ${_this.id}, maxLevel: ${_this.maxLevel}, currentLevel: ${_this.currentLevel}, targetLevel: ${_this.targetLevel}, categoryId: ${_this.categoryId}, rarity: ${_this.rarity}, name: ${_this.name}, icon: ${_this.icon})';
 }
 
 
@@ -1121,16 +1224,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcComputeWeapon&&(identical(other.id, id) || other.id == id)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.targetLevel, targetLevel) || other.targetLevel == targetLevel)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.name, name) || other.name == name)&&(identical(other.icon, icon) || other.icon == icon));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcComputeWeapon&&(identical(other.id, id) || other.id == id)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.targetLevel, targetLevel) || other.targetLevel == targetLevel)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&(identical(other.name, name) || other.name == name)&&(identical(other.icon, icon) || other.icon == icon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,maxLevel,currentLevel,targetLevel,categoryId,rarity,name,icon);
+int get hashCode {
+    return Object.hash(runtimeType,id,maxLevel,currentLevel,targetLevel,categoryId,rarity,name,icon);
+}
 
 @override
 String toString() {
-  return 'CalcComputeWeapon(id: $id, maxLevel: $maxLevel, currentLevel: $currentLevel, targetLevel: $targetLevel, categoryId: $categoryId, rarity: $rarity, name: $name, icon: $icon)';
+    return 'CalcComputeWeapon(id: $id, maxLevel: $maxLevel, currentLevel: $currentLevel, targetLevel: $targetLevel, categoryId: $categoryId, rarity: $rarity, name: $name, icon: $icon)';
 }
 
 
@@ -1151,16 +1256,21 @@ mixin _$CalcResult {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcResult&&const DeepCollectionEquality().equals(other.overallConsume, overallConsume));
+  final _this = this as CalcResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcResult&&const DeepCollectionEquality().equals(other.overallConsume, _this.overallConsume));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(overallConsume));
+int get hashCode {
+  final _this = this as CalcResult;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.overallConsume));
+}
 
 @override
 String toString() {
-  return 'CalcResult(overallConsume: $overallConsume)';
+  final _this = this as CalcResult;
+  return 'CalcResult(overallConsume: ${_this.overallConsume})';
 }
 
 
@@ -1193,16 +1303,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcResult&&const DeepCollectionEquality().equals(other._overallConsume, _overallConsume));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcResult&&const DeepCollectionEquality().equals(other.overallConsume, _overallConsume));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_overallConsume));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_overallConsume));
+}
 
 @override
 String toString() {
-  return 'CalcResult(overallConsume: $overallConsume)';
+    return 'CalcResult(overallConsume: $overallConsume)';
 }
 
 
@@ -1223,16 +1335,21 @@ mixin _$CalcConsumptionItem {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcConsumptionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.lackNum, lackNum) || other.lackNum == lackNum)&&(identical(other.num, num) || other.num == num));
+  final _this = this as CalcConsumptionItem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcConsumptionItem&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.lackNum, _this.lackNum) || other.lackNum == _this.lackNum)&&(identical(other.num, _this.num) || other.num == _this.num));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,lackNum,num);
+int get hashCode {
+  final _this = this as CalcConsumptionItem;
+  return Object.hash(runtimeType,_this.id,_this.lackNum,_this.num);
+}
 
 @override
 String toString() {
-  return 'CalcConsumptionItem(id: $id, lackNum: $lackNum, num: $num)';
+  final _this = this as CalcConsumptionItem;
+  return 'CalcConsumptionItem(id: ${_this.id}, lackNum: ${_this.lackNum}, num: ${_this.num})';
 }
 
 
@@ -1261,16 +1378,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcConsumptionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.lackNum, lackNum) || other.lackNum == lackNum)&&(identical(other.num, num) || other.num == num));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcConsumptionItem&&(identical(other.id, id) || other.id == id)&&(identical(other.lackNum, lackNum) || other.lackNum == lackNum)&&(identical(other.num, num) || other.num == num));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,lackNum,num);
+int get hashCode {
+    return Object.hash(runtimeType,id,lackNum,num);
+}
 
 @override
 String toString() {
-  return 'CalcConsumptionItem(id: $id, lackNum: $lackNum, num: $num)';
+    return 'CalcConsumptionItem(id: $id, lackNum: $lackNum, num: $num)';
 }
 
 

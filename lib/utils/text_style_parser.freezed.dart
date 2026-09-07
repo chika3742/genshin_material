@@ -21,16 +21,21 @@ mixin _$Fragment {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Fragment&&(identical(other.type, type) || other.type == type)&&(identical(other.text, text) || other.text == text));
+  final _this = this as Fragment;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Fragment&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.text, _this.text) || other.text == _this.text));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,type,text);
+int get hashCode {
+  final _this = this as Fragment;
+  return Object.hash(runtimeType,_this.type,_this.text);
+}
 
 @override
 String toString() {
-  return 'Fragment(type: $type, text: $text)';
+  final _this = this as Fragment;
+  return 'Fragment(type: ${_this.type}, text: ${_this.text})';
 }
 
 
@@ -55,16 +60,18 @@ class _Fragment implements Fragment {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Fragment&&(identical(other.type, type) || other.type == type)&&(identical(other.text, text) || other.text == text));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Fragment&&(identical(other.type, type) || other.type == type)&&(identical(other.text, text) || other.text == text));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,type,text);
+int get hashCode {
+    return Object.hash(runtimeType,type,text);
+}
 
 @override
 String toString() {
-  return 'Fragment(type: $type, text: $text)';
+    return 'Fragment(type: $type, text: $text)';
 }
 
 

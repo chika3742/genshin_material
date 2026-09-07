@@ -26,16 +26,21 @@ $AssetUpdatingStateCopyWith<AssetUpdatingState> get copyWith => _$AssetUpdatingS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AssetUpdatingState&&(identical(other.state, state) || other.state == state)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.totalBytes, totalBytes) || other.totalBytes == totalBytes)&&const DeepCollectionEquality().equals(other.error, error));
+  final _this = this as AssetUpdatingState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AssetUpdatingState&&(identical(other.state, _this.state) || other.state == _this.state)&&(identical(other.progress, _this.progress) || other.progress == _this.progress)&&(identical(other.totalBytes, _this.totalBytes) || other.totalBytes == _this.totalBytes)&&const DeepCollectionEquality().equals(other.error, _this.error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,state,progress,totalBytes,const DeepCollectionEquality().hash(error));
+int get hashCode {
+  final _this = this as AssetUpdatingState;
+  return Object.hash(runtimeType,_this.state,_this.progress,_this.totalBytes,const DeepCollectionEquality().hash(_this.error));
+}
 
 @override
 String toString() {
-  return 'AssetUpdatingState(state: $state, progress: $progress, totalBytes: $totalBytes, error: $error)';
+  final _this = this as AssetUpdatingState;
+  return 'AssetUpdatingState(state: ${_this.state}, progress: ${_this.progress}, totalBytes: ${_this.totalBytes}, error: ${_this.error})';
 }
 
 
@@ -98,16 +103,18 @@ _$AssetUpdatingStateCopyWith<_AssetUpdatingState> get copyWith => __$AssetUpdati
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AssetUpdatingState&&(identical(other.state, state) || other.state == state)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.totalBytes, totalBytes) || other.totalBytes == totalBytes)&&const DeepCollectionEquality().equals(other.error, error));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AssetUpdatingState&&(identical(other.state, state) || other.state == state)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.totalBytes, totalBytes) || other.totalBytes == totalBytes)&&const DeepCollectionEquality().equals(other.error, error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,state,progress,totalBytes,const DeepCollectionEquality().hash(error));
+int get hashCode {
+    return Object.hash(runtimeType,state,progress,totalBytes,const DeepCollectionEquality().hash(error));
+}
 
 @override
 String toString() {
-  return 'AssetUpdatingState(state: $state, progress: $progress, totalBytes: $totalBytes, error: $error)';
+    return 'AssetUpdatingState(state: $state, progress: $progress, totalBytes: $totalBytes, error: $error)';
 }
 
 

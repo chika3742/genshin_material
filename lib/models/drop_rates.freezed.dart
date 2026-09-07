@@ -22,16 +22,21 @@ mixin _$DropRateEntry {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DropRateEntry&&(identical(other.description, description) || other.description == description)&&(identical(other.note, note) || other.note == note)&&(identical(other.target, target) || other.target == target)&&const DeepCollectionEquality().equals(other.originalRate, originalRate)&&(identical(other.condensedAvailable, condensedAvailable) || other.condensedAvailable == condensedAvailable));
+  final _this = this as DropRateEntry;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DropRateEntry&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.note, _this.note) || other.note == _this.note)&&(identical(other.target, _this.target) || other.target == _this.target)&&const DeepCollectionEquality().equals(other.originalRate, _this.originalRate)&&(identical(other.condensedAvailable, _this.condensedAvailable) || other.condensedAvailable == _this.condensedAvailable));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,description,note,target,const DeepCollectionEquality().hash(originalRate),condensedAvailable);
+int get hashCode {
+  final _this = this as DropRateEntry;
+  return Object.hash(runtimeType,_this.description,_this.note,_this.target,const DeepCollectionEquality().hash(_this.originalRate),_this.condensedAvailable);
+}
 
 @override
 String toString() {
-  return 'DropRateEntry(description: $description, note: $note, target: $target, originalRate: $originalRate, condensedAvailable: $condensedAvailable)';
+  final _this = this as DropRateEntry;
+  return 'DropRateEntry(description: ${_this.description}, note: ${_this.note}, target: ${_this.target}, originalRate: ${_this.originalRate}, condensedAvailable: ${_this.condensedAvailable})';
 }
 
 
@@ -65,16 +70,18 @@ class _DropRateEntry extends DropRateEntry {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DropRateEntry&&(identical(other.description, description) || other.description == description)&&(identical(other.note, note) || other.note == note)&&(identical(other.target, target) || other.target == target)&&const DeepCollectionEquality().equals(other._originalRate, _originalRate)&&(identical(other.condensedAvailable, condensedAvailable) || other.condensedAvailable == condensedAvailable));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DropRateEntry&&(identical(other.description, description) || other.description == description)&&(identical(other.note, note) || other.note == note)&&(identical(other.target, target) || other.target == target)&&const DeepCollectionEquality().equals(other.originalRate, _originalRate)&&(identical(other.condensedAvailable, condensedAvailable) || other.condensedAvailable == condensedAvailable));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,description,note,target,const DeepCollectionEquality().hash(_originalRate),condensedAvailable);
+int get hashCode {
+    return Object.hash(runtimeType,description,note,target,const DeepCollectionEquality().hash(_originalRate),condensedAvailable);
+}
 
 @override
 String toString() {
-  return 'DropRateEntry(description: $description, note: $note, target: $target, originalRate: $originalRate, condensedAvailable: $condensedAvailable)';
+    return 'DropRateEntry(description: $description, note: $note, target: $target, originalRate: $originalRate, condensedAvailable: $condensedAvailable)';
 }
 
 
@@ -95,16 +102,21 @@ mixin _$DropRateTarget {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DropRateTarget&&(identical(other.category, category) || other.category == category)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&const DeepCollectionEquality().equals(other.ids, ids));
+  final _this = this as DropRateTarget;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DropRateTarget&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.rarity, _this.rarity) || other.rarity == _this.rarity)&&const DeepCollectionEquality().equals(other.ids, _this.ids));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,category,rarity,const DeepCollectionEquality().hash(ids));
+int get hashCode {
+  final _this = this as DropRateTarget;
+  return Object.hash(runtimeType,_this.category,_this.rarity,const DeepCollectionEquality().hash(_this.ids));
+}
 
 @override
 String toString() {
-  return 'DropRateTarget(category: $category, rarity: $rarity, ids: $ids)';
+  final _this = this as DropRateTarget;
+  return 'DropRateTarget(category: ${_this.category}, rarity: ${_this.rarity}, ids: ${_this.ids})';
 }
 
 
@@ -141,16 +153,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DropRateTarget&&(identical(other.category, category) || other.category == category)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&const DeepCollectionEquality().equals(other._ids, _ids));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DropRateTarget&&(identical(other.category, category) || other.category == category)&&(identical(other.rarity, rarity) || other.rarity == rarity)&&const DeepCollectionEquality().equals(other.ids, _ids));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,category,rarity,const DeepCollectionEquality().hash(_ids));
+int get hashCode {
+    return Object.hash(runtimeType,category,rarity,const DeepCollectionEquality().hash(_ids));
+}
 
 @override
 String toString() {
-  return 'DropRateTarget(category: $category, rarity: $rarity, ids: $ids)';
+    return 'DropRateTarget(category: $category, rarity: $rarity, ids: $ids)';
 }
 
 
@@ -171,16 +185,21 @@ mixin _$DropRate {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DropRate&&(identical(other.lowerAR, lowerAR) || other.lowerAR == lowerAR)&&(identical(other.rate, rate) || other.rate == rate));
+  final _this = this as DropRate;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DropRate&&(identical(other.lowerAR, _this.lowerAR) || other.lowerAR == _this.lowerAR)&&(identical(other.rate, _this.rate) || other.rate == _this.rate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,lowerAR,rate);
+int get hashCode {
+  final _this = this as DropRate;
+  return Object.hash(runtimeType,_this.lowerAR,_this.rate);
+}
 
 @override
 String toString() {
-  return 'DropRate(lowerAR: $lowerAR, rate: $rate)';
+  final _this = this as DropRate;
+  return 'DropRate(lowerAR: ${_this.lowerAR}, rate: ${_this.rate})';
 }
 
 
@@ -208,16 +227,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DropRate&&(identical(other.lowerAR, lowerAR) || other.lowerAR == lowerAR)&&(identical(other.rate, rate) || other.rate == rate));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DropRate&&(identical(other.lowerAR, lowerAR) || other.lowerAR == lowerAR)&&(identical(other.rate, rate) || other.rate == rate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,lowerAR,rate);
+int get hashCode {
+    return Object.hash(runtimeType,lowerAR,rate);
+}
 
 @override
 String toString() {
-  return 'DropRate(lowerAR: $lowerAR, rate: $rate)';
+    return 'DropRate(lowerAR: $lowerAR, rate: $rate)';
 }
 
 

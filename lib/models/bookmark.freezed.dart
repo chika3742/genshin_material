@@ -21,7 +21,7 @@ mixin _$BookmarkWithDetails {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithDetails);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithDetails);
 }
 
 
@@ -30,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'BookmarkWithDetails()';
+    return 'BookmarkWithDetails()';
 }
 
 
@@ -55,16 +55,18 @@ class BookmarkWithMaterialDetails implements BookmarkWithDetails {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithMaterialDetails&&(identical(other.group, group) || other.group == group)&&(identical(other.item, item) || other.item == item));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithMaterialDetails&&(identical(other.group, group) || other.group == group)&&(identical(other.item, item) || other.item == item));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,group,item);
+int get hashCode {
+    return Object.hash(runtimeType,group,item);
+}
 
 @override
 String toString() {
-  return 'BookmarkWithDetails.material(group: $group, item: $item)';
+    return 'BookmarkWithDetails.material(group: $group, item: $item)';
 }
 
 
@@ -88,16 +90,18 @@ class BookmarkWithArtifactSetDetails implements BookmarkWithDetails {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactSetDetails&&(identical(other.artifact, artifact) || other.artifact == artifact)&&(identical(other.artifactSet, artifactSet) || other.artifactSet == artifactSet));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactSetDetails&&(identical(other.artifact, artifact) || other.artifact == artifact)&&(identical(other.artifactSet, artifactSet) || other.artifactSet == artifactSet));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,artifact,artifactSet);
+int get hashCode {
+    return Object.hash(runtimeType,artifact,artifactSet);
+}
 
 @override
 String toString() {
-  return 'BookmarkWithDetails.artifactSet(artifact: $artifact, artifactSet: $artifactSet)';
+    return 'BookmarkWithDetails.artifactSet(artifact: $artifact, artifactSet: $artifactSet)';
 }
 
 
@@ -121,16 +125,18 @@ class BookmarkWithArtifactPieceDetails implements BookmarkWithDetails {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactPieceDetails&&(identical(other.artifact, artifact) || other.artifact == artifact)&&(identical(other.artifactPiece, artifactPiece) || other.artifactPiece == artifactPiece));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactPieceDetails&&(identical(other.artifact, artifact) || other.artifact == artifact)&&(identical(other.artifactPiece, artifactPiece) || other.artifactPiece == artifactPiece));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,artifact,artifactPiece);
+int get hashCode {
+    return Object.hash(runtimeType,artifact,artifactPiece);
+}
 
 @override
 String toString() {
-  return 'BookmarkWithDetails.artifactPiece(artifact: $artifact, artifactPiece: $artifactPiece)';
+    return 'BookmarkWithDetails.artifactPiece(artifact: $artifact, artifactPiece: $artifactPiece)';
 }
 
 
@@ -148,16 +154,21 @@ mixin _$BookmarkGroup {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkGroup&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.type, type) || other.type == type)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&(identical(other.levelRange, levelRange) || other.levelRange == levelRange)&&const DeepCollectionEquality().equals(other.bookmarks, bookmarks));
+  final _this = this as BookmarkGroup;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkGroup&&(identical(other.hash, _this.hash) || other.hash == _this.hash)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.characterId, _this.characterId) || other.characterId == _this.characterId)&&(identical(other.orderIndex, _this.orderIndex) || other.orderIndex == _this.orderIndex)&&(identical(other.levelRange, _this.levelRange) || other.levelRange == _this.levelRange)&&const DeepCollectionEquality().equals(other.bookmarks, _this.bookmarks));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,hash,type,characterId,orderIndex,levelRange,const DeepCollectionEquality().hash(bookmarks));
+int get hashCode {
+  final _this = this as BookmarkGroup;
+  return Object.hash(runtimeType,_this.hash,_this.type,_this.characterId,_this.orderIndex,_this.levelRange,const DeepCollectionEquality().hash(_this.bookmarks));
+}
 
 @override
 String toString() {
-  return 'BookmarkGroup(hash: $hash, type: $type, characterId: $characterId, orderIndex: $orderIndex, levelRange: $levelRange, bookmarks: $bookmarks)';
+  final _this = this as BookmarkGroup;
+  return 'BookmarkGroup(hash: ${_this.hash}, type: ${_this.type}, characterId: ${_this.characterId}, orderIndex: ${_this.orderIndex}, levelRange: ${_this.levelRange}, bookmarks: ${_this.bookmarks})';
 }
 
 
@@ -192,16 +203,18 @@ class _BookmarkGroup extends BookmarkGroup {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookmarkGroup&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.type, type) || other.type == type)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&(identical(other.levelRange, levelRange) || other.levelRange == levelRange)&&const DeepCollectionEquality().equals(other._bookmarks, _bookmarks));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookmarkGroup&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.type, type) || other.type == type)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&(identical(other.levelRange, levelRange) || other.levelRange == levelRange)&&const DeepCollectionEquality().equals(other.bookmarks, _bookmarks));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,hash,type,characterId,orderIndex,levelRange,const DeepCollectionEquality().hash(_bookmarks));
+int get hashCode {
+    return Object.hash(runtimeType,hash,type,characterId,orderIndex,levelRange,const DeepCollectionEquality().hash(_bookmarks));
+}
 
 @override
 String toString() {
-  return 'BookmarkGroup(hash: $hash, type: $type, characterId: $characterId, orderIndex: $orderIndex, levelRange: $levelRange, bookmarks: $bookmarks)';
+    return 'BookmarkGroup(hash: $hash, type: $type, characterId: $characterId, orderIndex: $orderIndex, levelRange: $levelRange, bookmarks: $bookmarks)';
 }
 
 

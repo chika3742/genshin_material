@@ -21,16 +21,21 @@ mixin _$BannerData {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BannerData&&(identical(other.text, text) || other.text == text)&&(identical(other.actionText, actionText) || other.actionText == actionText)&&(identical(other.actionUrl, actionUrl) || other.actionUrl == actionUrl));
+  final _this = this as BannerData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BannerData&&(identical(other.text, _this.text) || other.text == _this.text)&&(identical(other.actionText, _this.actionText) || other.actionText == _this.actionText)&&(identical(other.actionUrl, _this.actionUrl) || other.actionUrl == _this.actionUrl));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,text,actionText,actionUrl);
+int get hashCode {
+  final _this = this as BannerData;
+  return Object.hash(runtimeType,_this.text,_this.actionText,_this.actionUrl);
+}
 
 @override
 String toString() {
-  return 'BannerData(text: $text, actionText: $actionText, actionUrl: $actionUrl)';
+  final _this = this as BannerData;
+  return 'BannerData(text: ${_this.text}, actionText: ${_this.actionText}, actionUrl: ${_this.actionUrl})';
 }
 
 
@@ -56,16 +61,18 @@ class _BannerData implements BannerData {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BannerData&&(identical(other.text, text) || other.text == text)&&(identical(other.actionText, actionText) || other.actionText == actionText)&&(identical(other.actionUrl, actionUrl) || other.actionUrl == actionUrl));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BannerData&&(identical(other.text, text) || other.text == text)&&(identical(other.actionText, actionText) || other.actionText == actionText)&&(identical(other.actionUrl, actionUrl) || other.actionUrl == actionUrl));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,text,actionText,actionUrl);
+int get hashCode {
+    return Object.hash(runtimeType,text,actionText,actionUrl);
+}
 
 @override
 String toString() {
-  return 'BannerData(text: $text, actionText: $actionText, actionUrl: $actionUrl)';
+    return 'BannerData(text: $text, actionText: $actionText, actionUrl: $actionUrl)';
 }
 
 

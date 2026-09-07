@@ -21,16 +21,21 @@ mixin _$ArtifactBookmarkItemState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactBookmarkItemState&&(identical(other.id, id) || other.id == id)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&const DeepCollectionEquality().equals(other.subStats, subStats));
+  final _this = this as ArtifactBookmarkItemState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactBookmarkItemState&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.characterId, _this.characterId) || other.characterId == _this.characterId)&&(identical(other.orderIndex, _this.orderIndex) || other.orderIndex == _this.orderIndex)&&const DeepCollectionEquality().equals(other.subStats, _this.subStats));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,characterId,orderIndex,const DeepCollectionEquality().hash(subStats));
+int get hashCode {
+  final _this = this as ArtifactBookmarkItemState;
+  return Object.hash(runtimeType,_this.id,_this.characterId,_this.orderIndex,const DeepCollectionEquality().hash(_this.subStats));
+}
 
 @override
 String toString() {
-  return 'ArtifactBookmarkItemState(id: $id, characterId: $characterId, orderIndex: $orderIndex, subStats: $subStats)';
+  final _this = this as ArtifactBookmarkItemState;
+  return 'ArtifactBookmarkItemState(id: ${_this.id}, characterId: ${_this.characterId}, orderIndex: ${_this.orderIndex}, subStats: ${_this.subStats})';
 }
 
 
@@ -77,16 +82,18 @@ class ArtifactSetBookmarkItemState implements ArtifactBookmarkItemState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactSetBookmarkItemState&&(identical(other.id, id) || other.id == id)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&const DeepCollectionEquality().equals(other._sets, _sets)&&const DeepCollectionEquality().equals(other._mainStats, _mainStats)&&const DeepCollectionEquality().equals(other._subStats, _subStats));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactSetBookmarkItemState&&(identical(other.id, id) || other.id == id)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&const DeepCollectionEquality().equals(other.sets, _sets)&&const DeepCollectionEquality().equals(other.mainStats, _mainStats)&&const DeepCollectionEquality().equals(other.subStats, _subStats));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,characterId,orderIndex,const DeepCollectionEquality().hash(_sets),const DeepCollectionEquality().hash(_mainStats),const DeepCollectionEquality().hash(_subStats));
+int get hashCode {
+    return Object.hash(runtimeType,id,characterId,orderIndex,const DeepCollectionEquality().hash(_sets),const DeepCollectionEquality().hash(_mainStats),const DeepCollectionEquality().hash(_subStats));
+}
 
 @override
 String toString() {
-  return 'ArtifactBookmarkItemState.set(id: $id, characterId: $characterId, orderIndex: $orderIndex, sets: $sets, mainStats: $mainStats, subStats: $subStats)';
+    return 'ArtifactBookmarkItemState.set(id: $id, characterId: $characterId, orderIndex: $orderIndex, sets: $sets, mainStats: $mainStats, subStats: $subStats)';
 }
 
 
@@ -120,16 +127,18 @@ class ArtifactPieceBookmarkItemState implements ArtifactBookmarkItemState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactPieceBookmarkItemState&&(identical(other.id, id) || other.id == id)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&(identical(other.piece, piece) || other.piece == piece)&&(identical(other.mainStat, mainStat) || other.mainStat == mainStat)&&const DeepCollectionEquality().equals(other._subStats, _subStats));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactPieceBookmarkItemState&&(identical(other.id, id) || other.id == id)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&(identical(other.piece, piece) || other.piece == piece)&&(identical(other.mainStat, mainStat) || other.mainStat == mainStat)&&const DeepCollectionEquality().equals(other.subStats, _subStats));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,characterId,orderIndex,piece,mainStat,const DeepCollectionEquality().hash(_subStats));
+int get hashCode {
+    return Object.hash(runtimeType,id,characterId,orderIndex,piece,mainStat,const DeepCollectionEquality().hash(_subStats));
+}
 
 @override
 String toString() {
-  return 'ArtifactBookmarkItemState.piece(id: $id, characterId: $characterId, orderIndex: $orderIndex, piece: $piece, mainStat: $mainStat, subStats: $subStats)';
+    return 'ArtifactBookmarkItemState.piece(id: $id, characterId: $characterId, orderIndex: $orderIndex, piece: $piece, mainStat: $mainStat, subStats: $subStats)';
 }
 
 

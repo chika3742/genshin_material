@@ -27,16 +27,21 @@ $PurposeGroupedBookmarkListStateCopyWith<PurposeGroupedBookmarkListState> get co
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PurposeGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.groups, groups)&&const DeepCollectionEquality().equals(other.sortedBookmarks, sortedBookmarks));
+  final _this = this as PurposeGroupedBookmarkListState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PurposeGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.groups, _this.groups)&&const DeepCollectionEquality().equals(other.sortedBookmarks, _this.sortedBookmarks));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(groups),const DeepCollectionEquality().hash(sortedBookmarks));
+int get hashCode {
+  final _this = this as PurposeGroupedBookmarkListState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.groups),const DeepCollectionEquality().hash(_this.sortedBookmarks));
+}
 
 @override
 String toString() {
-  return 'PurposeGroupedBookmarkListState(groups: $groups, sortedBookmarks: $sortedBookmarks)';
+  final _this = this as PurposeGroupedBookmarkListState;
+  return 'PurposeGroupedBookmarkListState(groups: ${_this.groups}, sortedBookmarks: ${_this.sortedBookmarks})';
 }
 
 
@@ -110,16 +115,18 @@ _$PurposeGroupedBookmarkListStateCopyWith<_PurposeGroupedBookmarkListState> get 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PurposeGroupedBookmarkListState&&const DeepCollectionEquality().equals(other._groups, _groups)&&const DeepCollectionEquality().equals(other._sortedBookmarks, _sortedBookmarks));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PurposeGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.groups, _groups)&&const DeepCollectionEquality().equals(other.sortedBookmarks, _sortedBookmarks));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_groups),const DeepCollectionEquality().hash(_sortedBookmarks));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_groups),const DeepCollectionEquality().hash(_sortedBookmarks));
+}
 
 @override
 String toString() {
-  return 'PurposeGroupedBookmarkListState(groups: $groups, sortedBookmarks: $sortedBookmarks)';
+    return 'PurposeGroupedBookmarkListState(groups: $groups, sortedBookmarks: $sortedBookmarks)';
 }
 
 

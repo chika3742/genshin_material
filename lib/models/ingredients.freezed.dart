@@ -24,16 +24,21 @@ mixin _$ExpItem {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExpItem&&(identical(other.itemId, itemId) || other.itemId == itemId)&&(identical(other.expPerItem, expPerItem) || other.expPerItem == expPerItem)&&(identical(other.isDefault, isDefault) || other.isDefault == isDefault));
+  final _this = this as ExpItem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExpItem&&(identical(other.itemId, _this.itemId) || other.itemId == _this.itemId)&&(identical(other.expPerItem, _this.expPerItem) || other.expPerItem == _this.expPerItem)&&(identical(other.isDefault, _this.isDefault) || other.isDefault == _this.isDefault));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,itemId,expPerItem,isDefault);
+int get hashCode {
+  final _this = this as ExpItem;
+  return Object.hash(runtimeType,_this.itemId,_this.expPerItem,_this.isDefault);
+}
 
 @override
 String toString() {
-  return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem, isDefault: $isDefault)';
+  final _this = this as ExpItem;
+  return 'ExpItem(itemId: ${_this.itemId}, expPerItem: ${_this.expPerItem}, isDefault: ${_this.isDefault})';
 }
 
 
@@ -62,16 +67,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExpItem&&(identical(other.itemId, itemId) || other.itemId == itemId)&&(identical(other.expPerItem, expPerItem) || other.expPerItem == expPerItem)&&(identical(other.isDefault, isDefault) || other.isDefault == isDefault));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExpItem&&(identical(other.itemId, itemId) || other.itemId == itemId)&&(identical(other.expPerItem, expPerItem) || other.expPerItem == expPerItem)&&(identical(other.isDefault, isDefault) || other.isDefault == isDefault));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,itemId,expPerItem,isDefault);
+int get hashCode {
+    return Object.hash(runtimeType,itemId,expPerItem,isDefault);
+}
 
 @override
 String toString() {
-  return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem, isDefault: $isDefault)';
+    return 'ExpItem(itemId: $itemId, expPerItem: $expPerItem, isDefault: $isDefault)';
 }
 
 
@@ -119,7 +126,7 @@ mixin _$Ingredient {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ingredient);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Ingredient);
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -128,7 +135,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'Ingredient()';
+    return 'Ingredient()';
 }
 
 
@@ -170,16 +177,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientByType&&(identical(other.type, type) || other.type == type)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.craftLevel, craftLevel) || other.craftLevel == craftLevel)&&const DeepCollectionEquality().equals(other._targetSpecific, _targetSpecific));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientByType&&(identical(other.type, type) || other.type == type)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.craftLevel, craftLevel) || other.craftLevel == craftLevel)&&const DeepCollectionEquality().equals(other.targetSpecific, _targetSpecific));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,quantity,craftLevel,const DeepCollectionEquality().hash(_targetSpecific));
+int get hashCode {
+    return Object.hash(runtimeType,type,quantity,craftLevel,const DeepCollectionEquality().hash(_targetSpecific));
+}
 
 @override
 String toString() {
-  return 'Ingredient.byType(type: $type, quantity: $quantity, craftLevel: $craftLevel, targetSpecific: $targetSpecific)';
+    return 'Ingredient.byType(type: $type, quantity: $quantity, craftLevel: $craftLevel, targetSpecific: $targetSpecific)';
 }
 
 
@@ -209,16 +218,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientExp&&(identical(other.exp, exp) || other.exp == exp));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientExp&&(identical(other.exp, exp) || other.exp == exp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,exp);
+int get hashCode {
+    return Object.hash(runtimeType,exp);
+}
 
 @override
 String toString() {
-  return 'Ingredient.exp(exp: $exp)';
+    return 'Ingredient.exp(exp: $exp)';
 }
 
 
@@ -249,16 +260,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientWithFixedId&&(identical(other.itemId, itemId) || other.itemId == itemId)&&(identical(other.quantity, quantity) || other.quantity == quantity));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientWithFixedId&&(identical(other.itemId, itemId) || other.itemId == itemId)&&(identical(other.quantity, quantity) || other.quantity == quantity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,itemId,quantity);
+int get hashCode {
+    return Object.hash(runtimeType,itemId,quantity);
+}
 
 @override
 String toString() {
-  return 'Ingredient.fixed(itemId: $itemId, quantity: $quantity)';
+    return 'Ingredient.fixed(itemId: $itemId, quantity: $quantity)';
 }
 
 
@@ -277,16 +290,21 @@ mixin _$SliderEntry {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SliderEntry&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other.purposes, purposes)&&(identical(other.preferredTargetType, preferredTargetType) || other.preferredTargetType == preferredTargetType));
+  final _this = this as SliderEntry;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SliderEntry&&(identical(other.title, _this.title) || other.title == _this.title)&&const DeepCollectionEquality().equals(other.purposes, _this.purposes)&&(identical(other.preferredTargetType, _this.preferredTargetType) || other.preferredTargetType == _this.preferredTargetType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,const DeepCollectionEquality().hash(purposes),preferredTargetType);
+int get hashCode {
+  final _this = this as SliderEntry;
+  return Object.hash(runtimeType,_this.title,const DeepCollectionEquality().hash(_this.purposes),_this.preferredTargetType);
+}
 
 @override
 String toString() {
-  return 'SliderEntry(title: $title, purposes: $purposes, preferredTargetType: $preferredTargetType)';
+  final _this = this as SliderEntry;
+  return 'SliderEntry(title: ${_this.title}, purposes: ${_this.purposes}, preferredTargetType: ${_this.preferredTargetType})';
 }
 
 
@@ -318,16 +336,18 @@ class _SliderEntry implements SliderEntry {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SliderEntry&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other._purposes, _purposes)&&(identical(other.preferredTargetType, preferredTargetType) || other.preferredTargetType == preferredTargetType));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SliderEntry&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other.purposes, _purposes)&&(identical(other.preferredTargetType, preferredTargetType) || other.preferredTargetType == preferredTargetType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,const DeepCollectionEquality().hash(_purposes),preferredTargetType);
+int get hashCode {
+    return Object.hash(runtimeType,title,const DeepCollectionEquality().hash(_purposes),preferredTargetType);
+}
 
 @override
 String toString() {
-  return 'SliderEntry(title: $title, purposes: $purposes, preferredTargetType: $preferredTargetType)';
+    return 'SliderEntry(title: $title, purposes: $purposes, preferredTargetType: $preferredTargetType)';
 }
 
 
@@ -348,16 +368,21 @@ mixin _$IngredientLevels {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientLevels&&const DeepCollectionEquality().equals(other.sliderTicks, sliderTicks)&&const DeepCollectionEquality().equals(other.levels, levels));
+  final _this = this as IngredientLevels;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientLevels&&const DeepCollectionEquality().equals(other.sliderTicks, _this.sliderTicks)&&const DeepCollectionEquality().equals(other.levels, _this.levels));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(sliderTicks),const DeepCollectionEquality().hash(levels));
+int get hashCode {
+  final _this = this as IngredientLevels;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.sliderTicks),const DeepCollectionEquality().hash(_this.levels));
+}
 
 @override
 String toString() {
-  return 'IngredientLevels(sliderTicks: $sliderTicks, levels: $levels)';
+  final _this = this as IngredientLevels;
+  return 'IngredientLevels(sliderTicks: ${_this.sliderTicks}, levels: ${_this.levels})';
 }
 
 
@@ -397,16 +422,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IngredientLevels&&const DeepCollectionEquality().equals(other._sliderTicks, _sliderTicks)&&const DeepCollectionEquality().equals(other._levels, _levels));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _IngredientLevels&&const DeepCollectionEquality().equals(other.sliderTicks, _sliderTicks)&&const DeepCollectionEquality().equals(other.levels, _levels));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_sliderTicks),const DeepCollectionEquality().hash(_levels));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_sliderTicks),const DeepCollectionEquality().hash(_levels));
+}
 
 @override
 String toString() {
-  return 'IngredientLevels(sliderTicks: $sliderTicks, levels: $levels)';
+    return 'IngredientLevels(sliderTicks: $sliderTicks, levels: $levels)';
 }
 
 
@@ -427,16 +454,21 @@ mixin _$IngredientPurposes {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientPurposes&&const DeepCollectionEquality().equals(other.purposes, purposes));
+  final _this = this as IngredientPurposes;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientPurposes&&const DeepCollectionEquality().equals(other.purposes, _this.purposes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(purposes));
+int get hashCode {
+  final _this = this as IngredientPurposes;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.purposes));
+}
 
 @override
 String toString() {
-  return 'IngredientPurposes(purposes: $purposes)';
+  final _this = this as IngredientPurposes;
+  return 'IngredientPurposes(purposes: ${_this.purposes})';
 }
 
 
@@ -469,16 +501,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IngredientPurposes&&const DeepCollectionEquality().equals(other._purposes, _purposes));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _IngredientPurposes&&const DeepCollectionEquality().equals(other.purposes, _purposes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_purposes));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_purposes));
+}
 
 @override
 String toString() {
-  return 'IngredientPurposes(purposes: $purposes)';
+    return 'IngredientPurposes(purposes: $purposes)';
 }
 
 
@@ -497,16 +531,21 @@ mixin _$IngredientConfigurations {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientConfigurations&&const DeepCollectionEquality().equals(other.expItems, expItems)&&const DeepCollectionEquality().equals(other.rarities, rarities)&&const DeepCollectionEquality().equals(other.sliders, sliders)&&const DeepCollectionEquality().equals(other.ingredientTables, ingredientTables));
+  final _this = this as IngredientConfigurations;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IngredientConfigurations&&const DeepCollectionEquality().equals(other.expItems, _this.expItems)&&const DeepCollectionEquality().equals(other.rarities, _this.rarities)&&const DeepCollectionEquality().equals(other.sliders, _this.sliders)&&const DeepCollectionEquality().equals(other.ingredientTables, _this.ingredientTables));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(expItems),const DeepCollectionEquality().hash(rarities),const DeepCollectionEquality().hash(sliders),const DeepCollectionEquality().hash(ingredientTables));
+int get hashCode {
+  final _this = this as IngredientConfigurations;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.expItems),const DeepCollectionEquality().hash(_this.rarities),const DeepCollectionEquality().hash(_this.sliders),const DeepCollectionEquality().hash(_this.ingredientTables));
+}
 
 @override
 String toString() {
-  return 'IngredientConfigurations(expItems: $expItems, rarities: $rarities, sliders: $sliders, ingredientTables: $ingredientTables)';
+  final _this = this as IngredientConfigurations;
+  return 'IngredientConfigurations(expItems: ${_this.expItems}, rarities: ${_this.rarities}, sliders: ${_this.sliders}, ingredientTables: ${_this.ingredientTables})';
 }
 
 
@@ -557,16 +596,18 @@ class _IngredientConfigurations extends IngredientConfigurations {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IngredientConfigurations&&const DeepCollectionEquality().equals(other._expItems, _expItems)&&const DeepCollectionEquality().equals(other._rarities, _rarities)&&const DeepCollectionEquality().equals(other._sliders, _sliders)&&const DeepCollectionEquality().equals(other._ingredientTables, _ingredientTables));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _IngredientConfigurations&&const DeepCollectionEquality().equals(other.expItems, _expItems)&&const DeepCollectionEquality().equals(other.rarities, _rarities)&&const DeepCollectionEquality().equals(other.sliders, _sliders)&&const DeepCollectionEquality().equals(other.ingredientTables, _ingredientTables));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_expItems),const DeepCollectionEquality().hash(_rarities),const DeepCollectionEquality().hash(_sliders),const DeepCollectionEquality().hash(_ingredientTables));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_expItems),const DeepCollectionEquality().hash(_rarities),const DeepCollectionEquality().hash(_sliders),const DeepCollectionEquality().hash(_ingredientTables));
+}
 
 @override
 String toString() {
-  return 'IngredientConfigurations(expItems: $expItems, rarities: $rarities, sliders: $sliders, ingredientTables: $ingredientTables)';
+    return 'IngredientConfigurations(expItems: $expItems, rarities: $rarities, sliders: $sliders, ingredientTables: $ingredientTables)';
 }
 
 

@@ -22,16 +22,21 @@ mixin _$ArtifactSet {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactSet&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.maxRarity, maxRarity) || other.maxRarity == maxRarity)&&const DeepCollectionEquality().equals(other.tags, tags)&&const DeepCollectionEquality().equals(other.consistsOf, consistsOf)&&const DeepCollectionEquality().equals(other.bonuses, bonuses));
+  final _this = this as ArtifactSet;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactSet&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.jaPronunciation, _this.jaPronunciation) || other.jaPronunciation == _this.jaPronunciation)&&(identical(other.maxRarity, _this.maxRarity) || other.maxRarity == _this.maxRarity)&&const DeepCollectionEquality().equals(other.tags, _this.tags)&&const DeepCollectionEquality().equals(other.consistsOf, _this.consistsOf)&&const DeepCollectionEquality().equals(other.bonuses, _this.bonuses));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,jaPronunciation,maxRarity,const DeepCollectionEquality().hash(tags),const DeepCollectionEquality().hash(consistsOf),const DeepCollectionEquality().hash(bonuses));
+int get hashCode {
+  final _this = this as ArtifactSet;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.jaPronunciation,_this.maxRarity,const DeepCollectionEquality().hash(_this.tags),const DeepCollectionEquality().hash(_this.consistsOf),const DeepCollectionEquality().hash(_this.bonuses));
+}
 
 @override
 String toString() {
-  return 'ArtifactSet(id: $id, name: $name, jaPronunciation: $jaPronunciation, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
+  final _this = this as ArtifactSet;
+  return 'ArtifactSet(id: ${_this.id}, name: ${_this.name}, jaPronunciation: ${_this.jaPronunciation}, maxRarity: ${_this.maxRarity}, tags: ${_this.tags}, consistsOf: ${_this.consistsOf}, bonuses: ${_this.bonuses})';
 }
 
 
@@ -81,16 +86,18 @@ class _ArtifactSet extends ArtifactSet {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactSet&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.maxRarity, maxRarity) || other.maxRarity == maxRarity)&&const DeepCollectionEquality().equals(other._tags, _tags)&&const DeepCollectionEquality().equals(other._consistsOf, _consistsOf)&&const DeepCollectionEquality().equals(other._bonuses, _bonuses));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactSet&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.maxRarity, maxRarity) || other.maxRarity == maxRarity)&&const DeepCollectionEquality().equals(other.tags, _tags)&&const DeepCollectionEquality().equals(other.consistsOf, _consistsOf)&&const DeepCollectionEquality().equals(other.bonuses, _bonuses));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,jaPronunciation,maxRarity,const DeepCollectionEquality().hash(_tags),const DeepCollectionEquality().hash(_consistsOf),const DeepCollectionEquality().hash(_bonuses));
+int get hashCode {
+    return Object.hash(runtimeType,id,name,jaPronunciation,maxRarity,const DeepCollectionEquality().hash(_tags),const DeepCollectionEquality().hash(_consistsOf),const DeepCollectionEquality().hash(_bonuses));
+}
 
 @override
 String toString() {
-  return 'ArtifactSet(id: $id, name: $name, jaPronunciation: $jaPronunciation, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
+    return 'ArtifactSet(id: $id, name: $name, jaPronunciation: $jaPronunciation, maxRarity: $maxRarity, tags: $tags, consistsOf: $consistsOf, bonuses: $bonuses)';
 }
 
 
@@ -109,16 +116,21 @@ mixin _$ArtifactPiece {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactPiece&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.type, type) || other.type == type)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl));
+  final _this = this as ArtifactPiece;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactPiece&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.jaPronunciation, _this.jaPronunciation) || other.jaPronunciation == _this.jaPronunciation)&&(identical(other.parentId, _this.parentId) || other.parentId == _this.parentId)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.imageUrl, _this.imageUrl) || other.imageUrl == _this.imageUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,jaPronunciation,parentId,type,imageUrl);
+int get hashCode {
+  final _this = this as ArtifactPiece;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.jaPronunciation,_this.parentId,_this.type,_this.imageUrl);
+}
 
 @override
 String toString() {
-  return 'ArtifactPiece(id: $id, name: $name, jaPronunciation: $jaPronunciation, parentId: $parentId, type: $type, imageUrl: $imageUrl)';
+  final _this = this as ArtifactPiece;
+  return 'ArtifactPiece(id: ${_this.id}, name: ${_this.name}, jaPronunciation: ${_this.jaPronunciation}, parentId: ${_this.parentId}, type: ${_this.type}, imageUrl: ${_this.imageUrl})';
 }
 
 
@@ -147,16 +159,18 @@ class _ArtifactPiece extends ArtifactPiece {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactPiece&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.type, type) || other.type == type)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactPiece&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.jaPronunciation, jaPronunciation) || other.jaPronunciation == jaPronunciation)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.type, type) || other.type == type)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,jaPronunciation,parentId,type,imageUrl);
+int get hashCode {
+    return Object.hash(runtimeType,id,name,jaPronunciation,parentId,type,imageUrl);
+}
 
 @override
 String toString() {
-  return 'ArtifactPiece(id: $id, name: $name, jaPronunciation: $jaPronunciation, parentId: $parentId, type: $type, imageUrl: $imageUrl)';
+    return 'ArtifactPiece(id: $id, name: $name, jaPronunciation: $jaPronunciation, parentId: $parentId, type: $type, imageUrl: $imageUrl)';
 }
 
 
@@ -175,16 +189,21 @@ mixin _$ArtifactSetBonus {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactSetBonus&&(identical(other.type, type) || other.type == type)&&(identical(other.description, description) || other.description == description));
+  final _this = this as ArtifactSetBonus;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactSetBonus&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.description, _this.description) || other.description == _this.description));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,description);
+int get hashCode {
+  final _this = this as ArtifactSetBonus;
+  return Object.hash(runtimeType,_this.type,_this.description);
+}
 
 @override
 String toString() {
-  return 'ArtifactSetBonus(type: $type, description: $description)';
+  final _this = this as ArtifactSetBonus;
+  return 'ArtifactSetBonus(type: ${_this.type}, description: ${_this.description})';
 }
 
 
@@ -209,16 +228,18 @@ class _ArtifactSetBonus implements ArtifactSetBonus {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactSetBonus&&(identical(other.type, type) || other.type == type)&&(identical(other.description, description) || other.description == description));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactSetBonus&&(identical(other.type, type) || other.type == type)&&(identical(other.description, description) || other.description == description));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,description);
+int get hashCode {
+    return Object.hash(runtimeType,type,description);
+}
 
 @override
 String toString() {
-  return 'ArtifactSetBonus(type: $type, description: $description)';
+    return 'ArtifactSetBonus(type: $type, description: $description)';
 }
 
 
@@ -237,16 +258,21 @@ mixin _$ArtifactsMeta {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactsMeta&&const DeepCollectionEquality().equals(other.stats, stats)&&const DeepCollectionEquality().equals(other.pieceTypes, pieceTypes)&&const DeepCollectionEquality().equals(other.possibleSubStats, possibleSubStats)&&(identical(other.tags, tags) || other.tags == tags));
+  final _this = this as ArtifactsMeta;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactsMeta&&const DeepCollectionEquality().equals(other.stats, _this.stats)&&const DeepCollectionEquality().equals(other.pieceTypes, _this.pieceTypes)&&const DeepCollectionEquality().equals(other.possibleSubStats, _this.possibleSubStats)&&(identical(other.tags, _this.tags) || other.tags == _this.tags));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(stats),const DeepCollectionEquality().hash(pieceTypes),const DeepCollectionEquality().hash(possibleSubStats),tags);
+int get hashCode {
+  final _this = this as ArtifactsMeta;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.stats),const DeepCollectionEquality().hash(_this.pieceTypes),const DeepCollectionEquality().hash(_this.possibleSubStats),_this.tags);
+}
 
 @override
 String toString() {
-  return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, tags: $tags)';
+  final _this = this as ArtifactsMeta;
+  return 'ArtifactsMeta(stats: ${_this.stats}, pieceTypes: ${_this.pieceTypes}, possibleSubStats: ${_this.possibleSubStats}, tags: ${_this.tags})';
 }
 
 
@@ -291,16 +317,18 @@ class _ArtifactsMeta implements ArtifactsMeta {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactsMeta&&const DeepCollectionEquality().equals(other._stats, _stats)&&const DeepCollectionEquality().equals(other._pieceTypes, _pieceTypes)&&const DeepCollectionEquality().equals(other._possibleSubStats, _possibleSubStats)&&(identical(other.tags, tags) || other.tags == tags));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactsMeta&&const DeepCollectionEquality().equals(other.stats, _stats)&&const DeepCollectionEquality().equals(other.pieceTypes, _pieceTypes)&&const DeepCollectionEquality().equals(other.possibleSubStats, _possibleSubStats)&&(identical(other.tags, tags) || other.tags == tags));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_stats),const DeepCollectionEquality().hash(_pieceTypes),const DeepCollectionEquality().hash(_possibleSubStats),tags);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_stats),const DeepCollectionEquality().hash(_pieceTypes),const DeepCollectionEquality().hash(_possibleSubStats),tags);
+}
 
 @override
 String toString() {
-  return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, tags: $tags)';
+    return 'ArtifactsMeta(stats: $stats, pieceTypes: $pieceTypes, possibleSubStats: $possibleSubStats, tags: $tags)';
 }
 
 
@@ -319,16 +347,21 @@ mixin _$ArtifactPieceType {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactPieceType&&(identical(other.id, id) || other.id == id)&&(identical(other.desc, desc) || other.desc == desc)&&const DeepCollectionEquality().equals(other.possibleMainStats, possibleMainStats));
+  final _this = this as ArtifactPieceType;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactPieceType&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.desc, _this.desc) || other.desc == _this.desc)&&const DeepCollectionEquality().equals(other.possibleMainStats, _this.possibleMainStats));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,desc,const DeepCollectionEquality().hash(possibleMainStats));
+int get hashCode {
+  final _this = this as ArtifactPieceType;
+  return Object.hash(runtimeType,_this.id,_this.desc,const DeepCollectionEquality().hash(_this.possibleMainStats));
+}
 
 @override
 String toString() {
-  return 'ArtifactPieceType(id: $id, desc: $desc, possibleMainStats: $possibleMainStats)';
+  final _this = this as ArtifactPieceType;
+  return 'ArtifactPieceType(id: ${_this.id}, desc: ${_this.desc}, possibleMainStats: ${_this.possibleMainStats})';
 }
 
 
@@ -360,16 +393,18 @@ class _ArtifactPieceType implements ArtifactPieceType {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactPieceType&&(identical(other.id, id) || other.id == id)&&(identical(other.desc, desc) || other.desc == desc)&&const DeepCollectionEquality().equals(other._possibleMainStats, _possibleMainStats));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactPieceType&&(identical(other.id, id) || other.id == id)&&(identical(other.desc, desc) || other.desc == desc)&&const DeepCollectionEquality().equals(other.possibleMainStats, _possibleMainStats));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,desc,const DeepCollectionEquality().hash(_possibleMainStats));
+int get hashCode {
+    return Object.hash(runtimeType,id,desc,const DeepCollectionEquality().hash(_possibleMainStats));
+}
 
 @override
 String toString() {
-  return 'ArtifactPieceType(id: $id, desc: $desc, possibleMainStats: $possibleMainStats)';
+    return 'ArtifactPieceType(id: $id, desc: $desc, possibleMainStats: $possibleMainStats)';
 }
 
 
@@ -388,16 +423,21 @@ mixin _$ArtifactStat {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactStat&&(identical(other.id, id) || other.id == id)&&(identical(other.desc, desc) || other.desc == desc));
+  final _this = this as ArtifactStat;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactStat&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.desc, _this.desc) || other.desc == _this.desc));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,desc);
+int get hashCode {
+  final _this = this as ArtifactStat;
+  return Object.hash(runtimeType,_this.id,_this.desc);
+}
 
 @override
 String toString() {
-  return 'ArtifactStat(id: $id, desc: $desc)';
+  final _this = this as ArtifactStat;
+  return 'ArtifactStat(id: ${_this.id}, desc: ${_this.desc})';
 }
 
 
@@ -422,16 +462,18 @@ class _ArtifactStat implements ArtifactStat {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactStat&&(identical(other.id, id) || other.id == id)&&(identical(other.desc, desc) || other.desc == desc));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactStat&&(identical(other.id, id) || other.id == id)&&(identical(other.desc, desc) || other.desc == desc));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,desc);
+int get hashCode {
+    return Object.hash(runtimeType,id,desc);
+}
 
 @override
 String toString() {
-  return 'ArtifactStat(id: $id, desc: $desc)';
+    return 'ArtifactStat(id: $id, desc: $desc)';
 }
 
 
@@ -450,16 +492,21 @@ mixin _$ArtifactTagCategoriesInternal {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactTagCategoriesInternal&&const DeepCollectionEquality().equals(other.categories, categories));
+  final _this = this as ArtifactTagCategoriesInternal;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactTagCategoriesInternal&&const DeepCollectionEquality().equals(other.categories, _this.categories));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(categories));
+int get hashCode {
+  final _this = this as ArtifactTagCategoriesInternal;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.categories));
+}
 
 @override
 String toString() {
-  return 'ArtifactTagCategoriesInternal(categories: $categories)';
+  final _this = this as ArtifactTagCategoriesInternal;
+  return 'ArtifactTagCategoriesInternal(categories: ${_this.categories})';
 }
 
 
@@ -489,16 +536,18 @@ class _ArtifactTagCategoriesInternal implements ArtifactTagCategoriesInternal {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactTagCategoriesInternal&&const DeepCollectionEquality().equals(other._categories, _categories));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactTagCategoriesInternal&&const DeepCollectionEquality().equals(other.categories, _categories));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_categories));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_categories));
+}
 
 @override
 String toString() {
-  return 'ArtifactTagCategoriesInternal(categories: $categories)';
+    return 'ArtifactTagCategoriesInternal(categories: $categories)';
 }
 
 
@@ -517,16 +566,21 @@ mixin _$ArtifactTagCategory {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactTagCategory&&(identical(other.desc, desc) || other.desc == desc)&&const DeepCollectionEquality().equals(other.items, items));
+  final _this = this as ArtifactTagCategory;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactTagCategory&&(identical(other.desc, _this.desc) || other.desc == _this.desc)&&const DeepCollectionEquality().equals(other.items, _this.items));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,desc,const DeepCollectionEquality().hash(items));
+int get hashCode {
+  final _this = this as ArtifactTagCategory;
+  return Object.hash(runtimeType,_this.desc,const DeepCollectionEquality().hash(_this.items));
+}
 
 @override
 String toString() {
-  return 'ArtifactTagCategory(desc: $desc, items: $items)';
+  final _this = this as ArtifactTagCategory;
+  return 'ArtifactTagCategory(desc: ${_this.desc}, items: ${_this.items})';
 }
 
 
@@ -557,16 +611,18 @@ class _ArtifactTagCategory implements ArtifactTagCategory {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactTagCategory&&(identical(other.desc, desc) || other.desc == desc)&&const DeepCollectionEquality().equals(other._items, _items));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactTagCategory&&(identical(other.desc, desc) || other.desc == desc)&&const DeepCollectionEquality().equals(other.items, _items));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,desc,const DeepCollectionEquality().hash(_items));
+int get hashCode {
+    return Object.hash(runtimeType,desc,const DeepCollectionEquality().hash(_items));
+}
 
 @override
 String toString() {
-  return 'ArtifactTagCategory(desc: $desc, items: $items)';
+    return 'ArtifactTagCategory(desc: $desc, items: $items)';
 }
 
 
@@ -585,16 +641,21 @@ mixin _$ArtifactTag {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactTag&&(identical(other.id, id) || other.id == id)&&(identical(other.desc, desc) || other.desc == desc));
+  final _this = this as ArtifactTag;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtifactTag&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.desc, _this.desc) || other.desc == _this.desc));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,desc);
+int get hashCode {
+  final _this = this as ArtifactTag;
+  return Object.hash(runtimeType,_this.id,_this.desc);
+}
 
 @override
 String toString() {
-  return 'ArtifactTag(id: $id, desc: $desc)';
+  final _this = this as ArtifactTag;
+  return 'ArtifactTag(id: ${_this.id}, desc: ${_this.desc})';
 }
 
 
@@ -619,16 +680,18 @@ class _ArtifactTag implements ArtifactTag {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactTag&&(identical(other.id, id) || other.id == id)&&(identical(other.desc, desc) || other.desc == desc));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtifactTag&&(identical(other.id, id) || other.id == id)&&(identical(other.desc, desc) || other.desc == desc));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,desc);
+int get hashCode {
+    return Object.hash(runtimeType,id,desc);
+}
 
 @override
 String toString() {
-  return 'ArtifactTag(id: $id, desc: $desc)';
+    return 'ArtifactTag(id: $id, desc: $desc)';
 }
 
 
