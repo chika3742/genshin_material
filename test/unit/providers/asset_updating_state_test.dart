@@ -25,9 +25,8 @@ void main() {
     client = MockClient();
     // Every check in this file is expected to fail, so the client refuses the
     // release index instead of reaching the network.
-    when(client.get(any)).thenAnswer(
-      (_) async => throw const SocketException("Network access is disabled in tests"),
-    );
+    when(client.get(any))
+        .thenThrow(const SocketException("Network access is disabled in tests"));
     // path_provider has no plugin implementation in a unit test, so its method
     // channel is answered with a throw-away directory.
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger

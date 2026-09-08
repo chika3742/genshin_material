@@ -23,9 +23,12 @@ part of 'remote_config.dart';
 /// ```
 ///
 /// `useRemoteConfigListener` invalidates the whole family when the server
-/// pushes an update, so a consumer that wants a value to stay put for the
-/// session has to say so itself — `use_startup_banner.dart` does that with an
-/// empty dependency array.
+/// pushes an update, so every consumer that watches a value follows it — the
+/// banner row on the More page is one that does. Nothing is pinned here; a
+/// consumer that needs a value to stay put says so at its own level, and only
+/// for what it actually has to hold: `useStartupBanner` keeps the
+/// `MaterialBanner` it has already put on screen by not re-running its effect,
+/// and `useBanner` binds `markAsRead` to the key the banner was built from.
 
 @ProviderFor(remoteConfig)
 final remoteConfigProvider = RemoteConfigFamily._();
@@ -45,9 +48,12 @@ final remoteConfigProvider = RemoteConfigFamily._();
 /// ```
 ///
 /// `useRemoteConfigListener` invalidates the whole family when the server
-/// pushes an update, so a consumer that wants a value to stay put for the
-/// session has to say so itself — `use_startup_banner.dart` does that with an
-/// empty dependency array.
+/// pushes an update, so every consumer that watches a value follows it — the
+/// banner row on the More page is one that does. Nothing is pinned here; a
+/// consumer that needs a value to stay put says so at its own level, and only
+/// for what it actually has to hold: `useStartupBanner` keeps the
+/// `MaterialBanner` it has already put on screen by not re-running its effect,
+/// and `useBanner` binds `markAsRead` to the key the banner was built from.
 
 final class RemoteConfigProvider<T extends Object>
     extends $FunctionalProvider<T, T, T>
@@ -67,9 +73,12 @@ final class RemoteConfigProvider<T extends Object>
   /// ```
   ///
   /// `useRemoteConfigListener` invalidates the whole family when the server
-  /// pushes an update, so a consumer that wants a value to stay put for the
-  /// session has to say so itself — `use_startup_banner.dart` does that with an
-  /// empty dependency array.
+  /// pushes an update, so every consumer that watches a value follows it — the
+  /// banner row on the More page is one that does. Nothing is pinned here; a
+  /// consumer that needs a value to stay put says so at its own level, and only
+  /// for what it actually has to hold: `useStartupBanner` keeps the
+  /// `MaterialBanner` it has already put on screen by not re-running its effect,
+  /// and `useBanner` binds `markAsRead` to the key the banner was built from.
   RemoteConfigProvider._({
     required RemoteConfigFamily super.from,
     required RemoteConfigKey<T> super.argument,
@@ -144,9 +153,12 @@ String _$remoteConfigHash() => r'10b8a90a403de77f110fa67eac63ae497045c7d1';
 /// ```
 ///
 /// `useRemoteConfigListener` invalidates the whole family when the server
-/// pushes an update, so a consumer that wants a value to stay put for the
-/// session has to say so itself — `use_startup_banner.dart` does that with an
-/// empty dependency array.
+/// pushes an update, so every consumer that watches a value follows it — the
+/// banner row on the More page is one that does. Nothing is pinned here; a
+/// consumer that needs a value to stay put says so at its own level, and only
+/// for what it actually has to hold: `useStartupBanner` keeps the
+/// `MaterialBanner` it has already put on screen by not re-running its effect,
+/// and `useBanner` binds `markAsRead` to the key the banner was built from.
 
 final class RemoteConfigFamily extends $Family {
   RemoteConfigFamily._()
@@ -173,9 +185,12 @@ final class RemoteConfigFamily extends $Family {
   /// ```
   ///
   /// `useRemoteConfigListener` invalidates the whole family when the server
-  /// pushes an update, so a consumer that wants a value to stay put for the
-  /// session has to say so itself — `use_startup_banner.dart` does that with an
-  /// empty dependency array.
+  /// pushes an update, so every consumer that watches a value follows it — the
+  /// banner row on the More page is one that does. Nothing is pinned here; a
+  /// consumer that needs a value to stay put says so at its own level, and only
+  /// for what it actually has to hold: `useStartupBanner` keeps the
+  /// `MaterialBanner` it has already put on screen by not re-running its effect,
+  /// and `useBanner` binds `markAsRead` to the key the banner was built from.
 
   RemoteConfigProvider<T> call<T extends Object>(RemoteConfigKey<T> key) =>
       RemoteConfigProvider<T>._(argument: key, from: this);

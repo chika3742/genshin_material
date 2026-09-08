@@ -107,8 +107,6 @@ void main() {
       onActivated = invocation.positionalArguments.single as void Function();
       return updates.stream.listen((_) {});
     });
-    when(service.get<bool>(RemoteConfigKeys.hoyolabLinkEnabled))
-        .thenReturn(false);
     await pumpHost(tester);
 
     await tester.pumpWidget(const MaterialApp(home: SizedBox()));
