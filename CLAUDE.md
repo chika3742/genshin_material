@@ -85,13 +85,13 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 - Keys are declared as typed constants on `RemoteConfigKeys` (`lib/core/remote_config_keys.dart`), built from the sealed `RemoteConfigKey<T>` hierarchy in `lib/models/remote_config_key.dart` (`BoolRemoteConfigKey` / `StringRemoteConfigKey` / `IntRemoteConfigKey`). `RemoteConfigKeys.defaults` holds the values passed to `setDefaults`.
 - Every read goes through `RemoteConfigService` (`lib/data/services/remote_config_service.dart`); its `get<T>(key)` switches on the key type so the value type follows from the key. **Do not call `FirebaseRemoteConfig.instance` anywhere outside this service.** `remoteConfigServiceProvider` throws unless overridden: `main.dart` overrides it with `overrideWithValue` after `RemoteConfigService.initialize()`, and tests override it with a mock.
 - Widgets and providers read a single value through the family provider `remoteConfigProvider(key)` (`lib/providers/remote_config.dart`), which puts each value on the dependency graph and infers its type from the key. `useRemoteConfigListener` (`lib/hooks/use_remote_config_listener.dart`) invalidates the whole family when the server pushes an update.
-- Classes that have no access to a `Ref` take the **value**, not a Remote Config object: `HoyolabApi` takes `enabled`, `setHoyolabCookie` takes `linkEnabled`, and `AssetUpdater` takes the values it needs. The caller reads them from `remoteConfigProvider` and passes them in.
+- Classes that have no access to a `Ref` take the **value**, not a Remote Config object: the HoYoLAB API classes take `enabled` and `AssetUpdater` takes the values it needs. The caller reads them from `remoteConfigProvider` and passes them in.
 
 ### HoYoLAB Integration
 
-- `HoyolabApi` (`lib/core/hoyolab_api.dart`) communicates with HoYoLAB endpoints to sync in-game state (character levels, weapon states, material bag counts, resin).
-- All API calls are serialized through `ApiRequestQueue` (500ms minimum interval between calls).
-- The feature is gated by `RemoteConfigKeys.hoyolabLinkEnabled`. `HoyolabApi` receives it as the `enabled` constructor argument and throws a `StateError` when it is false; the call sites read it from `remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)`.
+- The HoYoLAB API classes (`lib/data/services/hoyolab/`) communicate with HoYoLAB endpoints to sync in-game state (character levels, weapon states, material bag counts, resin). They are split by the credentials they need — `HoyolabPublicApi`, `HoyolabAccountApi`, `HoyolabGameApi` — over the shared `HoyolabApiBase`, and are only ever obtained from the providers in `lib/providers/hoyolab_api.dart`.
+- All API calls are serialized through `ApiRequestQueue` (`lib/core/api_request_queue.dart`, 500ms minimum interval between calls).
+- The feature is gated by `RemoteConfigKeys.hoyolabLinkEnabled`. The providers read it from `remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)` and pass it in as `enabled`; every API method starts with `ensureEnabled()`, which throws `HoyolabLinkDisabledException` when the link is switched off.
 - Time-dependent code (the DS token timestamp, `ApiRequestQueue` throttling) reads `clock.now()` from `package:clock` rather than `DateTime.now()`, so tests can pin it with `withClock`.
 - Credentials (cookie) are stored via `flutter_secure_storage`.
 - On iOS/macOS, images from asset files are disabled (`disableImages` flag in `main.dart`) unless the user has linked with HoYoLAB.
