@@ -19,9 +19,9 @@ Override overrideRemoteConfig<T extends Object>(RemoteConfigKey<T> key, T value)
 /// A [RemoteConfigService] mock whose update stream never fires.
 ///
 /// Only the tests that reach the service itself need one: those that mount the
-/// app (`remoteConfigUpdateListenerProvider` subscribes on startup) and those
-/// covering a class that still takes a [RemoteConfigService] directly. Reading
-/// a value goes through [overrideRemoteConfig] instead.
+/// app (`useRemoteConfigListener` subscribes on startup) and those covering the
+/// service or the family provider built on it. Reading a value goes through
+/// [overrideRemoteConfig] instead.
 ///
 /// `get` is left unstubbed on purpose — stub the keys the subject reads, so
 /// that an unexpected read fails loudly.

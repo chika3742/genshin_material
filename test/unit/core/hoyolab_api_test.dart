@@ -2,14 +2,12 @@ import "dart:convert";
 
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/hoyolab_api.dart";
-import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/hoyolab_api.dart";
 import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
 import "../../utils/http_client.mocks.dart";
-import "../../utils/remote_config.mocks.dart";
 
 /// A cookie shaped the way `_getLtUid` expects: the id has to be surrounded by
 /// "; " and ";" for the lookup regexp to match.
@@ -23,18 +21,11 @@ String _okBody(Object? data) =>
 String _errorBody(int retcode, String message) =>
     jsonEncode({"retcode": retcode, "message": message});
 
-void _stubLinkEnabled(MockRemoteConfigService mock, bool enabled) {
-  when(mock.get<bool>(RemoteConfigKeys.hoyolabLinkEnabled)).thenReturn(enabled);
-}
-
 void main() {
   late MockClient client;
-  late MockRemoteConfigService remoteConfig;
 
   setUp(() {
     client = MockClient();
-    remoteConfig = MockRemoteConfigService();
-    _stubLinkEnabled(remoteConfig, true);
     LocaleSettings.setLocaleSync(AppLocale.ja);
   });
 
@@ -42,13 +33,14 @@ void main() {
     String? cookie = _cookie,
     String? region = _region,
     String? uid = _uid,
+    bool enabled = true,
   }) {
     return HoyolabApi(
       cookie: cookie,
       region: region,
       uid: uid,
       client: client,
-      remoteConfig: remoteConfig,
+      enabled: enabled,
     );
   }
 
@@ -80,9 +72,7 @@ void main() {
 
   group("constructor", () {
     test("throws when the HoYoLAB link is disabled by remote config", () {
-      _stubLinkEnabled(remoteConfig, false);
-
-      expect(createApi, throwsStateError);
+      expect(() => createApi(enabled: false), throwsStateError);
     });
 
     test("can be built without any credential when the link is enabled", () {

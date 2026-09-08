@@ -41,7 +41,7 @@ final class HoyolabCredentialProvider
   }
 }
 
-String _$hoyolabCredentialHash() => r'98020f8b552d60d4c1e170bcfaaa4c5c83d6049f';
+String _$hoyolabCredentialHash() => r'afed981ac6cef41fca39de61d2ba265fef70a2c2';
 
 abstract class _$HoyolabCredential
     extends $Notifier<HoyolabCredentialSnapshot> {

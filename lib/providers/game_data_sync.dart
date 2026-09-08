@@ -9,6 +9,7 @@ import "../components/game_data_sync_indicator.dart";
 import "../core/asset_cache.dart";
 import "../core/hoyolab_api.dart";
 import "../core/pref_keys.dart";
+import "../core/remote_config_keys.dart";
 import "../core/secure_storage.dart";
 import "../database.dart";
 import "../db/in_game_character_state_db_extension.dart";
@@ -21,6 +22,7 @@ import "../utils/lists.dart";
 import "database_provider.dart";
 import "http_client.dart";
 import "pref_notifier.dart";
+import "remote_config.dart";
 import "resin.dart";
 import "versions.dart";
 
@@ -159,6 +161,7 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
     uid: uid,
     region: server,
     client: ref.read(httpClientProvider),
+    enabled: ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)),
   );
 
   final (character, variant) = _extractCharacter(assetData.characters, variantId);
@@ -230,6 +233,7 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
     uid: hyvUid,
     region: hyvServer,
     client: ref.read(httpClientProvider),
+    enabled: ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)),
   );
 
   final requests = entries.map((e) {
@@ -308,6 +312,7 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
       uid: hyvUid!,
       region: hyvServer!,
       client: ref.read(httpClientProvider),
+      enabled: ref.read(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)),
     );
 
     state = const GameDataSyncStatus.syncing();

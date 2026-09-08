@@ -7,11 +7,16 @@ const secureStorage = FlutterSecureStorage(
   aOptions: AndroidOptions(),
 );
 
-/// [client] is taken as an argument because this function has no `Ref` to read
-/// `httpClientProvider` from; the caller passes the app's client.
-Future<void> setHoyolabCookie(String cookie, {required http.Client client}) async {
+/// [client] and [linkEnabled] are taken as arguments because this function has
+/// no `Ref` to read `httpClientProvider` and `remoteConfigProvider` from; the
+/// caller passes the app's client and the flag it already holds.
+Future<void> setHoyolabCookie(
+  String cookie, {
+  required http.Client client,
+  required bool linkEnabled,
+}) async {
   // verify credential
-  final api = HoyolabApi(cookie: cookie, client: client);
+  final api = HoyolabApi(cookie: cookie, client: client, enabled: linkEnabled);
   final verificationResult = await api.verifyLToken();
   if (verificationResult.hasError) {
     throw CredentialVerificationException(message: verificationResult.message);
