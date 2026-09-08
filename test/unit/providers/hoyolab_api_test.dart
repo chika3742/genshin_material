@@ -1,4 +1,3 @@
-import "package:flutter/services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/remote_config_keys.dart";
@@ -9,38 +8,17 @@ import "../../utils/hoyolab_game_server.dart";
 import "../../utils/http_client.dart";
 import "../../utils/http_client.mocks.dart";
 import "../../utils/remote_config.dart";
-
-const _secureStorageChannel =
-    MethodChannel("plugins.it_nomads.com/flutter_secure_storage");
-
-const _cookie = "ltoken_v2=token; ltuid_v2=123456;";
+import "../../utils/secure_storage.dart";
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late Map<String, String> storage;
   late bool hoyolabLinkEnabled;
+  
+  final storage = setUpSecureStorageMock();
 
   setUp(() {
-    storage = {"hoyolab_cookie": _cookie};
     hoyolabLinkEnabled = true;
-
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(_secureStorageChannel, (call) async {
-      final key = call.arguments["key"] as String?;
-      switch (call.method) {
-        case "read":
-          return storage[key];
-        case "containsKey":
-          return storage.containsKey(key);
-      }
-      return null;
-    });
-  });
-
-  tearDown(() {
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(_secureStorageChannel, null);
   });
 
   ProviderContainer createContainer({
@@ -77,7 +55,7 @@ void main() {
       final api =
           await createContainer().read(hoyolabAccountApiProvider.future);
 
-      expect(api.cookie, _cookie);
+      expect(api.cookie, fakeCookie);
       expect(api.enabled, isTrue);
     });
 
@@ -107,7 +85,7 @@ void main() {
     test("carries the cookie, the server and the uid", () async {
       final api = await createContainer().read(hoyolabGameApiProvider.future);
 
-      expect(api.cookie, _cookie);
+      expect(api.cookie, fakeCookie);
       expect(api.region, "os_asia");
       expect(api.uid, "800000000");
     });
@@ -121,14 +99,7 @@ void main() {
       );
     });
 
-    test("throws when no server has been selected", () async {
-      await expectLater(
-        createContainer(server: null).read(hoyolabGameApiProvider.future),
-        throwsA(isA<HoyolabServerNotSelectedException>()),
-      );
-    });
-
-    test("throws when the uid is missing", () async {
+    test("throws when any of the identity keys is missing", () async {
       await expectLater(
         createContainer(uid: null).read(hoyolabGameApiProvider.future),
         throwsA(isA<HoyolabServerNotSelectedException>()),

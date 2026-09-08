@@ -10,10 +10,10 @@ import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
 import "../../../../utils/http_client.mocks.dart";
+import "../../../../utils/secure_storage.dart";
 
 /// A cookie shaped the way `ltUid` expects: the id has to be surrounded by
 /// "; " and ";" for the lookup regexp to match.
-const _cookie = "ltoken_v2=token; ltuid_v2=123456;";
 const _region = "os_asia";
 
 String _okBody(Object? data) =>
@@ -27,7 +27,7 @@ void main() {
     LocaleSettings.setLocaleSync(AppLocale.ja);
   });
 
-  HoyolabAccountApi createApi({String cookie = _cookie, bool enabled = true}) {
+  HoyolabAccountApi createApi({String cookie = fakeCookie, bool enabled = true}) {
     return HoyolabAccountApi(
       enabled: enabled,
       cookie: cookie,
@@ -65,7 +65,7 @@ void main() {
     test("sends the cookie and the HoYoLAB origin", () {
       final headers = createApi().headers;
 
-      expect(headers["Cookie"], _cookie);
+      expect(headers["Cookie"], fakeCookie);
       expect(headers["Origin"], "https://act.hoyolab.com");
       expect(headers["Referer"], "https://act.hoyolab.com/");
       expect(
@@ -244,7 +244,7 @@ void main() {
 
       await createApi().logout();
 
-      expect(capturePostHeaders()["Cookie"], _cookie);
+      expect(capturePostHeaders()["Cookie"], fakeCookie);
     });
   });
 

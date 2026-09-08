@@ -7,8 +7,7 @@ import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
 import "../../../../utils/http_client.mocks.dart";
-
-const _cookie = "ltoken_v2=token; ltuid_v2=123456;";
+import "../../../../utils/secure_storage.dart";
 
 String _okBody(Object? data) =>
     jsonEncode({"retcode": 0, "message": "OK", "data": data});
@@ -67,7 +66,7 @@ void main() {
         ),
       );
 
-      final result = await createApi().verifyLToken(_cookie);
+      final result = await createApi().verifyLToken(fakeCookie);
 
       expect(result.hasError, isFalse);
       expect(result.data!.accountName, "tester");
@@ -81,12 +80,12 @@ void main() {
         ),
       );
 
-      await createApi().verifyLToken(_cookie);
+      await createApi().verifyLToken(fakeCookie);
 
       final headers = verify(
         client.post(any, headers: captureAnyNamed("headers")),
       ).captured.single as Map<String, String>;
-      expect(headers["Cookie"], _cookie);
+      expect(headers["Cookie"], fakeCookie);
     });
 
     // The sign-in flow shows the message HoYoLAB sent back, so a rejected
@@ -96,7 +95,7 @@ void main() {
         (_) async => http.Response(_errorBody(-100, "Not logged in"), 200),
       );
 
-      final result = await createApi().verifyLToken(_cookie);
+      final result = await createApi().verifyLToken(fakeCookie);
 
       expect(result.hasError, isTrue);
       expect(result.retcode, -100);
@@ -110,7 +109,7 @@ void main() {
 
       expect(api.lookupServers(), throwsA(isA<HoyolabLinkDisabledException>()));
       expect(
-        api.verifyLToken(_cookie),
+        api.verifyLToken(fakeCookie),
         throwsA(isA<HoyolabLinkDisabledException>()),
       );
       verifyZeroInteractions(client);

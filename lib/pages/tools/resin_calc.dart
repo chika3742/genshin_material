@@ -32,7 +32,9 @@ class ResinCalcPage extends HookConsumerWidget {
 
     useEffect(() {
       if (isLinked) {
-        ref.read(resinSyncStateProvider.notifier).syncResin();
+        Future(() {
+          ref.read(resinSyncStateProvider.notifier).syncResin();
+        });
       }
       return null;
     }, [isLinked, syncResin]);

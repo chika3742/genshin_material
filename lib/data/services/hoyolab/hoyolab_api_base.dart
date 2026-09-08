@@ -107,5 +107,5 @@ abstract class HoyolabAuthenticatedApi extends HoyolabApiBase {
 
   /// The HoYoLAB user id carried by the cookie.
   String get ltUid =>
-      RegExp("; (?:ltuid_v2|account_id_v2)=(\\d+);").firstMatch(cookie)!.group(1)!;
+      RegExp(r"(?:^|;\s*)(?:ltuid_v2|account_id_v2)=(\d+?)\s*(?:;|$)").firstMatch(cookie)!.group(1)!;
 }

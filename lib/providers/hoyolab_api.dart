@@ -44,7 +44,7 @@ Duration? _retryUnlessLinkIsIncomplete(int retryCount, Object error) {
 bool _linkEnabled(Ref ref) =>
     ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled));
 
-@riverpod
+@Riverpod(keepAlive: true)
 HoyolabPublicApi hoyolabPublicApi(Ref ref) {
   return HoyolabPublicApi(
     enabled: _linkEnabled(ref),

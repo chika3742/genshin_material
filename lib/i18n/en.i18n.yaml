@@ -295,6 +295,7 @@ hoyolab:
   weaponNotEquipped: This character does not equip this weapon.
   unknownError: An unknown error occurred.
   charaSyncSuccess: Successfully synced game data
+  featureUnavailable: HoYoLAB sync feature is currently unavailable.
 whereToGet(map):
   chests: Chests, Quests
 android:

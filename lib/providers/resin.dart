@@ -19,8 +19,10 @@ class ResinNotifier extends _$ResinNotifier {
 
   Future<void> setResin(int? resin) async {
     final baseTime = DateTime.now();
-    await ref.read(prefProvider(PrefKeys.resin).notifier).set(resin);
-    await ref.read(prefProvider(PrefKeys.resinBaseTime).notifier).set(baseTime);
+    await Future.wait([
+      ref.read(prefProvider(PrefKeys.resin).notifier).set(resin),
+      ref.read(prefProvider(PrefKeys.resinBaseTime).notifier).set(baseTime),
+    ]);
   }
 
   Future<void> setResinWithRecoveryTime(int resin, int recoveryTime) async {
@@ -40,11 +42,14 @@ class ResinNotifier extends _$ResinNotifier {
       }
     }
 
-    await ref.read(prefProvider(PrefKeys.resin).notifier).set(resin);
-    if (state.baseTime == null || resin < maxResin) {
-      final offset = (maxResin - resin) * minutesPerResinRecovery * 60 - recoveryTime;
-      final baseTime = DateTime.now().subtract(Duration(seconds: offset));
-      await ref.read(prefProvider(PrefKeys.resinBaseTime).notifier).set(baseTime);
-    }
+    await Future.wait([
+      ref.read(prefProvider(PrefKeys.resin).notifier).set(resin),
+      if (state.baseTime == null || resin < maxResin)
+        () {
+          final offset = (maxResin - resin) * minutesPerResinRecovery * 60 - recoveryTime;
+          final baseTime = DateTime.now().subtract(Duration(seconds: offset));
+          return ref.read(prefProvider(PrefKeys.resinBaseTime).notifier).set(baseTime);
+        }(),
+    ]);
   }
 }

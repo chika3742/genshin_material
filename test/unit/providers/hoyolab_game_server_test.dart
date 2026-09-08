@@ -1,6 +1,5 @@
 import "dart:convert";
 
-import "package:flutter/services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/pref_keys.dart";
@@ -13,15 +12,11 @@ import "package:genshin_material/providers/pref_notifier.dart";
 import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
-import "../utils/hoyolab_game_server.dart";
-import "../utils/http_client.dart";
-import "../utils/http_client.mocks.dart";
-import "../utils/remote_config.dart";
-
-const _secureStorageChannel =
-    MethodChannel("plugins.it_nomads.com/flutter_secure_storage");
-
-const _cookie = "ltoken_v2=token; ltuid_v2=123456;";
+import "../../utils/hoyolab_game_server.dart";
+import "../../utils/http_client.dart";
+import "../../utils/http_client.mocks.dart";
+import "../../utils/remote_config.dart";
+import "../../utils/secure_storage.dart";
 
 String _okBody(Object? data) =>
     jsonEncode({"retcode": 0, "message": "OK", "data": data});
@@ -29,37 +24,14 @@ String _okBody(Object? data) =>
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late Map<String, String> storage;
   late bool hoyolabLinkEnabled;
   late MockClient client;
 
+  final storage = setUpSecureStorageMock();
+
   setUp(() {
-    storage = {"hoyolab_cookie": _cookie};
     hoyolabLinkEnabled = false;
     client = MockClient();
-
-    // flutter_secure_storage has no plugin implementation in a unit test, so
-    // its method channel is answered from an in-memory map.
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(_secureStorageChannel, (call) async {
-      final key = call.arguments["key"] as String?;
-      switch (call.method) {
-        case "read":
-          return storage[key];
-        case "containsKey":
-          return storage.containsKey(key);
-        case "delete":
-          storage.remove(key);
-        case "write":
-          storage[key!] = call.arguments["value"] as String;
-      }
-      return null;
-    });
-  });
-
-  tearDown(() {
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(_secureStorageChannel, null);
   });
 
   ProviderContainer createContainer({
@@ -227,9 +199,9 @@ void main() {
       storage.clear();
       final container = createContainer();
 
-      await container.read(hoyolabGameServerProvider.notifier).signIn(_cookie);
+      await container.read(hoyolabGameServerProvider.notifier).signIn(fakeCookie);
 
-      expect(await getHoyolabCookie(), _cookie);
+      expect(await getHoyolabCookie(), fakeCookie);
     });
 
     test("rejects a cookie HoYoLAB refused, without storing it", () async {
@@ -239,7 +211,7 @@ void main() {
       final container = createContainer();
 
       await expectLater(
-        container.read(hoyolabGameServerProvider.notifier).signIn(_cookie),
+        container.read(hoyolabGameServerProvider.notifier).signIn(fakeCookie),
         throwsA(isA<CredentialVerificationException>()),
       );
       expect(await hasHoyolabCookie(), isFalse);
@@ -251,7 +223,7 @@ void main() {
       final container = createContainer();
 
       await expectLater(
-        container.read(hoyolabGameServerProvider.notifier).signIn(_cookie),
+        container.read(hoyolabGameServerProvider.notifier).signIn(fakeCookie),
         throwsA(isA<HoyolabLinkDisabledException>()),
       );
       expect(await hasHoyolabCookie(), isFalse);

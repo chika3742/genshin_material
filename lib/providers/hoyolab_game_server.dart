@@ -48,7 +48,7 @@ sealed class HoyolabGameServerState with _$HoyolabGameServerState {
 /// what lets the notifier own the state: it reads the preferences once in
 /// [build] and afterwards emits exactly one update per mutation, instead of one
 /// per written key.
-@riverpod
+@Riverpod(keepAlive: true)
 class HoyolabGameServer extends _$HoyolabGameServer {
   @override
   HoyolabGameServerState build() {

@@ -26,7 +26,7 @@ final class HoyolabPublicApiProvider
         argument: null,
         retry: null,
         name: r'hoyolabPublicApiProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -53,7 +53,7 @@ final class HoyolabPublicApiProvider
   }
 }
 
-String _$hoyolabPublicApiHash() => r'0109c2b7e19f934c301084d4fae9259e94ee0b6b';
+String _$hoyolabPublicApiHash() => r'ff3b936ea55c9a5944f0891ab9d1a0edc9ff8439';
 
 @ProviderFor(hoyolabAccountApi)
 final hoyolabAccountApiProvider = HoyolabAccountApiProvider._();

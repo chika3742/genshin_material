@@ -143,7 +143,7 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
   if (!ref.watch(isLinkedWithHoyolabProvider)) {
     return GameDataSyncResult(
       errorType: GameDataSyncErrorType.unknown,
-      error: "One or more of Hoyolab server, uid, cookie is not set",
+      error: "Link feature unavailable. This means the server is not set or the feature is disabled by remote.",
     );
   }
   if (assetData == null) {

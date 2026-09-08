@@ -10,8 +10,8 @@ import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
 import "../../../../utils/http_client.mocks.dart";
+import "../../../../utils/secure_storage.dart";
 
-const _cookie = "ltoken_v2=token; ltuid_v2=123456;";
 const _region = "os_asia";
 const _uid = "800000000";
 
@@ -32,7 +32,7 @@ void main() {
   HoyolabGameApi createApi({bool enabled = true}) {
     return HoyolabGameApi(
       enabled: enabled,
-      cookie: _cookie,
+      cookie: fakeCookie,
       region: _region,
       uid: _uid,
       client: client,
@@ -155,7 +155,7 @@ void main() {
               .single as Map<String, String>;
       expect(headers["DS"], matches(RegExp(r"^\d+,\d+,[0-9a-f]{32}$")));
       expect(headers["x-rpc-app_version"], HoyolabApiBase.hoyolabAppVersion);
-      expect(headers["Cookie"], _cookie);
+      expect(headers["Cookie"], fakeCookie);
     });
 
     test("queries the configured role and server", () async {

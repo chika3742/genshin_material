@@ -41,7 +41,7 @@ final class HoyolabGameServerProvider
         argument: null,
         retry: null,
         name: r'hoyolabGameServerProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -62,7 +62,7 @@ final class HoyolabGameServerProvider
   }
 }
 
-String _$hoyolabGameServerHash() => r'5209beebb3d251852bedd38a87b9b3684ff6217a';
+String _$hoyolabGameServerHash() => r'e792f6873b08dee06759d884bc59e62107a8a6f0';
 
 /// The single read/write path for the HoYoLAB server and user identity.
 ///
