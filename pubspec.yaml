@@ -118,6 +118,7 @@ flutter:
     - assets/google_fonts/
     - assets/img/
     - assets/vectors/
+    - assets/fonts/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
@@ -135,6 +136,10 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  fonts:
+    - family: Rounded Mgen+
+      fonts:
+        - asset: assets/fonts/rounded-x-mgenplus-1p-medium_subset.ttf
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

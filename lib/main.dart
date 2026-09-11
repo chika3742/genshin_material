@@ -57,6 +57,9 @@ void main() async {
       final license = await rootBundle.loadString(path);
       yield LicenseEntryWithLineBreaks(["google_fonts"], license);
     }
+
+    final license = await rootBundle.loadString("assets/fonts/SIL_Open_Font_License_1.1.txt");
+    yield LicenseEntryWithLineBreaks(["Rounded-X Mgen+ 1p"], license);
   });
 
   final hoyolabSignedIn = await hasHoyolabCookie();
