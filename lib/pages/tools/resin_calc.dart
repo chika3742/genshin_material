@@ -183,8 +183,7 @@ class _CalcResult extends HookConsumerWidget {
                         TextSpan(
                           text: calcResult?.currentResin.toString() ?? "-",
                           style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
                           ),
                         ),
                         if (calcResult != null && calcResult.wastedResin > 0)
@@ -196,12 +195,18 @@ class _CalcResult extends HookConsumerWidget {
                             ),
                           ),
                         const WidgetSpan(child: SizedBox(width: 16)),
-                        const TextSpan(text: " / $maxResin\n"),
+                        const TextSpan(
+                          text: " / $maxResin\n",
+                          style: TextStyle(fontSize: 16),
+                        ),
 
                         // line 2
                         tr.resinCalcPage.fullyReplenishedAt(
                           time: TextSpan(
                             text: calcResult != null ? _formatDateTime(calcResult.fullyReplenishedBy) : "-",
+                            style: TextStyle(
+                              fontWeight: .bold,
+                            ),
                           ),
                           text: (text) => TextSpan(
                             text: text,
@@ -228,7 +233,7 @@ class _CalcResult extends HookConsumerWidget {
                               ),
                       ],
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                       ),
                     ),
                   ),
@@ -269,7 +274,7 @@ class _CalcResult extends HookConsumerWidget {
                   children: [
                     SizedBox(width: 50, child: Text(bp.resin.toString())),
                     Expanded(child: Text.rich(_formatDuration(bp.timeToFull), style: TextStyle(fontSize: 16))),
-                    Expanded(child: Text(_formatDateTime(bp.fullyReplenishedBy))),
+                    Expanded(child: Text(_formatDateTime(bp.fullyReplenishedBy), style: TextStyle(fontWeight: .bold, fontSize: 16))),
                   ],
                 ),
             ],
@@ -331,7 +336,7 @@ class _CalcResult extends HookConsumerWidget {
         if (index.isEven) {
           return parts[index ~/ 2];
         }
-        return const TextSpan(text: " ");
+        return const WidgetSpan(child: SizedBox(width: 8));
       }),
     );
   }
