@@ -12,8 +12,8 @@ import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../utils.dart";
-import "../utils/asset_data.dart";
+import "../../utils.dart";
+import "../../utils/asset_data.dart";
 
 void main() {
   late AppDatabase db;

@@ -194,7 +194,10 @@ class ArtifactListPage extends HookConsumerWidget {
                   ItemLinkButton(
                     padding: .all(4),
                     onTap: () {
-                      ArtifactDetailsRoute(id: set.id).push(context);
+                      ArtifactDetailsRoute(
+                        id: set.id,
+                        initialSelectedCharacter: equipCharacter,
+                      ).push(context);
                     },
                     child: Row(
                       spacing: 8.0,

@@ -7,8 +7,8 @@ import "package:genshin_material/pages/release_notes.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../utils.dart";
-import "../utils/asset_data.dart";
+import "../../utils.dart";
+import "../../utils/asset_data.dart";
 
 void main() {
   // Enough notes to make both tabs scrollable well past the drag distance below.

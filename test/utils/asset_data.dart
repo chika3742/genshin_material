@@ -1,4 +1,5 @@
 import "package:genshin_material/core/asset_cache.dart";
+import "package:genshin_material/models/artifact.dart";
 import "package:genshin_material/models/asset_release_version.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
@@ -26,6 +27,9 @@ AssetData buildTestAssetData({
   Map<String, int> materialSortOrder = const {},
   Map<FurnishingSetId, FurnishingSet> furnishingSets = const {},
   Map<FurnishingId, Furnishing> furnishings = const {},
+  Map<ArtifactSetId, ArtifactSet> artifactSets = const {},
+  Map<ArtifactPieceId, ArtifactPiece> artifactPieces = const {},
+  Map<ArtifactPieceTypeId, ArtifactPieceType> artifactPieceTypes = const {},
   IngredientConfigurations? characterIngredients,
   IngredientConfigurations? weaponIngredients,
   List<DropRateEntry> dropRates = const [],
@@ -53,11 +57,11 @@ AssetData buildTestAssetData({
     materialSortOrder: materialSortOrder,
     dailyMaterials: DailyMaterials(talent: {}, weapon: {}),
     specialCharactersUsingMaterials: specialCharactersUsingMaterials,
-    artifactSets: {},
-    artifactPieceTypes: {},
+    artifactSets: artifactSets,
+    artifactPieceTypes: artifactPieceTypes,
     stats: {},
     artifactPossibleSubStats: [],
-    artifactPieces: {},
+    artifactPieces: artifactPieces,
     artifactTags: [],
     furnishingSets: furnishingSets,
     furnishings: furnishings,
