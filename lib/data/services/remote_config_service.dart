@@ -6,12 +6,17 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 import "../../core/remote_config_keys.dart";
 import "../../models/remote_config_key.dart";
 
-part "remote_config_repository.g.dart";
+part "remote_config_service.g.dart";
 
-class RemoteConfigRepository {
+/// The only place that talks to the Firebase Remote Config SDK.
+///
+/// Values are not read from here directly: `remoteConfigProvider`
+/// (`lib/providers/remote_config.dart`) wraps every key in a
+/// provider so that a value participates in the dependency graph.
+class RemoteConfigService {
   final FirebaseRemoteConfig _rc;
 
-  const RemoteConfigRepository(this._rc);
+  const RemoteConfigService(this._rc);
 
   T get<T extends Object>(RemoteConfigKey<T> key) {
     return switch (key) {
@@ -26,9 +31,15 @@ class RemoteConfigRepository {
   /// interval ([minimumFetchInterval]) and delivers notifications immediately when
   /// values are updated in the Firebase console.
   /// Calling [FirebaseRemoteConfig.activate] applies the updated values to the local cache.
-  StreamSubscription<RemoteConfigUpdate> listenConfigUpdate() {
+  ///
+  /// [onActivated] runs once the new values are in the local cache, so a caller
+  /// can refresh whatever it derived from them.
+  StreamSubscription<RemoteConfigUpdate> listenConfigUpdate(
+    void Function() onActivated,
+  ) {
     return _rc.onConfigUpdated.listen((event) async {
       await _rc.activate();
+      onActivated();
     });
   }
 
@@ -46,7 +57,7 @@ class RemoteConfigRepository {
   }
 }
 
-@riverpod
-RemoteConfigRepository remoteConfig(Ref ref) {
-  throw StateError("Provider must be initialized with `remoteConfigProvider.overrideWithValue`.");
+@Riverpod(keepAlive: true)
+RemoteConfigService remoteConfigService(Ref ref) {
+  throw StateError("Provider must be initialized with `remoteConfigServiceProvider.overrideWithValue`.");
 }

@@ -83,15 +83,15 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 ### Firebase Remote Config
 
 - Keys are declared as typed constants on `RemoteConfigKeys` (`lib/core/remote_config_keys.dart`), built from the sealed `RemoteConfigKey<T>` hierarchy in `lib/models/remote_config_key.dart` (`BoolRemoteConfigKey` / `StringRemoteConfigKey` / `IntRemoteConfigKey`). `RemoteConfigKeys.defaults` holds the values passed to `setDefaults`.
-- Every read goes through `RemoteConfigRepository` (`lib/data/repositories/remote_config_repository.dart`); its `get<T>(key)` switches on the key type so the value type follows from the key. **Do not call `FirebaseRemoteConfig.instance` anywhere outside this repository.**
-- Widgets and providers obtain the repository via `ref.watch(remoteConfigProvider)`. The provider throws unless overridden: `main.dart` overrides it with `overrideWithValue` after `RemoteConfigRepository.initialize()`, and tests override it with a mock.
-- Classes that have no access to a `Ref` (`HoyolabApi`, `AssetUpdater`) take an optional `remoteConfig` constructor argument and otherwise fall back to the global Firebase instance. **Tests must always inject it** — `HoyolabApi` reads Remote Config in its constructor, and an uninjected `AssetUpdater` reaches Firebase from `checkForUpdate`.
+- Every read goes through `RemoteConfigService` (`lib/data/services/remote_config_service.dart`); its `get<T>(key)` switches on the key type so the value type follows from the key. **Do not call `FirebaseRemoteConfig.instance` anywhere outside this service.** `remoteConfigServiceProvider` throws unless overridden: `main.dart` overrides it with `overrideWithValue` after `RemoteConfigService.initialize()`, and tests override it with a mock.
+- Widgets and providers read a single value through the family provider `remoteConfigProvider(key)` (`lib/providers/remote_config.dart`), which puts each value on the dependency graph and infers its type from the key. `useRemoteConfigListener` (`lib/hooks/use_remote_config_listener.dart`) invalidates the whole family when the server pushes an update.
+- Classes that have no access to a `Ref` take the **value**, not a Remote Config object: `HoyolabApi` takes `enabled`, `setHoyolabCookie` takes `linkEnabled`, and `AssetUpdater` takes the values it needs. The caller reads them from `remoteConfigProvider` and passes them in.
 
 ### HoYoLAB Integration
 
 - `HoyolabApi` (`lib/core/hoyolab_api.dart`) communicates with HoYoLAB endpoints to sync in-game state (character levels, weapon states, material bag counts, resin).
 - All API calls are serialized through `ApiRequestQueue` (500ms minimum interval between calls).
-- The feature is gated by `RemoteConfigKeys.hoyolabLinkEnabled`, read through `RemoteConfigRepository` as described above.
+- The feature is gated by `RemoteConfigKeys.hoyolabLinkEnabled`. `HoyolabApi` receives it as the `enabled` constructor argument and throws a `StateError` when it is false; the call sites read it from `remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)`.
 - Time-dependent code (the DS token timestamp, `ApiRequestQueue` throttling) reads `clock.now()` from `package:clock` rather than `DateTime.now()`, so tests can pin it with `withClock`.
 - Credentials (cookie) are stored via `flutter_secure_storage`.
 - On iOS/macOS, images from asset files are disabled (`disableImages` flag in `main.dart`) unless the user has linked with HoYoLAB.
@@ -154,7 +154,8 @@ Reuse these rather than writing new equivalents.
 | `test/utils/db.dart` | `createTestDatabase()`, `buildMaterialBookmark()` |
 | `test/utils/provider_container.dart` | `createTestContainer()` |
 | `test/utils/in_memory_pref.dart` | `overridePref()`, `InMemoryPrefNotifier` |
-| `test/utils/stub_remote_config.dart` | `stubRemoteConfig()` (`MockRemoteConfigRepository` itself comes from `stub_remote_config.mocks.dart` — import both) |
+| `test/utils/remote_config.dart` | `overrideRemoteConfig()`, `createRemoteConfigServiceMock()` (`MockRemoteConfigService` itself comes from `remote_config.mocks.dart` — import both) |
+| `test/utils/http_client.dart` | `overrideHttpClient()` (`MockClient` comes from `http_client.mocks.dart`) |
 | `test/utils/local_notification_mocks.dart` | nice mock of `LocalNotification` |
 | `test/utils/async.dart` | `createStreamQueue()` |
 
@@ -170,7 +171,7 @@ The code conventions above apply to test code as well. In addition:
 - Database tests: create the database with `createTestDatabase()` in `setUp` and `close()` it in `tearDown`.
 - Provider tests: use `createTestContainer()`, which wraps `ProviderContainer.test` (self-disposing) and applies the overrides most tests need.
 - Preference-backed providers: `overridePref(key, value)` instead of setting up `SharedPreferences`.
-- Anything reading Remote Config needs `remoteConfigProvider` overridden with a `MockRemoteConfigRepository` stubbed by `stubRemoteConfig()`; classes taking a `remoteConfig` constructor argument need it injected directly.
+- Anything reading Remote Config overrides the values it needs with `overrideRemoteConfig(key, value)`. Only a test whose subject reaches the service itself needs `createRemoteConfigServiceMock()`; classes taking a plain value (`enabled`, `linkEnabled`) get it passed in directly.
 - Pin time with `withClock` from `package:clock` rather than waiting on real durations.
 - Await drift query streams with `createStreamQueue()` instead of a fixed delay.
 - mockito mocks require `@GenerateMocks` / `@GenerateNiceMocks` plus `./scripts/build_runner.sh`; commit the generated `*.mocks.dart`.

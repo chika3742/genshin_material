@@ -6,8 +6,9 @@ import "package:flutter/cupertino.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/game_data_sync_indicator.dart";
-import "package:genshin_material/data/repositories/remote_config_repository.dart";
+import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/data/services/local_notification.dart";
+import "package:genshin_material/data/services/remote_config_service.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/i18n/strings.g.dart";
@@ -25,8 +26,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 import "../../test/utils/local_notification_mocks.dart";
-import "../../test/utils/stub_remote_config.dart";
-import "../../test/utils/stub_remote_config.mocks.dart";
+import "../../test/utils/remote_config.dart";
 import "screenshot_server.dart";
 
 const locale = String.fromEnvironment("LOCALE", defaultValue: "ja-JP");
@@ -70,22 +70,22 @@ void main() {
       ),
     );
 
-    final rcMock = MockRemoteConfigRepository();
-    stubRemoteConfig(
-      rcMock,
-      bannerActionText: "",
-      bannerActionUrl: "",
-      bannerKey: "",
-      bannerShown: false,
-      bannerText: "",
-    );
-
     await tester.pumpWidget(ProviderScope(
       overrides: [
         appDatabaseProvider.overrideWithValue(db),
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
         gameDataSyncStateProvider(variantId: "amber").overrideWithValue(GameDataSyncStatus.synced()),
-        remoteConfigProvider.overrideWithValue(rcMock),
+        // The app subscribes to config updates on startup, so the service
+        // itself has to be there; every value it reads is overridden below.
+        remoteConfigServiceProvider
+            .overrideWithValue(createRemoteConfigServiceMock()),
+        overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, false),
+        overrideRemoteConfig(RemoteConfigKeys.minimumAssetSchemaVersion, 0),
+        overrideRemoteConfig(RemoteConfigKeys.showBanner, false),
+        overrideRemoteConfig(RemoteConfigKeys.bannerKey, ""),
+        overrideRemoteConfig(RemoteConfigKeys.bannerText, ""),
+        overrideRemoteConfig(RemoteConfigKeys.bannerActionText, ""),
+        overrideRemoteConfig(RemoteConfigKeys.bannerActionUrl, ""),
         localNotificationProvider.overrideWithValue(MockLocalNotification()),
       ],
       child: const MyApp(),

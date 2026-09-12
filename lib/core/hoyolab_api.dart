@@ -7,36 +7,33 @@ import "dart:typed_data";
 
 import "package:clock/clock.dart";
 import "package:crypto/crypto.dart";
-import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:http/http.dart" as http;
 
-import "../data/repositories/remote_config_repository.dart";
 import "../i18n/strings.g.dart";
 import "../models/hoyolab_api.dart";
-import "remote_config_keys.dart";
 import "silent_exception.dart";
 
 const maxBatchComputeItems = 8;
 
 class HoyolabApi {
-  /// [remoteConfig] is optional so that the call sites which have no access to
-  /// a [Ref] keep working; it falls back to the global Firebase instance, which
-  /// requires Firebase to be initialized. Tests must always inject it.
+  /// [enabled] mirrors `RemoteConfigKeys.hoyolabLinkEnabled`. The value is
+  /// injected rather than looked up here, so this class needs neither a
+  /// [Ref] nor Firebase; every caller reads the flag from wherever it already
+  /// has access to Remote Config.
   HoyolabApi({
+    required this.client,
+    required this.enabled,
     this.cookie,
     this.region,
     this.uid,
-    http.Client? client,
-    RemoteConfigRepository? remoteConfig,
-  }) : client = client ?? http.Client() {
-    final config =
-        remoteConfig ?? RemoteConfigRepository(FirebaseRemoteConfig.instance);
-    if (!config.get(RemoteConfigKeys.hoyolabLinkEnabled)) {
+  }) {
+    if (!enabled) {
       throw StateError("Hoyolab link is disabled by remote");
     }
   }
 
   final http.Client client;
+  final bool enabled;
   String get lang => switch (LocaleSettings.currentLocale) {
     AppLocale.ja => "ja-jp",
     AppLocale.en => "en-us",

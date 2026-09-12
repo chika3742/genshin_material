@@ -174,7 +174,7 @@ final class _GameDataSyncProvider
   }
 }
 
-String _$_gameDataSyncHash() => r'43142bf4c58d147462a8b9777a7981260769bf81';
+String _$_gameDataSyncHash() => r'3089ee8b1952c505e7c823bbe5149f4ba956d92a';
 
 final class _GameDataSyncFamily extends $Family
     with
@@ -258,7 +258,7 @@ final class BagLackNumProvider
   }
 }
 
-String _$bagLackNumHash() => r'0f44580472003b744ff4f009a59360d8b6eee032';
+String _$bagLackNumHash() => r'a20dec867639b2f2af6d1bc26b961abdc2512199';
 
 final class BagLackNumFamily extends $Family
     with
@@ -411,7 +411,7 @@ final class ResinSyncStateNotifierProvider
 }
 
 String _$resinSyncStateNotifierHash() =>
-    r'f9f9b4784898a8442ef29ffff57dbbb0f0c8afe5';
+    r'86bbce31551b3c9ce329c0d5626ad6117c7078d1';
 
 abstract class _$ResinSyncStateNotifier extends $Notifier<GameDataSyncStatus> {
   GameDataSyncStatus build();

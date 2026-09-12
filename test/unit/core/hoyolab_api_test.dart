@@ -5,12 +5,9 @@ import "package:genshin_material/core/hoyolab_api.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/hoyolab_api.dart";
 import "package:http/http.dart" as http;
-import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
-import "../../utils/stub_remote_config.dart";
-import "../../utils/stub_remote_config.mocks.dart";
-import "hoyolab_api_test.mocks.dart";
+import "../../utils/http_client.mocks.dart";
 
 /// A cookie shaped the way `_getLtUid` expects: the id has to be surrounded by
 /// "; " and ";" for the lookup regexp to match.
@@ -24,15 +21,11 @@ String _okBody(Object? data) =>
 String _errorBody(int retcode, String message) =>
     jsonEncode({"retcode": retcode, "message": message});
 
-@GenerateMocks([http.Client])
 void main() {
   late MockClient client;
-  late MockRemoteConfigRepository remoteConfig;
 
   setUp(() {
     client = MockClient();
-    remoteConfig = MockRemoteConfigRepository();
-    stubRemoteConfig(remoteConfig, hoyolabLinkEnabled: true);
     LocaleSettings.setLocaleSync(AppLocale.ja);
   });
 
@@ -40,13 +33,14 @@ void main() {
     String? cookie = _cookie,
     String? region = _region,
     String? uid = _uid,
+    bool enabled = true,
   }) {
     return HoyolabApi(
       cookie: cookie,
       region: region,
       uid: uid,
       client: client,
-      remoteConfig: remoteConfig,
+      enabled: enabled,
     );
   }
 
@@ -78,9 +72,7 @@ void main() {
 
   group("constructor", () {
     test("throws when the HoYoLAB link is disabled by remote config", () {
-      stubRemoteConfig(remoteConfig);
-
-      expect(createApi, throwsStateError);
+      expect(() => createApi(enabled: false), throwsStateError);
     });
 
     test("can be built without any credential when the link is enabled", () {

@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 
 import "../i18n/strings.g.dart";
-import "../providers/banner_notifier.dart";
+import "../models/banner_data.dart";
 
 void useStartupBanner(BannerData? banner, {
   required void Function(String url) launchUrlString,
@@ -38,8 +38,9 @@ void useStartupBanner(BannerData? banner, {
     });
 
     return null;
-  // Intentionally empty dependency array: banner state should not change during
-  // the app session even if Remote Config is updated in real-time. Changes to
-  // the banner will take effect after the app is restarted.
+  // Intentionally empty dependency array: a Remote Config push must not swap
+  // the text under a banner the user is already looking at. It pins this
+  // MaterialBanner only — the pushed values are live everywhere else, and take
+  // effect here on the next launch.
   }, []);
 }
