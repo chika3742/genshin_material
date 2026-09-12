@@ -69,34 +69,6 @@ enum CharacterSortType {
 }
 
 @riverpod
-class ArtifactFilterStateNotifier extends _$ArtifactFilterStateNotifier {
-  @override
-  ArtifactFilterState build() {
-    return const ArtifactFilterState();
-  }
-
-  void addTag(String tag) {
-    state = state.copyWith(tags: [...state.tags, tag]);
-  }
-
-  void removeTag(String tag) {
-    state = state.copyWith(tags: state.tags.where((t) => t != tag).toList());
-  }
-
-  void clear() {
-    state = const ArtifactFilterState();
-  }
-}
-
-@Freezed(copyWith: true)
-sealed class ArtifactFilterState with _$ArtifactFilterState {
-  const factory ArtifactFilterState({
-    @Default([])
-    List<String> tags,
-  }) = _ArtifactFilterState;
-}
-
-@riverpod
 class WeaponFilterStateNotifier extends _$WeaponFilterStateNotifier {
   @override
   WeaponFilterState build() {

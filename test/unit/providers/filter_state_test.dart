@@ -190,64 +190,6 @@ void main() {
     });
   });
 
-  group("ArtifactFilterStateNotifier", () {
-    late ProviderContainer container;
-    late ArtifactFilterStateNotifier notifier;
-
-    setUp(() {
-      container = createContainer();
-      notifier = container.read(artifactFilterStateProvider.notifier);
-    });
-
-    List<String> readTags() =>
-        container.read(artifactFilterStateProvider).tags;
-
-    test("starts with no tag", () {
-      expect(readTags(), isEmpty);
-    });
-
-    test("addTag appends the tag", () {
-      notifier.addTag("tag_a");
-      notifier.addTag("tag_b");
-
-      expect(readTags(), ["tag_a", "tag_b"]);
-    });
-
-    test("addTag allows the same tag twice", () {
-      notifier.addTag("tag_a");
-      notifier.addTag("tag_a");
-
-      expect(readTags(), ["tag_a", "tag_a"]);
-    });
-
-    test("removeTag removes every occurrence of the tag", () {
-      notifier.addTag("tag_a");
-      notifier.addTag("tag_b");
-      notifier.addTag("tag_a");
-
-      notifier.removeTag("tag_a");
-
-      expect(readTags(), ["tag_b"]);
-    });
-
-    test("removeTag leaves the tags untouched for an unknown tag", () {
-      notifier.addTag("tag_a");
-
-      notifier.removeTag("tag_b");
-
-      expect(readTags(), ["tag_a"]);
-    });
-
-    test("clear removes every tag", () {
-      notifier.addTag("tag_a");
-      notifier.addTag("tag_b");
-
-      notifier.clear();
-
-      expect(readTags(), isEmpty);
-    });
-  });
-
   group("WeaponFilterStateNotifier", () {
     late ProviderContainer container;
     late WeaponFilterStateNotifier notifier;

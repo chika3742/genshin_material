@@ -64,61 +64,6 @@ abstract class _$CharacterFilterStateNotifier
   }
 }
 
-@ProviderFor(ArtifactFilterStateNotifier)
-final artifactFilterStateProvider = ArtifactFilterStateNotifierProvider._();
-
-final class ArtifactFilterStateNotifierProvider
-    extends
-        $NotifierProvider<ArtifactFilterStateNotifier, ArtifactFilterState> {
-  ArtifactFilterStateNotifierProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'artifactFilterStateProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$artifactFilterStateNotifierHash();
-
-  @$internal
-  @override
-  ArtifactFilterStateNotifier create() => ArtifactFilterStateNotifier();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ArtifactFilterState value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<ArtifactFilterState>(value),
-    );
-  }
-}
-
-String _$artifactFilterStateNotifierHash() =>
-    r'2acae805761bf198edae2697ded8bb35b1923d6a';
-
-abstract class _$ArtifactFilterStateNotifier
-    extends $Notifier<ArtifactFilterState> {
-  ArtifactFilterState build();
-  @$mustCallSuper
-  @override
-  WhenComplete runBuild() {
-    final ref = this.ref as $Ref<ArtifactFilterState, ArtifactFilterState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<ArtifactFilterState, ArtifactFilterState>,
-              ArtifactFilterState,
-              Object?,
-              Object?
-            >;
-    return element.handleCreate(ref, build);
-  }
-}
-
 @ProviderFor(WeaponFilterStateNotifier)
 final weaponFilterStateProvider = WeaponFilterStateNotifierProvider._();
 

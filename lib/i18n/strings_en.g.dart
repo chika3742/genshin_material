@@ -348,7 +348,6 @@ class _Translations$artifactsPage$en extends Translations$artifactsPage$ja {
 		'2-pc': '2-Pc Set Bonus',
 		'4-pc': '4-Pc Set Bonus',
 	};
-	@override String get effectList => 'Effect List';
 	@override String get kindOfEffect => 'Kind of Effect';
 	@override String get effectFilteringNote => 'Displays artifact sets that include any of the selected items.';
 }
@@ -781,7 +780,6 @@ extension on TranslationsEn {
 			'artifactsPage.bonusTypes.1-pc' => '1-Pc Set Bonus',
 			'artifactsPage.bonusTypes.2-pc' => '2-Pc Set Bonus',
 			'artifactsPage.bonusTypes.4-pc' => '4-Pc Set Bonus',
-			'artifactsPage.effectList' => 'Effect List',
 			'artifactsPage.kindOfEffect' => 'Kind of Effect',
 			'artifactsPage.effectFilteringNote' => 'Displays artifact sets that include any of the selected items.',
 			'artifactDetailsPage.maxRarity' => 'Max Rarity',

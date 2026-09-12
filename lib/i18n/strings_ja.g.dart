@@ -554,9 +554,6 @@ class Translations$artifactsPage$ja {
 		'4-pc': '4セット効果',
 	};
 
-	/// ja: 'セット効果リスト'
-	String get effectList => 'セット効果リスト';
-
 	/// ja: '効果の種類'
 	String get kindOfEffect => '効果の種類';
 
@@ -1264,7 +1261,6 @@ extension on Translations {
 			'artifactsPage.bonusTypes.1-pc' => '1セット効果',
 			'artifactsPage.bonusTypes.2-pc' => '2セット効果',
 			'artifactsPage.bonusTypes.4-pc' => '4セット効果',
-			'artifactsPage.effectList' => 'セット効果リスト',
 			'artifactsPage.kindOfEffect' => '効果の種類',
 			'artifactsPage.effectFilteringNote' => '選択したもののうちいずれかを含む聖遺物セットを表示します。',
 			'artifactDetailsPage.maxRarity' => '最高レアリティ',

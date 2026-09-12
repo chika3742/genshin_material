@@ -139,7 +139,7 @@ Generated files are committed to the repo. After any of the following changes, r
 | Directory | Contents |
 |---|---|
 | `test/unit/` | Pure logic, models, providers, view models, `lib/core/`, `lib/data/`, and the pure helpers in `lib/db/`. These may still open an in-memory `AppDatabase` as a fixture |
-| `test/widget/` | Widget tests; `test/widget/components/` for reusable components |
+| `test/widget/` | Widget tests; `test/widget/components/` for reusable components, `test/widget/pages/` for pages and page-specific components |
 | `test/drift/db/` | Tests whose subject is the database layer itself: `lib/db/` extension methods and migrations |
 | `test/utils/` | Shared helpers — not tests themselves |
 
