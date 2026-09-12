@@ -27,6 +27,7 @@ import "../../../models/weapon.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
+import "../../../providers/hoyolab_game_server.dart";
 import "../../../providers/pref_notifier.dart";
 import "../../../ui_core/layout.dart";
 import "../../../utils/filtering.dart";
@@ -56,7 +57,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
     }
 
     final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(prefProvider(PrefKeys.hyvUid));
+    final uid = ref.watch(hoyolabGameServerProvider).uidOrNull;
     final syncWeaponState = ref.watch(prefProvider(PrefKeys.syncWeaponState));
 
     final characters = useMemoized(() =>

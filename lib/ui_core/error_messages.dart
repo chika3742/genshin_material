@@ -4,8 +4,7 @@ import "package:drift/isolate.dart";
 
 import "../core/asset_updater.dart";
 import "../core/errors.dart";
-import "../core/hoyolab_api.dart";
-import "../core/secure_storage.dart";
+import "../data/services/hoyolab/hoyolab_exceptions.dart";
 import "../i18n/strings.g.dart";
 
 String getErrorMessage(Object? error, {String prefix = ""}) {
@@ -14,6 +13,9 @@ String getErrorMessage(Object? error, {String prefix = ""}) {
     AssetUpdateCheckException() => tr.errors.tryAgainLater,
     CredentialVerificationException() => tr.hoyolab.credentialVerificationFailed,
     SocketException() => tr.updates.noInternet,
+    HoyolabLinkDisabledException() => tr.errors.tryAgainLater,
+    HoyolabNotSignedInException() => tr.hoyolab.loginExpired,
+    HoyolabServerNotSelectedException() => tr.hoyolab.plsSelectServer,
     HoyolabApiException(:final retcode, :final originalMessage) => switch (retcode) {
       -502002 => tr.hoyolab.characterDataAccessNotAllowed,
       -502001 => tr.hoyolab.characterDoesNotExist,

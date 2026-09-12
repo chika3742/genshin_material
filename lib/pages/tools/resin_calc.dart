@@ -12,7 +12,7 @@ import "../../core/remote_config_keys.dart";
 import "../../hooks/use_periodic_timer.dart";
 import "../../i18n/strings.g.dart";
 import "../../providers/game_data_sync.dart";
-import "../../providers/hoyolab_credential.dart";
+import "../../providers/hoyolab_game_server.dart";
 import "../../providers/pref_notifier.dart";
 import "../../providers/remote_config.dart";
 import "../../providers/resin.dart";
