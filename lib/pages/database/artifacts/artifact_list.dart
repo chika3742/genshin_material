@@ -1,5 +1,3 @@
-// ignore_for_file: better_require_trailing_commas/better_require_trailing_commas
-
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
@@ -64,7 +62,7 @@ class ArtifactListPage extends HookConsumerWidget {
                       initialSelections: tagFilter.value,
                       onChanged: (value) {
                         tagFilter.value = value;
-                      }
+                      },
                     );
                   },
                 ),
@@ -131,7 +129,7 @@ class ArtifactListPage extends HookConsumerWidget {
           ),
         ],
       ),
-      body: _buildList(ref, rarityFilter.value, tagFilter.value),
+      body: _buildList(ref, rarityFilterDisplay, tagFilter.value),
     );
   }
 
@@ -222,7 +220,7 @@ class ArtifactListPage extends HookConsumerWidget {
                               color: rarityColor,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
