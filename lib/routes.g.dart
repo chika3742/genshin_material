@@ -69,11 +69,6 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
               factory: $ArtifactListRoute._fromState,
               routes: [
                 GoRouteData.$route(
-                  path: 'effects',
-                  hasOverriddenOnExit: false,
-                  factory: $ArtifactEffectListRoute._fromState,
-                ),
-                GoRouteData.$route(
                   path: ':id',
                   hasOverriddenOnExit: false,
                   factory: $ArtifactDetailsRoute._fromState,
@@ -436,27 +431,6 @@ mixin $ArtifactListRoute on GoRouteData {
         'equip-character-id': _self.equipCharacterId,
     },
   );
-
-  @override
-  void go(BuildContext context) => context.go(location);
-
-  @override
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  @override
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  @override
-  void replace(BuildContext context) => context.replace(location);
-}
-
-mixin $ArtifactEffectListRoute on GoRouteData {
-  static ArtifactEffectListRoute _fromState(GoRouterState state) =>
-      ArtifactEffectListRoute();
-
-  @override
-  String get location => GoRouteData.$location('/database/artifacts/effects');
 
   @override
   void go(BuildContext context) => context.go(location);

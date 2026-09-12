@@ -154,9 +154,9 @@ artifactsPage:
     1-pc: 1-Pc Set Bonus
     2-pc: 2-Pc Set Bonus
     4-pc: 4-Pc Set Bonus
-  effectList: Effect List
   kindOfEffect: Kind of Effect
   effectFilteringNote: Displays artifact sets that include any of the selected items.
+  noSearchResultsFound: No search results found.
 artifactDetailsPage:
   maxRarity: Max Rarity
   bookmarkSet: Bookmark Set(s)
