@@ -350,7 +350,6 @@ class _Translations$artifactsPage$en extends Translations$artifactsPage$ja {
 	};
 	@override String get kindOfEffect => 'Kind of Effect';
 	@override String get effectFilteringNote => 'Displays artifact sets that include any of the selected items.';
-	@override String get noSearchResultsFound => 'No search results found.';
 }
 
 // Path: artifactDetailsPage
@@ -783,7 +782,6 @@ extension on TranslationsEn {
 			'artifactsPage.bonusTypes.4-pc' => '4-Pc Set Bonus',
 			'artifactsPage.kindOfEffect' => 'Kind of Effect',
 			'artifactsPage.effectFilteringNote' => 'Displays artifact sets that include any of the selected items.',
-			'artifactsPage.noSearchResultsFound' => 'No search results found.',
 			'artifactDetailsPage.maxRarity' => 'Max Rarity',
 			'artifactDetailsPage.bookmarkSet' => 'Bookmark Set(s)',
 			'artifactDetailsPage.bookmarkPiece' => 'Bookmark by Piece',

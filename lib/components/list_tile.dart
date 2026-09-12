@@ -6,7 +6,7 @@ import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../constants/dimens.dart";
-import "../core/theme.dart";
+import "rarity_badge.dart";
 
 enum RoutingStrategy {
   go,
@@ -111,28 +111,7 @@ class GameItemListTile extends StatelessWidget {
         ),
         title: Text(name),
         trailing: rarity != null
-            ? Container(
-                width: 48,
-                height: 30,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context)
-                        .extension<ComponentThemeExtension>()!
-                        .getRarityColor(rarity!),
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Text(
-                  "★$rarity",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Theme.of(context)
-                        .extension<ComponentThemeExtension>()!
-                        .getRarityColor(rarity!),
-                  ),
-                ),
-              )
+            ? RarityBadge(rarity!)
             : null,
         shape: rounded ? RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),

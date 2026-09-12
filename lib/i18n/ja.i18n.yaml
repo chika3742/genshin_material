@@ -153,7 +153,6 @@ artifactsPage:
     4-pc: 4セット効果
   kindOfEffect: 効果の種類
   effectFilteringNote: 選択したもののうちいずれかを含む聖遺物セットを表示します。
-  noSearchResultsFound: 検索条件に一致する聖遺物はありません
 artifactDetailsPage:
   maxRarity: 最高レアリティ
   bookmarkSet: セットをブックマーク

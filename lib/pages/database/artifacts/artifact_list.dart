@@ -4,17 +4,16 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
-import "../../../components/center_text.dart";
 import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/effect_description.dart";
 import "../../../components/filter_bottom_sheet.dart";
 import "../../../components/horizontal_chip_list.dart";
 import "../../../components/item_link_button.dart";
+import "../../../components/rarity_badge.dart";
 import "../../../components/search.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
-import "../../../core/theme.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/artifact.dart";
 import "../../../models/common.dart";
@@ -129,13 +128,11 @@ class ArtifactListPage extends HookConsumerWidget {
           ),
         ],
       ),
-      body: _buildList(ref, rarityFilterDisplay, tagFilter.value),
+      body: _buildList(images, rarityFilterDisplay, tagFilter.value),
     );
   }
 
-  Widget _buildList(WidgetRef ref, int? rarityFilter, List<String> tagFilter) {
-    final images = ref.watch(assetImageResolverProvider);
-
+  Widget _buildList(AssetImageResolver images, int? rarityFilter, List<String> tagFilter) {
     List<ArtifactSet> filterAndSortSetsByTags(Iterable<ArtifactSet> sets) {
       final filtered = sets.where((e) => e.tags != null && e.tags!.any(tagFilter.contains));
       final sorted = filtered.sorted((a, b) {
@@ -146,41 +143,29 @@ class ArtifactListPage extends HookConsumerWidget {
       return sorted;
     }
 
-    final sets = useMemoized(
-      () {
-        var sets = assetData.artifactSets.values;
-        if (rarityFilter == null && tagFilter.isEmpty) {
-          return sets.toList();
-        }
-
-        if (rarityFilter != null) {
-          sets = sets.where((set) => set.maxRarity == rarityFilter);
-        }
-
-        if (tagFilter.isNotEmpty) {
-          sets = filterAndSortSetsByTags(sets);
-        }
-
+    final sets = () {
+      var sets = assetData.artifactSets.values;
+      if (rarityFilter == null && tagFilter.isEmpty) {
         return sets.toList();
-      },
-      [rarityFilter, tagFilter],
-    );
-    final flattenedTags = useMemoized(() {
-      return Map.fromEntries(assetData.artifactTags.map((e) => e.items)
-          .flattened.map((e) => MapEntry(e.id, e)));
-    }, [assetData]);
+      }
 
-    if (sets.isEmpty) {
-      return CenterText(tr.artifactsPage.noSearchResultsFound);
-    }
+      if (rarityFilter != null) {
+        sets = sets.where((set) => set.maxRarity == rarityFilter);
+      }
+
+      if (tagFilter.isNotEmpty) {
+        sets = filterAndSortSetsByTags(sets);
+      }
+
+      return sets.toList();
+    }();
+    final flattenedTags = Map.fromEntries(assetData.artifactTags.map((e) => e.items)
+        .flattened.map((e) => MapEntry(e.id, e)));
 
     return ListView.builder(
       itemCount: sets.length,
       itemBuilder: (context, index) {
         final set = sets[index];
-        final rarityColor = Theme.of(context)
-            .extension<ComponentThemeExtension>()!
-            .getRarityColor(set.maxRarity);
 
         return Column(
           children: [
@@ -203,24 +188,7 @@ class ArtifactListPage extends HookConsumerWidget {
                         Image.file(images.getFile(set.getFirstPiece(assetData)), width: 35, height: 35),
                         Text(set.name.localized),
                         Spacer(),
-                        Container(
-                          width: 48,
-                          height: 30,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: rarityColor,
-                            ),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Text(
-                            "★${set.maxRarity}",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: rarityColor,
-                            ),
-                          ),
-                        ),
+                        RarityBadge(set.maxRarity),
                       ],
                     ),
                   ),

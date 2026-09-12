@@ -559,9 +559,6 @@ class Translations$artifactsPage$ja {
 
 	/// ja: '選択したもののうちいずれかを含む聖遺物セットを表示します。'
 	String get effectFilteringNote => '選択したもののうちいずれかを含む聖遺物セットを表示します。';
-
-	/// ja: '検索条件に一致する聖遺物はありません'
-	String get noSearchResultsFound => '検索条件に一致する聖遺物はありません';
 }
 
 // Path: artifactDetailsPage
@@ -1266,7 +1263,6 @@ extension on Translations {
 			'artifactsPage.bonusTypes.4-pc' => '4セット効果',
 			'artifactsPage.kindOfEffect' => '効果の種類',
 			'artifactsPage.effectFilteringNote' => '選択したもののうちいずれかを含む聖遺物セットを表示します。',
-			'artifactsPage.noSearchResultsFound' => '検索条件に一致する聖遺物はありません',
 			'artifactDetailsPage.maxRarity' => '最高レアリティ',
 			'artifactDetailsPage.bookmarkSet' => 'セットをブックマーク',
 			'artifactDetailsPage.bookmarkPiece' => '部位ごとにブックマーク',
