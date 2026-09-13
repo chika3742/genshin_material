@@ -31,3 +31,6 @@ targets:
         enabled: false
       freezed:
         enabled: false
+      json_serializable:
+        options:
+          checked: true

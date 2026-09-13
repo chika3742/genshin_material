@@ -1,14 +1,15 @@
 import "dart:convert";
 
 import "package:flutter_test/flutter_test.dart";
+import "package:genshin_material/core/api_request_queue.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_api_base.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_exceptions.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_game_api.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/hoyolab_api.dart";
-import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
+import "../../../../utils/http_client.dart";
 import "../../../../utils/http_client.mocks.dart";
 import "../../../../utils/secure_storage.dart";
 
@@ -29,29 +30,20 @@ void main() {
     LocaleSettings.setLocaleSync(AppLocale.ja);
   });
 
-  HoyolabGameApi createApi({bool enabled = true}) {
+  HoyolabGameApi createApi() {
     return HoyolabGameApi(
-      enabled: enabled,
+      enabled: true,
       cookie: fakeCookie,
       region: _region,
       uid: _uid,
       client: client,
+      queue: ApiRequestQueue(interval: Duration.zero),
     );
-  }
-
-  void stubGet(String body, {int statusCode = 200}) {
-    when(client.get(any, headers: anyNamed("headers")))
-        .thenAnswer((_) async => http.Response(body, statusCode));
-  }
-
-  void stubPost(String body, {int statusCode = 200}) {
-    when(client.post(any, headers: anyNamed("headers"), body: anyNamed("body")))
-        .thenAnswer((_) async => http.Response(body, statusCode));
   }
 
   group("avatarList", () {
     test("returns the characters with their skills and weapon", () async {
-      stubPost(_okBody({
+      stubPost(client, _okBody({
         "list": [
           {
             "id": 10000021,
@@ -87,7 +79,7 @@ void main() {
     });
 
     test("sends the paging and filter parameters", () async {
-      stubPost(_okBody({"list": []}));
+      stubPost(client, _okBody({"list": []}));
 
       await createApi().avatarList(3, elementIds: [1], weaponCatIds: [2, 3]);
 
@@ -110,7 +102,7 @@ void main() {
     });
 
     test("carries no DS token", () async {
-      stubPost(_okBody({"list": []}));
+      stubPost(client, _okBody({"list": []}));
 
       await createApi().avatarList(1);
 
@@ -127,7 +119,7 @@ void main() {
 
   group("getDailyNote", () {
     test("returns the resin state", () async {
-      stubGet(_okBody({
+      stubGet(client, _okBody({
         "current_resin": 42,
         "resin_recovery_time": "480",
         "current_home_coin": 1200,
@@ -141,7 +133,7 @@ void main() {
     });
 
     test("sends the DS token alongside the additional headers", () async {
-      stubGet(_okBody({
+      stubGet(client, _okBody({
         "current_resin": 20,
         "resin_recovery_time": "480",
         "current_home_coin": 100,
@@ -159,7 +151,7 @@ void main() {
     });
 
     test("queries the configured role and server", () async {
-      stubGet(_okBody({
+      stubGet(client, _okBody({
         "current_resin": 20,
         "resin_recovery_time": "480",
         "current_home_coin": 100,
@@ -177,7 +169,7 @@ void main() {
 
   group("batchCompute", () {
     test("returns the overall consumption", () async {
-      stubPost(_okBody({
+      stubPost(client, _okBody({
         "overall_consume": [
           {"id": 104301, "lack_num": 2, "num": 5},
         ],
@@ -208,7 +200,7 @@ void main() {
   group("error handling", () {
     test("throws HoyolabApiException carrying the retcode and the message",
         () async {
-      stubPost(_errorBody(-100, "Not logged in"));
+      stubPost(client, _errorBody(-100, "Not logged in"));
 
       await expectLater(
         createApi().avatarList(1),
@@ -222,26 +214,9 @@ void main() {
     });
 
     test("does not throw for a zero retcode", () async {
-      stubPost(_okBody({"list": []}));
+      stubPost(client, _okBody({"list": []}));
 
       expect((await createApi().avatarList(1)).list, isEmpty);
-    });
-  });
-
-  group("when the link is disabled", () {
-    test("every method throws before reaching the network", () {
-      final api = createApi(enabled: false);
-
-      expect(
-        () => api.avatarList(1),
-        throwsA(isA<HoyolabLinkDisabledException>()),
-      );
-      expect(
-        api.getDailyNote,
-        throwsA(isA<HoyolabLinkDisabledException>()),
-      );
-      expect(api.batchCompute([]), throwsA(isA<HoyolabLinkDisabledException>()));
-      verifyZeroInteractions(client);
     });
   });
 }

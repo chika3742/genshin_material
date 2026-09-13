@@ -7,69 +7,104 @@ part of 'character.dart';
 // **************************************************************************
 
 ListedCharacter _$ListedCharacterFromJson(Map<String, dynamic> json) =>
-    ListedCharacter(
-      id: json['id'] as String,
-      disableSync: json['disableSync'] as bool? ?? false,
-      hyvIds: (json['hyvIds'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
-          .toList(),
-      name: LocalizedText.fromJson(json['name']),
-      jaPronunciation: json['jaPronunciation'] as String,
-      imageUrl: json['imageUrl'] as String,
-      smallImageUrl: json['smallImageUrl'] as String,
-      rarity: (json['rarity'] as num).toInt(),
-      weaponType: json['weaponType'] as String,
-      element: json['element'] as String,
-      talents: (json['talents'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, CharacterTalent.fromJson(e as Map<String, dynamic>)),
-      ),
-      materials: Map<String, String>.from(json['materials'] as Map),
-      $type: json['runtimeType'] as String?,
-    );
+    $checkedCreate('ListedCharacter', json, ($checkedConvert) {
+      final val = ListedCharacter(
+        id: $checkedConvert('id', (v) => v as String),
+        disableSync: $checkedConvert('disableSync', (v) => v as bool? ?? false),
+        hyvIds: $checkedConvert(
+          'hyvIds',
+          (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+        ),
+        name: $checkedConvert('name', (v) => LocalizedText.fromJson(v)),
+        jaPronunciation: $checkedConvert('jaPronunciation', (v) => v as String),
+        imageUrl: $checkedConvert('imageUrl', (v) => v as String),
+        smallImageUrl: $checkedConvert('smallImageUrl', (v) => v as String),
+        rarity: $checkedConvert('rarity', (v) => (v as num).toInt()),
+        weaponType: $checkedConvert('weaponType', (v) => v as String),
+        element: $checkedConvert('element', (v) => v as String),
+        talents: $checkedConvert(
+          'talents',
+          (v) => (v as Map<String, dynamic>).map(
+            (k, e) => MapEntry(
+              k,
+              CharacterTalent.fromJson(e as Map<String, dynamic>),
+            ),
+          ),
+        ),
+        materials: $checkedConvert(
+          'materials',
+          (v) => Map<String, String>.from(v as Map),
+        ),
+        $type: $checkedConvert('runtimeType', (v) => v as String?),
+      );
+      return val;
+    }, fieldKeyMap: const {r'$type': 'runtimeType'});
 
 CharacterGroup _$CharacterGroupFromJson(Map<String, dynamic> json) =>
-    CharacterGroup(
-      id: json['id'] as String,
-      hyvIds: (json['hyvIds'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
-          .toList(),
-      name: LocalizedText.fromJson(json['name']),
-      jaPronunciation: json['jaPronunciation'] as String,
-      imageUrl: json['imageUrl'] as String,
-      smallImageUrl: json['smallImageUrl'] as String,
-      rarity: (json['rarity'] as num).toInt(),
-      weaponType: json['weaponType'] as String,
-      variantIds: (json['variantIds'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      materials: Map<String, String>.from(json['materials'] as Map),
-      $type: json['runtimeType'] as String?,
-    );
+    $checkedCreate('CharacterGroup', json, ($checkedConvert) {
+      final val = CharacterGroup(
+        id: $checkedConvert('id', (v) => v as String),
+        hyvIds: $checkedConvert(
+          'hyvIds',
+          (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+        ),
+        name: $checkedConvert('name', (v) => LocalizedText.fromJson(v)),
+        jaPronunciation: $checkedConvert('jaPronunciation', (v) => v as String),
+        imageUrl: $checkedConvert('imageUrl', (v) => v as String),
+        smallImageUrl: $checkedConvert('smallImageUrl', (v) => v as String),
+        rarity: $checkedConvert('rarity', (v) => (v as num).toInt()),
+        weaponType: $checkedConvert('weaponType', (v) => v as String),
+        variantIds: $checkedConvert(
+          'variantIds',
+          (v) => (v as List<dynamic>).map((e) => e as String).toList(),
+        ),
+        materials: $checkedConvert(
+          'materials',
+          (v) => Map<String, String>.from(v as Map),
+        ),
+        $type: $checkedConvert('runtimeType', (v) => v as String?),
+      );
+      return val;
+    }, fieldKeyMap: const {r'$type': 'runtimeType'});
 
 CharacterVariant _$CharacterVariantFromJson(Map<String, dynamic> json) =>
-    CharacterVariant(
-      id: json['id'] as String,
-      disableSync: json['disableSync'] as bool? ?? false,
-      parentId: json['parentId'] as String,
-      name: LocalizedText.fromJson(json['name']),
-      jaPronunciation: json['jaPronunciation'] as String,
-      smallImageUrl: json['smallImageUrl'] as String,
-      rarity: (json['rarity'] as num).toInt(),
-      element: json['element'] as String,
-      weaponType: json['weaponType'] as String,
-      talents: (json['talents'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, CharacterTalent.fromJson(e as Map<String, dynamic>)),
-      ),
-      materials: Map<String, String>.from(json['materials'] as Map),
-      $type: json['runtimeType'] as String?,
-    );
+    $checkedCreate('CharacterVariant', json, ($checkedConvert) {
+      final val = CharacterVariant(
+        id: $checkedConvert('id', (v) => v as String),
+        disableSync: $checkedConvert('disableSync', (v) => v as bool? ?? false),
+        parentId: $checkedConvert('parentId', (v) => v as String),
+        name: $checkedConvert('name', (v) => LocalizedText.fromJson(v)),
+        jaPronunciation: $checkedConvert('jaPronunciation', (v) => v as String),
+        smallImageUrl: $checkedConvert('smallImageUrl', (v) => v as String),
+        rarity: $checkedConvert('rarity', (v) => (v as num).toInt()),
+        element: $checkedConvert('element', (v) => v as String),
+        weaponType: $checkedConvert('weaponType', (v) => v as String),
+        talents: $checkedConvert(
+          'talents',
+          (v) => (v as Map<String, dynamic>).map(
+            (k, e) => MapEntry(
+              k,
+              CharacterTalent.fromJson(e as Map<String, dynamic>),
+            ),
+          ),
+        ),
+        materials: $checkedConvert(
+          'materials',
+          (v) => Map<String, String>.from(v as Map),
+        ),
+        $type: $checkedConvert('runtimeType', (v) => v as String?),
+      );
+      return val;
+    }, fieldKeyMap: const {r'$type': 'runtimeType'});
 
 _CharacterTalent _$CharacterTalentFromJson(Map<String, dynamic> json) =>
-    _CharacterTalent(
-      idList: (json['idList'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
-          .toList(),
-      name: LocalizedText.fromJson(json['name']),
-    );
+    $checkedCreate('_CharacterTalent', json, ($checkedConvert) {
+      final val = _CharacterTalent(
+        idList: $checkedConvert(
+          'idList',
+          (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+        ),
+        name: $checkedConvert('name', (v) => LocalizedText.fromJson(v)),
+      );
+      return val;
+    });

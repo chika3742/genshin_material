@@ -1,5 +1,3 @@
-import "dart:convert";
-
 import "../../../models/hoyolab_api.dart";
 import "hoyolab_api_base.dart";
 
@@ -13,70 +11,37 @@ class HoyolabAccountApi extends HoyolabAuthenticatedApi {
     required super.enabled,
     required super.cookie,
     required super.client,
+    required super.queue,
   });
 
-  Future<void> logout() async {
-    ensureEnabled();
+  Future<void> logout() => send(
+    "https://passport-api-sg.hoyolab.com/account/ma-passport/api/logout",
+    method: .post,
+    body: const <String, dynamic>{},
+  );
 
-    const url = "https://passport-api-sg.hoyolab.com/account/ma-passport/api/logout";
+  Future<GetUserGameRolesResult> getUserGameRoles(String region) => send(
+    "https://api-account-os.hoyolab.com/binding/api/getUserGameRolesByLtoken",
+    query: {"game_biz": "hk4e_global", "region": region},
+    parse: (obj) => HoyolabListData.fromJsonT(obj, HyvUserGameRole.fromJson),
+  );
 
-    await client.post(
-      Uri.parse(url),
-      headers: headers,
-      body: jsonEncode({}),
-    );
-  }
+  Future<GameRecordCardList> getGameRecordCards() => send(
+    "https://sg-public-api.hoyolab.com/event/game_record/app/card/wapi/getGameRecordCard",
+    query: {"uid": ltUid},
+    withDsToken: true,
+    withRpcHeaders: true,
+    parse: (obj) => HoyolabListData.fromJsonT(obj, GameRecordCard.fromJson),
+  );
 
-  Future<GetUserGameRolesResult> getUserGameRoles(String region) {
-    ensureEnabled();
-
-    final url = "https://api-account-os.hoyolab.com/binding/api/getUserGameRolesByLtoken?game_biz=hk4e_global&region=$region";
-    return HoyolabApiBase.errorHandledThen(
-      client.get(
-        Uri.parse(url),
-        headers: headers,
-      ), (obj) => HoyolabListData.fromJsonT(obj, HyvUserGameRole.fromJson),
-    );
-  }
-
-  Future<GameRecordCardList> getGameRecordCards() {
-    ensureEnabled();
-
-    const url = "https://sg-public-api.hoyolab.com/event/game_record/app/card/wapi/getGameRecordCard";
-    final queryParameters = {
-      "uid": ltUid,
-    };
-    return HoyolabApiBase.errorHandledThen(
-      client.get(
-        Uri.parse(url).replace(queryParameters: queryParameters),
-        headers: {
-          ...headers,
-          "DS": getDsToken(queryParameters: queryParameters),
-          ...additionalHeaders,
-        },
-      ), (obj) => HoyolabListData.fromJsonT(obj, GameRecordCard.fromJson),
-    );
-  }
-
-  Future<void> changeDataSwitch(DataSwitchType switchType, bool value) {
-    ensureEnabled();
-
-    const url = "https://sg-act-public-api.hoyolab.com/event/game_record/app/card/wapi/changeDataSwitch";
-    final sw = DataSwitchMetadata(switchId: switchType, isPublic: value);
-    final body = jsonEncode({
+  Future<void> changeDataSwitch(DataSwitchType switchType, bool value) => send(
+    "https://sg-act-public-api.hoyolab.com/event/game_record/app/card/wapi/changeDataSwitch",
+    method: .post,
+    body: {
       "game_id": 2,
-      ...sw.toJson(),
-    });
-    return HoyolabApiBase.errorHandledThen(
-      client.post(
-        Uri.parse(url),
-        headers: {
-          ...headers,
-          "DS": getDsToken(body: body),
-          ...additionalHeaders,
-        },
-        body: body,
-      ), (_) => {},
-    );
-  }
+      ...DataSwitchMetadata(switchId: switchType, isPublic: value).toJson(),
+    },
+    withDsToken: true,
+    withRpcHeaders: true,
+  );
 }

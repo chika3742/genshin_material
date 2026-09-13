@@ -4,6 +4,7 @@ import "dart:io";
 import "package:drift/drift.dart" show Value;
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
+import "package:genshin_material/core/api_request_queue.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_account_api.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/in_game_character_state_db_extension.dart";
@@ -102,6 +103,7 @@ void main() {
               enabled: true,
               cookie: "ltoken_v2=token; ltuid_v2=123456;",
               client: client,
+              queue: ApiRequestQueue(interval: Duration.zero),
             ),
           ),
         ],

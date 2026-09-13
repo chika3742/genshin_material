@@ -279,8 +279,7 @@ mixin WithId {
   int get id;
 }
 
-typedef LookupServersResult = HoyolabApiResult<HoyolabListData<HyvServer>>;
-typedef VerifyLTokenResult = HoyolabApiResult<HyvUserInfo>;
+typedef LookupServersResult = HoyolabListData<HyvServer>;
 typedef GetUserGameRolesResult = HoyolabListData<HyvUserGameRole>;
 typedef AvatarListResult = HoyolabListData<AvatarListResultItem>;
 typedef GameRecordCardList = HoyolabListData<GameRecordCard>;

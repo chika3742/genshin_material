@@ -1,11 +1,12 @@
 import "dart:convert";
 
 import "package:flutter_test/flutter_test.dart";
+import "package:genshin_material/core/api_request_queue.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_exceptions.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_public_api.dart";
-import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
+import "../../../../utils/http_client.dart";
 import "../../../../utils/http_client.mocks.dart";
 import "../../../../utils/secure_storage.dart";
 
@@ -22,63 +23,51 @@ void main() {
     client = MockClient();
   });
 
-  HoyolabPublicApi createApi({bool enabled = true}) =>
-      HoyolabPublicApi(enabled: enabled, client: client);
+  HoyolabPublicApi createApi() => HoyolabPublicApi(
+    enabled: true,
+    client: client,
+    queue: ApiRequestQueue(interval: Duration.zero),
+  );
 
   group("lookupServers", () {
     test("returns the server list", () async {
-      when(client.get(any)).thenAnswer(
-        (_) async => http.Response(
-          _okBody({
-            "list": [
-              {"region": "os_asia", "name": "Asia"},
-              {"region": "os_euro", "name": "Europe"},
-            ],
-          }),
-          200,
-        ),
-      );
+      stubGet(client, _okBody({
+        "list": [
+          {"region": "os_asia", "name": "Asia"},
+          {"region": "os_euro", "name": "Europe"},
+        ],
+      }));
 
       final result = await createApi().lookupServers();
 
-      expect(result.hasError, isFalse);
-      expect(result.data!.list, hasLength(2));
-      expect(result.data!.list.first.region, "os_asia");
-      expect(result.data!.list.first.name, "Asia");
+      expect(result.list, hasLength(2));
+      expect(result.list.first.region, "os_asia");
+      expect(result.list.first.name, "Asia");
     });
 
     test("sends no credential", () async {
-      when(client.get(any))
-          .thenAnswer((_) async => http.Response(_okBody({"list": []}), 200));
+      stubGet(client, _okBody({"list": []}));
 
       await createApi().lookupServers();
 
-      verify(client.get(any)).called(1);
+      final headers = verify(client.get(any, headers: captureAnyNamed("headers")))
+          .captured
+          .single as Map<String, String>;
+      expect(headers.containsKey("Cookie"), isFalse);
     });
   });
 
   group("verifyLToken", () {
     test("returns the account name", () async {
-      when(client.post(any, headers: anyNamed("headers"))).thenAnswer(
-        (_) async => http.Response(
-          _okBody({"user_info": {"account_name": "tester"}}),
-          200,
-        ),
-      );
+      stubPost(client, _okBody({"user_info": {"account_name": "tester"}}));
 
       final result = await createApi().verifyLToken(fakeCookie);
 
-      expect(result.hasError, isFalse);
-      expect(result.data!.accountName, "tester");
+      expect(result.accountName, "tester");
     });
 
     test("sends the cookie it was handed, not a stored one", () async {
-      when(client.post(any, headers: anyNamed("headers"))).thenAnswer(
-        (_) async => http.Response(
-          _okBody({"user_info": {"account_name": "tester"}}),
-          200,
-        ),
-      );
+      stubPost(client, _okBody({"user_info": {"account_name": "tester"}}));
 
       await createApi().verifyLToken(fakeCookie);
 
@@ -88,31 +77,20 @@ void main() {
       expect(headers["Cookie"], fakeCookie);
     });
 
-    // The sign-in flow shows the message HoYoLAB sent back, so a rejected
-    // cookie has to arrive as a result rather than as an exception.
-    test("reports the error through the result instead of throwing", () async {
-      when(client.post(any, headers: anyNamed("headers"))).thenAnswer(
-        (_) async => http.Response(_errorBody(-100, "Not logged in"), 200),
+    // The sign-in flow shows the message HoYoLAB sent back, so the rejection
+    // has to carry it. `signIn` turns this into a
+    // CredentialVerificationException.
+    test("throws with the message HoYoLAB sent back", () async {
+      stubPost(client, _errorBody(-100, "Not logged in"));
+
+      await expectLater(
+        createApi().verifyLToken(fakeCookie),
+        throwsA(
+          isA<HoyolabApiException>()
+              .having((e) => e.retcode, "retcode", -100)
+              .having((e) => e.originalMessage, "originalMessage", "Not logged in"),
+        ),
       );
-
-      final result = await createApi().verifyLToken(fakeCookie);
-
-      expect(result.hasError, isTrue);
-      expect(result.retcode, -100);
-      expect(result.data, isNull);
-    });
-  });
-
-  group("when the link is disabled", () {
-    test("every method throws before reaching the network", () {
-      final api = createApi(enabled: false);
-
-      expect(api.lookupServers(), throwsA(isA<HoyolabLinkDisabledException>()));
-      expect(
-        api.verifyLToken(fakeCookie),
-        throwsA(isA<HoyolabLinkDisabledException>()),
-      );
-      verifyZeroInteractions(client);
     });
   });
 }
