@@ -16,7 +16,7 @@ import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/filter_state.dart";
-import "../../../providers/hoyolab_credential.dart";
+import "../../../providers/hoyolab_game_server.dart";
 import "../../../providers/miscellaneous.dart";
 import "../../../providers/remote_config.dart";
 import "../../../routes.dart";
