@@ -5,12 +5,12 @@ import "package:drift/drift.dart" show Value;
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/api_request_queue.dart";
+import "package:genshin_material/data/repositories/hoyolab_cookie_repository.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_account_api.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/in_game_character_state_db_extension.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
-import "package:genshin_material/providers/hoyolab_game_server.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
@@ -19,6 +19,7 @@ import "../../utils/db.dart";
 import "../../utils/hoyolab_game_server.dart";
 import "../../utils/http_client.mocks.dart";
 import "../../utils/provider_container.dart";
+import "../../utils/secure_storage.dart";
 
 /// `shouldHideImages` only consults the sign-in state on Apple platforms; on
 /// every other host it short-circuits to false.
@@ -26,6 +27,10 @@ final _isApplePlatform = Platform.isIOS || Platform.isMacOS;
 
 void main() {
   late AppDatabase db;
+
+  /// Both subjects below read the cookie through `HoyolabCookieRepository`,
+  /// which goes straight to `flutter_secure_storage`.
+  final storage = setUpSecureStorageMock();
 
   setUp(() {
     db = createTestDatabase();
@@ -93,20 +98,28 @@ void main() {
       client = MockClient();
     });
 
-    ProviderContainer createContainer({bool signedIn = true}) {
-      return createTestContainer(
+    /// The cookie repository is an `AsyncNotifier`, and the subject reads its
+    /// synchronous snapshot, so the container is handed over only once the
+    /// first storage read has resolved. `storage.clear()` has to come before
+    /// that read, because the repository reads the storage exactly once.
+    Future<ProviderContainer> createContainer({bool signedIn = true}) async {
+      if (!signedIn) {
+        storage.clear();
+      }
+      final container = createTestContainer(
         db: db,
         overrides: [
-          isHoyolabSignedInInitialProvider.overrideWithValue(signedIn),
           hoyolabAccountApiProvider.overrideWith(
             (ref) async => HoyolabAccountApi(
-              cookie: "ltoken_v2=token; ltuid_v2=123456;",
+              cookie: fakeCookie,
               client: client,
               queue: ApiRequestQueue(interval: Duration.zero),
             ),
           ),
         ],
       );
+      await container.read(hoyolabCookieRepositoryProvider.future);
+      return container;
     }
 
     void stubGameRecordCards({required bool isPublic}) {
@@ -134,18 +147,20 @@ void main() {
     test("reports the realtime notes switch of the Genshin record card",
         () async {
       stubGameRecordCards(isPublic: true);
+      final container = await createContainer();
 
       expect(
-        await createContainer().read(realtimeNotesActivationStateProvider.future),
+        await container.read(realtimeNotesActivationStateProvider.future),
         isTrue,
       );
     });
 
     test("reports false when the switch is off", () async {
       stubGameRecordCards(isPublic: false);
+      final container = await createContainer();
 
       expect(
-        await createContainer().read(realtimeNotesActivationStateProvider.future),
+        await container.read(realtimeNotesActivationStateProvider.future),
         isFalse,
       );
     });
@@ -153,9 +168,10 @@ void main() {
     // Asking HoYoLAB about an account nobody signed in to is pointless, so the
     // provider answers without touching the network.
     test("reports false without calling the API when signed out", () async {
+      final container = await createContainer(signedIn: false);
+
       expect(
-        await createContainer(signedIn: false)
-            .read(realtimeNotesActivationStateProvider.future),
+        await container.read(realtimeNotesActivationStateProvider.future),
         isFalse,
       );
       verifyZeroInteractions(client);
@@ -172,7 +188,7 @@ void main() {
                 }),
                 200,
               ));
-      final container = createContainer();
+      final container = await createContainer();
       await container.read(realtimeNotesActivationStateProvider.future);
 
       await container
@@ -190,28 +206,48 @@ void main() {
     /// Builds a container without the `shouldHideImagesProvider` override that
     /// `createTestContainer` installs, so the real implementation runs.
     ProviderContainer createContainer({required bool signedIn}) {
-      return ProviderContainer.test(overrides: [
-        isHoyolabSignedInInitialProvider.overrideWithValue(signedIn),
-      ]);
+      if (!signedIn) {
+        storage.clear();
+      }
+      return ProviderContainer.test();
     }
 
-    test("is false on a non-Apple platform even when signed out", () {
-      final container = createContainer(signedIn: false);
+    /// As [createContainer], but waits for the cookie read so that the provider
+    /// sees an `AsyncData` rather than the initial `AsyncLoading`.
+    Future<ProviderContainer> createLoadedContainer({
+      required bool signedIn,
+    }) async {
+      final container = createContainer(signedIn: signedIn);
+      await container.read(hoyolabCookieRepositoryProvider.future);
+      return container;
+    }
+
+    test("is false on a non-Apple platform even when signed out", () async {
+      final container = await createLoadedContainer(signedIn: false);
 
       expect(container.read(shouldHideImagesProvider), isFalse);
     }, skip: _isApplePlatform ? "Apple platforms take the other branch" : null);
 
-    test("hides the images on an Apple platform when signed out", () {
-      final container = createContainer(signedIn: false);
+    test("hides the images on an Apple platform when signed out", () async {
+      final container = await createLoadedContainer(signedIn: false);
 
       expect(container.read(shouldHideImagesProvider), isTrue);
     }, skip: _isApplePlatform ? null : "Apple-only branch");
 
-    test("shows the images when signed in with HoYoLAB", () {
-      final container = createContainer(signedIn: true);
+    test("shows the images when signed in with HoYoLAB", () async {
+      final container = await createLoadedContainer(signedIn: true);
 
       expect(container.read(shouldHideImagesProvider), isFalse);
     });
+
+    // The cookie read takes several event loop turns, so the first frame has no
+    // answer yet. Hiding is the safe answer until it resolves.
+    test("hides the images while the cookie is still loading", () {
+      expect(
+        createContainer(signedIn: true).read(shouldHideImagesProvider),
+        isTrue,
+      );
+    }, skip: _isApplePlatform ? null : "Apple-only branch");
 
     test("reflects the value passed to createTestContainer", () {
       expect(

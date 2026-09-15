@@ -1,14 +1,10 @@
-import "dart:developer";
 
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/pref_keys.dart";
 import "../core/remote_config_keys.dart";
-import "../core/secure_storage.dart";
-import "../data/services/hoyolab/hoyolab_exceptions.dart";
 import "../models/hoyolab_api.dart";
-import "hoyolab_api.dart";
 import "pref_notifier.dart";
 import "remote_config.dart";
 
@@ -72,19 +68,6 @@ class HoyolabGameServer extends _$HoyolabGameServer {
     );
   }
 
-  /// Verifies [cookie] against HoYoLAB and stores it once it is known good.
-  Future<void> signIn(String cookie) async {
-    try {
-      await (await ref.read(hoyolabPublicApiProvider.future))
-          .verifyLToken(cookie);
-    } on HoyolabApiException catch (e) {
-      throw CredentialVerificationException(message: e.originalMessage);
-    }
-
-    await setHoyolabCookie(cookie);
-    await ref.read(isHoyolabSignedInProvider.notifier).refresh();
-  }
-
   /// Binds the account to [server] and the game role played on it.
   ///
   /// All four keys are written before the state is replaced, so listeners
@@ -109,18 +92,7 @@ class HoyolabGameServer extends _$HoyolabGameServer {
   }
 
   Future<void> clear() async {
-    if (await hasHoyolabCookie()) {
-      try {
-        await (await ref.read(hoyolabAccountApiProvider.future)).logout();
-      } on Exception catch (e, st) {
-        // Telling HoYoLAB about the sign-out is a courtesy; a link that was
-        // switched off remotely, an expired token or an unreachable server
-        // must not strand the local link state.
-        log("HoYoLAB logout failed", error: e, stackTrace: st);
-      }
-    }
     await Future.wait([
-      deleteHoyolabCookie(),
       ref.read(prefProvider(PrefKeys.hyvServer).notifier).set(null),
       ref.read(prefProvider(PrefKeys.hyvServerName).notifier).set(null),
       ref.read(prefProvider(PrefKeys.hyvUserName).notifier).set(null),
@@ -128,7 +100,6 @@ class HoyolabGameServer extends _$HoyolabGameServer {
     ]);
 
     state = const HoyolabGameServerState.unlinked();
-    await ref.read(isHoyolabSignedInProvider.notifier).refresh();
   }
 }
 
@@ -136,19 +107,4 @@ class HoyolabGameServer extends _$HoyolabGameServer {
 bool isLinkedWithHoyolab(Ref ref) {
   return ref.watch(hoyolabGameServerProvider) is LinkedHoyolabGameServer &&
       ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled));
-}
-
-@Riverpod(keepAlive: true)
-bool isHoyolabSignedInInitial(Ref ref) {
-  return false; // Will be overridden on runtime.
-}
-
-@Riverpod(keepAlive: true)
-class IsHoyolabSignedIn extends _$IsHoyolabSignedIn {
-  @override
-  bool build() => ref.watch(isHoyolabSignedInInitialProvider);
-
-  Future<void> refresh() async {
-    state = await hasHoyolabCookie();
-  }
 }

@@ -157,6 +157,7 @@ Reuse these rather than writing new equivalents.
 | `test/utils/in_memory_pref.dart` | `overridePref()`, `InMemoryPrefNotifier` |
 | `test/utils/remote_config.dart` | `overrideRemoteConfig()`, `createRemoteConfigServiceMock()` (`MockRemoteConfigService` itself comes from `remote_config.mocks.dart` — import both) |
 | `test/utils/http_client.dart` | `overrideHttpClient()` (`MockClient` comes from `http_client.mocks.dart`) |
+| `test/utils/crashlytics.dart` | `overrideCrashlyticsService()` (`MockCrashlyticsService` comes from `crashlytics.mocks.dart`) |
 | `test/utils/local_notification_mocks.dart` | nice mock of `LocalNotification` |
 | `test/utils/async.dart` | `createStreamQueue()` |
 

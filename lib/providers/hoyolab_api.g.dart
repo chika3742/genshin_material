@@ -137,7 +137,7 @@ final class HoyolabAccountApiProvider
   }
 }
 
-String _$hoyolabAccountApiHash() => r'8cfe374ac2fdec9dd1ffe516d88cfaf897b34740';
+String _$hoyolabAccountApiHash() => r'b5bbf236b7807d8d8f94252dcba7a3a0b2f027b0';
 
 @ProviderFor(hoyolabGameApi)
 final hoyolabGameApiProvider = HoyolabGameApiProvider._();
@@ -176,4 +176,4 @@ final class HoyolabGameApiProvider
   }
 }
 
-String _$hoyolabGameApiHash() => r'46921f89b8cfcc854252d27ff535c31ec5bffac1';
+String _$hoyolabGameApiHash() => r'376dd0295479be0ce1c2143d5ba449a9722f89ce';
