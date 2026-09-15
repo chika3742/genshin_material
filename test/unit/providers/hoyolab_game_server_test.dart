@@ -1,37 +1,21 @@
-import "dart:convert";
-
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/core/remote_config_keys.dart";
-import "package:genshin_material/core/secure_storage.dart";
-import "package:genshin_material/data/services/hoyolab/hoyolab_exceptions.dart";
 import "package:genshin_material/models/hoyolab_api.dart";
 import "package:genshin_material/providers/hoyolab_game_server.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
-import "package:http/http.dart" as http;
-import "package:mockito/mockito.dart";
 
 import "../../utils/hoyolab_game_server.dart";
-import "../../utils/http_client.dart";
-import "../../utils/http_client.mocks.dart";
 import "../../utils/remote_config.dart";
-import "../../utils/secure_storage.dart";
-
-String _okBody(Object? data) =>
-    jsonEncode({"retcode": 0, "message": "OK", "data": data});
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late bool hoyolabLinkEnabled;
-  late MockClient client;
-
-  final storage = setUpSecureStorageMock();
 
   setUp(() {
     hoyolabLinkEnabled = false;
-    client = MockClient();
   });
 
   ProviderContainer createContainer({
@@ -42,15 +26,12 @@ void main() {
   }) {
     return ProviderContainer.test(overrides: [
       overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, hoyolabLinkEnabled),
-      // The APIs build on the mocked client, so nothing reaches the network.
-      overrideHttpClient(client),
       ...overrideHoyolabGameServerPrefs(
         server: server,
         serverName: serverName,
         userName: userName,
         uid: uid,
       ),
-      isHoyolabSignedInInitialProvider.overrideWithValue(true),
     ]);
   }
 
@@ -187,72 +168,9 @@ void main() {
     });
   });
 
-  group("signIn", () {
-    void stubVerifyLToken(String body) {
-      when(client.post(any, headers: anyNamed("headers")))
-          .thenAnswer((_) async => http.Response(body, 200));
-    }
-
-    test("stores the cookie once HoYoLAB accepted it", () async {
-      hoyolabLinkEnabled = true;
-      stubVerifyLToken(_okBody({"user_info": {"account_name": "tester"}}));
-      storage.clear();
-      final container = createContainer();
-
-      await container.read(hoyolabGameServerProvider.notifier).signIn(fakeCookie);
-
-      expect(await getHoyolabCookie(), fakeCookie);
-    });
-
-    test("rejects a cookie HoYoLAB refused, without storing it", () async {
-      hoyolabLinkEnabled = true;
-      stubVerifyLToken(jsonEncode({"retcode": -100, "message": "Not logged in"}));
-      storage.clear();
-      final container = createContainer();
-
-      await expectLater(
-        container.read(hoyolabGameServerProvider.notifier).signIn(fakeCookie),
-        throwsA(isA<CredentialVerificationException>()),
-      );
-      expect(await hasHoyolabCookie(), isFalse);
-    });
-
-    test("refuses to sign in while the link is disabled", () async {
-      hoyolabLinkEnabled = false;
-      storage.clear();
-      final container = createContainer();
-
-      // The guard lives on `hoyolabPublicApiProvider`, and reading a failed
-      // synchronous provider wraps the cause.
-      await expectLater(
-        container.read(hoyolabGameServerProvider.notifier).signIn(fakeCookie),
-        throwsA(isA<HoyolabLinkDisabledException>()),
-      );
-      expect(await hasHoyolabCookie(), isFalse);
-      verifyZeroInteractions(client);
-    });
-  });
-
   group("clear", () {
-    void stubLogout() {
-      when(client.post(any, headers: anyNamed("headers"), body: anyNamed("body")))
-          .thenAnswer((_) async => http.Response(_okBody(null), 200));
-    }
-
-    test("deletes the cookie", () async {
-      hoyolabLinkEnabled = true;
-      stubLogout();
-      final container = createContainer();
-
-      await container.read(hoyolabGameServerProvider.notifier).clear();
-
-      expect(await getHoyolabCookie(), isNull);
-      expect(await hasHoyolabCookie(), isFalse);
-    });
-
     test("clears every stored credential", () async {
       hoyolabLinkEnabled = true;
-      stubLogout();
       final container = createContainer();
 
       await container.read(hoyolabGameServerProvider.notifier).clear();
@@ -267,30 +185,17 @@ void main() {
 
     // Regression for the defect reported in the review of PR #485: unlinking
     // used to throw before any local cleanup when the remote flag was off, so a
-    // user whose flag was turned off server-side kept their cookie and prefs
-    // forever, with no way to unlink from the UI.
+    // user whose flag was turned off server-side kept their prefs forever, with
+    // no way to unlink from the UI.
     test("unlinks even when the link is disabled by remote config", () async {
       hoyolabLinkEnabled = false;
       final container = createContainer();
 
       await container.read(hoyolabGameServerProvider.notifier).clear();
 
-      expect(await hasHoyolabCookie(), isFalse);
       expect(container.read(hoyolabGameServerProvider),
           isA<UnlinkedHoyolabGameServer>());
       expect(container.read(isLinkedWithHoyolabProvider), isFalse);
-    });
-
-    test("skips the logout call when no cookie is stored", () async {
-      hoyolabLinkEnabled = true;
-      storage.clear();
-      final container = createContainer();
-
-      await container.read(hoyolabGameServerProvider.notifier).clear();
-
-      verifyZeroInteractions(client);
-      expect(container.read(hoyolabGameServerProvider),
-          isA<UnlinkedHoyolabGameServer>());
     });
   });
 }

@@ -9,7 +9,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "../../components/center_text.dart";
 import "../../components/list_subheader.dart";
 import "../../core/pref_keys.dart";
-import "../../core/secure_storage.dart";
+import "../../data/repositories/hoyolab_cookie_repository.dart";
 import "../../data/services/hoyolab/hoyolab_exceptions.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
@@ -23,6 +23,7 @@ import "../../ui_core/dialog.dart";
 import "../../ui_core/error_messages.dart";
 import "../../ui_core/progress_indicator.dart";
 import "../../ui_core/snack_bar.dart";
+import "../../use_cases/hoyolab_session.dart";
 import "../../utils/show_loading_modal.dart";
 
 class HoyolabIntegrationSettingsPage extends StatefulHookConsumerWidget {
@@ -43,13 +44,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
     final autoRemoveBookmarks = ref.watch(prefProvider(PrefKeys.autoRemoveBookmarks));
     final syncResin = ref.watch(prefProvider(PrefKeys.syncResin));
 
-    final isSignedIn = useState(false);
-    useEffect(() {
-      () async {
-        isSignedIn.value = await hasHoyolabCookie();
-      }();
-      return null;
-    }, []);
+    final isSignedIn = ref.watch(hoyolabCookieRepositoryProvider).value != null;
 
     final isRealtimeNotesEnabled = ref.watch(realtimeNotesActivationStateProvider);
 
@@ -57,7 +52,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
       appBar: AppBar(
         title: Text(tr.pages.hoyolabIntegrationSettings),
       ),
-      body: !isSignedIn.value ? ListView(
+      body: !isSignedIn ? ListView(
         children: [
           ListTile(
             leading: const Icon(Symbols.login),
@@ -68,7 +63,6 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                   await HoyolabSignInRoute().push<String>(context);
               if (result != null && context.mounted) {
                 await _signInToHoyolab(result);
-                isSignedIn.value = await hasHoyolabCookie();
               }
             },
           ),
@@ -93,8 +87,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
                   if (ref.context.mounted) {
                     showLoadingModal(context);
                     try {
-                      await ref.read(hoyolabGameServerProvider.notifier).clear();
-                      isSignedIn.value = false;
+                      await ref.read(hoyolabUnlinkUseCaseProvider)();
                     } finally {
                       if (context.mounted) {
                         Navigator.pop(context);
@@ -198,7 +191,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
     showLoadingModal(context);
 
     try {
-      await ref.read(hoyolabGameServerProvider.notifier).signIn(cookie);
+      await ref.read(hoyolabStoreCookieUseCaseProvider)(cookie);
     } catch (e, st) {
       log("Failed to set hoyolab cookie", error: e, stackTrace: st);
       if (mounted) {
