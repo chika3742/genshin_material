@@ -35,7 +35,7 @@ final class RealtimeNotesActivationStateProvider
 }
 
 String _$realtimeNotesActivationStateHash() =>
-    r'849d41e74499f6b83a2b06cc194e8daf26b3cd0b';
+    r'4ea7ca902252c39734ac0f0a5fd38012c39b3b20';
 
 abstract class _$RealtimeNotesActivationState extends $AsyncNotifier<bool> {
   FutureOr<bool> build();
@@ -135,4 +135,4 @@ final class ShouldHideImagesProvider
   }
 }
 
-String _$shouldHideImagesHash() => r'2dbacfc1cd4d157c69629165c1a68a1d8b3af97e';
+String _$shouldHideImagesHash() => r'8174c8d5a6d57d8818c048df08d0b71107159f64';

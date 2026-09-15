@@ -17,6 +17,9 @@ class HoyolabAccountApi extends HoyolabAuthenticatedApi {
     "https://passport-api-sg.hoyolab.com/account/ma-passport/api/logout",
     method: .post,
     body: const <String, dynamic>{},
+    extraHeaders: {
+      "X-Rpc-App_id": "c9oqaq3s3gu8",
+    },
   );
 
   Future<GetUserGameRolesResult> getUserGameRoles(String region) => send(

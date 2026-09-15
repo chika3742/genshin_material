@@ -13,7 +13,6 @@ import "package:intl/date_symbol_data_local.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 import "core/provider_error_observer.dart";
-import "core/secure_storage.dart";
 import "core/theme.dart";
 // ignore: uri_does_not_exist
 // import "firebase_options.dart";
@@ -22,7 +21,6 @@ import "data/services/remote_config_service.dart";
 import "hooks/use_remote_config_listener.dart";
 import "i18n/strings.g.dart";
 import "providers/database_provider.dart";
-import "providers/hoyolab_game_server.dart";
 import "providers/pref_notifier.dart";
 import "providers/versions.dart";
 import "routes.dart";
@@ -62,8 +60,6 @@ void main() async {
     yield LicenseEntryWithLineBreaks(["Rounded-X Mgen+ 1p"], license);
   });
 
-  final hoyolabSignedIn = await hasHoyolabCookie();
-
   // Firebase
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -86,7 +82,6 @@ void main() async {
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
         remoteConfigServiceProvider.overrideWithValue(remoteConfigService),
         localNotificationProvider.overrideWithValue(localNotification),
-        isHoyolabSignedInInitialProvider.overrideWithValue(hoyolabSignedIn),
       ],
       child: const Restartable(
         child: MyApp(),
