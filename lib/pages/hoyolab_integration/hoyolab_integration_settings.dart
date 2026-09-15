@@ -255,7 +255,8 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final serversSnapshot = useFuture(useMemoized(
-      () => ref.read(hoyolabPublicApiProvider).lookupServers(),
+      () => ref.read(hoyolabPublicApiProvider.future)
+          .then((api) => api.lookupServers()),
     ));
 
     final selectedServer = useState<HyvServer?>(null);
@@ -299,6 +300,12 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
         loadingGameRoleServers.value = [...loadingGameRoleServers.value..remove(server)];
       }
     });
+
+    if (serversSnapshot.hasError) {
+      return CenterText(
+        getErrorMessage(serversSnapshot.error, prefix: tr.hoyolab.failedToLoadServerList),
+      );
+    }
 
     return ScrollableBottomSheet(
       title: Text(tr.hoyolab.serverSelect, style: Theme.of(context).textTheme.titleMedium),

@@ -7,7 +7,6 @@ const maxBatchComputeItems = 8;
 /// therefore need the selected server and the uid on top of the cookie.
 class HoyolabGameApi extends HoyolabAuthenticatedApi {
   HoyolabGameApi({
-    required super.enabled,
     required super.cookie,
     required this.region,
     required this.uid,

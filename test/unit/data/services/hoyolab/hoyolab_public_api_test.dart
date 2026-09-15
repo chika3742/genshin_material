@@ -24,7 +24,6 @@ void main() {
   });
 
   HoyolabPublicApi createApi() => HoyolabPublicApi(
-    enabled: true,
     client: client,
     queue: ApiRequestQueue(interval: Duration.zero),
   );

@@ -29,7 +29,6 @@ void main() {
 
   HoyolabAccountApi createApi({String cookie = fakeCookie}) {
     return HoyolabAccountApi(
-      enabled: true,
       cookie: cookie,
       client: client,
       queue: ApiRequestQueue(interval: Duration.zero),

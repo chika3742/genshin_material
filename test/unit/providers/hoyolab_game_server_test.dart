@@ -222,6 +222,8 @@ void main() {
       storage.clear();
       final container = createContainer();
 
+      // The guard lives on `hoyolabPublicApiProvider`, and reading a failed
+      // synchronous provider wraps the cause.
       await expectLater(
         container.read(hoyolabGameServerProvider.notifier).signIn(fakeCookie),
         throwsA(isA<HoyolabLinkDisabledException>()),

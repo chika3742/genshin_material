@@ -35,9 +35,9 @@ class HoyolabInvalidResponseException implements Exception {
   }
 }
 
-/// Thrown by every HoYoLAB API method while the integration is switched off
-/// remotely. It is raised on the call, not on construction, so building an API
-/// instance never fails and unlinking stays possible.
+/// Thrown by the providers that hand out the HoYoLAB APIs while the
+/// integration is switched off remotely. `HoyolabGameServer.clear()` swallows
+/// it, so unlinking stays possible.
 class HoyolabLinkDisabledException extends SilentException
     implements Exception {
   const HoyolabLinkDisabledException();

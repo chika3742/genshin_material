@@ -7,7 +7,6 @@ import "hoyolab_api_base.dart";
 /// because it runs before the cookie is persisted.
 class HoyolabPublicApi extends HoyolabApiBase {
   HoyolabPublicApi({
-    required super.enabled,
     required super.client,
     required super.queue,
   });
