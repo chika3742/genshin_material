@@ -12,22 +12,17 @@ import "../../../i18n/strings.g.dart";
 import "../../../models/hoyolab_api.dart";
 import "hoyolab_exceptions.dart";
 
-/// Everything the HoYoLAB APIs share: the enabled flag, the HTTP client, the
-/// headers and the DS token.
+/// Everything the HoYoLAB APIs share.
 ///
 /// The concrete APIs are split by the credentials they need, so this class is
 /// not meant to be used directly. See [HoyolabPublicApi],
 /// [HoyolabAccountApi] and [HoyolabGameApi].
 abstract class HoyolabApiBase {
   HoyolabApiBase({
-    required this._enabled,
     required this._client,
     required this._queue,
   });
 
-  /// Whether the feature is enabled. If `false`, all API methods will
-  /// fail. This avoids throwing in the initializer, which is counterintuitive.
-  final bool _enabled;
   final http.Client _client;
   final ApiRequestQueue _queue;
 
@@ -89,10 +84,6 @@ abstract class HoyolabApiBase {
     String? cookie,
     T Function(Object? obj)? parse,
   }) async {
-    if (!_enabled) {
-      throw const HoyolabLinkDisabledException();
-    }
-
     final encodedBody = body == null ? null : jsonEncode(body);
     final headers = constructHeaders(
       cookie: cookie ?? defaultCookie,
@@ -155,7 +146,6 @@ abstract class HoyolabApiBase {
 /// Base of the APIs that act on behalf of a signed-in HoYoLAB account.
 abstract class HoyolabAuthenticatedApi extends HoyolabApiBase {
   HoyolabAuthenticatedApi({
-    required super.enabled,
     required this.cookie,
     required super.client,
     required super.queue,

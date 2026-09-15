@@ -100,7 +100,6 @@ void main() {
           isHoyolabSignedInInitialProvider.overrideWithValue(signedIn),
           hoyolabAccountApiProvider.overrideWith(
             (ref) async => HoyolabAccountApi(
-              enabled: true,
               cookie: "ltoken_v2=token; ltuid_v2=123456;",
               client: client,
               queue: ApiRequestQueue(interval: Duration.zero),

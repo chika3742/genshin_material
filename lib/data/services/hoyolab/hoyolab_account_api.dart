@@ -8,7 +8,6 @@ import "hoyolab_api_base.dart";
 /// selection UI queries servers the user has not committed to yet.
 class HoyolabAccountApi extends HoyolabAuthenticatedApi {
   HoyolabAccountApi({
-    required super.enabled,
     required super.cookie,
     required super.client,
     required super.queue,

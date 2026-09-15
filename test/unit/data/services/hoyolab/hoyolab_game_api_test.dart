@@ -32,7 +32,6 @@ void main() {
 
   HoyolabGameApi createApi() {
     return HoyolabGameApi(
-      enabled: true,
       cookie: fakeCookie,
       region: _region,
       uid: _uid,
