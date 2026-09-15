@@ -296,6 +296,7 @@ hoyolab:
   unknownError: An unknown error occurred.
   charaSyncSuccess: Successfully synced game data
   featureUnavailable: HoYoLAB sync feature is currently unavailable.
+  invalidResponseReturned: Invalid response was returned. If it persists, please contact the app developer.
 whereToGet(map):
   chests: Chests, Quests
 android:

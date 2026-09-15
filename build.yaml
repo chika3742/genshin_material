@@ -24,6 +24,19 @@ targets:
           map: false
           when: false
   $default:
+    sources:
+      exclude:
+        - lib/models/hoyolab_api.dart
+    dependencies:
+      - :freezed
+    builders:
+      drift_dev:
+        enabled: false
+      freezed:
+        enabled: false
+  checked_models:
+    sources:
+      - lib/models/hoyolab_api.dart
     dependencies:
       - :freezed
     builders:

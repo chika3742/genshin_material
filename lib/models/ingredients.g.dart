@@ -6,15 +6,11 @@ part of 'ingredients.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_ExpItem _$ExpItemFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('_ExpItem', json, ($checkedConvert) {
-      final val = _ExpItem(
-        itemId: $checkedConvert('itemId', (v) => v as String),
-        expPerItem: $checkedConvert('expPerItem', (v) => (v as num).toInt()),
-        isDefault: $checkedConvert('isDefault', (v) => v as bool? ?? false),
-      );
-      return val;
-    });
+_ExpItem _$ExpItemFromJson(Map<String, dynamic> json) => _ExpItem(
+  itemId: json['itemId'] as String,
+  expPerItem: (json['expPerItem'] as num).toInt(),
+  isDefault: json['isDefault'] as bool? ?? false,
+);
 
 Map<String, dynamic> _$ExpItemToJson(_ExpItem instance) => <String, dynamic>{
   'itemId': instance.itemId,
@@ -23,21 +19,15 @@ Map<String, dynamic> _$ExpItemToJson(_ExpItem instance) => <String, dynamic>{
 };
 
 IngredientByType _$IngredientByTypeFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('IngredientByType', json, ($checkedConvert) {
-      final val = IngredientByType(
-        type: $checkedConvert('type', (v) => v as String),
-        quantity: $checkedConvert('quantity', (v) => (v as num).toInt()),
-        craftLevel: $checkedConvert('craftLevel', (v) => (v as num?)?.toInt()),
-        targetSpecific: $checkedConvert(
-          'targetSpecific',
-          (v) => (v as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String?),
-          ),
-        ),
-        $type: $checkedConvert('runtimeType', (v) => v as String?),
-      );
-      return val;
-    }, fieldKeyMap: const {r'$type': 'runtimeType'});
+    IngredientByType(
+      type: json['type'] as String,
+      quantity: (json['quantity'] as num).toInt(),
+      craftLevel: (json['craftLevel'] as num?)?.toInt(),
+      targetSpecific: (json['targetSpecific'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String?),
+      ),
+      $type: json['runtimeType'] as String?,
+    );
 
 Map<String, dynamic> _$IngredientByTypeToJson(IngredientByType instance) =>
     <String, dynamic>{
@@ -49,27 +39,21 @@ Map<String, dynamic> _$IngredientByTypeToJson(IngredientByType instance) =>
     };
 
 IngredientExp _$IngredientExpFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('IngredientExp', json, ($checkedConvert) {
-      final val = IngredientExp(
-        exp: $checkedConvert('exp', (v) => (v as num).toInt()),
-        $type: $checkedConvert('runtimeType', (v) => v as String?),
-      );
-      return val;
-    }, fieldKeyMap: const {r'$type': 'runtimeType'});
+    IngredientExp(
+      exp: (json['exp'] as num).toInt(),
+      $type: json['runtimeType'] as String?,
+    );
 
 Map<String, dynamic> _$IngredientExpToJson(IngredientExp instance) =>
     <String, dynamic>{'exp': instance.exp, 'runtimeType': instance.$type};
 
 IngredientWithFixedId _$IngredientWithFixedIdFromJson(
   Map<String, dynamic> json,
-) => $checkedCreate('IngredientWithFixedId', json, ($checkedConvert) {
-  final val = IngredientWithFixedId(
-    itemId: $checkedConvert('itemId', (v) => v as String),
-    quantity: $checkedConvert('quantity', (v) => (v as num).toInt()),
-    $type: $checkedConvert('runtimeType', (v) => v as String?),
-  );
-  return val;
-}, fieldKeyMap: const {r'$type': 'runtimeType'});
+) => IngredientWithFixedId(
+  itemId: json['itemId'] as String,
+  quantity: (json['quantity'] as num).toInt(),
+  $type: json['runtimeType'] as String?,
+);
 
 Map<String, dynamic> _$IngredientWithFixedIdToJson(
   IngredientWithFixedId instance,
@@ -79,23 +63,16 @@ Map<String, dynamic> _$IngredientWithFixedIdToJson(
   'runtimeType': instance.$type,
 };
 
-_SliderEntry _$SliderEntryFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('_SliderEntry', json, ($checkedConvert) {
-      final val = _SliderEntry(
-        title: $checkedConvert('title', (v) => LocalizedText.fromJson(v)),
-        purposes: $checkedConvert(
-          'purposes',
-          (v) => (v as List<dynamic>)
-              .map((e) => $enumDecode(_$PurposeEnumMap, e))
-              .toList(),
-        ),
-        preferredTargetType: $checkedConvert(
-          'preferredTargetType',
-          (v) => $enumDecodeNullable(_$PreferredTargetTypeEnumMap, v),
-        ),
-      );
-      return val;
-    });
+_SliderEntry _$SliderEntryFromJson(Map<String, dynamic> json) => _SliderEntry(
+  title: LocalizedText.fromJson(json['title']),
+  purposes: (json['purposes'] as List<dynamic>)
+      .map((e) => $enumDecode(_$PurposeEnumMap, e))
+      .toList(),
+  preferredTargetType: $enumDecodeNullable(
+    _$PreferredTargetTypeEnumMap,
+    json['preferredTargetType'],
+  ),
+);
 
 const _$PurposeEnumMap = {
   Purpose.ascension: 'ascension',
@@ -110,26 +87,19 @@ const _$PreferredTargetTypeEnumMap = {
 };
 
 _IngredientLevels _$IngredientLevelsFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('_IngredientLevels', json, ($checkedConvert) {
-      final val = _IngredientLevels(
-        sliderTicks: $checkedConvert(
-          'sliderTicks',
-          (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+    _IngredientLevels(
+      sliderTicks: (json['sliderTicks'] as List<dynamic>)
+          .map((e) => (e as num).toInt())
+          .toList(),
+      levels: (json['levels'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(
+          int.parse(k),
+          (e as List<dynamic>)
+              .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+              .toList(),
         ),
-        levels: $checkedConvert(
-          'levels',
-          (v) => (v as Map<String, dynamic>).map(
-            (k, e) => MapEntry(
-              int.parse(k),
-              (e as List<dynamic>)
-                  .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
-                  .toList(),
-            ),
-          ),
-        ),
-      );
-      return val;
-    });
+      ),
+    );
 
 Map<String, dynamic> _$IngredientLevelsToJson(_IngredientLevels instance) =>
     <String, dynamic>{
@@ -138,17 +108,11 @@ Map<String, dynamic> _$IngredientLevelsToJson(_IngredientLevels instance) =>
     };
 
 _IngredientPurposes _$IngredientPurposesFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('_IngredientPurposes', json, ($checkedConvert) {
-      final val = _IngredientPurposes(
-        purposes: $checkedConvert(
-          'purposes',
-          (v) => (v as Map<String, dynamic>).map(
-            (k, e) => MapEntry($enumDecode(_$PurposeEnumMap, k), e as String),
-          ),
-        ),
-      );
-      return val;
-    });
+    _IngredientPurposes(
+      purposes: (json['purposes'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry($enumDecode(_$PurposeEnumMap, k), e as String),
+      ),
+    );
 
 Map<String, dynamic> _$IngredientPurposesToJson(_IngredientPurposes instance) =>
     <String, dynamic>{
@@ -159,36 +123,20 @@ Map<String, dynamic> _$IngredientPurposesToJson(_IngredientPurposes instance) =>
 
 _IngredientConfigurations _$IngredientConfigurationsFromJson(
   Map<String, dynamic> json,
-) => $checkedCreate('_IngredientConfigurations', json, ($checkedConvert) {
-  final val = _IngredientConfigurations(
-    expItems: $checkedConvert(
-      'expItems',
-      (v) => (v as List<dynamic>)
-          .map((e) => ExpItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
+) => _IngredientConfigurations(
+  expItems: (json['expItems'] as List<dynamic>)
+      .map((e) => ExpItem.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  rarities: (json['rarities'] as Map<String, dynamic>).map(
+    (k, e) => MapEntry(
+      int.parse(k),
+      IngredientPurposes.fromJson(e as Map<String, dynamic>),
     ),
-    rarities: $checkedConvert(
-      'rarities',
-      (v) => (v as Map<String, dynamic>).map(
-        (k, e) => MapEntry(
-          int.parse(k),
-          IngredientPurposes.fromJson(e as Map<String, dynamic>),
-        ),
-      ),
-    ),
-    sliders: $checkedConvert(
-      'sliders',
-      (v) => (v as List<dynamic>)
-          .map((e) => SliderEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    ),
-    ingredientTables: $checkedConvert(
-      'ingredientTables',
-      (v) => (v as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, IngredientLevels.fromJson(e as Map<String, dynamic>)),
-      ),
-    ),
-  );
-  return val;
-});
+  ),
+  sliders: (json['sliders'] as List<dynamic>)
+      .map((e) => SliderEntry.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  ingredientTables: (json['ingredientTables'] as Map<String, dynamic>).map(
+    (k, e) => MapEntry(k, IngredientLevels.fromJson(e as Map<String, dynamic>)),
+  ),
+);

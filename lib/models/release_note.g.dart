@@ -8,11 +8,8 @@ part of 'release_note.dart';
 
 LocalizedReleaseNote _$LocalizedReleaseNoteFromJson(
   Map<String, dynamic> json,
-) => $checkedCreate('LocalizedReleaseNote', json, ($checkedConvert) {
-  final val = LocalizedReleaseNote(
-    releasedOn: $checkedConvert('releasedOn', (v) => v as String),
-    version: $checkedConvert('version', (v) => v as String),
-    contents: $checkedConvert('contents', (v) => LocalizedText.fromJson(v)),
-  );
-  return val;
-});
+) => LocalizedReleaseNote(
+  releasedOn: json['releasedOn'] as String,
+  version: json['version'] as String,
+  contents: LocalizedText.fromJson(json['contents']),
+);

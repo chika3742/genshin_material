@@ -65,8 +65,7 @@ void main() {
         await api.send("https://example.com", method: .get);
       } catch (_) {}
 
-      verifyNever(client.get(any));
-      verifyNever(client.send(any));
+      verifyZeroInteractions(client);
     });
 
     test("query is passed to client", () async {

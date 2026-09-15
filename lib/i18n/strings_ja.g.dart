@@ -1027,8 +1027,11 @@ class Translations$hoyolab$ja {
 	/// ja: 'ゲームデータと同期しました'
 	String get charaSyncSuccess => 'ゲームデータと同期しました';
 
-	/// ja: 'HoYoLAB 連携は現在ご利用いただけません'
-	String get featureUnavailable => 'HoYoLAB 連携は現在ご利用いただけません';
+	/// ja: 'HoYoLAB連携は現在ご利用いただけません'
+	String get featureUnavailable => 'HoYoLAB連携は現在ご利用いただけません';
+
+	/// ja: '不正なレスポンスを受け取りました。しばらく待っても再発する場合、本アプリの開発者にご連絡ください。'
+	String get invalidResponseReturned => '不正なレスポンスを受け取りました。しばらく待っても再発する場合、本アプリの開発者にご連絡ください。';
 }
 
 // Path: android
@@ -1390,7 +1393,8 @@ extension on Translations {
 			'hoyolab.weaponNotEquipped' => 'このキャラクターはこの武器を装備していません。',
 			'hoyolab.unknownError' => '不明なエラーが発生しました。',
 			'hoyolab.charaSyncSuccess' => 'ゲームデータと同期しました',
-			'hoyolab.featureUnavailable' => 'HoYoLAB 連携は現在ご利用いただけません',
+			'hoyolab.featureUnavailable' => 'HoYoLAB連携は現在ご利用いただけません',
+			'hoyolab.invalidResponseReturned' => '不正なレスポンスを受け取りました。しばらく待っても再発する場合、本アプリの開発者にご連絡ください。',
 			'whereToGet.chests' => '宝箱、任務報酬など',
 			'android.notificationChannels.dailyMaterial.name' => '日替わり素材',
 			'android.notificationChannels.dailyMaterial.description' => '素材を獲得できる日に通知します',

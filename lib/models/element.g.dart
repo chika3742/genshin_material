@@ -6,12 +6,8 @@ part of 'element.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Element _$ElementFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('_Element', json, ($checkedConvert) {
-      final val = _Element(
-        hyvId: $checkedConvert('hyvId', (v) => (v as num).toInt()),
-        imageUrl: $checkedConvert('imageUrl', (v) => v as String),
-        text: $checkedConvert('text', (v) => LocalizedText.fromJson(v)),
-      );
-      return val;
-    });
+_Element _$ElementFromJson(Map<String, dynamic> json) => _Element(
+  hyvId: (json['hyvId'] as num).toInt(),
+  imageUrl: json['imageUrl'] as String,
+  text: LocalizedText.fromJson(json['text']),
+);

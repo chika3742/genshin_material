@@ -25,9 +25,8 @@ abstract class HoyolabApiBase {
     required this._queue,
   });
 
-  /// Whether the feature is enabled by remote. If `false`, all API methods will
-  /// fail. This avoids throwing in the initializer instead of during the method
-  /// calls.
+  /// Whether the feature is enabled. If `false`, all API methods will
+  /// fail. This avoids throwing in the initializer, which is counterintuitive.
   final bool _enabled;
   final http.Client _client;
   final ApiRequestQueue _queue;
@@ -123,7 +122,7 @@ abstract class HoyolabApiBase {
     }
     try {
       final result = HoyolabApiResult.fromJson(
-        // if decoded is null, it will caught as TypeError
+        // if decoded is null, it will be caught as TypeError
         // ignore: cast_nullable_to_non_nullable
         decoded as Map<String, dynamic>,
         parse ?? (obj) => null,
