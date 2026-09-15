@@ -65,16 +65,16 @@ final hoyolabPublicApiProvider = HoyolabPublicApiProvider._();
 final class HoyolabPublicApiProvider
     extends
         $FunctionalProvider<
+          AsyncValue<HoyolabPublicApi>,
           HoyolabPublicApi,
-          HoyolabPublicApi,
-          HoyolabPublicApi
+          FutureOr<HoyolabPublicApi>
         >
-    with $Provider<HoyolabPublicApi> {
+    with $FutureModifier<HoyolabPublicApi>, $FutureProvider<HoyolabPublicApi> {
   HoyolabPublicApiProvider._()
     : super(
         from: null,
         argument: null,
-        retry: null,
+        retry: _retryUnlessLinkIsUnavailable,
         name: r'hoyolabPublicApiProvider',
         isAutoDispose: false,
         dependencies: null,
@@ -86,24 +86,17 @@ final class HoyolabPublicApiProvider
 
   @$internal
   @override
-  $ProviderElement<HoyolabPublicApi> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $FutureProviderElement<HoyolabPublicApi> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
-  HoyolabPublicApi create(Ref ref) {
+  FutureOr<HoyolabPublicApi> create(Ref ref) {
     return hoyolabPublicApi(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(HoyolabPublicApi value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<HoyolabPublicApi>(value),
-    );
   }
 }
 
-String _$hoyolabPublicApiHash() => r'87a395953ee6acc0e9db08f5bbaedb845e7d9cd5';
+String _$hoyolabPublicApiHash() => r'607a453343de018916a7ce91d09b99b3faafcb3d';
 
 @ProviderFor(hoyolabAccountApi)
 final hoyolabAccountApiProvider = HoyolabAccountApiProvider._();
@@ -122,7 +115,7 @@ final class HoyolabAccountApiProvider
     : super(
         from: null,
         argument: null,
-        retry: _retryUnlessLinkIsIncomplete,
+        retry: _retryUnlessLinkIsUnavailable,
         name: r'hoyolabAccountApiProvider',
         isAutoDispose: false,
         dependencies: null,
@@ -144,7 +137,7 @@ final class HoyolabAccountApiProvider
   }
 }
 
-String _$hoyolabAccountApiHash() => r'5a1af535531ff0fe4a4fed61f90577ebf719d67a';
+String _$hoyolabAccountApiHash() => r'8cfe374ac2fdec9dd1ffe516d88cfaf897b34740';
 
 @ProviderFor(hoyolabGameApi)
 final hoyolabGameApiProvider = HoyolabGameApiProvider._();
@@ -161,7 +154,7 @@ final class HoyolabGameApiProvider
     : super(
         from: null,
         argument: null,
-        retry: _retryUnlessLinkIsIncomplete,
+        retry: _retryUnlessLinkIsUnavailable,
         name: r'hoyolabGameApiProvider',
         isAutoDispose: false,
         dependencies: null,
@@ -183,4 +176,4 @@ final class HoyolabGameApiProvider
   }
 }
 
-String _$hoyolabGameApiHash() => r'3923f90b7fdf8b3bd41ddb21fb832520c7161dc3';
+String _$hoyolabGameApiHash() => r'46921f89b8cfcc854252d27ff535c31ec5bffac1';
