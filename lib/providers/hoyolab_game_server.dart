@@ -1,3 +1,5 @@
+import "dart:developer";
+
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
@@ -72,10 +74,10 @@ class HoyolabGameServer extends _$HoyolabGameServer {
 
   /// Verifies [cookie] against HoYoLAB and stores it once it is known good.
   Future<void> signIn(String cookie) async {
-    final result =
-        await ref.read(hoyolabPublicApiProvider).verifyLToken(cookie);
-    if (result.hasError) {
-      throw CredentialVerificationException(message: result.message);
+    try {
+      await ref.read(hoyolabPublicApiProvider).verifyLToken(cookie);
+    } on HoyolabApiException catch (e) {
+      throw CredentialVerificationException(message: e.originalMessage);
     }
 
     await setHoyolabCookie(cookie);
@@ -109,9 +111,11 @@ class HoyolabGameServer extends _$HoyolabGameServer {
     if (await hasHoyolabCookie()) {
       try {
         await (await ref.read(hoyolabAccountApiProvider.future)).logout();
-      } on HoyolabLinkDisabledException {
+      } on Exception catch (e, st) {
         // Telling HoYoLAB about the sign-out is a courtesy; a link that was
-        // switched off remotely must not strand the local link state.
+        // switched off remotely, an expired token or an unreachable server
+        // must not strand the local link state.
+        log("HoYoLAB logout failed", error: e, stackTrace: st);
       }
     }
     await Future.wait([

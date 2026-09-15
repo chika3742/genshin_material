@@ -8,6 +8,56 @@ part of 'hoyolab_api.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// One queue for every HoYoLAB call, so the throttle holds across the three
+/// API classes instead of per instance.
+
+@ProviderFor(hoyolabRequestQueue)
+final hoyolabRequestQueueProvider = HoyolabRequestQueueProvider._();
+
+/// One queue for every HoYoLAB call, so the throttle holds across the three
+/// API classes instead of per instance.
+
+final class HoyolabRequestQueueProvider
+    extends
+        $FunctionalProvider<ApiRequestQueue, ApiRequestQueue, ApiRequestQueue>
+    with $Provider<ApiRequestQueue> {
+  /// One queue for every HoYoLAB call, so the throttle holds across the three
+  /// API classes instead of per instance.
+  HoyolabRequestQueueProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'hoyolabRequestQueueProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$hoyolabRequestQueueHash();
+
+  @$internal
+  @override
+  $ProviderElement<ApiRequestQueue> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  ApiRequestQueue create(Ref ref) {
+    return hoyolabRequestQueue(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ApiRequestQueue value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ApiRequestQueue>(value),
+    );
+  }
+}
+
+String _$hoyolabRequestQueueHash() =>
+    r'918cbdf14a8c5abedbfccbe7750f8793766e96e6';
 
 @ProviderFor(hoyolabPublicApi)
 final hoyolabPublicApiProvider = HoyolabPublicApiProvider._();
@@ -53,7 +103,7 @@ final class HoyolabPublicApiProvider
   }
 }
 
-String _$hoyolabPublicApiHash() => r'ff3b936ea55c9a5944f0891ab9d1a0edc9ff8439';
+String _$hoyolabPublicApiHash() => r'87a395953ee6acc0e9db08f5bbaedb845e7d9cd5';
 
 @ProviderFor(hoyolabAccountApi)
 final hoyolabAccountApiProvider = HoyolabAccountApiProvider._();
@@ -94,7 +144,7 @@ final class HoyolabAccountApiProvider
   }
 }
 
-String _$hoyolabAccountApiHash() => r'a3f345b4324643e9627d5e7b53716b6d2892bd38';
+String _$hoyolabAccountApiHash() => r'5a1af535531ff0fe4a4fed61f90577ebf719d67a';
 
 @ProviderFor(hoyolabGameApi)
 final hoyolabGameApiProvider = HoyolabGameApiProvider._();
@@ -133,4 +183,4 @@ final class HoyolabGameApiProvider
   }
 }
 
-String _$hoyolabGameApiHash() => r'02d2956b98238413d76a4195049c3260f7889f2a';
+String _$hoyolabGameApiHash() => r'3923f90b7fdf8b3bd41ddb21fb832520c7161dc3';

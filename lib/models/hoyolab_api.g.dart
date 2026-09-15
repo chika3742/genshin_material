@@ -9,11 +9,17 @@ part of 'hoyolab_api.dart';
 _HoyolabApiResult<T> _$HoyolabApiResultFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
-) => _HoyolabApiResult<T>(
-  retcode: (json['retcode'] as num).toInt(),
-  message: json['message'] as String,
-  data: _$nullableGenericFromJson(json['data'], fromJsonT),
-);
+) => $checkedCreate('_HoyolabApiResult', json, ($checkedConvert) {
+  final val = _HoyolabApiResult<T>(
+    retcode: $checkedConvert('retcode', (v) => (v as num).toInt()),
+    message: $checkedConvert('message', (v) => v as String),
+    data: $checkedConvert(
+      'data',
+      (v) => _$nullableGenericFromJson(v, fromJsonT),
+    ),
+  );
+  return val;
+});
 
 Map<String, dynamic> _$HoyolabApiResultToJson<T>(
   _HoyolabApiResult<T> instance,
@@ -37,9 +43,15 @@ Object? _$nullableGenericToJson<T>(
 _HoyolabListData<T> _$HoyolabListDataFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
-) => _HoyolabListData<T>(
-  list: (json['list'] as List<dynamic>).map(fromJsonT).toList(),
-);
+) => $checkedCreate('_HoyolabListData', json, ($checkedConvert) {
+  final val = _HoyolabListData<T>(
+    list: $checkedConvert(
+      'list',
+      (v) => (v as List<dynamic>).map(fromJsonT).toList(),
+    ),
+  );
+  return val;
+});
 
 Map<String, dynamic> _$HoyolabListDataToJson<T>(
   _HoyolabListData<T> instance,
@@ -47,23 +59,37 @@ Map<String, dynamic> _$HoyolabListDataToJson<T>(
 ) => <String, dynamic>{'list': instance.list.map(toJsonT).toList()};
 
 _HyvServer _$HyvServerFromJson(Map<String, dynamic> json) =>
-    _HyvServer(region: json['region'] as String, name: json['name'] as String);
+    $checkedCreate('_HyvServer', json, ($checkedConvert) {
+      final val = _HyvServer(
+        region: $checkedConvert('region', (v) => v as String),
+        name: $checkedConvert('name', (v) => v as String),
+      );
+      return val;
+    });
 
 Map<String, dynamic> _$HyvServerToJson(_HyvServer instance) =>
     <String, dynamic>{'region': instance.region, 'name': instance.name};
 
 _HyvUserInfo _$HyvUserInfoFromJson(Map<String, dynamic> json) =>
-    _HyvUserInfo(accountName: json['account_name'] as String);
+    $checkedCreate('_HyvUserInfo', json, ($checkedConvert) {
+      final val = _HyvUserInfo(
+        accountName: $checkedConvert('account_name', (v) => v as String),
+      );
+      return val;
+    }, fieldKeyMap: const {'accountName': 'account_name'});
 
 Map<String, dynamic> _$HyvUserInfoToJson(_HyvUserInfo instance) =>
     <String, dynamic>{'account_name': instance.accountName};
 
 _HyvUserGameRole _$HyvUserGameRoleFromJson(Map<String, dynamic> json) =>
-    _HyvUserGameRole(
-      uid: json['game_uid'] as String,
-      nickname: json['nickname'] as String,
-      level: (json['level'] as num).toInt(),
-    );
+    $checkedCreate('_HyvUserGameRole', json, ($checkedConvert) {
+      final val = _HyvUserGameRole(
+        uid: $checkedConvert('game_uid', (v) => v as String),
+        nickname: $checkedConvert('nickname', (v) => v as String),
+        level: $checkedConvert('level', (v) => (v as num).toInt()),
+      );
+      return val;
+    }, fieldKeyMap: const {'uid': 'game_uid'});
 
 Map<String, dynamic> _$HyvUserGameRoleToJson(_HyvUserGameRole instance) =>
     <String, dynamic>{
@@ -74,17 +100,34 @@ Map<String, dynamic> _$HyvUserGameRoleToJson(_HyvUserGameRole instance) =>
 
 _AvatarListResultItem _$AvatarListResultItemFromJson(
   Map<String, dynamic> json,
-) => _AvatarListResultItem(
-  id: (json['id'] as num).toInt(),
-  name: json['name'] as String,
-  currentLevel: (json['level_current'] as num).toInt(),
-  maxLevel: (json['max_level'] as num).toInt(),
-  skills: (json['skill_list'] as List<dynamic>)
-      .map((e) => AvatarSkill.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  weapon: json['weapon'] == null
-      ? null
-      : AvatarWeapon.fromJson(json['weapon'] as Map<String, dynamic>),
+) => $checkedCreate(
+  '_AvatarListResultItem',
+  json,
+  ($checkedConvert) {
+    final val = _AvatarListResultItem(
+      id: $checkedConvert('id', (v) => (v as num).toInt()),
+      name: $checkedConvert('name', (v) => v as String),
+      currentLevel: $checkedConvert('level_current', (v) => (v as num).toInt()),
+      maxLevel: $checkedConvert('max_level', (v) => (v as num).toInt()),
+      skills: $checkedConvert(
+        'skill_list',
+        (v) => (v as List<dynamic>)
+            .map((e) => AvatarSkill.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      ),
+      weapon: $checkedConvert(
+        'weapon',
+        (v) =>
+            v == null ? null : AvatarWeapon.fromJson(v as Map<String, dynamic>),
+      ),
+    );
+    return val;
+  },
+  fieldKeyMap: const {
+    'currentLevel': 'level_current',
+    'maxLevel': 'max_level',
+    'skills': 'skill_list',
+  },
 );
 
 Map<String, dynamic> _$AvatarListResultItemToJson(
@@ -98,10 +141,22 @@ Map<String, dynamic> _$AvatarListResultItemToJson(
   'weapon': instance.weapon,
 };
 
-_AvatarSkill _$AvatarSkillFromJson(Map<String, dynamic> json) => _AvatarSkill(
-  groupId: (json['group_id'] as num).toInt(),
-  maxLevel: (json['max_level'] as num).toInt(),
-  currentLevel: (json['level_current'] as num).toInt(),
+_AvatarSkill _$AvatarSkillFromJson(Map<String, dynamic> json) => $checkedCreate(
+  '_AvatarSkill',
+  json,
+  ($checkedConvert) {
+    final val = _AvatarSkill(
+      groupId: $checkedConvert('group_id', (v) => (v as num).toInt()),
+      maxLevel: $checkedConvert('max_level', (v) => (v as num).toInt()),
+      currentLevel: $checkedConvert('level_current', (v) => (v as num).toInt()),
+    );
+    return val;
+  },
+  fieldKeyMap: const {
+    'groupId': 'group_id',
+    'maxLevel': 'max_level',
+    'currentLevel': 'level_current',
+  },
 );
 
 Map<String, dynamic> _$AvatarSkillToJson(_AvatarSkill instance) =>
@@ -112,22 +167,33 @@ Map<String, dynamic> _$AvatarSkillToJson(_AvatarSkill instance) =>
     };
 
 _AvatarAuth _$AvatarAuthFromJson(Map<String, dynamic> json) =>
-    _AvatarAuth(avatarAuth: (json['avatar_auth'] as num).toInt());
+    $checkedCreate('_AvatarAuth', json, ($checkedConvert) {
+      final val = _AvatarAuth(
+        avatarAuth: $checkedConvert('avatar_auth', (v) => (v as num).toInt()),
+      );
+      return val;
+    }, fieldKeyMap: const {'avatarAuth': 'avatar_auth'});
 
 Map<String, dynamic> _$AvatarAuthToJson(_AvatarAuth instance) =>
     <String, dynamic>{'avatar_auth': instance.avatarAuth};
 
-_GameRecordCard _$GameRecordCardFromJson(Map<String, dynamic> json) =>
-    _GameRecordCard(
-      gameType: $enumDecode(
-        _$GameTypeEnumMap,
-        json['game_id'],
-        unknownValue: GameType.starrail,
-      ),
-      dataSwitches: (json['data_switches'] as List<dynamic>)
+_GameRecordCard _$GameRecordCardFromJson(
+  Map<String, dynamic> json,
+) => $checkedCreate('_GameRecordCard', json, ($checkedConvert) {
+  final val = _GameRecordCard(
+    gameType: $checkedConvert(
+      'game_id',
+      (v) => $enumDecode(_$GameTypeEnumMap, v, unknownValue: GameType.starrail),
+    ),
+    dataSwitches: $checkedConvert(
+      'data_switches',
+      (v) => (v as List<dynamic>)
           .map((e) => DataSwitchMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+    ),
+  );
+  return val;
+}, fieldKeyMap: const {'gameType': 'game_id', 'dataSwitches': 'data_switches'});
 
 Map<String, dynamic> _$GameRecordCardToJson(_GameRecordCard instance) =>
     <String, dynamic>{
@@ -142,14 +208,20 @@ const _$GameTypeEnumMap = {
 };
 
 _DataSwitchMetadata _$DataSwitchMetadataFromJson(Map<String, dynamic> json) =>
-    _DataSwitchMetadata(
-      switchId: $enumDecode(
-        _$DataSwitchTypeEnumMap,
-        json['switch_id'],
-        unknownValue: DataSwitchType.enableBattleChronicle,
-      ),
-      isPublic: json['is_public'] as bool,
-    );
+    $checkedCreate('_DataSwitchMetadata', json, ($checkedConvert) {
+      final val = _DataSwitchMetadata(
+        switchId: $checkedConvert(
+          'switch_id',
+          (v) => $enumDecode(
+            _$DataSwitchTypeEnumMap,
+            v,
+            unknownValue: DataSwitchType.enableBattleChronicle,
+          ),
+        ),
+        isPublic: $checkedConvert('is_public', (v) => v as bool),
+      );
+      return val;
+    }, fieldKeyMap: const {'switchId': 'switch_id', 'isPublic': 'is_public'});
 
 Map<String, dynamic> _$DataSwitchMetadataToJson(_DataSwitchMetadata instance) =>
     <String, dynamic>{
@@ -164,10 +236,28 @@ const _$DataSwitchTypeEnumMap = {
   DataSwitchType.enableRealtimeNotes: 3,
 };
 
-_DailyNote _$DailyNoteFromJson(Map<String, dynamic> json) => _DailyNote(
-  currentResin: (json['current_resin'] as num).toInt(),
-  resinRecoveryTime: json['resin_recovery_time'] as String,
-  currentHomeCoin: (json['current_home_coin'] as num).toInt(),
+_DailyNote _$DailyNoteFromJson(Map<String, dynamic> json) => $checkedCreate(
+  '_DailyNote',
+  json,
+  ($checkedConvert) {
+    final val = _DailyNote(
+      currentResin: $checkedConvert('current_resin', (v) => (v as num).toInt()),
+      resinRecoveryTime: $checkedConvert(
+        'resin_recovery_time',
+        (v) => v as String,
+      ),
+      currentHomeCoin: $checkedConvert(
+        'current_home_coin',
+        (v) => (v as num).toInt(),
+      ),
+    );
+    return val;
+  },
+  fieldKeyMap: const {
+    'currentResin': 'current_resin',
+    'resinRecoveryTime': 'resin_recovery_time',
+    'currentHomeCoin': 'current_home_coin',
+  },
 );
 
 Map<String, dynamic> _$DailyNoteToJson(_DailyNote instance) =>
@@ -194,16 +284,30 @@ Map<String, dynamic> _$CalcComputeSkillToJson(_CalcComputeSkill instance) =>
       'level_target': instance.targetLevel,
     };
 
-_AvatarWeapon _$AvatarWeaponFromJson(Map<String, dynamic> json) =>
-    _AvatarWeapon(
-      id: (json['id'] as num).toInt(),
-      maxLevel: (json['max_level'] as num).toInt(),
-      currentLevel: (json['level_current'] as num).toInt(),
-      categoryId: (json['weapon_cat_id'] as num).toInt(),
-      rarity: (json['weapon_level'] as num).toInt(),
-      name: json['name'] as String,
-      icon: json['icon'] as String,
+_AvatarWeapon _$AvatarWeaponFromJson(
+  Map<String, dynamic> json,
+) => $checkedCreate(
+  '_AvatarWeapon',
+  json,
+  ($checkedConvert) {
+    final val = _AvatarWeapon(
+      id: $checkedConvert('id', (v) => (v as num).toInt()),
+      maxLevel: $checkedConvert('max_level', (v) => (v as num).toInt()),
+      currentLevel: $checkedConvert('level_current', (v) => (v as num).toInt()),
+      categoryId: $checkedConvert('weapon_cat_id', (v) => (v as num).toInt()),
+      rarity: $checkedConvert('weapon_level', (v) => (v as num).toInt()),
+      name: $checkedConvert('name', (v) => v as String),
+      icon: $checkedConvert('icon', (v) => v as String),
     );
+    return val;
+  },
+  fieldKeyMap: const {
+    'maxLevel': 'max_level',
+    'currentLevel': 'level_current',
+    'categoryId': 'weapon_cat_id',
+    'rarity': 'weapon_level',
+  },
+);
 
 Map<String, dynamic> _$AvatarWeaponToJson(_AvatarWeapon instance) =>
     <String, dynamic>{
@@ -228,21 +332,35 @@ Map<String, dynamic> _$CalcComputeWeaponToJson(_CalcComputeWeapon instance) =>
       'icon': instance.icon,
     };
 
-_CalcResult _$CalcResultFromJson(Map<String, dynamic> json) => _CalcResult(
-  overallConsume: (json['overall_consume'] as List<dynamic>)
-      .map((e) => CalcConsumptionItem.fromJson(e as Map<String, dynamic>))
-      .toList(),
+_CalcResult _$CalcResultFromJson(Map<String, dynamic> json) => $checkedCreate(
+  '_CalcResult',
+  json,
+  ($checkedConvert) {
+    final val = _CalcResult(
+      overallConsume: $checkedConvert(
+        'overall_consume',
+        (v) => (v as List<dynamic>)
+            .map((e) => CalcConsumptionItem.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      ),
+    );
+    return val;
+  },
+  fieldKeyMap: const {'overallConsume': 'overall_consume'},
 );
 
 Map<String, dynamic> _$CalcResultToJson(_CalcResult instance) =>
     <String, dynamic>{'overall_consume': instance.overallConsume};
 
 _CalcConsumptionItem _$CalcConsumptionItemFromJson(Map<String, dynamic> json) =>
-    _CalcConsumptionItem(
-      id: (json['id'] as num).toInt(),
-      lackNum: (json['lack_num'] as num).toInt(),
-      num: (json['num'] as num).toInt(),
-    );
+    $checkedCreate('_CalcConsumptionItem', json, ($checkedConvert) {
+      final val = _CalcConsumptionItem(
+        id: $checkedConvert('id', (v) => (v as num).toInt()),
+        lackNum: $checkedConvert('lack_num', (v) => (v as num).toInt()),
+        num: $checkedConvert('num', (v) => (v as num).toInt()),
+      );
+      return val;
+    }, fieldKeyMap: const {'lackNum': 'lack_num'});
 
 Map<String, dynamic> _$CalcConsumptionItemToJson(
   _CalcConsumptionItem instance,

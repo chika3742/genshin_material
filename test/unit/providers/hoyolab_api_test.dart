@@ -4,6 +4,7 @@ import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_exceptions.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
 
+import "../../utils/hoyolab_api.dart";
 import "../../utils/hoyolab_game_server.dart";
 import "../../utils/http_client.dart";
 import "../../utils/http_client.mocks.dart";
@@ -14,11 +15,14 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late bool hoyolabLinkEnabled;
-  
+  late MockClient client;
+
   final storage = setUpSecureStorageMock();
 
   setUp(() {
     hoyolabLinkEnabled = true;
+    client = MockClient();
+    stubGet(client, successResponse);
   });
 
   ProviderContainer createContainer({
@@ -27,7 +31,7 @@ void main() {
   }) {
     return ProviderContainer.test(overrides: [
       overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, hoyolabLinkEnabled),
-      overrideHttpClient(MockClient()),
+      overrideHttpClient(client),
       ...overrideHoyolabGameServerPrefs(server: server, uid: uid),
     ]);
   }
@@ -42,11 +46,17 @@ void main() {
       );
     });
 
-    test("carries the remote flag", () {
-      expect(createContainer().read(hoyolabPublicApiProvider).enabled, isTrue);
+    test("carries the remote flag", () async {
+      await expectLater(
+        createContainer().read(hoyolabPublicApiProvider).lookupServers(),
+        completes,
+      );
 
       hoyolabLinkEnabled = false;
-      expect(createContainer().read(hoyolabPublicApiProvider).enabled, isFalse);
+      await expectLater(
+        createContainer().read(hoyolabPublicApiProvider).lookupServers(),
+        throwsA(isA<HoyolabLinkDisabledException>()),
+      );
     });
   });
 
@@ -56,7 +66,6 @@ void main() {
           await createContainer().read(hoyolabAccountApiProvider.future);
 
       expect(api.cookie, fakeCookie);
-      expect(api.enabled, isTrue);
     });
 
     test("throws when the user is not signed in", () async {
@@ -74,10 +83,15 @@ void main() {
     test("is still built when the link is disabled", () async {
       hoyolabLinkEnabled = false;
 
+      // Reading the provider must not throw; the flag surfaces only once a
+      // method is called.
       final api =
           await createContainer().read(hoyolabAccountApiProvider.future);
 
-      expect(api.enabled, isFalse);
+      await expectLater(
+        api.logout(),
+        throwsA(isA<HoyolabLinkDisabledException>()),
+      );
     });
   });
 

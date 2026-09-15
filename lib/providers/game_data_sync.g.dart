@@ -174,7 +174,7 @@ final class _GameDataSyncProvider
   }
 }
 
-String _$_gameDataSyncHash() => r'089cbc263ba97a699fe22b52c7d523719ae52ead';
+String _$_gameDataSyncHash() => r'0885376c228ff3622284dbe6a3d015fdb363e475';
 
 final class _GameDataSyncFamily extends $Family
     with
@@ -258,7 +258,7 @@ final class BagLackNumProvider
   }
 }
 
-String _$bagLackNumHash() => r'e31893b29d8334489d3fd9f8f1f1173930c674c1';
+String _$bagLackNumHash() => r'f4d3fa42e3e2c1ef3266b87bf120a56cbfbb44f0';
 
 final class BagLackNumFamily extends $Family
     with

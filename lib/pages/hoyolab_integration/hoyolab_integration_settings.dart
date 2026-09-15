@@ -266,7 +266,7 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
     // set initial selected server
     useValueChanged<LookupServersResult?, void>(serversSnapshot.data, (_, _) {
       final cred = ref.read(hoyolabGameServerProvider);
-      final servers = serversSnapshot.data?.data?.list;
+      final servers = serversSnapshot.data?.list;
       if (servers != null && cred is LinkedHoyolabGameServer) {
         selectedServer.value = servers.firstWhereOrNull((e) => e.region == cred.server);
       }
@@ -366,11 +366,11 @@ class _ServerSelectBottomSheet extends HookConsumerWidget {
     if (snapshot.hasError) {
       return CenterText(tr.hoyolab.failedToLoadServerList);
     }
-    if (!snapshot.hasData || snapshot.data!.hasError) {
+    if (!snapshot.hasData) {
       return CenterText(tr.hoyolab.failedToLoadServerList);
     }
 
-    final servers = snapshot.data!.data!.list;
+    final servers = snapshot.data!.list;
 
     return Column(
       children: servers.map((server) {
