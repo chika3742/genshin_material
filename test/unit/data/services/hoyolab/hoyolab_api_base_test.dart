@@ -16,7 +16,6 @@ import "../../../../utils/secure_storage.dart";
 
 class _FakeHoyolabApiBase extends HoyolabApiBase {
   _FakeHoyolabApiBase({
-    required super.enabled,
     required super.client,
     required super.queue,
   });
@@ -25,7 +24,7 @@ class _FakeHoyolabApiBase extends HoyolabApiBase {
 class FakeHoyolabAuthenticatedApi extends HoyolabAuthenticatedApi {
   FakeHoyolabAuthenticatedApi({
     required super.cookie,
-  }) : super(enabled: true, client: MockClient(), queue: ApiRequestQueue(interval: Duration.zero));
+  }) : super(client: MockClient(), queue: ApiRequestQueue(interval: Duration.zero));
 }
 
 void main() {
@@ -39,34 +38,14 @@ void main() {
       stubPost(client, successResponse);
     });
 
-    HoyolabApiBase createApi({
-      bool enabled = true,
-    }) {
+    HoyolabApiBase createApi() {
       return _FakeHoyolabApiBase(
-        enabled: enabled,
         client: client,
         queue: ApiRequestQueue(interval: Duration.zero),
       );
     }
 
     const exampleEp = "https://example.com";
-
-    test("HoyolabLinkDisabledException is thrown if feature disabled", () async {
-      final api = createApi(enabled: false);
-
-      await expectLater(api.send(exampleEp), throwsA(isA<HoyolabLinkDisabledException>()));
-    });
-
-
-    test("no HTTP requests are sent when feature disabled", () async {
-      final api = createApi(enabled: false);
-
-      try {
-        await api.send("https://example.com", method: .get);
-      } catch (_) {}
-
-      verifyZeroInteractions(client);
-    });
 
     test("query is passed to client", () async {
       final api = createApi();

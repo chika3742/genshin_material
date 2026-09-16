@@ -14,47 +14,44 @@ import "../../utils/secure_storage.dart";
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late bool hoyolabLinkEnabled;
   late MockClient client;
 
   final storage = setUpSecureStorageMock();
 
   setUp(() {
-    hoyolabLinkEnabled = true;
     client = MockClient();
     stubGet(client, successResponse);
   });
 
   ProviderContainer createContainer({
+    bool linkEnabled = true,
     String? server = "os_asia",
     String? uid = "800000000",
   }) {
     return ProviderContainer.test(overrides: [
-      overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, hoyolabLinkEnabled),
+      overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, linkEnabled),
       overrideHttpClient(client),
       ...overrideHoyolabGameServerPrefs(server: server, uid: uid),
     ]);
   }
 
   group("hoyolabPublicApi", () {
-    test("is available without any credential", () {
+    test("is available without any credential", () async {
       storage.clear();
 
-      expect(
-        createContainer(server: null, uid: null).read(hoyolabPublicApiProvider),
+      await expectLater(
+        createContainer(server: null, uid: null).read(hoyolabPublicApiProvider.future),
         isNotNull,
       );
     });
 
-    test("carries the remote flag", () async {
-      await expectLater(
-        createContainer().read(hoyolabPublicApiProvider).lookupServers(),
-        completes,
-      );
+    // Synchronous provider, so `read` wraps the cause. See `getErrorMessage`,
+    // which unwraps it again on the way to the UI.
+    test("throws when the link is disabled", () async {
+      final container = createContainer(linkEnabled: false);
 
-      hoyolabLinkEnabled = false;
       await expectLater(
-        createContainer().read(hoyolabPublicApiProvider).lookupServers(),
+        container.read(hoyolabPublicApiProvider.future),
         throwsA(isA<HoyolabLinkDisabledException>()),
       );
     });
@@ -77,19 +74,12 @@ void main() {
       );
     });
 
-    // The flag belongs on the instance, not on its availability: the API is
-    // still handed out so that the call site decides what a disabled link
-    // means (unlinking, for one, has to keep working).
-    test("is still built when the link is disabled", () async {
-      hoyolabLinkEnabled = false;
-
-      // Reading the provider must not throw; the flag surfaces only once a
-      // method is called.
-      final api =
-          await createContainer().read(hoyolabAccountApiProvider.future);
-
+    // Unlinking still works: `clear()` wraps the `ref.read` in its own `try`.
+    // See the regression test in `hoyolab_game_server_test.dart`.
+    test("throws when the link is disabled", () async {
       await expectLater(
-        api.logout(),
+        createContainer(linkEnabled: false)
+            .read(hoyolabAccountApiProvider.future),
         throwsA(isA<HoyolabLinkDisabledException>()),
       );
     });
@@ -117,6 +107,13 @@ void main() {
       await expectLater(
         createContainer(uid: null).read(hoyolabGameApiProvider.future),
         throwsA(isA<HoyolabServerNotSelectedException>()),
+      );
+    });
+
+    test("throws when the link is disabled", () async {
+      await expectLater(
+        createContainer(linkEnabled: false).read(hoyolabGameApiProvider.future),
+        throwsA(isA<HoyolabLinkDisabledException>()),
       );
     });
   });

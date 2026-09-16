@@ -16,34 +16,26 @@ part "hoyolab_api.g.dart";
 // The API instances are only ever obtained from here, so that nothing has to
 // assemble the cookie and the game server by hand.
 //
-// A missing one is reported as a typed exception rather than as null,
-// which keeps "unavailable" a single concept together with
-// `HoyolabLinkDisabledException`. Consumers are expected to check
-// `isHoyolabSignedInProvider` / `isLinkedWithHoyolabProvider` first; reaching
-// an exception past those guards means the stored state is inconsistent, and is
-// worth surfacing as an error.
-//
-// The two asynchronous providers are kept alive on purpose. They read the
-// cookie from the secure storage, which takes several event loop turns, and an
-// auto-disposed provider that nobody listens to yet — `clear()` reads it
-// through `ref.read` — would be torn down mid-load. Watching
-// `isHoyolabSignedInProvider` and `hoyolabGameServerProvider` instead rebuilds
-// them whenever the stored identity actually changes.
+// These providers are kept alive because they are not tied to the lifecycle
+// of the widgets.
 
-/// Riverpod retries a failed provider build on its own, which is right for a
-/// flaky read but wrong for an incomplete link: nothing will appear until the
-/// user signs in or picks a server, and each retry leaves the provider stuck in
-/// a loading state that consumers await forever.
-Duration? _retryUnlessLinkIsIncomplete(int retryCount, Object error) {
-  if (error is HoyolabNotSignedInException ||
+/// Retrying is right for a flaky read but wrong for a link that is unavailable
+/// by design: it would leave the provider loading forever.
+Duration? _retryUnlessLinkIsUnavailable(int retryCount, Object error) {
+  if (error is HoyolabLinkDisabledException ||
+      error is HoyolabNotSignedInException ||
       error is HoyolabServerNotSelectedException) {
     return null;
   }
   return ProviderContainer.defaultRetry(retryCount, error);
 }
 
-bool _linkEnabled(Ref ref) =>
-    ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled));
+/// The kill switch of every API calls
+void _ensureLinkEnabled(Ref ref) {
+  if (!ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled))) {
+    throw const HoyolabLinkDisabledException();
+  }
+}
 
 /// One queue for every HoYoLAB call, so the throttle holds across the three
 /// API classes instead of per instance.
@@ -51,18 +43,19 @@ bool _linkEnabled(Ref ref) =>
 ApiRequestQueue hoyolabRequestQueue(Ref ref) =>
     ApiRequestQueue(interval: const Duration(milliseconds: 500));
 
-@Riverpod(keepAlive: true)
-HoyolabPublicApi hoyolabPublicApi(Ref ref) {
+@Riverpod(keepAlive: true, retry: _retryUnlessLinkIsUnavailable)
+Future<HoyolabPublicApi> hoyolabPublicApi(Ref ref) async {
+  _ensureLinkEnabled(ref);
+
   return HoyolabPublicApi(
-    enabled: _linkEnabled(ref),
     client: ref.watch(httpClientProvider),
     queue: ref.watch(hoyolabRequestQueueProvider),
   );
 }
 
-@Riverpod(keepAlive: true, retry: _retryUnlessLinkIsIncomplete)
+@Riverpod(keepAlive: true, retry: _retryUnlessLinkIsUnavailable)
 Future<HoyolabAccountApi> hoyolabAccountApi(Ref ref) async {
-  final enabled = _linkEnabled(ref);
+  _ensureLinkEnabled(ref);
   final client = ref.watch(httpClientProvider);
   // Rebuild whenever the user signs in or out, which is when the cookie behind
   // `getHoyolabCookie()` changes. The storage stays the authority on it.
@@ -72,16 +65,15 @@ Future<HoyolabAccountApi> hoyolabAccountApi(Ref ref) async {
     throw const HoyolabNotSignedInException();
   }
   return HoyolabAccountApi(
-    enabled: enabled,
     cookie: cookie,
     client: client,
     queue: ref.watch(hoyolabRequestQueueProvider),
   );
 }
 
-@Riverpod(keepAlive: true, retry: _retryUnlessLinkIsIncomplete)
+@Riverpod(keepAlive: true, retry: _retryUnlessLinkIsUnavailable)
 Future<HoyolabGameApi> hoyolabGameApi(Ref ref) async {
-  final enabled = _linkEnabled(ref);
+  _ensureLinkEnabled(ref);
   final client = ref.watch(httpClientProvider);
   // See `hoyolabAccountApi`: the sign-in state is watched for its invalidation,
   // the storage is still what answers.
@@ -95,7 +87,6 @@ Future<HoyolabGameApi> hoyolabGameApi(Ref ref) async {
     throw const HoyolabServerNotSelectedException();
   }
   return HoyolabGameApi(
-    enabled: enabled,
     cookie: cookie,
     client: client,
     queue: ref.watch(hoyolabRequestQueueProvider),

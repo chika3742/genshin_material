@@ -73,9 +73,12 @@ sealed class _ComputeBagRequestItem with _$ComputeBagRequestItem {
 class GameDataSyncCached extends _$GameDataSyncCached {
   @override
   Future<GameDataSyncResult?> build({ required String variantId, String? weaponId }) async {
+    if (!ref.watch(isLinkedWithHoyolabProvider)) {
+      return null;
+    }
+
     final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(hoyolabGameServerProvider).uidOrNull;
-    if (uid == null) return null; // uid is not set
+    final uid = ref.watch(hoyolabGameServerProvider).uidOrNull!;
 
     final syncState = weaponId == null
         ? ref.watch(prefProvider(PrefKeys.syncCharaState))
@@ -205,7 +208,7 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
   final syncBagLackNums = ref.watch(prefProvider(PrefKeys.syncBagLackNums));
 
   if (!ref.watch(isLinkedWithHoyolabProvider)) {
-    log("Hoyolab server, uid, or cookie is not set");
+    log("Server not selected or sync feature disabled");
     return null;
   }
   if (!syncBagLackNums) {

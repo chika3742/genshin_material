@@ -75,7 +75,8 @@ class HoyolabGameServer extends _$HoyolabGameServer {
   /// Verifies [cookie] against HoYoLAB and stores it once it is known good.
   Future<void> signIn(String cookie) async {
     try {
-      await ref.read(hoyolabPublicApiProvider).verifyLToken(cookie);
+      await (await ref.read(hoyolabPublicApiProvider.future))
+          .verifyLToken(cookie);
     } on HoyolabApiException catch (e) {
       throw CredentialVerificationException(message: e.originalMessage);
     }
