@@ -1,5 +1,6 @@
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../core/api_request_queue.dart";
 import "../core/remote_config_keys.dart";
 import "../core/secure_storage.dart";
 import "../data/services/hoyolab/hoyolab_account_api.dart";
@@ -44,11 +45,18 @@ Duration? _retryUnlessLinkIsIncomplete(int retryCount, Object error) {
 bool _linkEnabled(Ref ref) =>
     ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled));
 
+/// One queue for every HoYoLAB call, so the throttle holds across the three
+/// API classes instead of per instance.
+@Riverpod(keepAlive: true)
+ApiRequestQueue hoyolabRequestQueue(Ref ref) =>
+    ApiRequestQueue(interval: const Duration(milliseconds: 500));
+
 @Riverpod(keepAlive: true)
 HoyolabPublicApi hoyolabPublicApi(Ref ref) {
   return HoyolabPublicApi(
     enabled: _linkEnabled(ref),
     client: ref.watch(httpClientProvider),
+    queue: ref.watch(hoyolabRequestQueueProvider),
   );
 }
 
@@ -63,7 +71,12 @@ Future<HoyolabAccountApi> hoyolabAccountApi(Ref ref) async {
   if (cookie == null) {
     throw const HoyolabNotSignedInException();
   }
-  return HoyolabAccountApi(enabled: enabled, cookie: cookie, client: client);
+  return HoyolabAccountApi(
+    enabled: enabled,
+    cookie: cookie,
+    client: client,
+    queue: ref.watch(hoyolabRequestQueueProvider),
+  );
 }
 
 @Riverpod(keepAlive: true, retry: _retryUnlessLinkIsIncomplete)
@@ -85,6 +98,7 @@ Future<HoyolabGameApi> hoyolabGameApi(Ref ref) async {
     enabled: enabled,
     cookie: cookie,
     client: client,
+    queue: ref.watch(hoyolabRequestQueueProvider),
     region: gameServer.server,
     uid: gameServer.uid,
   );

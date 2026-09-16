@@ -294,7 +294,8 @@ hoyolab:
   weaponNotEquipped: このキャラクターはこの武器を装備していません。
   unknownError: 不明なエラーが発生しました。
   charaSyncSuccess: ゲームデータと同期しました
-  featureUnavailable: HoYoLAB 連携は現在ご利用いただけません
+  featureUnavailable: HoYoLAB連携は現在ご利用いただけません
+  invalidResponseReturned: 不正なレスポンスを受け取りました。しばらく待っても再発する場合、本アプリの開発者にご連絡ください。
 whereToGet(map):
   chests: 宝箱、任務報酬など
 android:

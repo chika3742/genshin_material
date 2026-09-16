@@ -23,6 +23,18 @@ class HoyolabApiException extends SilentException implements Exception {
   bool get isSilent => _knownRetcodes.contains(retcode);
 }
 
+class HoyolabInvalidResponseException implements Exception {
+  final int statusCode;
+  final String detail;
+
+  const HoyolabInvalidResponseException(this.statusCode, this.detail);
+
+  @override
+  String toString() {
+    return "HoYoLAB API returned an invalid response.\nstatus: $statusCode\ndetail: $detail";
+  }
+}
+
 /// Thrown by every HoYoLAB API method while the integration is switched off
 /// remotely. It is raised on the call, not on construction, so building an API
 /// instance never fails and unlinking stays possible.

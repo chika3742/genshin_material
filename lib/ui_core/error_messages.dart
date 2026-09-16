@@ -16,6 +16,7 @@ String getErrorMessage(Object? error, {String prefix = ""}) {
     HoyolabLinkDisabledException() => tr.hoyolab.featureUnavailable,
     HoyolabNotSignedInException() => tr.hoyolab.loginExpired,
     HoyolabServerNotSelectedException() => tr.hoyolab.plsSelectServer,
+    HoyolabInvalidResponseException() => tr.hoyolab.invalidResponseReturned,
     HoyolabApiException(:final retcode, :final originalMessage) => switch (retcode) {
       -502002 => tr.hoyolab.characterDataAccessNotAllowed,
       -502001 => tr.hoyolab.characterDoesNotExist,

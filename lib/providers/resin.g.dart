@@ -41,7 +41,7 @@ final class ResinNotifierProvider
   }
 }
 
-String _$resinNotifierHash() => r'c2677526611bdfc5362ecfbcb36c6521faf02c79';
+String _$resinNotifierHash() => r'714c768bb0b90ce2b005524672ae432db147131d';
 
 abstract class _$ResinNotifier extends $Notifier<ResinSnapshot> {
   ResinSnapshot build();

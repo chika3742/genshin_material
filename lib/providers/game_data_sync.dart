@@ -8,7 +8,6 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 import "../components/game_data_sync_indicator.dart";
 import "../core/asset_cache.dart";
 import "../core/pref_keys.dart";
-import "../data/services/hoyolab/hoyolab_api_base.dart";
 import "../data/services/hoyolab/hoyolab_api_utils.dart";
 import "../data/services/hoyolab/hoyolab_game_api.dart";
 import "../database.dart";
@@ -160,11 +159,11 @@ Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, S
   final charaInfo = await HoyolabApiUtils.loopUntilCharacter(
     character.hyvIds,
     (page) {
-      return HoyolabApiBase.queue.run(() => api.avatarList(
+      return api.avatarList(
         page,
         elementIds: [assetData.elements[variant.element]!.hyvId],
         weaponCatIds: [assetData.weaponTypes[variant.weaponType]!.hyvId],
-      ));
+      );
     },
   );
 
@@ -228,13 +227,13 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
   }).toList();
 
   // fetch material lack numbers
-  final calcResult = await HoyolabApiBase.queue.run(() => _computeBag(
+  final calcResult = await _computeBag(
     api: api,
     assetData: assetData,
     requests: requests,
-  ));
+  );
 
-  return Map.fromEntries(calcResult!.overallConsume.map((e) {
+  return Map.fromEntries(calcResult.overallConsume.map((e) {
     final materialId = assetData.materials.entries.firstWhere((m) => m.value.hyvId == e.id).key;
     return MapEntry(materialId, e.lackNum);
   }));
@@ -335,7 +334,7 @@ Map<Purpose, int> _toCharacterLevels(AvatarListResultItem charaInfo) {
   return result;
 }
 
-Future<CalcResult?> _computeBag({
+Future<CalcResult> _computeBag({
   required HoyolabGameApi api,
   required AssetData assetData,
   required List<_ComputeBagRequestItem> requests,

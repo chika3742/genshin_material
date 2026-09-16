@@ -570,6 +570,7 @@ class _Translations$hoyolab$en extends Translations$hoyolab$ja {
 	@override String get unknownError => 'An unknown error occurred.';
 	@override String get charaSyncSuccess => 'Successfully synced game data';
 	@override String get featureUnavailable => 'HoYoLAB sync feature is currently unavailable.';
+	@override String get invalidResponseReturned => 'Invalid response was returned. If it persists, please contact the app developer.';
 }
 
 // Path: android
@@ -908,6 +909,7 @@ extension on TranslationsEn {
 			'hoyolab.unknownError' => 'An unknown error occurred.',
 			'hoyolab.charaSyncSuccess' => 'Successfully synced game data',
 			'hoyolab.featureUnavailable' => 'HoYoLAB sync feature is currently unavailable.',
+			'hoyolab.invalidResponseReturned' => 'Invalid response was returned. If it persists, please contact the app developer.',
 			'whereToGet.chests' => 'Chests, Quests',
 			'android.notificationChannels.dailyMaterial.name' => 'Daily Materials',
 			'android.notificationChannels.dailyMaterial.description' => 'Notifies you on the days materials are available',
