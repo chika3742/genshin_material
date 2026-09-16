@@ -2,7 +2,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/api_request_queue.dart";
 import "../core/remote_config_keys.dart";
-import "../core/secure_storage.dart";
+import "../data/repositories/hoyolab_cookie_repository.dart";
 import "../data/services/hoyolab/hoyolab_account_api.dart";
 import "../data/services/hoyolab/hoyolab_exceptions.dart";
 import "../data/services/hoyolab/hoyolab_game_api.dart";
@@ -57,10 +57,7 @@ Future<HoyolabPublicApi> hoyolabPublicApi(Ref ref) async {
 Future<HoyolabAccountApi> hoyolabAccountApi(Ref ref) async {
   _ensureLinkEnabled(ref);
   final client = ref.watch(httpClientProvider);
-  // Rebuild whenever the user signs in or out, which is when the cookie behind
-  // `getHoyolabCookie()` changes. The storage stays the authority on it.
-  ref.watch(isHoyolabSignedInProvider);
-  final cookie = await getHoyolabCookie();
+  final cookie = await ref.watch(hoyolabCookieRepositoryProvider.future);
   if (cookie == null) {
     throw const HoyolabNotSignedInException();
   }
@@ -75,11 +72,8 @@ Future<HoyolabAccountApi> hoyolabAccountApi(Ref ref) async {
 Future<HoyolabGameApi> hoyolabGameApi(Ref ref) async {
   _ensureLinkEnabled(ref);
   final client = ref.watch(httpClientProvider);
-  // See `hoyolabAccountApi`: the sign-in state is watched for its invalidation,
-  // the storage is still what answers.
-  ref.watch(isHoyolabSignedInProvider);
   final gameServer = ref.watch(hoyolabGameServerProvider);
-  final cookie = await getHoyolabCookie();
+  final cookie = await ref.watch(hoyolabCookieRepositoryProvider.future);
   if (cookie == null) {
     throw const HoyolabNotSignedInException();
   }

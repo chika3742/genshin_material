@@ -1,12 +1,7 @@
-import "dart:async";
-import "dart:io";
-
-import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:http/http.dart";
 
+import "../data/services/crashlytics_service.dart";
 import "errors.dart";
-import "silent_exception.dart";
 
 final class ProviderErrorObserver extends ProviderObserver {
   @override
@@ -14,17 +9,8 @@ final class ProviderErrorObserver extends ProviderObserver {
     super.providerDidFail(context, error, stackTrace);
     handleError(error, stackTrace);
 
-    if ((error is! SilentException || !error.isSilent) && !_isTransientNetworkError(error)) {
-      FirebaseCrashlytics.instance.recordError(error, stackTrace);
-    }
+    context.container
+        .read(crashlyticsServiceProvider)
+        .reportIfNonSilent(error, stackTrace);
   }
-}
-
-bool _isTransientNetworkError(Object error) {
-  return switch (error) {
-    SocketException() ||
-    TimeoutException() ||
-    ClientException() => true,
-    _ => false,
-  };
 }

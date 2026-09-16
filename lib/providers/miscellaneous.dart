@@ -2,6 +2,7 @@ import "dart:io";
 
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../data/repositories/hoyolab_cookie_repository.dart";
 import "../db/in_game_character_state_db_extension.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
@@ -15,7 +16,7 @@ part "miscellaneous.g.dart";
 class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
   @override
   Future<bool> build() async {
-    if (!ref.watch(isHoyolabSignedInProvider)) {
+    if (await ref.watch(hoyolabCookieRepositoryProvider.future) == null) {
       return false;
     }
 
@@ -54,5 +55,7 @@ bool shouldHideImages(Ref ref) {
     return false;
   }
 
-  return !ref.watch(isHoyolabSignedInProvider);
+  // The cookie is still loading on the first frame; hiding is the safe answer
+  // until it resolves.
+  return ref.watch(hoyolabCookieRepositoryProvider).value == null;
 }
