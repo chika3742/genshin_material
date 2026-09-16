@@ -4,9 +4,10 @@ import "../core/hoyolab_api.dart";
 import "../core/pref_keys.dart";
 import "../core/remote_config_keys.dart";
 import "../core/secure_storage.dart";
-import "../data/repositories/remote_config_repository.dart";
 import "../models/hoyolab_api.dart";
+import "http_client.dart";
 import "pref_notifier.dart";
+import "remote_config.dart";
 
 part "hoyolab_credential.g.dart";
 
@@ -42,7 +43,8 @@ class HoyolabCredential extends _$HoyolabCredential {
   Future<void> clear() async {
     await HoyolabApi(
       cookie: await getHoyolabCookie(),
-      remoteConfig: ref.read(remoteConfigProvider),
+      client: ref.read(httpClientProvider),
+      enabled: ref.read(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)),
     ).logout();
     await Future.wait([
       deleteHoyolabCookie(),
@@ -62,7 +64,7 @@ bool isLinkedWithHoyolab(Ref ref) {
       cred.hyvServerName != null &&
       cred.hyvUserName != null &&
       cred.hyvUid != null &&
-      ref.watch(remoteConfigProvider).get(RemoteConfigKeys.hoyolabLinkEnabled);
+      ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled));
 }
 
 @Riverpod(keepAlive: true)

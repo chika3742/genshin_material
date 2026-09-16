@@ -5,11 +5,11 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../data/services/launch_url.dart";
 import "../hooks/use_asset_update_progress.dart";
+import "../hooks/use_banner.dart";
 import "../hooks/use_notification_reschedule_listener.dart";
 import "../hooks/use_startup_banner.dart";
 import "../i18n/strings.g.dart";
 import "../providers/asset_updating_state.dart";
-import "../providers/banner_notifier.dart";
 
 class HomePage extends StatefulHookConsumerWidget {
   final StatefulNavigationShell navigationShell;
@@ -55,11 +55,11 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final banner = ref.watch(bannerProvider);
+    final (:banner, :markAsRead) = useBanner(ref);
     useStartupBanner(
       banner,
       launchUrlString: ref.watch(launchUrlStringProvider),
-      markAsRead: () => ref.read(bannerProvider.notifier).markAsRead(),
+      markAsRead: markAsRead,
     );
 
     useNotificationRescheduleListener(ref);

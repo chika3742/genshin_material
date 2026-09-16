@@ -3,28 +3,28 @@ import "dart:async";
 import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/remote_config_keys.dart";
-import "package:genshin_material/data/repositories/remote_config_repository.dart";
+import "package:genshin_material/data/services/remote_config_service.dart";
 import "package:genshin_material/models/remote_config_key.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
-import "remote_config_repository_test.mocks.dart";
+import "remote_config_service_test.mocks.dart";
 
 @GenerateNiceMocks([MockSpec<FirebaseRemoteConfig>()])
 void main() {
   late MockFirebaseRemoteConfig firebaseRemoteConfig;
-  late RemoteConfigRepository repository;
+  late RemoteConfigService service;
 
   setUp(() {
     firebaseRemoteConfig = MockFirebaseRemoteConfig();
-    repository = RemoteConfigRepository(firebaseRemoteConfig);
+    service = RemoteConfigService(firebaseRemoteConfig);
   });
 
   group("get", () {
     test("reads a bool key through getBool", () {
       when(firebaseRemoteConfig.getBool("bool_key")).thenReturn(true);
 
-      expect(repository.get(const BoolRemoteConfigKey("bool_key")), isTrue);
+      expect(service.get(const BoolRemoteConfigKey("bool_key")), isTrue);
       verify(firebaseRemoteConfig.getBool("bool_key")).called(1);
       verifyNever(firebaseRemoteConfig.getString(any));
       verifyNever(firebaseRemoteConfig.getInt(any));
@@ -34,7 +34,7 @@ void main() {
       when(firebaseRemoteConfig.getString("string_key")).thenReturn("value");
 
       expect(
-        repository.get(const StringRemoteConfigKey("string_key")),
+        service.get(const StringRemoteConfigKey("string_key")),
         "value",
       );
       verify(firebaseRemoteConfig.getString("string_key")).called(1);
@@ -45,7 +45,7 @@ void main() {
     test("reads an int key through getInt", () {
       when(firebaseRemoteConfig.getInt("int_key")).thenReturn(42);
 
-      expect(repository.get(const IntRemoteConfigKey("int_key")), 42);
+      expect(service.get(const IntRemoteConfigKey("int_key")), 42);
       verify(firebaseRemoteConfig.getInt("int_key")).called(1);
       verifyNever(firebaseRemoteConfig.getBool(any));
       verifyNever(firebaseRemoteConfig.getString(any));
@@ -58,8 +58,8 @@ void main() {
               .getInt(RemoteConfigKeys.minimumAssetSchemaVersion.key))
           .thenReturn(7);
 
-      expect(repository.get(RemoteConfigKeys.hoyolabLinkEnabled), isTrue);
-      expect(repository.get(RemoteConfigKeys.minimumAssetSchemaVersion), 7);
+      expect(service.get(RemoteConfigKeys.hoyolabLinkEnabled), isTrue);
+      expect(service.get(RemoteConfigKeys.minimumAssetSchemaVersion), 7);
       verify(firebaseRemoteConfig.getBool("hoyolab_link_enabled")).called(1);
       verify(firebaseRemoteConfig.getInt("minimum_asset_schema_version"))
           .called(1);
@@ -68,8 +68,10 @@ void main() {
 
   group("listenConfigUpdate", () {
     late StreamController<RemoteConfigUpdate> controller;
+    late int activations;
 
     setUp(() {
+      activations = 0;
       controller = StreamController<RemoteConfigUpdate>();
       when(firebaseRemoteConfig.onConfigUpdated)
           .thenAnswer((_) => controller.stream);
@@ -81,7 +83,7 @@ void main() {
     });
 
     test("does not activate before an update arrives", () async {
-      final subscription = repository.listenConfigUpdate();
+      final subscription = service.listenConfigUpdate(() => activations++);
       await pumpEventQueue();
 
       verifyNever(firebaseRemoteConfig.activate());
@@ -90,18 +92,19 @@ void main() {
     });
 
     test("activates the fetched config when an update arrives", () async {
-      final subscription = repository.listenConfigUpdate();
+      final subscription = service.listenConfigUpdate(() => activations++);
 
       controller.add(RemoteConfigUpdate({"hoyolab_link_enabled"}));
       await pumpEventQueue();
 
       verify(firebaseRemoteConfig.activate()).called(1);
+      expect(activations, 1, reason: "onActivated runs after activate()");
 
       await subscription.cancel();
     });
 
     test("activates once per update event", () async {
-      final subscription = repository.listenConfigUpdate();
+      final subscription = service.listenConfigUpdate(() => activations++);
 
       controller.add(RemoteConfigUpdate({"a"}));
       controller.add(RemoteConfigUpdate({"b"}));
@@ -113,7 +116,7 @@ void main() {
     });
 
     test("stops activating once the subscription is cancelled", () async {
-      final subscription = repository.listenConfigUpdate();
+      final subscription = service.listenConfigUpdate(() => activations++);
       await subscription.cancel();
 
       controller.add(RemoteConfigUpdate({"a"}));

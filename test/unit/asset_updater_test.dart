@@ -6,18 +6,13 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/constants/urls.dart";
 import "package:genshin_material/core/asset_updater.dart";
 import "package:genshin_material/core/errors.dart";
-import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/models/asset_release_version.dart";
 import "package:http/http.dart" as http;
-import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 import "package:path/path.dart" as path;
 
-import "../utils/stub_remote_config.dart";
-import "../utils/stub_remote_config.mocks.dart";
-import "asset_updater_test.mocks.dart";
+import "../utils/http_client.mocks.dart";
 
-@GenerateMocks([http.Client])
 void main() {
   tearDown(() async {
     // clear temporary file
@@ -42,7 +37,7 @@ void main() {
       httpClient: client,
       dataSchemaVersion: 0,
     );
-    await updater.checkForUpdate();
+    await updater.checkForUpdate(minimumSchemaVersion: 0);
     expect(updater.isUpdateAvailable, true);
 
     WidgetsFlutterBinding.ensureInitialized();
@@ -51,14 +46,14 @@ void main() {
     await Directory(updater.currentAssetDir).create(recursive: true);
     await File(path.join(updater.currentAssetDir, "version.json"))
         .writeAsString('{"createdAt": "2024-01-01T00:00:00Z", "dataVersion": "test", "channel": "dev", "distUrl": "", "schemaVersion": 0}');
-    await updater.checkForUpdate();
+    await updater.checkForUpdate(minimumSchemaVersion: 0);
     expect(updater.isUpdateAvailable, false);
 
     // latest version is newer than current
     when(client.get(Uri.parse("$assetReleasesUrl?channel=dev"))).thenAnswer((_) async {
       return http.Response('[{"createdAt": "2024-06-01T00:00:00Z", "dataVersion": "test", "channel": "dev", "distUrl": "", "schemaVersion": 0}]', 200);
     });
-    await updater.checkForUpdate();
+    await updater.checkForUpdate(minimumSchemaVersion: 0);
     expect(updater.isUpdateAvailable, true);
   });
 
@@ -122,12 +117,9 @@ void main() {
 
   group("minimum schema version", () {
     late MockClient client;
-    late MockRemoteConfigRepository remoteConfig;
 
     setUp(() {
       client = MockClient();
-      remoteConfig = MockRemoteConfigRepository();
-      stubRemoteConfig(remoteConfig);
 
       when(client.get(Uri.parse("$assetReleasesUrl?channel=dev")))
           .thenAnswer((_) async {
@@ -144,64 +136,36 @@ void main() {
       });
     });
 
-    AssetUpdater createUpdater({bool injectRemoteConfig = true}) {
+    AssetUpdater createUpdater() {
       return AssetUpdater(
         assetsDir: Directory.current.path,
         tempDir: Directory.systemTemp.path,
         httpClient: client,
         dataSchemaVersion: 1,
-        remoteConfig: injectRemoteConfig ? remoteConfig : null,
       );
     }
 
-    test("is read from the injected remote config", () async {
-      when(remoteConfig.get(RemoteConfigKeys.minimumAssetSchemaVersion))
-          .thenReturn(1);
+    test("accepts a release at the minimum", () async {
       final updater = createUpdater();
 
-      await updater.checkForUpdate();
+      await updater.checkForUpdate(minimumSchemaVersion: 1);
 
       expect(updater.foundUpdate?.dataVersion, "test1");
-      verify(remoteConfig.get(RemoteConfigKeys.minimumAssetSchemaVersion))
-          .called(1);
     });
 
-    test("skips the releases below the configured minimum", () async {
-      when(remoteConfig.get(RemoteConfigKeys.minimumAssetSchemaVersion))
-          .thenReturn(2);
-
+    test("skips the releases below the given minimum", () async {
       await expectLater(
-        createUpdater().checkForUpdate(),
+        createUpdater().checkForUpdate(minimumSchemaVersion: 2),
         throwsA(isA<NoCompatibleAssetException>()),
       );
     });
 
     test("is ignored when the update is forced", () async {
-      when(remoteConfig.get(RemoteConfigKeys.minimumAssetSchemaVersion))
-          .thenReturn(2);
       final updater = createUpdater();
 
-      await updater.checkForUpdate(force: true);
+      await updater.checkForUpdate(minimumSchemaVersion: 2, force: true);
 
       expect(updater.foundUpdate?.dataVersion, "test1");
-    });
-
-    test("prefers the explicit argument over the remote config", () async {
-      when(remoteConfig.get(RemoteConfigKeys.minimumAssetSchemaVersion))
-          .thenReturn(2);
-
-      await createUpdater().checkForUpdate(minimumSchemaVersion: 0);
-
-      verifyNever(remoteConfig.get(RemoteConfigKeys.minimumAssetSchemaVersion));
-    });
-
-    test("falls back to zero when no remote config is injected", () async {
-      final updater = createUpdater(injectRemoteConfig: false);
-
-      await updater.checkForUpdate();
-
-      expect(updater.foundUpdate?.dataVersion, "test1");
-      verifyNever(remoteConfig.get(RemoteConfigKeys.minimumAssetSchemaVersion));
     });
   });
 }

@@ -3,7 +3,7 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/hooks/use_startup_banner.dart";
 import "package:genshin_material/i18n/strings.g.dart";
-import "package:genshin_material/providers/banner_notifier.dart";
+import "package:genshin_material/models/banner_data.dart";
 
 class _Host extends HookWidget {
   final BannerData? banner;

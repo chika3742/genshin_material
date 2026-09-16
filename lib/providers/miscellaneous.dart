@@ -4,13 +4,16 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/hoyolab_api.dart";
 import "../core/pref_keys.dart";
+import "../core/remote_config_keys.dart";
 import "../core/secure_storage.dart";
 import "../db/in_game_character_state_db_extension.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "database_provider.dart";
 import "hoyolab_credential.dart";
+import "http_client.dart";
 import "pref_notifier.dart";
+import "remote_config.dart";
 
 part "miscellaneous.g.dart";
 
@@ -23,7 +26,11 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
       return false;
     }
 
-    final api = HoyolabApi(cookie: cookie);
+    final api = HoyolabApi(
+      cookie: cookie,
+      client: ref.read(httpClientProvider),
+      enabled: ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)),
+    );
     final result = await api.getGameRecordCards();
     return result.list
         .firstWhere((e) => e.gameType == GameType.genshin)
@@ -39,7 +46,11 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
     }
 
     state = const AsyncLoading();
-    await HoyolabApi(cookie: cookie).changeDataSwitch(DataSwitchType.enableRealtimeNotes, value);
+    await HoyolabApi(
+      cookie: cookie,
+      client: ref.read(httpClientProvider),
+      enabled: ref.read(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)),
+    ).changeDataSwitch(DataSwitchType.enableRealtimeNotes, value);
 
     state = AsyncData(value);
   }
