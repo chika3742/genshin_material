@@ -1,5 +1,5 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/core/hoyolab_api.dart";
+import "package:genshin_material/core/api_request_queue.dart";
 
 const _interval = Duration(milliseconds: 500);
 

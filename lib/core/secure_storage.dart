@@ -1,39 +1,13 @@
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
-import "package:http/http.dart" as http;
-
-import "hoyolab_api.dart";
 
 const secureStorage = FlutterSecureStorage(
   aOptions: AndroidOptions(),
 );
 
-/// [client] and [linkEnabled] are taken as arguments because this function has
-/// no `Ref` to read `httpClientProvider` and `remoteConfigProvider` from; the
-/// caller passes the app's client and the flag it already holds.
-Future<void> setHoyolabCookie(
-  String cookie, {
-  required http.Client client,
-  required bool linkEnabled,
-}) async {
-  // verify credential
-  final api = HoyolabApi(cookie: cookie, client: client, enabled: linkEnabled);
-  final verificationResult = await api.verifyLToken();
-  if (verificationResult.hasError) {
-    throw CredentialVerificationException(message: verificationResult.message);
-  }
-
+/// Persists [cookie]. Verifying it beforehand is the caller's job — see
+/// `HoyolabGameServer.signIn`.
+Future<void> setHoyolabCookie(String cookie) async {
   await secureStorage.write(key: "hoyolab_cookie", value: cookie);
-}
-
-class CredentialVerificationException implements Exception {
-  final String message;
-
-  const CredentialVerificationException({required this.message});
-
-  @override
-  String toString() {
-    return "HoYoLAB Credential verification failed: $message";
-  }
 }
 
 Future<void> deleteHoyolabCookie() async {

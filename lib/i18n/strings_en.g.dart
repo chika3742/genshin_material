@@ -569,6 +569,7 @@ class _Translations$hoyolab$en extends Translations$hoyolab$ja {
 	@override String get weaponNotEquipped => 'This character does not equip this weapon.';
 	@override String get unknownError => 'An unknown error occurred.';
 	@override String get charaSyncSuccess => 'Successfully synced game data';
+	@override String get featureUnavailable => 'HoYoLAB sync feature is currently unavailable.';
 }
 
 // Path: android
@@ -906,6 +907,7 @@ extension on TranslationsEn {
 			'hoyolab.weaponNotEquipped' => 'This character does not equip this weapon.',
 			'hoyolab.unknownError' => 'An unknown error occurred.',
 			'hoyolab.charaSyncSuccess' => 'Successfully synced game data',
+			'hoyolab.featureUnavailable' => 'HoYoLAB sync feature is currently unavailable.',
 			'whereToGet.chests' => 'Chests, Quests',
 			'android.notificationChannels.dailyMaterial.name' => 'Daily Materials',
 			'android.notificationChannels.dailyMaterial.description' => 'Notifies you on the days materials are available',
