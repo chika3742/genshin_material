@@ -42,14 +42,14 @@ dependencies:
   package_info_plus: 10.2.1
   path_provider: 2.1.6
   http: 1.6.0
-  archive: 4.2.0
+  archive: 4.3.0
   animations: 2.2.0
   flutter_sticky_header: 0.8.0
   flutter_hooks: 0.21.3+1
   shared_preferences: 2.5.5
   hooks_riverpod: 3.4.3
   url_launcher: 6.3.2
-  drift: 2.34.4
+  drift: 2.35.0
   drift_flutter: 0.3.1
   webview_flutter: 4.14.1
   crypto: 3.0.7
