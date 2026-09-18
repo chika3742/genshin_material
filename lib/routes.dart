@@ -33,6 +33,7 @@ import "pages/more.dart";
 import "pages/release_notes.dart";
 import "pages/settings/farm_count_settings.dart";
 import "pages/settings/settings.dart";
+import "pages/tools/login_bonus.dart";
 import "pages/tools/resin_calc.dart";
 import "pages/tools/tools.dart";
 import "providers/database_provider.dart";
@@ -101,6 +102,7 @@ part "routes.g.dart";
           path: "/tools",
           routes: [
             TypedGoRoute<ResinCalcRoute>(path: "resin-calc"),
+            TypedGoRoute<LoginBonusRoute>(path: "login-bonus"),
           ],
         ),
       ],
@@ -546,6 +548,19 @@ class HoyolabSignInRoute extends GoRouteData with $HoyolabSignInRoute {
     return buildTransitionedPage(
       context: context,
       child: const HoyolabSignInPage(),
+    );
+  }
+}
+
+@immutable
+class LoginBonusRoute extends GoRouteData with $LoginBonusRoute {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return buildTransitionedPage(
+      context: context,
+      child: LoginBonusPage(),
     );
   }
 }

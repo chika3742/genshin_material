@@ -1398,4 +1398,78 @@ String toString() {
 
 
 
+
+/// @nodoc
+mixin _$SignInfo {
+
+@JsonKey(name: "is_sign") bool get isSign; String get today;
+
+  /// Serializes this SignInfo to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as SignInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInfo&&(identical(other.isSign, _this.isSign) || other.isSign == _this.isSign)&&(identical(other.today, _this.today) || other.today == _this.today));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as SignInfo;
+  return Object.hash(runtimeType,_this.isSign,_this.today);
+}
+
+@override
+String toString() {
+  final _this = this as SignInfo;
+  return 'SignInfo(isSign: ${_this.isSign}, today: ${_this.today})';
+}
+
+
+}
+
+
+
+
+
+/// @nodoc
+@JsonSerializable()
+
+class _SignInfo implements SignInfo {
+  const _SignInfo({@JsonKey(name: "is_sign") required this.isSign, required this.today});
+  factory _SignInfo.fromJson(Map<String, dynamic> json) => _$SignInfoFromJson(json);
+
+@override@JsonKey(name: "is_sign") final  bool isSign;
+@override final  String today;
+
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SignInfoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignInfo&&(identical(other.isSign, isSign) || other.isSign == isSign)&&(identical(other.today, today) || other.today == today));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,isSign,today);
+}
+
+@override
+String toString() {
+    return 'SignInfo(isSign: $isSign, today: $today)';
+}
+
+
+}
+
+
+
+
 // dart format on

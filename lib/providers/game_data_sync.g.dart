@@ -51,7 +51,7 @@ final class GameDataSyncCachedProvider
 }
 
 String _$gameDataSyncCachedHash() =>
-    r'ad9dee82bae2e2c66fc3a2b1ea8ab0a2971fc08c';
+    r'27d43bc6039dac285ba0b39ca00debf5993e98bb';
 
 final class GameDataSyncCachedFamily extends $Family
     with
@@ -258,7 +258,7 @@ final class BagLackNumProvider
   }
 }
 
-String _$bagLackNumHash() => r'f4d3fa42e3e2c1ef3266b87bf120a56cbfbb44f0';
+String _$bagLackNumHash() => r'bc0ff61489fd999e19a3b58fd5efffe095613c2c';
 
 final class BagLackNumFamily extends $Family
     with

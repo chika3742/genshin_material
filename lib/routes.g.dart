@@ -124,6 +124,12 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
               hasOverriddenOnExit: false,
               factory: $ResinCalcRoute._fromState,
             ),
+            GoRouteData.$route(
+              path: 'login-bonus',
+              hasOverriddenOnExit: false,
+              parentNavigatorKey: LoginBonusRoute.$parentNavigatorKey,
+              factory: $LoginBonusRoute._fromState,
+            ),
           ],
         ),
       ],
@@ -617,6 +623,26 @@ mixin $ResinCalcRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/tools/resin-calc');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $LoginBonusRoute on GoRouteData {
+  static LoginBonusRoute _fromState(GoRouterState state) => LoginBonusRoute();
+
+  @override
+  String get location => GoRouteData.$location('/tools/login-bonus');
 
   @override
   void go(BuildContext context) => context.go(location);

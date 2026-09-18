@@ -16,22 +16,22 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsEn({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.en,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
 		  ),
 		  super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver) {
-		super.$meta.setFlatMapFunction($meta.getTranslation); // copy base translations to super.$meta
-		$meta.setFlatMapFunction(_flatMapFunction);
+		_meta.setFlatMapFunction(_flatMapFunction);
 	}
 
 	/// Metadata for the translations of <en>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	/// Access flat map
-	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
+	@override dynamic operator[](String key) => _meta.getTranslation(key) ?? super[key];
 
 	late final TranslationsEn _root = this; // ignore: unused_field
 
@@ -57,6 +57,7 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$updates$en updates = _Translations$updates$en._(_root);
 	@override late final _Translations$errors$en errors = _Translations$errors$en._(_root);
 	@override late final _Translations$pages$en pages = _Translations$pages$en._(_root);
+	@override late final _Translations$tools$en tools = _Translations$tools$en._(_root);
 	@override late final _Translations$bookmarksPage$en bookmarksPage = _Translations$bookmarksPage$en._(_root);
 	@override late final _Translations$characterDetailsPage$en characterDetailsPage = _Translations$characterDetailsPage$en._(_root);
 	@override late final _Translations$weaponDetailsPage$en weaponDetailsPage = _Translations$weaponDetailsPage$en._(_root);
@@ -227,6 +228,8 @@ class _Translations$errors$en extends Translations$errors$ja {
 	@override String get dbError => 'A database error occurred.';
 	@override String get notificationPermissionRevoked => 'Please allow notifications to show daily material notifications.';
 	@override String get notificationRegistrationFailed => 'Failed to register notifications.';
+	@override String get failedToObtainHylCredential => 'Failed to load HoYoLAB credential. Please unlink and link again.';
+	@override String get failedToFetchSignState => 'Failed to fetch login bonus info.';
 }
 
 // Path: pages
@@ -260,6 +263,20 @@ class _Translations$pages$en extends Translations$pages$ja {
 	@override String get wishes => 'Wish Pity Counter';
 	@override String get more => 'More';
 	@override String get hoyolabIntegrationSettings => 'HoYoLAB Integration Settings';
+	@override String get loginBonus => 'Daily Check-In';
+}
+
+// Path: tools
+class _Translations$tools$en extends Translations$tools$ja {
+	_Translations$tools$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get loginBonusLoading => 'Loading login bonus…';
+	@override String get loginBonusClaimed => 'Login Bonus Claimed';
+	@override String get loginBonusUnclaimed => 'Daily Check-In Unclaimed';
+	@override String get loginBonusLogoutWarning => '*Please be careful not to tap the Log Out button. Doing so will unlink your account, and you will need to link it again.';
 }
 
 // Path: bookmarksPage
@@ -726,6 +743,8 @@ extension on TranslationsEn {
 			'errors.dbError' => 'A database error occurred.',
 			'errors.notificationPermissionRevoked' => 'Please allow notifications to show daily material notifications.',
 			'errors.notificationRegistrationFailed' => 'Failed to register notifications.',
+			'errors.failedToObtainHylCredential' => 'Failed to load HoYoLAB credential. Please unlink and link again.',
+			'errors.failedToFetchSignState' => 'Failed to fetch login bonus info.',
 			'pages.characters' => 'Characters',
 			'pages.characterDetails' => ({required Object character}) => '${character} - Character',
 			'pages.weapons' => 'Weapons',
@@ -750,6 +769,11 @@ extension on TranslationsEn {
 			'pages.wishes' => 'Wish Pity Counter',
 			'pages.more' => 'More',
 			'pages.hoyolabIntegrationSettings' => 'HoYoLAB Integration Settings',
+			'pages.loginBonus' => 'Daily Check-In',
+			'tools.loginBonusLoading' => 'Loading login bonus…',
+			'tools.loginBonusClaimed' => 'Login Bonus Claimed',
+			'tools.loginBonusUnclaimed' => 'Daily Check-In Unclaimed',
+			'tools.loginBonusLogoutWarning' => '*Please be careful not to tap the Log Out button. Doing so will unlink your account, and you will need to link it again.',
 			'bookmarksPage.noBookmarks' => 'No bookmarks yet. Try finding something in the Database tab!',
 			'bookmarksPage.character' => 'Character',
 			'bookmarksPage.weapon' => 'Weapon',

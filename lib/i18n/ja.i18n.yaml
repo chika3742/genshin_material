@@ -87,6 +87,8 @@ errors:
   dbError: データベースエラーが発生しました。
   notificationPermissionRevoked: 日替わり素材通知を表示するには、通知を許可してください。
   notificationRegistrationFailed: 通知の登録に失敗しました。
+  failedToObtainHylCredential: HoYoLAB認証情報の読み込みに失敗しました。一度連携を解除し、再度連携を行ってください。
+  failedToFetchSignState: ログインボーナス状況の取得に失敗しました。
 pages:
   characters: キャラクター
   characterDetails: $character - キャラクター
@@ -112,6 +114,12 @@ pages:
   wishes: 祈願天井カウンター
   more: その他
   hoyolabIntegrationSettings: HoYoLAB連携設定
+  loginBonus: ログインボーナス
+tools:
+  loginBonusLoading: ログインボーナス情報取得中…
+  loginBonusClaimed: 本日のログインボーナス受取済
+  loginBonusUnclaimed: ログインボーナスが未受取です
+  loginBonusLogoutWarning: ※ログアウトボタンをタップしないようにご注意ください。連携を解除して再連携する必要があります。
 bookmarksPage:
   noBookmarks: ブックマークがありません。「データベース」タブから探してみましょう！
   character: キャラクター

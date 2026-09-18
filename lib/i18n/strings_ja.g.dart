@@ -20,20 +20,21 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	Translations({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.ja,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
 		  ) {
-		$meta.setFlatMapFunction(_flatMapFunction);
+		_meta.setFlatMapFunction(_flatMapFunction);
 	}
 
 	/// Metadata for the translations of <ja>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	/// Access flat map
-	dynamic operator[](String key) => $meta.getTranslation(key);
+	dynamic operator[](String key) => _meta.getTranslation(key);
 
 	late final Translations _root = this; // ignore: unused_field
 
@@ -61,6 +62,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$updates$ja updates = Translations$updates$ja.internal(_root);
 	late final Translations$errors$ja errors = Translations$errors$ja.internal(_root);
 	late final Translations$pages$ja pages = Translations$pages$ja.internal(_root);
+	late final Translations$tools$ja tools = Translations$tools$ja.internal(_root);
 	late final Translations$bookmarksPage$ja bookmarksPage = Translations$bookmarksPage$ja.internal(_root);
 	late final Translations$characterDetailsPage$ja characterDetailsPage = Translations$characterDetailsPage$ja.internal(_root);
 	late final Translations$weaponDetailsPage$ja weaponDetailsPage = Translations$weaponDetailsPage$ja.internal(_root);
@@ -326,6 +328,12 @@ class Translations$errors$ja {
 
 	/// ja: '通知の登録に失敗しました。'
 	String get notificationRegistrationFailed => '通知の登録に失敗しました。';
+
+	/// ja: 'HoYoLAB認証情報の読み込みに失敗しました。一度連携を解除し、再度連携を行ってください。'
+	String get failedToObtainHylCredential => 'HoYoLAB認証情報の読み込みに失敗しました。一度連携を解除し、再度連携を行ってください。';
+
+	/// ja: 'ログインボーナス状況の取得に失敗しました。'
+	String get failedToFetchSignState => 'ログインボーナス状況の取得に失敗しました。';
 }
 
 // Path: pages
@@ -407,6 +415,30 @@ class Translations$pages$ja {
 
 	/// ja: 'HoYoLAB連携設定'
 	String get hoyolabIntegrationSettings => 'HoYoLAB連携設定';
+
+	/// ja: 'ログインボーナス'
+	String get loginBonus => 'ログインボーナス';
+}
+
+// Path: tools
+class Translations$tools$ja {
+	Translations$tools$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// ja: 'ログインボーナス情報取得中…'
+	String get loginBonusLoading => 'ログインボーナス情報取得中…';
+
+	/// ja: '本日のログインボーナス受取済'
+	String get loginBonusClaimed => '本日のログインボーナス受取済';
+
+	/// ja: 'ログインボーナスが未受取です'
+	String get loginBonusUnclaimed => 'ログインボーナスが未受取です';
+
+	/// ja: '※ログアウトボタンをタップしないようにご注意ください。連携を解除して再連携する必要があります。'
+	String get loginBonusLogoutWarning => '※ログアウトボタンをタップしないようにご注意ください。連携を解除して再連携する必要があります。';
 }
 
 // Path: bookmarksPage
@@ -1211,6 +1243,8 @@ extension on Translations {
 			'errors.dbError' => 'データベースエラーが発生しました。',
 			'errors.notificationPermissionRevoked' => '日替わり素材通知を表示するには、通知を許可してください。',
 			'errors.notificationRegistrationFailed' => '通知の登録に失敗しました。',
+			'errors.failedToObtainHylCredential' => 'HoYoLAB認証情報の読み込みに失敗しました。一度連携を解除し、再度連携を行ってください。',
+			'errors.failedToFetchSignState' => 'ログインボーナス状況の取得に失敗しました。',
 			'pages.characters' => 'キャラクター',
 			'pages.characterDetails' => ({required Object character}) => '${character} - キャラクター',
 			'pages.weapons' => '武器',
@@ -1235,6 +1269,11 @@ extension on Translations {
 			'pages.wishes' => '祈願天井カウンター',
 			'pages.more' => 'その他',
 			'pages.hoyolabIntegrationSettings' => 'HoYoLAB連携設定',
+			'pages.loginBonus' => 'ログインボーナス',
+			'tools.loginBonusLoading' => 'ログインボーナス情報取得中…',
+			'tools.loginBonusClaimed' => '本日のログインボーナス受取済',
+			'tools.loginBonusUnclaimed' => 'ログインボーナスが未受取です',
+			'tools.loginBonusLogoutWarning' => '※ログアウトボタンをタップしないようにご注意ください。連携を解除して再連携する必要があります。',
 			'bookmarksPage.noBookmarks' => 'ブックマークがありません。「データベース」タブから探してみましょう！',
 			'bookmarksPage.character' => 'キャラクター',
 			'bookmarksPage.weapon' => '武器',

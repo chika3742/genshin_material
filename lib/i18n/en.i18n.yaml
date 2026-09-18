@@ -90,6 +90,8 @@ errors:
   dbError: A database error occurred.
   notificationPermissionRevoked: Please allow notifications to show daily material notifications.
   notificationRegistrationFailed: Failed to register notifications.
+  failedToObtainHylCredential: Failed to load HoYoLAB credential. Please unlink and link again.
+  failedToFetchSignState: Failed to fetch login bonus info.
 pages:
   characters: Characters
   characterDetails: $character - Character
@@ -115,6 +117,12 @@ pages:
   wishes: Wish Pity Counter
   more: More
   hoyolabIntegrationSettings: HoYoLAB Integration Settings
+  loginBonus: Daily Check-In
+tools:
+  loginBonusLoading: Loading login bonus…
+  loginBonusClaimed: Login Bonus Claimed
+  loginBonusUnclaimed: Daily Check-In Unclaimed
+  loginBonusLogoutWarning: "*Please be careful not to tap the Log Out button. Doing so will unlink your account, and you will need to link it again."
 bookmarksPage:
   noBookmarks: No bookmarks yet. Try finding something in the Database tab!
   character: Character

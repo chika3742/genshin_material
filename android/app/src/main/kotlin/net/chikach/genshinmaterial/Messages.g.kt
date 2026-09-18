@@ -40,6 +40,150 @@ private object MessagesPigeonUtils {
       )
     }
   }
+  fun doubleEquals(a: Double, b: Double): Boolean {
+    // Normalize -0.0 to 0.0 and handle NaN equality.
+    return (if (a == 0.0) 0.0 else a) == (if (b == 0.0) 0.0 else b) || (a.isNaN() && b.isNaN())
+  }
+
+  fun floatEquals(a: Float, b: Float): Boolean {
+    // Normalize -0.0 to 0.0 and handle NaN equality.
+    return (if (a == 0.0f) 0.0f else a) == (if (b == 0.0f) 0.0f else b) || (a.isNaN() && b.isNaN())
+  }
+
+  fun doubleHash(d: Double): Int {
+    // Normalize -0.0 to 0.0 and handle NaN to ensure consistent hash codes.
+    val normalized = if (d == 0.0) 0.0 else d
+    val bits = java.lang.Double.doubleToLongBits(normalized)
+    return (bits xor (bits ushr 32)).toInt()
+  }
+
+  fun floatHash(f: Float): Int {
+    // Normalize -0.0 to 0.0 and handle NaN to ensure consistent hash codes.
+    val normalized = if (f == 0.0f) 0.0f else f
+    return java.lang.Float.floatToIntBits(normalized)
+  }
+
+  fun deepEquals(a: Any?, b: Any?): Boolean {
+    if (a === b) {
+      return true
+    }
+    if (a == null || b == null) {
+      return false
+    }
+    if (a is ByteArray && b is ByteArray) {
+      return a.contentEquals(b)
+    }
+    if (a is IntArray && b is IntArray) {
+      return a.contentEquals(b)
+    }
+    if (a is LongArray && b is LongArray) {
+      return a.contentEquals(b)
+    }
+    if (a is DoubleArray && b is DoubleArray) {
+      if (a.size != b.size) return false
+      for (i in a.indices) {
+        if (!doubleEquals(a[i], b[i])) return false
+      }
+      return true
+    }
+    if (a is FloatArray && b is FloatArray) {
+      if (a.size != b.size) return false
+      for (i in a.indices) {
+        if (!floatEquals(a[i], b[i])) return false
+      }
+      return true
+    }
+    if (a is Array<*> && b is Array<*>) {
+      if (a.size != b.size) return false
+      for (i in a.indices) {
+        if (!deepEquals(a[i], b[i])) return false
+      }
+      return true
+    }
+    if (a is List<*> && b is List<*>) {
+      if (a.size != b.size) return false
+      val iterA = a.iterator()
+      val iterB = b.iterator()
+      while (iterA.hasNext() && iterB.hasNext()) {
+        if (!deepEquals(iterA.next(), iterB.next())) return false
+      }
+      return true
+    }
+    if (a is Map<*, *> && b is Map<*, *>) {
+      if (a.size != b.size) return false
+      for (entry in a) {
+        val key = entry.key
+        var found = false
+        for (bEntry in b) {
+          if (deepEquals(key, bEntry.key)) {
+            if (deepEquals(entry.value, bEntry.value)) {
+              found = true
+              break
+            } else {
+              return false
+            }
+          }
+        }
+        if (!found) return false
+      }
+      return true
+    }
+    if (a is Double && b is Double) {
+      return doubleEquals(a, b)
+    }
+    if (a is Float && b is Float) {
+      return floatEquals(a, b)
+    }
+    return a == b
+  }
+
+  fun deepHash(value: Any?): Int {
+    return when (value) {
+      null -> 0
+      is ByteArray -> value.contentHashCode()
+      is IntArray -> value.contentHashCode()
+      is LongArray -> value.contentHashCode()
+      is DoubleArray -> {
+        var result = 1
+        for (item in value) {
+          result = 31 * result + doubleHash(item)
+        }
+        result
+      }
+      is FloatArray -> {
+        var result = 1
+        for (item in value) {
+          result = 31 * result + floatHash(item)
+        }
+        result
+      }
+      is Array<*> -> {
+        var result = 1
+        for (item in value) {
+          result = 31 * result + deepHash(item)
+        }
+        result
+      }
+      is List<*> -> {
+        var result = 1
+        for (item in value) {
+          result = 31 * result + deepHash(item)
+        }
+        result
+      }
+      is Map<*, *> -> {
+        var result = 0
+        for (entry in value) {
+          result += ((deepHash(entry.key) * 31) xor deepHash(entry.value))
+        }
+        result
+      }
+      is Double -> doubleHash(value)
+      is Float -> floatHash(value)
+      else -> value.hashCode()
+    }
+  }
+
 }
 
 /**
@@ -53,12 +197,78 @@ class FlutterError (
   override val message: String? = null,
   val details: Any? = null
 ) : RuntimeException()
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class CookieEntry (
+  val key: String,
+  val value: String,
+  val domain: String,
+  val httpOnly: Boolean,
+  val secure: Boolean
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): CookieEntry {
+      val key = pigeonVar_list[0] as String
+      val value = pigeonVar_list[1] as String
+      val domain = pigeonVar_list[2] as String
+      val httpOnly = pigeonVar_list[3] as Boolean
+      val secure = pigeonVar_list[4] as Boolean
+      return CookieEntry(key, value, domain, httpOnly, secure)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      key,
+      value,
+      domain,
+      httpOnly,
+      secure,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as CookieEntry
+    return MessagesPigeonUtils.deepEquals(this.key, other.key) && MessagesPigeonUtils.deepEquals(this.value, other.value) && MessagesPigeonUtils.deepEquals(this.domain, other.domain) && MessagesPigeonUtils.deepEquals(this.httpOnly, other.httpOnly) && MessagesPigeonUtils.deepEquals(this.secure, other.secure)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.key)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.value)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.domain)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.httpOnly)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.secure)
+    return result
+  }
+  override fun toString(): String {
+    return "CookieEntry(key=$key, value=$value, domain=$domain, httpOnly=$httpOnly, secure=$secure)"
+  }
+}
 private open class MessagesPigeonCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
-    return     super.readValueOfType(type, buffer)
+    return when (type) {
+      129.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          CookieEntry.fromList(it)
+        }
+      }
+      else -> super.readValueOfType(type, buffer)
+    }
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
-    super.writeValue(stream, value)
+    when (value) {
+      is CookieEntry -> {
+        stream.write(129)
+        writeValue(stream, value.toList())
+      }
+      else -> super.writeValue(stream, value)
+    }
   }
 }
 
@@ -66,6 +276,7 @@ private open class MessagesPigeonCodec : StandardMessageCodec() {
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface HoyolabIntegrationApi {
   suspend fun fetchCookie(): String
+  suspend fun setCookies(cookies: List<CookieEntry>)
 
   companion object {
     /** The codec used by HoyolabIntegrationApi. */
@@ -83,6 +294,26 @@ interface HoyolabIntegrationApi {
             CoroutineScope(Dispatchers.Main).launch {
               val wrapped: List<Any?> = try {
                 listOf(api.fetchCookie())
+              } catch (exception: Throwable) {
+                MessagesPigeonUtils.wrapError(exception)
+              }
+              reply.reply(wrapped)
+            }
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.genshin_material.HoyolabIntegrationApi.setCookies$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val cookiesArg = args[0] as List<CookieEntry>
+            CoroutineScope(Dispatchers.Main).launch {
+              val wrapped: List<Any?> = try {
+                api.setCookies(cookiesArg)
+                listOf(null)
               } catch (exception: Throwable) {
                 MessagesPigeonUtils.wrapError(exception)
               }
