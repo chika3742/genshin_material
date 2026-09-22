@@ -14,6 +14,6 @@ import "package:pigeon/pigeon.dart";
 ))
 @HostApi()
 abstract class HoyolabIntegrationApi {
-  @async
+  @async // Android's is a sync function, but the iOS one is async
   String fetchCookie();
 }
