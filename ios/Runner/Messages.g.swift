@@ -67,6 +67,115 @@ enum MessagesPigeonInternal {
 
     return innerValue is NSNull
   }
+  static func doubleEquals(_ lhs: Double, _ rhs: Double) -> Bool {
+    return (lhs.isNaN && rhs.isNaN) || lhs == rhs
+  }
+
+  static func doubleHash(_ value: Double, _ hasher: inout Hasher) {
+    if value.isNaN {
+      hasher.combine(0x7FF8000000000000)
+    } else {
+      // Normalize -0.0 to 0.0
+      hasher.combine(value == 0 ? 0 : value)
+    }
+  }
+
+  static func deepEquals(_ lhs: Any?, _ rhs: Any?) -> Bool {
+    let cleanLhs = nilOrValue(lhs) as Any?
+    let cleanRhs = nilOrValue(rhs) as Any?
+    switch (cleanLhs, cleanRhs) {
+    case (nil, nil):
+      return true
+
+    case (nil, _), (_, nil):
+      return false
+
+    case (let lhs as AnyObject, let rhs as AnyObject) where lhs === rhs:
+      return true
+
+    case is (Void, Void):
+      return true
+
+    case (let lhsArray, let rhsArray) as ([Double], [Double]):
+      guard lhsArray.count == rhsArray.count else { return false }
+      for (index, element) in lhsArray.enumerated() {
+        if !doubleEquals(element, rhsArray[index]) {
+          return false
+        }
+      }
+      return true
+
+    case (let lhsArray, let rhsArray) as ([Any?], [Any?]):
+      guard lhsArray.count == rhsArray.count else { return false }
+      for (index, element) in lhsArray.enumerated() {
+        if !deepEquals(element, rhsArray[index]) {
+          return false
+        }
+      }
+      return true
+
+    case (let lhsDictionary, let rhsDictionary) as ([AnyHashable: Any?], [AnyHashable: Any?]):
+      guard lhsDictionary.count == rhsDictionary.count else { return false }
+      for (lhsKey, lhsValue) in lhsDictionary {
+        var found = false
+        for (rhsKey, rhsValue) in rhsDictionary {
+          if deepEquals(lhsKey, rhsKey) {
+            if deepEquals(lhsValue, rhsValue) {
+              found = true
+              break
+            } else {
+              return false
+            }
+          }
+        }
+        if !found { return false }
+      }
+      return true
+
+    case (let lhs as Double, let rhs as Double):
+      return doubleEquals(lhs, rhs)
+
+    case (let lhsHashable, let rhsHashable) as (AnyHashable, AnyHashable):
+      return lhsHashable == rhsHashable
+
+    default:
+      return false
+    }
+  }
+
+  static func deepHash(value: Any?, hasher: inout Hasher) {
+    let cleanValue = nilOrValue(value) as Any?
+    if let cleanValue = cleanValue {
+      if let doubleValue = cleanValue as? Double {
+        doubleHash(doubleValue, &hasher)
+      } else if let valueList = cleanValue as? [Any?] {
+        for item in valueList {
+          deepHash(value: item, hasher: &hasher)
+        }
+      } else if let valueList = cleanValue as? [Double] {
+        for item in valueList {
+          doubleHash(item, &hasher)
+        }
+      } else if let valueDict = cleanValue as? [AnyHashable: Any?] {
+        var result = 0
+        for (key, value) in valueDict {
+          var entryKeyHasher = Hasher()
+          deepHash(value: key, hasher: &entryKeyHasher)
+          var entryValueHasher = Hasher()
+          deepHash(value: value, hasher: &entryValueHasher)
+          result = result &+ ((entryKeyHasher.finalize() &* 31) ^ entryValueHasher.finalize())
+        }
+        hasher.combine(result)
+      } else if let hashableValue = cleanValue as? AnyHashable {
+        hasher.combine(hashableValue)
+      } else {
+        hasher.combine(String(describing: cleanValue))
+      }
+    } else {
+      hasher.combine(0)
+    }
+  }
+
 }
 
 private func nilOrValue<T>(_ value: Any?) -> T? {
@@ -75,10 +184,81 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
 }
 
 
+/// Generated class from Pigeon that represents data sent in messages.
+struct CookieEntry: Hashable, CustomStringConvertible {
+  var key: String
+  var value: String
+  var domain: String
+  var httpOnly: Bool
+  var secure: Bool
+
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> CookieEntry? {
+    let key = pigeonVar_list[0] as! String
+    let value = pigeonVar_list[1] as! String
+    let domain = pigeonVar_list[2] as! String
+    let httpOnly = pigeonVar_list[3] as! Bool
+    let secure = pigeonVar_list[4] as! Bool
+
+    return CookieEntry(
+      key: key,
+      value: value,
+      domain: domain,
+      httpOnly: httpOnly,
+      secure: secure
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      key,
+      value,
+      domain,
+      httpOnly,
+      secure,
+    ]
+  }
+  static func == (lhs: CookieEntry, rhs: CookieEntry) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return MessagesPigeonInternal.deepEquals(lhs.key, rhs.key) && MessagesPigeonInternal.deepEquals(lhs.value, rhs.value) && MessagesPigeonInternal.deepEquals(lhs.domain, rhs.domain) && MessagesPigeonInternal.deepEquals(lhs.httpOnly, rhs.httpOnly) && MessagesPigeonInternal.deepEquals(lhs.secure, rhs.secure)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("CookieEntry")
+    MessagesPigeonInternal.deepHash(value: key, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: value, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: domain, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: httpOnly, hasher: &hasher)
+    MessagesPigeonInternal.deepHash(value: secure, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "CookieEntry(key: \(String(describing: key)), value: \(String(describing: value)), domain: \(String(describing: domain)), httpOnly: \(String(describing: httpOnly)), secure: \(String(describing: secure)))"
+  }
+}
+
 private class MessagesPigeonCodecReader: FlutterStandardReader {
+  override func readValue(ofType type: UInt8) -> Any? {
+    switch type {
+    case 129:
+      return CookieEntry.fromList(self.readValue() as! [Any?])
+    default:
+      return super.readValue(ofType: type)
+    }
+  }
 }
 
 private class MessagesPigeonCodecWriter: FlutterStandardWriter {
+  override func writeValue(_ value: Any) {
+    if let value = value as? CookieEntry {
+      super.writeByte(129)
+      super.writeValue(value.toList())
+    } else {
+      super.writeValue(value)
+    }
+  }
 }
 
 private class MessagesPigeonCodecReaderWriter: FlutterStandardReaderWriter {
@@ -99,6 +279,7 @@ class MessagesPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol HoyolabIntegrationApi {
   func fetchCookie() async throws -> String
+  func setCookies(cookies: [CookieEntry]) async throws
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -121,6 +302,23 @@ class HoyolabIntegrationApiSetup {
       }
     } else {
       fetchCookieChannel.setMessageHandler(nil)
+    }
+    let setCookiesChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.genshin_material.HoyolabIntegrationApi.setCookies\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setCookiesChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let cookiesArg = args[0] as! [CookieEntry]
+        Task { @MainActor in
+          do {
+            try await api.setCookies(cookies: cookiesArg)
+            reply(wrapResult(nil))
+          } catch {
+            reply(wrapError(error))
+          }
+        }
+      }
+    } else {
+      setCookiesChannel.setMessageHandler(nil)
     }
   }
 }

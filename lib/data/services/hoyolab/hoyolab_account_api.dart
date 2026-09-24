@@ -46,4 +46,13 @@ class HoyolabAccountApi extends HoyolabAuthenticatedApi {
     withDsToken: true,
     withRpcHeaders: true,
   );
+
+  Future<SignInfo> loginBonusStatus() => send(
+    "https://sg-act-public-api.hoyolab.com/event/sol/info",
+    query: {
+      "lang": lang,
+      "act_id": "e202102251931481",
+    },
+    parse: (obj) => SignInfo.fromJson(obj! as Map<String, dynamic>),
+  );
 }

@@ -3674,7 +3674,10 @@ class $$BookmarkMaterialGroupTableTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<
+                    $BookmarkMaterialGroupTableTable,
+                    BookmarkMaterialGroup
+                  >(table),
                   $$BookmarkMaterialGroupTableTableReferences(db, table, e),
                 ),
               )
@@ -4015,7 +4018,10 @@ class $$BookmarkMaterialItemTableTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<
+                    $BookmarkMaterialItemTableTable,
+                    BookmarkMaterialItem
+                  >(table),
                   $$BookmarkMaterialItemTableTableReferences(db, table, e),
                 ),
               )
@@ -4445,7 +4451,9 @@ class $$BookmarkArtifactTableTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<$BookmarkArtifactTableTable, BookmarkArtifact>(
+                    table,
+                  ),
                   $$BookmarkArtifactTableTableReferences(db, table, e),
                 ),
               )
@@ -4778,7 +4786,10 @@ class $$BookmarkArtifactSetTableTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<
+                    $BookmarkArtifactSetTableTable,
+                    BookmarkArtifactSet
+                  >(table),
                   $$BookmarkArtifactSetTableTableReferences(db, table, e),
                 ),
               )
@@ -5078,7 +5089,10 @@ class $$BookmarkArtifactPieceTableTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<
+                    $BookmarkArtifactPieceTableTable,
+                    BookmarkArtifactPiece
+                  >(table),
                   $$BookmarkArtifactPieceTableTableReferences(db, table, e),
                 ),
               )
@@ -5342,7 +5356,19 @@ class $$InGameCharacterStateTableTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<
+                    $InGameCharacterStateTableTable,
+                    InGameCharacterState
+                  >(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $InGameCharacterStateTableTable,
+                    InGameCharacterState
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -5566,7 +5592,18 @@ class $$InGameWeaponStateTableTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$InGameWeaponStateTableTable, InGameWeaponState>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $InGameWeaponStateTableTable,
+                    InGameWeaponState
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -5768,7 +5805,18 @@ class $$MaterialBagCountTableTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$MaterialBagCountTableTable, MaterialBagCount>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MaterialBagCountTableTable,
+                    MaterialBagCount
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -5951,7 +5999,19 @@ class $$FurnishingCraftCountTableTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<
+                    $FurnishingCraftCountTableTable,
+                    FurnishingCraftCount
+                  >(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $FurnishingCraftCountTableTable,
+                    FurnishingCraftCount
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -6113,7 +6173,19 @@ class $$FurnishingSetBookmarkTableTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<
+                    $FurnishingSetBookmarkTableTable,
+                    FurnishingSetBookmark
+                  >(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $FurnishingSetBookmarkTableTable,
+                    FurnishingSetBookmark
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
