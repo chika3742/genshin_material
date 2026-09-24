@@ -92,4 +92,6 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")  // needed desugaring for flutter_local_notifications
     implementation("androidx.window:window:1.0.0")  // fix for crash when using desugaring on Android 12L+
     implementation("androidx.window:window-java:1.0.0")  // fix for crash when using desugaring on Android 12L+
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 }

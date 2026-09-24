@@ -9,22 +9,21 @@ import Foundation
 import WebKit
 
 class HoyolabIntegrationApiImplementation : HoyolabIntegrationApi {
-  func fetchCookie(completion: @escaping (Result<String, any Error>) -> Void) {
-    let dataStore = WKWebsiteDataStore.default()
-    dataStore.httpCookieStore.getAllCookies() { cookies in
-      var cookieString = ""
-      
-      cookies.forEach { cookie in
-        if (cookie.domain == ".hoyolab.com") {
-          cookieString += "\(cookie.name)=\(cookie.value); "
+    func fetchCookie() async throws -> String {
+        let store = await WKWebsiteDataStore.default().httpCookieStore
+        let cookies = await store.allCookies()
+        
+        var cookieString = ""
+        cookies.forEach { cookie in
+            if (cookie.domain == ".hoyolab.com") {
+                cookieString += "\(cookie.name)=\(cookie.value); "
+            }
         }
-      }
-      
-      if !cookieString.isEmpty {
-        completion(Result.success(cookieString))
-      } else {
-        completion(Result.failure(PigeonError(code: "internal", message: "Failed to get cookie", details: nil)))
-      }
+        
+        if cookieString.isEmpty {
+            throw PigeonError(code: "internal", message: "Failed to get cookie", details: nil)
+        }
+        
+        return cookieString
     }
-  }
 }
