@@ -30,7 +30,7 @@ class HoyolabIntegrationApiImplementation : HoyolabIntegrationApi {
     func setCookies(cookies: [CookieEntry]) async throws {
         let store = await WKWebsiteDataStore.default().httpCookieStore
         
-        let httpCookies = cookies.map { entry in
+        let httpCookies = cookies.compactMap { entry in
             var setCookieHeader = "\(entry.key)=\(entry.value); Domain=\(entry.domain)"
             if entry.secure {
                 setCookieHeader += "; Secure"
@@ -41,7 +41,7 @@ class HoyolabIntegrationApiImplementation : HoyolabIntegrationApi {
             return HTTPCookie.cookies(
                 withResponseHeaderFields: ["Set-Cookie": setCookieHeader],
                 for: URL(string: "https://www.hoyolab.com")!,
-            )[0]
+            ).first
         }
         
         if #available(iOS 26.0, *) {

@@ -32,7 +32,7 @@ class CookieEntry {
     required this.key,
     required this.value,
     required this.domain,
-    this.httpOnly = false,
-    this.secure = false,
+    required this.httpOnly,
+    required this.secure,
   });
 }

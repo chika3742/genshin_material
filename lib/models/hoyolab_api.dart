@@ -284,7 +284,6 @@ mixin WithId {
 sealed class SignInfo with _$SignInfo {
   const factory SignInfo({
     @JsonKey(name: "is_sign") required bool isSign,
-    required String today,
   }) = _SignInfo;
 
   factory SignInfo.fromJson(Map<String, dynamic> json) =>

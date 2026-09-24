@@ -6,10 +6,12 @@ import "package:url_launcher/url_launcher_string.dart";
 
 import "../../components/list_tile.dart";
 import "../../constants/urls.dart";
+import "../../core/remote_config_keys.dart";
 import "../../data/repositories/hoyolab_cookie_repository.dart";
 import "../../i18n/strings.g.dart";
 import "../../models/hoyolab_api.dart";
 import "../../providers/hoyolab_api.dart";
+import "../../providers/remote_config.dart";
 import "../../routes.dart";
 import "../../ui_core/error_messages.dart";
 
@@ -40,7 +42,8 @@ class ToolsPage extends HookConsumerWidget {
               launchUrlString(wishesPageUrl, mode: LaunchMode.externalApplication);
             },
           ),
-          if (cookie case AsyncData(:final value) when value != null)
+          if (cookie case AsyncData(:final value) when value != null
+              && ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
             SimpleListTile(
               leading: Badge(
                 smallSize: 8,
@@ -51,7 +54,6 @@ class ToolsPage extends HookConsumerWidget {
               title: switch (signState.connectionState) {
                 .active || .waiting => tr.tools.loginBonusLoading,
                 .done when signState.hasError => getErrorMessage(signState.error, prefix: tr.errors.failedToFetchSignState),
-                .done when signState.data == null => tr.errors.failedToObtainHylCredential,
                 .done when signState.data!.isSign => tr.tools.loginBonusClaimed,
                 _ => tr.tools.loginBonusUnclaimed,
               },
@@ -79,12 +81,12 @@ class ToolsPage extends HookConsumerWidget {
     refreshCounter.value++;
   }
   final future = useMemoized(() async {
-    if (cookie case AsyncData(:final value) when value == null) {
+    if (cookie.value == null) {
       return null;
     }
     final api = await ref.watch(hoyolabAccountApiProvider.future);
     return await api.loginBonusStatus();
-  }, [cookie, refreshCounter.value]);
+  }, [cookie.value, refreshCounter.value]);
   final snapshot = useFuture(future);
   return (snapshot, refresh);
 }

@@ -91,8 +91,18 @@ List<CookieEntry> _parseCookies(String cookie) {
 
   final entries = cookie.split(";").map((e) => e.trim());
   return entries.map((rawEntry) {
-    final key = rawEntry.split("=")[0];
-    final value = rawEntry.split("=").sublist(1).join();
+    final separatorIndex = rawEntry.indexOf("=");
+    if (separatorIndex < 0) {
+      return CookieEntry(
+        key: "",
+        value: "",
+        domain: "",
+        secure: false,
+        httpOnly: false,
+      );
+    }
+    final key = rawEntry.substring(0, separatorIndex);
+    final value = rawEntry.substring(separatorIndex + 1);
     return CookieEntry(
       key: key,
       value: value,
