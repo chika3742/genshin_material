@@ -1,11 +1,11 @@
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:firebase_remote_config/firebase_remote_config.dart";
-import "package:flutter/cupertino.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
+import "package:flutter_localizations/flutter_localizations.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
@@ -47,17 +47,16 @@ void main() async {
   );
   LicenseRegistry.addLicense(() async* {
     final licenses = [
-      "assets/google_fonts/OFL_MPLUS2.txt",
-      "assets/google_fonts/OFL_TitilliumWeb.txt",
+      "assets/google_fonts/Kaisei_Opti/OFL.txt",
+      "assets/google_fonts/M_PLUS_2/OFL.txt",
+      "assets/google_fonts/Noto_Serif_JP/OFL.txt",
+      "assets/google_fonts/Titillium_Web/OFL.txt",
     ];
 
     for (var path in licenses) {
       final license = await rootBundle.loadString(path);
       yield LicenseEntryWithLineBreaks(["google_fonts"], license);
     }
-
-    final license = await rootBundle.loadString("assets/fonts/SIL_Open_Font_License_1.1.txt");
-    yield LicenseEntryWithLineBreaks(["Rounded-X Mgen+ 1p"], license);
   });
 
   // Firebase
@@ -114,44 +113,43 @@ class MyApp extends HookConsumerWidget {
     return MaterialApp.router(
       title: appTitle,
       debugShowCheckedModeBanner: !isScreenshotMode,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
-        extensions: [
-          ComponentThemeExtension(
-            starColor: Colors.orange,
-            rarity1Color: Colors.grey.shade600,
-            rarity2Color: Colors.green,
-            rarity3Color: Colors.blue,
-            rarity4Color: Colors.purple,
-            rarity5Color: Colors.orange.shade700,
-          ),
-        ],
-        textTheme: GoogleFonts.mPlus2TextTheme(),
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.orange,
-          brightness: Brightness.dark,
-        ),
-        extensions: [
-          ComponentThemeExtension(
-            starColor: Colors.yellow,
-            rarity1Color: Colors.grey,
-            rarity2Color: Colors.green,
-            rarity3Color: Colors.blue,
-            rarity4Color: Colors.purple.shade300,
-            rarity5Color: Colors.orange,
-          ),
-        ],
-        textTheme: GoogleFonts.mPlus2TextTheme(ThemeData.dark().textTheme),
-      ),
+      theme: _buildTheme(.light),
+      darkTheme: _buildTheme(.dark),
       routerConfig: _router,
-      localizationsDelegates: const [
-        DefaultMaterialLocalizations.delegate,
-        DefaultCupertinoLocalizations.delegate,
-        DefaultWidgetsLocalizations.delegate,
-      ],
+      locale: LocaleSettings.currentLocale.flutterLocale,
+      supportedLocales: LocaleSettings.instance.supportedLocales,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       scrollBehavior: const ScrollbarOnAllPlatformsScrollBehavior(),
+    );
+  }
+
+  ThemeData _buildTheme(Brightness brightness) {
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: Colors.orange,
+      brightness: brightness,
+    );
+    return ThemeData(
+      colorScheme: colorScheme,
+      extensions: [
+        brightness == .light
+            ? ComponentThemeExtension(
+          starColor: Colors.orange,
+          rarity1Color: Colors.grey.shade600,
+          rarity2Color: Colors.green,
+          rarity3Color: Colors.blue,
+          rarity4Color: Colors.purple,
+          rarity5Color: Colors.orange.shade700,
+        )
+            : ComponentThemeExtension(
+          starColor: Colors.yellow,
+          rarity1Color: Colors.grey,
+          rarity2Color: Colors.green,
+          rarity3Color: Colors.blue,
+          rarity4Color: Colors.purple.shade300,
+          rarity5Color: Colors.orange,
+        ),
+      ],
+      textTheme: GoogleFonts.mPlus2TextTheme(ThemeData.from(colorScheme: colorScheme).textTheme),
     );
   }
 }

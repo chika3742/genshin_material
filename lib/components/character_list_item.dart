@@ -13,7 +13,8 @@ class CharacterListItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (ref.watch(assetDataProvider).value == null) {
+    final assetData = ref.watch(assetDataProvider).value;
+    if (assetData == null) {
       return const SizedBox();
     }
     final images = ref.watch(assetImageResolverProvider);
@@ -63,7 +64,7 @@ class CharacterListItem extends ConsumerWidget {
                   child: Text(
                     character.name.localized,
                     style: TextStyle(
-                      fontFamily: "Rounded Mgen+",
+                      fontFamily: assetData.characterNameFontFamily,
                       fontSize: 24,
                     ),
                   ),

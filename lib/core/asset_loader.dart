@@ -1,6 +1,7 @@
 import "dart:convert";
 import "dart:io";
 
+import "package:flutter/services.dart";
 import "package:path/path.dart" as path;
 
 import "../models/asset_release_version.dart";
@@ -37,5 +38,12 @@ class AssetLoader {
       );
     }
     return parsed;
+  }
+
+  Future<void> loadCharacterNameFont(String fontFamilyName) async {
+    final filePath = path.join(assetDir, "fonts", "CharacterName_Subset.ttf");
+    final loader = FontLoader(fontFamilyName);
+    loader.addFont(File(filePath).readAsBytes().then((bytes) => ByteData.view(bytes.buffer)));
+    await loader.load();
   }
 }

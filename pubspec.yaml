@@ -20,6 +20,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -115,10 +117,12 @@ flutter:
 
   assets:
     - assets/
-    - assets/google_fonts/
+    - assets/google_fonts/Kaisei_Opti/
+    - assets/google_fonts/M_PLUS_2/
+    - assets/google_fonts/Noto_Serif_JP/
+    - assets/google_fonts/Titillium_Web/
     - assets/img/
     - assets/vectors/
-    - assets/fonts/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
@@ -136,10 +140,6 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  fonts:
-    - family: Rounded Mgen+
-      fonts:
-        - asset: assets/fonts/rounded-x-mgenplus-1p-medium_subset.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

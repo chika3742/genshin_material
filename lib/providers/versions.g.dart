@@ -84,7 +84,7 @@ final class AssetDataProvider
   }
 }
 
-String _$assetDataHash() => r'c31cae057a870579b82fad38dc01e15fb23ea653';
+String _$assetDataHash() => r'fcd419b76f7c450013d92624f89258e9a224521f';
 
 @ProviderFor(featuresReleaseNotesData)
 final featuresReleaseNotesDataProvider = FeaturesReleaseNotesDataProvider._();

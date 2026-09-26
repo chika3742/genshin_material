@@ -7,6 +7,7 @@ import "package:path/path.dart" as path;
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/asset_cache.dart";
+import "../core/asset_loader.dart";
 import "../core/asset_updater.dart";
 import "../models/release_note.dart";
 import "../utils/unwrap_yaml_value.dart";
@@ -22,9 +23,12 @@ Future<PackageInfo> packageInfo(Ref ref) async {
 Future<AssetData> assetData(Ref ref) async {
   final dataCache = AssetDataCacheProvider(getCurrentAssetDirectoryPath(await getAssetsDirectoryPath()));
   await dataCache.load();
+  await AssetLoader(assetDir: dataCache.assetDir)
+      .loadCharacterNameFont(dataCache.data!.characterNameFontFamily);
   ref.onDispose(() {
-    if (WidgetsBinding.instance is WidgetsFlutterBinding) {
-      (WidgetsBinding.instance as WidgetsFlutterBinding).imageCache.clear();
+    final widgetsBinding = WidgetsBinding.instance;
+    if (widgetsBinding is WidgetsFlutterBinding) {
+      widgetsBinding.imageCache.clear();
     }
   });
   return dataCache.data!;

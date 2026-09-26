@@ -99,6 +99,7 @@ class AssetDataCacheProvider {
       furnishingSetTypes: furnishingSetMeta.setTypes,
       dropRates: (await loader.loadJson<List<dynamic>>("drop-rates.json"))
           .map((e) => DropRateEntry.fromJson(e)).toList(),
+      characterNameFontFamily: "CharacterName_$version",
     );
   }
 
@@ -139,5 +140,6 @@ sealed class AssetData with _$AssetData {
     required Map<FurnishingId, Furnishing> furnishings,
     required Map<FurnishingSetTypeId, LocalizedText> furnishingSetTypes,
     required List<DropRateEntry> dropRates,
+    required String characterNameFontFamily,
   }) = _AssetData;
 }

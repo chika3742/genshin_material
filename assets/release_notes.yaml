@@ -1,5 +1,18 @@
 # コピー用改行
 
+- releasedOn: TBD
+  version: 4.10.0
+  contents:
+    locales:
+      ja: |
+        # 機能追加
+        - HoYoLABログインボーナスをアプリ内から受け取れる機能を追加しました。
+        
+        # 変更
+        - フォント配信を
+      en: |
+        
+
 - releasedOn: 2026/08/17
   version: 4.9.1
   contents:
@@ -9,7 +22,7 @@
         - Androidにおいて、アプリが起動しない問題を修正しました。
       en: |
         # Hot Fix
-        - 
+        - Fixed an issue the app does not launch on Android.
 
 - releasedOn: 2026/08/17
   version: 4.9.0

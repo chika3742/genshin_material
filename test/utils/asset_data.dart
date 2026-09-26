@@ -67,6 +67,7 @@ AssetData buildTestAssetData({
     furnishings: furnishings,
     furnishingSetTypes: {},
     dropRates: dropRates,
+    characterNameFontFamily: "",
   );
 }
 
