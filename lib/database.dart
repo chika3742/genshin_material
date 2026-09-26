@@ -83,7 +83,7 @@ sealed class InGameState extends DataClass {
   });
 
   final String uid;
-  final String characterId;
+  final int characterId;
   final Map<Purpose, int> purposes;
   final DateTime lastUpdated;
 }
@@ -91,25 +91,16 @@ sealed class InGameState extends DataClass {
 @DataClassName.custom(name: "InGameCharacterState", implementing: [InGameState])
 class InGameCharacterStateTable extends Table {
   TextColumn get uid => text()();
-  TextColumn get characterId => text()();
+  IntColumn get characterId => integer()();
+  /// corresponds to HoYoLAB `element_attr_id`.
+  IntColumn get elementId => integer()();
   TextColumn get purposes => text().map(const PurposeMapConverter())();
-  TextColumn get equippedWeaponId => text().nullable()();
+  IntColumn get equippedWeaponId => integer()();
+  TextColumn get weaponPurposes => text().map(const PurposeMapConverter())();
   DateTimeColumn get lastUpdated => dateTime().withDefault(currentDateAndTime)();
 
   @override
-  Set<Column> get primaryKey => {uid, characterId};
-}
-
-@DataClassName.custom(name: "InGameWeaponState", implementing: [InGameState])
-class InGameWeaponStateTable extends Table {
-  TextColumn get uid => text()();
-  TextColumn get characterId => text()();
-  TextColumn get weaponId => text()();
-  TextColumn get purposes => text().map(const PurposeMapConverter())();
-  DateTimeColumn get lastUpdated => dateTime().withDefault(currentDateAndTime)();
-
-  @override
-  Set<Column<Object>>? get primaryKey => {uid, characterId, weaponId};
+  Set<Column> get primaryKey => {uid, characterId, elementId};
 }
 
 @DataClassName("MaterialBagCount")
@@ -195,7 +186,6 @@ class MapConverter<T> extends TypeConverter<Map<String, T>, String> {
   BookmarkArtifactSetTable,
   BookmarkArtifactPieceTable,
   InGameCharacterStateTable,
-  InGameWeaponStateTable,
   MaterialBagCountTable,
   FurnishingCraftCountTable,
   FurnishingSetBookmarkTable,
@@ -204,7 +194,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   static const dbName = "db";
 
@@ -373,6 +363,13 @@ class AppDatabase extends _$AppDatabase {
               await customStatement("DROP TABLE bookmark_artifact_piece_details_table");
               await customStatement("DROP TABLE bookmark_order_registry_table");
               await customStatement("DROP TABLE bookmark_table");
+            },
+            from4To5: (m, v5) async {
+              final v4 = Schema4(database: this);
+
+              await m.drop(v4.inGameCharacterStateTable);
+              await m.drop(v4.inGameWeaponStateTable);
+              await m.createAll();
             },
           )(m, from, to);
         });

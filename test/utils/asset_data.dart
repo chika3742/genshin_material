@@ -4,6 +4,7 @@ import "package:genshin_material/models/asset_release_version.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/drop_rates.dart";
+import "package:genshin_material/models/element.dart";
 import "package:genshin_material/models/furnishing_set.dart";
 import "package:genshin_material/models/ingredients.dart";
 import "package:genshin_material/models/localized_text.dart";
@@ -34,6 +35,8 @@ AssetData buildTestAssetData({
   IngredientConfigurations? weaponIngredients,
   List<DropRateEntry> dropRates = const [],
   Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials = const {},
+  Map<TeyvatElement, Element> elements = const {},
+  Map<WeaponType, WeaponTypeInfo> weaponTypes = const {},
 }) {
   return AssetData(
     assetDir: assetDir,
@@ -50,8 +53,8 @@ AssetData buildTestAssetData({
     weapons: weapons,
     weaponIngredients: weaponIngredients ?? _emptyIngredientConfigurations(),
     weaponSubStats: {},
-    weaponTypes: {},
-    elements: {},
+    weaponTypes: weaponTypes,
+    elements: elements,
     materials: materials,
     materialCategories: {},
     materialSortOrder: materialSortOrder,
@@ -104,19 +107,60 @@ Character buildTestCharacter({
   int rarity = 5,
   WeaponType weaponType = "",
   MaterialDefinitions materials = const {},
+  List<int> hyvIds = const [],
+  TeyvatElement element = "",
 }) {
   return Character(
     id: id,
-    hyvIds: [],
+    hyvIds: hyvIds,
     name: name ?? LocalizedText(locales: {}),
     jaPronunciation: jaPronunciation,
     imageUrl: "",
     smallImageUrl: "",
     rarity: rarity,
     weaponType: weaponType,
-    element: "",
+    element: element,
     talents: {},
     materials: materials,
+  );
+}
+
+Character buildTestCharacterGroup({
+  String id = "",
+  List<int> hyvIds = const [],
+  List<CharacterId> variantIds = const [],
+}) {
+  return Character.group(
+    id: id,
+    hyvIds: hyvIds,
+    name: LocalizedText(locales: {}),
+    jaPronunciation: "",
+    imageUrl: "",
+    smallImageUrl: "",
+    rarity: 5,
+    weaponType: "",
+    variantIds: variantIds,
+    materials: {},
+  );
+}
+
+Character buildTestCharacterVariant({
+  String id = "",
+  CharacterId parentId = "",
+  TeyvatElement element = "",
+  WeaponType weaponType = "",
+}) {
+  return Character.variant(
+    id: id,
+    parentId: parentId,
+    name: LocalizedText(locales: {}),
+    jaPronunciation: "",
+    smallImageUrl: "",
+    rarity: 5,
+    element: element,
+    weaponType: weaponType,
+    talents: {},
+    materials: {},
   );
 }
 
@@ -128,10 +172,11 @@ Weapon buildTestWeapon({
   MaterialDefinitions? materials,
   WeaponType type = "",
   WeaponSubStat? subStat,
+  int hyvId = 0,
 }) {
   return Weapon(
     id: id,
-    hyvId: 0,
+    hyvId: hyvId,
     name: name ?? LocalizedText(locales: {}),
     jaPronunciation: jaPronunciation,
     imageUrl: "",

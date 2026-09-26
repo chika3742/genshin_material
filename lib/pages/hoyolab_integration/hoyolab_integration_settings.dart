@@ -39,7 +39,6 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
     final cred = ref.watch(hoyolabGameServerProvider);
     final isLinked = ref.watch(isLinkedWithHoyolabProvider);
     final syncCharaState = ref.watch(prefProvider(PrefKeys.syncCharaState));
-    final syncWeaponState = ref.watch(prefProvider(PrefKeys.syncWeaponState));
     final syncBagLackNums = ref.watch(prefProvider(PrefKeys.syncBagLackNums));
     final autoRemoveBookmarks = ref.watch(prefProvider(PrefKeys.autoRemoveBookmarks));
     final syncResin = ref.watch(prefProvider(PrefKeys.syncResin));
@@ -124,16 +123,10 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
           ListSubheader(tr.hoyolab.syncSettings),
           SwitchListTile(
             title: Text(tr.hoyolab.syncCharaState),
+            subtitle: Text(tr.hoyolab.syncCharaStateDesc),
             value: syncCharaState,
             onChanged: isLinked ? (value) {
               ref.read(prefProvider(PrefKeys.syncCharaState).notifier).set(value);
-            } : null,
-          ),
-          SwitchListTile(
-            title: Text(tr.hoyolab.syncWeaponState),
-            value: syncWeaponState,
-            onChanged: isLinked ? (value) {
-              ref.read(prefProvider(PrefKeys.syncWeaponState).notifier).set(value);
             } : null,
           ),
           SwitchListTile(

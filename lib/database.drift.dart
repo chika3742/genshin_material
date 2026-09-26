@@ -1739,11 +1739,22 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
     'characterId',
   );
   @override
-  late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
+  late final GeneratedColumn<int> characterId = GeneratedColumn<int>(
     'character_id',
     aliasedName,
     false,
-    type: DriftSqlType.string,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _elementIdMeta = const VerificationMeta(
+    'elementId',
+  );
+  @override
+  late final GeneratedColumn<int> elementId = GeneratedColumn<int>(
+    'element_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
   @override
@@ -1762,13 +1773,25 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
     'equippedWeaponId',
   );
   @override
-  late final GeneratedColumn<String> equippedWeaponId = GeneratedColumn<String>(
+  late final GeneratedColumn<int> equippedWeaponId = GeneratedColumn<int>(
     'equipped_weapon_id',
     aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
   );
+  @override
+  late final GeneratedColumnWithTypeConverter<Map<Purpose, int>, String>
+  weaponPurposes =
+      GeneratedColumn<String>(
+        'weapon_purposes',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<Map<Purpose, int>>(
+        $InGameCharacterStateTableTable.$converterweaponPurposes,
+      );
   static const VerificationMeta _lastUpdatedMeta = const VerificationMeta(
     'lastUpdated',
   );
@@ -1785,8 +1808,10 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
   List<GeneratedColumn> get $columns => [
     uid,
     characterId,
+    elementId,
     purposes,
     equippedWeaponId,
+    weaponPurposes,
     lastUpdated,
   ];
   @override
@@ -1820,6 +1845,14 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
     } else if (isInserting) {
       context.missing(_characterIdMeta);
     }
+    if (data.containsKey('element_id')) {
+      context.handle(
+        _elementIdMeta,
+        elementId.isAcceptableOrUnknown(data['element_id']!, _elementIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_elementIdMeta);
+    }
     if (data.containsKey('equipped_weapon_id')) {
       context.handle(
         _equippedWeaponIdMeta,
@@ -1828,6 +1861,8 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
           _equippedWeaponIdMeta,
         ),
       );
+    } else if (isInserting) {
+      context.missing(_equippedWeaponIdMeta);
     }
     if (data.containsKey('last_updated')) {
       context.handle(
@@ -1842,7 +1877,7 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {uid, characterId};
+  Set<GeneratedColumn> get $primaryKey => {uid, characterId, elementId};
   @override
   InGameCharacterState map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -1852,8 +1887,12 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
         data['${effectivePrefix}uid'],
       )!,
       characterId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
+        DriftSqlType.int,
         data['${effectivePrefix}character_id'],
+      )!,
+      elementId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}element_id'],
       )!,
       purposes: $InGameCharacterStateTableTable.$converterpurposes.fromSql(
         attachedDatabase.typeMapping.read(
@@ -1862,9 +1901,16 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
         )!,
       ),
       equippedWeaponId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
+        DriftSqlType.int,
         data['${effectivePrefix}equipped_weapon_id'],
-      ),
+      )!,
+      weaponPurposes: $InGameCharacterStateTableTable.$converterweaponPurposes
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}weapon_purposes'],
+            )!,
+          ),
       lastUpdated: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}last_updated'],
@@ -1879,34 +1925,48 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
 
   static TypeConverter<Map<Purpose, int>, String> $converterpurposes =
       const PurposeMapConverter();
+  static TypeConverter<Map<Purpose, int>, String> $converterweaponPurposes =
+      const PurposeMapConverter();
 }
 
 class InGameCharacterState extends DataClass
     implements Insertable<InGameCharacterState>, InGameState {
   final String uid;
-  final String characterId;
+  final int characterId;
+
+  /// corresponds to HoYoLAB `element_attr_id`.
+  final int elementId;
   final Map<Purpose, int> purposes;
-  final String? equippedWeaponId;
+  final int equippedWeaponId;
+  final Map<Purpose, int> weaponPurposes;
   final DateTime lastUpdated;
   const InGameCharacterState({
     required this.uid,
     required this.characterId,
+    required this.elementId,
     required this.purposes,
-    this.equippedWeaponId,
+    required this.equippedWeaponId,
+    required this.weaponPurposes,
     required this.lastUpdated,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['uid'] = Variable<String>(uid);
-    map['character_id'] = Variable<String>(characterId);
+    map['character_id'] = Variable<int>(characterId);
+    map['element_id'] = Variable<int>(elementId);
     {
       map['purposes'] = Variable<String>(
         $InGameCharacterStateTableTable.$converterpurposes.toSql(purposes),
       );
     }
-    if (!nullToAbsent || equippedWeaponId != null) {
-      map['equipped_weapon_id'] = Variable<String>(equippedWeaponId);
+    map['equipped_weapon_id'] = Variable<int>(equippedWeaponId);
+    {
+      map['weapon_purposes'] = Variable<String>(
+        $InGameCharacterStateTableTable.$converterweaponPurposes.toSql(
+          weaponPurposes,
+        ),
+      );
     }
     map['last_updated'] = Variable<DateTime>(lastUpdated);
     return map;
@@ -1916,10 +1976,10 @@ class InGameCharacterState extends DataClass
     return InGameCharacterStateCompanion(
       uid: Value(uid),
       characterId: Value(characterId),
+      elementId: Value(elementId),
       purposes: Value(purposes),
-      equippedWeaponId: equippedWeaponId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(equippedWeaponId),
+      equippedWeaponId: Value(equippedWeaponId),
+      weaponPurposes: Value(weaponPurposes),
       lastUpdated: Value(lastUpdated),
     );
   }
@@ -1931,9 +1991,13 @@ class InGameCharacterState extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return InGameCharacterState(
       uid: serializer.fromJson<String>(json['uid']),
-      characterId: serializer.fromJson<String>(json['characterId']),
+      characterId: serializer.fromJson<int>(json['characterId']),
+      elementId: serializer.fromJson<int>(json['elementId']),
       purposes: serializer.fromJson<Map<Purpose, int>>(json['purposes']),
-      equippedWeaponId: serializer.fromJson<String?>(json['equippedWeaponId']),
+      equippedWeaponId: serializer.fromJson<int>(json['equippedWeaponId']),
+      weaponPurposes: serializer.fromJson<Map<Purpose, int>>(
+        json['weaponPurposes'],
+      ),
       lastUpdated: serializer.fromJson<DateTime>(json['lastUpdated']),
     );
   }
@@ -1942,26 +2006,30 @@ class InGameCharacterState extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'uid': serializer.toJson<String>(uid),
-      'characterId': serializer.toJson<String>(characterId),
+      'characterId': serializer.toJson<int>(characterId),
+      'elementId': serializer.toJson<int>(elementId),
       'purposes': serializer.toJson<Map<Purpose, int>>(purposes),
-      'equippedWeaponId': serializer.toJson<String?>(equippedWeaponId),
+      'equippedWeaponId': serializer.toJson<int>(equippedWeaponId),
+      'weaponPurposes': serializer.toJson<Map<Purpose, int>>(weaponPurposes),
       'lastUpdated': serializer.toJson<DateTime>(lastUpdated),
     };
   }
 
   InGameCharacterState copyWith({
     String? uid,
-    String? characterId,
+    int? characterId,
+    int? elementId,
     Map<Purpose, int>? purposes,
-    Value<String?> equippedWeaponId = const Value.absent(),
+    int? equippedWeaponId,
+    Map<Purpose, int>? weaponPurposes,
     DateTime? lastUpdated,
   }) => InGameCharacterState(
     uid: uid ?? this.uid,
     characterId: characterId ?? this.characterId,
+    elementId: elementId ?? this.elementId,
     purposes: purposes ?? this.purposes,
-    equippedWeaponId: equippedWeaponId.present
-        ? equippedWeaponId.value
-        : this.equippedWeaponId,
+    equippedWeaponId: equippedWeaponId ?? this.equippedWeaponId,
+    weaponPurposes: weaponPurposes ?? this.weaponPurposes,
     lastUpdated: lastUpdated ?? this.lastUpdated,
   );
   InGameCharacterState copyWithCompanion(InGameCharacterStateCompanion data) {
@@ -1970,10 +2038,14 @@ class InGameCharacterState extends DataClass
       characterId: data.characterId.present
           ? data.characterId.value
           : this.characterId,
+      elementId: data.elementId.present ? data.elementId.value : this.elementId,
       purposes: data.purposes.present ? data.purposes.value : this.purposes,
       equippedWeaponId: data.equippedWeaponId.present
           ? data.equippedWeaponId.value
           : this.equippedWeaponId,
+      weaponPurposes: data.weaponPurposes.present
+          ? data.weaponPurposes.value
+          : this.weaponPurposes,
       lastUpdated: data.lastUpdated.present
           ? data.lastUpdated.value
           : this.lastUpdated,
@@ -1985,66 +2057,90 @@ class InGameCharacterState extends DataClass
     return (StringBuffer('InGameCharacterState(')
           ..write('uid: $uid, ')
           ..write('characterId: $characterId, ')
+          ..write('elementId: $elementId, ')
           ..write('purposes: $purposes, ')
           ..write('equippedWeaponId: $equippedWeaponId, ')
+          ..write('weaponPurposes: $weaponPurposes, ')
           ..write('lastUpdated: $lastUpdated')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(uid, characterId, purposes, equippedWeaponId, lastUpdated);
+  int get hashCode => Object.hash(
+    uid,
+    characterId,
+    elementId,
+    purposes,
+    equippedWeaponId,
+    weaponPurposes,
+    lastUpdated,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is InGameCharacterState &&
           other.uid == this.uid &&
           other.characterId == this.characterId &&
+          other.elementId == this.elementId &&
           other.purposes == this.purposes &&
           other.equippedWeaponId == this.equippedWeaponId &&
+          other.weaponPurposes == this.weaponPurposes &&
           other.lastUpdated == this.lastUpdated);
 }
 
 class InGameCharacterStateCompanion
     extends UpdateCompanion<InGameCharacterState> {
   final Value<String> uid;
-  final Value<String> characterId;
+  final Value<int> characterId;
+  final Value<int> elementId;
   final Value<Map<Purpose, int>> purposes;
-  final Value<String?> equippedWeaponId;
+  final Value<int> equippedWeaponId;
+  final Value<Map<Purpose, int>> weaponPurposes;
   final Value<DateTime> lastUpdated;
   final Value<int> rowid;
   const InGameCharacterStateCompanion({
     this.uid = const Value.absent(),
     this.characterId = const Value.absent(),
+    this.elementId = const Value.absent(),
     this.purposes = const Value.absent(),
     this.equippedWeaponId = const Value.absent(),
+    this.weaponPurposes = const Value.absent(),
     this.lastUpdated = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   InGameCharacterStateCompanion.insert({
     required String uid,
-    required String characterId,
+    required int characterId,
+    required int elementId,
     required Map<Purpose, int> purposes,
-    this.equippedWeaponId = const Value.absent(),
+    required int equippedWeaponId,
+    required Map<Purpose, int> weaponPurposes,
     this.lastUpdated = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : uid = Value(uid),
        characterId = Value(characterId),
-       purposes = Value(purposes);
+       elementId = Value(elementId),
+       purposes = Value(purposes),
+       equippedWeaponId = Value(equippedWeaponId),
+       weaponPurposes = Value(weaponPurposes);
   static Insertable<InGameCharacterState> custom({
     Expression<String>? uid,
-    Expression<String>? characterId,
+    Expression<int>? characterId,
+    Expression<int>? elementId,
     Expression<String>? purposes,
-    Expression<String>? equippedWeaponId,
+    Expression<int>? equippedWeaponId,
+    Expression<String>? weaponPurposes,
     Expression<DateTime>? lastUpdated,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (uid != null) 'uid': uid,
       if (characterId != null) 'character_id': characterId,
+      if (elementId != null) 'element_id': elementId,
       if (purposes != null) 'purposes': purposes,
       if (equippedWeaponId != null) 'equipped_weapon_id': equippedWeaponId,
+      if (weaponPurposes != null) 'weapon_purposes': weaponPurposes,
       if (lastUpdated != null) 'last_updated': lastUpdated,
       if (rowid != null) 'rowid': rowid,
     });
@@ -2052,17 +2148,21 @@ class InGameCharacterStateCompanion
 
   InGameCharacterStateCompanion copyWith({
     Value<String>? uid,
-    Value<String>? characterId,
+    Value<int>? characterId,
+    Value<int>? elementId,
     Value<Map<Purpose, int>>? purposes,
-    Value<String?>? equippedWeaponId,
+    Value<int>? equippedWeaponId,
+    Value<Map<Purpose, int>>? weaponPurposes,
     Value<DateTime>? lastUpdated,
     Value<int>? rowid,
   }) {
     return InGameCharacterStateCompanion(
       uid: uid ?? this.uid,
       characterId: characterId ?? this.characterId,
+      elementId: elementId ?? this.elementId,
       purposes: purposes ?? this.purposes,
       equippedWeaponId: equippedWeaponId ?? this.equippedWeaponId,
+      weaponPurposes: weaponPurposes ?? this.weaponPurposes,
       lastUpdated: lastUpdated ?? this.lastUpdated,
       rowid: rowid ?? this.rowid,
     );
@@ -2075,7 +2175,10 @@ class InGameCharacterStateCompanion
       map['uid'] = Variable<String>(uid.value);
     }
     if (characterId.present) {
-      map['character_id'] = Variable<String>(characterId.value);
+      map['character_id'] = Variable<int>(characterId.value);
+    }
+    if (elementId.present) {
+      map['element_id'] = Variable<int>(elementId.value);
     }
     if (purposes.present) {
       map['purposes'] = Variable<String>(
@@ -2085,7 +2188,14 @@ class InGameCharacterStateCompanion
       );
     }
     if (equippedWeaponId.present) {
-      map['equipped_weapon_id'] = Variable<String>(equippedWeaponId.value);
+      map['equipped_weapon_id'] = Variable<int>(equippedWeaponId.value);
+    }
+    if (weaponPurposes.present) {
+      map['weapon_purposes'] = Variable<String>(
+        $InGameCharacterStateTableTable.$converterweaponPurposes.toSql(
+          weaponPurposes.value,
+        ),
+      );
     }
     if (lastUpdated.present) {
       map['last_updated'] = Variable<DateTime>(lastUpdated.value);
@@ -2101,387 +2211,10 @@ class InGameCharacterStateCompanion
     return (StringBuffer('InGameCharacterStateCompanion(')
           ..write('uid: $uid, ')
           ..write('characterId: $characterId, ')
+          ..write('elementId: $elementId, ')
           ..write('purposes: $purposes, ')
           ..write('equippedWeaponId: $equippedWeaponId, ')
-          ..write('lastUpdated: $lastUpdated, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $InGameWeaponStateTableTable extends InGameWeaponStateTable
-    with TableInfo<$InGameWeaponStateTableTable, InGameWeaponState> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $InGameWeaponStateTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _uidMeta = const VerificationMeta('uid');
-  @override
-  late final GeneratedColumn<String> uid = GeneratedColumn<String>(
-    'uid',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _characterIdMeta = const VerificationMeta(
-    'characterId',
-  );
-  @override
-  late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
-    'character_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _weaponIdMeta = const VerificationMeta(
-    'weaponId',
-  );
-  @override
-  late final GeneratedColumn<String> weaponId = GeneratedColumn<String>(
-    'weapon_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  @override
-  late final GeneratedColumnWithTypeConverter<Map<Purpose, int>, String>
-  purposes =
-      GeneratedColumn<String>(
-        'purposes',
-        aliasedName,
-        false,
-        type: DriftSqlType.string,
-        requiredDuringInsert: true,
-      ).withConverter<Map<Purpose, int>>(
-        $InGameWeaponStateTableTable.$converterpurposes,
-      );
-  static const VerificationMeta _lastUpdatedMeta = const VerificationMeta(
-    'lastUpdated',
-  );
-  @override
-  late final GeneratedColumn<DateTime> lastUpdated = GeneratedColumn<DateTime>(
-    'last_updated',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-    defaultValue: currentDateAndTime,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    uid,
-    characterId,
-    weaponId,
-    purposes,
-    lastUpdated,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'in_game_weapon_state_table';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<InGameWeaponState> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('uid')) {
-      context.handle(
-        _uidMeta,
-        uid.isAcceptableOrUnknown(data['uid']!, _uidMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_uidMeta);
-    }
-    if (data.containsKey('character_id')) {
-      context.handle(
-        _characterIdMeta,
-        characterId.isAcceptableOrUnknown(
-          data['character_id']!,
-          _characterIdMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_characterIdMeta);
-    }
-    if (data.containsKey('weapon_id')) {
-      context.handle(
-        _weaponIdMeta,
-        weaponId.isAcceptableOrUnknown(data['weapon_id']!, _weaponIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_weaponIdMeta);
-    }
-    if (data.containsKey('last_updated')) {
-      context.handle(
-        _lastUpdatedMeta,
-        lastUpdated.isAcceptableOrUnknown(
-          data['last_updated']!,
-          _lastUpdatedMeta,
-        ),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {uid, characterId, weaponId};
-  @override
-  InGameWeaponState map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return InGameWeaponState(
-      uid: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}uid'],
-      )!,
-      characterId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}character_id'],
-      )!,
-      weaponId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}weapon_id'],
-      )!,
-      purposes: $InGameWeaponStateTableTable.$converterpurposes.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}purposes'],
-        )!,
-      ),
-      lastUpdated: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}last_updated'],
-      )!,
-    );
-  }
-
-  @override
-  $InGameWeaponStateTableTable createAlias(String alias) {
-    return $InGameWeaponStateTableTable(attachedDatabase, alias);
-  }
-
-  static TypeConverter<Map<Purpose, int>, String> $converterpurposes =
-      const PurposeMapConverter();
-}
-
-class InGameWeaponState extends DataClass
-    implements Insertable<InGameWeaponState>, InGameState {
-  final String uid;
-  final String characterId;
-  final String weaponId;
-  final Map<Purpose, int> purposes;
-  final DateTime lastUpdated;
-  const InGameWeaponState({
-    required this.uid,
-    required this.characterId,
-    required this.weaponId,
-    required this.purposes,
-    required this.lastUpdated,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['uid'] = Variable<String>(uid);
-    map['character_id'] = Variable<String>(characterId);
-    map['weapon_id'] = Variable<String>(weaponId);
-    {
-      map['purposes'] = Variable<String>(
-        $InGameWeaponStateTableTable.$converterpurposes.toSql(purposes),
-      );
-    }
-    map['last_updated'] = Variable<DateTime>(lastUpdated);
-    return map;
-  }
-
-  InGameWeaponStateCompanion toCompanion(bool nullToAbsent) {
-    return InGameWeaponStateCompanion(
-      uid: Value(uid),
-      characterId: Value(characterId),
-      weaponId: Value(weaponId),
-      purposes: Value(purposes),
-      lastUpdated: Value(lastUpdated),
-    );
-  }
-
-  factory InGameWeaponState.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return InGameWeaponState(
-      uid: serializer.fromJson<String>(json['uid']),
-      characterId: serializer.fromJson<String>(json['characterId']),
-      weaponId: serializer.fromJson<String>(json['weaponId']),
-      purposes: serializer.fromJson<Map<Purpose, int>>(json['purposes']),
-      lastUpdated: serializer.fromJson<DateTime>(json['lastUpdated']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'uid': serializer.toJson<String>(uid),
-      'characterId': serializer.toJson<String>(characterId),
-      'weaponId': serializer.toJson<String>(weaponId),
-      'purposes': serializer.toJson<Map<Purpose, int>>(purposes),
-      'lastUpdated': serializer.toJson<DateTime>(lastUpdated),
-    };
-  }
-
-  InGameWeaponState copyWith({
-    String? uid,
-    String? characterId,
-    String? weaponId,
-    Map<Purpose, int>? purposes,
-    DateTime? lastUpdated,
-  }) => InGameWeaponState(
-    uid: uid ?? this.uid,
-    characterId: characterId ?? this.characterId,
-    weaponId: weaponId ?? this.weaponId,
-    purposes: purposes ?? this.purposes,
-    lastUpdated: lastUpdated ?? this.lastUpdated,
-  );
-  InGameWeaponState copyWithCompanion(InGameWeaponStateCompanion data) {
-    return InGameWeaponState(
-      uid: data.uid.present ? data.uid.value : this.uid,
-      characterId: data.characterId.present
-          ? data.characterId.value
-          : this.characterId,
-      weaponId: data.weaponId.present ? data.weaponId.value : this.weaponId,
-      purposes: data.purposes.present ? data.purposes.value : this.purposes,
-      lastUpdated: data.lastUpdated.present
-          ? data.lastUpdated.value
-          : this.lastUpdated,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('InGameWeaponState(')
-          ..write('uid: $uid, ')
-          ..write('characterId: $characterId, ')
-          ..write('weaponId: $weaponId, ')
-          ..write('purposes: $purposes, ')
-          ..write('lastUpdated: $lastUpdated')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(uid, characterId, weaponId, purposes, lastUpdated);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is InGameWeaponState &&
-          other.uid == this.uid &&
-          other.characterId == this.characterId &&
-          other.weaponId == this.weaponId &&
-          other.purposes == this.purposes &&
-          other.lastUpdated == this.lastUpdated);
-}
-
-class InGameWeaponStateCompanion extends UpdateCompanion<InGameWeaponState> {
-  final Value<String> uid;
-  final Value<String> characterId;
-  final Value<String> weaponId;
-  final Value<Map<Purpose, int>> purposes;
-  final Value<DateTime> lastUpdated;
-  final Value<int> rowid;
-  const InGameWeaponStateCompanion({
-    this.uid = const Value.absent(),
-    this.characterId = const Value.absent(),
-    this.weaponId = const Value.absent(),
-    this.purposes = const Value.absent(),
-    this.lastUpdated = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  InGameWeaponStateCompanion.insert({
-    required String uid,
-    required String characterId,
-    required String weaponId,
-    required Map<Purpose, int> purposes,
-    this.lastUpdated = const Value.absent(),
-    this.rowid = const Value.absent(),
-  }) : uid = Value(uid),
-       characterId = Value(characterId),
-       weaponId = Value(weaponId),
-       purposes = Value(purposes);
-  static Insertable<InGameWeaponState> custom({
-    Expression<String>? uid,
-    Expression<String>? characterId,
-    Expression<String>? weaponId,
-    Expression<String>? purposes,
-    Expression<DateTime>? lastUpdated,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (uid != null) 'uid': uid,
-      if (characterId != null) 'character_id': characterId,
-      if (weaponId != null) 'weapon_id': weaponId,
-      if (purposes != null) 'purposes': purposes,
-      if (lastUpdated != null) 'last_updated': lastUpdated,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  InGameWeaponStateCompanion copyWith({
-    Value<String>? uid,
-    Value<String>? characterId,
-    Value<String>? weaponId,
-    Value<Map<Purpose, int>>? purposes,
-    Value<DateTime>? lastUpdated,
-    Value<int>? rowid,
-  }) {
-    return InGameWeaponStateCompanion(
-      uid: uid ?? this.uid,
-      characterId: characterId ?? this.characterId,
-      weaponId: weaponId ?? this.weaponId,
-      purposes: purposes ?? this.purposes,
-      lastUpdated: lastUpdated ?? this.lastUpdated,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (uid.present) {
-      map['uid'] = Variable<String>(uid.value);
-    }
-    if (characterId.present) {
-      map['character_id'] = Variable<String>(characterId.value);
-    }
-    if (weaponId.present) {
-      map['weapon_id'] = Variable<String>(weaponId.value);
-    }
-    if (purposes.present) {
-      map['purposes'] = Variable<String>(
-        $InGameWeaponStateTableTable.$converterpurposes.toSql(purposes.value),
-      );
-    }
-    if (lastUpdated.present) {
-      map['last_updated'] = Variable<DateTime>(lastUpdated.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('InGameWeaponStateCompanion(')
-          ..write('uid: $uid, ')
-          ..write('characterId: $characterId, ')
-          ..write('weaponId: $weaponId, ')
-          ..write('purposes: $purposes, ')
+          ..write('weaponPurposes: $weaponPurposes, ')
           ..write('lastUpdated: $lastUpdated, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -3305,8 +3038,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $BookmarkArtifactPieceTableTable(this);
   late final $InGameCharacterStateTableTable inGameCharacterStateTable =
       $InGameCharacterStateTableTable(this);
-  late final $InGameWeaponStateTableTable inGameWeaponStateTable =
-      $InGameWeaponStateTableTable(this);
   late final $MaterialBagCountTableTable materialBagCountTable =
       $MaterialBagCountTableTable(this);
   late final $FurnishingCraftCountTableTable furnishingCraftCountTable =
@@ -3324,7 +3055,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     bookmarkArtifactSetTable,
     bookmarkArtifactPieceTable,
     inGameCharacterStateTable,
-    inGameWeaponStateTable,
     materialBagCountTable,
     furnishingCraftCountTable,
     furnishingSetBookmarkTable,
@@ -5161,18 +4891,22 @@ typedef $$BookmarkArtifactPieceTableTableProcessedTableManager =
 typedef $$InGameCharacterStateTableTableCreateCompanionBuilder =
     InGameCharacterStateCompanion Function({
       required String uid,
-      required String characterId,
+      required int characterId,
+      required int elementId,
       required Map<Purpose, int> purposes,
-      Value<String?> equippedWeaponId,
+      required int equippedWeaponId,
+      required Map<Purpose, int> weaponPurposes,
       Value<DateTime> lastUpdated,
       Value<int> rowid,
     });
 typedef $$InGameCharacterStateTableTableUpdateCompanionBuilder =
     InGameCharacterStateCompanion Function({
       Value<String> uid,
-      Value<String> characterId,
+      Value<int> characterId,
+      Value<int> elementId,
       Value<Map<Purpose, int>> purposes,
-      Value<String?> equippedWeaponId,
+      Value<int> equippedWeaponId,
+      Value<Map<Purpose, int>> weaponPurposes,
       Value<DateTime> lastUpdated,
       Value<int> rowid,
     });
@@ -5191,8 +4925,13 @@ class $$InGameCharacterStateTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get characterId => $composableBuilder(
+  ColumnFilters<int> get characterId => $composableBuilder(
     column: $table.characterId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get elementId => $composableBuilder(
+    column: $table.elementId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5202,9 +4941,15 @@ class $$InGameCharacterStateTableTableFilterComposer
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
-  ColumnFilters<String> get equippedWeaponId => $composableBuilder(
+  ColumnFilters<int> get equippedWeaponId => $composableBuilder(
     column: $table.equippedWeaponId,
     builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<Map<Purpose, int>, Map<Purpose, int>, String>
+  get weaponPurposes => $composableBuilder(
+    column: $table.weaponPurposes,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
   ColumnFilters<DateTime> get lastUpdated => $composableBuilder(
@@ -5227,8 +4972,13 @@ class $$InGameCharacterStateTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get characterId => $composableBuilder(
+  ColumnOrderings<int> get characterId => $composableBuilder(
     column: $table.characterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get elementId => $composableBuilder(
+    column: $table.elementId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -5237,8 +4987,13 @@ class $$InGameCharacterStateTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get equippedWeaponId => $composableBuilder(
+  ColumnOrderings<int> get equippedWeaponId => $composableBuilder(
     column: $table.equippedWeaponId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get weaponPurposes => $composableBuilder(
+    column: $table.weaponPurposes,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -5260,16 +5015,25 @@ class $$InGameCharacterStateTableTableAnnotationComposer
   GeneratedColumn<String> get uid =>
       $composableBuilder(column: $table.uid, builder: (column) => column);
 
-  GeneratedColumn<String> get characterId => $composableBuilder(
+  GeneratedColumn<int> get characterId => $composableBuilder(
     column: $table.characterId,
     builder: (column) => column,
   );
 
+  GeneratedColumn<int> get elementId =>
+      $composableBuilder(column: $table.elementId, builder: (column) => column);
+
   GeneratedColumnWithTypeConverter<Map<Purpose, int>, String> get purposes =>
       $composableBuilder(column: $table.purposes, builder: (column) => column);
 
-  GeneratedColumn<String> get equippedWeaponId => $composableBuilder(
+  GeneratedColumn<int> get equippedWeaponId => $composableBuilder(
     column: $table.equippedWeaponId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<Map<Purpose, int>, String>
+  get weaponPurposes => $composableBuilder(
+    column: $table.weaponPurposes,
     builder: (column) => column,
   );
 
@@ -5326,32 +5090,40 @@ class $$InGameCharacterStateTableTableTableManager
           updateCompanionCallback:
               ({
                 Value<String> uid = const Value.absent(),
-                Value<String> characterId = const Value.absent(),
+                Value<int> characterId = const Value.absent(),
+                Value<int> elementId = const Value.absent(),
                 Value<Map<Purpose, int>> purposes = const Value.absent(),
-                Value<String?> equippedWeaponId = const Value.absent(),
+                Value<int> equippedWeaponId = const Value.absent(),
+                Value<Map<Purpose, int>> weaponPurposes = const Value.absent(),
                 Value<DateTime> lastUpdated = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => InGameCharacterStateCompanion(
                 uid: uid,
                 characterId: characterId,
+                elementId: elementId,
                 purposes: purposes,
                 equippedWeaponId: equippedWeaponId,
+                weaponPurposes: weaponPurposes,
                 lastUpdated: lastUpdated,
                 rowid: rowid,
               ),
           createCompanionCallback:
               ({
                 required String uid,
-                required String characterId,
+                required int characterId,
+                required int elementId,
                 required Map<Purpose, int> purposes,
-                Value<String?> equippedWeaponId = const Value.absent(),
+                required int equippedWeaponId,
+                required Map<Purpose, int> weaponPurposes,
                 Value<DateTime> lastUpdated = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => InGameCharacterStateCompanion.insert(
                 uid: uid,
                 characterId: characterId,
+                elementId: elementId,
                 purposes: purposes,
                 equippedWeaponId: equippedWeaponId,
+                weaponPurposes: weaponPurposes,
                 lastUpdated: lastUpdated,
                 rowid: rowid,
               ),
@@ -5394,241 +5166,6 @@ typedef $$InGameCharacterStateTableTableProcessedTableManager =
         >,
       ),
       InGameCharacterState,
-      PrefetchHooks Function()
-    >;
-typedef $$InGameWeaponStateTableTableCreateCompanionBuilder =
-    InGameWeaponStateCompanion Function({
-      required String uid,
-      required String characterId,
-      required String weaponId,
-      required Map<Purpose, int> purposes,
-      Value<DateTime> lastUpdated,
-      Value<int> rowid,
-    });
-typedef $$InGameWeaponStateTableTableUpdateCompanionBuilder =
-    InGameWeaponStateCompanion Function({
-      Value<String> uid,
-      Value<String> characterId,
-      Value<String> weaponId,
-      Value<Map<Purpose, int>> purposes,
-      Value<DateTime> lastUpdated,
-      Value<int> rowid,
-    });
-
-class $$InGameWeaponStateTableTableFilterComposer
-    extends Composer<_$AppDatabase, $InGameWeaponStateTableTable> {
-  $$InGameWeaponStateTableTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<String> get uid => $composableBuilder(
-    column: $table.uid,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get characterId => $composableBuilder(
-    column: $table.characterId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get weaponId => $composableBuilder(
-    column: $table.weaponId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnWithTypeConverterFilters<Map<Purpose, int>, Map<Purpose, int>, String>
-  get purposes => $composableBuilder(
-    column: $table.purposes,
-    builder: (column) => ColumnWithTypeConverterFilters(column),
-  );
-
-  ColumnFilters<DateTime> get lastUpdated => $composableBuilder(
-    column: $table.lastUpdated,
-    builder: (column) => ColumnFilters(column),
-  );
-}
-
-class $$InGameWeaponStateTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $InGameWeaponStateTableTable> {
-  $$InGameWeaponStateTableTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<String> get uid => $composableBuilder(
-    column: $table.uid,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get characterId => $composableBuilder(
-    column: $table.characterId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get weaponId => $composableBuilder(
-    column: $table.weaponId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get purposes => $composableBuilder(
-    column: $table.purposes,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get lastUpdated => $composableBuilder(
-    column: $table.lastUpdated,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$InGameWeaponStateTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $InGameWeaponStateTableTable> {
-  $$InGameWeaponStateTableTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<String> get uid =>
-      $composableBuilder(column: $table.uid, builder: (column) => column);
-
-  GeneratedColumn<String> get characterId => $composableBuilder(
-    column: $table.characterId,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get weaponId =>
-      $composableBuilder(column: $table.weaponId, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<Map<Purpose, int>, String> get purposes =>
-      $composableBuilder(column: $table.purposes, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get lastUpdated => $composableBuilder(
-    column: $table.lastUpdated,
-    builder: (column) => column,
-  );
-}
-
-class $$InGameWeaponStateTableTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $InGameWeaponStateTableTable,
-          InGameWeaponState,
-          $$InGameWeaponStateTableTableFilterComposer,
-          $$InGameWeaponStateTableTableOrderingComposer,
-          $$InGameWeaponStateTableTableAnnotationComposer,
-          $$InGameWeaponStateTableTableCreateCompanionBuilder,
-          $$InGameWeaponStateTableTableUpdateCompanionBuilder,
-          (
-            InGameWeaponState,
-            BaseReferences<
-              _$AppDatabase,
-              $InGameWeaponStateTableTable,
-              InGameWeaponState
-            >,
-          ),
-          InGameWeaponState,
-          PrefetchHooks Function()
-        > {
-  $$InGameWeaponStateTableTableTableManager(
-    _$AppDatabase db,
-    $InGameWeaponStateTableTable table,
-  ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$InGameWeaponStateTableTableFilterComposer(
-                $db: db,
-                $table: table,
-              ),
-          createOrderingComposer: () =>
-              $$InGameWeaponStateTableTableOrderingComposer(
-                $db: db,
-                $table: table,
-              ),
-          createComputedFieldComposer: () =>
-              $$InGameWeaponStateTableTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
-          updateCompanionCallback:
-              ({
-                Value<String> uid = const Value.absent(),
-                Value<String> characterId = const Value.absent(),
-                Value<String> weaponId = const Value.absent(),
-                Value<Map<Purpose, int>> purposes = const Value.absent(),
-                Value<DateTime> lastUpdated = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => InGameWeaponStateCompanion(
-                uid: uid,
-                characterId: characterId,
-                weaponId: weaponId,
-                purposes: purposes,
-                lastUpdated: lastUpdated,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String uid,
-                required String characterId,
-                required String weaponId,
-                required Map<Purpose, int> purposes,
-                Value<DateTime> lastUpdated = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => InGameWeaponStateCompanion.insert(
-                uid: uid,
-                characterId: characterId,
-                weaponId: weaponId,
-                purposes: purposes,
-                lastUpdated: lastUpdated,
-                rowid: rowid,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable<$InGameWeaponStateTableTable, InGameWeaponState>(
-                    table,
-                  ),
-                  BaseReferences<
-                    _$AppDatabase,
-                    $InGameWeaponStateTableTable,
-                    InGameWeaponState
-                  >(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: null,
-        ),
-      );
-}
-
-typedef $$InGameWeaponStateTableTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $InGameWeaponStateTableTable,
-      InGameWeaponState,
-      $$InGameWeaponStateTableTableFilterComposer,
-      $$InGameWeaponStateTableTableOrderingComposer,
-      $$InGameWeaponStateTableTableAnnotationComposer,
-      $$InGameWeaponStateTableTableCreateCompanionBuilder,
-      $$InGameWeaponStateTableTableUpdateCompanionBuilder,
-      (
-        InGameWeaponState,
-        BaseReferences<
-          _$AppDatabase,
-          $InGameWeaponStateTableTable,
-          InGameWeaponState
-        >,
-      ),
-      InGameWeaponState,
       PrefetchHooks Function()
     >;
 typedef $$MaterialBagCountTableTableCreateCompanionBuilder =
@@ -6245,11 +5782,6 @@ class $AppDatabaseManager {
       $$InGameCharacterStateTableTableTableManager(
         _db,
         _db.inGameCharacterStateTable,
-      );
-  $$InGameWeaponStateTableTableTableManager get inGameWeaponStateTable =>
-      $$InGameWeaponStateTableTableTableManager(
-        _db,
-        _db.inGameWeaponStateTable,
       );
   $$MaterialBagCountTableTableTableManager get materialBagCountTable =>
       $$MaterialBagCountTableTableTableManager(_db, _db.materialBagCountTable);

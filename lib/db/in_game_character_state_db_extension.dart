@@ -1,25 +1,22 @@
-import "package:drift/drift.dart";
-
 import "../database.dart";
-import "../models/common.dart";
 
 extension InGameCharacterStateDbExtension on AppDatabase {
-  Future<int> setCharacterState(InGameCharacterStateCompanion companion) async {
-    return await into(inGameCharacterStateTable).insertOnConflictUpdate(
+  Future<InGameCharacterState> setCharacterState(InGameCharacterStateCompanion companion) async {
+    return await into(inGameCharacterStateTable).insertReturning(
       companion,
+      mode: .insertOrReplace,
     );
   }
 
-  Future<InGameCharacterState?> getCharacterState(String uid, String characterId) {
-    final query = select(inGameCharacterStateTable)
-      ..where((tbl) => tbl.uid.equals(uid) & tbl.characterId.equals(characterId));
-    return query.getSingleOrNull();
+  Future<void> setCharacterStates(List<InGameCharacterStateCompanion> companions) async {
+    return batch((b) {
+      b.insertAllOnConflictUpdate(inGameCharacterStateTable, companions);
+    });
   }
 
-  Future<List<CharacterId>> getSyncedCharacters(String uid) async {
+  Stream<List<InGameCharacterState>> watchCharacterStates(String uid) {
     final query = select(inGameCharacterStateTable)
       ..where((tbl) => tbl.uid.equals(uid));
-    final states = await query.get();
-    return states.map((e) => e.characterId).toList();
+    return query.watch();
   }
 }

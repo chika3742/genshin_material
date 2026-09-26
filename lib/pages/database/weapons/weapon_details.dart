@@ -1,7 +1,9 @@
 import "dart:math";
 
+import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:flutter_riverpod/experimental/mutation.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
@@ -16,9 +18,9 @@ import "../../../components/material_card_list.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/pref_keys.dart";
-import "../../../database.dart";
+import "../../../data/repositories/character_state_repository.dart";
+import "../../../data/repositories/single_character_state_repository.dart";
 import "../../../db/bookmark_db_extension.dart";
-import "../../../db/in_game_weapon_state_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../models/ingredients.dart";
@@ -27,9 +29,10 @@ import "../../../models/weapon.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
-import "../../../providers/hoyolab_game_server.dart";
+import "../../../providers/is_sync_enabled.dart";
 import "../../../providers/pref_notifier.dart";
 import "../../../ui_core/layout.dart";
+import "../../../ui_core/snack_bar.dart";
 import "../../../utils/filtering.dart";
 
 part "weapon_details.freezed.dart";
@@ -57,27 +60,27 @@ class WeaponDetailsPage extends HookConsumerWidget {
     }
 
     final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(hoyolabGameServerProvider).uidOrNull;
-    final syncWeaponState = ref.watch(prefProvider(PrefKeys.syncWeaponState));
 
     final characters = useMemoized(() =>
-        filterCharactersByWeaponType(assetData.characters.values, weapon.type));
-    final initialCharacterId = initialSelectedCharacter != null && characters.any((e) => e.id == initialSelectedCharacter)
-        ? initialSelectedCharacter!
-        : characters.first.id;
+        filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
+    final initialCharacter = characters.firstWhereOrNull((e) => e.id == initialSelectedCharacter)
+        ?? characters.first;
 
-    final wsResult = useMemoized(() => uid != null
-        ? db.getWeaponState(uid, initialCharacterId, id)
-        : Future.value(null));
-    final wsSnapshot = useFuture(wsResult);
+    final weaponSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(
+      variantId: initialCharacter.id,
+      weaponId: weapon.id,
+    ));
+    final characterState = weaponSyncEnabled
+        ? ref.watch(singleCharacterStateRepositoryProvider(initialCharacter.id))
+        : null;
 
     final bookmarkRangesResult = useMemoized(
         () => db.getWeaponMaterialBookmarkLevelRanges(id));
     final bookmarkRangesSnapshot = useFuture(bookmarkRangesResult);
 
     // loading
-    if (bookmarkRangesSnapshot.connectionState != ConnectionState.done ||
-        (uid != null && syncWeaponState && wsSnapshot.connectionState != ConnectionState.done)) {
+    if (bookmarkRangesSnapshot.connectionState != ConnectionState.done
+        || (characterState is AsyncLoading<CharacterState?> && !characterState.hasValue)) {
       return Scaffold(
         appBar: AppBar(),
         body: const Center(child: CircularProgressIndicator()),
@@ -87,8 +90,8 @@ class WeaponDetailsPage extends HookConsumerWidget {
     return WeaponDetailsPageContents(
       weapon: weapon,
       assetData: assetData,
-      initialSelectedCharacter: initialCharacterId,
-      initialWeaponState: wsSnapshot.data,
+      initialSelectedCharacter: initialCharacter.id,
+      initialCharacterState: characterState?.value,
       initialBookmarkRanges: bookmarkRangesSnapshot.data ?? {},
     );
   }
@@ -99,7 +102,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
   final AssetData assetData;
   final Weapon weapon;
   final CharacterId initialSelectedCharacter;
-  final InGameWeaponState? initialWeaponState;
+  final CharacterState? initialCharacterState;
   final Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> initialBookmarkRanges;
 
   const WeaponDetailsPageContents({
@@ -107,7 +110,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
     required this.weapon,
     required this.assetData,
     required this.initialSelectedCharacter,
-    this.initialWeaponState,
+    this.initialCharacterState,
     this.initialBookmarkRanges = const {},
   });
 
@@ -120,13 +123,18 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       ingredients: ingredients,
       weapon: weapon,
       selectedCharacterId: initialSelectedCharacter,
+      initialCharacterState: initialCharacterState,
       bookmarkRanges: initialBookmarkRanges,
     ));
 
     final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
+    final selectedCharacter = characters.firstWhere((e) => e.id == state.value.selectedCharacterId);
 
-    final enableSync = !weapon.disableSync &&
-        !characters.firstWhere((e) => e.id == state.value.selectedCharacterId).disableSync;
+    final isWeaponSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(
+      variantId: selectedCharacter.id,
+      weaponId: weapon.id,
+    ));
+    final isLackNumSyncEnabled = ref.watch(isBagLackNumSyncEnabledProvider(variantId: selectedCharacter.id));
 
     // Watch bag lack nums directly so the value is available immediately even when the provider
     // already has a cached result (e.g. the same weapon screen is open in another ShellRoute).
@@ -134,27 +142,65 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       variantId: state.value.selectedCharacterId,
       weaponId: weapon.id,
     );
-    final lackNums = enableSync
+    final lackNums = isLackNumSyncEnabled
         ? ref.watch(bagLackNumProvider(syncCharacter)).value
         : null;
 
-    if (enableSync) {
-      ref.listen(gameDataSyncCachedProvider(
-        variantId: state.value.selectedCharacterId,
-        weaponId: weapon.id,
-      ), (_, result) {
-        if (result.value?.levels != null) {
-          for (final MapEntry(key: purpose, value: currentLevel) in result.value!.levels!.entries) {
-            state.value = state.value.copyWith(
-              rangeValues: {...state.value.rangeValues}..[purpose] = LevelRangeValues(
-                currentLevel,
-                max(currentLevel, state.value.rangeValues[purpose]!.end),
-              ),
-            );
-          }
-        }
+    final fetchState = isWeaponSyncEnabled
+        ? ref.watch(SingleCharacterStateRepository.fetchMutation(selectedCharacter.id))
+        : null;
+    final characterState = isWeaponSyncEnabled
+        ? ref.watch(singleCharacterStateRepositoryProvider(selectedCharacter.id))
+        : null;
+
+    void applyWeaponState(Map<Purpose, int> levels) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final currentLevel = levels[Purpose.ascension]!;
+        state.value = state.value.copyWith(
+          rangeValues: {
+            .ascension: LevelRangeValues(
+              currentLevel,
+              max(currentLevel, state.value.rangeValues[Purpose.ascension]!.end),
+            ),
+          },
+        );
       });
     }
+
+    useEffect(() {
+      if (fetchState case MutationSuccess(value: FetchSuccess(:final state)) when state.equippedWeaponId == weapon.id) {
+        applyWeaponState(state.weaponLevels);
+
+        if (ref.read(prefProvider(PrefKeys.autoRemoveBookmarks))) {
+          ref.read(appDatabaseProvider).deleteObsoleteBookmarks(
+            characterId: selectedCharacter.id,
+            weaponId: weapon.id,
+            levels: state.weaponLevels,
+          ).then((removed) {
+            if (context.mounted && removed) {
+              showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
+            }
+          });
+        }
+      }
+      return null;
+    }, [fetchState]);
+
+    // applies weapon state when selected character is changed
+    useValueChanged<String, void>(selectedCharacter.id, (_, _) {
+      if (characterState?.value case final s? when s.equippedWeaponId == weapon.id) {
+        applyWeaponState(s.weaponLevels);
+      }
+    });
+
+    useEffect(() {
+      if (isWeaponSyncEnabled) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          SingleCharacterStateRepository.executeFetch(ref, selectedCharacter.id);
+        });
+      }
+      return null;
+    }, [selectedCharacter.id, isWeaponSyncEnabled]);
 
     return Scaffold(
       appBar: AppBar(
@@ -184,13 +230,22 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                     ],
                   ),
                 ),
-                if (enableSync)
+                if (isWeaponSyncEnabled)
                   Consumer(
                     builder: (context, ref, _) {
-                      final syncStatus = ref.watch(gameDataSyncStateProvider(
+                      final syncStatus = GameDataSyncStatus.combine([
+                        if (fetchState case MutationSuccess(value: FetchSuccess(state: CharacterState(:final equippedWeaponId))) when equippedWeaponId != weapon.id)
+                          GameDataSyncStatus.weaponNotEquipped(),
+                        if (fetchState != null)
+                          GameDataSyncStatus.fromCharacterFetch(
+                            fetchState,
+                            selectedCharacter,
+                          ),
+                        ref.watch(gameDataSyncStateProvider(
                           variantId: state.value.selectedCharacterId,
                           weaponId: weapon.id,
-                        ));
+                        )),
+                      ]);
                       return syncStatus != null
                           ? GameDataSyncIndicator(
                               status: syncStatus,
@@ -299,6 +354,7 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
     required IngredientConfigurations ingredients,
     required Weapon weapon,
     required CharacterId selectedCharacterId,
+    required CharacterState? initialCharacterState,
     Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> bookmarkRanges = const {},
   }) {
     final levelsEntry = ingredients.getLevels(
@@ -314,7 +370,10 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
       final start = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : 1;
       ascensionRange = LevelRangeValues(start, bookmark.maxUpperLevel);
     } else {
-      ascensionRange = LevelRangeValues(1, levelTicks.last);
+      final currentLevel = initialCharacterState?.equippedWeaponId == weapon.id
+          ? initialCharacterState!.weaponLevels[Purpose.ascension]
+          : null;
+      ascensionRange = LevelRangeValues(currentLevel ?? 1, levelTicks.last);
     }
 
     return _WeaponDetailsPageState(

@@ -115,10 +115,13 @@ _AvatarListResultItem _$AvatarListResultItemFromJson(
             .map((e) => AvatarSkill.fromJson(e as Map<String, dynamic>))
             .toList(),
       ),
+      elementAttrId: $checkedConvert(
+        'element_attr_id',
+        (v) => (v as num).toInt(),
+      ),
       weapon: $checkedConvert(
         'weapon',
-        (v) =>
-            v == null ? null : AvatarWeapon.fromJson(v as Map<String, dynamic>),
+        (v) => AvatarWeapon.fromJson(v as Map<String, dynamic>),
       ),
     );
     return val;
@@ -127,6 +130,7 @@ _AvatarListResultItem _$AvatarListResultItemFromJson(
     'currentLevel': 'level_current',
     'maxLevel': 'max_level',
     'skills': 'skill_list',
+    'elementAttrId': 'element_attr_id',
   },
 );
 
@@ -138,6 +142,7 @@ Map<String, dynamic> _$AvatarListResultItemToJson(
   'level_current': instance.currentLevel,
   'max_level': instance.maxLevel,
   'skill_list': instance.skills,
+  'element_attr_id': instance.elementAttrId,
   'weapon': instance.weapon,
 };
 

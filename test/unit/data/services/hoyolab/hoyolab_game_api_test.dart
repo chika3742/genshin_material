@@ -49,6 +49,7 @@ void main() {
             "name": "Amber",
             "level_current": 80,
             "max_level": 90,
+            "element_attr_id": 2,
             "skill_list": [
               {"group_id": 1, "max_level": 10, "level_current": 6},
             ],
@@ -72,9 +73,10 @@ void main() {
       expect(avatar.id, 10000021);
       expect(avatar.currentLevel, 80);
       expect(avatar.maxLevel, 90);
+      expect(avatar.elementAttrId, 2);
       expect(avatar.skills.single.groupId, 1);
-      expect(avatar.weapon!.name, "Rust");
-      expect(avatar.weapon!.rarity, 4);
+      expect(avatar.weapon.name, "Rust");
+      expect(avatar.weapon.rarity, 4);
     });
 
     test("sends the paging and filter parameters", () async {

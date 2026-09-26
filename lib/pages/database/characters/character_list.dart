@@ -12,12 +12,12 @@ import "../../../components/search.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/remote_config_keys.dart";
+import "../../../data/repositories/character_state_repository.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/filter_state.dart";
 import "../../../providers/hoyolab_game_server.dart";
-import "../../../providers/miscellaneous.dart";
 import "../../../providers/remote_config.dart";
 import "../../../routes.dart";
 import "../../../ui_core/bottom_sheet.dart";
@@ -39,16 +39,16 @@ class CharacterListPage extends HookConsumerWidget {
     var charactersIterable = assetData.characters.values
         .whereType<CharacterWithLargeImage>();
     if (filterState.possessionStatus != null) {
-      final ownedCharacters = ref.watch(ownedCharactersProvider);
+      final ownedCharacters = ref.watch(characterStateRepositoryProvider).value?.keys.toList();
 
-      if (ownedCharacters.value != null) {
+      if (ownedCharacters != null) {
         bool isCharacterOwned(String id, PossessionStatus? filterStatus, List<String> ownedIds) {
           if (filterStatus == null) return true;
           final isOwned = ownedIds.contains(id) || alwaysOwnedCharacters.contains(id);
           return filterStatus == PossessionStatus.owned ? isOwned : !isOwned;
         }
         charactersIterable = charactersIterable.where((e) {
-          return isCharacterOwned(e.id, filterState.possessionStatus, ownedCharacters.value!);
+          return isCharacterOwned(e.id, filterState.possessionStatus, ownedCharacters);
         });
       }
     }

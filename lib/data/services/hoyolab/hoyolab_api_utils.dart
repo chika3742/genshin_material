@@ -7,7 +7,12 @@ class HoyolabApiUtils {
   /// specified IDs is found.
   static Future<T?> loopUntilCharacter<T extends WithId>(List<int> characterIds, Future<HoyolabListData<T>> Function(int page) apiCall) async {
     var page = 1;
+    const maxPageCount = 5;
     while (true) {
+      if (page > maxPageCount) {
+        throw Exception("Max loop iteration exceeded.");
+      }
+
       final result = await apiCall(page);
 
       if (result.list.isEmpty) {
@@ -23,5 +28,27 @@ class HoyolabApiUtils {
     }
 
     return null;
+  }
+
+  static Future<List<T>> listAllCharacters<T extends WithId>(Future<HoyolabListData<T>> Function(int page) apiCall) async {
+    var page = 1;
+    const maxPageCount = 10;
+    final list = <T>[];
+    while (true) {
+      if (page > maxPageCount) {
+        throw Exception("Max loop iteration exceeded.");
+      }
+
+      final result = await apiCall(page);
+
+      if (result.list.isEmpty) {
+        break;
+      }
+
+      list.addAll(result.list);
+
+      page++;
+    }
+    return list;
   }
 }

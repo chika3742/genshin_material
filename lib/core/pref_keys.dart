@@ -13,7 +13,6 @@ abstract final class PrefKeys {
   static const hyvUid = NullableStringPrefKey("hyvUid");
   static const syncResin = BooleanPrefKey("syncResin", true);
   static const syncCharaState = BooleanPrefKey("syncCharaState", true);
-  static const syncWeaponState = BooleanPrefKey("syncWeaponState", true);
   static const autoRemoveBookmarks = BooleanPrefKey("autoRemoveBookmarks", true);
   static const syncBagLackNums = BooleanPrefKey("syncBagLackNums", true);
   static const showItemNameOnCard = BooleanPrefKey("showItemNameOnCard", true);

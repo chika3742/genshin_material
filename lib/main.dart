@@ -16,6 +16,7 @@ import "core/provider_error_observer.dart";
 import "core/theme.dart";
 // ignore: uri_does_not_exist
 // import "firebase_options.dart";
+import "data/repositories/character_state_repository.dart";
 import "data/services/local_notification.dart";
 import "data/services/remote_config_service.dart";
 import "hooks/use_remote_config_listener.dart";
@@ -106,6 +107,7 @@ class MyApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(assetDataProvider);
     ref.watch(appDatabaseProvider);
+    ref.watch(characterStateRepositoryProvider);
     useRemoteConfigListener(ref);
 
     const appTitle = "Genshin Material";

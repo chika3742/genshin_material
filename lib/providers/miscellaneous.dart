@@ -3,12 +3,8 @@ import "dart:io";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../data/repositories/hoyolab_cookie_repository.dart";
-import "../db/in_game_character_state_db_extension.dart";
-import "../models/common.dart";
 import "../models/hoyolab_api.dart";
-import "database_provider.dart";
 import "hoyolab_api.dart";
-import "hoyolab_game_server.dart";
 
 part "miscellaneous.g.dart";
 
@@ -37,16 +33,6 @@ class RealtimeNotesActivationState extends _$RealtimeNotesActivationState {
 
     state = AsyncData(value);
   }
-}
-
-@riverpod
-Future<List<CharacterId>?> ownedCharacters(Ref ref) async {
-  final uid = ref.watch(hoyolabGameServerProvider).uidOrNull;
-  if (uid == null) {
-    return null;
-  }
-  final db = ref.watch(appDatabaseProvider);
-  return await db.getSyncedCharacters(uid);
 }
 
 @riverpod

@@ -1,22 +1,18 @@
 import "dart:convert";
 import "dart:io";
 
-import "package:drift/drift.dart" show Value;
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/api_request_queue.dart";
 import "package:genshin_material/data/repositories/hoyolab_cookie_repository.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_account_api.dart";
 import "package:genshin_material/database.dart";
-import "package:genshin_material/db/in_game_character_state_db_extension.dart";
-import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 
 import "../../utils/db.dart";
-import "../../utils/hoyolab_game_server.dart";
 import "../../utils/http_client.mocks.dart";
 import "../../utils/provider_container.dart";
 import "../../utils/secure_storage.dart";
@@ -38,57 +34,6 @@ void main() {
 
   tearDown(() async {
     await db.close();
-  });
-
-  Future<void> addCharacterState(String uid, CharacterId characterId) {
-    return db.setCharacterState(InGameCharacterStateCompanion.insert(
-      uid: uid,
-      characterId: characterId,
-      purposes: const {},
-      equippedWeaponId: const Value.absent(),
-    ));
-  }
-
-  group("ownedCharacters", () {
-    ProviderContainer createContainer({String? uid}) {
-      return createTestContainer(
-        db: db,
-        overrides: overrideHoyolabGameServerPrefs(uid: uid),
-      );
-    }
-
-    test("returns null when no uid is stored", () async {
-      final container = createContainer();
-
-      expect(await container.read(ownedCharactersProvider.future), isNull);
-    });
-
-    test("returns the characters synced for the stored uid", () async {
-      await addCharacterState("uid_1", "char_a");
-      await addCharacterState("uid_1", "char_b");
-      final container = createContainer(uid: "uid_1");
-
-      final result = await container.read(ownedCharactersProvider.future);
-
-      expect(result, unorderedEquals(["char_a", "char_b"]));
-    });
-
-    test("ignores the characters synced for another uid", () async {
-      await addCharacterState("uid_1", "char_a");
-      await addCharacterState("uid_2", "char_b");
-      final container = createContainer(uid: "uid_1");
-
-      final result = await container.read(ownedCharactersProvider.future);
-
-      expect(result, ["char_a"]);
-    });
-
-    test("returns an empty list when nothing is synced for the uid", () async {
-      await addCharacterState("uid_2", "char_b");
-      final container = createContainer(uid: "uid_1");
-
-      expect(await container.read(ownedCharactersProvider.future), isEmpty);
-    });
   });
 
   group("RealtimeNotesActivationState", () {

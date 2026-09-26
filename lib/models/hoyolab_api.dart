@@ -83,7 +83,8 @@ sealed class AvatarListResultItem with _$AvatarListResultItem, WithId {
     @JsonKey(name: "level_current") required int currentLevel,
     @JsonKey(name: "max_level") required int maxLevel,
     @JsonKey(name: "skill_list") required List<AvatarSkill> skills,
-    AvatarWeapon? weapon,
+    @JsonKey(name: "element_attr_id") required int elementAttrId,
+    required AvatarWeapon weapon,
   }) = _AvatarListResultItem;
 
   factory AvatarListResultItem.fromJson(Map<String, dynamic> json) =>
