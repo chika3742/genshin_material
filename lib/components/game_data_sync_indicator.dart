@@ -1,9 +1,11 @@
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:flutter_riverpod/experimental/mutation.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
+import "../data/repositories/single_character_state_repository.dart";
 import "../i18n/strings.g.dart";
-import "../providers/game_data_sync.dart";
+import "../models/character.dart";
 import "../ui_core/bubble.dart";
 import "../ui_core/error_messages.dart";
 import "../ui_core/snack_bar.dart";
@@ -120,12 +122,35 @@ sealed class GameDataSyncStatus {
 
   const factory GameDataSyncStatus.mustBeResonatedWithStatue() = _MustBeResonatedWithStatue;
 
-  static GameDataSyncStatus fromErrorType(GameDataSyncErrorType type, [Object? error]) {
-    return switch (type) {
-      GameDataSyncErrorType.characterDoesNotExist => const GameDataSyncStatus.characterNotExists(),
-      GameDataSyncErrorType.mustBeResonatedWithStatue => const GameDataSyncStatus.mustBeResonatedWithStatue(),
-      GameDataSyncErrorType.weaponNotEquipped => const GameDataSyncStatus.weaponNotEquipped(),
-      GameDataSyncErrorType.unknown => GameDataSyncStatus.error(error: error),
+  static GameDataSyncStatus? fromCharacterFetch(MutationState<FetchResult> s, CharacterOrVariant character) {
+    return switch (s) {
+      MutationIdle() => null,
+      MutationPending() => const GameDataSyncStatus.syncing(),
+      MutationError(:final error) => GameDataSyncStatus.error(error: error),
+      MutationSuccess(value: FetchSuccess()) => const GameDataSyncStatus.synced(),
+      MutationSuccess(value: FetchCharacterNotFound()) => character is CharacterVariant
+          ? const GameDataSyncStatus.mustBeResonatedWithStatue()
+          : const GameDataSyncStatus.characterNotExists(),
+    };
+  }
+
+  /// Merges the statuses of several sync sources into one for a single
+  /// indicator.
+  ///
+  /// The most urgent status wins: syncing, then an error, then a warning about
+  /// the character or weapon, then synced. `null` entries (sync disabled for
+  /// that source) are ignored; the result is `null` only when every entry is.
+  static GameDataSyncStatus? combine(Iterable<GameDataSyncStatus?> statuses) {
+    return statuses.nonNulls
+        .fold(null, (p, e) => p != null && _priority(p) <= _priority(e) ? p : e);
+  }
+
+  static int _priority(GameDataSyncStatus status) {
+    return switch (status) {
+      _Syncing() => 0,
+      _Error() => 1,
+      _CharacterNotExists() || _MustBeResonatedWithStatue() || _WeaponNotEquipped() => 2,
+      _Synced() => 3,
     };
   }
 }

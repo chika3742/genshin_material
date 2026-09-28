@@ -1032,11 +1032,11 @@ class Translations$hoyolab$ja {
 	/// ja: 'ゲーム内の樹脂数を同期する'
 	String get syncResin => 'ゲーム内の樹脂数を同期する';
 
-	/// ja: 'ゲーム内のキャラレベルを同期する'
-	String get syncCharaState => 'ゲーム内のキャラレベルを同期する';
+	/// ja: 'ゲーム内のキャラクターを同期する'
+	String get syncCharaState => 'ゲーム内のキャラクターを同期する';
 
-	/// ja: 'ゲーム内の武器レベルを同期する'
-	String get syncWeaponState => 'ゲーム内の武器レベルを同期する';
+	/// ja: 'キャラクターのレベル、天賦レベル、装備武器のレベルを同期します。'
+	String get syncCharaStateDesc => 'キャラクターのレベル、天賦レベル、装備武器のレベルを同期します。';
 
 	/// ja: 'ゲーム内のバッグ不足数を同期する'
 	String get syncBagLackNums => 'ゲーム内のバッグ不足数を同期する';
@@ -1423,8 +1423,8 @@ extension on Translations {
 			'hoyolab.enableRealtimeNotesDesc' => '現在の天然樹脂の数を同期できるようになります。',
 			'hoyolab.syncSettings' => '同期設定',
 			'hoyolab.syncResin' => 'ゲーム内の樹脂数を同期する',
-			'hoyolab.syncCharaState' => 'ゲーム内のキャラレベルを同期する',
-			'hoyolab.syncWeaponState' => 'ゲーム内の武器レベルを同期する',
+			'hoyolab.syncCharaState' => 'ゲーム内のキャラクターを同期する',
+			'hoyolab.syncCharaStateDesc' => 'キャラクターのレベル、天賦レベル、装備武器のレベルを同期します。',
 			'hoyolab.syncBagLackNums' => 'ゲーム内のバッグ不足数を同期する',
 			'hoyolab.autoRemoveBookmarks' => '育成完了のブックマークを自動解除する',
 			'hoyolab.autoRemoveBookmarksDesc' => 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。',

@@ -2,20 +2,31 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_api_utils.dart";
 import "package:genshin_material/models/hoyolab_api.dart";
 
+AvatarListResultItem _buildAvatar(int id) => AvatarListResultItem(
+      id: id,
+      name: "avatar-$id",
+      currentLevel: 1,
+      maxLevel: 90,
+      skills: const [],
+      elementAttrId: 1,
+      weapon: const AvatarWeapon(
+        id: 1,
+        maxLevel: 90,
+        currentLevel: 1,
+        categoryId: 1,
+        rarity: 1,
+        name: "",
+        icon: "",
+      ),
+    );
+
 void main() {
   group("loopUntilCharacter", () {
-    AvatarListResultItem buildAvatar(int id) => AvatarListResultItem(
-          id: id,
-          name: "avatar-$id",
-          currentLevel: 1,
-          maxLevel: 90,
-          skills: const [],
-        );
 
     test("returns the first matching character across the pages", () async {
       final pages = {
-        1: [buildAvatar(1), buildAvatar(2)],
-        2: [buildAvatar(3)],
+        1: [_buildAvatar(1), _buildAvatar(2)],
+        2: [_buildAvatar(3)],
       };
 
       final found =
@@ -33,7 +44,7 @@ void main() {
       final found = await HoyolabApiUtils.loopUntilCharacter<
           AvatarListResultItem>([99], (page) async {
         calls++;
-        return HoyolabListData(list: page == 1 ? [buildAvatar(1)] : const []);
+        return HoyolabListData(list: page == 1 ? [_buildAvatar(1)] : const []);
       });
 
       expect(found, isNull);
@@ -47,11 +58,31 @@ void main() {
         [1],
         (page) async {
           calls++;
-          return HoyolabListData(list: [buildAvatar(1)]);
+          return HoyolabListData(list: [_buildAvatar(1)]);
         },
       );
 
       expect(calls, 1);
+    });
+  });
+
+  group("listAllCharacters", () {
+    test("collects every page until one comes back empty", () async {
+      final pages = {
+        1: [_buildAvatar(1), _buildAvatar(2)],
+        2: [_buildAvatar(3)],
+      };
+      var calls = 0;
+
+      final all = await HoyolabApiUtils.listAllCharacters<AvatarListResultItem>(
+        (page) async {
+          calls++;
+          return HoyolabListData(list: pages[page] ?? const []);
+        },
+      );
+
+      expect(all.map((e) => e.id), [1, 2, 3]);
+      expect(calls, 3);
     });
   });
 }

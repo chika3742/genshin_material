@@ -392,7 +392,7 @@ String toString() {
 /// @nodoc
 mixin _$AvatarListResultItem {
 
- int get id; String get name;@JsonKey(name: "level_current") int get currentLevel;@JsonKey(name: "max_level") int get maxLevel;@JsonKey(name: "skill_list") List<AvatarSkill> get skills; AvatarWeapon? get weapon;
+ int get id; String get name;@JsonKey(name: "level_current") int get currentLevel;@JsonKey(name: "max_level") int get maxLevel;@JsonKey(name: "skill_list") List<AvatarSkill> get skills;@JsonKey(name: "element_attr_id") int get elementAttrId; AvatarWeapon get weapon;
 
   /// Serializes this AvatarListResultItem to a JSON map.
   Map<String, dynamic> toJson();
@@ -401,20 +401,20 @@ mixin _$AvatarListResultItem {
 @override
 bool operator ==(Object other) {
   final _this = this as AvatarListResultItem;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvatarListResultItem&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.currentLevel, _this.currentLevel) || other.currentLevel == _this.currentLevel)&&(identical(other.maxLevel, _this.maxLevel) || other.maxLevel == _this.maxLevel)&&const DeepCollectionEquality().equals(other.skills, _this.skills)&&(identical(other.weapon, _this.weapon) || other.weapon == _this.weapon));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AvatarListResultItem&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.currentLevel, _this.currentLevel) || other.currentLevel == _this.currentLevel)&&(identical(other.maxLevel, _this.maxLevel) || other.maxLevel == _this.maxLevel)&&const DeepCollectionEquality().equals(other.skills, _this.skills)&&(identical(other.elementAttrId, _this.elementAttrId) || other.elementAttrId == _this.elementAttrId)&&(identical(other.weapon, _this.weapon) || other.weapon == _this.weapon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as AvatarListResultItem;
-  return Object.hash(runtimeType,_this.id,_this.name,_this.currentLevel,_this.maxLevel,const DeepCollectionEquality().hash(_this.skills),_this.weapon);
+  return Object.hash(runtimeType,_this.id,_this.name,_this.currentLevel,_this.maxLevel,const DeepCollectionEquality().hash(_this.skills),_this.elementAttrId,_this.weapon);
 }
 
 @override
 String toString() {
   final _this = this as AvatarListResultItem;
-  return 'AvatarListResultItem(id: ${_this.id}, name: ${_this.name}, currentLevel: ${_this.currentLevel}, maxLevel: ${_this.maxLevel}, skills: ${_this.skills}, weapon: ${_this.weapon})';
+  return 'AvatarListResultItem(id: ${_this.id}, name: ${_this.name}, currentLevel: ${_this.currentLevel}, maxLevel: ${_this.maxLevel}, skills: ${_this.skills}, elementAttrId: ${_this.elementAttrId}, weapon: ${_this.weapon})';
 }
 
 
@@ -428,7 +428,7 @@ String toString() {
 @JsonSerializable()
 
 class _AvatarListResultItem extends AvatarListResultItem {
-  const _AvatarListResultItem({required this.id, required this.name, @JsonKey(name: "level_current") required this.currentLevel, @JsonKey(name: "max_level") required this.maxLevel, @JsonKey(name: "skill_list") required  List<AvatarSkill> skills, this.weapon}): _skills = skills,super._();
+  const _AvatarListResultItem({required this.id, required this.name, @JsonKey(name: "level_current") required this.currentLevel, @JsonKey(name: "max_level") required this.maxLevel, @JsonKey(name: "skill_list") required  List<AvatarSkill> skills, @JsonKey(name: "element_attr_id") required this.elementAttrId, required this.weapon}): _skills = skills,super._();
   factory _AvatarListResultItem.fromJson(Map<String, dynamic> json) => _$AvatarListResultItemFromJson(json);
 
 @override final  int id;
@@ -442,7 +442,8 @@ class _AvatarListResultItem extends AvatarListResultItem {
   return EqualUnmodifiableListView(_skills);
 }
 
-@override final  AvatarWeapon? weapon;
+@override@JsonKey(name: "element_attr_id") final  int elementAttrId;
+@override final  AvatarWeapon weapon;
 
 
 @override
@@ -452,18 +453,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvatarListResultItem&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&const DeepCollectionEquality().equals(other.skills, _skills)&&(identical(other.weapon, weapon) || other.weapon == weapon));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AvatarListResultItem&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel)&&(identical(other.maxLevel, maxLevel) || other.maxLevel == maxLevel)&&const DeepCollectionEquality().equals(other.skills, _skills)&&(identical(other.elementAttrId, elementAttrId) || other.elementAttrId == elementAttrId)&&(identical(other.weapon, weapon) || other.weapon == weapon));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,name,currentLevel,maxLevel,const DeepCollectionEquality().hash(_skills),weapon);
+    return Object.hash(runtimeType,id,name,currentLevel,maxLevel,const DeepCollectionEquality().hash(_skills),elementAttrId,weapon);
 }
 
 @override
 String toString() {
-    return 'AvatarListResultItem(id: $id, name: $name, currentLevel: $currentLevel, maxLevel: $maxLevel, skills: $skills, weapon: $weapon)';
+    return 'AvatarListResultItem(id: $id, name: $name, currentLevel: $currentLevel, maxLevel: $maxLevel, skills: $skills, elementAttrId: $elementAttrId, weapon: $weapon)';
 }
 
 

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CharacterDetailsPageState {
 
- Map<Purpose, LevelRangeValues> get rangeValues; Set<Purpose> get hiddenTalents; Map<Purpose, GlobalKey<State<StatefulWidget>>> get talentSectionKeys; String? get equippedWeaponId;
+ Map<Purpose, LevelRangeValues> get rangeValues; Set<Purpose> get hiddenTalents; Map<Purpose, GlobalKey<State<StatefulWidget>>> get talentSectionKeys;
 /// Create a copy of _CharacterDetailsPageState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ _$CharacterDetailsPageStateCopyWith<_CharacterDetailsPageState> get copyWith => 
 @override
 bool operator ==(Object other) {
   final _this = this as _CharacterDetailsPageState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterDetailsPageState&&const DeepCollectionEquality().equals(other.rangeValues, _this.rangeValues)&&const DeepCollectionEquality().equals(other.hiddenTalents, _this.hiddenTalents)&&const DeepCollectionEquality().equals(other.talentSectionKeys, _this.talentSectionKeys)&&(identical(other.equippedWeaponId, _this.equippedWeaponId) || other.equippedWeaponId == _this.equippedWeaponId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterDetailsPageState&&const DeepCollectionEquality().equals(other.rangeValues, _this.rangeValues)&&const DeepCollectionEquality().equals(other.hiddenTalents, _this.hiddenTalents)&&const DeepCollectionEquality().equals(other.talentSectionKeys, _this.talentSectionKeys));
 }
 
 
 @override
 int get hashCode {
   final _this = this as _CharacterDetailsPageState;
-  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.rangeValues),const DeepCollectionEquality().hash(_this.hiddenTalents),const DeepCollectionEquality().hash(_this.talentSectionKeys),_this.equippedWeaponId);
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.rangeValues),const DeepCollectionEquality().hash(_this.hiddenTalents),const DeepCollectionEquality().hash(_this.talentSectionKeys));
 }
 
 @override
 String toString() {
   final _this = this as _CharacterDetailsPageState;
-  return '_CharacterDetailsPageState(rangeValues: ${_this.rangeValues}, hiddenTalents: ${_this.hiddenTalents}, talentSectionKeys: ${_this.talentSectionKeys}, equippedWeaponId: ${_this.equippedWeaponId})';
+  return '_CharacterDetailsPageState(rangeValues: ${_this.rangeValues}, hiddenTalents: ${_this.hiddenTalents}, talentSectionKeys: ${_this.talentSectionKeys})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class _$CharacterDetailsPageStateCopyWith<$Res>  {
   factory _$CharacterDetailsPageStateCopyWith(_CharacterDetailsPageState value, $Res Function(_CharacterDetailsPageState) _then) = __$CharacterDetailsPageStateCopyWithImpl;
 @useResult
 $Res call({
- Map<Purpose, LevelRangeValues> rangeValues, Set<Purpose> hiddenTalents, Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys, String? equippedWeaponId
+ Map<Purpose, LevelRangeValues> rangeValues, Set<Purpose> hiddenTalents, Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys
 });
 
 
@@ -68,13 +68,12 @@ class __$CharacterDetailsPageStateCopyWithImpl<$Res>
 
 /// Create a copy of _CharacterDetailsPageState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? rangeValues = null,Object? hiddenTalents = null,Object? talentSectionKeys = null,Object? equippedWeaponId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? rangeValues = null,Object? hiddenTalents = null,Object? talentSectionKeys = null,}) {
   return _then(_CharacterDetailsPageState(
 rangeValues: null == rangeValues ? _self.rangeValues : rangeValues // ignore: cast_nullable_to_non_nullable
 as Map<Purpose, LevelRangeValues>,hiddenTalents: null == hiddenTalents ? _self.hiddenTalents : hiddenTalents // ignore: cast_nullable_to_non_nullable
 as Set<Purpose>,talentSectionKeys: null == talentSectionKeys ? _self.talentSectionKeys : talentSectionKeys // ignore: cast_nullable_to_non_nullable
-as Map<Purpose, GlobalKey<State<StatefulWidget>>>,equippedWeaponId: freezed == equippedWeaponId ? _self.equippedWeaponId : equippedWeaponId // ignore: cast_nullable_to_non_nullable
-as String?,
+as Map<Purpose, GlobalKey<State<StatefulWidget>>>,
   ));
 }
 
@@ -86,7 +85,7 @@ as String?,
 
 
 class __CharacterDetailsPageState implements _CharacterDetailsPageState {
-  const __CharacterDetailsPageState({required  Map<Purpose, LevelRangeValues> rangeValues, required  Set<Purpose> hiddenTalents, required  Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys, required this.equippedWeaponId}): _rangeValues = rangeValues,_hiddenTalents = hiddenTalents,_talentSectionKeys = talentSectionKeys;
+  const __CharacterDetailsPageState({required  Map<Purpose, LevelRangeValues> rangeValues, required  Set<Purpose> hiddenTalents, required  Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys}): _rangeValues = rangeValues,_hiddenTalents = hiddenTalents,_talentSectionKeys = talentSectionKeys;
   
 
  final  Map<Purpose, LevelRangeValues> _rangeValues;
@@ -110,7 +109,6 @@ class __CharacterDetailsPageState implements _CharacterDetailsPageState {
   return EqualUnmodifiableMapView(_talentSectionKeys);
 }
 
-@override final  String? equippedWeaponId;
 
 /// Create a copy of _CharacterDetailsPageState
 /// with the given fields replaced by the non-null parameter values.
@@ -122,18 +120,18 @@ _$_CharacterDetailsPageStateCopyWith<__CharacterDetailsPageState> get copyWith =
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is __CharacterDetailsPageState&&const DeepCollectionEquality().equals(other.rangeValues, _rangeValues)&&const DeepCollectionEquality().equals(other.hiddenTalents, _hiddenTalents)&&const DeepCollectionEquality().equals(other.talentSectionKeys, _talentSectionKeys)&&(identical(other.equippedWeaponId, equippedWeaponId) || other.equippedWeaponId == equippedWeaponId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is __CharacterDetailsPageState&&const DeepCollectionEquality().equals(other.rangeValues, _rangeValues)&&const DeepCollectionEquality().equals(other.hiddenTalents, _hiddenTalents)&&const DeepCollectionEquality().equals(other.talentSectionKeys, _talentSectionKeys));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_rangeValues),const DeepCollectionEquality().hash(_hiddenTalents),const DeepCollectionEquality().hash(_talentSectionKeys),equippedWeaponId);
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_rangeValues),const DeepCollectionEquality().hash(_hiddenTalents),const DeepCollectionEquality().hash(_talentSectionKeys));
 }
 
 @override
 String toString() {
-    return '_CharacterDetailsPageState(rangeValues: $rangeValues, hiddenTalents: $hiddenTalents, talentSectionKeys: $talentSectionKeys, equippedWeaponId: $equippedWeaponId)';
+    return '_CharacterDetailsPageState(rangeValues: $rangeValues, hiddenTalents: $hiddenTalents, talentSectionKeys: $talentSectionKeys)';
 }
 
 
@@ -144,7 +142,7 @@ abstract mixin class _$_CharacterDetailsPageStateCopyWith<$Res> implements _$Cha
   factory _$_CharacterDetailsPageStateCopyWith(__CharacterDetailsPageState value, $Res Function(__CharacterDetailsPageState) _then) = __$_CharacterDetailsPageStateCopyWithImpl;
 @override @useResult
 $Res call({
- Map<Purpose, LevelRangeValues> rangeValues, Set<Purpose> hiddenTalents, Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys, String? equippedWeaponId
+ Map<Purpose, LevelRangeValues> rangeValues, Set<Purpose> hiddenTalents, Map<Purpose, GlobalKey<State<StatefulWidget>>> talentSectionKeys
 });
 
 
@@ -161,13 +159,12 @@ class __$_CharacterDetailsPageStateCopyWithImpl<$Res>
 
 /// Create a copy of _CharacterDetailsPageState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? rangeValues = null,Object? hiddenTalents = null,Object? talentSectionKeys = null,Object? equippedWeaponId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? rangeValues = null,Object? hiddenTalents = null,Object? talentSectionKeys = null,}) {
   return _then(__CharacterDetailsPageState(
 rangeValues: null == rangeValues ? _self._rangeValues : rangeValues // ignore: cast_nullable_to_non_nullable
 as Map<Purpose, LevelRangeValues>,hiddenTalents: null == hiddenTalents ? _self._hiddenTalents : hiddenTalents // ignore: cast_nullable_to_non_nullable
 as Set<Purpose>,talentSectionKeys: null == talentSectionKeys ? _self._talentSectionKeys : talentSectionKeys // ignore: cast_nullable_to_non_nullable
-as Map<Purpose, GlobalKey<State<StatefulWidget>>>,equippedWeaponId: freezed == equippedWeaponId ? _self.equippedWeaponId : equippedWeaponId // ignore: cast_nullable_to_non_nullable
-as String?,
+as Map<Purpose, GlobalKey<State<StatefulWidget>>>,
   ));
 }
 

@@ -1,7 +1,5 @@
 import "dart:developer";
 
-import "package:collection/collection.dart";
-import "package:drift/drift.dart" hide JsonKey;
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
@@ -10,15 +8,11 @@ import "../core/asset_cache.dart";
 import "../core/pref_keys.dart";
 import "../data/services/hoyolab/hoyolab_api_utils.dart";
 import "../data/services/hoyolab/hoyolab_game_api.dart";
-import "../database.dart";
-import "../db/in_game_character_state_db_extension.dart";
-import "../db/in_game_weapon_state_db_extension.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../models/hoyolab_api.dart";
 import "../models/weapon.dart";
 import "../utils/lists.dart";
-import "database_provider.dart";
 import "hoyolab_api.dart";
 import "hoyolab_game_server.dart";
 import "pref_notifier.dart";
@@ -27,8 +21,6 @@ import "versions.dart";
 
 part "game_data_sync.freezed.dart";
 part "game_data_sync.g.dart";
-
-const _fetchTtl = Duration(minutes: 3);
 
 /// Item id to lack numbers.
 typedef ItemLackNums = Map<String, int>;
@@ -67,139 +59,6 @@ sealed class _ComputeBagRequestItem with _$ComputeBagRequestItem {
     required CharacterOrVariant variant,
     String? weaponId,
   }) = __ComputeBagRequestItem;
-}
-
-@riverpod
-class GameDataSyncCached extends _$GameDataSyncCached {
-  @override
-  Future<GameDataSyncResult?> build({ required String variantId, String? weaponId }) async {
-    if (!ref.watch(isLinkedWithHoyolabProvider)) {
-      return null;
-    }
-
-    final db = ref.watch(appDatabaseProvider);
-    final uid = ref.watch(hoyolabGameServerProvider).uidOrNull!;
-
-    final syncState = weaponId == null
-        ? ref.watch(prefProvider(PrefKeys.syncCharaState))
-        : ref.watch(prefProvider(PrefKeys.syncWeaponState));
-    if (!syncState) {
-      return null; // sync level is disabled
-    }
-
-    final stateCache = switch (weaponId) {
-      null => await db.getCharacterState(uid, variantId),
-      final String weaponId => await db.getWeaponState(uid, variantId, weaponId),
-    };
-
-    // return cached data
-    if (stateCache != null) {
-      final isObsolete = stateCache.lastUpdated.isBefore(DateTime.now().subtract(_fetchTtl));
-
-      state = AsyncValue.data(GameDataSyncResult(
-        isStale: isObsolete,
-        levels: stateCache.purposes,
-        equippedWeaponId: switch (stateCache) {
-          InGameCharacterState(:final equippedWeaponId) => equippedWeaponId,
-          _ => null,
-        },
-      ));
-      if (!isObsolete) {
-        return state.value!;
-      }
-    }
-
-    // fetch from server
-    state = AsyncValue.data(await ref.watch(_gameDataSyncProvider(
-      variantId: variantId,
-      weaponId: weaponId,
-    ).future));
-
-    final levels = state.value?.levels;
-    if (levels == null) {
-      // error
-      return state.value!;
-    }
-
-    // save cache
-    if (weaponId == null) {
-      await db.setCharacterState(InGameCharacterStateCompanion.insert(
-        characterId: variantId,
-        uid: uid,
-        equippedWeaponId: Value.absentIfNull(state.value!.equippedWeaponId),
-        purposes: levels,
-        lastUpdated: Value(DateTime.now()),
-      ));
-    } else {
-      await db.setWeaponLevels(uid, variantId, weaponId, levels[Purpose.ascension] ?? 1);
-    }
-
-    return state.value!;
-  }
-}
-
-@riverpod
-Future<GameDataSyncResult> _gameDataSync(Ref ref, { required String variantId, String? weaponId }) async {
-  final assetData = ref.watch(assetDataProvider).value;
-
-  if (!ref.watch(isLinkedWithHoyolabProvider)) {
-    return GameDataSyncResult(
-      errorType: GameDataSyncErrorType.unknown,
-      error: "Link feature unavailable. This means the server is not set or the feature is disabled by remote.",
-    );
-  }
-  if (assetData == null) {
-    return GameDataSyncResult(
-      errorType: GameDataSyncErrorType.unknown,
-      error: "Asset data is not loaded",
-    );
-  }
-
-  final api = await ref.watch(hoyolabGameApiProvider.future);
-
-  final (character, variant) = _extractCharacter(assetData.characters, variantId);
-
-  final charaInfo = await HoyolabApiUtils.loopUntilCharacter(
-    character.hyvIds,
-    (page) {
-      return api.avatarList(
-        page,
-        elementIds: [assetData.elements[variant.element]!.hyvId],
-        weaponCatIds: [assetData.weaponTypes[variant.weaponType]!.hyvId],
-      );
-    },
-  );
-
-  if (charaInfo == null) {
-    return GameDataSyncResult(
-      errorType: variantId.startsWith("traveler_")
-          ? GameDataSyncErrorType.mustBeResonatedWithStatue
-          : GameDataSyncErrorType.characterDoesNotExist,
-    );
-  }
-
-  final equippedWeaponId = assetData.weapons.values
-      .firstWhereOrNull((e) => e.hyvId == charaInfo.weapon?.id)?.id;
-
-  if (weaponId == null) { // to fetch character levels
-    return GameDataSyncResult(
-      levels: _toCharacterLevels(charaInfo),
-      equippedWeaponId: equippedWeaponId,
-    );
-  } else { // to fetch weapon levels
-    // check if the weapon is equipped
-    if (charaInfo.weapon == null || equippedWeaponId != weaponId) {
-      return GameDataSyncResult(
-        errorType: GameDataSyncErrorType.weaponNotEquipped,
-      );
-    }
-
-    return GameDataSyncResult(
-      levels: {
-        Purpose.ascension: charaInfo.weapon!.currentLevel,
-      },
-    );
-  }
 }
 
 @riverpod
@@ -244,29 +103,14 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
 
 @riverpod
 GameDataSyncStatus? gameDataSyncState(Ref ref, { required String variantId, String? weaponId }) {
-  final snapshots = [
-    ref.watch(gameDataSyncCachedProvider(variantId: variantId, weaponId: weaponId)),
-    ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variantId, weaponId: weaponId))),
-  ];
+  final snapshot = ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variantId, weaponId: weaponId)));
 
-  final syncResult = snapshots.first.value as GameDataSyncResult?;
-
-  if (snapshots.any((snapshot) => snapshot.isLoading) || syncResult?.isStale == true) {
-    return const GameDataSyncStatus.syncing(); // in progress
-  }
-  if (snapshots.any((snapshot) => snapshot.hasError)) {
-    // an unknown error occurred
-    return GameDataSyncStatus.error(error: snapshots.map((e) => e.error));
-  }
-  if (syncResult?.errorType != null) {
-    // an error occurred during sync
-    return GameDataSyncStatus.fromErrorType(syncResult!.errorType!, syncResult.error);
-  }
-  if (snapshots.every((e) => e.hasValue && e.value == null)) {
-    return null; // sync is disabled or no data available
-  }
-
-  return GameDataSyncStatus.synced();
+  return switch (snapshot) {
+    AsyncLoading() => const GameDataSyncStatus.syncing(),
+    AsyncError(:final error) => GameDataSyncStatus.error(error: error),
+    AsyncData(value: null) => null, // sync is disabled or no data available
+    AsyncData() => const GameDataSyncStatus.synced(),
+  };
 }
 
 @riverpod
@@ -304,37 +148,6 @@ class ResinSyncStateNotifier extends _$ResinSyncStateNotifier {
 
     state = const GameDataSyncStatus.synced();
   }
-}
-
-@Freezed(copyWith: true)
-sealed class GameDataSyncResult with _$GameDataSyncResult {
-  const factory GameDataSyncResult({
-    Map<Purpose, int>? levels,
-    String? equippedWeaponId,
-    GameDataSyncErrorType? errorType,
-    Object? error,
-    @Default(false) bool isStale,
-  }) = _GameDataSyncResult;
-}
-
-/// If character does not exist, return null.
-Map<Purpose, int> _toCharacterLevels(AvatarListResultItem charaInfo) {
-  final result = <Purpose, int>{};
-
-  result[Purpose.ascension] = charaInfo.currentLevel;
-
-  final skills = charaInfo.skills.where((element) => element.maxLevel != 1);
-  skills.forEachIndexed((index, element) {
-    final purpose = switch (index) {
-      0 => Purpose.normalAttack,
-      1 => Purpose.elementalSkill,
-      2 => Purpose.elementalBurst,
-      _ => throw ArgumentError("Invalid talent index"),
-    };
-    result[purpose] = element.currentLevel;
-  });
-
-  return result;
 }
 
 Future<CalcResult> _computeBag({
@@ -448,11 +261,4 @@ Future<int> _determineAvatarId({
     _ => throw StateError("Invalid variant: $variantId"),
   };
   return (group, variant);
-}
-
-enum GameDataSyncErrorType {
-  characterDoesNotExist,
-  mustBeResonatedWithStatue,
-  weaponNotEquipped,
-  unknown,
 }

@@ -1080,10 +1080,191 @@ class Shape18 extends i0.VersionedTable {
       columnsByName['created_at']! as i1.GeneratedColumn<int>;
 }
 
+final class Schema5 extends i0.VersionedSchema {
+  Schema5({required super.database}) : super(version: 5);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    bookmarkMaterialGroupTable,
+    bookmarkMaterialItemTable,
+    bookmarkArtifactTable,
+    bookmarkArtifactSetTable,
+    bookmarkArtifactPieceTable,
+    inGameCharacterStateTable,
+    materialBagCountTable,
+    furnishingCraftCountTable,
+    furnishingSetBookmarkTable,
+  ];
+  late final Shape10 bookmarkMaterialGroupTable = Shape10(
+    source: i0.VersionedTable(
+      entityName: 'bookmark_material_group_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(group_hash)'],
+      columns: [
+        _column_28,
+        _column_29,
+        _column_30,
+        _column_31,
+        _column_32,
+        _column_33,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape11 bookmarkMaterialItemTable = Shape11(
+    source: i0.VersionedTable(
+      entityName: 'bookmark_material_item_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(hash)'],
+      columns: [_column_34, _column_35, _column_36, _column_37, _column_38],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape12 bookmarkArtifactTable = Shape12(
+    source: i0.VersionedTable(
+      entityName: 'bookmark_artifact_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_39, _column_29, _column_32, _column_40, _column_33],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape13 bookmarkArtifactSetTable = Shape13(
+    source: i0.VersionedTable(
+      entityName: 'bookmark_artifact_set_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_41, _column_42, _column_43],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape14 bookmarkArtifactPieceTable = Shape14(
+    source: i0.VersionedTable(
+      entityName: 'bookmark_artifact_piece_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_41, _column_44, _column_45],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape19 inGameCharacterStateTable = Shape19(
+    source: i0.VersionedTable(
+      entityName: 'in_game_character_state_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, character_id, element_id)'],
+      columns: [
+        _column_46,
+        _column_55,
+        _column_56,
+        _column_47,
+        _column_57,
+        _column_58,
+        _column_49,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape17 materialBagCountTable = Shape17(
+    source: i0.VersionedTable(
+      entityName: 'material_bag_count_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(uid, hyv_id)'],
+      columns: [_column_46, _column_51, _column_52, _column_49],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape8 furnishingCraftCountTable = Shape8(
+    source: i0.VersionedTable(
+      entityName: 'furnishing_craft_count_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(furnishing_id, set_id)'],
+      columns: [_column_53, _column_54, _column_52],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape18 furnishingSetBookmarkTable = Shape18(
+    source: i0.VersionedTable(
+      entityName: 'furnishing_set_bookmark_table',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(set_id)'],
+      columns: [_column_54, _column_32],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+}
+
+class Shape19 extends i0.VersionedTable {
+  Shape19({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get uid =>
+      columnsByName['uid']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get characterId =>
+      columnsByName['character_id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get elementId =>
+      columnsByName['element_id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get purposes =>
+      columnsByName['purposes']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get equippedWeaponId =>
+      columnsByName['equipped_weapon_id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get weaponPurposes =>
+      columnsByName['weapon_purposes']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get lastUpdated =>
+      columnsByName['last_updated']! as i1.GeneratedColumn<int>;
+}
+
+i1.GeneratedColumn<int> _column_55(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'character_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      $customConstraints: 'NOT NULL',
+    );
+i1.GeneratedColumn<int> _column_56(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'element_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      $customConstraints: 'NOT NULL',
+    );
+i1.GeneratedColumn<int> _column_57(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'equipped_weapon_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      $customConstraints: 'NOT NULL',
+    );
+i1.GeneratedColumn<String> _column_58(String aliasedName) =>
+    i1.GeneratedColumn<String>(
+      'weapon_purposes',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+      $customConstraints: 'NOT NULL',
+    );
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
   required Future<void> Function(i1.Migrator m, Schema4 schema) from3To4,
+  required Future<void> Function(i1.Migrator m, Schema5 schema) from4To5,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -1102,6 +1283,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from3To4(migrator, schema);
         return 4;
+      case 4:
+        final schema = Schema5(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from4To5(migrator, schema);
+        return 5;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -1112,10 +1298,12 @@ i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
   required Future<void> Function(i1.Migrator m, Schema4 schema) from3To4,
+  required Future<void> Function(i1.Migrator m, Schema5 schema) from4To5,
 }) => i0.VersionedSchema.stepByStepHelper(
   step: migrationSteps(
     from1To2: from1To2,
     from2To3: from2To3,
     from3To4: from3To4,
+    from4To5: from4To5,
   ),
 );

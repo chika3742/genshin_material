@@ -294,8 +294,8 @@ hoyolab:
   enableRealtimeNotesDesc: You will be able to sync your current Original Resin count.
   syncSettings: Sync Settings
   syncResin: Sync resin count
-  syncCharaState: Sync character levels
-  syncWeaponState: Sync weapon levels
+  syncCharaState: Sync character state
+  syncCharaStateDesc: Synchronizes character levels, talent levels, and equipped weapon levels from the game.
   syncBagLackNums: Sync bag shortage numbers
   autoRemoveBookmarks: Auto remove bookmarks
   autoRemoveBookmarksDesc: Automatically remove bookmarks for completed ascensions when opening a character or weapon page.

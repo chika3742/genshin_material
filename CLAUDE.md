@@ -67,7 +67,7 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 
 ### Database (Drift)
 
-- Schema is defined in `lib/database.dart` (`AppDatabase`, current version: 4).
+- Schema is defined in `lib/database.dart` (`AppDatabase`).
 - Row classes use `@UseRowClass` with freezed classes or `@DataClassName.custom` with sealed base classes.
 - Extension methods per table type live in `lib/db/` (e.g., `bookmark_db_extension.dart`).
 - Migration tests live in `test/drift/db/migration_test.dart`. Always update these when incrementing `schemaVersion`.
@@ -151,12 +151,13 @@ Reuse these rather than writing new equivalents.
 | File | Provides |
 |---|---|
 | `test/utils.dart` | `createScreenWithApp()`, `closeToDateTime()` |
-| `test/utils/asset_data.dart` | `buildTestAssetData()`, `buildTestMaterial()`, `buildTestCharacter()`, `buildTestWeapon()`, `buildIngredientConfigurations()` |
+| `test/utils/asset_data.dart` | `buildTestAssetData()`, `buildTestMaterial()`, `buildTestCharacter()`, `buildTestCharacterGroup()`, `buildTestCharacterVariant()`, `buildTestWeapon()`, `buildIngredientConfigurations()` |
 | `test/utils/db.dart` | `createTestDatabase()`, `buildMaterialBookmark()` |
 | `test/utils/provider_container.dart` | `createTestContainer()` |
 | `test/utils/in_memory_pref.dart` | `overridePref()`, `InMemoryPrefNotifier` |
 | `test/utils/remote_config.dart` | `overrideRemoteConfig()`, `createRemoteConfigServiceMock()` (`MockRemoteConfigService` itself comes from `remote_config.mocks.dart` — import both) |
 | `test/utils/http_client.dart` | `overrideHttpClient()` (`MockClient` comes from `http_client.mocks.dart`) |
+| `test/utils/fake_hoyolab_game_api.dart` | `FakeHoyolabGameApi` (serves fixed `avatarList` pages and records the calls), `buildTestAvatar()` |
 | `test/utils/crashlytics.dart` | `overrideCrashlyticsService()` (`MockCrashlyticsService` comes from `crashlytics.mocks.dart`) |
 | `test/utils/local_notification_mocks.dart` | nice mock of `LocalNotification` |
 | `test/utils/async.dart` | `createStreamQueue()` |

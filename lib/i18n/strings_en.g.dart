@@ -577,8 +577,8 @@ class _Translations$hoyolab$en extends Translations$hoyolab$ja {
 	@override String get enableRealtimeNotesDesc => 'You will be able to sync your current Original Resin count.';
 	@override String get syncSettings => 'Sync Settings';
 	@override String get syncResin => 'Sync resin count';
-	@override String get syncCharaState => 'Sync character levels';
-	@override String get syncWeaponState => 'Sync weapon levels';
+	@override String get syncCharaState => 'Sync character state';
+	@override String get syncCharaStateDesc => 'Synchronizes character levels, talent levels, and equipped weapon levels from the game.';
 	@override String get syncBagLackNums => 'Sync bag shortage numbers';
 	@override String get autoRemoveBookmarks => 'Auto remove bookmarks';
 	@override String get autoRemoveBookmarksDesc => 'Automatically remove bookmarks for completed ascensions when opening a character or weapon page.';
@@ -923,8 +923,8 @@ extension on TranslationsEn {
 			'hoyolab.enableRealtimeNotesDesc' => 'You will be able to sync your current Original Resin count.',
 			'hoyolab.syncSettings' => 'Sync Settings',
 			'hoyolab.syncResin' => 'Sync resin count',
-			'hoyolab.syncCharaState' => 'Sync character levels',
-			'hoyolab.syncWeaponState' => 'Sync weapon levels',
+			'hoyolab.syncCharaState' => 'Sync character state',
+			'hoyolab.syncCharaStateDesc' => 'Synchronizes character levels, talent levels, and equipped weapon levels from the game.',
 			'hoyolab.syncBagLackNums' => 'Sync bag shortage numbers',
 			'hoyolab.autoRemoveBookmarks' => 'Auto remove bookmarks',
 			'hoyolab.autoRemoveBookmarksDesc' => 'Automatically remove bookmarks for completed ascensions when opening a character or weapon page.',

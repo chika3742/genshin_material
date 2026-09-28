@@ -55,47 +55,6 @@ abstract class _$RealtimeNotesActivationState extends $AsyncNotifier<bool> {
   }
 }
 
-@ProviderFor(ownedCharacters)
-final ownedCharactersProvider = OwnedCharactersProvider._();
-
-final class OwnedCharactersProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<CharacterId>?>,
-          List<CharacterId>?,
-          FutureOr<List<CharacterId>?>
-        >
-    with
-        $FutureModifier<List<CharacterId>?>,
-        $FutureProvider<List<CharacterId>?> {
-  OwnedCharactersProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'ownedCharactersProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$ownedCharactersHash();
-
-  @$internal
-  @override
-  $FutureProviderElement<List<CharacterId>?> $createElement(
-    $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<List<CharacterId>?> create(Ref ref) {
-    return ownedCharacters(ref);
-  }
-}
-
-String _$ownedCharactersHash() => r'83967bef7c498549316de6d3cfdc42a5b051f0f9';
-
 @ProviderFor(shouldHideImages)
 final shouldHideImagesProvider = ShouldHideImagesProvider._();
 
