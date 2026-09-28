@@ -28,22 +28,20 @@ common:
   pleaseSelect: Please select
   sort: Sort
   sortType: Sort Type
+  filter: Filter
+  filterAndSort: "@:{common.sort} & @:{common.filter}"
   sortTypes(map):
     defaultSort: Default
     name: Name
     element: Element
     rarity: Rarity
+  ascending: Ascending
+  descending: Descending
   undo: Undo
   bookmarkSaved: Bookmark saved
   removedObsoleteBookmarks: Removed bookmarks for completed ascensions.
   none: None
   selected: "Selected: $character"
-  possession: Possession
-  possessionStatus(map):
-    owned: Owned
-    notOwned: Not owned
-  possessionNoteNotSignedIn: By linking with HoYoLAB, you can synchronize your possession status.
-  possessionNote: Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".
   dismiss: Dismiss
 search:
   hint: Search for $target...
@@ -138,6 +136,22 @@ bookmarksPage:
   byMaterial: Material
   furnishings: Furnishings
   allFurnishingsAreCrafted: All furnishings in this set have been crafted.
+characterListPage:
+  owned: Owned
+  unowned: Not owned
+  firstSyncBanner:
+    text: Run a bulk sync to fetch data for all your owned character at once.
+    action: Sync now
+characterBulkSync:
+  minutes(param=ttlMinutes):
+    other: $ttlMinutes minutes
+    one: $ttlMinutes minute
+  confirmDialog:
+    title: Bulk Sync Characters
+    content: "Fetches the progression of all your owned characters at once. After a run, it can't be run again for @:{characterBulkSync.minutes}."
+  tryAgainInMinutes: "Please try again in @:{.minutes}."
+  completed: All characters have been synced.
+  failed: Failed to bulk sync characters.
 characterDetailsPage:
   equippedWeapon: Equipped Weapon
   unknownWeapon: Unknown
@@ -305,8 +319,7 @@ hoyolab:
   charaSyncSuccess: Successfully synced game data
   featureUnavailable: HoYoLAB sync feature is currently unavailable.
   invalidResponseReturned: Invalid response was returned. If it persists, please contact the app developer.
-whereToGet(map):
-  chests: Chests, Quests
+  characterBulkSync: Bulk sync characters
 android:
   notificationChannels:
     dailyMaterial:

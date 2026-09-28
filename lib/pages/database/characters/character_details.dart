@@ -20,6 +20,7 @@ import "../../../core/asset_cache.dart";
 import "../../../core/pref_keys.dart";
 import "../../../data/repositories/character_state_repository.dart";
 import "../../../data/repositories/single_character_state_repository.dart";
+import "../../../data/services/crashlytics_service.dart";
 import "../../../db/bookmark_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
@@ -207,7 +208,8 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     useEffect(() {
       if (isCharaSyncEnabled) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          SingleCharacterStateRepository.executeFetch(ref, variant.value.id);
+          SingleCharacterStateRepository.executeFetch(ref, variant.value.id)
+              .catchError(ref.read(crashlyticsServiceProvider).logAndReport);
         });
       }
       return null;

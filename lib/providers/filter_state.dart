@@ -12,12 +12,9 @@ part "filter_state.g.dart";
 class CharacterFilterStateNotifier extends _$CharacterFilterStateNotifier {
   @override
   CharacterFilterState build() {
-    final sortType = ref.watch(prefProvider(PrefKeys.characterSortType));
-    return CharacterFilterState(sortType: sortType);
-  }
-
-  void setPossessionStatus(PossessionStatus? possessionStatus) {
-    state = state.copyWith(possessionStatus: possessionStatus);
+    final sortType = ref.read(prefProvider(PrefKeys.characterSortType));
+    final sortMode = ref.read(prefProvider(PrefKeys.characterSortMode));
+    return CharacterFilterState(sortType: sortType, sortMode: sortMode);
   }
 
   void setRarity(int? rarity) {
@@ -37,8 +34,13 @@ class CharacterFilterStateNotifier extends _$CharacterFilterStateNotifier {
     ref.read(prefProvider(PrefKeys.characterSortType).notifier).set(sortType);
   }
 
-  void clear() {
-    state = const CharacterFilterState();
+  void setSortMode(SortMode mode) {
+    state = state.copyWith(sortMode: mode);
+    ref.read(prefProvider(PrefKeys.characterSortMode).notifier).set(mode);
+  }
+
+  void clearFilter() {
+    state = CharacterFilterState(sortType: state.sortType, sortMode: state.sortMode);
   }
 }
 
@@ -47,19 +49,14 @@ sealed class CharacterFilterState with _$CharacterFilterState {
   const CharacterFilterState._();
 
   const factory CharacterFilterState({
-    PossessionStatus? possessionStatus,
     int? rarity,
     TeyvatElement? element,
     WeaponType? weaponType,
-    @Default(CharacterSortType.defaultSort) CharacterSortType sortType,
+    required CharacterSortType sortType,
+    required SortMode sortMode,
   }) = _CharacterFilterState;
 
-  bool get isFiltering => possessionStatus != null || rarity != null || element != null || weaponType != null;
-}
-
-enum PossessionStatus {
-  owned,
-  notOwned,
+  bool get isFiltering => rarity != null || element != null || weaponType != null;
 }
 
 enum CharacterSortType {
@@ -68,21 +65,22 @@ enum CharacterSortType {
   element,
 }
 
+enum SortMode {
+  ascending,
+  descending,
+}
+
 @riverpod
 class WeaponFilterStateNotifier extends _$WeaponFilterStateNotifier {
   @override
   WeaponFilterState build() {
-    final sortType = ref.watch(prefProvider(PrefKeys.weaponSortType));
+    final sortType = ref.read(prefProvider(PrefKeys.weaponSortType));
     return WeaponFilterState(sortType: sortType);
   }
 
   void setSortType(WeaponSortType sortType) {
     state = state.copyWith(sortType: sortType);
     ref.read(prefProvider(PrefKeys.weaponSortType).notifier).set(sortType);
-  }
-
-  void clear() {
-    state = const WeaponFilterState();
   }
 }
 

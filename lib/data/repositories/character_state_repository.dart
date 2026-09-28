@@ -1,3 +1,5 @@
+import "dart:async";
+
 import "package:clock/clock.dart";
 import "package:flutter_riverpod/experimental/mutation.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
@@ -5,13 +7,14 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../core/asset_cache.dart";
-import "../../core/errors.dart";
+import "../../core/pref_keys.dart";
 import "../../database.dart";
 import "../../db/in_game_character_state_db_extension.dart";
 import "../../models/common.dart";
 import "../../providers/database_provider.dart";
 import "../../providers/hoyolab_api.dart";
 import "../../providers/hoyolab_game_server.dart";
+import "../../providers/pref_notifier.dart";
 import "../../providers/versions.dart";
 import "../services/hoyolab/hoyolab_api_utils.dart";
 import "avatar_to_companion_extension.dart";
@@ -20,9 +23,7 @@ import "id_converters.dart";
 part "character_state_repository.g.dart";
 part "character_state_repository.freezed.dart";
 
-// TODO: implement fetchAll cooldown
-// ignore: unused_element
-const _ttlWholeCharacters = Duration(minutes: 5);
+const characterFetchAllCooldown = Duration(minutes: 3);
 
 @riverpod
 Stream<List<InGameCharacterState>?> _cachedCharacterStates(Ref ref) async* {
@@ -65,6 +66,10 @@ class CharacterStateRepository extends _$CharacterStateRepository {
   }
 
   Future<void> _fetchAll() async {
+    if (!ref.read(isFetchAllCharactersAvailableProvider)) {
+      throw StateError("Character fetch-all is on cooldown.");
+    }
+
     final db = ref.read(appDatabaseProvider);
     final api = await ref.read(hoyolabGameApiProvider.future);
     final uid = ref.read(hoyolabGameServerProvider.select((s) => s.uidOrNull))!;
@@ -74,13 +79,30 @@ class CharacterStateRepository extends _$CharacterStateRepository {
     await db.setCharacterStates(
       characters.map((character) => character.toDbCompanion(uid, now)).toList(),
     );
+
+    ref.read(prefProvider(PrefKeys.lastCharacterFetchAll).notifier).set(now);
   }
 
   static Future<void> executeFetchAll(MutationTarget ref) {
     return fetchAllMutation.run(ref, (tsx) {
       return tsx.get(characterStateRepositoryProvider.notifier)._fetchAll();
-    }).then<void>((_) {}, onError: handleError);
+    });
   }
+}
+
+/// Whether fetching all characters is available now. Rebuilds itself when the
+/// cooldown ends.
+@riverpod
+bool isFetchAllCharactersAvailable(Ref ref) {
+  final lastRun = ref.watch(prefProvider(PrefKeys.lastCharacterFetchAll));
+  final remaining = lastRun?.add(characterFetchAllCooldown).difference(clock.now());
+  if (remaining == null || remaining <= .zero) {
+    return true;
+  }
+
+  final timer = Timer(remaining, ref.invalidateSelf);
+  ref.onDispose(timer.cancel);
+  return false;
 }
 
 @freezed

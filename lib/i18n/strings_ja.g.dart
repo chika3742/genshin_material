@@ -64,6 +64,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$pages$ja pages = Translations$pages$ja.internal(_root);
 	late final Translations$tools$ja tools = Translations$tools$ja.internal(_root);
 	late final Translations$bookmarksPage$ja bookmarksPage = Translations$bookmarksPage$ja.internal(_root);
+	late final Translations$characterListPage$ja characterListPage = Translations$characterListPage$ja.internal(_root);
+	late final Translations$characterBulkSync$ja characterBulkSync = Translations$characterBulkSync$ja.internal(_root);
 	late final Translations$characterDetailsPage$ja characterDetailsPage = Translations$characterDetailsPage$ja.internal(_root);
 	late final Translations$weaponDetailsPage$ja weaponDetailsPage = Translations$weaponDetailsPage$ja.internal(_root);
 	late final Translations$materialDetailsPage$ja materialDetailsPage = Translations$materialDetailsPage$ja.internal(_root);
@@ -78,9 +80,6 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$settingsPage$ja settingsPage = Translations$settingsPage$ja.internal(_root);
 	late final Translations$farmCountSettingsPage$ja farmCountSettingsPage = Translations$farmCountSettingsPage$ja.internal(_root);
 	late final Translations$hoyolab$ja hoyolab = Translations$hoyolab$ja.internal(_root);
-	Map<String, String> get whereToGet => {
-		'chests': '宝箱、任務報酬など',
-	};
 	late final Translations$android$ja android = Translations$android$ja.internal(_root);
 	late final Translations$notification$ja notification = Translations$notification$ja.internal(_root);
 }
@@ -180,12 +179,24 @@ class Translations$common$ja {
 	/// ja: '並べ替え方法'
 	String get sortType => '並べ替え方法';
 
+	/// ja: '絞り込み'
+	String get filter => '絞り込み';
+
+	/// ja: '並べ替えと絞り込み'
+	String get filterAndSort => '${_root.common.sort}と${_root.common.filter}';
+
 	Map<String, String> get sortTypes => {
 		'defaultSort': 'デフォルト',
 		'name': '名前順',
 		'element': '元素順',
 		'rarity': 'レアリティ順',
 	};
+
+	/// ja: '昇順'
+	String get ascending => '昇順';
+
+	/// ja: '降順'
+	String get descending => '降順';
 
 	/// ja: '元に戻す'
 	String get undo => '元に戻す';
@@ -201,20 +212,6 @@ class Translations$common$ja {
 
 	/// ja: '選択中: $character'
 	String selected({required Object character}) => '選択中: ${character}';
-
-	/// ja: '所持'
-	String get possession => '所持';
-
-	Map<String, String> get possessionStatus => {
-		'owned': '所持',
-		'notOwned': '未所持',
-	};
-
-	/// ja: 'HoYoLABと連携すると、所持状況を同期できます。'
-	String get possessionNoteNotSignedIn => 'HoYoLABと連携すると、所持状況を同期できます。';
-
-	/// ja: '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。'
-	String get possessionNote => '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。';
 
 	/// ja: '閉じる'
 	String get dismiss => '閉じる';
@@ -490,6 +487,48 @@ class Translations$bookmarksPage$ja {
 
 	/// ja: 'すべての調度品が作成済みです'
 	String get allFurnishingsAreCrafted => 'すべての調度品が作成済みです';
+}
+
+// Path: characterListPage
+class Translations$characterListPage$ja {
+	Translations$characterListPage$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// ja: '所持'
+	String get owned => '所持';
+
+	/// ja: '未所持'
+	String get unowned => '未所持';
+
+	late final Translations$characterListPage$firstSyncBanner$ja firstSyncBanner = Translations$characterListPage$firstSyncBanner$ja.internal(_root);
+}
+
+// Path: characterBulkSync
+class Translations$characterBulkSync$ja {
+	Translations$characterBulkSync$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// ja: '(other) {$ttlMinutes分}'
+	String minutes({required num ttlMinutes}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(ttlMinutes,
+		other: '${ttlMinutes}分',
+	);
+
+	late final Translations$characterBulkSync$confirmDialog$ja confirmDialog = Translations$characterBulkSync$confirmDialog$ja.internal(_root);
+
+	/// ja: '(other) {$ttlMinutes分}後に再度お試しください。'
+	String tryAgainInMinutes({required num ttlMinutes}) => '${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}後に再度お試しください。';
+
+	/// ja: 'すべてのキャラクターを同期しました。'
+	String get completed => 'すべてのキャラクターを同期しました。';
+
+	/// ja: 'キャラクターの一括同期に失敗しました。'
+	String get failed => 'キャラクターの一括同期に失敗しました。';
 }
 
 // Path: characterDetailsPage
@@ -1064,6 +1103,9 @@ class Translations$hoyolab$ja {
 
 	/// ja: '不正なレスポンスを受け取りました。しばらく待っても再発する場合、本アプリの開発者にご連絡ください。'
 	String get invalidResponseReturned => '不正なレスポンスを受け取りました。しばらく待っても再発する場合、本アプリの開発者にご連絡ください。';
+
+	/// ja: 'キャラクターを一括同期'
+	String get characterBulkSync => 'キャラクターを一括同期';
 }
 
 // Path: android
@@ -1114,6 +1156,36 @@ class Translations$search$targets$ja {
 
 	/// ja: '調度品'
 	String get furnishings => '調度品';
+}
+
+// Path: characterListPage.firstSyncBanner
+class Translations$characterListPage$firstSyncBanner$ja {
+	Translations$characterListPage$firstSyncBanner$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// ja: '一括同期を行うと、所持キャラクターの情報をまとめて取得できます。'
+	String get text => '一括同期を行うと、所持キャラクターの情報をまとめて取得できます。';
+
+	/// ja: '今すぐ同期'
+	String get action => '今すぐ同期';
+}
+
+// Path: characterBulkSync.confirmDialog
+class Translations$characterBulkSync$confirmDialog$ja {
+	Translations$characterBulkSync$confirmDialog$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// ja: 'キャラクターの一括同期'
+	String get title => 'キャラクターの一括同期';
+
+	/// ja: '所持している全キャラクターの育成状況を一括で取得します。最後に実行してから(other) {$ttlMinutes分}間は再実行できません。'
+	String content({required num ttlMinutes}) => '所持している全キャラクターの育成状況を一括で取得します。最後に実行してから${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}間は再実行できません。';
 }
 
 // Path: android.notificationChannels
@@ -1190,20 +1262,19 @@ extension on Translations {
 			'common.pleaseSelect' => '選択してください',
 			'common.sort' => '並べ替え',
 			'common.sortType' => '並べ替え方法',
+			'common.filter' => '絞り込み',
+			'common.filterAndSort' => '${_root.common.sort}と${_root.common.filter}',
 			'common.sortTypes.defaultSort' => 'デフォルト',
 			'common.sortTypes.name' => '名前順',
 			'common.sortTypes.element' => '元素順',
 			'common.sortTypes.rarity' => 'レアリティ順',
+			'common.ascending' => '昇順',
+			'common.descending' => '降順',
 			'common.undo' => '元に戻す',
 			'common.bookmarkSaved' => 'ブックマークしました',
 			'common.removedObsoleteBookmarks' => '育成完了のブックマークを解除しました',
 			'common.none' => 'なし',
 			'common.selected' => ({required Object character}) => '選択中: ${character}',
-			'common.possession' => '所持',
-			'common.possessionStatus.owned' => '所持',
-			'common.possessionStatus.notOwned' => '未所持',
-			'common.possessionNoteNotSignedIn' => 'HoYoLABと連携すると、所持状況を同期できます。',
-			'common.possessionNote' => '1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。',
 			'common.dismiss' => '閉じる',
 			'search.hint' => ({required Object target}) => '${target}を検索...',
 			'search.noResults' => '検索結果が見つかりません',
@@ -1288,6 +1359,16 @@ extension on Translations {
 			'bookmarksPage.byMaterial' => '素材',
 			'bookmarksPage.furnishings' => '調度品',
 			'bookmarksPage.allFurnishingsAreCrafted' => 'すべての調度品が作成済みです',
+			'characterListPage.owned' => '所持',
+			'characterListPage.unowned' => '未所持',
+			'characterListPage.firstSyncBanner.text' => '一括同期を行うと、所持キャラクターの情報をまとめて取得できます。',
+			'characterListPage.firstSyncBanner.action' => '今すぐ同期',
+			'characterBulkSync.minutes' => ({required num ttlMinutes}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(ttlMinutes, other: '${ttlMinutes}分', ), 
+			'characterBulkSync.confirmDialog.title' => 'キャラクターの一括同期',
+			'characterBulkSync.confirmDialog.content' => ({required num ttlMinutes}) => '所持している全キャラクターの育成状況を一括で取得します。最後に実行してから${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}間は再実行できません。',
+			'characterBulkSync.tryAgainInMinutes' => ({required num ttlMinutes}) => '${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}後に再度お試しください。',
+			'characterBulkSync.completed' => 'すべてのキャラクターを同期しました。',
+			'characterBulkSync.failed' => 'キャラクターの一括同期に失敗しました。',
 			'characterDetailsPage.equippedWeapon' => '装備中の武器',
 			'characterDetailsPage.unknownWeapon' => '不明',
 			'characterDetailsPage.favoriteFurnishingSets' => '好きな調度品セット',
@@ -1434,7 +1515,7 @@ extension on Translations {
 			'hoyolab.charaSyncSuccess' => 'ゲームデータと同期しました',
 			'hoyolab.featureUnavailable' => 'HoYoLAB連携は現在ご利用いただけません',
 			'hoyolab.invalidResponseReturned' => '不正なレスポンスを受け取りました。しばらく待っても再発する場合、本アプリの開発者にご連絡ください。',
-			'whereToGet.chests' => '宝箱、任務報酬など',
+			'hoyolab.characterBulkSync' => 'キャラクターを一括同期',
 			'android.notificationChannels.dailyMaterial.name' => '日替わり素材',
 			'android.notificationChannels.dailyMaterial.description' => '素材を獲得できる日に通知します',
 			'notification.dailyMaterial.title' => '本日獲得できる素材',

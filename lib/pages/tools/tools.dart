@@ -46,7 +46,6 @@ class ToolsPage extends HookConsumerWidget {
               && ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
             SimpleListTile(
               leading: Badge(
-                smallSize: 8,
                 isLabelVisible: signState.data?.isSign == false,
                 child: Icon(Symbols.crown),
               ),

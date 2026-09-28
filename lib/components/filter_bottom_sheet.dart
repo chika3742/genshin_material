@@ -30,8 +30,9 @@ class FilterBottomSheet extends StatelessWidget {
 class FilteringCategory extends StatelessWidget {
   final String labelText;
   final List<Widget> items;
+  final Widget? bottom;
 
-  const FilteringCategory({super.key, required this.labelText, required this.items});
+  const FilteringCategory({super.key, required this.labelText, required this.items, this.bottom});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,7 @@ class FilteringCategory extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: items,
           ),
+          ?bottom,
         ],
       ),
     );

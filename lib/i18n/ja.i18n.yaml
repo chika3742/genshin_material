@@ -25,22 +25,20 @@ common:
   pleaseSelect: 選択してください
   sort: 並べ替え
   sortType: 並べ替え方法
+  filter: 絞り込み
+  filterAndSort: "@:{common.sort}と@:{common.filter}"
   sortTypes(map):
     defaultSort: デフォルト
     name: 名前順
     element: 元素順
     rarity: レアリティ順
+  ascending: 昇順
+  descending: 降順
   undo: 元に戻す
   bookmarkSaved: ブックマークしました
   removedObsoleteBookmarks: 育成完了のブックマークを解除しました
   none: なし
   selected: "選択中: $character"
-  possession: 所持
-  possessionStatus(map):
-    owned: 所持
-    notOwned: 未所持
-  possessionNoteNotSignedIn: HoYoLABと連携すると、所持状況を同期できます。
-  possessionNote: 1回以上キャラクターページを開いて同期したキャラクターのみが「所持」として表示されます。
   dismiss: 閉じる
 search:
   hint: $targetを検索...
@@ -135,6 +133,21 @@ bookmarksPage:
   byMaterial: 素材
   furnishings: 調度品
   allFurnishingsAreCrafted: すべての調度品が作成済みです
+characterListPage:
+  owned: 所持
+  unowned: 未所持
+  firstSyncBanner:
+    text: 一括同期を行うと、所持キャラクターの情報をまとめて取得できます。
+    action: 今すぐ同期
+characterBulkSync:
+  minutes(param=ttlMinutes):
+    other: $ttlMinutes分
+  confirmDialog:
+    title: キャラクターの一括同期
+    content: 所持している全キャラクターの育成状況を一括で取得します。最後に実行してから@:{characterBulkSync.minutes}間は再実行できません。
+  tryAgainInMinutes: "@:{.minutes}後に再度お試しください。"
+  completed: すべてのキャラクターを同期しました。
+  failed: キャラクターの一括同期に失敗しました。
 characterDetailsPage:
   equippedWeapon: 装備中の武器
   unknownWeapon: 不明
@@ -304,8 +317,7 @@ hoyolab:
   charaSyncSuccess: ゲームデータと同期しました
   featureUnavailable: HoYoLAB連携は現在ご利用いただけません
   invalidResponseReturned: 不正なレスポンスを受け取りました。しばらく待っても再発する場合、本アプリの開発者にご連絡ください。
-whereToGet(map):
-  chests: 宝箱、任務報酬など
+  characterBulkSync: キャラクターを一括同期
 android:
   notificationChannels:
     dailyMaterial:

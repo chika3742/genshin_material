@@ -5,6 +5,7 @@ import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:http/http.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../core/errors.dart";
 import "../../core/silent_exception.dart";
 
 part "crashlytics_service.g.dart";
@@ -20,6 +21,12 @@ class CrashlyticsService {
     if (!_isTransientNetworkError(error) && (error is! SilentException || !error.isSilent)) {
       _crashlytics.recordError(error, st);
     }
+  }
+
+  /// Logs [error] and reports it unless silent.
+  void logAndReport(Object error, StackTrace stackTrace) {
+    handleError(error, stackTrace);
+    reportIfNonSilent(error, stackTrace);
   }
 
   bool _isTransientNetworkError(Object error) {

@@ -80,7 +80,7 @@ final class CharacterStateRepositoryProvider
 }
 
 String _$characterStateRepositoryHash() =>
-    r'c2b8801fe2040c2bc88f69628defc5ca9fa04325';
+    r'2b256d7b8277fc2b8ee9914e772549a570fcf6e3';
 
 abstract class _$CharacterStateRepository
     extends $AsyncNotifier<Map<String, CharacterState>?> {
@@ -108,3 +108,54 @@ abstract class _$CharacterStateRepository
     return element.handleCreate(ref, build);
   }
 }
+
+/// Whether fetching all characters is available now. Rebuilds itself when the
+/// cooldown ends.
+
+@ProviderFor(isFetchAllCharactersAvailable)
+final isFetchAllCharactersAvailableProvider =
+    IsFetchAllCharactersAvailableProvider._();
+
+/// Whether fetching all characters is available now. Rebuilds itself when the
+/// cooldown ends.
+
+final class IsFetchAllCharactersAvailableProvider
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  /// Whether fetching all characters is available now. Rebuilds itself when the
+  /// cooldown ends.
+  IsFetchAllCharactersAvailableProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'isFetchAllCharactersAvailableProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$isFetchAllCharactersAvailableHash();
+
+  @$internal
+  @override
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    return isFetchAllCharactersAvailable(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$isFetchAllCharactersAvailableHash() =>
+    r'c50b261c67c5f79f7eb9023ef0357d4a8f36614b';
