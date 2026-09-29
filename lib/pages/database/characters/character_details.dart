@@ -31,6 +31,7 @@ import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/is_sync_enabled.dart";
+import "../../../providers/last_selected_character_variant.dart";
 import "../../../providers/pref_notifier.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
@@ -59,11 +60,17 @@ class CharacterDetailsPage extends HookConsumerWidget {
       CharacterVariant(:final parentId) => assetData.characters[parentId]! as CharacterGroup,
     } as CharacterWithLargeImage;
 
+    // The stored selection only seeds the page; the dropdown owns it afterwards. It is read once
+    // rather than watched, or every change would rebuild this widget and drop the page state.
+    final lastSelectedVariantId = useMemoized(() => characterOrVariant is CharacterGroup
+        ? ref.read(lastSelectedCharacterVariantProvider(characterOrVariant.id))
+        : null);
     final initialVariantId = switch (characterOrVariant) {
       CharacterVariant(:final id) => id,
-      CharacterGroup(:final variantIds) => variantIds.first,
+      CharacterGroup(:final variantIds) => lastSelectedVariantId ?? variantIds.first,
       _ => characterOrVariant.id,
     };
+    final initialVariant = assetData.characters[initialVariantId]! as CharacterOrVariant;
 
     final db = ref.watch(appDatabaseProvider);
 
@@ -90,7 +97,7 @@ class CharacterDetailsPage extends HookConsumerWidget {
     return _CharacterDetailsPageContents(
       character: character,
       assetData: assetData,
-      initialVariant: characterOrVariant is CharacterVariant ? characterOrVariant.element : null,
+      initialVariant: initialVariant.element,
       initialCharacterState: characterState?.value,
       initialBookmarkRanges: bookmarkRangesSnapshot.data ?? {},
     );
@@ -344,6 +351,10 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                   ),
                   onChanged: (value) {
                     variant.value = variants[value]!;
+                    if (character is CharacterGroup) {
+                      ref.read(lastSelectedCharacterVariantProvider(character.id).notifier)
+                          .set(variant.value.id);
+                    }
                   },
                 ),
 
