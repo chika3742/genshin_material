@@ -65,12 +65,12 @@ class CharacterDetailsPage extends HookConsumerWidget {
     final lastSelectedVariantId = useMemoized(() => characterOrVariant is CharacterGroup
         ? ref.read(lastSelectedCharacterVariantProvider(characterOrVariant.id))
         : null);
-    final initialVariantId = switch (characterOrVariant) {
-      CharacterVariant(:final id) => id,
-      CharacterGroup(:final variantIds) => lastSelectedVariantId ?? variantIds.first,
-      _ => characterOrVariant.id,
+    final initialVariant = switch (characterOrVariant) {
+      CharacterGroup(:final variantIds) =>
+        assetData.characters[lastSelectedVariantId ?? variantIds.first]! as CharacterOrVariant,
+      _ => characterOrVariant as CharacterOrVariant,
     };
-    final initialVariant = assetData.characters[initialVariantId]! as CharacterOrVariant;
+    final initialVariantId = initialVariant.id;
 
     final db = ref.watch(appDatabaseProvider);
 
@@ -97,7 +97,7 @@ class CharacterDetailsPage extends HookConsumerWidget {
     return _CharacterDetailsPageContents(
       character: character,
       assetData: assetData,
-      initialVariant: initialVariant.element,
+      initialVariantElement: initialVariant.element,
       initialCharacterState: characterState?.value,
       initialBookmarkRanges: bookmarkRangesSnapshot.data ?? {},
     );
@@ -107,14 +107,14 @@ class CharacterDetailsPage extends HookConsumerWidget {
 class _CharacterDetailsPageContents extends HookConsumerWidget {
   final CharacterWithLargeImage character;
   final AssetData assetData;
-  final String? initialVariant;
+  final TeyvatElement initialVariantElement;
   final CharacterState? initialCharacterState;
   final Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> initialBookmarkRanges;
 
   const _CharacterDetailsPageContents({
     required this.character,
     required this.assetData,
-    this.initialVariant,
+    required this.initialVariantElement,
     this.initialCharacterState,
     this.initialBookmarkRanges = const {},
   });
@@ -148,9 +148,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     final autoRemoveBookmarks = ref.watch(prefProvider(PrefKeys.autoRemoveBookmarks));
     final db = ref.watch(appDatabaseProvider);
 
-    final variant = useState(
-      variants[initialVariant] ?? variants.values.first,
-    );
+    final variant = useState(variants[initialVariantElement]!);
 
     final isCharaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(variantId: variant.value.id));
 
@@ -350,10 +348,11 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                     border: const OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    variant.value = variants[value]!;
+                    final selected = variants[value]!;
+                    variant.value = selected;
                     if (character is CharacterGroup) {
                       ref.read(lastSelectedCharacterVariantProvider(character.id).notifier)
-                          .set(variant.value.id);
+                          .set(selected.id);
                     }
                   },
                 ),
