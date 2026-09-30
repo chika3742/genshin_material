@@ -1,15 +1,22 @@
-import "package:flutter/widgets.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "../data/repositories/character_state_repository.dart";
+import "../data/services/crashlytics_service.dart";
 import "../i18n/strings.g.dart";
 import "dialog.dart";
 
-void showCharacterBulkSyncConfirmDialog(BuildContext context, {required void Function() onConfirmed}) {
+void showCharacterBulkSyncConfirmDialog(WidgetRef ref) {
   showSimpleDialog(
-    context: context,
+    context: ref.context,
     title: tr.characterBulkSync.confirmDialog.title,
     content: tr.characterBulkSync.confirmDialog.content(ttlMinutes: characterFetchAllCooldown.inMinutes),
     showCancel: true,
-    onOkPressed: onConfirmed,
+    onOkPressed: () {
+      if (!ref.context.mounted) return;
+
+      CharacterStateRepository.executeFetchAll(ref).catchError(
+        ref.read(crashlyticsServiceProvider).logAndReport,
+      );
+    },
   );
 }

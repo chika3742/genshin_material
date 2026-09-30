@@ -5,7 +5,6 @@ import "package:material_symbols_icons/symbols.dart";
 
 import "../core/pref_keys.dart";
 import "../data/repositories/character_state_repository.dart";
-import "../data/services/crashlytics_service.dart";
 import "../i18n/strings.g.dart";
 import "../providers/pref_notifier.dart";
 import "../ui_core/character_bulk_sync_dialog.dart";
@@ -35,14 +34,7 @@ class CharacterBulkSyncButton extends ConsumerWidget {
             : Icon(Symbols.sync),
         tooltip: tr.hoyolab.characterBulkSync,
         onPressed: !fetchState.isPending && isAvailable ? () {
-          showCharacterBulkSyncConfirmDialog(
-            context,
-            onConfirmed: () {
-              CharacterStateRepository.executeFetchAll(ref).catchError(
-                ref.read(crashlyticsServiceProvider).logAndReport,
-              );
-            },
-          );
+          showCharacterBulkSyncConfirmDialog(ref);
         } : null,
       ),
     );

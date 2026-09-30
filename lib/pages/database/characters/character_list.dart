@@ -14,7 +14,6 @@ import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/pref_keys.dart";
 import "../../../data/repositories/character_state_repository.dart";
-import "../../../data/services/crashlytics_service.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/asset_image_resolver.dart";
@@ -40,7 +39,7 @@ class CharacterListPage extends HookConsumerWidget {
     final filterState = ref.watch(characterFilterStateProvider);
     final images = ref.watch(assetImageResolverProvider);
     final isLinked = ref.watch(isLinkedWithHoyolabProvider);
-    final ownedCharacters = ref.watch(characterStateRepositoryProvider.select((d) => d.value?.keys.toList()));
+    final ownedCharacters = ref.watch(characterStateRepositoryProvider.select((d) => d.value?.keys.toSet()));
     final lastBulkSync = ref.watch(prefProvider(PrefKeys.lastCharacterFetchAll));
     final fetchState = ref.watch(CharacterStateRepository.fetchAllMutation);
 
@@ -145,13 +144,7 @@ class CharacterListPage extends HookConsumerWidget {
               content: Text(tr.characterListPage.firstSyncBanner.text),
               actions: [TextButton(
                 onPressed: () {
-                  showCharacterBulkSyncConfirmDialog(
-                    context,
-                    onConfirmed: () {
-                      CharacterStateRepository.executeFetchAll(ref)
-                          .catchError(ref.read(crashlyticsServiceProvider).logAndReport);
-                    },
-                  );
+                  showCharacterBulkSyncConfirmDialog(ref);
                 },
                 child: Text(tr.characterListPage.firstSyncBanner.action),
               )],
@@ -254,6 +247,17 @@ class CharacterFilterBottomSheet extends StatelessWidget {
                       ref.read(characterFilterStateProvider.notifier)
                           .setSortMode(mode.first);
                     },
+                  ),
+                ),
+                Align(
+                  alignment: .centerRight,
+                  child: ElevatedButton.icon(
+                    icon: Icon(Symbols.clear),
+                    label: Text(tr.characterListPage.clearFilters),
+                    onPressed: state.isFiltering ? () {
+                      ref.read(characterFilterStateProvider.notifier)
+                          .clearFilters();
+                    } : null,
                   ),
                 ),
                 FilteringCategory(

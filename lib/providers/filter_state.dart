@@ -39,7 +39,7 @@ class CharacterFilterStateNotifier extends _$CharacterFilterStateNotifier {
     ref.read(prefProvider(PrefKeys.characterSortMode).notifier).set(mode);
   }
 
-  void clearFilter() {
+  void clearFilters() {
     state = CharacterFilterState(sortType: state.sortType, sortMode: state.sortMode);
   }
 }

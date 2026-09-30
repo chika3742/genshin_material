@@ -144,7 +144,7 @@ void main() {
       notifier.setElement("anemo");
       notifier.setWeaponType("catalyst");
 
-      notifier.clearFilter();
+      notifier.clearFilters();
 
       final state = readState();
       expect(state.rarity, isNull);
@@ -185,7 +185,7 @@ void main() {
       notifier.setSortMode(SortMode.descending);
       notifier.setRarity(5);
 
-      notifier.clearFilter();
+      notifier.clearFilters();
 
       final state = readState();
       expect(state.sortType, CharacterSortType.name);

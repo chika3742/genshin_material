@@ -140,8 +140,9 @@ characterListPage:
   owned: Owned
   unowned: Not owned
   firstSyncBanner:
-    text: Run a bulk sync to fetch data for all your owned character at once.
+    text: Run a bulk sync to fetch data for all your owned characters at once.
     action: Sync now
+  clearFilters: Clear Filters
 characterBulkSync:
   minutes(param=ttlMinutes):
     other: $ttlMinutes minutes

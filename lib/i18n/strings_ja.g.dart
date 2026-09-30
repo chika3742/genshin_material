@@ -504,6 +504,9 @@ class Translations$characterListPage$ja {
 	String get unowned => '未所持';
 
 	late final Translations$characterListPage$firstSyncBanner$ja firstSyncBanner = Translations$characterListPage$firstSyncBanner$ja.internal(_root);
+
+	/// ja: 'フィルターをクリア'
+	String get clearFilters => 'フィルターをクリア';
 }
 
 // Path: characterBulkSync
@@ -1363,6 +1366,7 @@ extension on Translations {
 			'characterListPage.unowned' => '未所持',
 			'characterListPage.firstSyncBanner.text' => '一括同期を行うと、所持キャラクターの情報をまとめて取得できます。',
 			'characterListPage.firstSyncBanner.action' => '今すぐ同期',
+			'characterListPage.clearFilters' => 'フィルターをクリア',
 			'characterBulkSync.minutes' => ({required num ttlMinutes}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ja'))(ttlMinutes, other: '${ttlMinutes}分', ), 
 			'characterBulkSync.confirmDialog.title' => 'キャラクターの一括同期',
 			'characterBulkSync.confirmDialog.content' => ({required num ttlMinutes}) => '所持している全キャラクターの育成状況を一括で取得します。最後に実行してから${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}間は再実行できません。',

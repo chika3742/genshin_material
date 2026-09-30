@@ -139,6 +139,7 @@ characterListPage:
   firstSyncBanner:
     text: 一括同期を行うと、所持キャラクターの情報をまとめて取得できます。
     action: 今すぐ同期
+  clearFilters: フィルターをクリア
 characterBulkSync:
   minutes(param=ttlMinutes):
     other: $ttlMinutes分

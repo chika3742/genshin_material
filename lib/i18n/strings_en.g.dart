@@ -308,6 +308,7 @@ class _Translations$characterListPage$en extends Translations$characterListPage$
 	@override String get owned => 'Owned';
 	@override String get unowned => 'Not owned';
 	@override late final _Translations$characterListPage$firstSyncBanner$en firstSyncBanner = _Translations$characterListPage$firstSyncBanner$en._(_root);
+	@override String get clearFilters => 'Clear Filters';
 }
 
 // Path: characterBulkSync
@@ -659,7 +660,7 @@ class _Translations$characterListPage$firstSyncBanner$en extends Translations$ch
 	final TranslationsEn _root; // ignore: unused_field
 
 	// Translations
-	@override String get text => 'Run a bulk sync to fetch data for all your owned character at once.';
+	@override String get text => 'Run a bulk sync to fetch data for all your owned characters at once.';
 	@override String get action => 'Sync now';
 }
 
@@ -837,8 +838,9 @@ extension on TranslationsEn {
 			'bookmarksPage.allFurnishingsAreCrafted' => 'All furnishings in this set have been crafted.',
 			'characterListPage.owned' => 'Owned',
 			'characterListPage.unowned' => 'Not owned',
-			'characterListPage.firstSyncBanner.text' => 'Run a bulk sync to fetch data for all your owned character at once.',
+			'characterListPage.firstSyncBanner.text' => 'Run a bulk sync to fetch data for all your owned characters at once.',
 			'characterListPage.firstSyncBanner.action' => 'Sync now',
+			'characterListPage.clearFilters' => 'Clear Filters',
 			'characterBulkSync.minutes' => ({required num ttlMinutes}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(ttlMinutes, other: '${ttlMinutes} minutes', one: '${ttlMinutes} minute', ), 
 			'characterBulkSync.confirmDialog.title' => 'Bulk Sync Characters',
 			'characterBulkSync.confirmDialog.content' => ({required num ttlMinutes}) => 'Fetches the progression of all your owned characters at once. After a run, it can\'t be run again for ${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}.',
