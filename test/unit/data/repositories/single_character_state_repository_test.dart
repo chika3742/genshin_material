@@ -266,13 +266,16 @@ void main() {
       expect(api.avatarListCalls, isNotEmpty);
     });
 
-    test("reports an API failure through the mutation without throwing", () async {
+    test("reports an API failure through the mutation", () async {
       final error = Exception("network");
       final container = createContainer(api: FakeHoyolabGameApi(error: error));
 
-      final state = await fetch(container, "test_chara");
+      await expectLater(fetch(container, "test_chara"), throwsA(error));
 
-      expect(state, isA<MutationError<FetchResult>>().having((e) => e.error, "error", error));
+      expect(
+        container.read(SingleCharacterStateRepository.fetchMutation("test_chara")),
+        isA<MutationError<FetchResult>>().having((e) => e.error, "error", error),
+      );
     });
 
     test("keeps the mutation of each variant separate", () async {
@@ -289,9 +292,14 @@ void main() {
     });
 
     test("reports a variant ID missing from the asset data as an error", () async {
-      final state = await fetch(createContainer(), "test_unknown");
+      final container = createContainer();
 
-      expect(state, isA<MutationError<FetchResult>>().having((e) => e.error, "error", isArgumentError));
+      await expectLater(fetch(container, "test_unknown"), throwsArgumentError);
+
+      expect(
+        container.read(SingleCharacterStateRepository.fetchMutation("test_unknown")),
+        isA<MutationError<FetchResult>>().having((e) => e.error, "error", isArgumentError),
+      );
     });
   });
 }

@@ -7,14 +7,16 @@ import "package:genshin_material/providers/pref_notifier.dart";
 import "../../utils/in_memory_pref.dart";
 
 void main() {
-  /// Builds a container whose sort-type prefs are backed by memory instead of
+  /// Builds a container whose sort prefs are backed by memory instead of
   /// `SharedPreferences`, which is not available in a unit test.
   ProviderContainer createContainer({
     CharacterSortType characterSortType = CharacterSortType.defaultSort,
+    SortMode characterSortMode = SortMode.ascending,
     WeaponSortType weaponSortType = WeaponSortType.defaultSort,
   }) {
     return ProviderContainer.test(overrides: [
       overridePref(PrefKeys.characterSortType, characterSortType),
+      overridePref(PrefKeys.characterSortMode, characterSortMode),
       overridePref(PrefKeys.weaponSortType, weaponSortType),
     ]);
   }
@@ -34,7 +36,6 @@ void main() {
     test("starts with every filter unset", () {
       final state = readState();
 
-      expect(state.possessionStatus, isNull);
       expect(state.rarity, isNull);
       expect(state.element, isNull);
       expect(state.weaponType, isNull);
@@ -50,22 +51,13 @@ void main() {
       );
     });
 
-    test("setPossessionStatus updates only the possession status", () {
-      notifier.setPossessionStatus(PossessionStatus.owned);
+    test("takes the initial sort mode from the pref", () {
+      final other = createContainer(characterSortMode: SortMode.descending);
 
-      final state = readState();
-      expect(state.possessionStatus, PossessionStatus.owned);
-      expect(state.rarity, isNull);
-      expect(state.element, isNull);
-      expect(state.weaponType, isNull);
-    });
-
-    test("setPossessionStatus clears the possession status with null", () {
-      notifier.setPossessionStatus(PossessionStatus.notOwned);
-
-      notifier.setPossessionStatus(null);
-
-      expect(readState().possessionStatus, isNull);
+      expect(
+        other.read(characterFilterStateProvider).sortMode,
+        SortMode.descending,
+      );
     });
 
     test("setRarity updates only the rarity", () {
@@ -73,7 +65,8 @@ void main() {
 
       final state = readState();
       expect(state.rarity, 5);
-      expect(state.possessionStatus, isNull);
+      expect(state.element, isNull);
+      expect(state.weaponType, isNull);
     });
 
     test("setElement updates only the element", () {
@@ -101,12 +94,6 @@ void main() {
       expect(state.element, "hydro");
     });
 
-    test("isFiltering becomes true for the possession status alone", () {
-      notifier.setPossessionStatus(PossessionStatus.owned);
-
-      expect(readState().isFiltering, isTrue);
-    });
-
     test("isFiltering becomes true for the rarity alone", () {
       notifier.setRarity(4);
 
@@ -125,8 +112,9 @@ void main() {
       expect(readState().isFiltering, isTrue);
     });
 
-    test("isFiltering stays false when only the sort type is set", () {
+    test("isFiltering stays false when only the sort type and mode are set", () {
       notifier.setSortType(CharacterSortType.element);
+      notifier.setSortMode(SortMode.descending);
 
       expect(readState().isFiltering, isFalse);
     });
@@ -141,52 +129,67 @@ void main() {
       );
     });
 
-    test("clear resets every filter", () {
-      notifier.setPossessionStatus(PossessionStatus.owned);
+    test("setSortMode persists the value to the pref", () {
+      notifier.setSortMode(SortMode.descending);
+
+      expect(readState().sortMode, SortMode.descending);
+      expect(
+        container.read(prefProvider(PrefKeys.characterSortMode)),
+        SortMode.descending,
+      );
+    });
+
+    test("clearFilter resets every filter", () {
       notifier.setRarity(5);
       notifier.setElement("anemo");
       notifier.setWeaponType("catalyst");
 
-      notifier.clear();
+      notifier.clearFilters();
 
       final state = readState();
-      expect(state.possessionStatus, isNull);
       expect(state.rarity, isNull);
       expect(state.element, isNull);
       expect(state.weaponType, isNull);
       expect(state.isFiltering, isFalse);
     });
 
-    test("setSortType discards the filters that were already set", () {
+    // Regression: `build` used to watch the sort pref that `setSortType`
+    // writes, so the notifier was rebuilt and the filters were lost.
+    test("setSortType keeps the filters that were already set", () {
       notifier.setRarity(5);
       notifier.setElement("pyro");
 
       notifier.setSortType(CharacterSortType.name);
 
-      // `build` watches the very pref that `setSortType` writes, so the
-      // notifier is rebuilt from scratch and the filters are lost.
       final state = readState();
       expect(state.sortType, CharacterSortType.name);
-      expect(state.rarity, isNull);
-      expect(state.element, isNull);
+      expect(state.rarity, 5);
+      expect(state.element, "pyro");
     });
 
-    test("clear resets the sort type in the state but leaves the pref alone",
-        () {
+    test("setSortMode keeps the filters that were already set", () {
+      notifier.setRarity(5);
+      notifier.setElement("pyro");
+
+      notifier.setSortMode(SortMode.descending);
+
+      final state = readState();
+      expect(state.sortMode, SortMode.descending);
+      expect(state.rarity, 5);
+      expect(state.element, "pyro");
+    });
+
+    // Regression: clearing the filters used to reset the sort to the default.
+    test("clearFilter keeps the sort type and mode", () {
       notifier.setSortType(CharacterSortType.name);
-      // Read once so the rebuild caused by the pref write happens before
-      // `clear` assigns its state; otherwise it would overwrite it.
-      expect(readState().sortType, CharacterSortType.name);
+      notifier.setSortMode(SortMode.descending);
+      notifier.setRarity(5);
 
-      notifier.clear();
+      notifier.clearFilters();
 
-      expect(readState().sortType, CharacterSortType.defaultSort);
-      // The persisted value survives, so the previous sort type comes back the
-      // next time the notifier is built.
-      expect(
-        container.read(prefProvider(PrefKeys.characterSortType)),
-        CharacterSortType.name,
-      );
+      final state = readState();
+      expect(state.sortType, CharacterSortType.name);
+      expect(state.sortMode, SortMode.descending);
     });
   });
 
@@ -225,28 +228,6 @@ void main() {
       expect(
         container.read(prefProvider(PrefKeys.weaponSortType)),
         WeaponSortType.name,
-      );
-    });
-
-    test("clear resets the sort type in the state but leaves the pref alone",
-        () {
-      notifier.setSortType(WeaponSortType.rarity);
-      // Read once so the rebuild caused by the pref write happens before
-      // `clear` assigns its state; otherwise it would overwrite it.
-      expect(
-        container.read(weaponFilterStateProvider).sortType,
-        WeaponSortType.rarity,
-      );
-
-      notifier.clear();
-
-      expect(
-        container.read(weaponFilterStateProvider).sortType,
-        WeaponSortType.defaultSort,
-      );
-      expect(
-        container.read(prefProvider(PrefKeys.weaponSortType)),
-        WeaponSortType.rarity,
       );
     });
   });

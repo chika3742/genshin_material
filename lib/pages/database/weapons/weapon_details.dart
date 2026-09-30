@@ -20,6 +20,7 @@ import "../../../core/asset_cache.dart";
 import "../../../core/pref_keys.dart";
 import "../../../data/repositories/character_state_repository.dart";
 import "../../../data/repositories/single_character_state_repository.dart";
+import "../../../data/services/crashlytics_service.dart";
 import "../../../db/bookmark_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
@@ -196,7 +197,8 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
     useEffect(() {
       if (isWeaponSyncEnabled) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          SingleCharacterStateRepository.executeFetch(ref, selectedCharacter.id);
+          SingleCharacterStateRepository.executeFetch(ref, selectedCharacter.id)
+              .catchError(ref.read(crashlyticsServiceProvider).logAndReport);
         });
       }
       return null;

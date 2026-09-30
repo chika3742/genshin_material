@@ -1,26 +1,27 @@
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
+import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
+import "../../../components/character_bulk_sync_button.dart";
 import "../../../components/character_list_item.dart";
 import "../../../components/chips.dart";
 import "../../../components/data_asset_scope.dart";
 import "../../../components/filter_bottom_sheet.dart";
-import "../../../components/horizontal_chip_list.dart";
 import "../../../components/search.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
-import "../../../core/remote_config_keys.dart";
+import "../../../core/pref_keys.dart";
 import "../../../data/repositories/character_state_repository.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/filter_state.dart";
 import "../../../providers/hoyolab_game_server.dart";
-import "../../../providers/remote_config.dart";
+import "../../../providers/pref_notifier.dart";
 import "../../../routes.dart";
-import "../../../ui_core/bottom_sheet.dart";
+import "../../../ui_core/character_bulk_sync_dialog.dart";
 import "../../../ui_core/katakana_compare.dart";
 import "../../../utils/filtering.dart";
 
@@ -33,25 +34,28 @@ class CharacterListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final tabController = useTabController(initialLength: 2);
+
     final filterState = ref.watch(characterFilterStateProvider);
     final images = ref.watch(assetImageResolverProvider);
+    final isLinked = ref.watch(isLinkedWithHoyolabProvider);
+    final ownedCharacters = ref.watch(characterStateRepositoryProvider.select((d) => d.value?.keys.toSet()));
+    final lastBulkSync = ref.watch(prefProvider(PrefKeys.lastCharacterFetchAll));
+    final fetchState = ref.watch(CharacterStateRepository.fetchAllMutation);
 
     var charactersIterable = assetData.characters.values
         .whereType<CharacterWithLargeImage>();
-    if (filterState.possessionStatus != null) {
-      final ownedCharacters = ref.watch(characterStateRepositoryProvider).value?.keys.toList();
 
-      if (ownedCharacters != null) {
-        bool isCharacterOwned(String id, PossessionStatus? filterStatus, List<String> ownedIds) {
-          if (filterStatus == null) return true;
-          final isOwned = ownedIds.contains(id) || alwaysOwnedCharacters.contains(id);
-          return filterStatus == PossessionStatus.owned ? isOwned : !isOwned;
-        }
-        charactersIterable = charactersIterable.where((e) {
-          return isCharacterOwned(e.id, filterState.possessionStatus, ownedCharacters);
-        });
+    bool filterByPossession(CharacterWithLargeImage character, bool filterByOwned) {
+      if (ownedCharacters == null) {
+        return true; // show all characters if owned list is unavailable
       }
+
+      final isOwned = ownedCharacters.contains(character.id)
+          || alwaysOwnedCharacters.contains(character.id);
+      return filterByOwned ? isOwned : !isOwned;
     }
+
     if (filterState.rarity != null) {
       charactersIterable = charactersIterable.where((e) => e.rarity == filterState.rarity);
     }
@@ -61,36 +65,49 @@ class CharacterListPage extends HookConsumerWidget {
     if (filterState.weaponType != null) {
       charactersIterable = charactersIterable.where((e) => e.weaponType == filterState.weaponType);
     }
-    if (filterState.sortType != CharacterSortType.defaultSort) {
-      charactersIterable = charactersIterable.sorted((a, b) {
-        switch (filterState.sortType) {
-          case CharacterSortType.name:
-            return LocaleSettings.instance.currentLocale.languageCode == "ja"
-                ? katakanaCompare(a.jaPronunciation, b.jaPronunciation)
-                : a.name.localized.compareTo(b.name.localized);
-          case CharacterSortType.element:
-            if (a is ListedCharacter && b is ListedCharacter) {
-              final elementComparison = a.element.compareTo(b.element);
-              if (elementComparison != 0) return elementComparison;
-              return a.name.localized.compareTo(b.name.localized);
-            } else if (a is ListedCharacter) {
-              return -1;
-            } else if (b is ListedCharacter) {
-              return 1;
-            }
-            return a.name.localized.compareTo(b.name.localized);
-          case CharacterSortType.defaultSort:
-            throw UnimplementedError();
-        }
-      });
-    }
 
     final characters = charactersIterable.toList();
+    mergeSort(characters, compare: (CharacterWithLargeImage a, CharacterWithLargeImage b) {
+      switch (filterState.sortType) {
+        case CharacterSortType.name:
+          return LocaleSettings.instance.currentLocale == .ja
+              ? katakanaCompare(a.jaPronunciation, b.jaPronunciation)
+              : a.name.localized.compareTo(b.name.localized);
+        case CharacterSortType.element:
+          if (a is ListedCharacter && b is ListedCharacter) {
+            final elementComparison = a.element.compareTo(b.element);
+            if (elementComparison != 0) return elementComparison;
+            return a.name.localized.compareTo(b.name.localized);
+          } else if (a is ListedCharacter) {
+            return -1;
+          } else if (b is ListedCharacter) {
+            return 1;
+          }
+          return a.name.localized.compareTo(b.name.localized);
+        case CharacterSortType.defaultSort:
+          return 0;
+      }
+    });
+
+    if (filterState.sortMode == .descending) {
+      characters.reverseRange(0, characters.length);
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.characters),
         actions: [
+          if (isLinked) CharacterBulkSyncButton(),
+          IconButton(
+            icon: Badge(
+              isLabelVisible: filterState.isFiltering,
+              child: Icon(Symbols.tune),
+            ),
+            tooltip: tr.common.filterAndSort,
+            onPressed: () {
+              _showFilterBottomSheet(context);
+            },
+          ),
           SearchButton<CharacterWithLargeImage>(
             hintTargetText: tr.search.targets.characters,
             queryCallback: (query) {
@@ -112,82 +129,63 @@ class CharacterListPage extends HookConsumerWidget {
             },
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: Size(double.infinity, 64.0),
-          child: HorizontalChipList(
-            chips: [
-              Icon(Symbols.sort),
-
-              FilterChipWithMenu( // sort
-                label: Text(tr.common.sortTypes[filterState.sortType.name]!),
-                onSelected: (_) {
-                  _showSortBottomSheet(context, ref);
+        bottom: isLinked ? TabBar(
+          controller: tabController,
+          tabs: [
+            Tab(text: tr.characterListPage.owned),
+            Tab(text: tr.characterListPage.unowned),
+          ],
+        ) : null,
+      ),
+      body: isLinked ? Column(
+        children: [
+          if (lastBulkSync == null && !fetchState.isPending)
+            MaterialBanner(
+              content: Text(tr.characterListPage.firstSyncBanner.text),
+              actions: [TextButton(
+                onPressed: () {
+                  showCharacterBulkSyncConfirmDialog(ref);
                 },
-              ),
-
-              Icon(Symbols.filter_alt),
-
-              if (ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
-                FilterChipWithMenu( // possession
-                  selected: filterState.possessionStatus != null,
-                  label: Text(tr.common.possession),
-                  onSelected: (_) {
-                    _showFilterBottomSheet(context);
-                  },
+                child: Text(tr.characterListPage.firstSyncBanner.action),
+              )],
+            ),
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: [
+                _buildGrid(
+                  characters.where((c) => filterByPossession(c, true)).toList(),
+                  key: PageStorageKey("owned_tab"),
                 ),
-
-              FilterChipWithMenu( // rarity
-                selected: filterState.rarity != null,
-                label: Text(tr.common.rarity),
-                onSelected: (_) {
-                  _showFilterBottomSheet(context);
-                },
-              ),
-
-              FilterChipWithMenu( // element
-                selected: filterState.element != null,
-                label: Text(tr.common.element),
-                onSelected: (_) {
-                  _showFilterBottomSheet(context);
-                },
-              ),
-
-              FilterChipWithMenu( // weapon type
-                selected: filterState.weaponType != null,
-                label: Text(tr.common.weaponType),
-                onSelected: (_) {
-                  _showFilterBottomSheet(context);
-                },
-              ),
-
-              FilterChipWithIcon( // clear
-                leading: const Icon(Symbols.clear),
-                label: Text(tr.common.clear),
-                onSelected: filterState.isFiltering ? (_) {
-                  ref.read(characterFilterStateProvider.notifier)
-                      .clear();
-                } : null,
-              ),
-            ],
+                _buildGrid(
+                  characters.where((c) => filterByPossession(c, false)).toList(),
+                  key: PageStorageKey("unowned_tab"),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
+      ) : _buildGrid(characters),
+    );
+  }
+
+  Widget _buildGrid(List<CharacterWithLargeImage> characters, {Key? key}) {
+    return GridView.builder(
+      key: key,
+      padding: EdgeInsets.all(16.0),
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 200,
+        mainAxisSpacing: 8.0,
+        crossAxisSpacing: 8.0,
+        childAspectRatio: 2,
       ),
-      body: GridView.builder(
-        padding: EdgeInsets.all(16.0),
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200,
-          mainAxisSpacing: 8.0,
-          crossAxisSpacing: 8.0,
-          childAspectRatio: 2,
-        ),
-        itemCount: characters.length,
-        itemBuilder: (context, index) {
-          return CharacterListItem(
-            key: ValueKey(characters[index].id),
-            characters[index],
-          );
-        },
-      ),
+      itemCount: characters.length,
+      itemBuilder: (context, index) {
+        return CharacterListItem(
+          key: ValueKey(characters[index].id),
+          characters[index],
+        );
+      },
     );
   }
 
@@ -201,112 +199,118 @@ class CharacterListPage extends HookConsumerWidget {
       },
     );
   }
-
-  void _showSortBottomSheet(BuildContext context, WidgetRef ref) {
-    final currentSortType = ref.read(characterFilterStateProvider).sortType;
-    
-    showSelectBottomSheet<CharacterSortType>(
-      context: context,
-      title: Text(tr.common.sortType),
-      selectedValue: currentSortType,
-      items: [
-        for (final type in CharacterSortType.values)
-          SelectBottomSheetItem(
-            text: tr.common.sortTypes[type.name]!,
-            value: type,
-          ),
-      ],
-    ).then((value) {
-      if (value != null) {
-        ref.read(characterFilterStateProvider.notifier).setSortType(value);
-      }
-    });
-  }
 }
 
-class CharacterFilterBottomSheet extends ConsumerWidget {
+class CharacterFilterBottomSheet extends StatelessWidget {
   const CharacterFilterBottomSheet({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isLinked = ref.watch(isLinkedWithHoyolabProvider);
-
+  Widget build(BuildContext context) {
     return DataAssetScope(
       useScaffold: false,
       builder: (context, assetData) {
-        return FilterBottomSheet(
-          categories: [
-            if (ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled)))
-              ...[
+        return Consumer(
+          builder: (context, ref, _) {
+            final state = ref.watch(characterFilterStateProvider);
+
+            return FilterBottomSheet(
+              categories: [
                 FilteringCategory(
-                  labelText: tr.common.possession,
+                  labelText: tr.common.sort,
                   items: [
-                    for (final status in PossessionStatus.values)
-                      FilterChipWithIcon(
-                        selected: ref.watch(characterFilterStateProvider.select((it) => it.possessionStatus == status)),
-                        leading: Icon(status == PossessionStatus.owned ? Symbols.place_item : Symbols.hide_source),
-                        label: Text(tr.common.possessionStatus[status.name]!),
-                        onSelected: isLinked ? (selected) {
+                    for (final sortType in CharacterSortType.values)
+                      ChoiceChip(
+                        selected: state.sortType == sortType,
+                        label: Text(tr.common.sortTypes[sortType.name]!),
+                        onSelected: (_) {
                           ref.read(characterFilterStateProvider.notifier)
-                              .setPossessionStatus(selected ? status : null);
-                        } : null,
+                              .setSortType(sortType);
+                        },
+                      ),
+                  ],
+                  bottom: SegmentedButton<SortMode>(
+                    segments: [
+                      ButtonSegment(
+                        value: .ascending,
+                        icon: Icon(Symbols.arrow_upward),
+                        label: Text(tr.common.ascending),
+                      ),
+                      ButtonSegment(
+                        value: .descending,
+                        icon: Icon(Symbols.arrow_downward),
+                        label: Text(tr.common.descending),
+                      ),
+                    ],
+                    selected: {state.sortMode},
+                    showSelectedIcon: false,
+                    onSelectionChanged: (mode) {
+                      ref.read(characterFilterStateProvider.notifier)
+                          .setSortMode(mode.first);
+                    },
+                  ),
+                ),
+                Align(
+                  alignment: .centerRight,
+                  child: ElevatedButton.icon(
+                    icon: Icon(Symbols.clear),
+                    label: Text(tr.characterListPage.clearFilters),
+                    onPressed: state.isFiltering ? () {
+                      ref.read(characterFilterStateProvider.notifier)
+                          .clearFilters();
+                    } : null,
+                  ),
+                ),
+                FilteringCategory(
+                  labelText: tr.common.rarity,
+                  items: [
+                    for (final rarity in [4, 5])
+                      FilterChipWithIcon(
+                        selected: state.rarity == rarity,
+                        leading: const Icon(Symbols.star),
+                        label: Text(rarity.toString()),
+                        onSelected: (selected) {
+                          ref.read(characterFilterStateProvider.notifier)
+                              .setRarity(selected ? rarity : null);
+                        },
                       ),
                   ],
                 ),
-                if (!isLinked)
-                  Text(tr.common.possessionNoteNotSignedIn, style: Theme.of(context).textTheme.labelMedium)
-                else
-                  Text(tr.common.possessionNote, style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold)),
+                FilteringCategory(
+                  labelText: tr.common.element,
+                  items: [
+                    for (final element in assetData.elements.entries)
+                      FilterChipWithIcon(
+                        selected: state.element == element.key,
+                        leading: Image.file(
+                          element.value.getImageFile(assetData.assetDir),
+                          width: 24,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        label: Text(element.value.text.localized),
+                        onSelected: (selected) {
+                          ref.read(characterFilterStateProvider.notifier)
+                              .setElement(selected ? element.key : null);
+                        },
+                      ),
+                  ],
+                ),
+                FilteringCategory(
+                  labelText: tr.common.weaponType,
+                  items: [
+                    for (final weaponType in assetData.weaponTypes.entries)
+                      FilterChipWithIcon(
+                        selected: state.weaponType == weaponType.key,
+                        label: Text(weaponType.value.name.localized),
+                        onSelected: (selected) {
+                          ref.read(characterFilterStateProvider.notifier)
+                              .setWeaponType(selected ? weaponType.key : null);
+                        },
+                      ),
+                  ],
+                ),
               ],
-            FilteringCategory(
-              labelText: tr.common.rarity,
-              items: [
-                for (final rarity in [4, 5])
-                  FilterChipWithIcon(
-                    selected: ref.watch(characterFilterStateProvider.select((it) => it.rarity == rarity)),
-                    leading: const Icon(Symbols.star),
-                    label: Text(rarity.toString()),
-                    onSelected: (selected) {
-                      ref.read(characterFilterStateProvider.notifier)
-                          .setRarity(selected ? rarity : null);
-                    },
-                  ),
-              ],
-            ),
-            FilteringCategory(
-              labelText: tr.common.element,
-              items: [
-                for (final element in assetData.elements.entries)
-                  FilterChipWithIcon(
-                    selected: ref.watch(characterFilterStateProvider.select((it) => it.element == element.key)),
-                    leading: Image.file(
-                      element.value.getImageFile(assetData.assetDir),
-                      width: 24,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                    label: Text(element.value.text.localized),
-                    onSelected: (selected) {
-                      ref.read(characterFilterStateProvider.notifier)
-                          .setElement(selected ? element.key : null);
-                    },
-                  ),
-              ],
-            ),
-            FilteringCategory(
-              labelText: tr.common.weaponType,
-              items: [
-                for (final weaponType in assetData.weaponTypes.entries)
-                  FilterChipWithIcon(
-                    selected: ref.watch(characterFilterStateProvider.select((it) => it.weaponType == weaponType.key)),
-                    label: Text(weaponType.value.name.localized),
-                    onSelected: (selected) {
-                      ref.read(characterFilterStateProvider.notifier)
-                          .setWeaponType(selected ? weaponType.key : null);
-                    },
-                  ),
-              ],
-            ),
-          ],
+            );
+          },
         );
       },
     );

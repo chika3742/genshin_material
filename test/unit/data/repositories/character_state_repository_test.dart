@@ -7,6 +7,7 @@ import "package:flutter_riverpod/experimental/mutation.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/asset_cache.dart";
+import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/data/repositories/character_state_repository.dart";
 import "package:genshin_material/data/repositories/single_character_state_repository.dart";
 import "package:genshin_material/database.dart";
@@ -22,6 +23,7 @@ import "../../../utils/async.dart";
 import "../../../utils/db.dart";
 import "../../../utils/fake_hoyolab_game_api.dart";
 import "../../../utils/hoyolab_game_server.dart";
+import "../../../utils/in_memory_pref.dart";
 import "../../../utils/provider_container.dart";
 
 const _uid = "uid_1";
@@ -90,12 +92,13 @@ void main() {
     await db.close();
   });
 
-  ProviderContainer createContainer({String? uid = _uid, FakeHoyolabGameApi? api}) {
+  ProviderContainer createContainer({String? uid = _uid, FakeHoyolabGameApi? api, DateTime? lastFetchAll}) {
     return createTestContainer(
       assetData: _buildAssetData(),
       db: db,
       overrides: [
         ...overrideHoyolabGameServerPrefs(uid: uid),
+        overridePref(PrefKeys.lastCharacterFetchAll, lastFetchAll),
         if (api != null) hoyolabGameApiProvider.overrideWith((ref) async => api),
       ],
     );
@@ -323,13 +326,56 @@ void main() {
       final container = createContainer(api: FakeHoyolabGameApi(error: error));
       container.listen(CharacterStateRepository.fetchAllMutation, (_, _) {});
 
-      await fetchAll(container);
+      await expectLater(fetchAll(container), throwsA(error));
 
       expect(
         container.read(CharacterStateRepository.fetchAllMutation),
         isA<MutationError<void>>().having((e) => e.error, "error", error),
       );
       expect((await readRows()).single.purposes, {Purpose.ascension: 40});
+    });
+
+    group("cooldown", () {
+      test("runs when it has never run", () async {
+        final api = FakeHoyolabGameApi();
+
+        await fetchAll(createContainer(api: api));
+
+        expect(api.avatarListCalls, isNotEmpty);
+      });
+
+      test("runs once the cooldown has passed", () async {
+        final api = FakeHoyolabGameApi();
+
+        await fetchAll(createContainer(api: api, lastFetchAll: _now.subtract(characterFetchAllCooldown * 2)));
+
+        expect(api.avatarListCalls, isNotEmpty);
+      });
+
+      test("refuses to run during the cooldown", () async {
+        final api = FakeHoyolabGameApi();
+
+        await expectLater(fetchAll(createContainer(api: api, lastFetchAll: _now)), throwsStateError);
+        expect(api.avatarListCalls, isEmpty);
+      });
+    });
+  });
+
+  group("isFetchAllCharactersAvailable", () {
+    // testWidgets runs under a fake async zone, so tester.pump fires the
+    // provider's Timer, and withClock makes clock.now() follow the same time.
+    testWidgets("becomes available when the cooldown ends", (tester) async {
+      await withClock(tester.binding.clock, () async {
+        final container = createContainer(lastFetchAll: clock.now());
+        container.listen(isFetchAllCharactersAvailableProvider, (_, _) {});
+        expect(container.read(isFetchAllCharactersAvailableProvider), isFalse);
+
+        await tester.pump(characterFetchAllCooldown - const Duration(seconds: 1));
+        expect(container.read(isFetchAllCharactersAvailableProvider), isFalse);
+
+        await tester.pump(const Duration(seconds: 1));
+        expect(container.read(isFetchAllCharactersAvailableProvider), isTrue);
+      });
     });
   });
 }

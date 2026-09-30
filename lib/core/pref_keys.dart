@@ -23,6 +23,8 @@ abstract final class PrefKeys {
   static const showFarmCount = BooleanPrefKey("showFarmCount", true);
   static const dailyResetServer = EnumPrefKey("dailyResetServer", GameServer.values, GameServer.asia);
   static const characterSortType = EnumPrefKey("characterSortType", CharacterSortType.values);
+  static const characterSortMode = EnumPrefKey("characterSortMode", SortMode.values, SortMode.ascending);
   static const weaponSortType = EnumPrefKey("weaponSortType", WeaponSortType.values);
   static const dailyMaterialNotificationTime = TimeOfDayPrefKey("dailyMaterialNotificationTime");
+  static const lastCharacterFetchAll = DateTimeIsoPrefKey("lastCharacterFetchAll");
 }

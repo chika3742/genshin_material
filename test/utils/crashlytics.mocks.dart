@@ -32,4 +32,11 @@ class MockCrashlyticsService extends _i1.Mock
     Invocation.method(#reportIfNonSilent, [error, st]),
     returnValueForMissingStub: null,
   );
+
+  @override
+  void logAndReport(Object? error, StackTrace? stackTrace) =>
+      super.noSuchMethod(
+        Invocation.method(#logAndReport, [error, stackTrace]),
+        returnValueForMissingStub: null,
+      );
 }

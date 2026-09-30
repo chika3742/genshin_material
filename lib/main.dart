@@ -132,6 +132,9 @@ class MyApp extends HookConsumerWidget {
     );
     return ThemeData(
       colorScheme: colorScheme,
+      badgeTheme: BadgeThemeData(
+        smallSize: 8,
+      ),
       extensions: [
         brightness == .light
             ? ComponentThemeExtension(

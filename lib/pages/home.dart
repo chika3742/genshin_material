@@ -6,6 +6,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "../data/services/launch_url.dart";
 import "../hooks/use_asset_update_progress.dart";
 import "../hooks/use_banner.dart";
+import "../hooks/use_character_bulk_sync_result.dart";
 import "../hooks/use_notification_reschedule_listener.dart";
 import "../hooks/use_startup_banner.dart";
 import "../i18n/strings.g.dart";
@@ -79,6 +80,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: HookConsumer(
         builder: (context, ref, child) {
           useAssetUpdateProgress(ref);
+          useCharacterBulkSyncResult(ref);
 
           return child!;
         },

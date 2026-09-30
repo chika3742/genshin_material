@@ -59,6 +59,8 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$pages$en pages = _Translations$pages$en._(_root);
 	@override late final _Translations$tools$en tools = _Translations$tools$en._(_root);
 	@override late final _Translations$bookmarksPage$en bookmarksPage = _Translations$bookmarksPage$en._(_root);
+	@override late final _Translations$characterListPage$en characterListPage = _Translations$characterListPage$en._(_root);
+	@override late final _Translations$characterBulkSync$en characterBulkSync = _Translations$characterBulkSync$en._(_root);
 	@override late final _Translations$characterDetailsPage$en characterDetailsPage = _Translations$characterDetailsPage$en._(_root);
 	@override late final _Translations$weaponDetailsPage$en weaponDetailsPage = _Translations$weaponDetailsPage$en._(_root);
 	@override late final _Translations$materialDetailsPage$en materialDetailsPage = _Translations$materialDetailsPage$en._(_root);
@@ -73,9 +75,6 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$settingsPage$en settingsPage = _Translations$settingsPage$en._(_root);
 	@override late final _Translations$farmCountSettingsPage$en farmCountSettingsPage = _Translations$farmCountSettingsPage$en._(_root);
 	@override late final _Translations$hoyolab$en hoyolab = _Translations$hoyolab$en._(_root);
-	@override Map<String, String> get whereToGet => {
-		'chests': 'Chests, Quests',
-	};
 	@override late final _Translations$android$en android = _Translations$android$en._(_root);
 	@override late final _Translations$notification$en notification = _Translations$notification$en._(_root);
 }
@@ -148,24 +147,21 @@ class _Translations$common$en extends Translations$common$ja {
 	@override String get pleaseSelect => 'Please select';
 	@override String get sort => 'Sort';
 	@override String get sortType => 'Sort Type';
+	@override String get filter => 'Filter';
+	@override String get filterAndSort => '${_root.common.sort} & ${_root.common.filter}';
 	@override Map<String, String> get sortTypes => {
 		'defaultSort': 'Default',
 		'name': 'Name',
 		'element': 'Element',
 		'rarity': 'Rarity',
 	};
+	@override String get ascending => 'Ascending';
+	@override String get descending => 'Descending';
 	@override String get undo => 'Undo';
 	@override String get bookmarkSaved => 'Bookmark saved';
 	@override String get removedObsoleteBookmarks => 'Removed bookmarks for completed ascensions.';
 	@override String get none => 'None';
 	@override String selected({required Object character}) => 'Selected: ${character}';
-	@override String get possession => 'Possession';
-	@override Map<String, String> get possessionStatus => {
-		'owned': 'Owned',
-		'notOwned': 'Not owned',
-	};
-	@override String get possessionNoteNotSignedIn => 'By linking with HoYoLAB, you can synchronize your possession status.';
-	@override String get possessionNote => 'Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".';
 	@override String get dismiss => 'Dismiss';
 }
 
@@ -300,6 +296,36 @@ class _Translations$bookmarksPage$en extends Translations$bookmarksPage$ja {
 	@override String get byMaterial => 'Material';
 	@override String get furnishings => 'Furnishings';
 	@override String get allFurnishingsAreCrafted => 'All furnishings in this set have been crafted.';
+}
+
+// Path: characterListPage
+class _Translations$characterListPage$en extends Translations$characterListPage$ja {
+	_Translations$characterListPage$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get owned => 'Owned';
+	@override String get unowned => 'Not owned';
+	@override late final _Translations$characterListPage$firstSyncBanner$en firstSyncBanner = _Translations$characterListPage$firstSyncBanner$en._(_root);
+	@override String get clearFilters => 'Clear Filters';
+}
+
+// Path: characterBulkSync
+class _Translations$characterBulkSync$en extends Translations$characterBulkSync$ja {
+	_Translations$characterBulkSync$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String minutes({required num ttlMinutes}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(ttlMinutes,
+		other: '${ttlMinutes} minutes',
+		one: '${ttlMinutes} minute',
+	);
+	@override late final _Translations$characterBulkSync$confirmDialog$en confirmDialog = _Translations$characterBulkSync$confirmDialog$en._(_root);
+	@override String tryAgainInMinutes({required num ttlMinutes}) => 'Please try again in ${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}.';
+	@override String get completed => 'All characters have been synced.';
+	@override String get failed => 'Failed to bulk sync characters.';
 }
 
 // Path: characterDetailsPage
@@ -588,6 +614,7 @@ class _Translations$hoyolab$en extends Translations$hoyolab$ja {
 	@override String get charaSyncSuccess => 'Successfully synced game data';
 	@override String get featureUnavailable => 'HoYoLAB sync feature is currently unavailable.';
 	@override String get invalidResponseReturned => 'Invalid response was returned. If it persists, please contact the app developer.';
+	@override String get characterBulkSync => 'Bulk sync characters';
 }
 
 // Path: android
@@ -624,6 +651,28 @@ class _Translations$search$targets$en extends Translations$search$targets$ja {
 	@override String get artifactPieces => 'artifact pieces';
 	@override String get furnishingSets => 'furnishing sets';
 	@override String get furnishings => 'furnishings';
+}
+
+// Path: characterListPage.firstSyncBanner
+class _Translations$characterListPage$firstSyncBanner$en extends Translations$characterListPage$firstSyncBanner$ja {
+	_Translations$characterListPage$firstSyncBanner$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get text => 'Run a bulk sync to fetch data for all your owned characters at once.';
+	@override String get action => 'Sync now';
+}
+
+// Path: characterBulkSync.confirmDialog
+class _Translations$characterBulkSync$confirmDialog$en extends Translations$characterBulkSync$confirmDialog$ja {
+	_Translations$characterBulkSync$confirmDialog$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Bulk Sync Characters';
+	@override String content({required num ttlMinutes}) => 'Fetches the progression of all your owned characters at once. After a run, it can\'t be run again for ${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}.';
 }
 
 // Path: android.notificationChannels
@@ -690,20 +739,19 @@ extension on TranslationsEn {
 			'common.pleaseSelect' => 'Please select',
 			'common.sort' => 'Sort',
 			'common.sortType' => 'Sort Type',
+			'common.filter' => 'Filter',
+			'common.filterAndSort' => '${_root.common.sort} & ${_root.common.filter}',
 			'common.sortTypes.defaultSort' => 'Default',
 			'common.sortTypes.name' => 'Name',
 			'common.sortTypes.element' => 'Element',
 			'common.sortTypes.rarity' => 'Rarity',
+			'common.ascending' => 'Ascending',
+			'common.descending' => 'Descending',
 			'common.undo' => 'Undo',
 			'common.bookmarkSaved' => 'Bookmark saved',
 			'common.removedObsoleteBookmarks' => 'Removed bookmarks for completed ascensions.',
 			'common.none' => 'None',
 			'common.selected' => ({required Object character}) => 'Selected: ${character}',
-			'common.possession' => 'Possession',
-			'common.possessionStatus.owned' => 'Owned',
-			'common.possessionStatus.notOwned' => 'Not owned',
-			'common.possessionNoteNotSignedIn' => 'By linking with HoYoLAB, you can synchronize your possession status.',
-			'common.possessionNote' => 'Only characters that have been synchronized by opening the character page at least once are displayed as "Possession".',
 			'common.dismiss' => 'Dismiss',
 			'search.hint' => ({required Object target}) => 'Search for ${target}...',
 			'search.noResults' => 'No search results found',
@@ -788,6 +836,17 @@ extension on TranslationsEn {
 			'bookmarksPage.byMaterial' => 'Material',
 			'bookmarksPage.furnishings' => 'Furnishings',
 			'bookmarksPage.allFurnishingsAreCrafted' => 'All furnishings in this set have been crafted.',
+			'characterListPage.owned' => 'Owned',
+			'characterListPage.unowned' => 'Not owned',
+			'characterListPage.firstSyncBanner.text' => 'Run a bulk sync to fetch data for all your owned characters at once.',
+			'characterListPage.firstSyncBanner.action' => 'Sync now',
+			'characterListPage.clearFilters' => 'Clear Filters',
+			'characterBulkSync.minutes' => ({required num ttlMinutes}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(ttlMinutes, other: '${ttlMinutes} minutes', one: '${ttlMinutes} minute', ), 
+			'characterBulkSync.confirmDialog.title' => 'Bulk Sync Characters',
+			'characterBulkSync.confirmDialog.content' => ({required num ttlMinutes}) => 'Fetches the progression of all your owned characters at once. After a run, it can\'t be run again for ${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}.',
+			'characterBulkSync.tryAgainInMinutes' => ({required num ttlMinutes}) => 'Please try again in ${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}.',
+			'characterBulkSync.completed' => 'All characters have been synced.',
+			'characterBulkSync.failed' => 'Failed to bulk sync characters.',
 			'characterDetailsPage.equippedWeapon' => 'Equipped Weapon',
 			'characterDetailsPage.unknownWeapon' => 'Unknown',
 			'characterDetailsPage.favoriteFurnishingSets' => 'Favorite Furnishing Sets',
@@ -934,7 +993,7 @@ extension on TranslationsEn {
 			'hoyolab.charaSyncSuccess' => 'Successfully synced game data',
 			'hoyolab.featureUnavailable' => 'HoYoLAB sync feature is currently unavailable.',
 			'hoyolab.invalidResponseReturned' => 'Invalid response was returned. If it persists, please contact the app developer.',
-			'whereToGet.chests' => 'Chests, Quests',
+			'hoyolab.characterBulkSync' => 'Bulk sync characters',
 			'android.notificationChannels.dailyMaterial.name' => 'Daily Materials',
 			'android.notificationChannels.dailyMaterial.description' => 'Notifies you on the days materials are available',
 			'notification.dailyMaterial.title' => 'Materials Available Today',

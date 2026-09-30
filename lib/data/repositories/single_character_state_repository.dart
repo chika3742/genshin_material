@@ -3,7 +3,6 @@ import "package:flutter_riverpod/experimental/mutation.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../core/errors.dart";
 import "../../db/in_game_character_state_db_extension.dart";
 import "../../models/character.dart";
 import "../../providers/database_provider.dart";
@@ -71,7 +70,7 @@ class SingleCharacterStateRepository extends _$SingleCharacterStateRepository {
     return fetchMutation(variantId).run(ref, (tsx) {
       return tsx.get(singleCharacterStateRepositoryProvider(variantId).notifier)
           ._fetch();
-    }).then<void>((_) {}, onError: handleError);
+    });
   }
 
   /// Returns `null` if the cached value is stale.
