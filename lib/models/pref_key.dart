@@ -1,3 +1,5 @@
+import "dart:convert";
+
 import "package:flutter/material.dart";
 
 sealed class PrefKey<PrefT, ConvT> {
@@ -95,4 +97,36 @@ final class EnumPrefKey<E extends Enum> extends PrefKey<String, E> {
   @override
   E fromPref(String pref) =>
       values.firstWhere((e) => e.name == pref, orElse: () => _fallback);
+}
+
+/// Stores a `Map<String, String>` as a JSON object string.
+///
+/// A stored value that is not a JSON object reads as an empty map, and
+/// entries whose value is not a string are dropped, so a corrupted value never
+/// throws.
+final class StringMapPrefKey extends PrefKey<String, Map<String, String>> {
+  const StringMapPrefKey(super.key);
+
+  @override
+  String get defaultValue => "{}";
+
+  @override
+  String toPref(Map<String, String> input) => jsonEncode(input);
+
+  @override
+  Map<String, String> fromPref(String pref) {
+    final Object? decoded;
+    try {
+      decoded = jsonDecode(pref);
+    } on FormatException {
+      return const {};
+    }
+    if (decoded is! Map<String, dynamic>) {
+      return const {};
+    }
+    return Map.unmodifiable({
+      for (final MapEntry(:key, :value) in decoded.entries)
+        if (value is String) key: value,
+    });
+  }
 }

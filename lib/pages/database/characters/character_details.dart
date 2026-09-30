@@ -31,7 +31,6 @@ import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
 import "../../../providers/game_data_sync.dart";
 import "../../../providers/is_sync_enabled.dart";
-import "../../../providers/last_selected_character_variant.dart";
 import "../../../providers/pref_notifier.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
@@ -62,9 +61,13 @@ class CharacterDetailsPage extends HookConsumerWidget {
 
     // The stored selection only seeds the page; the dropdown owns it afterwards. It is read once
     // rather than watched, or every change would rebuild this widget and drop the page state.
-    final lastSelectedVariantId = useMemoized(() => characterOrVariant is CharacterGroup
-        ? ref.read(lastSelectedCharacterVariantProvider(characterOrVariant.id))
-        : null);
+    final lastSelectedVariantId = useMemoized(() {
+      if (characterOrVariant is! CharacterGroup) {
+        return null;
+      }
+      final stored = ref.read(prefProvider(PrefKeys.lastSelectedCharacterVariants))[characterOrVariant.id];
+      return characterOrVariant.variantIds.contains(stored) ? stored : null;
+    });
     final initialVariant = switch (characterOrVariant) {
       CharacterGroup(:final variantIds) =>
         assetData.characters[lastSelectedVariantId ?? variantIds.first]! as CharacterOrVariant,
@@ -351,8 +354,11 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                     final selected = variants[value]!;
                     variant.value = selected;
                     if (character is CharacterGroup) {
-                      ref.read(lastSelectedCharacterVariantProvider(character.id).notifier)
-                          .set(selected.id);
+                      const key = PrefKeys.lastSelectedCharacterVariants;
+                      ref.read(prefProvider(key).notifier).set({
+                        ...ref.read(prefProvider(key)),
+                        character.id: selected.id,
+                      });
                     }
                   },
                 ),

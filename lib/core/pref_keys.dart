@@ -27,7 +27,5 @@ abstract final class PrefKeys {
   static const weaponSortType = EnumPrefKey("weaponSortType", WeaponSortType.values);
   static const dailyMaterialNotificationTime = TimeOfDayPrefKey("dailyMaterialNotificationTime");
   static const lastCharacterFetchAll = DateTimeIsoPrefKey("lastCharacterFetchAll");
-  // Holds at most one variant id per character group. Access it only through
-  // `LastSelectedCharacterVariant`, which keeps that invariant.
-  static const lastSelectedCharacterVariantIds = StringListPrefKey("lastSelectedCharacterVariantIds", []);
+  static const lastSelectedCharacterVariants = StringMapPrefKey("lastSelectedCharacterVariants");
 }
