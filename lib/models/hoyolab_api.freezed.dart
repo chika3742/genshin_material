@@ -1403,7 +1403,8 @@ String toString() {
 /// @nodoc
 mixin _$SignInfo {
 
-@JsonKey(name: "is_sign") bool get isSign;
+/// The current check-in day on the server, in UTC+8.
+ DateTime get today;@JsonKey(name: "is_sign") bool get isSign;
 
   /// Serializes this SignInfo to a JSON map.
   Map<String, dynamic> toJson();
@@ -1412,20 +1413,20 @@ mixin _$SignInfo {
 @override
 bool operator ==(Object other) {
   final _this = this as SignInfo;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInfo&&(identical(other.isSign, _this.isSign) || other.isSign == _this.isSign));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInfo&&(identical(other.today, _this.today) || other.today == _this.today)&&(identical(other.isSign, _this.isSign) || other.isSign == _this.isSign));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as SignInfo;
-  return Object.hash(runtimeType,_this.isSign);
+  return Object.hash(runtimeType,_this.today,_this.isSign);
 }
 
 @override
 String toString() {
   final _this = this as SignInfo;
-  return 'SignInfo(isSign: ${_this.isSign})';
+  return 'SignInfo(today: ${_this.today}, isSign: ${_this.isSign})';
 }
 
 
@@ -1439,9 +1440,11 @@ String toString() {
 @JsonSerializable()
 
 class _SignInfo implements SignInfo {
-  const _SignInfo({@JsonKey(name: "is_sign") required this.isSign});
+  const _SignInfo({required this.today, @JsonKey(name: "is_sign") required this.isSign});
   factory _SignInfo.fromJson(Map<String, dynamic> json) => _$SignInfoFromJson(json);
 
+/// The current check-in day on the server, in UTC+8.
+@override final  DateTime today;
 @override@JsonKey(name: "is_sign") final  bool isSign;
 
 
@@ -1452,18 +1455,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignInfo&&(identical(other.isSign, isSign) || other.isSign == isSign));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignInfo&&(identical(other.today, today) || other.today == today)&&(identical(other.isSign, isSign) || other.isSign == isSign));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,isSign);
+    return Object.hash(runtimeType,today,isSign);
 }
 
 @override
 String toString() {
-    return 'SignInfo(isSign: $isSign)';
+    return 'SignInfo(today: $today, isSign: $isSign)';
 }
 
 

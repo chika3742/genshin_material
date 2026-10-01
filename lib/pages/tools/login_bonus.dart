@@ -8,6 +8,7 @@ import "../../data/repositories/hoyolab_cookie_repository.dart";
 import "../../data/services/launch_url.dart";
 import "../../i18n/strings.g.dart";
 import "../../pigeon.g.dart";
+import "../../ui_core/progress_indicator.dart";
 
 class LoginBonusPage extends HookConsumerWidget {
   const LoginBonusPage({super.key});
@@ -17,11 +18,18 @@ class LoginBonusPage extends HookConsumerWidget {
     final cookie = ref.watch(hoyolabCookieRepositoryProvider);
 
     final controller = useMemoized(WebViewController.new);
+    final isLoading = useState(true);
     Future<void> initWebView(String cookie) async {
       await WebViewCookieManager().clearCookies();
       await HoyolabIntegrationApi().setCookies(_parseCookies(cookie));
       await controller.setJavaScriptMode(.unrestricted);
       await controller.setNavigationDelegate(NavigationDelegate(
+        onPageStarted: (_) {
+          isLoading.value = true;
+        },
+        onPageFinished: (_) {
+          isLoading.value = false;
+        },
         onNavigationRequest: (request) {
           if (request.url.startsWith("https://act.hoyolab.com/ys/event/signin-sea-v3/index.html")) {
             return .navigate;
@@ -56,6 +64,9 @@ class LoginBonusPage extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Text(tr.tools.loginBonusLogoutWarning),
+          ),
+          AnimatedLinearProgressIndicator(
+            show: isLoading.value,
           ),
           Expanded(
             child: WebViewWidget(
