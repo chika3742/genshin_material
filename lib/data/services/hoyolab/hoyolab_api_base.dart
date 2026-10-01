@@ -73,6 +73,9 @@ abstract class HoyolabApiBase {
   ///
   /// If [parse] is null, the result will be `null`. In that case, specify
   /// `void` for the type argument.
+  ///
+  /// If [useQueue] is false, the request skips [ApiRequestQueue] and is sent
+  /// at once, without waiting for the interval.
   Future<T> send<T>(
     String endpoint, {
     HttpMethod method = .get,
@@ -82,6 +85,7 @@ abstract class HoyolabApiBase {
     bool withRpcHeaders = false,
     Map<String, String> extraHeaders = const {},
     String? cookie,
+    bool useQueue = true,
     T Function(Object? obj)? parse,
   }) async {
     final encodedBody = body == null ? null : jsonEncode(body);
@@ -97,10 +101,11 @@ abstract class HoyolabApiBase {
 
     final url = Uri.parse(endpoint)
         .replace(queryParameters: query.isNotEmpty ? query : null);
-    final resp = await _queue.run(() => switch (method) {
+    Future<http.Response> request() => switch (method) {
       .get => _client.get(url, headers: headers),
       .post => _client.post(url, headers: headers, body: encodedBody),
-    });
+    };
+    final resp = await (useQueue ? _queue.run(request) : request());
     final respBody = utf8.decode(resp.bodyBytes, allowMalformed: true);
     final Object? decoded;
     try {

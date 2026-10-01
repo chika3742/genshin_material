@@ -150,6 +150,29 @@ void main() {
       expect(started, 2);
     });
 
+    test("requests with useQueue false skip the queue", () async {
+      // Same setup as above, but the second request opts out of the queue, so
+      // it must reach the client while the first one is still held open.
+      final response = http.Response(successResponse, 200);
+      final held = Completer<http.Response>();
+      var started = 0;
+      when(client.get(any, headers: anyNamed("headers"))).thenAnswer((_) {
+        started++;
+        return started == 1 ? held.future : Future.value(response);
+      });
+
+      final api = createApi();
+
+      final first = api.send(exampleEp);
+      final second = api.send(exampleEp, useQueue: false);
+
+      await expectLater(second, completes);
+      expect(started, 2, reason: "the second request must not wait for the first");
+
+      held.complete(response);
+      await expectLater(first, completes);
+    });
+
     group("headers", () {
       test("common headers are always sent", () async {
         final api = createApi();
