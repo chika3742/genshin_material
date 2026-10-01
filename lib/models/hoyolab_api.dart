@@ -284,6 +284,8 @@ mixin WithId {
 @freezed
 sealed class SignInfo with _$SignInfo {
   const factory SignInfo({
+    /// The current check-in day on the server, in UTC+8.
+    required DateTime today,
     @JsonKey(name: "is_sign") required bool isSign,
   }) = _SignInfo;
 

@@ -375,16 +375,16 @@ Map<String, dynamic> _$CalcConsumptionItemToJson(
   'num': instance.num,
 };
 
-_SignInfo _$SignInfoFromJson(Map<String, dynamic> json) => $checkedCreate(
-  '_SignInfo',
-  json,
-  ($checkedConvert) {
-    final val = _SignInfo(isSign: $checkedConvert('is_sign', (v) => v as bool));
-    return val;
-  },
-  fieldKeyMap: const {'isSign': 'is_sign'},
-);
+_SignInfo _$SignInfoFromJson(Map<String, dynamic> json) =>
+    $checkedCreate('_SignInfo', json, ($checkedConvert) {
+      final val = _SignInfo(
+        today: $checkedConvert('today', (v) => DateTime.parse(v as String)),
+        isSign: $checkedConvert('is_sign', (v) => v as bool),
+      );
+      return val;
+    }, fieldKeyMap: const {'isSign': 'is_sign'});
 
 Map<String, dynamic> _$SignInfoToJson(_SignInfo instance) => <String, dynamic>{
+  'today': instance.today.toIso8601String(),
   'is_sign': instance.isSign,
 };
