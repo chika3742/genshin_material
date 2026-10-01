@@ -24,7 +24,7 @@ void main() {
   testWidgets("indicator is centered on its version header", (tester) async {
     await tester.pumpWidget(
       createScreenWithApp(
-        ReleaseNotesTimeline(items: items, versionPrefix: "v"),
+        child: ReleaseNotesTimeline(items: items, versionPrefix: "v"),
       ),
     );
 
@@ -49,7 +49,7 @@ void main() {
   testWidgets("connector line stays on a single vertical axis", (tester) async {
     await tester.pumpWidget(
       createScreenWithApp(
-        ReleaseNotesTimeline(items: items, versionPrefix: "v"),
+        child: ReleaseNotesTimeline(items: items, versionPrefix: "v"),
       ),
     );
 
@@ -69,7 +69,7 @@ void main() {
   testWidgets("keeps the safe area insets in the scroll padding", (tester) async {
     await tester.pumpWidget(
       createScreenWithApp(
-        MediaQuery(
+        child: MediaQuery(
           data: const MediaQueryData(padding: EdgeInsets.only(bottom: 34)),
           child: ReleaseNotesTimeline(items: items, versionPrefix: "v"),
         ),
@@ -85,7 +85,7 @@ void main() {
   testWidgets("indicator style reflects the version bump", (tester) async {
     await tester.pumpWidget(
       createScreenWithApp(
-        ReleaseNotesTimeline(items: items, versionPrefix: "v"),
+        child: ReleaseNotesTimeline(items: items, versionPrefix: "v"),
       ),
     );
 
@@ -95,7 +95,7 @@ void main() {
   testWidgets("renders a single release note", (tester) async {
     await tester.pumpWidget(
       createScreenWithApp(
-        ReleaseNotesTimeline(items: [_note("1.0.0")], versionPrefix: "v"),
+        child: ReleaseNotesTimeline(items: [_note("1.0.0")], versionPrefix: "v"),
       ),
     );
 
@@ -106,7 +106,7 @@ void main() {
   testWidgets("renders nothing for an empty list", (tester) async {
     await tester.pumpWidget(
       createScreenWithApp(
-        const ReleaseNotesTimeline(items: [], versionPrefix: "v"),
+        child: const ReleaseNotesTimeline(items: [], versionPrefix: "v"),
       ),
     );
 

@@ -26,7 +26,7 @@ void main() {
 
   group("getCharacterMaterialBookmarkLevelRanges", () {
     test("returns empty map when no bookmarks", () async {
-      final result = await db.getCharacterMaterialBookmarkLevelRanges("char_1");
+      final result = await db.getCharacterMaterialBookmarkLevelRanges(["char_1"]);
       expect(result, isEmpty);
     });
 
@@ -40,7 +40,7 @@ void main() {
         ),
       ]);
 
-      final result = await db.getCharacterMaterialBookmarkLevelRanges("char_1");
+      final result = await db.getCharacterMaterialBookmarkLevelRanges(["char_1"]);
 
       expect(result, hasLength(1));
       expect(result[Purpose.ascension]!.minUpperLevel, 40);
@@ -70,7 +70,7 @@ void main() {
         ),
       ]);
 
-      final result = await db.getCharacterMaterialBookmarkLevelRanges("char_1");
+      final result = await db.getCharacterMaterialBookmarkLevelRanges(["char_1"]);
 
       expect(result[Purpose.ascension]!.minUpperLevel, 20);
       expect(result[Purpose.ascension]!.maxUpperLevel, 60);
@@ -92,7 +92,7 @@ void main() {
         ),
       ]);
 
-      final result = await db.getCharacterMaterialBookmarkLevelRanges("char_1");
+      final result = await db.getCharacterMaterialBookmarkLevelRanges(["char_1"]);
 
       expect(result, hasLength(2));
       expect(result[Purpose.ascension], (minUpperLevel: 40, maxUpperLevel: 40));
@@ -116,7 +116,7 @@ void main() {
         ),
       ]);
 
-      final result = await db.getCharacterMaterialBookmarkLevelRanges("char_1");
+      final result = await db.getCharacterMaterialBookmarkLevelRanges(["char_1"]);
 
       expect(result, hasLength(1));
       expect(result[Purpose.ascension]!.maxUpperLevel, 40);
@@ -138,7 +138,7 @@ void main() {
         ),
       ]);
 
-      final result = await db.getCharacterMaterialBookmarkLevelRanges("char_1");
+      final result = await db.getCharacterMaterialBookmarkLevelRanges(["char_1"]);
 
       expect(result[Purpose.ascension]!.maxUpperLevel, 40);
     });

@@ -194,17 +194,15 @@ void main() {
           ),
         ],
         child: createScreenWithApp(
-          Theme(
-            data: componentTheme,
-            child: Scaffold(
-              body: MaterialItem(
-                item: cardItem,
-                targetType: MaterialTargetType.character,
-                lackNum: lackNum,
-                usage: bookmarkable ? usage : null,
-                possiblePurposeTypes: bookmarkable ? purposeTypes : null,
-                hashes: bookmarkable ? null : const [],
-              ),
+          theme: componentTheme,
+          child: Scaffold(
+            body: MaterialItem(
+              item: cardItem,
+              targetType: MaterialTargetType.character,
+              lackNum: lackNum,
+              usage: bookmarkable ? usage : null,
+              possiblePurposeTypes: bookmarkable ? purposeTypes : null,
+              hashes: bookmarkable ? null : const [],
             ),
           ),
         ),
@@ -213,12 +211,6 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  // Cancelling a drift query stream schedules a zero-duration timer, which the
-  // test framework flags as pending unless the tree goes away during the test.
-  Future<void> disposeTree(WidgetTester tester) async {
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.pump(Duration.zero);
-  }
 
   String imagePathOf(WidgetTester tester) {
     final image = tester.widget<Image>(find.byType(Image));
@@ -230,8 +222,6 @@ void main() {
       await pumpItem(tester);
 
       expect(find.text("x12", findRichText: true), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("shows how many items are still missing", (tester) async {
@@ -239,8 +229,6 @@ void main() {
 
       expect(find.text("-5", findRichText: true), findsOne);
       expect(find.byIcon(Symbols.shopping_bag), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("shows a check instead once nothing is missing", (tester) async {
@@ -248,8 +236,6 @@ void main() {
 
       expect(find.text("-0", findRichText: true), findsNothing);
       expect(find.byIcon(Symbols.check), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("omits the missing count when it is unknown", (tester) async {
@@ -257,8 +243,6 @@ void main() {
 
       expect(find.byIcon(Symbols.shopping_bag), findsNothing);
       expect(find.byIcon(Symbols.check), findsNothing);
-
-      await disposeTree(tester);
     });
   });
 
@@ -267,8 +251,6 @@ void main() {
       await pumpItem(tester);
 
       expect(imagePathOf(tester), path.join(assetDir.path, imageUrl));
-
-      await disposeTree(tester);
     });
 
     testWidgets("falls back to the blank image while images are hidden", (tester) async {
@@ -276,8 +258,6 @@ void main() {
 
       expect(imagePathOf(tester), getBlankImagePath(assetDir.path));
       expect(imagePathOf(tester), isNot(path.join(assetDir.path, imageUrl)));
-
-      await disposeTree(tester);
     });
   });
 
@@ -286,16 +266,12 @@ void main() {
       await pumpItem(tester);
 
       expect(find.text(materialName), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("hides the material name when the preference is off", (tester) async {
       await pumpItem(tester, showItemName: false);
 
       expect(find.text(materialName), findsNothing);
-
-      await disposeTree(tester);
     });
   });
 
@@ -306,24 +282,18 @@ void main() {
       // 12 items at a rate of 2.0 per run.
       expect(find.text("6"), findsOne);
       expect(find.byIcon(Symbols.agriculture), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("hides the farm count when the preference is off", (tester) async {
       await pumpItem(tester, showFarmCount: false);
 
       expect(find.byIcon(Symbols.agriculture), findsNothing);
-
-      await disposeTree(tester);
     });
 
     testWidgets("hides the farm count when no drop rate is known", (tester) async {
       await pumpItem(tester, showFarmCount: true, withDropRate: false);
 
       expect(find.byIcon(Symbols.agriculture), findsNothing);
-
-      await disposeTree(tester);
     });
   });
 
@@ -332,16 +302,12 @@ void main() {
       await pumpItem(tester);
 
       expect(find.byIcon(Symbols.bookmark_add), findsNothing);
-
-      await disposeTree(tester);
     });
 
     testWidgets("starts unbookmarked", (tester) async {
       await pumpItem(tester, bookmarkable: true);
 
       expect(find.byIcon(Symbols.bookmark_add), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("shows a partial state when only some levels are bookmarked", (tester) async {
@@ -349,8 +315,6 @@ void main() {
       await pumpItem(tester, bookmarkable: true);
 
       expect(find.byIcon(Symbols.bookmark_remove), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("shows a bookmarked state when every level is bookmarked", (tester) async {
@@ -358,8 +322,6 @@ void main() {
       await pumpItem(tester, bookmarkable: true);
 
       expect(find.byIcon(Symbols.bookmark_added), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("bookmarks every level when the button is tapped", (tester) async {
@@ -370,8 +332,6 @@ void main() {
 
       expect(find.byIcon(Symbols.bookmark_added), findsOne);
       expect(await db.select(db.bookmarkMaterialItemTable).get(), hasLength(2));
-
-      await disposeTree(tester);
     });
 
     testWidgets("opens the bottom sheet from a partial state", (tester) async {
@@ -385,8 +345,6 @@ void main() {
       expect(find.text(tr.materialCard.unBookmark), findsOne);
       // Nothing is decided until one of the options is picked.
       expect(await db.select(db.bookmarkMaterialItemTable).get(), hasLength(1));
-
-      await disposeTree(tester);
     });
 
     testWidgets("re-bookmarks every level from a partial state", (tester) async {
@@ -400,8 +358,6 @@ void main() {
 
       expect(await db.select(db.bookmarkMaterialItemTable).get(), hasLength(2));
       expect(find.byIcon(Symbols.bookmark_added), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("drops the remaining bookmarks from a partial state", (tester) async {
@@ -415,8 +371,6 @@ void main() {
 
       expect(await db.select(db.bookmarkMaterialItemTable).get(), isEmpty);
       expect(find.byIcon(Symbols.bookmark_add), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("removes every bookmark when the bookmarked button is tapped", (tester) async {
@@ -429,8 +383,6 @@ void main() {
       expect(await db.select(db.bookmarkMaterialItemTable).get(), isEmpty);
       expect(find.byIcon(Symbols.bookmark_add), findsOne);
       expect(find.text(tr.materialCard.unBookmarked), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("restores the bookmarks from the snack bar", (tester) async {
@@ -444,8 +396,6 @@ void main() {
 
       expect(await db.select(db.bookmarkMaterialItemTable).get(), hasLength(2));
       expect(find.byIcon(Symbols.bookmark_added), findsOne);
-
-      await disposeTree(tester);
     });
   });
 
@@ -456,8 +406,6 @@ void main() {
       // 3000 exp at 1000 per item.
       expect(find.text("x3", findRichText: true), findsOne);
       expect(find.byIcon(Symbols.swap_horiz), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("swaps to the other exp item", (tester) async {
@@ -468,16 +416,12 @@ void main() {
 
       // 3000 exp at 200 per item.
       expect(find.text("x15", findRichText: true), findsOne);
-
-      await disposeTree(tester);
     });
 
     testWidgets("shows the image of the exp item", (tester) async {
       await pumpItem(tester, card: expItem);
 
       expect(imagePathOf(tester), path.join(assetDir.path, expImageUrlA));
-
-      await disposeTree(tester);
     });
   });
 
@@ -491,14 +435,12 @@ void main() {
           ...prefOverrides(),
         ],
         child: createScreenWithApp(
-          Theme(
-            data: componentTheme,
-            child: Scaffold(
-              body: MaterialItem(
-                item: item,
-                targetType: MaterialTargetType.character,
-                hashes: const [],
-              ),
+          theme: componentTheme,
+          child: Scaffold(
+            body: MaterialItem(
+              item: item,
+              targetType: MaterialTargetType.character,
+              hashes: const [],
             ),
           ),
         ),
@@ -508,8 +450,6 @@ void main() {
 
     expect(find.byType(Image), findsNothing);
     expect(tester.takeException(), isNull);
-
-    await disposeTree(tester);
   });
 
   test("requires either hashes or a usage", () {

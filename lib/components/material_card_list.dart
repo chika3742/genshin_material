@@ -53,7 +53,7 @@ class MaterialCardList extends HookConsumerWidget {
             item: item,
             possiblePurposeTypes: purposes,
             targetType: switch (target) {
-              CharacterOrVariant() => .character,
+              Character() => .character,
               Weapon() => .weapon,
               _ => throw StateError("Unreachable"),
             },
@@ -65,7 +65,7 @@ class MaterialCardList extends HookConsumerWidget {
               currentQuantity: item.sum,
             ),
             usage: switch (target) {
-              CharacterOrVariant(:final id) => MaterialUsage(
+              Character(:final id) => MaterialUsage(
                 characterId: id,
               ),
               Weapon(:final id) => MaterialUsage(

@@ -29,7 +29,7 @@ void main() {
           featuresReleaseNotesDataProvider.overrideWith((ref) async => buildNotes("feature")),
           assetsReleaseNotesDataProvider.overrideWith((ref) async => buildNotes("asset")),
         ],
-        child: createScreenWithApp(const ReleaseNotesPage()),
+        child: createScreenWithApp(child: const ReleaseNotesPage()),
       ),
     );
     await tester.pumpAndSettle();

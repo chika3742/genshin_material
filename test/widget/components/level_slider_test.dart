@@ -32,7 +32,7 @@ void main() {
   }) async {
     await tester.pumpWidget(
       createScreenWithApp(
-        Scaffold(
+        child: Scaffold(
           body: Center(
             child: SizedBox(
               width: 400,

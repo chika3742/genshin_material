@@ -85,7 +85,7 @@ class CharacterDetailsPage extends HookConsumerWidget {
         : null;
 
     final bookmarkRangesResult = useMemoized(
-        () => db.getCharacterMaterialBookmarkLevelRanges(character.id));
+        () => db.getCharacterMaterialBookmarkLevelRanges([character.id, initialVariantId]));
     final bookmarkRangesSnapshot = useFuture(bookmarkRangesResult);
 
     // loading
@@ -193,11 +193,21 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
         applyCharacterState(levels);
 
         if (autoRemoveBookmarks) {
-          db.deleteObsoleteBookmarks(
-            characterId: variant.value.id,
-            levels: levels,
-          ).then((removed) {
-            if (context.mounted && removed) {
+          // Bookmarks of group-targeted purposes are saved under the group ID.
+          final groupPurposes = ingredients.sliders
+              .where((e) => e.preferredTargetType == .group)
+              .expand((e) => e.purposes);
+          Future.wait([
+            db.deleteObsoleteBookmarks(
+              characterId: character.id,
+              levels: Map.fromEntries(levels.entries.where((e) => groupPurposes.contains(e.key))),
+            ),
+            db.deleteObsoleteBookmarks(
+              characterId: variant.value.id,
+              levels: levels,
+            ),
+          ]).then((removed) {
+            if (context.mounted && removed.contains(true)) {
               showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
             }
           });
@@ -425,7 +435,10 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                           ],
                         ),
                         MaterialCardList(
-                          target: variant.value,
+                          target: switch (sliderGroup.preferredTargetType) {
+                            .group => character,
+                            .variant || null => variant.value,
+                          },
                           purposes: sliderGroup.purposes,
                           ingredientConf: ingredients,
                           lackNums: lackNums,

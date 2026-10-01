@@ -1,3 +1,4 @@
+import "package:drift/drift.dart";
 import "package:drift/native.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/models/bookmark.dart";
@@ -7,7 +8,7 @@ import "package:genshin_material/models/common.dart";
 ///
 /// Close it in `tearDown`.
 AppDatabase createTestDatabase() {
-  return AppDatabase(NativeDatabase.memory());
+  return AppDatabase(DatabaseConnection(NativeDatabase.memory(), closeStreamsSynchronously: true));
 }
 
 /// Builds a [MaterialBookmarkInsertable] for [AppDatabase.addMaterialBookmarks].

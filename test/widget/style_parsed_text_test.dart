@@ -9,7 +9,7 @@ void main() {
       (tester) async {
     const input = "normal **bold** normal";
 
-    await tester.pumpWidget(createScreenWithApp(StyleParsedText(input)));
+    await tester.pumpWidget(createScreenWithApp(child: StyleParsedText(input)));
 
     expect(
       find.byWidgetPredicate(

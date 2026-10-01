@@ -129,18 +129,20 @@ Character buildTestCharacterGroup({
   String id = "",
   List<int> hyvIds = const [],
   List<CharacterId> variantIds = const [],
+  LocalizedText? name,
+  MaterialDefinitions materials = const {},
 }) {
   return Character.group(
     id: id,
     hyvIds: hyvIds,
-    name: LocalizedText(locales: {}),
+    name: name ?? LocalizedText(locales: {}),
     jaPronunciation: "",
     imageUrl: "",
     smallImageUrl: "",
     rarity: 5,
     weaponType: "",
     variantIds: variantIds,
-    materials: {},
+    materials: materials,
   );
 }
 
@@ -149,18 +151,21 @@ Character buildTestCharacterVariant({
   CharacterId parentId = "",
   TeyvatElement element = "",
   WeaponType weaponType = "",
+  LocalizedText? name,
+  Talents talents = const {},
+  MaterialDefinitions materials = const {},
 }) {
   return Character.variant(
     id: id,
     parentId: parentId,
-    name: LocalizedText(locales: {}),
+    name: name ?? LocalizedText(locales: {}),
     jaPronunciation: "",
     smallImageUrl: "",
     rarity: 5,
     element: element,
     weaponType: weaponType,
-    talents: {},
-    materials: {},
+    talents: talents,
+    materials: materials,
   );
 }
 

@@ -9,7 +9,7 @@ void main() {
   Future<void> pumpStars(WidgetTester tester, int count) async {
     await tester.pumpWidget(
       createScreenWithApp(
-        Scaffold(
+        child: Scaffold(
           body: RarityStars(count: count),
         ),
       ),
