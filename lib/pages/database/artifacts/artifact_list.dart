@@ -189,6 +189,7 @@ class ArtifactListPage extends HookConsumerWidget {
                         Text(set.name.localized),
                         Spacer(),
                         RarityBadge(set.maxRarity),
+                        Icon(Symbols.chevron_right),
                       ],
                     ),
                   ),
