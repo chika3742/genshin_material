@@ -59,11 +59,21 @@ class CharacterDetailsPage extends HookConsumerWidget {
       CharacterVariant(:final parentId) => assetData.characters[parentId]! as CharacterGroup,
     } as CharacterWithLargeImage;
 
-    final initialVariantId = switch (characterOrVariant) {
-      CharacterVariant(:final id) => id,
-      CharacterGroup(:final variantIds) => variantIds.first,
-      _ => characterOrVariant.id,
+    // The stored selection only seeds the page; the dropdown owns it afterwards. It is read once
+    // rather than watched, or every change would rebuild this widget and drop the page state.
+    final lastSelectedVariantId = useMemoized(() {
+      if (characterOrVariant is! CharacterGroup) {
+        return null;
+      }
+      final stored = ref.read(prefProvider(PrefKeys.lastSelectedCharacterVariants))[characterOrVariant.id];
+      return characterOrVariant.variantIds.contains(stored) ? stored : null;
+    });
+    final initialVariant = switch (characterOrVariant) {
+      CharacterGroup(:final variantIds) =>
+        assetData.characters[lastSelectedVariantId ?? variantIds.first]! as CharacterOrVariant,
+      _ => characterOrVariant as CharacterOrVariant,
     };
+    final initialVariantId = initialVariant.id;
 
     final db = ref.watch(appDatabaseProvider);
 
@@ -90,7 +100,7 @@ class CharacterDetailsPage extends HookConsumerWidget {
     return _CharacterDetailsPageContents(
       character: character,
       assetData: assetData,
-      initialVariant: characterOrVariant is CharacterVariant ? characterOrVariant.element : null,
+      initialVariantElement: initialVariant.element,
       initialCharacterState: characterState?.value,
       initialBookmarkRanges: bookmarkRangesSnapshot.data ?? {},
     );
@@ -100,14 +110,14 @@ class CharacterDetailsPage extends HookConsumerWidget {
 class _CharacterDetailsPageContents extends HookConsumerWidget {
   final CharacterWithLargeImage character;
   final AssetData assetData;
-  final String? initialVariant;
+  final TeyvatElement initialVariantElement;
   final CharacterState? initialCharacterState;
   final Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> initialBookmarkRanges;
 
   const _CharacterDetailsPageContents({
     required this.character,
     required this.assetData,
-    this.initialVariant,
+    required this.initialVariantElement,
     this.initialCharacterState,
     this.initialBookmarkRanges = const {},
   });
@@ -141,9 +151,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
     final autoRemoveBookmarks = ref.watch(prefProvider(PrefKeys.autoRemoveBookmarks));
     final db = ref.watch(appDatabaseProvider);
 
-    final variant = useState(
-      variants[initialVariant] ?? variants.values.first,
-    );
+    final variant = useState(variants[initialVariantElement]!);
 
     final isCharaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(variantId: variant.value.id));
 
@@ -343,7 +351,15 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                     border: const OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    variant.value = variants[value]!;
+                    final selected = variants[value]!;
+                    variant.value = selected;
+                    if (character is CharacterGroup) {
+                      const key = PrefKeys.lastSelectedCharacterVariants;
+                      ref.read(prefProvider(key).notifier).set({
+                        ...ref.read(prefProvider(key)),
+                        character.id: selected.id,
+                      });
+                    }
                   },
                 ),
 

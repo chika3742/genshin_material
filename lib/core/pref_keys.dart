@@ -27,4 +27,5 @@ abstract final class PrefKeys {
   static const weaponSortType = EnumPrefKey("weaponSortType", WeaponSortType.values);
   static const dailyMaterialNotificationTime = TimeOfDayPrefKey("dailyMaterialNotificationTime");
   static const lastCharacterFetchAll = DateTimeIsoPrefKey("lastCharacterFetchAll");
+  static const lastSelectedCharacterVariants = StringMapPrefKey("lastSelectedCharacterVariants");
 }
