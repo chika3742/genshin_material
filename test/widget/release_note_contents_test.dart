@@ -14,7 +14,7 @@ void main() {
 
     await tester.pumpWidget(
       createScreenWithApp(
-        const ReleaseNoteContents(contentsText: input),
+        child: const ReleaseNoteContents(contentsText: input),
       ),
     );
 
@@ -96,7 +96,7 @@ void main() {
     const input = "plain line";
     await tester.pumpWidget(
       createScreenWithApp(
-        const ReleaseNoteContents(contentsText: input),
+        child: const ReleaseNoteContents(contentsText: input),
       ),
     );
     expect(find.text(input), findsOne);

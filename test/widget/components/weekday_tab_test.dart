@@ -41,7 +41,7 @@ void main() {
           overridePref(PrefKeys.dailyResetServer, server),
         ],
         child: createScreenWithApp(
-          Scaffold(
+          child: Scaffold(
             appBar: AppBar(
               bottom: WeekdayTab(tabController: controller, tabs: tabs),
             ),

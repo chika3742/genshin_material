@@ -37,7 +37,7 @@ void main() {
   }) async {
     await tester.pumpWidget(
       createScreenWithApp(
-        Scaffold(
+        child: Scaffold(
           appBar: AppBar(
             actions: [
               SearchButton<Material>(

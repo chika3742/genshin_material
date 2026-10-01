@@ -80,9 +80,9 @@ extension BookmarkDbExtension on AppDatabase {
     return query.watch().map((rows) => rows.map(_mapMaterialRow).toList());
   }
 
-  Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getCharacterMaterialBookmarkLevelRanges(String characterId) async {
+  Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getCharacterMaterialBookmarkLevelRanges(List<String> characterIds) async {
     final query = _createMaterialJoin()..where(
-      bookmarkMaterialGroupTable.characterId.equals(characterId) &
+      bookmarkMaterialGroupTable.characterId.isIn(characterIds) &
       bookmarkMaterialGroupTable.weaponId.isNull(),
     );
     return _aggregateBookmarkLevelRanges(await query.get());

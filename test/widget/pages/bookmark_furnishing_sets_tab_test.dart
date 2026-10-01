@@ -1,4 +1,3 @@
-import "package:drift/native.dart";
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/bookmarks_page/furnishing_sets_tab.dart";
@@ -14,6 +13,7 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../../utils.dart";
 import "../../utils/asset_data.dart";
+import "../../utils/db.dart";
 
 void main() {
   late AppDatabase db;
@@ -38,7 +38,7 @@ void main() {
   );
 
   setUp(() async {
-    db = AppDatabase(NativeDatabase.memory());
+    db = createTestDatabase();
     await db.setFurnishingSetBookmark(set.id, true);
     pageController = PageController();
   });
@@ -63,7 +63,7 @@ void main() {
           )),
         ],
         child: createScreenWithApp(
-          Scaffold(
+          child: Scaffold(
             body: PageView(
               controller: pageController,
               children: const [
@@ -83,14 +83,6 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  // Cancelling a drift query stream schedules a zero-duration timer, which the
-  // test framework flags as pending unless the tree goes away during the test.
-  // The pump needs an explicit duration: without one it only flushes
-  // microtasks, leaving the timer behind.
-  Future<void> disposeTree(WidgetTester tester) async {
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.pump(Duration.zero);
-  }
 
   testWidgets("restores the expanded state after leaving and re-entering the tab", (tester) async {
     await pumpTab(tester);
@@ -107,8 +99,6 @@ void main() {
 
     await goToPage(tester, 0);
     expect(find.byType(FurnishingTable), findsOne);
-
-    await disposeTree(tester);
   });
 
   testWidgets("keeps a collapsed tile collapsed", (tester) async {
@@ -118,7 +108,5 @@ void main() {
     await goToPage(tester, 0);
 
     expect(find.byType(FurnishingTable), findsNothing);
-
-    await disposeTree(tester);
   });
 }

@@ -18,7 +18,7 @@ void main() {
     }) async {
       await tester.pumpWidget(
         createScreenWithApp(
-          Scaffold(
+          child: Scaffold(
             body: Center(
               child: LabeledCheckBox(
                 value: value,
@@ -105,7 +105,7 @@ void main() {
     }) async {
       await tester.pumpWidget(
         createScreenWithApp(
-          Scaffold(
+          child: Scaffold(
             body: RadioGroup<String>(
               groupValue: groupValue,
               onChanged: onChanged,
