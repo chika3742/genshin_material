@@ -1,3 +1,4 @@
+import "dart:async";
 import "dart:convert";
 
 import "package:flutter_test/flutter_test.dart";
@@ -23,9 +24,9 @@ void main() {
     client = MockClient();
   });
 
-  HoyolabPublicApi createApi() => HoyolabPublicApi(
+  HoyolabPublicApi createApi({ApiRequestQueue? queue}) => HoyolabPublicApi(
     client: client,
-    queue: ApiRequestQueue(interval: Duration.zero),
+    queue: queue ?? ApiRequestQueue(interval: Duration.zero),
   );
 
   group("lookupServers", () {
@@ -53,6 +54,16 @@ void main() {
           .captured
           .single as Map<String, String>;
       expect(headers.containsKey("Cookie"), isFalse);
+    });
+
+    test("does not wait for the queue", () async {
+      stubGet(client, _okBody({"list": []}));
+
+      // A task that never finishes keeps the queue blocked for good.
+      final queue = ApiRequestQueue(interval: Duration.zero);
+      unawaited(queue.run(() => Completer<void>().future));
+
+      await expectLater(createApi(queue: queue).lookupServers(), completes);
     });
   });
 

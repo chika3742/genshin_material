@@ -14,6 +14,7 @@ class HoyolabPublicApi extends HoyolabApiBase {
   Future<LookupServersResult> lookupServers() => send(
     "https://api-account-os.hoyolab.com/account/binding/api/getAllRegions",
     query: {"game_biz": "hk4e_global"},
+    useQueue: false,
     parse: (obj) => HoyolabListData.fromJsonT(obj, HyvServer.fromJson),
   );
 

@@ -91,7 +91,7 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 ### HoYoLAB Integration
 
 - The HoYoLAB API classes (`lib/data/services/hoyolab/`) communicate with HoYoLAB endpoints to sync in-game state (character levels, weapon states, material bag counts, resin). They are split by the credentials they need — `HoyolabPublicApi`, `HoyolabAccountApi`, `HoyolabGameApi` — over the shared `HoyolabApiBase`, and are only ever obtained from the providers in `lib/providers/hoyolab_api.dart`.
-- All API calls are serialized through `ApiRequestQueue` (`lib/core/api_request_queue.dart`, 500ms minimum interval between calls).
+- API calls are serialized through `ApiRequestQueue` (`lib/core/api_request_queue.dart`, 500ms minimum interval between calls), except those sent with `send(useQueue: false)` (currently only `HoyolabPublicApi.lookupServers`).
 - The feature is gated by `RemoteConfigKeys.hoyolabLinkEnabled`. All three providers in `lib/providers/hoyolab_api.dart` call `_ensureLinkEnabled(ref)` and refuse to build while the link is off, throwing `HoyolabLinkDisabledException`; the API classes themselves know nothing about the flag. `HoyolabGameServer.clear()` swallows the exception so that unlinking always works.
 - Time-dependent code (the DS token timestamp, `ApiRequestQueue` throttling) reads `clock.now()` from `package:clock` rather than `DateTime.now()`, so tests can pin it with `withClock`.
 - Credentials (cookie) are stored via `flutter_secure_storage`.
