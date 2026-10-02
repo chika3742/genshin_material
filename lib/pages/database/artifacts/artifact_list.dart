@@ -175,6 +175,7 @@ class ArtifactListPage extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ItemLinkButton(
+                    key: ValueKey(set.id),
                     padding: .all(4),
                     onTap: () {
                       ArtifactDetailsRoute(

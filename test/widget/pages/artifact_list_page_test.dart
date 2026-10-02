@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/character_select_dropdown.dart";
-import "package:genshin_material/components/item_link_button.dart";
 import "package:genshin_material/core/theme.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/artifact.dart";
@@ -139,8 +138,9 @@ void main() {
     await tester.pumpAndSettle();
   }
 
+  /// Taps the item by its key, which the screenshot test relies on as well.
   Future<void> openDetails(WidgetTester tester) async {
-    await tester.tap(find.byType(ItemLinkButton));
+    await tester.tap(find.byKey(const ValueKey(setId)));
     await tester.pumpAndSettle();
   }
 

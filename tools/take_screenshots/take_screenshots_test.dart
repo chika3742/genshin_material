@@ -1,4 +1,5 @@
 import "dart:async";
+import "dart:io";
 
 import "package:drift/native.dart";
 import "package:firebase_core/firebase_core.dart";
@@ -18,6 +19,7 @@ import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/asset_updating_state.dart";
 import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/game_data_sync.dart";
+import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:integration_test/integration_test.dart";
@@ -86,6 +88,7 @@ void main() {
         overrideRemoteConfig(RemoteConfigKeys.bannerText, ""),
         overrideRemoteConfig(RemoteConfigKeys.bannerActionText, ""),
         overrideRemoteConfig(RemoteConfigKeys.bannerActionUrl, ""),
+        shouldHideImagesProvider.overrideWithValue(Platform.isIOS),
         localNotificationProvider.overrideWithValue(MockLocalNotification()),
       ],
       child: const MyApp(),

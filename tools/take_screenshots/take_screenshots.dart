@@ -36,12 +36,12 @@ const androidDevices = <Device>[
 
 const iosDevices = <Device>[
   (
-    name: "iPhone 14 Plus",
+    name: "E03CE23E-059D-4D12-AB93-B41D51AFEA35", // iPhone 18 Pro iOS 27.2
     dir: "../../ios/fastlane/screenshots/{locale}",
     type: "APP_IPHONE_65",
   ),
   (
-    name: "iPad Pro 13-inch (M5)",
+    name: "83C48C94-9519-425C-BE7A-1DA0C3AA2FE0", // iPad Pro 13-inch (M5) iPadOS 27.2
     dir: "../../ios/fastlane/screenshots/{locale}",
     type: "APP_IPAD_PRO_3GEN_129",
   ),
@@ -237,7 +237,7 @@ Future<String> resolveSimulatorUdid(String deviceName) async {
   final udids = [
     for (final runtime in devices.values)
       for (final device in runtime as List<dynamic>)
-        if ((device as Map<String, dynamic>)["name"] == deviceName) device["udid"] as String,
+        if (device case Map<String, dynamic>() when device["name"] == deviceName || device["udid"] == deviceName) device["udid"] as String,
   ];
   if (udids.length != 1) {
     stderr.writeln("Expected exactly one simulator named \"$deviceName\", found ${udids.length}");
@@ -264,18 +264,17 @@ Future<void> takeScreenshots({
 
   try {
     stdout.writeln("Running Flutter screenshot test driver...");
-    final result = await Process.run("fvm", [
+    final process = await Process.start("fvm", [
       "flutter", "drive",
       "--driver", p.join(toolDir, "driver.dart"),
       "-d", deviceId,
       "--target", p.join(toolDir, "take_screenshots_test.dart"),
       "--dart-define", "SCREENSHOT_MODE=true",
       "--dart-define", "LOCALE=$locale",
-    ], workingDirectory: projectRoot);
-    if (result.exitCode != 0) {
-      // `flutter drive` reports test failures on stdout, so dump both
-      stderr..write(result.stdout)..write(result.stderr);
-      throw "flutter drive exited with non-zero code ${result.exitCode}";
+    ], workingDirectory: projectRoot, mode: .inheritStdio);
+    final exitCode = await process.exitCode;
+    if (exitCode != 0) {
+      throw "flutter drive exited with non-zero code $exitCode";
     }
   } finally {
     await server.close();
