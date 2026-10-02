@@ -5,13 +5,14 @@ import "package:genshin_material/providers/resin.dart";
 import "package:genshin_material/utils/resin_calculator.dart";
 
 import "../utils/in_memory_pref.dart";
+import "../utils/provider_container.dart";
 
 void main() {
   late ProviderContainer container;
   late ResinNotifier notifier;
 
   setUp(() {
-    container = ProviderContainer.test(overrides: [
+    container = createTestContainer(overrides: [
       overridePref(PrefKeys.resin, null),
       overridePref(PrefKeys.resinBaseTime, null),
     ]);

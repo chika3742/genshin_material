@@ -10,6 +10,7 @@ import "package:mockito/mockito.dart";
 
 import "../../utils/http_client.dart";
 import "../../utils/http_client.mocks.dart";
+import "../../utils/provider_container.dart";
 import "../../utils/remote_config.dart";
 
 const _pathProviderChannel = MethodChannel("plugins.flutter.io/path_provider");
@@ -42,7 +43,7 @@ void main() {
     tempDir.deleteSync(recursive: true);
   });
 
-  ProviderContainer createContainer() => ProviderContainer.test(overrides: [
+  ProviderContainer createContainer() => createTestContainer(overrides: [
         overrideHttpClient(client),
         overrideRemoteConfig(RemoteConfigKeys.minimumAssetSchemaVersion, 0),
       ]);

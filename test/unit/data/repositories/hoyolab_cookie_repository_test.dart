@@ -2,6 +2,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/data/repositories/hoyolab_cookie_repository.dart";
 
+import "../../../utils/provider_container.dart";
 import "../../../utils/secure_storage.dart";
 
 void main() {
@@ -13,14 +14,14 @@ void main() {
   /// `AsyncLoading` until this resolves — every assertion on the state, and
   /// every call that reads it back, has to come after it.
   Future<ProviderContainer> createLoadedContainer() async {
-    final container = ProviderContainer.test();
+    final container = createTestContainer();
     await container.read(hoyolabCookieRepositoryProvider.future);
     return container;
   }
 
   group("build", () {
     test("resolves to the stored cookie", () async {
-      final container = ProviderContainer.test();
+      final container = createTestContainer();
 
       expect(
         await container.read(hoyolabCookieRepositoryProvider.future),
@@ -30,7 +31,7 @@ void main() {
 
     test("resolves to null when nothing is stored", () async {
       storage.clear();
-      final container = ProviderContainer.test();
+      final container = createTestContainer();
 
       expect(
         await container.read(hoyolabCookieRepositoryProvider.future),

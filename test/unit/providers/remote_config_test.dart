@@ -5,6 +5,7 @@ import "package:genshin_material/data/services/remote_config_service.dart";
 import "package:genshin_material/providers/remote_config.dart";
 import "package:mockito/mockito.dart";
 
+import "../../utils/provider_container.dart";
 import "../../utils/remote_config.mocks.dart";
 
 void main() {
@@ -15,7 +16,7 @@ void main() {
   });
 
   ProviderContainer createContainer() {
-    return ProviderContainer.test(overrides: [
+    return createTestContainer(overrides: [
       remoteConfigServiceProvider.overrideWithValue(service),
     ]);
   }

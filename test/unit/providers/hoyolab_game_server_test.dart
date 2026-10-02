@@ -7,6 +7,7 @@ import "package:genshin_material/providers/hoyolab_game_server.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 
 import "../../utils/hoyolab_game_server.dart";
+import "../../utils/provider_container.dart";
 import "../../utils/remote_config.dart";
 
 void main() {
@@ -24,7 +25,7 @@ void main() {
     String? userName = "tester",
     String? uid = "800000000",
   }) {
-    return ProviderContainer.test(overrides: [
+    return createTestContainer(overrides: [
       overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, hoyolabLinkEnabled),
       ...overrideHoyolabGameServerPrefs(
         server: server,

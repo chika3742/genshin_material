@@ -28,6 +28,7 @@ import "../utils/in_memory_pref.dart";
 import "../utils/local_notification_mocks.dart";
 @GenerateNiceMocks([MockSpec<RescheduleDailyMaterialNotifications>()])
 import "use_notification_reschedule_listener_test.mocks.dart";
+import "utils.dart";
 
 class _Host extends HookConsumerWidget {
   const _Host();
@@ -93,7 +94,7 @@ void main() {
     TimeOfDay? time = notificationTime,
   }) async {
     assetDataCompleter = Completer<AssetData>();
-    await tester.pumpWidget(ProviderScope(
+    await tester.pumpWidget(createProviderScope(
       overrides: [
         appDatabaseProvider.overrideWithValue(db),
         localNotificationProvider.overrideWithValue(notification),
@@ -277,7 +278,7 @@ void main() {
     // captured at build time would still hold the stale asset data / prefs.
     Future<ProviderContainer> pumpHost(WidgetTester tester) async {
       assetDataCompleter = Completer<AssetData>();
-      await tester.pumpWidget(ProviderScope(
+      await tester.pumpWidget(createProviderScope(
         overrides: [
           appDatabaseProvider.overrideWithValue(db),
           localNotificationProvider.overrideWithValue(notification),

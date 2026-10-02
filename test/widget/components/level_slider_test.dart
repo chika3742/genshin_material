@@ -5,7 +5,7 @@ import "package:genshin_material/components/labeled_check_box.dart";
 import "package:genshin_material/components/level_slider.dart";
 import "package:genshin_material/models/level_range_values.dart";
 
-import "../../utils.dart";
+import "../utils.dart";
 
 void main() {
   // `1` only exists as a tick and `90` only as a level, so both halves of the

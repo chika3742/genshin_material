@@ -5,6 +5,7 @@ import "package:genshin_material/providers/filter_state.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 
 import "../../utils/in_memory_pref.dart";
+import "../../utils/provider_container.dart";
 
 void main() {
   /// Builds a container whose sort prefs are backed by memory instead of
@@ -14,7 +15,7 @@ void main() {
     SortMode characterSortMode = SortMode.ascending,
     WeaponSortType weaponSortType = WeaponSortType.defaultSort,
   }) {
-    return ProviderContainer.test(overrides: [
+    return createTestContainer(overrides: [
       overridePref(PrefKeys.characterSortType, characterSortType),
       overridePref(PrefKeys.characterSortMode, characterSortMode),
       overridePref(PrefKeys.weaponSortType, weaponSortType),

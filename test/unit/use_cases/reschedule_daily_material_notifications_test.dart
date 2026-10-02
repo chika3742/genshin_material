@@ -14,7 +14,6 @@ import "package:genshin_material/database.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/localized_text.dart";
-import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:genshin_material/use_cases/reschedule_daily_material_notifications.dart";
 import "package:mockito/mockito.dart";
@@ -25,6 +24,7 @@ import "package:uuid/v4.dart";
 import "../../utils/asset_data.dart";
 import "../../utils/in_memory_pref.dart";
 import "../../utils/local_notification_mocks.dart";
+import "../../utils/provider_container.dart";
 
 typedef _TestMaterialBookmarkInsertable = ({
   String groupHash,
@@ -721,8 +721,7 @@ void main() {
 
     group("Provider", () {
       ProviderContainer makeContainer(FutureOr<AssetData> Function(Ref) createAssetData) {
-        return ProviderContainer.test(overrides: [
-          appDatabaseProvider.overrideWithValue(db),
+        return createTestContainer(db: db, overrides: [
           localNotificationProvider.overrideWithValue(mockLocalNotification),
           assetDataProvider.overrideWith(createAssetData),
           overridePref(

@@ -148,13 +148,13 @@ void main() {
   });
 
   group("shouldHideImages", () {
-    /// Builds a container without the `shouldHideImagesProvider` override that
-    /// `createTestContainer` installs, so the real implementation runs.
+    /// Builds a container without the `shouldHideImagesProvider` override, so
+    /// the real implementation runs.
     ProviderContainer createContainer({required bool signedIn}) {
       if (!signedIn) {
         storage.clear();
       }
-      return ProviderContainer.test();
+      return createTestContainer(shouldHideImages: null);
     }
 
     /// As [createContainer], but waits for the cookie read so that the provider

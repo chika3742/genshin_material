@@ -63,6 +63,7 @@ Pages that need game data are wrapped in `DataAssetScope` (`lib/components/data_
 - **Riverpod** with code generation (`@riverpod` / `@Riverpod`) is used throughout. All providers live in `lib/providers/`.
 - Widget state uses `flutter_hooks` via `HookConsumerWidget` / `HookWidget`.
 - `ProviderErrorObserver` (`lib/core/provider_error_observer.dart`) logs provider errors globally.
+- Automatic retry is disabled app-wide: `ProviderScope(retry: ...)` in `main.dart`, and `createProviderScope()` / `createTestContainer()` in tests.
 - Database is accessed via `appDatabaseProvider`; all complex queries are implemented as extension methods in `lib/db/`.
 
 ### Database (Drift)
@@ -150,10 +151,10 @@ Reuse these rather than writing new equivalents.
 
 | File | Provides |
 |---|---|
-| `test/utils.dart` | `createScreenWithApp()`, `closeToDateTime()` |
+| `test/widget/utils.dart` | `createScreenWithApp()`, `createProviderScope()` (a `ProviderScope` with retry disabled) |
 | `test/utils/asset_data.dart` | `buildTestAssetData()`, `buildTestMaterial()`, `buildTestCharacter()`, `buildTestCharacterGroup()`, `buildTestCharacterVariant()`, `buildTestWeapon()`, `buildIngredientConfigurations()` |
 | `test/utils/db.dart` | `createTestDatabase()`, `buildMaterialBookmark()` |
-| `test/utils/provider_container.dart` | `createTestContainer()` |
+| `test/utils/provider_container.dart` | `createTestContainer()` (retry disabled; `shouldHideImages: null` runs the real `shouldHideImagesProvider`) |
 | `test/utils/in_memory_pref.dart` | `overridePref()`, `InMemoryPrefNotifier` |
 | `test/utils/remote_config.dart` | `overrideRemoteConfig()`, `createRemoteConfigServiceMock()` (`MockRemoteConfigService` itself comes from `remote_config.mocks.dart` — import both) |
 | `test/utils/http_client.dart` | `overrideHttpClient()` (`MockClient` comes from `http_client.mocks.dart`) |
@@ -173,6 +174,7 @@ The code conventions above apply to test code as well. In addition:
 - **Do not hard-code locale-dependent strings.** `LocaleSettings` defaults to `ja`; assert against `tr.*` or a widget `Key` instead.
 - Database tests: create the database with `createTestDatabase()` in `setUp` and `close()` it in `tearDown`.
 - Provider tests: use `createTestContainer()`, which wraps `ProviderContainer.test` (self-disposing) and applies the overrides most tests need.
+- Widget tests: wrap the widget in `createProviderScope()` instead of a bare `ProviderScope`.
 - Preference-backed providers: `overridePref(key, value)` instead of setting up `SharedPreferences`.
 - Anything reading Remote Config overrides the values it needs with `overrideRemoteConfig(key, value)`. Only a test whose subject reaches the service itself needs `createRemoteConfigServiceMock()`; classes taking a plain value (`minimumSchemaVersion`, for one) get it passed in directly.
 - Pin time with `withClock` from `package:clock` rather than waiting on real durations.

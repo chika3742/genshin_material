@@ -20,6 +20,7 @@ import "../utils/http_client.mocks.dart";
 import "../utils/in_memory_pref.dart";
 import "../utils/remote_config.dart";
 import "../utils/secure_storage.dart";
+import "utils.dart";
 
 class _Host extends HookConsumerWidget {
   const _Host({required this.onBuild});
@@ -57,7 +58,7 @@ void main() {
       if (lifecycle != null) {
         tester.binding.handleAppLifecycleStateChanged(lifecycle);
       }
-      await tester.pumpWidget(ProviderScope(
+      await tester.pumpWidget(createProviderScope(
         overrides: [
           loginBonusStateProvider.overrideWith(() => FakeLoginBonusState(() {
             builds++;
@@ -179,7 +180,7 @@ void main() {
 
     Future<ProviderContainer> pumpApp(WidgetTester tester, {required String cache}) async {
       tester.binding.handleAppLifecycleStateChanged(.resumed);
-      await tester.pumpWidget(ProviderScope(
+      await tester.pumpWidget(createProviderScope(
         overrides: [
           overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, true),
           overrideHttpClient(client),

@@ -19,17 +19,6 @@ part "hoyolab_api.g.dart";
 // These providers are kept alive because they are not tied to the lifecycle
 // of the widgets.
 
-/// Retrying is right for a flaky read but wrong for a link that is unavailable
-/// by design: it would leave the provider loading forever.
-Duration? _retryUnlessLinkIsUnavailable(int retryCount, Object error) {
-  if (error is HoyolabLinkDisabledException ||
-      error is HoyolabNotSignedInException ||
-      error is HoyolabServerNotSelectedException) {
-    return null;
-  }
-  return ProviderContainer.defaultRetry(retryCount, error);
-}
-
 /// The kill switch of every API calls
 void _ensureLinkEnabled(Ref ref) {
   if (!ref.watch(remoteConfigProvider(RemoteConfigKeys.hoyolabLinkEnabled))) {
@@ -43,7 +32,7 @@ void _ensureLinkEnabled(Ref ref) {
 ApiRequestQueue hoyolabRequestQueue(Ref ref) =>
     ApiRequestQueue(interval: const Duration(milliseconds: 500));
 
-@Riverpod(keepAlive: true, retry: _retryUnlessLinkIsUnavailable)
+@Riverpod(keepAlive: true)
 Future<HoyolabPublicApi> hoyolabPublicApi(Ref ref) async {
   _ensureLinkEnabled(ref);
 
@@ -53,7 +42,7 @@ Future<HoyolabPublicApi> hoyolabPublicApi(Ref ref) async {
   );
 }
 
-@Riverpod(keepAlive: true, retry: _retryUnlessLinkIsUnavailable)
+@Riverpod(keepAlive: true)
 Future<HoyolabAccountApi> hoyolabAccountApi(Ref ref) async {
   _ensureLinkEnabled(ref);
   final client = ref.watch(httpClientProvider);
@@ -68,7 +57,7 @@ Future<HoyolabAccountApi> hoyolabAccountApi(Ref ref) async {
   );
 }
 
-@Riverpod(keepAlive: true, retry: _retryUnlessLinkIsUnavailable)
+@Riverpod(keepAlive: true)
 Future<HoyolabGameApi> hoyolabGameApi(Ref ref) async {
   _ensureLinkEnabled(ref);
   final client = ref.watch(httpClientProvider);

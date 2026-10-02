@@ -3,7 +3,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/release_note_contents.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
-import "../utils.dart";
+import "utils.dart";
 
 void main() {
   testWidgets("ReleaseNoteContents", (tester) async {

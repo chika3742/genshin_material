@@ -15,6 +15,7 @@ import "../../utils/crashlytics.mocks.dart";
 import "../../utils/hoyolab_game_server.dart";
 import "../../utils/http_client.dart";
 import "../../utils/http_client.mocks.dart";
+import "../../utils/provider_container.dart";
 import "../../utils/remote_config.dart";
 import "../../utils/secure_storage.dart";
 
@@ -41,7 +42,7 @@ void main() {
   /// `AsyncLoading` until that resolves. `storage.clear()` has to come before
   /// the call, because the storage is read exactly once.
   Future<ProviderContainer> createContainer() async {
-    final container = ProviderContainer.test(overrides: [
+    final container = createTestContainer(overrides: [
       overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, hoyolabLinkEnabled),
       overrideHttpClient(client),
       // Both use cases report their failure paths through the service, and the

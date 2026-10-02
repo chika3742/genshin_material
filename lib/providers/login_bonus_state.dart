@@ -32,10 +32,6 @@ _Cache? _readCache(String? cache, String ltUid) {
   return null;
 }
 
-/// A failed fetch is retried on the next launch or resume instead, so that a
-/// failure does not multiply the requests.
-Duration? _noRetry(int retryCount, Object error) => null;
-
 /// Whether today's login bonus has been claimed, or `null` while HoYoLAB is not
 /// linked.
 ///
@@ -43,7 +39,7 @@ Duration? _noRetry(int retryCount, Object error) => null;
 /// expired. "Claimed" holds until the server's check-in day ends. "Unclaimed"
 /// may change outside the app, but it does not change that often, so it is not
 /// refetched within [_fetchIntervalWhenUnclaimed] either.
-@Riverpod(retry: _noRetry)
+@riverpod
 class LoginBonusState extends _$LoginBonusState {
   @override
   Future<bool?> build() async {

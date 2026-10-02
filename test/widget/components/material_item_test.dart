@@ -19,14 +19,13 @@ import "package:genshin_material/models/material_bookmark_frame.dart";
 import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
-import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 import "package:path/path.dart" as path;
 
-import "../../utils.dart";
 import "../../utils/asset_data.dart";
 import "../../utils/db.dart";
 import "../../utils/in_memory_pref.dart";
+import "../utils.dart";
 
 void main() {
   // The card renders the material image with Image.file, so the files it
@@ -175,7 +174,7 @@ void main() {
   }) async {
     final cardItem = card ?? item;
     await tester.pumpWidget(
-      ProviderScope(
+      createProviderScope(
         overrides: [
           appDatabaseProvider.overrideWithValue(db),
           shouldHideImagesProvider.overrideWithValue(hideImages),
@@ -427,7 +426,7 @@ void main() {
 
   testWidgets("renders nothing while the asset data is not ready", (tester) async {
     await tester.pumpWidget(
-      ProviderScope(
+      createProviderScope(
         overrides: [
           appDatabaseProvider.overrideWithValue(db),
           shouldHideImagesProvider.overrideWithValue(false),

@@ -12,6 +12,7 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "../../utils/fake_login_bonus_state.dart";
 import "../../utils/remote_config.dart";
 import "../../utils/secure_storage.dart";
+import "../utils.dart";
 
 void main() {
   // Signed in, so that the login bonus tile is shown.
@@ -23,7 +24,7 @@ void main() {
   /// Mounts the page with the bonus claimed, and returns its container.
   Future<ProviderContainer> pumpPage(WidgetTester tester) async {
     nextResult = () async => true;
-    await tester.pumpWidget(ProviderScope(
+    await tester.pumpWidget(createProviderScope(
       overrides: [
         overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, true),
         loginBonusStateProvider.overrideWith(() => FakeLoginBonusState(() => nextResult())),

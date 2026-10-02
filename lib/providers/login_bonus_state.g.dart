@@ -39,7 +39,7 @@ final class LoginBonusStateProvider
     : super(
         from: null,
         argument: null,
-        retry: _noRetry,
+        retry: null,
         name: r'loginBonusStateProvider',
         isAutoDispose: true,
         dependencies: null,
@@ -54,7 +54,7 @@ final class LoginBonusStateProvider
   LoginBonusState create() => LoginBonusState();
 }
 
-String _$loginBonusStateHash() => r'5507d9c2e02feb9ba1396767fcd866896760b831';
+String _$loginBonusStateHash() => r'401118e9ffd91186b4a7ac5a21c5205781833986';
 
 /// Whether today's login bonus has been claimed, or `null` while HoYoLAB is not
 /// linked.

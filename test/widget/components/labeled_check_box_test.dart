@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/labeled_check_box.dart";
 
-import "../../utils.dart";
+import "../utils.dart";
 
 void main() {
   // The label is supplied by the caller, so a placeholder keeps the test free
