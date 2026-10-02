@@ -39,15 +39,13 @@
 
 ### ビルドの前に
 
-ビルドするには、**自分の Firebase プロジェクト**を設定する必要があります。まず [Firebase Console](https://console.firebase.google.com/) で Firebase プロジェクトを作成してください。
+ビルドするには、**自分の Firebase プロジェクト**を設定する必要があります。
 
-1. Firebase CLI をインストールします（[公式ガイド](https://firebase.google.com/docs/cli?hl=ja#setup_update_cli)を参照）。
-2. `firebase login` を実行して Firebase にログインします。
-3. FlutterFire CLI をインストールします。
-    ```shell
-    $ dart pub global activate flutterfire_cli
-    ```
-4. `flutterfire configure` を実行し、表示される指示に従ってこのプロジェクトに Firebase を設定します。
+1. [Firebase Console](https://console.firebase.google.com/) でプロジェクトを作成し、**Crashlytics** と **Remote Config** を有効にします。
+2. パッケージ名・Bundle ID を `net.chikach.genshinmaterial` として、Android アプリと iOS アプリを登録します。
+3. プロジェクトの設定から設定ファイルをダウンロードし、次の場所に置きます。
+    - `google-services.json` → `android/app/`
+    - `GoogleService-Info.plist` → `ios/Runner/`
 
 ### ビルドと実行
 
