@@ -194,7 +194,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   static const dbName = "db";
 
@@ -370,6 +370,29 @@ class AppDatabase extends _$AppDatabase {
               await m.drop(v4.inGameCharacterStateTable);
               await m.drop(v4.inGameWeaponStateTable);
               await m.createAll();
+            },
+            from5To6: (m, schema) async {
+              final groups = schema.bookmarkMaterialGroupTable;
+              final items = schema.bookmarkMaterialItemTable;
+
+              final query = selectOnly(groups)
+                ..addColumns([groups.groupHash])
+                ..where(groups.characterId.isIn([
+                    "traveler_anemo",
+                    "traveler_geo",
+                    "traveler_electro",
+                    "traveler_dendro",
+                    "traveler_hydro",
+                    "traveler_pyro",
+                    "traveler_cryo",
+                  ])
+                  & groups.purposeType.equals("ascension")
+                  & groups.weaponId.isNull());
+              final hashes = await query.map((row) => row.read(groups.groupHash)!)
+                  .get();
+
+              await (delete(items)..where((_) => items.groupHash.isIn(hashes))).go();
+              await (delete(groups)..where((_) => groups.groupHash.isIn(hashes))).go();
             },
           )(m, from, to);
         });
