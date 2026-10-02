@@ -3,7 +3,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/furnishing_counter.dart";
 import "package:material_symbols_icons/symbols.dart";
 
-import "../../utils.dart";
+import "../utils.dart";
 
 void main() {
   late List<int> changes;

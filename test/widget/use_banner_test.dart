@@ -11,6 +11,7 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:mockito/mockito.dart";
 
 import "../utils/in_memory_pref.dart";
+import "../utils/provider_container.dart";
 import "../utils/remote_config.dart";
 
 class _Host extends HookConsumerWidget {
@@ -51,11 +52,10 @@ void main() {
     required List<Override> remoteConfig,
     List<String> initialReadKeys = const [],
   }) async {
-    final container = ProviderContainer(overrides: [
+    final container = createTestContainer(overrides: [
       ...remoteConfig,
       overridePref(PrefKeys.bannerReadKeys, initialReadKeys),
     ]);
-    addTearDown(container.dispose);
 
     await tester.pumpWidget(UncontrolledProviderScope(
       container: container,

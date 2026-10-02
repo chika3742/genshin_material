@@ -4,7 +4,8 @@ import "package:genshin_material/providers/login_bonus_state.dart";
 /// decides between data, loading and error, and can count the builds.
 ///
 /// Override with `loginBonusStateProvider.overrideWith(() => FakeLoginBonusState(...))`.
-/// The provider keeps its own retry setting, so an error is not retried.
+/// `createProviderScope` and `createTestContainer` disable retry, so an error
+/// is not retried.
 class FakeLoginBonusState extends LoginBonusState {
   FakeLoginBonusState(this.onBuild);
 

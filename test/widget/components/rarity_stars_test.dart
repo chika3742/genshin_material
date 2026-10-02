@@ -3,7 +3,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/rarity_stars.dart";
 import "package:genshin_material/core/theme.dart";
 
-import "../../utils.dart";
+import "../utils.dart";
 
 void main() {
   Future<void> pumpStars(WidgetTester tester, int count) async {

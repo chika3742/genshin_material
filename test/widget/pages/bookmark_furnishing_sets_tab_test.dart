@@ -9,11 +9,10 @@ import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
-import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../../utils.dart";
 import "../../utils/asset_data.dart";
 import "../../utils/db.dart";
+import "../utils.dart";
 
 void main() {
   late AppDatabase db;
@@ -52,7 +51,7 @@ void main() {
   // it as soon as another tab is shown.
   Future<void> pumpTab(WidgetTester tester) async {
     await tester.pumpWidget(
-      ProviderScope(
+      createProviderScope(
         overrides: [
           appDatabaseProvider.overrideWithValue(db),
           shouldHideImagesProvider.overrideWithValue(false),

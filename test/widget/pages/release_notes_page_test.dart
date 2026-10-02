@@ -5,10 +5,9 @@ import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/models/release_note.dart";
 import "package:genshin_material/pages/release_notes.dart";
 import "package:genshin_material/providers/versions.dart";
-import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../../utils.dart";
 import "../../utils/asset_data.dart";
+import "../utils.dart";
 
 void main() {
   // Enough notes to make both tabs scrollable well past the drag distance below.
@@ -23,7 +22,7 @@ void main() {
 
   Future<void> pumpPage(WidgetTester tester) async {
     await tester.pumpWidget(
-      ProviderScope(
+      createProviderScope(
         overrides: [
           assetDataProvider.overrideWith((ref) async => buildTestAssetData()),
           featuresReleaseNotesDataProvider.overrideWith((ref) async => buildNotes("feature")),

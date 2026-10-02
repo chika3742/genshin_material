@@ -10,6 +10,7 @@ import "package:genshin_material/providers/remote_config.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:mockito/mockito.dart";
 
+import "../utils/provider_container.dart";
 import "../utils/remote_config.mocks.dart";
 
 class _Host extends HookConsumerWidget {
@@ -45,10 +46,9 @@ void main() {
   }
 
   Future<ProviderContainer> pumpHost(WidgetTester tester) async {
-    final container = ProviderContainer(overrides: [
+    final container = createTestContainer(overrides: [
       remoteConfigServiceProvider.overrideWithValue(service),
     ]);
-    addTearDown(container.dispose);
 
     await tester.pumpWidget(UncontrolledProviderScope(
       container: container,

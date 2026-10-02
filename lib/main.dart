@@ -84,6 +84,7 @@ void main() async {
         remoteConfigServiceProvider.overrideWithValue(remoteConfigService),
         localNotificationProvider.overrideWithValue(localNotification),
       ],
+      retry: (_, _) => null,
       child: const Restartable(
         child: MyApp(),
       ),

@@ -12,9 +12,9 @@ import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:genshin_material/routes.dart";
 import "package:go_router/go_router.dart";
-import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../../utils/asset_data.dart";
+import "../utils.dart";
 
 /// Finds the generated route registered at [path] (relative path segments),
 /// so a test can mount the real route instead of a stub.
@@ -124,7 +124,7 @@ void main() {
     );
 
     await tester.pumpWidget(
-      ProviderScope(
+      createProviderScope(
         overrides: [
           // No image files are laid out for this test: a widget test runs under
           // fake async, so the reads behind Image.file never resolve either way.

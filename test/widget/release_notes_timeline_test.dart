@@ -5,7 +5,7 @@ import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/models/release_note.dart";
 import "package:timelines/timelines.dart";
 
-import "../utils.dart";
+import "utils.dart";
 
 ReleaseNote _note(String version) => ReleaseNote(
   releasedOn: "2026-01-01",

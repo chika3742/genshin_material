@@ -7,8 +7,8 @@ import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../../utils.dart";
 import "../../utils/in_memory_pref.dart";
+import "../utils.dart";
 
 void main() {
   // 20:00 UTC is already Tuesday on the Asia server (UTC+8, reset at 04:00)
@@ -36,7 +36,7 @@ void main() {
     final controller = TabController(length: tabs.length, vsync: const TestVSync());
     tabController = controller;
     await tester.pumpWidget(
-      ProviderScope(
+      createProviderScope(
         overrides: [
           overridePref(PrefKeys.dailyResetServer, server),
         ],

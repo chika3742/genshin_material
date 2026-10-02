@@ -8,6 +8,7 @@ import "../../utils/hoyolab_api.dart";
 import "../../utils/hoyolab_game_server.dart";
 import "../../utils/http_client.dart";
 import "../../utils/http_client.mocks.dart";
+import "../../utils/provider_container.dart";
 import "../../utils/remote_config.dart";
 import "../../utils/secure_storage.dart";
 
@@ -28,7 +29,7 @@ void main() {
     String? server = "os_asia",
     String? uid = "800000000",
   }) {
-    return ProviderContainer.test(overrides: [
+    return createTestContainer(overrides: [
       overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, linkEnabled),
       overrideHttpClient(client),
       ...overrideHoyolabGameServerPrefs(server: server, uid: uid),

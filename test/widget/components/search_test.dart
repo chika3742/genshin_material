@@ -7,8 +7,8 @@ import "package:genshin_material/models/material.dart";
 import "package:genshin_material/utils/filtering.dart";
 import "package:go_router/go_router.dart";
 
-import "../../utils.dart";
 import "../../utils/asset_data.dart";
+import "../utils.dart";
 
 void main() {
   Material item(String name, {String jaPronunciation = ""}) {

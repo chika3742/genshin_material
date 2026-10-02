@@ -6,29 +6,32 @@ import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
 
-/// Creates a [ProviderContainer] with the overrides most tests need.
+/// Creates a [ProviderContainer] with the overrides most tests need, and with
+/// retry disabled as in the app.
 /// `ProviderContainer.test` disposes it at the end of the test on its own.
 ///
 /// [assetData] is returned synchronously because consumers call `requireValue`
 /// on [assetDataProvider]. [assetDataProvider] and [appDatabaseProvider] are
 /// only overridden when the corresponding argument is given, so a test that
 /// needs a different override for either can pass it through [overrides].
-/// Riverpod rejects overriding the same provider twice, so never override
-/// [shouldHideImagesProvider] through [overrides]; use [shouldHideImages].
+/// [shouldHideImagesProvider] is overridden with [shouldHideImages] unless it
+/// is `null`, which runs the real implementation. Riverpod rejects overriding
+/// the same provider twice, so never override it through [overrides].
 ProviderContainer createTestContainer({
   AssetData? assetData,
   AppDatabase? db,
-  bool shouldHideImages = false,
+  bool? shouldHideImages = false,
   List<Override> overrides = const [],
 }) {
-  final container = ProviderContainer.test(
+  return ProviderContainer.test(
     overrides: [
-      shouldHideImagesProvider.overrideWithValue(shouldHideImages),
+      if (shouldHideImages != null)
+        shouldHideImagesProvider.overrideWithValue(shouldHideImages),
       if (assetData != null)
         assetDataProvider.overrideWith((ref) => assetData),
       if (db != null) appDatabaseProvider.overrideWithValue(db),
       ...overrides,
     ],
+    retry: (_, _) => null,
   );
-  return container;
 }

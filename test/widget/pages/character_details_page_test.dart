@@ -26,14 +26,13 @@ import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/hoyolab_game_server.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
-import "package:hooks_riverpod/hooks_riverpod.dart";
 
-import "../../utils.dart";
 import "../../utils/asset_data.dart";
 import "../../utils/crashlytics.dart";
 import "../../utils/crashlytics.mocks.dart";
 import "../../utils/db.dart";
 import "../../utils/in_memory_pref.dart";
+import "../utils.dart";
 
 void main() {
   // Every image on the page resolves to this one file (images are hidden and
@@ -215,7 +214,7 @@ void main() {
     );
 
     await tester.pumpWidget(
-      ProviderScope(
+      createProviderScope(
         overrides: [
           appDatabaseProvider.overrideWithValue(db),
           shouldHideImagesProvider.overrideWithValue(true),
