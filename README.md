@@ -39,15 +39,13 @@ Game data and images displayed in the app are not covered by this license.
 
 ### Before Building
 
-To build this app successfully, you need to set up Firebase with **your own project**. First, create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
+To build this app, you need to set up Firebase with **your own project**.
 
-1. Install Firebase CLI (follow the [official guide](https://firebase.google.com/docs/cli#setup_update_cli)).
-2. Run `firebase login` to log in to Firebase.
-3. Install FlutterFire CLI
-    ```shell
-    $ dart pub global activate flutterfire_cli
-    ```
-4. Run `flutterfire configure` to set up Firebase for this project. Follow the instructions on the console.
+1. Create a project in the [Firebase Console](https://console.firebase.google.com/) and enable **Crashlytics** and **Remote Config**.
+2. Register an Android app and an iOS app with the package name / bundle ID `net.chikach.genshinmaterial`.
+3. Download the config files from the project settings and place them as follows:
+    - `google-services.json` → `android/app/`
+    - `GoogleService-Info.plist` → `ios/Runner/`
 
 ### Build & Run
 

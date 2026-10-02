@@ -187,4 +187,4 @@ The code conventions above apply to test code as well. In addition:
 
 ## Firebase
 
-Firebase options (`firebase_options.dart`) are `.gitignore`d. The app requires Firebase to be configured before building. Required services: **Crashlytics**, **Remote Config**.
+Firebase is initialized from the native config files (`android/app/google-services.json`, `ios/Runner/GoogleService-Info.plist`), which are `.gitignore`d; `firebase_options.dart` is not used. The app requires Firebase to be configured before building. Required services: **Crashlytics**, **Remote Config**.
