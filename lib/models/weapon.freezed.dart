@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Weapon {
 
- String get id; bool get disableSync; int get hyvId; LocalizedText get name; String get jaPronunciation; String get imageUrl; int get rarity; WeaponSubStat? get subStat; LocalizedText? get weaponAffixDesc; WeaponType get type; Map<MaterialUsageType, String>? get materials; LocalizedText? get levelingDescription; ItemSource? get source;
+ String get id; bool get disableSync; int get hyvId; LocalizedText get name; String get jaPronunciation; String get imageUrl; int get rarity; WeaponSubStat? get subStat; LocalizedText? get weaponAffixDesc; WeaponType get type; MaterialDefinitions? get materials; LocalizedText? get levelingDescription; ItemSource? get source;
 
 
 
@@ -50,7 +50,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _Weapon extends Weapon {
-  const _Weapon({required this.id, this.disableSync = false, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.rarity, required this.subStat, required this.weaponAffixDesc, required this.type,  Map<MaterialUsageType, String>? materials, this.levelingDescription, this.source}): _materials = materials,super._();
+  const _Weapon({required this.id, this.disableSync = false, required this.hyvId, required this.name, required this.jaPronunciation, required this.imageUrl, required this.rarity, required this.subStat, required this.weaponAffixDesc, required this.type,  MaterialDefinitions? materials, this.levelingDescription, this.source}): _materials = materials,super._();
   factory _Weapon.fromJson(Map<String, dynamic> json) => _$WeaponFromJson(json);
 
 @override final  String id;
@@ -63,8 +63,8 @@ class _Weapon extends Weapon {
 @override final  WeaponSubStat? subStat;
 @override final  LocalizedText? weaponAffixDesc;
 @override final  WeaponType type;
- final  Map<MaterialUsageType, String>? _materials;
-@override Map<MaterialUsageType, String>? get materials {
+ final  MaterialDefinitions? _materials;
+@override MaterialDefinitions? get materials {
   final value = _materials;
   if (value == null) return null;
   if (_materials is EqualUnmodifiableMapView) return _materials;

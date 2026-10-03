@@ -20,7 +20,7 @@ _Weapon _$WeaponFromJson(Map<String, dynamic> json) => _Weapon(
       : LocalizedText.fromJson(json['weaponAffixDesc']),
   type: json['type'] as String,
   materials: (json['materials'] as Map<String, dynamic>?)?.map(
-    (k, e) => MapEntry(k, e as String),
+    (k, e) => MapEntry(k, MaterialRef.fromJson(e as String)),
   ),
   levelingDescription: json['levelingDescription'] == null
       ? null

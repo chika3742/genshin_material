@@ -40,52 +40,53 @@ part "character_details.freezed.dart";
 
 class CharacterDetailsPage extends HookConsumerWidget {
   final AssetData assetData;
-  final String id;
+  final CharacterOrVariantId id;
 
   const CharacterDetailsPage({super.key, required this.assetData, required this.id});
 
+  (Character character, CharacterVariant variant)? _resolveCharacter(VariantId? lastSelectedVariantId) {
+    final character = assetData.characters[id];
+    final variant = assetData.variants[id];
+    return switch ((character, variant)) {
+      (null, null) => null,
+      (null, final variant?) => (assetData.characterOf(variant), variant),
+      (final character?, null) => (
+          character,
+          character.variants.firstWhereOrNull((e) => e.id == lastSelectedVariantId)
+              ?? character.variants.first,
+        ),
+      (final character?, final variant?) => (character, variant),
+    };
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final characterOrVariant = assetData.characters[id];
-    if (characterOrVariant == null) {
+    // Store the value to avoid rebuilding the main page
+    final lastSelectedVariantId = useMemoized(() {
+      return ref.read(prefProvider(PrefKeys.lastSelectedCharacterVariants))[id];
+    });
+
+    final record = _resolveCharacter(lastSelectedVariantId);
+    if (record == null) {
       return Scaffold(
         appBar: AppBar(),
         body: CenterText(tr.errors.characterNotFound),
       );
     }
 
-    final character = switch (characterOrVariant) {
-      ListedCharacter() || CharacterGroup() => characterOrVariant,
-      CharacterVariant(:final parentId) => assetData.characters[parentId]! as CharacterGroup,
-    } as CharacterWithLargeImage;
-
-    // The stored selection only seeds the page; the dropdown owns it afterwards. It is read once
-    // rather than watched, or every change would rebuild this widget and drop the page state.
-    final lastSelectedVariantId = useMemoized(() {
-      if (characterOrVariant is! CharacterGroup) {
-        return null;
-      }
-      final stored = ref.read(prefProvider(PrefKeys.lastSelectedCharacterVariants))[characterOrVariant.id];
-      return characterOrVariant.variantIds.contains(stored) ? stored : null;
-    });
-    final initialVariant = switch (characterOrVariant) {
-      CharacterGroup(:final variantIds) =>
-        assetData.characters[lastSelectedVariantId ?? variantIds.first]! as CharacterOrVariant,
-      _ => characterOrVariant as CharacterOrVariant,
-    };
-    final initialVariantId = initialVariant.id;
+    final (character, variant) = record;
 
     final db = ref.watch(appDatabaseProvider);
 
     final charaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(
-      variantId: initialVariantId,
+      variantId: variant.id,
     ));
     final characterState = charaSyncEnabled
-        ? ref.watch(singleCharacterStateRepositoryProvider(initialVariantId))
+        ? ref.watch(singleCharacterStateRepositoryProvider(variant.id))
         : null;
 
     final bookmarkRangesResult = useMemoized(
-        () => db.getCharacterMaterialBookmarkLevelRanges([character.id, initialVariantId]));
+        () => db.getCharacterMaterialBookmarkLevelRanges([character.id, variant.id]));
     final bookmarkRangesSnapshot = useFuture(bookmarkRangesResult);
 
     // loading
@@ -100,7 +101,7 @@ class CharacterDetailsPage extends HookConsumerWidget {
     return _CharacterDetailsPageContents(
       character: character,
       assetData: assetData,
-      initialVariantElement: initialVariant.element,
+      initialVariantId: variant.id,
       initialCharacterState: characterState?.value,
       initialBookmarkRanges: bookmarkRangesSnapshot.data ?? {},
     );
@@ -108,16 +109,16 @@ class CharacterDetailsPage extends HookConsumerWidget {
 }
 
 class _CharacterDetailsPageContents extends HookConsumerWidget {
-  final CharacterWithLargeImage character;
+  final Character character;
   final AssetData assetData;
-  final TeyvatElement initialVariantElement;
+  final VariantId initialVariantId;
   final CharacterState? initialCharacterState;
   final Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> initialBookmarkRanges;
 
   const _CharacterDetailsPageContents({
     required this.character,
     required this.assetData,
-    required this.initialVariantElement,
+    required this.initialVariantId,
     this.initialCharacterState,
     this.initialBookmarkRanges = const {},
   });
@@ -136,22 +137,10 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
 
     final ingredients = assetData.characterIngredients;
 
-    final variants = useMemoized<Map<String, CharacterOrVariant>>(() {
-      if (character is CharacterGroup) {
-        return Map.fromEntries(
-          character.variantIds.map((e) {
-            final variant = assetData.characters[e]! as CharacterVariant;
-            return MapEntry(variant.element, variant);
-          }),
-        );
-      }
-      return {(character as ListedCharacter).element: character};
-    });
-
     final autoRemoveBookmarks = ref.watch(prefProvider(PrefKeys.autoRemoveBookmarks));
     final db = ref.watch(appDatabaseProvider);
 
-    final variant = useState(variants[initialVariantElement]!);
+    final variant = useState(assetData.variants[initialVariantId]!);
 
     final isCharaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(variantId: variant.value.id));
 
@@ -304,7 +293,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                           }
                           final state = GameDataSyncStatus.combine([
                             if (fetchState != null)
-                              GameDataSyncStatus.fromCharacterFetch(fetchState, variant.value),
+                              GameDataSyncStatus.fromCharacterFetch(fetchState),
                             ref.watch(gameDataSyncStateProvider(variantId: variant.value.id)),
                           ]);
                           return state != null ? GameDataSyncIndicator(
@@ -335,23 +324,23 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
               ),
 
               // character variant dropdown
-              if (variants.length > 1)
-                DropdownButtonFormField(
-                  initialValue: variant.value.element,
-                  items: variants.entries.map((e) {
+              if (character.variants.length > 1)
+                DropdownButtonFormField<VariantId>(
+                  initialValue: variant.value.id,
+                  items: character.variants.map((e) {
                     return DropdownMenuItem(
-                      value: e.key,
+                      value: e.id,
                       child: Row(
                         children: [
                           Image.file(
-                            assetData.elements[e.value.element]!
+                            assetData.elements[e.element]!
                                 .getImageFile(assetData.assetDir),
                             width: 25,
                             height: 25,
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
                           const SizedBox(width: 4),
-                          Text(assetData.elements[e.value.element]!.text.localized),
+                          Text(assetData.elements[e.element]!.text.localized),
                         ],
                       ),
                     );
@@ -361,15 +350,14 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                     border: const OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    final selected = variants[value]!;
+                    final selected = assetData.variants[value]!;
                     variant.value = selected;
-                    if (character is CharacterGroup) {
-                      const key = PrefKeys.lastSelectedCharacterVariants;
-                      ref.read(prefProvider(key).notifier).set({
-                        ...ref.read(prefProvider(key)),
-                        character.id: selected.id,
-                      });
-                    }
+
+                    const key = PrefKeys.lastSelectedCharacterVariants;
+                    ref.read(prefProvider(key).notifier).set({
+                      ...ref.read(prefProvider(key)),
+                      character.id: selected.id,
+                    });
                   },
                 ),
 
@@ -479,7 +467,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
 
   Widget _buildSlider(
     IngredientConfigurations ingredients,
-    CharacterOrVariant variant,
+    CharacterVariant variant,
     Purpose purpose,
     LevelRangeValues values, {
     required bool active,

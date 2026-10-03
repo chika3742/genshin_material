@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$WeaponDetailsPageState {
 
- Map<Purpose, LevelRangeValues> get rangeValues; CharacterId get selectedCharacterId;
+ Map<Purpose, LevelRangeValues> get rangeValues; VariantId get selectedCharacterId;
 /// Create a copy of _WeaponDetailsPageState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -51,7 +51,7 @@ abstract mixin class _$WeaponDetailsPageStateCopyWith<$Res>  {
   factory _$WeaponDetailsPageStateCopyWith(_WeaponDetailsPageState value, $Res Function(_WeaponDetailsPageState) _then) = __$WeaponDetailsPageStateCopyWithImpl;
 @useResult
 $Res call({
- Map<Purpose, LevelRangeValues> rangeValues, CharacterId selectedCharacterId
+ Map<Purpose, LevelRangeValues> rangeValues, VariantId selectedCharacterId
 });
 
 
@@ -72,7 +72,7 @@ class __$WeaponDetailsPageStateCopyWithImpl<$Res>
   return _then(_WeaponDetailsPageState(
 rangeValues: null == rangeValues ? _self.rangeValues : rangeValues // ignore: cast_nullable_to_non_nullable
 as Map<Purpose, LevelRangeValues>,selectedCharacterId: null == selectedCharacterId ? _self.selectedCharacterId : selectedCharacterId // ignore: cast_nullable_to_non_nullable
-as CharacterId,
+as VariantId,
   ));
 }
 
@@ -94,7 +94,7 @@ class __WeaponDetailsPageState extends _WeaponDetailsPageState {
   return EqualUnmodifiableMapView(_rangeValues);
 }
 
-@override final  CharacterId selectedCharacterId;
+@override final  VariantId selectedCharacterId;
 
 /// Create a copy of _WeaponDetailsPageState
 /// with the given fields replaced by the non-null parameter values.
@@ -128,7 +128,7 @@ abstract mixin class _$_WeaponDetailsPageStateCopyWith<$Res> implements _$Weapon
   factory _$_WeaponDetailsPageStateCopyWith(__WeaponDetailsPageState value, $Res Function(__WeaponDetailsPageState) _then) = __$_WeaponDetailsPageStateCopyWithImpl;
 @override @useResult
 $Res call({
- Map<Purpose, LevelRangeValues> rangeValues, CharacterId selectedCharacterId
+ Map<Purpose, LevelRangeValues> rangeValues, VariantId selectedCharacterId
 });
 
 
@@ -149,7 +149,7 @@ class __$_WeaponDetailsPageStateCopyWithImpl<$Res>
   return _then(__WeaponDetailsPageState(
 rangeValues: null == rangeValues ? _self._rangeValues : rangeValues // ignore: cast_nullable_to_non_nullable
 as Map<Purpose, LevelRangeValues>,selectedCharacterId: null == selectedCharacterId ? _self.selectedCharacterId : selectedCharacterId // ignore: cast_nullable_to_non_nullable
-as CharacterId,
+as VariantId,
   ));
 }
 

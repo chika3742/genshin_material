@@ -27,7 +27,7 @@ abstract final class PrefKeys {
   static const weaponSortType = EnumPrefKey("weaponSortType", WeaponSortType.values);
   static const dailyMaterialNotificationTime = TimeOfDayPrefKey("dailyMaterialNotificationTime");
   static const lastCharacterFetchAll = DateTimeIsoPrefKey("lastCharacterFetchAll");
-  static const lastSelectedCharacterVariants = StringMapPrefKey("lastSelectedCharacterVariants");
+  static const lastSelectedCharacterVariants = VariantIdMapPrefKey("lastSelectedCharacterVariants");
   // format: <HoYoLAB account ID (ltuid)>;<expires at (ISO8601 UTC)>;<last value>
   // This key should be accessed through loginBonusStateProvider.
   static const lastLoginBonusStateSynced = NullableStringPrefKey("lastLoginBonusStateSynced");

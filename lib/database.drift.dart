@@ -19,17 +19,18 @@ class $BookmarkMaterialGroupTableTable extends BookmarkMaterialGroupTable
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _characterIdMeta = const VerificationMeta(
-    'characterId',
-  );
   @override
-  late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
-    'character_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
+  late final GeneratedColumnWithTypeConverter<CharacterOrVariantId, String>
+  characterId =
+      GeneratedColumn<String>(
+        'character_id',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<CharacterOrVariantId>(
+        $BookmarkMaterialGroupTableTable.$convertercharacterId,
+      );
   static const VerificationMeta _weaponIdMeta = const VerificationMeta(
     'weaponId',
   );
@@ -105,17 +106,6 @@ class $BookmarkMaterialGroupTableTable extends BookmarkMaterialGroupTable
     } else if (isInserting) {
       context.missing(_groupHashMeta);
     }
-    if (data.containsKey('character_id')) {
-      context.handle(
-        _characterIdMeta,
-        characterId.isAcceptableOrUnknown(
-          data['character_id']!,
-          _characterIdMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_characterIdMeta);
-    }
     if (data.containsKey('weapon_id')) {
       context.handle(
         _weaponIdMeta,
@@ -149,10 +139,13 @@ class $BookmarkMaterialGroupTableTable extends BookmarkMaterialGroupTable
         DriftSqlType.string,
         data['${effectivePrefix}group_hash'],
       )!,
-      characterId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}character_id'],
-      )!,
+      characterId: $BookmarkMaterialGroupTableTable.$convertercharacterId
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}character_id'],
+            )!,
+          ),
       weaponId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}weapon_id'],
@@ -180,6 +173,8 @@ class $BookmarkMaterialGroupTableTable extends BookmarkMaterialGroupTable
     return $BookmarkMaterialGroupTableTable(attachedDatabase, alias);
   }
 
+  static TypeConverter<CharacterOrVariantId, String> $convertercharacterId =
+      const CharacterOrVariantIdConverter();
   static JsonTypeConverter2<Purpose, String, String> $converterpurposeType =
       const EnumNameConverter<Purpose>(Purpose.values);
 }
@@ -187,7 +182,7 @@ class $BookmarkMaterialGroupTableTable extends BookmarkMaterialGroupTable
 class BookmarkMaterialGroup extends DataClass
     implements Insertable<BookmarkMaterialGroup> {
   final String groupHash;
-  final String characterId;
+  final CharacterOrVariantId characterId;
   final String? weaponId;
   final Purpose purposeType;
   final DateTime createdAt;
@@ -206,7 +201,13 @@ class BookmarkMaterialGroup extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['group_hash'] = Variable<String>(groupHash);
-    map['character_id'] = Variable<String>(characterId);
+    {
+      map['character_id'] = Variable<String>(
+        $BookmarkMaterialGroupTableTable.$convertercharacterId.toSql(
+          characterId,
+        ),
+      );
+    }
     if (!nullToAbsent || weaponId != null) {
       map['weapon_id'] = Variable<String>(weaponId);
     }
@@ -242,7 +243,9 @@ class BookmarkMaterialGroup extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BookmarkMaterialGroup(
       groupHash: serializer.fromJson<String>(json['groupHash']),
-      characterId: serializer.fromJson<String>(json['characterId']),
+      characterId: serializer.fromJson<CharacterOrVariantId>(
+        json['characterId'],
+      ),
       weaponId: serializer.fromJson<String?>(json['weaponId']),
       purposeType: $BookmarkMaterialGroupTableTable.$converterpurposeType
           .fromJson(serializer.fromJson<String>(json['purposeType'])),
@@ -255,7 +258,7 @@ class BookmarkMaterialGroup extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'groupHash': serializer.toJson<String>(groupHash),
-      'characterId': serializer.toJson<String>(characterId),
+      'characterId': serializer.toJson<CharacterOrVariantId>(characterId),
       'weaponId': serializer.toJson<String?>(weaponId),
       'purposeType': serializer.toJson<String>(
         $BookmarkMaterialGroupTableTable.$converterpurposeType.toJson(
@@ -269,7 +272,7 @@ class BookmarkMaterialGroup extends DataClass
 
   BookmarkMaterialGroup copyWith({
     String? groupHash,
-    String? characterId,
+    CharacterOrVariantId? characterId,
     Value<String?> weaponId = const Value.absent(),
     Purpose? purposeType,
     DateTime? createdAt,
@@ -336,7 +339,7 @@ class BookmarkMaterialGroup extends DataClass
 class BookmarkMaterialGroupCompanion
     extends UpdateCompanion<BookmarkMaterialGroup> {
   final Value<String> groupHash;
-  final Value<String> characterId;
+  final Value<CharacterOrVariantId> characterId;
   final Value<String?> weaponId;
   final Value<Purpose> purposeType;
   final Value<DateTime> createdAt;
@@ -353,7 +356,7 @@ class BookmarkMaterialGroupCompanion
   });
   BookmarkMaterialGroupCompanion.insert({
     required String groupHash,
-    required String characterId,
+    required CharacterOrVariantId characterId,
     this.weaponId = const Value.absent(),
     required Purpose purposeType,
     this.createdAt = const Value.absent(),
@@ -385,7 +388,7 @@ class BookmarkMaterialGroupCompanion
 
   BookmarkMaterialGroupCompanion copyWith({
     Value<String>? groupHash,
-    Value<String>? characterId,
+    Value<CharacterOrVariantId>? characterId,
     Value<String?>? weaponId,
     Value<Purpose>? purposeType,
     Value<DateTime>? createdAt,
@@ -410,7 +413,11 @@ class BookmarkMaterialGroupCompanion
       map['group_hash'] = Variable<String>(groupHash.value);
     }
     if (characterId.present) {
-      map['character_id'] = Variable<String>(characterId.value);
+      map['character_id'] = Variable<String>(
+        $BookmarkMaterialGroupTableTable.$convertercharacterId.toSql(
+          characterId.value,
+        ),
+      );
     }
     if (weaponId.present) {
       map['weapon_id'] = Variable<String>(weaponId.value);
@@ -850,17 +857,17 @@ class $BookmarkArtifactTableTable extends BookmarkArtifactTable
       'PRIMARY KEY AUTOINCREMENT',
     ),
   );
-  static const VerificationMeta _characterIdMeta = const VerificationMeta(
-    'characterId',
-  );
   @override
-  late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
-    'character_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
+  late final GeneratedColumnWithTypeConverter<VariantId, String> characterId =
+      GeneratedColumn<String>(
+        'character_id',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<VariantId>(
+        $BookmarkArtifactTableTable.$convertercharacterId,
+      );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -919,17 +926,6 @@ class $BookmarkArtifactTableTable extends BookmarkArtifactTable
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('character_id')) {
-      context.handle(
-        _characterIdMeta,
-        characterId.isAcceptableOrUnknown(
-          data['character_id']!,
-          _characterIdMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_characterIdMeta);
-    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -957,10 +953,12 @@ class $BookmarkArtifactTableTable extends BookmarkArtifactTable
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
-      characterId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}character_id'],
-      )!,
+      characterId: $BookmarkArtifactTableTable.$convertercharacterId.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}character_id'],
+        )!,
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -983,6 +981,8 @@ class $BookmarkArtifactTableTable extends BookmarkArtifactTable
     return $BookmarkArtifactTableTable(attachedDatabase, alias);
   }
 
+  static TypeConverter<VariantId, String> $convertercharacterId =
+      const VariantIdConverter();
   static TypeConverter<List<StatId>, String> $convertersubStats =
       const ListConverter<StatId>();
 }
@@ -990,7 +990,7 @@ class $BookmarkArtifactTableTable extends BookmarkArtifactTable
 class BookmarkArtifact extends DataClass
     implements Insertable<BookmarkArtifact> {
   final int id;
-  final String characterId;
+  final VariantId characterId;
   final DateTime createdAt;
   final List<StatId> subStats;
 
@@ -1007,7 +1007,11 @@ class BookmarkArtifact extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['character_id'] = Variable<String>(characterId);
+    {
+      map['character_id'] = Variable<String>(
+        $BookmarkArtifactTableTable.$convertercharacterId.toSql(characterId),
+      );
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     {
       map['sub_stats'] = Variable<String>(
@@ -1035,7 +1039,7 @@ class BookmarkArtifact extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BookmarkArtifact(
       id: serializer.fromJson<int>(json['id']),
-      characterId: serializer.fromJson<String>(json['characterId']),
+      characterId: serializer.fromJson<VariantId>(json['characterId']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       subStats: serializer.fromJson<List<StatId>>(json['subStats']),
       orderIndex: serializer.fromJson<String>(json['orderIndex']),
@@ -1046,7 +1050,7 @@ class BookmarkArtifact extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'characterId': serializer.toJson<String>(characterId),
+      'characterId': serializer.toJson<VariantId>(characterId),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'subStats': serializer.toJson<List<StatId>>(subStats),
       'orderIndex': serializer.toJson<String>(orderIndex),
@@ -1055,7 +1059,7 @@ class BookmarkArtifact extends DataClass
 
   BookmarkArtifact copyWith({
     int? id,
-    String? characterId,
+    VariantId? characterId,
     DateTime? createdAt,
     List<StatId>? subStats,
     String? orderIndex,
@@ -1108,7 +1112,7 @@ class BookmarkArtifact extends DataClass
 
 class BookmarkArtifactCompanion extends UpdateCompanion<BookmarkArtifact> {
   final Value<int> id;
-  final Value<String> characterId;
+  final Value<VariantId> characterId;
   final Value<DateTime> createdAt;
   final Value<List<StatId>> subStats;
   final Value<String> orderIndex;
@@ -1121,7 +1125,7 @@ class BookmarkArtifactCompanion extends UpdateCompanion<BookmarkArtifact> {
   });
   BookmarkArtifactCompanion.insert({
     this.id = const Value.absent(),
-    required String characterId,
+    required VariantId characterId,
     this.createdAt = const Value.absent(),
     required List<StatId> subStats,
     required String orderIndex,
@@ -1146,7 +1150,7 @@ class BookmarkArtifactCompanion extends UpdateCompanion<BookmarkArtifact> {
 
   BookmarkArtifactCompanion copyWith({
     Value<int>? id,
-    Value<String>? characterId,
+    Value<VariantId>? characterId,
     Value<DateTime>? createdAt,
     Value<List<StatId>>? subStats,
     Value<String>? orderIndex,
@@ -1167,7 +1171,11 @@ class BookmarkArtifactCompanion extends UpdateCompanion<BookmarkArtifact> {
       map['id'] = Variable<int>(id.value);
     }
     if (characterId.present) {
-      map['character_id'] = Variable<String>(characterId.value);
+      map['character_id'] = Variable<String>(
+        $BookmarkArtifactTableTable.$convertercharacterId.toSql(
+          characterId.value,
+        ),
+      );
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
@@ -3094,7 +3102,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 typedef $$BookmarkMaterialGroupTableTableCreateCompanionBuilder =
     BookmarkMaterialGroupCompanion Function({
       required String groupHash,
-      required String characterId,
+      required CharacterOrVariantId characterId,
       Value<String?> weaponId,
       required Purpose purposeType,
       Value<DateTime> createdAt,
@@ -3104,7 +3112,7 @@ typedef $$BookmarkMaterialGroupTableTableCreateCompanionBuilder =
 typedef $$BookmarkMaterialGroupTableTableUpdateCompanionBuilder =
     BookmarkMaterialGroupCompanion Function({
       Value<String> groupHash,
-      Value<String> characterId,
+      Value<CharacterOrVariantId> characterId,
       Value<String?> weaponId,
       Value<Purpose> purposeType,
       Value<DateTime> createdAt,
@@ -3172,9 +3180,14 @@ class $$BookmarkMaterialGroupTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get characterId => $composableBuilder(
+  ColumnWithTypeConverterFilters<
+    CharacterOrVariantId,
+    CharacterOrVariantId,
+    String
+  >
+  get characterId => $composableBuilder(
     column: $table.characterId,
-    builder: (column) => ColumnFilters(column),
+    builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
   ColumnFilters<String> get weaponId => $composableBuilder(
@@ -3278,7 +3291,8 @@ class $$BookmarkMaterialGroupTableTableAnnotationComposer
   GeneratedColumn<String> get groupHash =>
       $composableBuilder(column: $table.groupHash, builder: (column) => column);
 
-  GeneratedColumn<String> get characterId => $composableBuilder(
+  GeneratedColumnWithTypeConverter<CharacterOrVariantId, String>
+  get characterId => $composableBuilder(
     column: $table.characterId,
     builder: (column) => column,
   );
@@ -3368,7 +3382,7 @@ class $$BookmarkMaterialGroupTableTableTableManager
           updateCompanionCallback:
               ({
                 Value<String> groupHash = const Value.absent(),
-                Value<String> characterId = const Value.absent(),
+                Value<CharacterOrVariantId> characterId = const Value.absent(),
                 Value<String?> weaponId = const Value.absent(),
                 Value<Purpose> purposeType = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
@@ -3386,7 +3400,7 @@ class $$BookmarkMaterialGroupTableTableTableManager
           createCompanionCallback:
               ({
                 required String groupHash,
-                required String characterId,
+                required CharacterOrVariantId characterId,
                 Value<String?> weaponId = const Value.absent(),
                 required Purpose purposeType,
                 Value<DateTime> createdAt = const Value.absent(),
@@ -3820,7 +3834,7 @@ typedef $$BookmarkMaterialItemTableTableProcessedTableManager =
 typedef $$BookmarkArtifactTableTableCreateCompanionBuilder =
     BookmarkArtifactCompanion Function({
       Value<int> id,
-      required String characterId,
+      required VariantId characterId,
       Value<DateTime> createdAt,
       required List<StatId> subStats,
       required String orderIndex,
@@ -3828,7 +3842,7 @@ typedef $$BookmarkArtifactTableTableCreateCompanionBuilder =
 typedef $$BookmarkArtifactTableTableUpdateCompanionBuilder =
     BookmarkArtifactCompanion Function({
       Value<int> id,
-      Value<String> characterId,
+      Value<VariantId> characterId,
       Value<DateTime> createdAt,
       Value<List<StatId>> subStats,
       Value<String> orderIndex,
@@ -3914,9 +3928,10 @@ class $$BookmarkArtifactTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get characterId => $composableBuilder(
+  ColumnWithTypeConverterFilters<VariantId, VariantId, String>
+  get characterId => $composableBuilder(
     column: $table.characterId,
-    builder: (column) => ColumnFilters(column),
+    builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
@@ -4037,10 +4052,11 @@ class $$BookmarkArtifactTableTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get characterId => $composableBuilder(
-    column: $table.characterId,
-    builder: (column) => column,
-  );
+  GeneratedColumnWithTypeConverter<VariantId, String> get characterId =>
+      $composableBuilder(
+        column: $table.characterId,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -4153,7 +4169,7 @@ class $$BookmarkArtifactTableTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                Value<String> characterId = const Value.absent(),
+                Value<VariantId> characterId = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<List<StatId>> subStats = const Value.absent(),
                 Value<String> orderIndex = const Value.absent(),
@@ -4167,7 +4183,7 @@ class $$BookmarkArtifactTableTableTableManager
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                required String characterId,
+                required VariantId characterId,
                 Value<DateTime> createdAt = const Value.absent(),
                 required List<StatId> subStats,
                 required String orderIndex,

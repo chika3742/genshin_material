@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ArtifactBookmarkDialogState {
 
- CharacterId? get characterId; ArtifactSetId? get firstSetId; ArtifactSetId? get secondSetId; ArtifactPieceId? get pieceId; Map<ArtifactPieceTypeId, StatId?> get mainStats; List<StatId> get subStats;
+ VariantId? get characterId; ArtifactSetId? get firstSetId; ArtifactSetId? get secondSetId; ArtifactPieceId? get pieceId; Map<ArtifactPieceTypeId, StatId?> get mainStats; List<StatId> get subStats;
 /// Create a copy of ArtifactBookmarkDialogState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -51,7 +51,7 @@ abstract mixin class $ArtifactBookmarkDialogStateCopyWith<$Res>  {
   factory $ArtifactBookmarkDialogStateCopyWith(ArtifactBookmarkDialogState value, $Res Function(ArtifactBookmarkDialogState) _then) = _$ArtifactBookmarkDialogStateCopyWithImpl;
 @useResult
 $Res call({
- CharacterId? characterId, ArtifactSetId? firstSetId, ArtifactSetId? secondSetId, ArtifactPieceId? pieceId, Map<ArtifactPieceTypeId, StatId?> mainStats, List<StatId> subStats
+ VariantId? characterId, ArtifactSetId? firstSetId, ArtifactSetId? secondSetId, ArtifactPieceId? pieceId, Map<ArtifactPieceTypeId, StatId?> mainStats, List<StatId> subStats
 });
 
 
@@ -71,7 +71,7 @@ class _$ArtifactBookmarkDialogStateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? characterId = freezed,Object? firstSetId = freezed,Object? secondSetId = freezed,Object? pieceId = freezed,Object? mainStats = null,Object? subStats = null,}) {
   return _then(ArtifactBookmarkDialogState(
 characterId: freezed == characterId ? _self.characterId : characterId // ignore: cast_nullable_to_non_nullable
-as CharacterId?,firstSetId: freezed == firstSetId ? _self.firstSetId : firstSetId // ignore: cast_nullable_to_non_nullable
+as VariantId?,firstSetId: freezed == firstSetId ? _self.firstSetId : firstSetId // ignore: cast_nullable_to_non_nullable
 as ArtifactSetId?,secondSetId: freezed == secondSetId ? _self.secondSetId : secondSetId // ignore: cast_nullable_to_non_nullable
 as ArtifactSetId?,pieceId: freezed == pieceId ? _self.pieceId : pieceId // ignore: cast_nullable_to_non_nullable
 as ArtifactPieceId?,mainStats: null == mainStats ? _self.mainStats : mainStats // ignore: cast_nullable_to_non_nullable
@@ -91,7 +91,7 @@ class _ArtifactBookmarkDialogState implements ArtifactBookmarkDialogState {
   const _ArtifactBookmarkDialogState({this.characterId, this.firstSetId, this.secondSetId, this.pieceId,  Map<ArtifactPieceTypeId, StatId?> mainStats = const {},  List<StatId> subStats = const []}): _mainStats = mainStats,_subStats = subStats;
   
 
-@override final  CharacterId? characterId;
+@override final  VariantId? characterId;
 @override final  ArtifactSetId? firstSetId;
 @override final  ArtifactSetId? secondSetId;
 @override final  ArtifactPieceId? pieceId;
@@ -142,7 +142,7 @@ abstract mixin class _$ArtifactBookmarkDialogStateCopyWith<$Res> implements $Art
   factory _$ArtifactBookmarkDialogStateCopyWith(_ArtifactBookmarkDialogState value, $Res Function(_ArtifactBookmarkDialogState) _then) = __$ArtifactBookmarkDialogStateCopyWithImpl;
 @override @useResult
 $Res call({
- CharacterId? characterId, ArtifactSetId? firstSetId, ArtifactSetId? secondSetId, ArtifactPieceId? pieceId, Map<ArtifactPieceTypeId, StatId?> mainStats, List<StatId> subStats
+ VariantId? characterId, ArtifactSetId? firstSetId, ArtifactSetId? secondSetId, ArtifactPieceId? pieceId, Map<ArtifactPieceTypeId, StatId?> mainStats, List<StatId> subStats
 });
 
 
@@ -162,7 +162,7 @@ class __$ArtifactBookmarkDialogStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? characterId = freezed,Object? firstSetId = freezed,Object? secondSetId = freezed,Object? pieceId = freezed,Object? mainStats = null,Object? subStats = null,}) {
   return _then(_ArtifactBookmarkDialogState(
 characterId: freezed == characterId ? _self.characterId : characterId // ignore: cast_nullable_to_non_nullable
-as CharacterId?,firstSetId: freezed == firstSetId ? _self.firstSetId : firstSetId // ignore: cast_nullable_to_non_nullable
+as VariantId?,firstSetId: freezed == firstSetId ? _self.firstSetId : firstSetId // ignore: cast_nullable_to_non_nullable
 as ArtifactSetId?,secondSetId: freezed == secondSetId ? _self.secondSetId : secondSetId // ignore: cast_nullable_to_non_nullable
 as ArtifactSetId?,pieceId: freezed == pieceId ? _self.pieceId : pieceId // ignore: cast_nullable_to_non_nullable
 as ArtifactPieceId?,mainStats: null == mainStats ? _self._mainStats : mainStats // ignore: cast_nullable_to_non_nullable

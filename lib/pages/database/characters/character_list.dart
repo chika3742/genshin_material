@@ -43,10 +43,9 @@ class CharacterListPage extends HookConsumerWidget {
     final lastBulkSync = ref.watch(prefProvider(PrefKeys.lastCharacterFetchAll));
     final fetchState = ref.watch(CharacterStateRepository.fetchAllMutation);
 
-    var charactersIterable = assetData.characters.values
-        .whereType<CharacterWithLargeImage>();
+    var charactersIterable = assetData.characters.values;
 
-    bool filterByPossession(CharacterWithLargeImage character, bool filterByOwned) {
+    bool filterByPossession(Character character, bool filterByOwned) {
       if (ownedCharacters == null) {
         return true; // show all characters if owned list is unavailable
       }
@@ -60,30 +59,28 @@ class CharacterListPage extends HookConsumerWidget {
       charactersIterable = charactersIterable.where((e) => e.rarity == filterState.rarity);
     }
     if (filterState.element != null) {
-      charactersIterable = charactersIterable.where((e) => e is ListedCharacter ? e.element == filterState.element : false);
+      charactersIterable = charactersIterable.where((e) => e.variants.any((v) => v.element == filterState.element));
     }
     if (filterState.weaponType != null) {
       charactersIterable = charactersIterable.where((e) => e.weaponType == filterState.weaponType);
     }
 
     final characters = charactersIterable.toList();
-    mergeSort(characters, compare: (CharacterWithLargeImage a, CharacterWithLargeImage b) {
+    mergeSort(characters, compare: (Character a, Character b) {
       switch (filterState.sortType) {
         case CharacterSortType.name:
           return LocaleSettings.instance.currentLocale == .ja
               ? katakanaCompare(a.jaPronunciation, b.jaPronunciation)
               : a.name.localized.compareTo(b.name.localized);
         case CharacterSortType.element:
-          if (a is ListedCharacter && b is ListedCharacter) {
-            final elementComparison = a.element.compareTo(b.element);
-            if (elementComparison != 0) return elementComparison;
-            return a.name.localized.compareTo(b.name.localized);
-          } else if (a is ListedCharacter) {
-            return -1;
-          } else if (b is ListedCharacter) {
-            return 1;
-          }
-          return a.name.localized.compareTo(b.name.localized);
+          return switch ((a.element, b.element)) {
+            (final aElement?, final bElement?) => aElement.compareTo(bElement) != 0
+                ? aElement.compareTo(bElement)
+                : a.name.localized.compareTo(b.name.localized),
+            (_?, null) => -1,
+            (null, _?) => 1,
+            (null, null) => a.name.localized.compareTo(b.name.localized),
+          };
         case CharacterSortType.defaultSort:
           return 0;
       }
@@ -108,13 +105,13 @@ class CharacterListPage extends HookConsumerWidget {
               _showFilterBottomSheet(context);
             },
           ),
-          SearchButton<CharacterWithLargeImage>(
+          SearchButton<Character>(
             hintTargetText: tr.search.targets.characters,
             queryCallback: (query) {
               return filterBySearchQuery(
                 assetData.characters.values,
                 query,
-              ).whereType<CharacterWithLargeImage>().toList();
+              );
             },
             resultItemBuilder: (context, item) {
               return SearchResultListTile(
@@ -169,7 +166,7 @@ class CharacterListPage extends HookConsumerWidget {
     );
   }
 
-  Widget _buildGrid(List<CharacterWithLargeImage> characters, {Key? key}) {
+  Widget _buildGrid(List<Character> characters, {Key? key}) {
     return GridView.builder(
       key: key,
       padding: EdgeInsets.all(16.0),

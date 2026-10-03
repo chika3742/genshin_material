@@ -1,49 +1,27 @@
+import "../core/asset_cache.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../models/material.dart";
 import "../models/weapon.dart";
 
-bool materialUsagePredicate(
-  Material material,
-  MaterialDefinitions definitions,
-) {
-  return definitions.entries.any((entry) {
-    if (entry.key == "runtimeType") {
-      return false;
-    }
+extension MaterialUsageExtension on AssetData {
+  Iterable<CharacterSummary> getCharactersUsingMaterial(Material material) {
+    final special = specialCharactersUsingMaterials[material.id] ?? const [];
+    bool uses(CharacterOrVariantId id, MaterialDefinitions definitions) =>
+        special.contains(id) || definitions.entries.any((e) => e.value.matches(material));
 
-    final [type, expr] = entry.value.split(":");
-    if (type == "group") {
-      return expr == material.groupId;
-    }
-    if (type == "id") {
-      return expr == material.id;
-    }
-    return false;
-  });
-}
+    return characters.values.expand<CharacterSummary>((c) {
+      if (uses(c.id, c.materials)) {
+        return [c];
+      }
+      return c.variants.where((v) => uses(v.id, v.materials));
+    });
+  }
 
-Iterable<Character> getCharactersUsingMaterial(
-    Material material,
-    Iterable<Character> characters,
-    Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials,
-) {
-  return characters.where((c) {
-    if (specialCharactersUsingMaterials[material.id]?.contains(c.id) == true) {
-      return true;
-    }
-    return materialUsagePredicate(material, c.materials);
-  });
-}
-
-Iterable<Weapon> getWeaponsUsingMaterial(
-  Material material,
-  Iterable<Weapon> items,
-) {
-  return items.where((w) {
-    if (w.materials == null) {
-      return false;
-    }
-    return materialUsagePredicate(material, w.materials!);
-  });
+  Iterable<Weapon> getWeaponsUsingMaterial(Material material) {
+    return weapons.values.where((w) {
+      return w.materials != null
+          && w.materials!.entries.any((e) => e.value.matches(material));
+    });
+  }
 }

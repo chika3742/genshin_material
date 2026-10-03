@@ -12,10 +12,8 @@ import "package:genshin_material/data/repositories/character_state_repository.da
 import "package:genshin_material/data/repositories/single_character_state_repository.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/in_game_character_state_db_extension.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
-import "package:genshin_material/models/element.dart";
-import "package:genshin_material/models/localized_text.dart";
-import "package:genshin_material/models/weapon.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
 
 import "../../../utils/asset_data.dart";
@@ -25,59 +23,18 @@ import "../../../utils/fake_hoyolab_game_api.dart";
 import "../../../utils/hoyolab_game_server.dart";
 import "../../../utils/in_memory_pref.dart";
 import "../../../utils/provider_container.dart";
+import "../../../utils/test_data.dart";
 
 const _uid = "uid_1";
-
-const _charaHyvId = 90001;
-const _groupHyvId1 = 90002;
-const _groupHyvId2 = 90003;
-const _unknownCharaHyvId = 99999;
-
-const _anemoHyvId = 90101;
-const _geoHyvId = 90102;
-
-const _weaponHyvId = 90201;
-const _unknownWeaponHyvId = 99998;
 
 final _now = DateTime(2026, 1, 1, 12);
 
 AssetData _buildAssetData() {
-  Element element(int hyvId) => Element(hyvId: hyvId, imageUrl: "", text: LocalizedText(locales: {}));
-
   return buildTestAssetData(
-    characters: {
-      "test_chara": buildTestCharacter(
-        id: "test_chara",
-        hyvIds: [_charaHyvId],
-        element: "test_anemo",
-        weaponType: "test_sword",
-      ),
-      "test_group": buildTestCharacterGroup(
-        id: "test_group",
-        hyvIds: [_groupHyvId1, _groupHyvId2],
-        variantIds: ["test_group_anemo", "test_group_geo"],
-      ),
-      "test_group_anemo": buildTestCharacterVariant(
-        id: "test_group_anemo",
-        parentId: "test_group",
-        element: "test_anemo",
-      ),
-      "test_group_geo": buildTestCharacterVariant(
-        id: "test_group_geo",
-        parentId: "test_group",
-        element: "test_geo",
-      ),
-    },
-    weapons: {
-      "test_weapon": buildTestWeapon(id: "test_weapon", hyvId: _weaponHyvId),
-    },
-    elements: {
-      "test_anemo": element(_anemoHyvId),
-      "test_geo": element(_geoHyvId),
-    },
-    weaponTypes: {
-      "test_sword": WeaponTypeInfo(hyvId: 90301, name: LocalizedText(locales: {})),
-    },
+    characters: createTestCharacters(),
+    weapons: createTestWeapons(),
+    elements: createTestElements(),
+    weaponTypes: createTestWeaponTypes(),
   );
 }
 
@@ -106,10 +63,10 @@ void main() {
 
   Future<void> insertState({
     String uid = _uid,
-    int characterId = _charaHyvId,
-    int elementId = _anemoHyvId,
+    int characterId = charaHyvId,
+    int elementId = anemoHyvId,
     Map<Purpose, int> purposes = const {Purpose.ascension: 40},
-    int equippedWeaponId = _weaponHyvId,
+    int equippedWeaponId = weaponHyvId,
     Map<Purpose, int> weaponPurposes = const {Purpose.ascension: 50},
     DateTime? lastUpdated,
   }) {
@@ -155,7 +112,7 @@ void main() {
     test("maps a listed character to its local IDs", () async {
       await insertState(
         purposes: {Purpose.ascension: 40, Purpose.normalAttack: 6},
-        equippedWeaponId: _weaponHyvId,
+        equippedWeaponId: weaponHyvId,
         weaponPurposes: {Purpose.ascension: 50},
         lastUpdated: _now,
       );
@@ -165,7 +122,7 @@ void main() {
       expect(states, {
         "test_chara": CharacterState(
           levels: {Purpose.ascension: 40, Purpose.normalAttack: 6},
-          equippedWeaponId: "test_weapon",
+          equippedWeaponId: testWeaponId,
           weaponLevels: {Purpose.ascension: 50},
           lastUpdatedAt: _now,
         ),
@@ -173,8 +130,8 @@ void main() {
     });
 
     test("keys each element of a group by its variant ID", () async {
-      await insertState(characterId: _groupHyvId1, elementId: _anemoHyvId);
-      await insertState(characterId: _groupHyvId1, elementId: _geoHyvId);
+      await insertState(characterId: groupHyvId1, elementId: anemoHyvId);
+      await insertState(characterId: groupHyvId1, elementId: geoHyvId);
 
       final states = await readStates(createContainer());
 
@@ -182,8 +139,8 @@ void main() {
     });
 
     test("skips a character missing from the asset data", () async {
-      await insertState(characterId: _charaHyvId);
-      await insertState(characterId: _unknownCharaHyvId);
+      await insertState(characterId: charaHyvId);
+      await insertState(characterId: unknownCharaHyvId);
 
       final states = await readStates(createContainer());
 
@@ -191,7 +148,7 @@ void main() {
     });
 
     test("leaves the weapon ID null when the weapon is missing from the asset data", () async {
-      await insertState(equippedWeaponId: _unknownWeaponHyvId);
+      await insertState(equippedWeaponId: unknownWeaponHyvId);
 
       final states = await readStates(createContainer());
 
@@ -199,8 +156,8 @@ void main() {
     });
 
     test("ignores the rows of another uid", () async {
-      await insertState(uid: _uid, characterId: _charaHyvId);
-      await insertState(uid: "uid_2", characterId: _groupHyvId1);
+      await insertState(uid: _uid, characterId: charaHyvId);
+      await insertState(uid: "uid_2", characterId: groupHyvId1);
 
       final states = await readStates(createContainer());
 
@@ -226,15 +183,15 @@ void main() {
 
     test("writes the characters of every page until an empty one", () async {
       final api = FakeHoyolabGameApi(pages: {
-        1: [buildTestAvatar(id: _charaHyvId), buildTestAvatar(id: _groupHyvId1, elementAttrId: _anemoHyvId)],
-        2: [buildTestAvatar(id: _unknownCharaHyvId)],
+        1: [buildTestAvatar(id: charaHyvId), buildTestAvatar(id: groupHyvId1, elementAttrId: anemoHyvId)],
+        2: [buildTestAvatar(id: unknownCharaHyvId)],
       });
 
       await fetchAll(createContainer(api: api));
 
       expect(
         (await readRows()).map((e) => e.characterId),
-        unorderedEquals([_charaHyvId, _groupHyvId1, _unknownCharaHyvId]),
+        unorderedEquals([charaHyvId, groupHyvId1, unknownCharaHyvId]),
       );
       expect(api.avatarListCalls.map((e) => e.page), [1, 2, 3]);
     });
@@ -250,7 +207,7 @@ void main() {
 
     test("stores the rows under the linked uid with a single timestamp", () async {
       final api = FakeHoyolabGameApi(pages: {
-        1: [buildTestAvatar(id: _charaHyvId), buildTestAvatar(id: _groupHyvId1)],
+        1: [buildTestAvatar(id: charaHyvId), buildTestAvatar(id: groupHyvId1)],
       });
 
       await fetchAll(createContainer(api: api), at: _now);
@@ -263,7 +220,7 @@ void main() {
     test("overwrites an existing row", () async {
       await insertState(purposes: {Purpose.ascension: 40});
       final api = FakeHoyolabGameApi(pages: {
-        1: [buildTestAvatar(id: _charaHyvId, elementAttrId: _anemoHyvId, currentLevel: 80)],
+        1: [buildTestAvatar(id: charaHyvId, elementAttrId: anemoHyvId, currentLevel: 80)],
       });
 
       await fetchAll(createContainer(api: api));
@@ -274,16 +231,16 @@ void main() {
     // HoYoLAB returns the Traveler only in the element currently resonated
     // with, so the rows of the other elements must survive.
     test("keeps a row missing from the result", () async {
-      await insertState(characterId: _groupHyvId1, elementId: _geoHyvId);
+      await insertState(characterId: groupHyvId1, elementId: geoHyvId);
       final api = FakeHoyolabGameApi(pages: {
-        1: [buildTestAvatar(id: _groupHyvId1, elementAttrId: _anemoHyvId)],
+        1: [buildTestAvatar(id: groupHyvId1, elementAttrId: anemoHyvId)],
       });
 
       await fetchAll(createContainer(api: api));
 
       expect(
         (await readRows()).map((e) => e.elementId),
-        unorderedEquals([_anemoHyvId, _geoHyvId]),
+        unorderedEquals([anemoHyvId, geoHyvId]),
       );
     });
 
@@ -291,28 +248,28 @@ void main() {
     // without fetching again.
     test("stores a character missing from the asset data without exposing it", () async {
       final api = FakeHoyolabGameApi(pages: {
-        1: [buildTestAvatar(id: _unknownCharaHyvId)],
+        1: [buildTestAvatar(id: unknownCharaHyvId)],
       });
       final container = createContainer(api: api);
 
       await fetchAll(container);
 
-      expect((await readRows()).single.characterId, _unknownCharaHyvId);
+      expect((await readRows()).single.characterId, unknownCharaHyvId);
       expect(await readStates(container), isEmpty);
     });
 
     test("lets the per-character fetch reuse the stored state", () async {
       final api = FakeHoyolabGameApi(pages: {
-        1: [buildTestAvatar(id: _charaHyvId, elementAttrId: _anemoHyvId)],
+        1: [buildTestAvatar(id: charaHyvId, elementAttrId: anemoHyvId)],
       });
       final container = createContainer(api: api);
-      final mutation = SingleCharacterStateRepository.fetchMutation("test_chara");
+      final mutation = SingleCharacterStateRepository.fetchMutation(testCharaId);
       container.listen(mutation, (_, _) {});
 
       await fetchAll(container, at: _now);
       api.avatarListCalls.clear();
       await withClock(Clock.fixed(_now.add(const Duration(seconds: 30))), () {
-        return SingleCharacterStateRepository.executeFetch(container, "test_chara");
+        return SingleCharacterStateRepository.executeFetch(container, VariantId(testCharaId));
       });
 
       expect(container.read(mutation), isA<MutationSuccess<FetchResult>>()

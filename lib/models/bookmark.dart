@@ -5,13 +5,14 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "../core/asset_cache.dart";
 import "../database.dart";
 import "../utils/hash.dart";
+import "character.dart";
 import "common.dart";
 import "level_range_values.dart";
 
 part "bookmark.freezed.dart";
 
 class MaterialBookmarkInsertable {
-  final CharacterId characterId;
+  final CharacterOrVariantId characterId;
   final WeaponId? weaponId;
   final MaterialId? materialId;
   final int quantity;
@@ -65,7 +66,7 @@ class MaterialBookmarkInsertable {
 }
 
 class ArtifactSetBookmarkInsertable {
-  final CharacterId characterId;
+  final VariantId characterId;
   final List<ArtifactSetId> sets;
   final Map<ArtifactPieceTypeId, StatId?> mainStats;
   final List<StatId> subStats;
@@ -95,7 +96,7 @@ class ArtifactSetBookmarkInsertable {
 }
 
 class ArtifactPieceBookmarkInsertable {
-  final CharacterId characterId;
+  final VariantId characterId;
   final ArtifactPieceId piece;
   final StatId? mainStat;
   final List<StatId> subStats;
@@ -149,7 +150,7 @@ sealed class BookmarkGroup with _$BookmarkGroup {
   const factory BookmarkGroup({
     required String hash,
     required BookmarkType type,
-    required String characterId,
+    required CharacterOrVariantId characterId,
     required String orderIndex,
     LevelRangeValues? levelRange,
     required List<BookmarkWithDetails> bookmarks,
@@ -163,17 +164,17 @@ sealed class BookmarkGroup with _$BookmarkGroup {
 
     late final String hash;
     late final BookmarkType type;
-    late final String characterId;
+    late final CharacterOrVariantId characterId;
 
     if (sample is BookmarkWithMaterialDetails) {
       hash = sample.group.groupHash;
       type = BookmarkType.material;
-      characterId = sample.group.characterId;
+      characterId = CharacterOrVariantId(sample.group.characterId);
       final levels = bookmarks.cast<BookmarkWithMaterialDetails>()
           .sorted((a, b) => a.item.upperLevel - b.item.upperLevel);
       final ingredients = switch (sample.group.weaponId) {
         null => assetData.characterIngredients.getLevels(
-          rarity: assetData.characters[sample.group.characterId]!.rarity,
+          rarity: assetData.findCharacterOrVariant(sample.group.characterId)!.rarity,
           purpose: sample.group.purposeType,
         ),
         _ => assetData.weaponIngredients.getLevels(
@@ -190,7 +191,7 @@ sealed class BookmarkGroup with _$BookmarkGroup {
     } else if (sample is BookmarkWithArtifactSetDetails) {
       hash = sample.artifact.id.toString();
       type = BookmarkType.artifactSet;
-      characterId = sample.artifact.characterId;
+      characterId = VariantId(sample.artifact.characterId);
     } else if (sample is BookmarkWithArtifactPieceDetails) {
       hash = sample.artifact.id.toString();
       type = BookmarkType.artifactPiece;

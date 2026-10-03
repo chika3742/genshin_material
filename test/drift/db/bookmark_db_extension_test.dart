@@ -3,6 +3,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/models/bookmark.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 
 import "../../utils/db.dart";
@@ -33,7 +34,7 @@ void main() {
     test("returns single bookmark range correctly", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: null,
@@ -51,19 +52,19 @@ void main() {
         () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           purposeType: Purpose.ascension,
           upperLevel: 20,
           materialId: "mat_a",
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: "mat_b",
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           purposeType: Purpose.ascension,
           upperLevel: 60,
           materialId: "mat_c",
@@ -79,13 +80,13 @@ void main() {
     test("returns separate ranges per purpose", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: "mat_asc",
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           purposeType: Purpose.normalAttack,
           upperLevel: 6,
           materialId: "mat_na",
@@ -102,13 +103,13 @@ void main() {
     test("does not include weapon bookmarks", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: "char_mat",
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           purposeType: Purpose.ascension,
           upperLevel: 70,
@@ -125,13 +126,13 @@ void main() {
     test("does not include bookmarks for other characters", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: "mat_c1",
         ),
         buildMaterialBookmark(
-          characterId: "char_2",
+          characterId: CharacterOrVariantId("char_2"),
           purposeType: Purpose.ascension,
           upperLevel: 80,
           materialId: "mat_c2",
@@ -153,7 +154,7 @@ void main() {
     test("returns single weapon bookmark range correctly", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           purposeType: Purpose.ascension,
           upperLevel: 50,
@@ -172,14 +173,14 @@ void main() {
         () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           purposeType: Purpose.ascension,
           upperLevel: 40,
           materialId: "wmat_a",
         ),
         buildMaterialBookmark(
-          characterId: "char_2",
+          characterId: CharacterOrVariantId("char_2"),
           weaponId: "weapon_1",
           purposeType: Purpose.ascension,
           upperLevel: 70,
@@ -196,13 +197,13 @@ void main() {
     test("does not include character bookmarks", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           purposeType: Purpose.ascension,
           upperLevel: 80,
           materialId: "char_mat",
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           purposeType: Purpose.ascension,
           upperLevel: 50,
@@ -219,14 +220,14 @@ void main() {
     test("does not include bookmarks for other weapons", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           purposeType: Purpose.ascension,
           upperLevel: 50,
           materialId: "wmat_1",
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_2",
           purposeType: Purpose.ascension,
           upperLevel: 80,
@@ -243,8 +244,8 @@ void main() {
   group("watchMaterialBookmarksPartially", () {
     test("filters by character", () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
-        buildMaterialBookmark(characterId: "char_2", materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_2"), materialId: "mat_a"),
       ]);
 
       final rows = await db.watchMaterialBookmarksPartially(
@@ -261,9 +262,9 @@ void main() {
     test("matches only character bookmarks when the weapon id is null",
         () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           materialId: "mat_a",
         ),
@@ -283,12 +284,12 @@ void main() {
     test("filters by weapon", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           materialId: "mat_a",
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_2",
           materialId: "mat_a",
         ),
@@ -307,8 +308,8 @@ void main() {
 
     test("filters by material", () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_b"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_b"),
       ]);
 
       final rows = await db.watchMaterialBookmarksPartially(
@@ -324,8 +325,8 @@ void main() {
 
     test("matches only exp bookmarks when the material id is null", () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
-        buildMaterialBookmark(characterId: "char_1", materialId: null),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: null),
       ]);
 
       final rows = await db.watchMaterialBookmarksPartially(
@@ -342,12 +343,12 @@ void main() {
     test("filters by purpose", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_a",
           purposeType: Purpose.ascension,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_a",
           purposeType: Purpose.normalAttack,
         ),
@@ -366,7 +367,7 @@ void main() {
 
     test("returns nothing when no purpose is given", () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
       ]);
 
       final rows = await db.watchMaterialBookmarksPartially(
@@ -383,23 +384,23 @@ void main() {
   group("watchMaterialBookmarksByGroupHash", () {
     test("returns every item of the given group only", () async {
       final target = buildMaterialBookmark(
-        characterId: "char_1",
+        characterId: CharacterOrVariantId("char_1"),
         materialId: "mat_a",
         upperLevel: 40,
       );
       await db.addMaterialBookmarks([
         target,
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_b",
           upperLevel: 50,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_c",
           purposeType: Purpose.normalAttack,
         ),
-        buildMaterialBookmark(characterId: "char_2", materialId: "mat_d"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_2"), materialId: "mat_d"),
       ]);
 
       final rows =
@@ -415,7 +416,7 @@ void main() {
 
     test("returns an empty list for an unknown group", () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
       ]);
 
       expect(await db.watchMaterialBookmarksByGroupHash("unknown").first, isEmpty);
@@ -426,9 +427,9 @@ void main() {
     test("returns the character bookmarks of the material when hasWeapon is false",
         () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           materialId: "mat_a",
         ),
@@ -443,9 +444,9 @@ void main() {
     test("returns the weapon bookmarks of the material when hasWeapon is true",
         () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           materialId: "mat_a",
         ),
@@ -459,8 +460,8 @@ void main() {
 
     test("returns the exp bookmarks when the material id is null", () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
-        buildMaterialBookmark(characterId: "char_1", materialId: null),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: null),
       ]);
 
       final rows = await db.watchMaterialBookmarksByMaterial(null, false).first;
@@ -471,7 +472,7 @@ void main() {
 
     test("does not return the bookmarks of another material", () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_b"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_b"),
       ]);
 
       expect(await db.watchMaterialBookmarksByMaterial("mat_a", false).first, isEmpty);
@@ -480,7 +481,7 @@ void main() {
 
   group("addArtifactSetBookmark", () {
     ArtifactSetBookmarkInsertable buildSetInsertable({
-      String characterId = "char_1",
+      VariantId characterId = const VariantId("char_1"),
     }) {
       return ArtifactSetBookmarkInsertable(
         characterId: characterId,
@@ -509,7 +510,7 @@ void main() {
 
     test("appends the next bookmark after the existing one", () async {
       await db.addArtifactSetBookmark(buildSetInsertable());
-      await db.addArtifactSetBookmark(buildSetInsertable(characterId: "char_2"));
+      await db.addArtifactSetBookmark(buildSetInsertable(characterId: VariantId("char_2")));
 
       final artifacts = await readArtifactsById();
 
@@ -535,7 +536,7 @@ void main() {
       String? mainStat = "atk_percent",
     }) {
       return ArtifactPieceBookmarkInsertable(
-        characterId: "char_1",
+        characterId: VariantId("char_1"),
         piece: "piece_1",
         mainStat: mainStat,
         subStats: const ["crit_dmg"],
@@ -579,11 +580,11 @@ void main() {
   group("updateMaterialGroupOrderIndex", () {
     test("updates the order index of the given group only", () async {
       final first = buildMaterialBookmark(
-        characterId: "char_1",
+        characterId: CharacterOrVariantId("char_1"),
         materialId: "mat_a",
       );
       final second = buildMaterialBookmark(
-        characterId: "char_2",
+        characterId: CharacterOrVariantId("char_2"),
         materialId: "mat_a",
       );
       await db.addMaterialBookmarks([first, second]);
@@ -607,13 +608,13 @@ void main() {
   group("updateArtifactOrderIndex", () {
     test("updates the order index of the given artifact only", () async {
       await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
-        characterId: "char_1",
+        characterId: VariantId("char_1"),
         piece: "piece_1",
         mainStat: null,
         subStats: const [],
       ));
       await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
-        characterId: "char_2",
+        characterId: VariantId("char_2"),
         piece: "piece_2",
         mainStat: null,
         subStats: const [],
@@ -634,7 +635,7 @@ void main() {
   group("deleteObsoleteBookmarks", () {
     test("returns false when no level is given", () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
       ]);
 
       final deleted = await db.deleteObsoleteBookmarks(
@@ -649,7 +650,7 @@ void main() {
     test("returns false when every bookmark is above the given level", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_a",
           upperLevel: 60,
         ),
@@ -668,12 +669,12 @@ void main() {
         () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_a",
           upperLevel: 40,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_b",
           upperLevel: 60,
         ),
@@ -693,7 +694,7 @@ void main() {
     test("deletes the group once its last item is gone", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_a",
           upperLevel: 40,
         ),
@@ -710,25 +711,25 @@ void main() {
     test("applies the level of each given purpose independently", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "asc_low",
           purposeType: Purpose.ascension,
           upperLevel: 40,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "asc_high",
           purposeType: Purpose.ascension,
           upperLevel: 60,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "na_low",
           purposeType: Purpose.normalAttack,
           upperLevel: 4,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "na_high",
           purposeType: Purpose.normalAttack,
           upperLevel: 8,
@@ -753,17 +754,17 @@ void main() {
         () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_21",
           upperLevel: 21,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_41",
           upperLevel: 41,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_51",
           upperLevel: 51,
         ),
@@ -783,7 +784,7 @@ void main() {
     test("keeps a bookmark one level above the given level", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_51",
           upperLevel: 51,
         ),
@@ -801,13 +802,13 @@ void main() {
     test("only deletes the purposes that are given", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_a",
           purposeType: Purpose.ascension,
           upperLevel: 40,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_b",
           purposeType: Purpose.normalAttack,
           upperLevel: 6,
@@ -828,7 +829,7 @@ void main() {
     test("does not delete the bookmarks of another character", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_2",
+          characterId: CharacterOrVariantId("char_2"),
           materialId: "mat_a",
           upperLevel: 40,
         ),
@@ -847,12 +848,12 @@ void main() {
         () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_a",
           upperLevel: 40,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           materialId: "mat_a",
           upperLevel: 40,
@@ -872,12 +873,12 @@ void main() {
     test("deletes the weapon bookmarks when a weapon is given", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           materialId: "mat_a",
           upperLevel: 40,
         ),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           materialId: "mat_a",
           upperLevel: 40,
@@ -907,9 +908,9 @@ void main() {
 
     test("returns the character and the weapon bookmarks together", () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
         buildMaterialBookmark(
-          characterId: "char_1",
+          characterId: CharacterOrVariantId("char_1"),
           weaponId: "weapon_1",
           materialId: "mat_b",
         ),
@@ -928,12 +929,12 @@ void main() {
   group("watchMaterialBookmarksByHashes", () {
     test("returns only the items of the given hashes", () async {
       final target = buildMaterialBookmark(
-        characterId: "char_1",
+        characterId: CharacterOrVariantId("char_1"),
         materialId: "mat_a",
       );
       await db.addMaterialBookmarks([
         target,
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_b"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_b"),
       ]);
 
       final rows = await db.watchMaterialBookmarksByHashes([target.hash]).first;
@@ -944,7 +945,7 @@ void main() {
 
     test("returns an empty list when no hash is given", () async {
       await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: "char_1", materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_1"), materialId: "mat_a"),
       ]);
 
       expect(await db.watchMaterialBookmarksByHashes([]).first, isEmpty);
@@ -954,7 +955,7 @@ void main() {
   group("removeArtifactBookmarkById", () {
     test("deletes the artifact and cascades into the piece table", () async {
       await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
-        characterId: "char_1",
+        characterId: VariantId("char_1"),
         piece: "piece_1",
         mainStat: null,
         subStats: const [],
@@ -969,13 +970,13 @@ void main() {
 
     test("keeps the other artifact bookmarks", () async {
       await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
-        characterId: "char_1",
+        characterId: VariantId("char_1"),
         piece: "piece_1",
         mainStat: null,
         subStats: const [],
       ));
       await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
-        characterId: "char_2",
+        characterId: VariantId("char_2"),
         piece: "piece_2",
         mainStat: null,
         subStats: const [],

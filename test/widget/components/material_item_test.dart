@@ -11,6 +11,7 @@ import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/db/material_card_to_companions.dart";
 import "package:genshin_material/i18n/strings.g.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/drop_rates.dart";
 import "package:genshin_material/models/ingredients.dart";
@@ -37,7 +38,7 @@ void main() {
   const materialId = "mat";
   const imageUrl = "img/mat.png";
   const materialName = "Mat";
-  const usage = MaterialUsage(characterId: "char_1");
+  const usage = MaterialUsage(characterId: CharacterOrVariantId("char_1"));
 
   // The EXP item configuration is read even for ordinary materials (see the
   // bookmark bottom sheet), so it is part of the default asset data.

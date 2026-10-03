@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GameDataSyncCharacter {
 
- String get variantId; String? get weaponId;
+ VariantId get variantId; String? get weaponId;
 
 
 
@@ -52,7 +52,7 @@ class _GameDataSyncCharacter implements GameDataSyncCharacter {
   const _GameDataSyncCharacter({required this.variantId, this.weaponId});
   
 
-@override final  String variantId;
+@override final  VariantId variantId;
 @override final  String? weaponId;
 
 
@@ -83,7 +83,7 @@ String toString() {
 /// @nodoc
 mixin _$ComputeBagRequestItem {
 
- List<int> get ids; CharacterOrVariant get variant; String? get weaponId;
+ List<int> get ids; CharacterVariant get variant; String? get weaponId;
 
 
 
@@ -127,7 +127,7 @@ class __ComputeBagRequestItem implements _ComputeBagRequestItem {
   return EqualUnmodifiableListView(_ids);
 }
 
-@override final  CharacterOrVariant variant;
+@override final  CharacterVariant variant;
 @override final  String? weaponId;
 
 

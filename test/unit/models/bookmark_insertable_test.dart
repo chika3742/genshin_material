@@ -1,5 +1,6 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/models/bookmark.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/utils/hash.dart";
 
@@ -8,7 +9,7 @@ import "package:genshin_material/utils/hash.dart";
 // feeds into them and how the results are carried into the companions.
 void main() {
   MaterialBookmarkInsertable buildInsertable({
-    CharacterId characterId = "char_1",
+    CharacterOrVariantId characterId = const CharacterOrVariantId("char_1"),
     WeaponId? weaponId,
     MaterialId? materialId = "iron_chunk",
     int quantity = 3,
@@ -164,7 +165,7 @@ void main() {
 
   group("ArtifactSetBookmarkInsertable", () {
     final insertable = ArtifactSetBookmarkInsertable(
-      characterId: "char_1",
+      characterId: VariantId("char_1"),
       sets: const ["gladiator", "shimenawa"],
       mainStats: const {"sands": "atk_percent", "circlet": null},
       subStats: const ["crit_rate", "crit_dmg"],
@@ -194,7 +195,7 @@ void main() {
 
   group("ArtifactPieceBookmarkInsertable", () {
     final insertable = ArtifactPieceBookmarkInsertable(
-      characterId: "char_1",
+      characterId: VariantId("char_1"),
       piece: "flower_of_life",
       mainStat: "hp",
       subStats: const ["crit_rate"],
@@ -219,7 +220,7 @@ void main() {
 
     test("Leaves the main stat absent when it is null", () {
       final companion = ArtifactPieceBookmarkInsertable(
-        characterId: "char_1",
+        characterId: VariantId("char_1"),
         piece: "flower_of_life",
         mainStat: null,
         subStats: const [],

@@ -15,6 +15,7 @@ import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/main.dart";
 import "package:genshin_material/models/bookmark.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/asset_updating_state.dart";
 import "package:genshin_material/providers/database_provider.dart";
@@ -76,7 +77,7 @@ void main() {
       overrides: [
         appDatabaseProvider.overrideWithValue(db),
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
-        gameDataSyncStateProvider(variantId: "amber").overrideWithValue(GameDataSyncStatus.synced()),
+        gameDataSyncStateProvider(variantId: VariantId("amber")).overrideWithValue(GameDataSyncStatus.synced()),
         // The app subscribes to config updates on startup, so the service
         // itself has to be there; every value it reads is overridden below.
         remoteConfigServiceProvider
@@ -111,7 +112,7 @@ void main() {
     // initialize db with the fake data
     await db.addMaterialBookmarks([
       MaterialBookmarkInsertable(
-        characterId: "amber",
+        characterId: CharacterId("amber"),
         weaponId: null,
         materialId: "everflame-seed",
         quantity: 12,
@@ -119,7 +120,7 @@ void main() {
         upperLevel: 71,
       ),
       MaterialBookmarkInsertable(
-        characterId: "amber",
+        characterId: CharacterId("amber"),
         weaponId: null,
         materialId: "small-lamp-grass",
         quantity: 45,
@@ -127,7 +128,7 @@ void main() {
         upperLevel: 71,
       ),
       MaterialBookmarkInsertable(
-        characterId: "amber",
+        characterId: CharacterId("amber"),
         weaponId: null,
         materialId: "everflame-seed",
         quantity: 20,
@@ -135,7 +136,7 @@ void main() {
         upperLevel: 81,
       ),
       MaterialBookmarkInsertable(
-        characterId: "amber",
+        characterId: CharacterId("amber"),
         weaponId: null,
         materialId: "small-lamp-grass",
         quantity: 60,
@@ -143,7 +144,7 @@ void main() {
         upperLevel: 81,
       ),
       MaterialBookmarkInsertable(
-        characterId: "amber",
+        characterId: CharacterId("amber"),
         weaponId: null,
         materialId: "philosophies-of-freedom",
         quantity: 4,
@@ -151,7 +152,7 @@ void main() {
         upperLevel: 7,
       ),
       MaterialBookmarkInsertable(
-        characterId: "amber",
+        characterId: CharacterId("amber"),
         weaponId: null,
         materialId: "philosophies-of-freedom",
         quantity: 6,
@@ -159,7 +160,7 @@ void main() {
         upperLevel: 8,
       ),
       MaterialBookmarkInsertable(
-        characterId: "amber",
+        characterId: CharacterId("amber"),
         weaponId: null,
         materialId: "philosophies-of-freedom",
         quantity: 12,
@@ -167,7 +168,7 @@ void main() {
         upperLevel: 9,
       ),
       MaterialBookmarkInsertable(
-        characterId: "amber",
+        characterId: CharacterId("amber"),
         weaponId: null,
         materialId: "philosophies-of-freedom",
         quantity: 16,
@@ -177,7 +178,7 @@ void main() {
     ]);
 
     await db.addArtifactSetBookmark(ArtifactSetBookmarkInsertable(
-      characterId: "amber",
+      characterId: VariantId("amber"),
       sets: ["wanderers-troupe"],
       mainStats: {
         "sands": "atkPercent",

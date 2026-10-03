@@ -26,7 +26,7 @@ part "artifact_bookmark_dialog.freezed.dart";
 class ArtifactBookmarkDialog extends HookConsumerWidget {
   final ArtifactSetId? firstSetId;
   final ArtifactPieceId? pieceId;
-  final CharacterId? initialSelectedCharacter;
+  final VariantId? initialSelectedCharacter;
   final bool showSecondSetChooser;
 
   const ArtifactBookmarkDialog({
@@ -46,8 +46,6 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
       throw StateError("Asset data not loaded");
     }
     final images = ref.watch(assetImageResolverProvider);
-
-    final characters = useMemoized(() => assetData.characters.values.whereType<CharacterOrVariant>().toList());
 
     final state = useState(ArtifactBookmarkDialogState(
       characterId: initialSelectedCharacter,
@@ -154,7 +152,7 @@ class ArtifactBookmarkDialog extends HookConsumerWidget {
                         children: [
                           CharacterSelectDropdown(
                             label: tr.artifactDetailsPage.characterToEquip,
-                            characters: characters,
+                            characters: assetData.variants.values.toList(),
                             initialValue: state.value.characterId,
                             onChanged: (value) {
                               state.value = state.value.copyWith(
@@ -359,7 +357,7 @@ Future<void> showArtifactBookmarkDialog({
   required BuildContext context,
   ArtifactSetId? firstSetId,
   ArtifactPieceId? pieceId,
-  CharacterId? initialSelectedCharacter,
+  VariantId? initialSelectedCharacter,
   bool showSecondSetChooser = false,
 }) async {
   await Navigator.push(
@@ -380,7 +378,7 @@ Future<void> showArtifactBookmarkDialog({
 @Freezed(copyWith: true)
 sealed class ArtifactBookmarkDialogState with _$ArtifactBookmarkDialogState {
   const factory ArtifactBookmarkDialogState({
-    CharacterId? characterId,
+    VariantId? characterId,
     ArtifactSetId? firstSetId,
     ArtifactSetId? secondSetId,
     ArtifactPieceId? pieceId,

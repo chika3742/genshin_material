@@ -22,13 +22,16 @@ sealed class Weapon with _$Weapon, HasImage, CharacterOrWeapon, Searchable {
     required WeaponSubStat? subStat,
     required LocalizedText? weaponAffixDesc,
     required WeaponType type,
-    Map<MaterialUsageType, String>? materials,
+    MaterialDefinitions? materials,
     LocalizedText? levelingDescription,
     ItemSource? source,
   }) = _Weapon;
 
   factory Weapon.fromJson(Map<String, dynamic> json) =>
       _$WeaponFromJson(json);
+
+  @override
+  MaterialTargetType get targetType => .weapon;
 }
 
 @Freezed(toJson: false)

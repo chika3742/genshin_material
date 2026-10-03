@@ -1,6 +1,7 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/models/bookmark.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/ingredients.dart";
 import "package:genshin_material/utils/hash.dart";
@@ -8,7 +9,7 @@ import "package:genshin_material/utils/hash.dart";
 import "../../utils/asset_data.dart";
 
 void main() {
-  const characterId = "char_1";
+  const characterId = CharacterId("char_1");
   const weaponId = "weapon_1";
   const characterRarity = 5;
   const weaponRarity = 4;
@@ -85,7 +86,7 @@ void main() {
   }) {
     return BookmarkArtifact(
       id: id,
-      characterId: characterId,
+      characterId: VariantId(characterId),
       createdAt: DateTime.utc(2024),
       subStats: const ["crit_rate"],
       orderIndex: orderIndex,
@@ -210,7 +211,7 @@ void main() {
     });
 
     test("Throws when the character is missing from the asset data", () {
-      // assetData.characters[...] is force-unwrapped, so a character dropped by
+      // findCharacterOrVariant(...) is force-unwrapped, so a character dropped by
       // an asset update takes the whole bookmark list down with it.
       expect(
         () => BookmarkGroup.fromBookmarks(

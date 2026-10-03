@@ -7,6 +7,7 @@ import "package:fractional_indexing/fractional_indexing.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/models/bookmark.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/view_models/bookmarks/purpose_grouped_bookmark_list_view_model.dart";
@@ -32,7 +33,7 @@ void main() {
   // matching rarity and purpose.
   final assetData = buildTestAssetData(
     characters: {
-      for (final id in ["char_1", "char_2", "char_3"])
+      for (final id in const [CharacterId("char_1"), CharacterId("char_2"), CharacterId("char_3")])
         id: buildTestCharacter(id: id, rarity: 5),
     },
     materials: {
@@ -61,7 +62,7 @@ void main() {
 
   /// Adds one ascension bookmark for each of [characterIds], in order, so that
   /// their groups get ascending order indexes.
-  Future<void> addGroupsFor(List<CharacterId> characterIds) async {
+  Future<void> addGroupsFor(List<CharacterOrVariantId> characterIds) async {
     for (final characterId in characterIds) {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(characterId: characterId, materialId: "mat_a"),
@@ -75,7 +76,7 @@ void main() {
 
   /// Gives the group of [characterId] an order index past every other group,
   /// so that the order index order stops matching the row insertion order.
-  Future<void> moveGroupToEnd(CharacterId characterId) async {
+  Future<void> moveGroupToEnd(CharacterOrVariantId characterId) async {
     final rows = await db.select(db.bookmarkMaterialGroupTable).get();
     final last = rows.map((e) => e.orderIndex).reduce(
       (a, b) => a.compareTo(b) >= 0 ? a : b,
@@ -135,7 +136,7 @@ void main() {
 
   group("build", () {
     test("builds one group per group hash", () async {
-      await addGroupsFor(["char_1", "char_2"]);
+      await addGroupsFor([CharacterOrVariantId("char_1"), CharacterOrVariantId("char_2")]);
       final container = await createContainer();
 
       final state = container.read(purposeGroupedBookmarkListViewModelProvider);
@@ -163,13 +164,13 @@ void main() {
     });
 
     test("sorts the groups by their order index", () async {
-      await addGroupsFor(["char_1", "char_2", "char_3"]);
+      await addGroupsFor([CharacterOrVariantId("char_1"), CharacterOrVariantId("char_2"), CharacterOrVariantId("char_3")]);
       // The join behind `bookmarksProvider` has no ORDER BY, so the rows arrive
       // in insertion order — which is also the order index order right after
       // seeding. Push the first group behind the last one so that the two
       // orders differ and the sort in `build` is the only thing that can
       // produce the expected result.
-      await moveGroupToEnd("char_1");
+      await moveGroupToEnd(CharacterOrVariantId("char_1"));
       final container = await createContainer();
 
       final state = container.read(purposeGroupedBookmarkListViewModelProvider);
@@ -187,7 +188,7 @@ void main() {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(materialId: "mat_a"),
         buildMaterialBookmark(materialId: "mat_b"),
-        buildMaterialBookmark(characterId: "char_2", materialId: "mat_a"),
+        buildMaterialBookmark(characterId: CharacterOrVariantId("char_2"), materialId: "mat_a"),
       ]);
       final container = await createContainer();
 
@@ -217,7 +218,7 @@ void main() {
 
   group("reorder", () {
     test("moves a group to the end and gives it the last order index", () async {
-      await addGroupsFor(["char_1", "char_2", "char_3"]);
+      await addGroupsFor([CharacterOrVariantId("char_1"), CharacterOrVariantId("char_2"), CharacterOrVariantId("char_3")]);
       final container = await createContainer();
       final notifier =
           container.read(purposeGroupedBookmarkListViewModelProvider.notifier);
@@ -244,7 +245,7 @@ void main() {
 
     test("moves a group to the front and gives it the first order index",
         () async {
-      await addGroupsFor(["char_1", "char_2", "char_3"]);
+      await addGroupsFor([CharacterOrVariantId("char_1"), CharacterOrVariantId("char_2"), CharacterOrVariantId("char_3")]);
       final container = await createContainer();
       final notifier =
           container.read(purposeGroupedBookmarkListViewModelProvider.notifier);
@@ -269,7 +270,7 @@ void main() {
 
     test("moves a group into the middle and gives it an order index between "
         "its new neighbours", () async {
-      await addGroupsFor(["char_1", "char_2", "char_3"]);
+      await addGroupsFor([CharacterOrVariantId("char_1"), CharacterOrVariantId("char_2"), CharacterOrVariantId("char_3")]);
       final container = await createContainer();
       final notifier =
           container.read(purposeGroupedBookmarkListViewModelProvider.notifier);
@@ -294,7 +295,7 @@ void main() {
     });
 
     test("writes the new order index only for the moved group", () async {
-      await addGroupsFor(["char_1", "char_2", "char_3"]);
+      await addGroupsFor([CharacterOrVariantId("char_1"), CharacterOrVariantId("char_2"), CharacterOrVariantId("char_3")]);
       final container = await createContainer();
       final notifier =
           container.read(purposeGroupedBookmarkListViewModelProvider.notifier);
@@ -315,7 +316,7 @@ void main() {
     });
 
     test("persists the new order so that a rebuild keeps it", () async {
-      await addGroupsFor(["char_1", "char_2", "char_3"]);
+      await addGroupsFor([CharacterOrVariantId("char_1"), CharacterOrVariantId("char_2"), CharacterOrVariantId("char_3")]);
       final container = await createContainer();
       final notifier =
           container.read(purposeGroupedBookmarkListViewModelProvider.notifier);

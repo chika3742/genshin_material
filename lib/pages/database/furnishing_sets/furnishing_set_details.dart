@@ -11,7 +11,6 @@ import "../../../core/asset_cache.dart";
 import "../../../core/theme.dart";
 import "../../../db/furnishing_db_extension.dart";
 import "../../../i18n/strings.g.dart";
-import "../../../models/character.dart";
 import "../../../models/common.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
@@ -43,8 +42,7 @@ class FurnishingSetDetailsPage extends ConsumerWidget {
     }
 
     final charactersFavored = assetData.characters.values.where((e) {
-      return e is ListedCharacter
-          && e.hyvIds.any((id) => set.favoriteCharacterHyvIds.contains(id));
+      return e.hyvIds.any((id) => set.favoriteCharacterHyvIds.contains(id));
     });
 
     return Scaffold(

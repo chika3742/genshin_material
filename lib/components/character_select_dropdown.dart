@@ -7,9 +7,9 @@ import "../providers/asset_image_resolver.dart";
 import "../providers/versions.dart";
 
 class CharacterSelectDropdown extends HookConsumerWidget {
-  final CharacterId? initialValue;
-  final void Function(CharacterId? value) onChanged;
-  final List<CharacterOrVariant> characters;
+  final VariantId? initialValue;
+  final void Function(VariantId? value) onChanged;
+  final List<CharacterVariant> characters;
   final WeaponType? weaponTypeFilter;
   final String? label;
   final String? errorText;
@@ -31,7 +31,7 @@ class CharacterSelectDropdown extends HookConsumerWidget {
     }
     final images = ref.watch(assetImageResolverProvider);
 
-    return DropdownButtonFormField(
+    return DropdownButtonFormField<VariantId>(
       initialValue: initialValue,
       items: [
         for (final character in characters)

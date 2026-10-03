@@ -1,5 +1,6 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/db/material_card_to_companions.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/material_bookmark_frame.dart";
 
@@ -18,7 +19,7 @@ void main() {
             ),
           ],
         ),
-        const MaterialUsage(characterId: "char_1"),
+        const MaterialUsage(characterId: CharacterOrVariantId("char_1")),
       );
 
       expect(companions, hasLength(1));
@@ -39,7 +40,7 @@ void main() {
             ),
           ],
         ),
-        const MaterialUsage(characterId: "char_1"),
+        const MaterialUsage(characterId: CharacterOrVariantId("char_1")),
       );
 
       expect(companions.single.quantity, 12500);
@@ -57,7 +58,7 @@ void main() {
             ),
           ],
         ),
-        const MaterialUsage(characterId: "char_1"),
+        const MaterialUsage(characterId: CharacterOrVariantId("char_1")),
       );
 
       expect(companions.single.materialId, isNull);
@@ -82,7 +83,7 @@ void main() {
             ),
           ],
         ),
-        const MaterialUsage(characterId: "char_1"),
+        const MaterialUsage(characterId: CharacterOrVariantId("char_1")),
       );
 
       expect(companions, hasLength(2));
@@ -109,7 +110,7 @@ void main() {
             ),
           ],
         ),
-        const MaterialUsage(characterId: "char_1", weaponId: "weapon_1"),
+        const MaterialUsage(characterId: CharacterOrVariantId("char_1"), weaponId: "weapon_1"),
       );
 
       expect(companions.every((e) => e.characterId == "char_1"), isTrue);
@@ -135,7 +136,7 @@ void main() {
             ),
           ],
         ),
-        const MaterialUsage(characterId: "char_1"),
+        const MaterialUsage(characterId: CharacterOrVariantId("char_1")),
       );
 
       expect(

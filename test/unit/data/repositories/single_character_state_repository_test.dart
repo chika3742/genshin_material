@@ -9,10 +9,8 @@ import "package:genshin_material/data/repositories/character_state_repository.da
 import "package:genshin_material/data/repositories/single_character_state_repository.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/in_game_character_state_db_extension.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
-import "package:genshin_material/models/element.dart";
-import "package:genshin_material/models/localized_text.dart";
-import "package:genshin_material/models/weapon.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
 
 import "../../../utils/asset_data.dart";
@@ -20,63 +18,18 @@ import "../../../utils/db.dart";
 import "../../../utils/fake_hoyolab_game_api.dart";
 import "../../../utils/hoyolab_game_server.dart";
 import "../../../utils/provider_container.dart";
+import "../../../utils/test_data.dart";
 
 const _uid = "uid_1";
-
-const _charaHyvId = 90001;
-const _groupHyvId1 = 90002;
-const _groupHyvId2 = 90003;
-
-const _anemoHyvId = 90101;
-const _geoHyvId = 90102;
-
-const _weaponHyvId = 90201;
-const _swordHyvId = 90301;
-const _claymoreHyvId = 90302;
 
 final _now = DateTime(2026, 1, 1, 12);
 
 AssetData _buildAssetData() {
-  Element element(int hyvId) => Element(hyvId: hyvId, imageUrl: "", text: LocalizedText(locales: {}));
-  WeaponTypeInfo weaponType(int hyvId) => WeaponTypeInfo(hyvId: hyvId, name: LocalizedText(locales: {}));
-
   return buildTestAssetData(
-    characters: {
-      "test_chara": buildTestCharacter(
-        id: "test_chara",
-        hyvIds: [_charaHyvId],
-        element: "test_anemo",
-        weaponType: "test_sword",
-      ),
-      "test_group": buildTestCharacterGroup(
-        id: "test_group",
-        hyvIds: [_groupHyvId1, _groupHyvId2],
-        variantIds: ["test_group_anemo", "test_group_geo"],
-      ),
-      "test_group_anemo": buildTestCharacterVariant(
-        id: "test_group_anemo",
-        parentId: "test_group",
-        element: "test_anemo",
-        weaponType: "test_sword",
-      ),
-      "test_group_geo": buildTestCharacterVariant(
-        id: "test_group_geo",
-        parentId: "test_group",
-        element: "test_geo",
-        weaponType: "test_claymore",
-      ),
-    },
-    weapons: {
-      "test_weapon": buildTestWeapon(id: "test_weapon", hyvId: _weaponHyvId),
-    },
-    elements: {
-      "test_anemo": element(_anemoHyvId),
-      "test_geo": element(_geoHyvId),
-    },
-    weaponTypes: {
-      "test_sword": weaponType(_swordHyvId),
-      "test_claymore": weaponType(_claymoreHyvId),
-    },
+    characters: createTestCharacters(),
+    weapons: createTestWeapons(),
+    elements: createTestElements(),
+    weaponTypes: createTestWeaponTypes(),
   );
 }
 
@@ -103,8 +56,8 @@ void main() {
   }
 
   Future<void> insertState({
-    int characterId = _charaHyvId,
-    int elementId = _anemoHyvId,
+    int characterId = charaHyvId,
+    int elementId = anemoHyvId,
     Map<Purpose, int> purposes = const {Purpose.ascension: 40},
     DateTime? lastUpdated,
   }) {
@@ -113,7 +66,7 @@ void main() {
       characterId: characterId,
       elementId: elementId,
       purposes: purposes,
-      equippedWeaponId: _weaponHyvId,
+      equippedWeaponId: weaponHyvId,
       weaponPurposes: const {Purpose.ascension: 50},
       lastUpdated: Value(lastUpdated ?? _now),
     ));
@@ -126,7 +79,7 @@ void main() {
   /// the run.
   Future<MutationState<FetchResult>> fetch(
     ProviderContainer container,
-    String variantId, {
+    VariantId variantId, {
     DateTime? at,
   }) async {
     final mutation = SingleCharacterStateRepository.fetchMutation(variantId);
@@ -143,21 +96,21 @@ void main() {
 
   group("build", () {
     test("returns the state of the variant", () async {
-      await insertState(characterId: _groupHyvId1, elementId: _geoHyvId, purposes: {Purpose.ascension: 70});
+      await insertState(characterId: groupHyvId1, elementId: geoHyvId, purposes: {Purpose.ascension: 70});
       final container = createContainer();
-      container.listen(singleCharacterStateRepositoryProvider("test_group_geo"), (_, _) {});
+      container.listen(singleCharacterStateRepositoryProvider(testVariantId2), (_, _) {});
 
-      final state = await container.read(singleCharacterStateRepositoryProvider("test_group_geo").future);
+      final state = await container.read(singleCharacterStateRepositoryProvider(testVariantId2).future);
 
       expect(state!.levels, {Purpose.ascension: 70});
     });
 
     test("returns null when the variant has no state", () async {
-      await insertState(characterId: _groupHyvId1, elementId: _geoHyvId);
+      await insertState(characterId: groupHyvId1, elementId: geoHyvId);
       final container = createContainer();
-      container.listen(singleCharacterStateRepositoryProvider("test_group_anemo"), (_, _) {});
+      container.listen(singleCharacterStateRepositoryProvider(testVariantId1), (_, _) {});
 
-      expect(await container.read(singleCharacterStateRepositoryProvider("test_group_anemo").future), isNull);
+      expect(await container.read(singleCharacterStateRepositoryProvider(testVariantId1).future), isNull);
     });
   });
 
@@ -166,21 +119,21 @@ void main() {
       final api = FakeHoyolabGameApi(pages: {
         1: [
           buildTestAvatar(
-            id: _charaHyvId,
-            elementAttrId: _anemoHyvId,
+            id: charaHyvId,
+            elementAttrId: anemoHyvId,
             currentLevel: 80,
             skills: const [
               AvatarSkill(groupId: 1, maxLevel: 10, currentLevel: 6),
               AvatarSkill(groupId: 2, maxLevel: 10, currentLevel: 7),
               AvatarSkill(groupId: 3, maxLevel: 10, currentLevel: 8),
             ],
-            weaponId: _weaponHyvId,
+            weaponId: weaponHyvId,
             weaponLevel: 70,
           ),
         ],
       });
 
-      final state = await fetch(createContainer(api: api), "test_chara");
+      final state = await fetch(createContainer(api: api), VariantId(testCharaId));
 
       final levels = {
         Purpose.ascension: 80,
@@ -192,12 +145,12 @@ void main() {
           .having((e) => e.isFresh, "isFresh", isTrue)
           .having((e) => e.state, "state", CharacterState(
             levels: levels,
-            equippedWeaponId: "test_weapon",
+            equippedWeaponId: testWeaponId,
             weaponLevels: {Purpose.ascension: 70},
             lastUpdatedAt: _now,
           ))));
       final row = (await readRows()).single;
-      expect(row.characterId, _charaHyvId);
+      expect(row.characterId, charaHyvId);
       expect(row.purposes, levels);
       expect(row.lastUpdated, _now);
     });
@@ -205,29 +158,29 @@ void main() {
     test("filters the list by the element and weapon type of the variant", () async {
       final api = FakeHoyolabGameApi();
 
-      await fetch(createContainer(api: api), "test_group_geo");
+      await fetch(createContainer(api: api), testVariantId2);
 
-      expect(api.avatarListCalls.first.elementIds, [_geoHyvId]);
-      expect(api.avatarListCalls.first.weaponCatIds, [_claymoreHyvId]);
+      expect(api.avatarListCalls.first.elementIds, [geoHyvId]);
+      expect(api.avatarListCalls.first.weaponCatIds, [claymoreHyvId]);
     });
 
     test("finds a variant by any of the hyvIds of its group", () async {
       final api = FakeHoyolabGameApi(pages: {
-        1: [buildTestAvatar(id: _groupHyvId2, elementAttrId: _geoHyvId)],
+        1: [buildTestAvatar(id: groupHyvId2, elementAttrId: geoHyvId)],
       });
 
-      final state = await fetch(createContainer(api: api), "test_group_geo");
+      final state = await fetch(createContainer(api: api), testVariantId2);
 
       expect(state, succeededWith(isA<FetchSuccess>()));
-      expect((await readRows()).single.characterId, _groupHyvId2);
+      expect((await readRows()).single.characterId, groupHyvId2);
     });
 
     test("reports a character that is not found and stores nothing", () async {
       final api = FakeHoyolabGameApi(pages: {
-        1: [buildTestAvatar(id: _groupHyvId1, elementAttrId: _anemoHyvId)],
+        1: [buildTestAvatar(id: groupHyvId1, elementAttrId: anemoHyvId)],
       });
 
-      final state = await fetch(createContainer(api: api), "test_chara");
+      final state = await fetch(createContainer(api: api), VariantId(testCharaId));
 
       expect(state, succeededWith(isA<FetchCharacterNotFound>()));
       expect(api.avatarListCalls.map((e) => e.page), [1, 2]);
@@ -240,7 +193,7 @@ void main() {
 
       final state = await fetch(
         createContainer(api: api),
-        "test_chara",
+        VariantId(testCharaId),
         at: _now.add(const Duration(seconds: 89)),
       );
 
@@ -253,12 +206,12 @@ void main() {
     test("fetches again once the stored state is stale", () async {
       await insertState(lastUpdated: _now);
       final api = FakeHoyolabGameApi(pages: {
-        1: [buildTestAvatar(id: _charaHyvId, elementAttrId: _anemoHyvId)],
+        1: [buildTestAvatar(id: charaHyvId, elementAttrId: anemoHyvId)],
       });
 
       final state = await fetch(
         createContainer(api: api),
-        "test_chara",
+        VariantId(testCharaId),
         at: _now.add(const Duration(seconds: 91)),
       );
 
@@ -270,23 +223,23 @@ void main() {
       final error = Exception("network");
       final container = createContainer(api: FakeHoyolabGameApi(error: error));
 
-      await expectLater(fetch(container, "test_chara"), throwsA(error));
+      await expectLater(fetch(container, VariantId(testCharaId)), throwsA(error));
 
       expect(
-        container.read(SingleCharacterStateRepository.fetchMutation("test_chara")),
+        container.read(SingleCharacterStateRepository.fetchMutation(VariantId(testCharaId))),
         isA<MutationError<FetchResult>>().having((e) => e.error, "error", error),
       );
     });
 
     test("keeps the mutation of each variant separate", () async {
       final api = FakeHoyolabGameApi(pages: {
-        1: [buildTestAvatar(id: _charaHyvId, elementAttrId: _anemoHyvId)],
+        1: [buildTestAvatar(id: charaHyvId, elementAttrId: anemoHyvId)],
       });
       final container = createContainer(api: api);
-      final other = SingleCharacterStateRepository.fetchMutation("test_group_anemo");
+      final other = SingleCharacterStateRepository.fetchMutation(testVariantId1);
       container.listen(other, (_, _) {});
 
-      await fetch(container, "test_chara");
+      await fetch(container, VariantId(testCharaId));
 
       expect(container.read(other), isA<MutationIdle<FetchResult>>());
     });
@@ -294,10 +247,10 @@ void main() {
     test("reports a variant ID missing from the asset data as an error", () async {
       final container = createContainer();
 
-      await expectLater(fetch(container, "test_unknown"), throwsArgumentError);
+      await expectLater(fetch(container, const VariantId("test_unknown")), throwsArgumentError);
 
       expect(
-        container.read(SingleCharacterStateRepository.fetchMutation("test_unknown")),
+        container.read(SingleCharacterStateRepository.fetchMutation(const VariantId("test_unknown"))),
         isA<MutationError<FetchResult>>().having((e) => e.error, "error", isArgumentError),
       );
     });

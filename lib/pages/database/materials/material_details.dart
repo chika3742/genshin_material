@@ -36,14 +36,9 @@ class MaterialDetailsPage extends HookConsumerWidget {
       );
     }
 
-    final charactersUsingMaterial = getCharactersUsingMaterial(
-      material,
-      assetData.characters.values,
-      assetData.specialCharactersUsingMaterials,
-    );
-    final weaponsUsingMaterial = getWeaponsUsingMaterial(material, assetData.weapons.values)
+    final charactersUsingMaterial = assetData.getCharactersUsingMaterial(material);
+    final weaponsUsingMaterial = assetData.getWeaponsUsingMaterial(material)
         .sorted((a, b) => b.rarity - a.rarity);
-    // final bagCount = ref.watch(bagCountProvider(material.hyvId));
 
     return Scaffold(
       appBar: AppBar(

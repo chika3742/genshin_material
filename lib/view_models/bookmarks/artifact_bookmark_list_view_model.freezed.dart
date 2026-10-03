@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ArtifactBookmarkItemState {
 
- int get id; String get characterId; String get orderIndex; List<String> get subStats;
+ int get id; VariantId get characterId; String get orderIndex; List<String> get subStats;
 
 
 
@@ -53,7 +53,7 @@ class ArtifactSetBookmarkItemState implements ArtifactBookmarkItemState {
   
 
 @override final  int id;
-@override final  String characterId;
+@override final  VariantId characterId;
 @override final  String orderIndex;
  final  List<String> _sets;
  List<String> get sets {
@@ -110,7 +110,7 @@ class ArtifactPieceBookmarkItemState implements ArtifactBookmarkItemState {
   
 
 @override final  int id;
-@override final  String characterId;
+@override final  VariantId characterId;
 @override final  String orderIndex;
  final  String piece;
  final  String? mainStat;

@@ -65,7 +65,9 @@ _MaterialsMeta _$MaterialsMetaFromJson(Map<String, dynamic> json) =>
           (json['specialCharactersUsingMaterials'] as Map<String, dynamic>).map(
             (k, e) => MapEntry(
               k,
-              (e as List<dynamic>).map((e) => e as String).toList(),
+              (e as List<dynamic>)
+                  .map((e) => e as CharacterOrVariantId)
+                  .toList(),
             ),
           ),
     );

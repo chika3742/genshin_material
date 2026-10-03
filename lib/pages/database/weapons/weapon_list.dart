@@ -1,4 +1,3 @@
-
 import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
@@ -12,7 +11,7 @@ import "../../../components/sticky_list_header.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
-import "../../../models/common.dart";
+import "../../../models/character.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/filter_state.dart";
 import "../../../routes.dart";
@@ -25,7 +24,7 @@ import "../../../utils/lists.dart";
 
 class WeaponListPage extends HookConsumerWidget {
   final AssetData assetData;
-  final CharacterId? equipCharacter;
+  final VariantId? equipCharacter;
 
   const WeaponListPage({super.key, required this.assetData, required this.equipCharacter});
 
@@ -87,7 +86,7 @@ class WeaponListPage extends HookConsumerWidget {
       if (equipCharacter != null) {
         initialScrollOffset = getIndexScrollOffset(
           listIndexItems,
-          assetData.characters[equipCharacter]!.weaponType,
+          assetData.findCharacterOrVariant(equipCharacter!)!.weaponType,
         );
       }
       if (initialScrollOffset != 0) {
@@ -101,7 +100,7 @@ class WeaponListPage extends HookConsumerWidget {
 
     final String appBarTitle;
     if (equipCharacter != null) {
-      appBarTitle = "${tr.pages.weapons} (${tr.common.selected(character: assetData.characters[equipCharacter]!.name.localized)})";
+      appBarTitle = "${tr.pages.weapons} (${tr.common.selected(character: assetData.findCharacterOrVariant(equipCharacter!)!.name.localized)})";
     } else {
       appBarTitle = tr.pages.weapons;
     }

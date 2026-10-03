@@ -6,7 +6,7 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "components/data_asset_scope.dart";
 import "i18n/strings.g.dart";
 import "main.dart";
-import "models/common.dart";
+import "models/character.dart";
 import "pages/account.dart";
 import "pages/bookmarks.dart";
 import "pages/daily.dart";
@@ -192,10 +192,9 @@ class CharacterListRoute extends GoRouteData with $CharacterListRoute {
 
 @immutable
 class CharacterDetailsRoute extends GoRouteData with $CharacterDetailsRoute {
-  final String id;
-  final String? variant;
+  final CharacterOrVariantId id;
 
-  const CharacterDetailsRoute({required this.id, this.variant});
+  const CharacterDetailsRoute({required this.id});
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
@@ -213,7 +212,7 @@ class CharacterDetailsRoute extends GoRouteData with $CharacterDetailsRoute {
 
 @immutable
 class WeaponListRoute extends GoRouteData with $WeaponListRoute {
-  final String? equipCharacterId;
+  final VariantId? equipCharacterId;
 
   const WeaponListRoute({this.equipCharacterId});
 
@@ -237,7 +236,7 @@ class WeaponListRoute extends GoRouteData with $WeaponListRoute {
 @immutable
 class WeaponDetailsRoute extends GoRouteData with $WeaponDetailsRoute {
   final String id;
-  final CharacterId? initialSelectedCharacter;
+  final VariantId? initialSelectedCharacter;
 
   const WeaponDetailsRoute({required this.id, this.initialSelectedCharacter});
 
@@ -299,7 +298,7 @@ class MaterialDetailsRoute extends GoRouteData with $MaterialDetailsRoute {
 
 @immutable
 class ArtifactListRoute extends GoRouteData with $ArtifactListRoute {
-  final String? equipCharacterId;
+  final VariantId? equipCharacterId;
 
   const ArtifactListRoute({this.equipCharacterId});
 
@@ -323,7 +322,7 @@ class ArtifactListRoute extends GoRouteData with $ArtifactListRoute {
 @immutable
 class ArtifactDetailsRoute extends GoRouteData with $ArtifactDetailsRoute {
   final String id;
-  final CharacterId? initialSelectedCharacter;
+  final VariantId? initialSelectedCharacter;
 
   const ArtifactDetailsRoute({required this.id, this.initialSelectedCharacter});
 

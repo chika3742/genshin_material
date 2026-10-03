@@ -23,7 +23,7 @@ class SingleCharacterStateRepository extends _$SingleCharacterStateRepository {
   static final fetchMutation = Mutation<FetchResult>();
 
   @override
-  Future<CharacterState?> build(String variantId) async {
+  Future<CharacterState?> build(VariantId variantId) async {
     return (await ref.watch(characterStateRepositoryProvider.selectAsync((d) => d?[variantId])));
   }
 
@@ -41,22 +41,24 @@ class SingleCharacterStateRepository extends _$SingleCharacterStateRepository {
     final api = await ref.read(hoyolabGameApiProvider.future);
     final uid = ref.read(hoyolabGameServerProvider.select((s) => s.uidOrNull))!;
 
-    final hyvIds = assetData.variantIdToCharacterHyvIds(variantId);
-    if (hyvIds == null) {
-      throw ArgumentError("Cannot find the remote character id for variant id.");
+    final variant = assetData.variants[variantId];
+    if (variant == null) {
+      throw ArgumentError.value(variantId, "variantId", "Variant not found.");
     }
 
-    final character = assetData.characters[variantId]! as CharacterOrVariant;
+    final character = assetData.characterOf(variant);
 
-    final result = await HoyolabApiUtils.loopUntilCharacter(hyvIds, (page) {
+    final result = await HoyolabApiUtils.loopUntilCharacter(character.hyvIds, (page) {
       return api.avatarList(
         page,
-        elementIds: [assetData.getRemoteElementId(character.element)],
-        weaponCatIds: [assetData.getRemoteWeaponCategoryId(character.weaponType)],
+        elementIds: [assetData.getRemoteElementId(variant.element)],
+        weaponCatIds: [assetData.getRemoteWeaponCategoryId(variant.weaponType)],
       );
     });
     if (result == null) {
-      return FetchCharacterNotFound();
+      return character.variants.length > 1
+          ? FetchVariantInactive()
+          : FetchCharacterNotFound();
     }
     final companion = result.toDbCompanion(uid, clock.now());
     final inserted = await db.setCharacterState(companion);
@@ -66,7 +68,7 @@ class SingleCharacterStateRepository extends _$SingleCharacterStateRepository {
     );
   }
 
-  static Future<void> executeFetch(MutationTarget ref, String variantId) async {
+  static Future<void> executeFetch(MutationTarget ref, VariantId variantId) async {
     await fetchMutation(variantId).run(ref, (tsx) {
       return tsx.get(singleCharacterStateRepositoryProvider(variantId).notifier)
           ._fetch();
@@ -94,6 +96,13 @@ final class FetchSuccess extends FetchResult {
   const FetchSuccess({required this.state, required this.isFresh});
 }
 
+/// The character is not owned.
 final class FetchCharacterNotFound extends FetchResult {
   const FetchCharacterNotFound();
+}
+
+/// The character was not found, though multiple variants exist in the asset
+/// data.
+final class FetchVariantInactive extends FetchResult {
+  const FetchVariantInactive();
 }

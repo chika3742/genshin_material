@@ -33,7 +33,7 @@ typedef ItemLackNums = Map<String, int>;
 @freezed
 sealed class GameDataSyncCharacter with _$GameDataSyncCharacter {
   const factory GameDataSyncCharacter({
-    required String variantId,
+    required VariantId variantId,
     String? weaponId,
   }) = _GameDataSyncCharacter;
 
@@ -43,7 +43,7 @@ sealed class GameDataSyncCharacter with _$GameDataSyncCharacter {
   /// This is a convenience method for constructing a list with one character,
   /// useful for APIs or providers that expect an [EqualityList] of characters.
   static EqualityList<GameDataSyncCharacter> single({
-    required String variantId,
+    required VariantId variantId,
     String? weaponId,
   }) {
     return EqualityList([
@@ -56,7 +56,7 @@ sealed class GameDataSyncCharacter with _$GameDataSyncCharacter {
 sealed class _ComputeBagRequestItem with _$ComputeBagRequestItem {
   const factory _ComputeBagRequestItem({
     required List<int> ids,
-    required CharacterOrVariant variant,
+    required CharacterVariant variant,
     String? weaponId,
   }) = __ComputeBagRequestItem;
 }
@@ -80,7 +80,11 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
   final api = await ref.watch(hoyolabGameApiProvider.future);
 
   final requests = entries.map((e) {
-    final (character, variant) = _extractCharacter(assetData.characters, e.variantId);
+    final variant = assetData.variants[e.variantId];
+    if (variant == null) {
+      throw ArgumentError.value(e.variantId, "variantId", "Variant not found");
+    }
+    final character = assetData.characterOf(variant);
     return _ComputeBagRequestItem(
       ids: character.hyvIds,
       variant: variant,
@@ -102,7 +106,7 @@ Future<Map<String, int>?> bagLackNum(Ref ref, List<GameDataSyncCharacter> entrie
 }
 
 @riverpod
-GameDataSyncStatus? gameDataSyncState(Ref ref, { required String variantId, String? weaponId }) {
+GameDataSyncStatus? gameDataSyncState(Ref ref, { required VariantId variantId, String? weaponId }) {
   final snapshot = ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variantId, weaponId: weaponId)));
 
   return switch (snapshot) {
@@ -178,7 +182,7 @@ Future<CalcResult> _computeBag({
 }
 
 CalcComputeItem _createCalcComputeRequest({
-  required CharacterOrVariant variant,
+  required CharacterVariant variant,
   required AssetData assetData,
   required int avatarId,
   Weapon? weapon,
@@ -248,17 +252,4 @@ Future<int> _determineAvatarId({
   } else {
     return ids.first;
   }
-}
-
-(CharacterWithLargeImage character, CharacterOrVariant variant) _extractCharacter(
-  Map<String, Character> characters,
-  String variantId,
-) {
-  final variant = characters[variantId]! as CharacterOrVariant;
-  final group = switch (variant) {
-    ListedCharacter() => variant as CharacterWithLargeImage,
-    CharacterVariant(:final parentId) => characters[parentId]! as CharacterGroup,
-    _ => throw StateError("Invalid variant: $variantId"),
-  };
-  return (group, variant);
 }

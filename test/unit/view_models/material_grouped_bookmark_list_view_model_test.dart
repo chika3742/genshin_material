@@ -4,6 +4,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/models/bookmark.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/material.dart";
 import "package:genshin_material/providers/database_provider.dart";
@@ -195,7 +196,7 @@ void main() {
         () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_9",
+          characterId: CharacterOrVariantId("char_9"),
           materialId: "mat_a",
           purposeType: Purpose.elementalBurst,
           upperLevel: 8,
@@ -232,7 +233,7 @@ void main() {
         () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
-          characterId: "char_9",
+          characterId: CharacterOrVariantId("char_9"),
           weaponId: "weapon_1",
           materialId: "mat_a",
           upperLevel: 60,

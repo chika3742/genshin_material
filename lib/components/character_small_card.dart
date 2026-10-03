@@ -7,7 +7,7 @@ import "../providers/versions.dart";
 import "../routes.dart";
 
 class CharacterSmallCard extends ConsumerWidget {
-  final Character character;
+  final CharacterSummary character;
 
   const CharacterSmallCard(this.character, {super.key});
 

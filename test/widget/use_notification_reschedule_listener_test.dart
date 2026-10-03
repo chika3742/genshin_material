@@ -10,6 +10,7 @@ import "package:genshin_material/data/services/local_notification.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/hooks/use_notification_reschedule_listener.dart";
 import "package:genshin_material/i18n/strings.g.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/providers/database_provider.dart";
@@ -59,7 +60,7 @@ void main() {
   // Monday, Thursday, and Sunday.
   final assetData = buildTestAssetData(
     characters: {
-      "x": buildTestCharacter(id: "x", name: LocalizedText(locales: {"ja": "旅人"})),
+      CharacterId("x"): buildTestCharacter(id: CharacterId("x"), name: LocalizedText(locales: {"ja": "旅人"})),
     },
     materials: {
       "a": buildTestMaterial(id: "a", availableDays: [.monday, .thursday, .sunday]),
@@ -111,7 +112,7 @@ void main() {
 
   Future<void> insertGroup(String groupHash) {
     return db.managers.bookmarkMaterialGroupTable.create((o) => o(
-      characterId: "x",
+      characterId: CharacterOrVariantId("x"),
       groupHash: groupHash,
       orderIndex: groupHash, // unique
       purposeType: .ascension,

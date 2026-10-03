@@ -12,6 +12,7 @@ import "../core/pref_keys.dart";
 import "../data/services/local_notification.dart";
 import "../database.dart";
 import "../i18n/strings.g.dart";
+import "../models/character.dart";
 import "../models/common.dart";
 import "../providers/database_provider.dart";
 import "../providers/pref_notifier.dart";
@@ -153,7 +154,7 @@ class RescheduleDailyMaterialNotifications {
     assert(_assetData != null);
 
     final characterNamesPart = characterIds
-        .map((e) => _assetData!.characters[e]!.name.localized)
+        .map((e) => _assetData!.findCharacterOrVariant(e)!.name.localized)
         .join(tr.notification.dailyMaterial.separator);
     return tr.notification.dailyMaterial.body(characters: characterNamesPart);
   }

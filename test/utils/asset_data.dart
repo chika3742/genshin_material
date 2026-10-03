@@ -1,3 +1,4 @@
+import "package:collection/collection.dart";
 import "package:genshin_material/core/asset_cache.dart";
 import "package:genshin_material/models/artifact.dart";
 import "package:genshin_material/models/asset_release_version.dart";
@@ -34,10 +35,13 @@ AssetData buildTestAssetData({
   IngredientConfigurations? characterIngredients,
   IngredientConfigurations? weaponIngredients,
   List<DropRateEntry> dropRates = const [],
-  Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials = const {},
+  Map<MaterialId, List<CharacterOrVariantId>> specialCharactersUsingMaterials = const {},
   Map<TeyvatElement, Element> elements = const {},
   Map<WeaponType, WeaponTypeInfo> weaponTypes = const {},
 }) {
+  final variants = Map.fromEntries(characters.values.map((e) => e.variants)
+      .flattened.map((v) => MapEntry(v.id, v)));
+
   return AssetData(
     assetDir: assetDir,
     version: AssetReleaseVersion(
@@ -48,6 +52,7 @@ AssetData buildTestAssetData({
       schemaVersion: 0,
     ),
     characters: characters,
+    variants: variants,
     characterIngredients:
         characterIngredients ?? _emptyIngredientConfigurations(),
     weapons: weapons,
@@ -100,8 +105,11 @@ Material buildTestMaterial({
   );
 }
 
+/// If [variants] is not provided, creates a variant with the provided values
+/// and passes to [Character]. Some values will be ignored when [variants] is
+/// provided.
 Character buildTestCharacter({
-  String id = "",
+  CharacterId id = const CharacterId(""),
   LocalizedText? name,
   String jaPronunciation = "",
   int rarity = 5,
@@ -109,61 +117,59 @@ Character buildTestCharacter({
   MaterialDefinitions materials = const {},
   List<int> hyvIds = const [],
   TeyvatElement element = "",
+  List<CharacterVariant>? variants,
 }) {
+  name ??= LocalizedText(locales: {});
+
+  assert(
+    variants == null || variants.every((v) => v.characterId == id),
+    "Every variant's characterId must match the parent's id.",
+  );
+
   return Character(
     id: id,
     hyvIds: hyvIds,
-    name: name ?? LocalizedText(locales: {}),
+    name: name,
     jaPronunciation: jaPronunciation,
     imageUrl: "",
     smallImageUrl: "",
     rarity: rarity,
     weaponType: weaponType,
-    element: element,
-    talents: {},
     materials: materials,
+    variants: variants ?? [buildTestCharacterVariant(
+      id: VariantId(id),
+      characterId: id,
+      name: name,
+      jaPronunciation: jaPronunciation,
+      rarity: rarity,
+      weaponType: weaponType,
+      materials: materials,
+      element: element,
+    )],
   );
 }
 
-Character buildTestCharacterGroup({
-  String id = "",
-  List<int> hyvIds = const [],
-  List<CharacterId> variantIds = const [],
+CharacterVariant buildTestCharacterVariant({
+  VariantId id = const VariantId(""),
+  CharacterId characterId = const CharacterId(""),
   LocalizedText? name,
-  MaterialDefinitions materials = const {},
-}) {
-  return Character.group(
-    id: id,
-    hyvIds: hyvIds,
-    name: name ?? LocalizedText(locales: {}),
-    jaPronunciation: "",
-    imageUrl: "",
-    smallImageUrl: "",
-    rarity: 5,
-    weaponType: "",
-    variantIds: variantIds,
-    materials: materials,
-  );
-}
-
-Character buildTestCharacterVariant({
-  String id = "",
-  CharacterId parentId = "",
-  TeyvatElement element = "",
+  String jaPronunciation = "",
+  int rarity = 5,
   WeaponType weaponType = "",
-  LocalizedText? name,
-  Talents talents = const {},
   MaterialDefinitions materials = const {},
+  TeyvatElement element = "",
+  Talents talents = const {},
 }) {
-  return Character.variant(
+  return CharacterVariant(
     id: id,
-    parentId: parentId,
+    disableSync: false,
+    characterId: characterId,
     name: name ?? LocalizedText(locales: {}),
-    jaPronunciation: "",
+    jaPronunciation: jaPronunciation,
     smallImageUrl: "",
-    rarity: 5,
-    element: element,
+    rarity: rarity,
     weaponType: weaponType,
+    element: element,
     talents: talents,
     materials: materials,
   );

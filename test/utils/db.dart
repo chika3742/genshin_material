@@ -2,6 +2,7 @@ import "package:drift/drift.dart";
 import "package:drift/native.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/models/bookmark.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 
 /// Creates an [AppDatabase] backed by an in-memory SQLite instance.
@@ -25,7 +26,7 @@ AppDatabase createTestDatabase() {
 /// insert a single row.
 MaterialBookmarkInsertable buildMaterialBookmark({
   required MaterialId? materialId,
-  CharacterId characterId = "char_1",
+  CharacterOrVariantId characterId = const CharacterOrVariantId("char_1"),
   WeaponId? weaponId,
   Purpose purposeType = Purpose.ascension,
   int upperLevel = 40,

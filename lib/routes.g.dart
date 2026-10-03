@@ -287,16 +287,14 @@ mixin $CharacterListRoute on GoRouteData {
 mixin $CharacterDetailsRoute on GoRouteData {
   static CharacterDetailsRoute _fromState(GoRouterState state) =>
       CharacterDetailsRoute(
-        id: state.pathParameters['id']!,
-        variant: state.uri.queryParameters['variant'],
+        id: state.pathParameters['id']! as CharacterOrVariantId,
       );
 
   CharacterDetailsRoute get _self => this as CharacterDetailsRoute;
 
   @override
   String get location => GoRouteData.$location(
-    '/database/characters/${Uri.encodeComponent(_self.id)}',
-    queryParams: {if (_self.variant != null) 'variant': _self.variant},
+    '/database/characters/${Uri.encodeComponent(_self.id as String)}',
   );
 
   @override
@@ -315,7 +313,8 @@ mixin $CharacterDetailsRoute on GoRouteData {
 
 mixin $WeaponListRoute on GoRouteData {
   static WeaponListRoute _fromState(GoRouterState state) => WeaponListRoute(
-    equipCharacterId: state.uri.queryParameters['equip-character-id'],
+    equipCharacterId:
+        state.uri.queryParameters['equip-character-id'] as VariantId?,
   );
 
   WeaponListRoute get _self => this as WeaponListRoute;
@@ -325,7 +324,7 @@ mixin $WeaponListRoute on GoRouteData {
     '/database/weapons',
     queryParams: {
       if (_self.equipCharacterId != null)
-        'equip-character-id': _self.equipCharacterId,
+        'equip-character-id': _self.equipCharacterId! as String,
     },
   );
 
@@ -348,7 +347,8 @@ mixin $WeaponDetailsRoute on GoRouteData {
       WeaponDetailsRoute(
         id: state.pathParameters['id']!,
         initialSelectedCharacter:
-            state.uri.queryParameters['initial-selected-character'],
+            state.uri.queryParameters['initial-selected-character']
+                as VariantId?,
       );
 
   WeaponDetailsRoute get _self => this as WeaponDetailsRoute;
@@ -358,7 +358,7 @@ mixin $WeaponDetailsRoute on GoRouteData {
     '/database/weapons/${Uri.encodeComponent(_self.id)}',
     queryParams: {
       if (_self.initialSelectedCharacter != null)
-        'initial-selected-character': _self.initialSelectedCharacter,
+        'initial-selected-character': _self.initialSelectedCharacter! as String,
     },
   );
 
@@ -424,7 +424,8 @@ mixin $MaterialDetailsRoute on GoRouteData {
 
 mixin $ArtifactListRoute on GoRouteData {
   static ArtifactListRoute _fromState(GoRouterState state) => ArtifactListRoute(
-    equipCharacterId: state.uri.queryParameters['equip-character-id'],
+    equipCharacterId:
+        state.uri.queryParameters['equip-character-id'] as VariantId?,
   );
 
   ArtifactListRoute get _self => this as ArtifactListRoute;
@@ -434,7 +435,7 @@ mixin $ArtifactListRoute on GoRouteData {
     '/database/artifacts',
     queryParams: {
       if (_self.equipCharacterId != null)
-        'equip-character-id': _self.equipCharacterId,
+        'equip-character-id': _self.equipCharacterId! as String,
     },
   );
 
@@ -457,7 +458,8 @@ mixin $ArtifactDetailsRoute on GoRouteData {
       ArtifactDetailsRoute(
         id: state.pathParameters['id']!,
         initialSelectedCharacter:
-            state.uri.queryParameters['initial-selected-character'],
+            state.uri.queryParameters['initial-selected-character']
+                as VariantId?,
       );
 
   ArtifactDetailsRoute get _self => this as ArtifactDetailsRoute;
@@ -467,7 +469,7 @@ mixin $ArtifactDetailsRoute on GoRouteData {
     '/database/artifacts/${Uri.encodeComponent(_self.id)}',
     queryParams: {
       if (_self.initialSelectedCharacter != null)
-        'initial-selected-character': _self.initialSelectedCharacter,
+        'initial-selected-character': _self.initialSelectedCharacter! as String,
     },
   );
 

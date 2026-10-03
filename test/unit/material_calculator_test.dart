@@ -19,6 +19,9 @@ class _TestTarget with CharacterOrWeapon {
     required this.rarity,
     required this.materials,
   });
+
+  @override
+  MaterialTargetType get targetType => .character;
 }
 
 void main() {
@@ -156,7 +159,7 @@ void main() {
       const targetWithMat = _TestTarget(
         id: "char_b",
         rarity: 4,
-        materials: {"ascension_gem": "id:vayuda_turquoise_sliver"},
+        materials: {"ascension_gem": MaterialIdRef("vayuda_turquoise_sliver")},
       );
       final conf = buildIngredientConfigurations(
         rarity: 4,
