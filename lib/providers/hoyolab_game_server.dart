@@ -3,7 +3,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../core/pref_keys.dart";
 import "../core/remote_config_keys.dart";
-import "../models/hoyolab_api.dart";
+import "../data/models/hoyolab_api.dart";
 import "pref_notifier.dart";
 import "remote_config.dart";
 

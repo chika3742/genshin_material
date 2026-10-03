@@ -9,7 +9,7 @@ import "package:http/http.dart" as http;
 
 import "../../../core/api_request_queue.dart";
 import "../../../i18n/strings.g.dart";
-import "../../../models/hoyolab_api.dart";
+import "../../models/hoyolab_api.dart";
 import "hoyolab_exceptions.dart";
 
 /// Everything the HoYoLAB APIs share.

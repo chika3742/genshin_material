@@ -1,4 +1,4 @@
-import "../../../models/hoyolab_api.dart";
+import "../../models/hoyolab_api.dart";
 import "hoyolab_api_base.dart";
 
 /// The HoYoLAB endpoints that need no stored credential.
