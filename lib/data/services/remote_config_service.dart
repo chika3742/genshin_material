@@ -1,4 +1,5 @@
 import "dart:async";
+import "dart:developer";
 
 import "package:firebase_remote_config/firebase_remote_config.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
@@ -46,14 +47,18 @@ class RemoteConfigService {
   Future<void> initialize() async {
     await _rc.ensureInitialized();
     await _rc.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: const Duration(minutes: 1),
+      fetchTimeout: const Duration(seconds: 5),
       // minimumFetchInterval controls the background polling interval.
       // Since real-time updates are delivered via server-side push in listenConfigUpdate(),
       // a short interval is not necessary even in debug mode.
-      minimumFetchInterval: const Duration(hours: 12),
+      minimumFetchInterval: Duration.zero,
     ));
     await _rc.setDefaults(RemoteConfigKeys.defaults);
-    await _rc.fetchAndActivate();
+    try {
+      await _rc.fetchAndActivate();
+    } catch (e, st) {
+      log("Remote Config fetch failed", error: e, stackTrace: st);
+    }
   }
 }
 

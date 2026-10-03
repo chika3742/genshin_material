@@ -57,7 +57,7 @@ final class SingleCharacterStateRepositoryProvider
 }
 
 String _$singleCharacterStateRepositoryHash() =>
-    r'e27d1bdf4201be6f0b551f772247e75935a35162';
+    r'd57bc1c1d7af27f05371a11cf1a2de2eb3a2a7c7';
 
 final class SingleCharacterStateRepositoryFamily extends $Family
     with

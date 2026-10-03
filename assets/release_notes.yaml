@@ -1,6 +1,6 @@
 # コピー用改行
 
-- releasedOn: TBD
+- releasedOn: 2026/10/03
   version: 4.10.0
   contents:
     locales:
@@ -27,6 +27,7 @@
         - キャラクターのフィルタークリア時に、並べ替えがデフォルトに戻る不具合を修正しました。
         - キャラクターがフィルターされている時、並べ替えを変更するとフィルターがクリアされる不具合を修正しました。
         - HoYoLABとの同期時やデータを読み込む際、実際にはエラーが起きたにも関わらず、読み込み中の表示がしばらく続く不具合を修正しました。
+        - ネットワークがない場合、アプリが永遠に起動しない問題を修正しました。
         - 「兹」などのJIS第3水準以上の漢字が中国語フォントになる場合がある問題を修正しました。
       en: |
         # New Features
@@ -51,6 +52,7 @@
         - Fixed a bug where clearing the character filters also reset the sort order to the default.
         - Fixed a bug where changing the sort order while characters were filtered cleared the filters.
         - Fixed a bug where the loading indicator stayed up for a while when syncing with HoYoLAB or loading data, even though an error had actually occurred.
+        - Fixed an issue where the app never finished launching when there was no network connection.
 
 - releasedOn: 2026/08/17
   version: 4.9.1

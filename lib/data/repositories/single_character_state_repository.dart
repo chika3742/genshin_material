@@ -66,8 +66,8 @@ class SingleCharacterStateRepository extends _$SingleCharacterStateRepository {
     );
   }
 
-  static Future<void> executeFetch(MutationTarget ref, String variantId) {
-    return fetchMutation(variantId).run(ref, (tsx) {
+  static Future<void> executeFetch(MutationTarget ref, String variantId) async {
+    await fetchMutation(variantId).run(ref, (tsx) {
       return tsx.get(singleCharacterStateRepositoryProvider(variantId).notifier)
           ._fetch();
     });
