@@ -51,7 +51,7 @@ class RemoteConfigService {
       // minimumFetchInterval controls the background polling interval.
       // Since real-time updates are delivered via server-side push in listenConfigUpdate(),
       // a short interval is not necessary even in debug mode.
-      minimumFetchInterval: Duration.zero,
+      minimumFetchInterval: const Duration(hours: 12),
     ));
     await _rc.setDefaults(RemoteConfigKeys.defaults);
     try {
