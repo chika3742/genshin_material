@@ -58,9 +58,9 @@ void main() {
 
   // The group alone defines the ascension materials, while each variant
   // overrides `secondary` for its talents.
-  const groupId = "group_1";
-  const variantAId = "variant_a";
-  const variantBId = "variant_b";
+  const groupId = CharacterId("group_1");
+  const variantAId = VariantId("variant_a");
+  const variantBId = VariantId("variant_b");
   const elementA = "element_a";
   const elementB = "element_b";
 
@@ -93,37 +93,38 @@ void main() {
   };
 
   final characters = [
-    buildTestCharacterGroup(
+    buildTestCharacter(
       id: groupId,
       name: LocalizedText.untranslatable(text: "Group"),
-      variantIds: [variantAId, variantBId],
       materials: const {
-        "primary": "group:primary_group",
-        "local": "id:$localId",
-        "secondary": "group:group_secondary_group",
+        "primary": MaterialGroupRef("primary_group"),
+        "local": MaterialIdRef(localId),
+        "secondary": MaterialGroupRef("group_secondary_group"),
       },
-    ),
-    buildTestCharacterVariant(
-      id: variantAId,
-      parentId: groupId,
-      element: elementA,
-      name: LocalizedText.untranslatable(text: "Variant A"),
-      talents: talents,
-      materials: const {
-        "secondary": "group:variant_a_secondary_group",
-        "talentBoss": "id:$variantABossId",
-      },
-    ),
-    buildTestCharacterVariant(
-      id: variantBId,
-      parentId: groupId,
-      element: elementB,
-      name: LocalizedText.untranslatable(text: "Variant B"),
-      talents: talents,
-      materials: const {
-        "secondary": "group:variant_b_secondary_group",
-        "talentBoss": "id:$variantBBossId",
-      },
+      variants: [
+        buildTestCharacterVariant(
+          id: variantAId,
+          characterId: groupId,
+          element: elementA,
+          name: LocalizedText.untranslatable(text: "Variant A"),
+          talents: talents,
+          materials: const {
+            "secondary": MaterialGroupRef("variant_a_secondary_group"),
+            "talentBoss": MaterialIdRef(variantABossId),
+          },
+        ),
+        buildTestCharacterVariant(
+          id: variantBId,
+          characterId: groupId,
+          element: elementB,
+          name: LocalizedText.untranslatable(text: "Variant B"),
+          talents: talents,
+          materials: const {
+            "secondary": MaterialGroupRef("variant_b_secondary_group"),
+            "talentBoss": MaterialIdRef(variantBBossId),
+          },
+        ),
+      ],
     ),
   ];
 
@@ -191,8 +192,8 @@ void main() {
   /// page report them.
   Future<void> pumpPage(
     WidgetTester tester, {
-    CharacterId id = groupId,
-    CharacterId? lastSelectedVariant,
+    CharacterOrVariantId id = groupId,
+    VariantId? lastSelectedVariant,
     Map<Purpose, int>? syncedLevels,
   }) async {
     final assetData = buildTestAssetData(
@@ -255,7 +256,7 @@ void main() {
   }
 
   Future<void> addBookmark({
-    required CharacterId characterId,
+    required CharacterOrVariantId characterId,
     required MaterialId materialId,
     required Purpose purpose,
     required int upperLevel,
@@ -408,7 +409,7 @@ class _FreshCharacterStateRepository extends SingleCharacterStateRepository {
   final Map<Purpose, int> levels;
 
   @override
-  Future<CharacterState?> build(String variantId) async {
+  Future<CharacterState?> build(VariantId variantId) async {
     return CharacterState(
       levels: levels,
       equippedWeaponId: null,

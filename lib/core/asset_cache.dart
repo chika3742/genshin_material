@@ -1,5 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
+import "../data/models/character.dart";
 import "../models/artifact.dart";
 import "../models/asset_release_version.dart";
 import "../models/character.dart";
@@ -32,6 +33,11 @@ class AssetDataCacheProvider {
       throw NoInstalledAssetException();
     }
 
+    final charactersAsset = _parseMap(
+      await loader.loadJson<Map<String, dynamic>>("characters.json"),
+      CharacterAsset.fromJson,
+    );
+    final (characters, variants) = CharacterAsset.toDomain(charactersAsset);
     final weaponsMeta = WeaponsMeta.fromJson(
       await loader.loadJson<Map<String, dynamic>>("weapons-meta.json"),
     );
@@ -48,10 +54,8 @@ class AssetDataCacheProvider {
     data = AssetData(
       assetDir: assetDir,
       version: version!,
-      characters: _parseMap(
-        await loader.loadJson<Map<String, dynamic>>("characters.json"),
-        Character.fromJson,
-      ),
+      characters: characters,
+      variants: variants,
       characterIngredients: IngredientConfigurations.fromJson(
         await loader.loadJson<Map<String, dynamic>>("character-ingredients.json"),
       ),
@@ -119,6 +123,7 @@ sealed class AssetData with _$AssetData {
     required String assetDir,
     required AssetReleaseVersion version,
     required Map<CharacterId, Character> characters,
+    required Map<VariantId, CharacterVariant> variants,
     required IngredientConfigurations characterIngredients,
     required Map<WeaponId, Weapon> weapons,
     required IngredientConfigurations weaponIngredients,
@@ -131,7 +136,7 @@ sealed class AssetData with _$AssetData {
     required DailyMaterials dailyMaterials,
     required Map<ArtifactSetId, ArtifactSet> artifactSets,
     required Map<ArtifactPieceTypeId, ArtifactPieceType> artifactPieceTypes,
-    required Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials,
+    required Map<MaterialId, List<CharacterOrVariantId>> specialCharactersUsingMaterials,
     required Map<StatId, LocalizedText> stats,
     required List<StatId> artifactPossibleSubStats,
     required Map<ArtifactPieceId, ArtifactPiece> artifactPieces,

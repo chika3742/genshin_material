@@ -1,4 +1,5 @@
 import "package:flutter_test/flutter_test.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/ingredients.dart";
 import "package:genshin_material/models/level_range_values.dart";
@@ -18,8 +19,8 @@ void main() {
 
     test("prefers targetSpecific over the materials definition", () {
       final character = buildTestCharacter(
-        id: "char_1",
-        materials: const {"gem": "id:gem_lv1"},
+        id: CharacterId("char_1"),
+        materials: const {"gem": MaterialIdRef("gem_lv1")},
       );
 
       expect(
@@ -38,8 +39,8 @@ void main() {
 
     test("falls back to the materials definition when targetSpecific has no entry", () {
       final character = buildTestCharacter(
-        id: "char_1",
-        materials: const {"gem": "id:gem_lv1"},
+        id: CharacterId("char_1"),
+        materials: const {"gem": MaterialIdRef("gem_lv1")},
       );
 
       expect(
@@ -58,8 +59,8 @@ void main() {
 
     test("returns null when the targetSpecific entry is null", () {
       final character = buildTestCharacter(
-        id: "char_1",
-        materials: const {"gem": "id:gem_lv1"},
+        id: CharacterId("char_1"),
+        materials: const {"gem": MaterialIdRef("gem_lv1")},
       );
 
       expect(
@@ -78,8 +79,8 @@ void main() {
 
     test("resolves an id: definition as is", () {
       final character = buildTestCharacter(
-        id: "char_1",
-        materials: const {"gem": "id:gem_lv2"},
+        id: CharacterId("char_1"),
+        materials: const {"gem": MaterialIdRef("gem_lv2")},
       );
 
       expect(
@@ -94,8 +95,8 @@ void main() {
 
     test("resolves a group: definition by both groupId and craftLevel", () {
       final character = buildTestCharacter(
-        id: "char_1",
-        materials: const {"gem": "group:gem"},
+        id: CharacterId("char_1"),
+        materials: const {"gem": MaterialGroupRef("gem")},
       );
 
       expect(
@@ -117,7 +118,7 @@ void main() {
     });
 
     test("returns null when the type has no definition", () {
-      final character = buildTestCharacter(id: "char_1");
+      final character = buildTestCharacter(id: CharacterId("char_1"));
 
       expect(
         getConcreteItemId(
@@ -129,45 +130,24 @@ void main() {
       );
     });
 
-    // Pins the current behaviour: a group: definition matching no material
-    // trips the assert instead of returning null the way every other failure
-    // path in this function does. In a release build the assert is stripped
-    // and the `material!` right after it throws a TypeError instead. Update
-    // this test when the production code starts returning null.
-    test("throws when a group: definition matches no material", () {
+    test("returns null when a group: definition matches no material", () {
       final character = buildTestCharacter(
-        id: "char_1",
-        materials: const {"gem": "group:gem"},
+        id: CharacterId("char_1"),
+        materials: const {"gem": MaterialGroupRef("gem")},
       );
 
       expect(
-        () => getConcreteItemId(
+        getConcreteItemId(
           const Ingredient.byType(type: "gem", quantity: 1, craftLevel: 99),
           character,
           assetData,
         ),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
-    test("throws on an unknown type prefix", () {
-      final character = buildTestCharacter(
-        id: "char_1",
-        materials: const {"gem": "unknown:gem"},
-      );
-
-      expect(
-        () => getConcreteItemId(
-          const Ingredient.byType(type: "gem", quantity: 1),
-          character,
-          assetData,
-        ),
-        throwsA("Unknown type: unknown"),
+        isNull,
       );
     });
 
     test("returns itemId for a fixed ingredient and exp for an exp one", () {
-      final character = buildTestCharacter(id: "char_1");
+      final character = buildTestCharacter(id: CharacterId("char_1"));
 
       expect(
         getConcreteItemId(
@@ -246,7 +226,7 @@ void main() {
         level: 40,
         ingredients: const [Ingredient.fixed(itemId: "mora", quantity: 100)],
         purposeType: Purpose.elementalSkill,
-        characterOrWeapon: buildTestCharacter(id: "char_1"),
+        characterOrWeapon: buildTestCharacter(id: CharacterId("char_1")),
         assetData: assetData,
       );
 
@@ -265,7 +245,7 @@ void main() {
         level: 40,
         ingredients: const [Ingredient.exp(exp: 1000)],
         purposeType: Purpose.ascension,
-        characterOrWeapon: buildTestCharacter(id: "char_1"),
+        characterOrWeapon: buildTestCharacter(id: CharacterId("char_1")),
         assetData: assetData,
       );
 
@@ -283,7 +263,7 @@ void main() {
           Ingredient.fixed(itemId: "mora", quantity: 100),
         ],
         purposeType: Purpose.ascension,
-        characterOrWeapon: buildTestCharacter(id: "char_1"),
+        characterOrWeapon: buildTestCharacter(id: CharacterId("char_1")),
         assetData: assetData,
       );
 

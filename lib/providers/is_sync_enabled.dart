@@ -9,33 +9,33 @@ import "versions.dart";
 part "is_sync_enabled.g.dart";
 
 @riverpod
-bool isCharacterSyncEnabled(Ref ref, {required String variantId, String? weaponId}) {
+bool isCharacterSyncEnabled(Ref ref, {required VariantId variantId, String? weaponId}) {
   final assetData = ref.watch(assetDataProvider).requireValue;
-  final variant = assetData.characters[variantId];
-  if (variant == null || variant is! CharacterOrVariant) {
-    throw ArgumentError("Character or variant not found");
+  final variant = assetData.variants[variantId];
+  if (variant == null) {
+    throw ArgumentError.value(variantId, "variantId", "Variant not found");
   }
 
   final weapon = assetData.weapons[weaponId];
   if (weaponId != null && weapon == null) {
-    throw ArgumentError("Weapon not found");
+    throw ArgumentError.value(weaponId, "weaponId", "Weapon not found");
   }
 
   return ref.watch(isLinkedWithHoyolabProvider)
       && ref.watch(prefProvider(PrefKeys.syncCharaState))
       && (weapon == null || !weapon.disableSync)
-      && !(variant as CharacterOrVariant).disableSync;
+      && !variant.disableSync;
 }
 
 @riverpod
-bool isBagLackNumSyncEnabled(Ref ref, {required String variantId}) {
+bool isBagLackNumSyncEnabled(Ref ref, {required VariantId variantId}) {
   final assetData = ref.watch(assetDataProvider).requireValue;
-  final variant = assetData.characters[variantId];
-  if (variant == null || variant is! CharacterOrVariant) {
-    throw ArgumentError("Character or variant not found");
+  final variant = assetData.variants[variantId];
+  if (variant == null) {
+    throw ArgumentError.value(variantId, "variantId", "Variant not found");
   }
 
   return ref.watch(isLinkedWithHoyolabProvider)
       && ref.watch(prefProvider(PrefKeys.syncBagLackNums))
-      && !(variant as CharacterOrVariant).disableSync;
+      && !variant.disableSync;
 }

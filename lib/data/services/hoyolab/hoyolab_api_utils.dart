@@ -1,4 +1,4 @@
-import "../../../models/hoyolab_api.dart";
+import "../../models/hoyolab_api.dart";
 
 class HoyolabApiUtils {
   const HoyolabApiUtils._();

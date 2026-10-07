@@ -3,6 +3,7 @@ import "package:fractional_indexing/fractional_indexing.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../models/character.dart";
 import "../../providers/database_provider.dart";
 
 part "artifact_bookmark_list_view_model.g.dart";
@@ -79,7 +80,7 @@ class ArtifactBookmarkListViewModel extends _$ArtifactBookmarkListViewModel {
 sealed class ArtifactBookmarkItemState with _$ArtifactBookmarkItemState {
   const factory ArtifactBookmarkItemState.set({
     required int id,
-    required String characterId,
+    required VariantId characterId,
     required String orderIndex,
     required List<String> sets,
     required Map<String, String?> mainStats,
@@ -88,7 +89,7 @@ sealed class ArtifactBookmarkItemState with _$ArtifactBookmarkItemState {
 
   const factory ArtifactBookmarkItemState.piece({
     required int id,
-    required String characterId,
+    required VariantId characterId,
     required String orderIndex,
     required String piece,
     required String? mainStat,

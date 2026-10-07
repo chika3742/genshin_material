@@ -12,6 +12,7 @@ import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/data/services/local_notification.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/i18n/strings.g.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/providers/versions.dart";
@@ -39,8 +40,8 @@ void main() {
 
     final assetData = buildTestAssetData(
       characters: {
-        "x": buildTestCharacter(id: "x", name: LocalizedText(locales: {"ja": "旅人", "en": "Traveler"})),
-        "y": buildTestCharacter(id: "y", name: LocalizedText(locales: {"ja": "アンバー", "en": "Amber"})),
+        const CharacterId("x"): buildTestCharacter(id: const CharacterId("x"), name: LocalizedText(locales: {"ja": "旅人", "en": "Traveler"})),
+        const CharacterId("y"): buildTestCharacter(id: const CharacterId("y"), name: LocalizedText(locales: {"ja": "アンバー", "en": "Amber"})),
       },
       materials: {
         "a": buildTestMaterial(id: "a", availableDays: [.monday, .thursday, .sunday]),
@@ -81,7 +82,7 @@ void main() {
     Future<void> insertBookmarks(List<_TestMaterialBookmarkInsertable> insertables) async {
       return db.transaction(() async {
         await db.managers.bookmarkMaterialGroupTable.bulkCreate((o) => insertables.map((e) => o(
-          characterId: e.characterId,
+          characterId: CharacterOrVariantId(e.characterId),
           groupHash: e.groupHash,
           orderIndex: e.groupHash, // unique
           purposeType: .ascension,

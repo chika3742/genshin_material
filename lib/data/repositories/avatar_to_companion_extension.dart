@@ -3,7 +3,7 @@ import "package:drift/drift.dart";
 
 import "../../database.dart";
 import "../../models/common.dart";
-import "../../models/hoyolab_api.dart";
+import "../models/hoyolab_api.dart";
 
 extension AvatarToCompanionExtension on AvatarListResultItem {
   InGameCharacterStateCompanion toDbCompanion(String uid, DateTime lastUpdated) {

@@ -130,4 +130,38 @@ void main() {
       expect(GameServer.asia.serverTimeZoneOffset, const Duration(hours: 8));
     });
   });
+
+  group("MaterialRef", () {
+    final material = buildTestMaterial(id: "gem_lv1", groupId: "gem");
+
+    test("Parses a group: definition", () {
+      expect(
+        MaterialRef.fromJson("group:gem"),
+        isA<MaterialGroupRef>().having((e) => e.groupId, "groupId", "gem"),
+      );
+    });
+
+    test("Parses an id: definition", () {
+      expect(
+        MaterialRef.fromJson("id:gem_lv1"),
+        isA<MaterialIdRef>().having((e) => e.id, "id", "gem_lv1"),
+      );
+    });
+
+    test("Throws a FormatException for a malformed definition", () {
+      for (final json in ["unknown:gem", "gem", "", "id:gem:lv1"]) {
+        expect(() => MaterialRef.fromJson(json), throwsFormatException, reason: json);
+      }
+    });
+
+    test("Matches a material by its groupId for a group reference", () {
+      expect(const MaterialGroupRef("gem").matches(material), isTrue);
+      expect(const MaterialGroupRef("other").matches(material), isFalse);
+    });
+
+    test("Matches a material by its id for an id reference", () {
+      expect(const MaterialIdRef("gem_lv1").matches(material), isTrue);
+      expect(const MaterialIdRef("gem_lv2").matches(material), isFalse);
+    });
+  });
 }

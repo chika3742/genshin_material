@@ -4,7 +4,7 @@ import "package:genshin_material/components/character_select_dropdown.dart";
 import "package:genshin_material/core/theme.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/artifact.dart";
-import "package:genshin_material/models/common.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/pages/database/artifacts/artifact_list.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
@@ -40,7 +40,7 @@ GoRoute? _findGoRoute(List<RouteBase> routes, List<String> path) {
 }
 
 void main() {
-  const characterId = "char";
+  const characterId = CharacterId("char");
   const setId = "set";
   const pieceId = "piece";
   const pieceTypeId = "flower";
@@ -89,7 +89,7 @@ void main() {
   /// route hanging below it, so a tap runs the whole chain: the route the list
   /// page builds, its location, `$ArtifactDetailsRoute._fromState` and
   /// `ArtifactDetailsRoute.buildPage`.
-  Future<void> pumpList(WidgetTester tester, {CharacterId? equipCharacter}) async {
+  Future<void> pumpList(WidgetTester tester, {VariantId? equipCharacter}) async {
     final assetData = buildTestAssetData(
       characters: {
         characterId: buildTestCharacter(
@@ -149,7 +149,7 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  CharacterId? dialogCharacter(WidgetTester tester) {
+  VariantId? dialogCharacter(WidgetTester tester) {
     return tester
         .widget<CharacterSelectDropdown>(find.byType(CharacterSelectDropdown))
         .initialValue;
@@ -164,7 +164,7 @@ void main() {
   }
 
   testWidgets("preselects the selected character in the bookmark dialog", (tester) async {
-    await pumpList(tester, equipCharacter: characterId);
+    await pumpList(tester, equipCharacter: VariantId(characterId));
 
     await openDetails(tester);
     await openBookmarkDialog(tester);

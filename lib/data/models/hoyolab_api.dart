@@ -1,6 +1,3 @@
-// workaround for https://github.com/rrousselGit/freezed/issues/488
-// ignore_for_file: invalid_annotation_target
-
 import "package:freezed_annotation/freezed_annotation.dart";
 
 part "hoyolab_api.freezed.dart";

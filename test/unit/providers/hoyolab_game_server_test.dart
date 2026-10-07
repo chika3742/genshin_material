@@ -2,7 +2,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/core/remote_config_keys.dart";
-import "package:genshin_material/models/hoyolab_api.dart";
+import "package:genshin_material/data/models/hoyolab_api.dart";
 import "package:genshin_material/providers/hoyolab_game_server.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 

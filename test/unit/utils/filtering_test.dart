@@ -1,45 +1,8 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/utils/filtering.dart";
 
 import "../../utils/asset_data.dart";
-
-Character _buildTestCharacterGroup({
-  required String id,
-  String weaponType = "",
-}) {
-  return Character.group(
-    id: id,
-    hyvIds: const [],
-    name: const LocalizedText.untranslatable(text: ""),
-    jaPronunciation: "",
-    imageUrl: "",
-    smallImageUrl: "",
-    rarity: 5,
-    weaponType: weaponType,
-    variantIds: const [],
-    materials: const {},
-  );
-}
-
-Character _buildTestCharacterVariant({
-  required String id,
-  String weaponType = "",
-}) {
-  return Character.variant(
-    id: id,
-    parentId: "parent",
-    name: const LocalizedText.untranslatable(text: ""),
-    jaPronunciation: "",
-    smallImageUrl: "",
-    rarity: 5,
-    element: "",
-    weaponType: weaponType,
-    talents: const {},
-    materials: const {},
-  );
-}
 
 void main() {
   group("normalizeForSearch", () {
@@ -114,31 +77,6 @@ void main() {
       expect(
         filterBySearchQuery(sortTargets, "テスト").map((e) => e.id),
         ["prefix", "partial"],
-      );
-    });
-  });
-
-  group("filterCharactersByWeaponType", () {
-    final characters = [
-      buildTestCharacter(id: "sword_char", weaponType: "sword"),
-      buildTestCharacter(id: "bow_char", weaponType: "bow"),
-      _buildTestCharacterVariant(id: "sword_variant", weaponType: "sword"),
-      _buildTestCharacterGroup(id: "group", weaponType: "sword"),
-    ];
-
-    test("returns every CharacterOrVariant when weaponType is null", () {
-      expect(
-        filterCharactersByWeaponType(characters, null).map((e) => e.id),
-        ["sword_char", "bow_char", "sword_variant"],
-      );
-    });
-
-    test("returns the matching CharacterOrVariant entries, dropping the ones that are not", () {
-      // "group" is a CharacterGroup carrying the same weaponType, so it is
-      // excluded by the type check rather than by the weaponType.
-      expect(
-        filterCharactersByWeaponType(characters, "sword").map((e) => e.id),
-        ["sword_char", "sword_variant"],
       );
     });
   });

@@ -6,6 +6,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../../i18n/strings.g.dart";
 import "../../models/bookmark.dart";
+import "../../models/character.dart";
 import "../../models/common.dart";
 import "../../providers/asset_image_resolver.dart";
 import "../../providers/versions.dart";
@@ -28,7 +29,7 @@ class BookmarkPurposeHeader extends ConsumerWidget {
           onTap: () {
             CharacterDetailsRoute(id: group.characterId).push(context);
           },
-          child: Image.file(images.getSmallFile(assetData.characters[group.characterId]!), width: 35, height: 35),
+          child: Image.file(images.getSmallFile(assetData.findCharacterOrVariant(group.characterId)!), width: 35, height: 35),
         ),
         const Spacer(),
         _GroupTypeText(group),
@@ -81,7 +82,7 @@ class _GroupTypeText extends HookConsumerWidget {
         onTap: () {
           WeaponDetailsRoute(
             id: weapon.id,
-            initialSelectedCharacter: group.characterId,
+            initialSelectedCharacter: VariantId(group.characterId),
           ).push(context);
         },
         child: Row(

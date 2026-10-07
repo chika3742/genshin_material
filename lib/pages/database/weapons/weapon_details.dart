@@ -23,6 +23,7 @@ import "../../../data/repositories/single_character_state_repository.dart";
 import "../../../data/services/crashlytics_service.dart";
 import "../../../db/bookmark_db_extension.dart";
 import "../../../i18n/strings.g.dart";
+import "../../../models/character.dart";
 import "../../../models/common.dart";
 import "../../../models/ingredients.dart";
 import "../../../models/level_range_values.dart";
@@ -34,7 +35,6 @@ import "../../../providers/is_sync_enabled.dart";
 import "../../../providers/pref_notifier.dart";
 import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
-import "../../../utils/filtering.dart";
 
 part "weapon_details.freezed.dart";
 
@@ -48,7 +48,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
 
   final AssetData assetData;
   final String id;
-  final CharacterId? initialSelectedCharacter;
+  final VariantId? initialSelectedCharacter;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,7 +63,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
     final db = ref.watch(appDatabaseProvider);
 
     final characters = useMemoized(() =>
-        filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
+        _filterCharactersByWeaponType(assetData.variants.values, weapon.type));
     final initialCharacter = characters.firstWhereOrNull((e) => e.id == initialSelectedCharacter)
         ?? characters.first;
 
@@ -102,7 +102,7 @@ class WeaponDetailsPage extends HookConsumerWidget {
 class WeaponDetailsPageContents extends HookConsumerWidget {
   final AssetData assetData;
   final Weapon weapon;
-  final CharacterId initialSelectedCharacter;
+  final VariantId initialSelectedCharacter;
   final CharacterState? initialCharacterState;
   final Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> initialBookmarkRanges;
 
@@ -128,7 +128,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       bookmarkRanges: initialBookmarkRanges,
     ));
 
-    final characters = useMemoized(() => filterCharactersByWeaponType(assetData.characters.values, weapon.type).toList());
+    final characters = useMemoized(() => _filterCharactersByWeaponType(assetData.variants.values, weapon.type));
     final selectedCharacter = characters.firstWhere((e) => e.id == state.value.selectedCharacterId);
 
     final isWeaponSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(
@@ -239,10 +239,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                         if (fetchState case MutationSuccess(value: FetchSuccess(state: CharacterState(:final equippedWeaponId))) when equippedWeaponId != weapon.id)
                           GameDataSyncStatus.weaponNotEquipped(),
                         if (fetchState != null)
-                          GameDataSyncStatus.fromCharacterFetch(
-                            fetchState,
-                            selectedCharacter,
-                          ),
+                          GameDataSyncStatus.fromCharacterFetch(fetchState),
                         ref.watch(gameDataSyncStateProvider(
                           variantId: state.value.selectedCharacterId,
                           weaponId: weapon.id,
@@ -349,13 +346,13 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
 
   const factory _WeaponDetailsPageState({
     required Map<Purpose, LevelRangeValues> rangeValues,
-    required CharacterId selectedCharacterId,
+    required VariantId selectedCharacterId,
   }) = __WeaponDetailsPageState;
 
   factory _WeaponDetailsPageState.init({
     required IngredientConfigurations ingredients,
     required Weapon weapon,
-    required CharacterId selectedCharacterId,
+    required VariantId selectedCharacterId,
     required CharacterState? initialCharacterState,
     Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> bookmarkRanges = const {},
   }) {
@@ -385,4 +382,10 @@ sealed class _WeaponDetailsPageState with _$WeaponDetailsPageState {
       selectedCharacterId: selectedCharacterId,
     );
   }
+}
+
+List<CharacterVariant> _filterCharactersByWeaponType(Iterable<CharacterVariant> characters, WeaponType? weaponType) {
+  return characters.where(
+    (e) => weaponType == null || e.weaponType == weaponType,
+  ).toList();
 }

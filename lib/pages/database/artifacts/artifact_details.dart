@@ -8,14 +8,14 @@ import "../../../components/game_item_info_box.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
-import "../../../models/common.dart";
+import "../../../models/character.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../ui_core/layout.dart";
 
 class ArtifactDetailsPage extends ConsumerWidget {
   final AssetData assetData;
   final String id;
-  final CharacterId? initialSelectedCharacter;
+  final VariantId? initialSelectedCharacter;
 
   const ArtifactDetailsPage({
     super.key,

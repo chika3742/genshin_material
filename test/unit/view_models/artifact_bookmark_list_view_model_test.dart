@@ -5,6 +5,7 @@ import "package:fractional_indexing/fractional_indexing.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/db/bookmark_db_extension.dart";
 import "package:genshin_material/models/bookmark.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/view_models/bookmarks/artifact_bookmark_list_view_model.dart";
 
 import "../../utils/asset_data.dart";
@@ -43,7 +44,7 @@ void main() {
   }
 
   Future<void> addPieceBookmark({
-    String characterId = "char_1",
+    VariantId characterId = const VariantId("char_1"),
     String piece = "flower",
     String? mainStat = "hp",
     List<String> subStats = const ["atk"],
@@ -57,7 +58,7 @@ void main() {
   }
 
   Future<void> addSetBookmark({
-    String characterId = "char_1",
+    VariantId characterId = const VariantId("char_1"),
     List<String> sets = const ["set_1"],
     Map<String, String?> mainStats = const {"flower": "hp"},
     List<String> subStats = const ["atk"],
@@ -73,7 +74,7 @@ void main() {
   group("build", () {
     test("maps a row with a piece reference to a piece item state", () async {
       await addPieceBookmark(
-        characterId: "char_9",
+        characterId: VariantId("char_9"),
         piece: "plume",
         mainStat: "atk",
         subStats: ["crit_rate", "crit_dmg"],
@@ -100,7 +101,7 @@ void main() {
 
     test("maps a row with a set reference to a set item state", () async {
       await addSetBookmark(
-        characterId: "char_9",
+        characterId: VariantId("char_9"),
         sets: ["set_1", "set_2"],
         mainStats: {"sands": "er", "goblet": null},
         subStats: ["crit_rate"],
@@ -144,7 +145,7 @@ void main() {
     test("throws a StateError for a row with neither reference", () async {
       await db.into(db.bookmarkArtifactTable).insert(
         BookmarkArtifactCompanion.insert(
-          characterId: "char_1",
+          characterId: VariantId("char_1"),
           subStats: [],
           orderIndex: "a0",
         ),

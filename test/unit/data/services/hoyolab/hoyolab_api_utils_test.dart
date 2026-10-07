@@ -1,6 +1,6 @@
 import "package:flutter_test/flutter_test.dart";
+import "package:genshin_material/data/models/hoyolab_api.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_api_utils.dart";
-import "package:genshin_material/models/hoyolab_api.dart";
 
 AvatarListResultItem _buildAvatar(int id) => AvatarListResultItem(
       id: id,

@@ -2,6 +2,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
 import "../utils/daily_material_weekday.dart";
+import "character.dart";
 import "common.dart";
 import "localized_text.dart";
 
@@ -69,7 +70,7 @@ sealed class MaterialsMeta with _$MaterialsMeta {
     required Map<MaterialCategoryType, LocalizedText> categories,
     required Map<String, int> sortOrder,
     required DailyMaterials daily,
-    required Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials,
+    required Map<MaterialId, List<CharacterOrVariantId>> specialCharactersUsingMaterials,
   }) = _MaterialsMeta;
 
   factory MaterialsMeta.fromJson(Map<String, dynamic> json) =>

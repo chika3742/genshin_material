@@ -279,7 +279,7 @@ String toString() {
 /// @nodoc
 mixin _$MaterialsMeta {
 
- Map<MaterialCategoryType, LocalizedText> get categories; Map<String, int> get sortOrder; DailyMaterials get daily; Map<MaterialId, List<CharacterId>> get specialCharactersUsingMaterials;
+ Map<MaterialCategoryType, LocalizedText> get categories; Map<String, int> get sortOrder; DailyMaterials get daily; Map<MaterialId, List<CharacterOrVariantId>> get specialCharactersUsingMaterials;
 
 
 
@@ -313,7 +313,7 @@ String toString() {
 @JsonSerializable(createToJson: false)
 
 class _MaterialsMeta implements MaterialsMeta {
-  const _MaterialsMeta({required  Map<MaterialCategoryType, LocalizedText> categories, required  Map<String, int> sortOrder, required this.daily, required  Map<MaterialId, List<CharacterId>> specialCharactersUsingMaterials}): _categories = categories,_sortOrder = sortOrder,_specialCharactersUsingMaterials = specialCharactersUsingMaterials;
+  const _MaterialsMeta({required  Map<MaterialCategoryType, LocalizedText> categories, required  Map<String, int> sortOrder, required this.daily, required  Map<MaterialId, List<CharacterOrVariantId>> specialCharactersUsingMaterials}): _categories = categories,_sortOrder = sortOrder,_specialCharactersUsingMaterials = specialCharactersUsingMaterials;
   factory _MaterialsMeta.fromJson(Map<String, dynamic> json) => _$MaterialsMetaFromJson(json);
 
  final  Map<MaterialCategoryType, LocalizedText> _categories;
@@ -331,8 +331,8 @@ class _MaterialsMeta implements MaterialsMeta {
 }
 
 @override final  DailyMaterials daily;
- final  Map<MaterialId, List<CharacterId>> _specialCharactersUsingMaterials;
-@override Map<MaterialId, List<CharacterId>> get specialCharactersUsingMaterials {
+ final  Map<MaterialId, List<CharacterOrVariantId>> _specialCharactersUsingMaterials;
+@override Map<MaterialId, List<CharacterOrVariantId>> get specialCharactersUsingMaterials {
   if (_specialCharactersUsingMaterials is EqualUnmodifiableMapView) return _specialCharactersUsingMaterials;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableMapView(_specialCharactersUsingMaterials);

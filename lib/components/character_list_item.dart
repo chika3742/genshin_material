@@ -7,7 +7,7 @@ import "../providers/versions.dart";
 import "../routes.dart";
 
 class CharacterListItem extends ConsumerWidget {
-  final CharacterWithLargeImage character;
+  final Character character;
 
   const CharacterListItem(this.character, {super.key});
 

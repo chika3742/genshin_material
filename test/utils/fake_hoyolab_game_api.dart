@@ -1,6 +1,6 @@
 import "package:genshin_material/core/api_request_queue.dart";
+import "package:genshin_material/data/models/hoyolab_api.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_game_api.dart";
-import "package:genshin_material/models/hoyolab_api.dart";
 
 import "http_client.mocks.dart";
 import "secure_storage.dart";

@@ -3,15 +3,15 @@ import "package:path/path.dart" as path;
 import "../core/asset_cache.dart";
 import "ingredients.dart";
 import "localized_text.dart";
+import "material.dart";
 
 const dataSchemaVersion = 9;
 
-typedef CharacterId = String;
 typedef WeaponId = String;
 typedef MaterialId = String;
 typedef ArtifactSetId = String;
 typedef MaterialUsageType = String;
-typedef MaterialDefinitions = Map<MaterialUsageType, String>;
+typedef MaterialDefinitions = Map<MaterialUsageType, MaterialRef>;
 typedef WeaponType = String;
 typedef WeaponSubStat = String;
 typedef TeyvatElement = String;
@@ -43,6 +43,7 @@ mixin Searchable {
 
 mixin CharacterOrWeapon {
   String get id;
+  MaterialTargetType get targetType;
   int get rarity;
   MaterialDefinitions? get materials;
 }
@@ -110,4 +111,34 @@ enum MaterialTargetType {
           .weapon => assetData.weaponIngredients.expItems,
     };
   }
+}
+
+sealed class MaterialRef {
+  const MaterialRef();
+
+  factory MaterialRef.fromJson(String json) => switch (json.split(":")) {
+    ["group", final groupId] => MaterialGroupRef(groupId),
+    ["id", final id] => MaterialIdRef(id),
+    _ => throw FormatException("Invalid material definition: $json"),
+  };
+
+  bool matches(Material material);
+}
+
+final class MaterialIdRef extends MaterialRef {
+  final String id;
+
+  const MaterialIdRef(this.id);
+
+  @override
+  bool matches(Material material) => material.id == id;
+}
+
+final class MaterialGroupRef extends MaterialRef {
+  final String groupId;
+
+  const MaterialGroupRef(this.groupId);
+
+  @override
+  bool matches(Material material) => material.groupId == groupId;
 }

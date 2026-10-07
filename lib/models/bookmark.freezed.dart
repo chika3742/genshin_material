@@ -148,7 +148,7 @@ String toString() {
 /// @nodoc
 mixin _$BookmarkGroup {
 
- String get hash; BookmarkType get type; String get characterId; String get orderIndex; LevelRangeValues? get levelRange; List<BookmarkWithDetails> get bookmarks;
+ String get hash; BookmarkType get type; CharacterOrVariantId get characterId; String get orderIndex; LevelRangeValues? get levelRange; List<BookmarkWithDetails> get bookmarks;
 
 
 
@@ -187,7 +187,7 @@ class _BookmarkGroup extends BookmarkGroup {
 
 @override final  String hash;
 @override final  BookmarkType type;
-@override final  String characterId;
+@override final  CharacterOrVariantId characterId;
 @override final  String orderIndex;
 @override final  LevelRangeValues? levelRange;
  final  List<BookmarkWithDetails> _bookmarks;

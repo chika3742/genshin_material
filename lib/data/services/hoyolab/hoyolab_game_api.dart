@@ -1,4 +1,4 @@
-import "../../../models/hoyolab_api.dart";
+import "../../models/hoyolab_api.dart";
 import "hoyolab_api_base.dart";
 
 const maxBatchComputeItems = 8;

@@ -2,10 +2,10 @@ import "dart:convert";
 
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/api_request_queue.dart";
+import "package:genshin_material/data/models/hoyolab_api.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_account_api.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_exceptions.dart";
 import "package:genshin_material/i18n/strings.g.dart";
-import "package:genshin_material/models/hoyolab_api.dart";
 import "package:mockito/mockito.dart";
 
 import "../../../../utils/http_client.dart";

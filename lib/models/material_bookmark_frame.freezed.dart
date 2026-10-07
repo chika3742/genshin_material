@@ -232,7 +232,7 @@ as Purpose,
 /// @nodoc
 mixin _$MaterialUsage {
 
- String get characterId; String? get weaponId;
+ CharacterOrVariantId get characterId; String? get weaponId;
 
 
 
@@ -269,7 +269,7 @@ class _MaterialUsage implements MaterialUsage {
   const _MaterialUsage({required this.characterId, this.weaponId});
   
 
-@override final  String characterId;
+@override final  CharacterOrVariantId characterId;
 @override final  String? weaponId;
 
 

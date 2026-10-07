@@ -17,7 +17,7 @@ final class IsCharacterSyncEnabledProvider
     with $Provider<bool> {
   IsCharacterSyncEnabledProvider._({
     required IsCharacterSyncEnabledFamily super.from,
-    required ({String variantId, String? weaponId}) super.argument,
+    required ({VariantId variantId, String? weaponId}) super.argument,
   }) : super(
          retry: null,
          name: r'isCharacterSyncEnabledProvider',
@@ -43,7 +43,7 @@ final class IsCharacterSyncEnabledProvider
 
   @override
   bool create(Ref ref) {
-    final argument = this.argument as ({String variantId, String? weaponId});
+    final argument = this.argument as ({VariantId variantId, String? weaponId});
     return isCharacterSyncEnabled(
       ref,
       variantId: argument.variantId,
@@ -72,13 +72,13 @@ final class IsCharacterSyncEnabledProvider
 }
 
 String _$isCharacterSyncEnabledHash() =>
-    r'226514614a86aa2ad3ac04261755c32701413408';
+    r'b5ff4586a232272a119c04bf81f2c788cb057e42';
 
 final class IsCharacterSyncEnabledFamily extends $Family
     with
         $FunctionalFamilyOverride<
           bool,
-          ({String variantId, String? weaponId})
+          ({VariantId variantId, String? weaponId})
         > {
   IsCharacterSyncEnabledFamily._()
     : super(
@@ -90,7 +90,7 @@ final class IsCharacterSyncEnabledFamily extends $Family
       );
 
   IsCharacterSyncEnabledProvider call({
-    required String variantId,
+    required VariantId variantId,
     String? weaponId,
   }) => IsCharacterSyncEnabledProvider._(
     argument: (variantId: variantId, weaponId: weaponId),
@@ -109,7 +109,7 @@ final class IsBagLackNumSyncEnabledProvider
     with $Provider<bool> {
   IsBagLackNumSyncEnabledProvider._({
     required IsBagLackNumSyncEnabledFamily super.from,
-    required String super.argument,
+    required VariantId super.argument,
   }) : super(
          retry: null,
          name: r'isBagLackNumSyncEnabledProvider',
@@ -135,7 +135,7 @@ final class IsBagLackNumSyncEnabledProvider
 
   @override
   bool create(Ref ref) {
-    final argument = this.argument as String;
+    final argument = this.argument as VariantId;
     return isBagLackNumSyncEnabled(ref, variantId: argument);
   }
 
@@ -160,10 +160,10 @@ final class IsBagLackNumSyncEnabledProvider
 }
 
 String _$isBagLackNumSyncEnabledHash() =>
-    r'a09b82ab6a1c371c7fccf92d34e9877dd3922b14';
+    r'e71bd95bb9857cefd292f5c42003c0a76d76a586';
 
 final class IsBagLackNumSyncEnabledFamily extends $Family
-    with $FunctionalFamilyOverride<bool, String> {
+    with $FunctionalFamilyOverride<bool, VariantId> {
   IsBagLackNumSyncEnabledFamily._()
     : super(
         retry: null,
@@ -173,7 +173,7 @@ final class IsBagLackNumSyncEnabledFamily extends $Family
         isAutoDispose: true,
       );
 
-  IsBagLackNumSyncEnabledProvider call({required String variantId}) =>
+  IsBagLackNumSyncEnabledProvider call({required VariantId variantId}) =>
       IsBagLackNumSyncEnabledProvider._(argument: variantId, from: this);
 
   @override

@@ -6,6 +6,7 @@ import "package:drift_flutter/drift_flutter.dart";
 import "package:fractional_indexing/fractional_indexing.dart";
 
 import "database.steps.dart";
+import "models/character.dart";
 import "models/common.dart";
 
 part "database.drift.dart";
@@ -15,7 +16,7 @@ part "database.drift.dart";
 @DataClassName("BookmarkMaterialGroup")
 class BookmarkMaterialGroupTable extends Table {
   TextColumn get groupHash => text()();
-  TextColumn get characterId => text()();
+  TextColumn get characterId => text().map(const CharacterOrVariantIdConverter())();
   TextColumn get weaponId => text().nullable()();
   TextColumn get purposeType => textEnum<Purpose>()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
@@ -44,7 +45,7 @@ class BookmarkMaterialItemTable extends Table {
 @DataClassName("BookmarkArtifact")
 class BookmarkArtifactTable extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get characterId => text()();
+  TextColumn get characterId => text().map(const VariantIdConverter())();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
   TextColumn get subStats => text().map(const ListConverter<StatId>())();
   /// Fractional-indexing order index in artifact bookmark list.
@@ -177,6 +178,26 @@ class MapConverter<T> extends TypeConverter<Map<String, T>, String> {
   String toSql(Map<String, T> value) {
     return jsonEncode(value);
   }
+}
+
+class CharacterOrVariantIdConverter extends TypeConverter<CharacterOrVariantId, String> {
+  const CharacterOrVariantIdConverter();
+
+  @override
+  CharacterOrVariantId fromSql(String fromDb) => CharacterOrVariantId(fromDb);
+
+  @override
+  String toSql(CharacterOrVariantId value) => value;
+}
+
+class VariantIdConverter extends TypeConverter<VariantId, String> {
+  const VariantIdConverter();
+
+  @override
+  VariantId fromSql(String fromDb) => VariantId(fromDb);
+
+  @override
+  String toSql(VariantId value) => value;
 }
 
 @DriftDatabase(tables: [

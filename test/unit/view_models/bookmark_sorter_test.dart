@@ -1,6 +1,7 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/database.dart";
 import "package:genshin_material/models/bookmark.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/view_models/bookmarks/bookmark_sorter.dart";
 
@@ -11,7 +12,7 @@ void main() {
   // same surrounding group.
   final bookmarkGroup = BookmarkMaterialGroup(
     groupHash: "group",
-    characterId: "char_1",
+    characterId: CharacterOrVariantId("char_1"),
     purposeType: Purpose.ascension,
     createdAt: DateTime(2024),
     orderIndex: "a0",

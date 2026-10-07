@@ -1,6 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
+import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/pref_key.dart";
+
+import "../utils/test_data.dart";
 
 void main() {
   group("TimeOfDayPrefKey", () {
@@ -36,14 +39,14 @@ void main() {
     });
   });
 
-  group("StringMapPrefKey", () {
-    const key = StringMapPrefKey("test");
+  group("VariantIdMapPrefKey", () {
+    const key = VariantIdMapPrefKey("test");
 
     test("round-trips maps", () {
       for (final map in [
-        <String, String>{},
-        {"a": "1"},
-        {"traveler": "traveler_geo", "other": "other_pyro"},
+        <CharacterId, VariantId>{},
+        {testGroupId: testVariantId1},
+        {testGroupId: testVariantId2, CharacterId("other"): VariantId("other_pyro")},
       ]) {
         expect(key.fromPref(key.toPref(map)), map);
       }
@@ -68,7 +71,7 @@ void main() {
 
     test("returns an unmodifiable map", () {
       expect(
-        () => key.fromPref('{"a": "1"}')["b"] = "2",
+        () => key.fromPref('{"a": "1"}')[CharacterId("b")] = VariantId("2"),
         throwsUnsupportedError,
       );
     });

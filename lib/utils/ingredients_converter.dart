@@ -21,20 +21,16 @@ String? getConcreteItemId(Ingredient ingredient, CharacterOrWeapon characterOrWe
         return null;
       }
 
-      final [defType, expr] = definition.split(":");
-      if (defType == "id") {
-        return expr;
+      final id = switch (definition) {
+        MaterialIdRef(:final id) => id,
+        MaterialGroupRef(:final groupId) => assetData.materials.values.firstWhereOrNull(
+            (e) => e.groupId == groupId && e.craftLevel == ingredient.craftLevel,
+          )?.id,
+      };
+      if (id == null) {
+        log("Warning: No material found for type ${ingredient.type} at craft level ${ingredient.craftLevel} in ${characterOrWeapon.id}");
       }
-      if (defType == "group") {
-        final material = assetData.materials.values
-            .firstWhereOrNull(
-              (e) => e.groupId == expr && e.craftLevel == ingredient.craftLevel,
-            );
-        assert(material != null, "No material found for group id $expr and craft level ${ingredient.craftLevel}");
-        return material!.id;
-      }
-
-      throw "Unknown type: $defType";
+      return id;
     }(),
     IngredientWithFixedId(:final itemId) => itemId,
     _ => "exp",

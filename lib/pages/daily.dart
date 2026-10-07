@@ -78,10 +78,8 @@ class DailyPage extends HookConsumerWidget {
                               _DailyMaterialHeading(dailyMaterial: dm),
                               Wrap(
                                 children: [
-                                  for (final character in getCharactersUsingMaterial(
+                                  for (final character in assetData.getCharactersUsingMaterial(
                                     assetData.materials[dm.items.first]!,
-                                    assetData.characters.values,
-                                    assetData.specialCharactersUsingMaterials,
                                   ))
                                     if (!character.id.startsWith("traveler"))
                                       CharacterSmallCard(character),
@@ -108,9 +106,8 @@ class DailyPage extends HookConsumerWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  for (final e in getWeaponsUsingMaterial(
+                                  for (final e in assetData.getWeaponsUsingMaterial(
                                     assetData.materials[dm.items.first]!,
-                                    assetData.weapons.values,
                                   ).toList().sortedDescendingByRarity().groupByType(assetData.weaponTypes.keys.toList()).entries) ...[
                                     SectionInnerHeading(
                                       assetData.weaponTypes[e.key]!.name.localized,

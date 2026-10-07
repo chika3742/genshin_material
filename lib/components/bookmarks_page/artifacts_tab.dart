@@ -3,6 +3,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../../i18n/strings.g.dart";
+import "../../models/character.dart";
 import "../../providers/asset_image_resolver.dart";
 import "../../providers/versions.dart";
 import "../../routes.dart";
@@ -243,7 +244,7 @@ class _Header extends ConsumerWidget {
           onTap: () {
             CharacterDetailsRoute(id: state.characterId).push(context);
           },
-          child: Image.file(images.getSmallFile(assetData.characters[state.characterId]!), width: 35, height: 35),
+          child: Image.file(images.getSmallFile(assetData.findCharacterOrVariant(state.characterId)!), width: 35, height: 35),
         ),
         const Spacer(),
         Padding(

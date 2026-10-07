@@ -2,6 +2,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
 import "bookmark.dart";
+import "character.dart";
 import "common.dart";
 import "material.dart";
 
@@ -87,7 +88,7 @@ sealed class MaterialBookmarkFrame with _$MaterialBookmarkFrame {
 @freezed
 sealed class MaterialUsage with _$MaterialUsage {
   const factory MaterialUsage({
-    required String characterId,
+    required CharacterOrVariantId characterId,
     String? weaponId,
   }) = _MaterialUsage;
 }

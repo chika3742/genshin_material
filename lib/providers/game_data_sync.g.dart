@@ -66,7 +66,7 @@ final class BagLackNumProvider
   }
 }
 
-String _$bagLackNumHash() => r'bc0ff61489fd999e19a3b58fd5efffe095613c2c';
+String _$bagLackNumHash() => r'bb6b6009a501d13b49513baffacf5bc7b3e10721';
 
 final class BagLackNumFamily extends $Family
     with
@@ -103,7 +103,7 @@ final class GameDataSyncStateProvider
     with $Provider<GameDataSyncStatus?> {
   GameDataSyncStateProvider._({
     required GameDataSyncStateFamily super.from,
-    required ({String variantId, String? weaponId}) super.argument,
+    required ({VariantId variantId, String? weaponId}) super.argument,
   }) : super(
          retry: null,
          name: r'gameDataSyncStateProvider',
@@ -130,7 +130,7 @@ final class GameDataSyncStateProvider
 
   @override
   GameDataSyncStatus? create(Ref ref) {
-    final argument = this.argument as ({String variantId, String? weaponId});
+    final argument = this.argument as ({VariantId variantId, String? weaponId});
     return gameDataSyncState(
       ref,
       variantId: argument.variantId,
@@ -157,13 +157,13 @@ final class GameDataSyncStateProvider
   }
 }
 
-String _$gameDataSyncStateHash() => r'baa8e849ecb98830b0097e9840fb2db84f885571';
+String _$gameDataSyncStateHash() => r'8b46e65c206544c243aff0bc625456f21ce4fe0a';
 
 final class GameDataSyncStateFamily extends $Family
     with
         $FunctionalFamilyOverride<
           GameDataSyncStatus?,
-          ({String variantId, String? weaponId})
+          ({VariantId variantId, String? weaponId})
         > {
   GameDataSyncStateFamily._()
     : super(
@@ -175,7 +175,7 @@ final class GameDataSyncStateFamily extends $Family
       );
 
   GameDataSyncStateProvider call({
-    required String variantId,
+    required VariantId variantId,
     String? weaponId,
   }) => GameDataSyncStateProvider._(
     argument: (variantId: variantId, weaponId: weaponId),

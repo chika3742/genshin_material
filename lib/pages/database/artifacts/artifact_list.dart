@@ -16,14 +16,14 @@ import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/artifact.dart";
-import "../../../models/common.dart";
+import "../../../models/character.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../routes.dart";
 import "../../../utils/filtering.dart";
 
 class ArtifactListPage extends HookConsumerWidget {
   final AssetData assetData;
-  final CharacterId? equipCharacter;
+  final VariantId? equipCharacter;
 
   const ArtifactListPage({super.key, required this.assetData, required this.equipCharacter});
 
@@ -38,7 +38,7 @@ class ArtifactListPage extends HookConsumerWidget {
 
     final String appBarTitle;
     if (equipCharacter != null) {
-      appBarTitle = "${tr.pages.artifacts} (${tr.common.selected(character: assetData.characters[equipCharacter]!.name.localized)})";
+      appBarTitle = "${tr.pages.artifacts} (${tr.common.selected(character: assetData.findCharacterOrVariant(equipCharacter!)!.name.localized)})";
     } else {
       appBarTitle = tr.pages.artifacts;
     }

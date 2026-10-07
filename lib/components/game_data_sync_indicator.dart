@@ -5,7 +5,6 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../data/repositories/single_character_state_repository.dart";
 import "../i18n/strings.g.dart";
-import "../models/character.dart";
 import "../ui_core/bubble.dart";
 import "../ui_core/error_messages.dart";
 import "../ui_core/snack_bar.dart";
@@ -122,15 +121,14 @@ sealed class GameDataSyncStatus {
 
   const factory GameDataSyncStatus.mustBeResonatedWithStatue() = _MustBeResonatedWithStatue;
 
-  static GameDataSyncStatus? fromCharacterFetch(MutationState<FetchResult> s, CharacterOrVariant character) {
+  static GameDataSyncStatus? fromCharacterFetch(MutationState<FetchResult> s) {
     return switch (s) {
       MutationIdle() => null,
       MutationPending() => const GameDataSyncStatus.syncing(),
       MutationError(:final error) => GameDataSyncStatus.error(error: error),
       MutationSuccess(value: FetchSuccess()) => const GameDataSyncStatus.synced(),
-      MutationSuccess(value: FetchCharacterNotFound()) => character is CharacterVariant
-          ? const GameDataSyncStatus.mustBeResonatedWithStatue()
-          : const GameDataSyncStatus.characterNotExists(),
+      MutationSuccess(value: FetchCharacterNotFound()) => const GameDataSyncStatus.characterNotExists(),
+      MutationSuccess(value: FetchVariantInactive()) => const GameDataSyncStatus.mustBeResonatedWithStatue(),
     };
   }
 

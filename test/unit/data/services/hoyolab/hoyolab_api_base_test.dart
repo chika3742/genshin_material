@@ -3,9 +3,9 @@ import "dart:convert";
 
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/api_request_queue.dart";
+import "package:genshin_material/data/models/hoyolab_api.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_api_base.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_exceptions.dart";
-import "package:genshin_material/models/hoyolab_api.dart";
 import "package:http/http.dart" as http;
 import "package:mockito/mockito.dart";
 

@@ -21,7 +21,7 @@ final class SingleCharacterStateRepositoryProvider
         > {
   SingleCharacterStateRepositoryProvider._({
     required SingleCharacterStateRepositoryFamily super.from,
-    required String super.argument,
+    required VariantId super.argument,
   }) : super(
          retry: null,
          name: r'singleCharacterStateRepositoryProvider',
@@ -57,7 +57,7 @@ final class SingleCharacterStateRepositoryProvider
 }
 
 String _$singleCharacterStateRepositoryHash() =>
-    r'd57bc1c1d7af27f05371a11cf1a2de2eb3a2a7c7';
+    r'4df9179d1553c9ae76cd2bd8896ed5556bf05ffb';
 
 final class SingleCharacterStateRepositoryFamily extends $Family
     with
@@ -66,7 +66,7 @@ final class SingleCharacterStateRepositoryFamily extends $Family
           AsyncValue<CharacterState?>,
           CharacterState?,
           FutureOr<CharacterState?>,
-          String
+          VariantId
         > {
   SingleCharacterStateRepositoryFamily._()
     : super(
@@ -77,7 +77,7 @@ final class SingleCharacterStateRepositoryFamily extends $Family
         isAutoDispose: true,
       );
 
-  SingleCharacterStateRepositoryProvider call(String variantId) =>
+  SingleCharacterStateRepositoryProvider call(VariantId variantId) =>
       SingleCharacterStateRepositoryProvider._(argument: variantId, from: this);
 
   @override
@@ -86,10 +86,10 @@ final class SingleCharacterStateRepositoryFamily extends $Family
 
 abstract class _$SingleCharacterStateRepository
     extends $AsyncNotifier<CharacterState?> {
-  late final _$args = ref.$arg as String;
-  String get variantId => _$args;
+  late final _$args = ref.$arg as VariantId;
+  VariantId get variantId => _$args;
 
-  FutureOr<CharacterState?> build(String variantId);
+  FutureOr<CharacterState?> build(VariantId variantId);
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
