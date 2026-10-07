@@ -78,11 +78,11 @@ class DailyPage extends HookConsumerWidget {
                               _DailyMaterialHeading(dailyMaterial: dm),
                               Wrap(
                                 children: [
-                                  for (final character in assetData.getCharactersUsingMaterial(
-                                    assetData.materials[dm.items.first]!,
-                                  ))
-                                    if (!character.id.startsWith("traveler"))
-                                      CharacterSmallCard(character),
+                                  for (final character in dm.items
+                                      .map((e) => assetData.materials[e]!)
+                                      .expand(assetData.getCharactersUsingMaterial)
+                                      .toSet())
+                                    CharacterSmallCard(character),
                                 ],
                               ),
                             ],
