@@ -32,58 +32,46 @@ import 'package:timezone/timezone.dart' as _i4;
 /// See the documentation for Mockito's code generation for more information.
 class MockLocalNotification extends _i1.Mock implements _i2.LocalNotification {
   @override
-  _i3.Future<void> initialize() =>
-      (super.noSuchMethod(
-            Invocation.method(#initialize, []),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
-          )
-          as _i3.Future<void>);
+  _i3.Future<void> initialize() => (super.noSuchMethod(
+    Invocation.method(#initialize, []),
+    returnValue: _i3.Future<void>.value(),
+    returnValueForMissingStub: _i3.Future<void>.value(),
+  ) as _i3.Future<void>);
 
   @override
-  _i3.Future<bool> isNotificationGranted() =>
-      (super.noSuchMethod(
-            Invocation.method(#isNotificationGranted, []),
-            returnValue: _i3.Future<bool>.value(false),
-            returnValueForMissingStub: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> isNotificationGranted() => (super.noSuchMethod(
+    Invocation.method(#isNotificationGranted, []),
+    returnValue: _i3.Future<bool>.value(false),
+    returnValueForMissingStub: _i3.Future<bool>.value(false),
+  ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> shouldRequestExactAlarmPermission() =>
-      (super.noSuchMethod(
-            Invocation.method(#shouldRequestExactAlarmPermission, []),
-            returnValue: _i3.Future<bool>.value(false),
-            returnValueForMissingStub: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> shouldRequestExactAlarmPermission() => (super.noSuchMethod(
+    Invocation.method(#shouldRequestExactAlarmPermission, []),
+    returnValue: _i3.Future<bool>.value(false),
+    returnValueForMissingStub: _i3.Future<bool>.value(false),
+  ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> requestPermission() =>
-      (super.noSuchMethod(
-            Invocation.method(#requestPermission, []),
-            returnValue: _i3.Future<bool>.value(false),
-            returnValueForMissingStub: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> requestPermission() => (super.noSuchMethod(
+    Invocation.method(#requestPermission, []),
+    returnValue: _i3.Future<bool>.value(false),
+    returnValueForMissingStub: _i3.Future<bool>.value(false),
+  ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> requestExactAlarmPermission() =>
-      (super.noSuchMethod(
-            Invocation.method(#requestExactAlarmPermission, []),
-            returnValue: _i3.Future<bool>.value(false),
-            returnValueForMissingStub: _i3.Future<bool>.value(false),
-          )
-          as _i3.Future<bool>);
+  _i3.Future<bool> requestExactAlarmPermission() => (super.noSuchMethod(
+    Invocation.method(#requestExactAlarmPermission, []),
+    returnValue: _i3.Future<bool>.value(false),
+    returnValueForMissingStub: _i3.Future<bool>.value(false),
+  ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<void> openSystemSettings() =>
-      (super.noSuchMethod(
-            Invocation.method(#openSystemSettings, []),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
-          )
-          as _i3.Future<void>);
+  _i3.Future<void> openSystemSettings() => (super.noSuchMethod(
+    Invocation.method(#openSystemSettings, []),
+    returnValue: _i3.Future<void>.value(),
+    returnValueForMissingStub: _i3.Future<void>.value(),
+  ) as _i3.Future<void>);
 
   @override
   _i3.Future<void> schedule({
@@ -93,27 +81,23 @@ class MockLocalNotification extends _i1.Mock implements _i2.LocalNotification {
     required _i4.TZDateTime? scheduledDate,
     required _i5.AndroidNotificationChannel? androidChannel,
     _i5.DateTimeComponents? matchDateTimeComponents,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(#schedule, [], {
-              #id: id,
-              #title: title,
-              #body: body,
-              #scheduledDate: scheduledDate,
-              #androidChannel: androidChannel,
-              #matchDateTimeComponents: matchDateTimeComponents,
-            }),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
-          )
-          as _i3.Future<void>);
+  }) => (super.noSuchMethod(
+    Invocation.method(#schedule, [], {
+      #id: id,
+      #title: title,
+      #body: body,
+      #scheduledDate: scheduledDate,
+      #androidChannel: androidChannel,
+      #matchDateTimeComponents: matchDateTimeComponents,
+    }),
+    returnValue: _i3.Future<void>.value(),
+    returnValueForMissingStub: _i3.Future<void>.value(),
+  ) as _i3.Future<void>);
 
   @override
-  _i3.Future<void> cancel(int? id) =>
-      (super.noSuchMethod(
-            Invocation.method(#cancel, [id]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
-          )
-          as _i3.Future<void>);
+  _i3.Future<void> cancel(int? id) => (super.noSuchMethod(
+    Invocation.method(#cancel, [id]),
+    returnValue: _i3.Future<void>.value(),
+    returnValueForMissingStub: _i3.Future<void>.value(),
+  ) as _i3.Future<void>);
 }

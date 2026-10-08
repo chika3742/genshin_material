@@ -44,35 +44,26 @@ class MockRemoteConfigService extends _i1.Mock
   }
 
   @override
-  T get<T extends Object>(_i4.RemoteConfigKey<T>? key) =>
-      (super.noSuchMethod(
-            Invocation.method(#get, [key]),
-            returnValue: _i5.dummyValue<T>(
-              this,
-              Invocation.method(#get, [key]),
-            ),
-          )
-          as T);
+  T get<T extends Object>(_i4.RemoteConfigKey<T>? key) => (super.noSuchMethod(
+    Invocation.method(#get, [key]),
+    returnValue: _i5.dummyValue<T>(this, Invocation.method(#get, [key])),
+  ) as T);
 
   @override
   _i2.StreamSubscription<_i6.RemoteConfigUpdate> listenConfigUpdate(
     void Function()? onActivated,
-  ) =>
-      (super.noSuchMethod(
-            Invocation.method(#listenConfigUpdate, [onActivated]),
-            returnValue: _FakeStreamSubscription_0<_i6.RemoteConfigUpdate>(
-              this,
-              Invocation.method(#listenConfigUpdate, [onActivated]),
-            ),
-          )
-          as _i2.StreamSubscription<_i6.RemoteConfigUpdate>);
+  ) => (super.noSuchMethod(
+    Invocation.method(#listenConfigUpdate, [onActivated]),
+    returnValue: _FakeStreamSubscription_0<_i6.RemoteConfigUpdate>(
+      this,
+      Invocation.method(#listenConfigUpdate, [onActivated]),
+    ),
+  ) as _i2.StreamSubscription<_i6.RemoteConfigUpdate>);
 
   @override
-  _i2.Future<void> initialize() =>
-      (super.noSuchMethod(
-            Invocation.method(#initialize, []),
-            returnValue: _i2.Future<void>.value(),
-            returnValueForMissingStub: _i2.Future<void>.value(),
-          )
-          as _i2.Future<void>);
+  _i2.Future<void> initialize() => (super.noSuchMethod(
+    Invocation.method(#initialize, []),
+    returnValue: _i2.Future<void>.value(),
+    returnValueForMissingStub: _i2.Future<void>.value(),
+  ) as _i2.Future<void>);
 }

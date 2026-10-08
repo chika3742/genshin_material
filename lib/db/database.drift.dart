@@ -3137,13 +3137,11 @@ final class $$BookmarkMaterialGroupTableTableReferences
     $BookmarkMaterialItemTableTable,
     List<BookmarkMaterialItem>
   >
-  _bookmarkMaterialItemTableRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.bookmarkMaterialItemTable,
-    aliasName:
-        'bookmark_material_group_table__group_hash__bookmark_material_item_table__group_hash',
-  );
+  _bookmarkMaterialItemTableRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.bookmarkMaterialItemTable,
+        aliasName: 'bookmark_material_group_table__group_hash__bookmark_material_item_table__group_hash',
+      );
 
   $$BookmarkMaterialItemTableTableProcessedTableManager
   get bookmarkMaterialItemTableRefs {
@@ -3511,11 +3509,10 @@ final class $$BookmarkMaterialItemTableTableReferences
     super.$_typedResult,
   );
 
-  static $BookmarkMaterialGroupTableTable _groupHashTable(
-    _$AppDatabase db,
-  ) => db.bookmarkMaterialGroupTable.createAlias(
-    'bookmark_material_item_table__group_hash__bookmark_material_group_table__group_hash',
-  );
+  static $BookmarkMaterialGroupTableTable _groupHashTable(_$AppDatabase db) =>
+      db.bookmarkMaterialGroupTable.createAlias(
+        'bookmark_material_item_table__group_hash__bookmark_material_group_table__group_hash',
+      );
 
   $$BookmarkMaterialGroupTableTableProcessedTableManager get groupHash {
     final $_column = $_itemColumn<String>('group_hash')!;
@@ -3791,19 +3788,17 @@ class $$BookmarkMaterialItemTableTableTableManager
                     >
                   >(state) {
                     if (groupHash) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.groupHash,
-                                referencedTable:
-                                    $$BookmarkMaterialItemTableTableReferences
-                                        ._groupHashTable(db),
-                                referencedColumn:
-                                    $$BookmarkMaterialItemTableTableReferences
-                                        ._groupHashTable(db)
-                                        .groupHash,
-                              )
-                              as T;
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.groupHash,
+                        referencedTable:
+                            $$BookmarkMaterialItemTableTableReferences
+                                ._groupHashTable(db),
+                        referencedColumn:
+                            $$BookmarkMaterialItemTableTableReferences
+                                ._groupHashTable(db)
+                                .groupHash,
+                      ) as T;
                     }
 
                     return state;
@@ -4236,9 +4231,10 @@ class $$BookmarkArtifactTableTableTableManager
                                 table,
                                 p0,
                               ).bookmarkArtifactSetTableRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) =>
-                                  referencedItems.where((e) => e.id == item.id),
+                          referencedItemsForCurrentItem: (
+                            item,
+                            referencedItems,
+                          ) => referencedItems.where((e) => e.id == item.id),
                           typedResults: items,
                         ),
                       if (bookmarkArtifactPieceTableRefs)
@@ -4257,9 +4253,10 @@ class $$BookmarkArtifactTableTableTableManager
                                 table,
                                 p0,
                               ).bookmarkArtifactPieceTableRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) =>
-                                  referencedItems.where((e) => e.id == item.id),
+                          referencedItemsForCurrentItem: (
+                            item,
+                            referencedItems,
+                          ) => referencedItems.where((e) => e.id == item.id),
                           typedResults: items,
                         ),
                     ];
@@ -4561,19 +4558,18 @@ class $$BookmarkArtifactSetTableTableTableManager
                     >
                   >(state) {
                     if (id) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.id,
-                                referencedTable:
-                                    $$BookmarkArtifactSetTableTableReferences
-                                        ._idTable(db),
-                                referencedColumn:
-                                    $$BookmarkArtifactSetTableTableReferences
-                                        ._idTable(db)
-                                        .id,
-                              )
-                              as T;
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.id,
+                        referencedTable:
+                            $$BookmarkArtifactSetTableTableReferences._idTable(
+                              db,
+                            ),
+                        referencedColumn:
+                            $$BookmarkArtifactSetTableTableReferences
+                                ._idTable(db)
+                                .id,
+                      ) as T;
                     }
 
                     return state;
@@ -4864,19 +4860,17 @@ class $$BookmarkArtifactPieceTableTableTableManager
                     >
                   >(state) {
                     if (id) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.id,
-                                referencedTable:
-                                    $$BookmarkArtifactPieceTableTableReferences
-                                        ._idTable(db),
-                                referencedColumn:
-                                    $$BookmarkArtifactPieceTableTableReferences
-                                        ._idTable(db)
-                                        .id,
-                              )
-                              as T;
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.id,
+                        referencedTable:
+                            $$BookmarkArtifactPieceTableTableReferences
+                                ._idTable(db),
+                        referencedColumn:
+                            $$BookmarkArtifactPieceTableTableReferences
+                                ._idTable(db)
+                                .id,
+                      ) as T;
                     }
 
                     return state;

@@ -31,11 +31,9 @@ import 'package:mockito/mockito.dart' as _i1;
 class MockRescheduleDailyMaterialNotifications extends _i1.Mock
     implements _i2.RescheduleDailyMaterialNotifications {
   @override
-  _i3.Future<void> execute() =>
-      (super.noSuchMethod(
-            Invocation.method(#execute, []),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
-          )
-          as _i3.Future<void>);
+  _i3.Future<void> execute() => (super.noSuchMethod(
+    Invocation.method(#execute, []),
+    returnValue: _i3.Future<void>.value(),
+    returnValueForMissingStub: _i3.Future<void>.value(),
+  ) as _i3.Future<void>);
 }
