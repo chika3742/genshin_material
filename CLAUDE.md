@@ -27,13 +27,13 @@ fvm flutter test test/unit/utils_test.dart
 ./scripts/coverage.sh
 
 # Code generation (Freezed, Riverpod, go_router, others using build_runner)
-./scripts/build_runner.sh
+fvm dart run build_runner build
 
 # Slang (localization) code generation
-./scripts/slang.sh
+fvm dart run slang
 
 # Update Pigeon platform channel code
-./scripts/run_pigeon.sh
+fvm dart run pigeon --input ./pigeon.dart
 
 # Database migrations (after changing the schema in lib/db/)
 fvm dart run drift_dev make-migrations
@@ -97,14 +97,14 @@ Generated files are committed to the repo. After any of the following changes, r
 
 | Change | Generator | Command |
 |--------|-----------|---------|
-| Add/edit `@freezed` class | freezed | `./scripts/build_runner.sh` |
-| Add/edit `@riverpod` provider | riverpod_generator | `./scripts/build_runner.sh` |
-| Add/edit GoRoute annotations | go_router_builder | `./scripts/build_runner.sh` |
-| Add/edit `@JsonSerializable` | json_serializable | `./scripts/build_runner.sh` |
-| Add/edit Drift tables | drift_dev | `./scripts/build_runner.sh` |
-| Add/edit `@GenerateMocks` / `@GenerateNiceMocks` in `test/` | mockito | `./scripts/build_runner.sh` |
-| Edit `pigeon.dart` | pigeon | `./scripts/run_pigeon.sh` |
-| Edit `.i18n.yaml` files | slang | `./scripts/slang.sh` |
+| Add/edit `@freezed` class | freezed | `fvm dart run build_runner build` |
+| Add/edit `@riverpod` provider | riverpod_generator | `fvm dart run build_runner build` |
+| Add/edit GoRoute annotations | go_router_builder | `fvm dart run build_runner build` |
+| Add/edit `@JsonSerializable` | json_serializable | `fvm dart run build_runner build` |
+| Add/edit Drift tables | drift_dev | `fvm dart run build_runner build` |
+| Add/edit `@GenerateMocks` / `@GenerateNiceMocks` in `test/` | mockito | `fvm dart run build_runner build` |
+| Edit `pigeon.dart` | pigeon | `fvm dart run pigeon --input ./pigeon.dart` |
+| Edit `.i18n.yaml` files | slang | `fvm dart run slang` |
 
 ## Code Conventions
 

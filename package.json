@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "description": "This file is placed solely for the convenience of script running.",
+  "scripts": {
+    "lint:fix": "fvm dart fix --apply",
+    "br": "fvm dart run build_runner build",
+    "br:watch": "fvm dart run build_runner watch",
+    "br:clean": "fvm dart run build_runner clean",
+    "slang": "fvm dart run slang",
+    "slang:watch": "fvm dart run slang watch",
+    "pigeon": "fvm dart run pigeon --input ./pigeon.dart",
+    "make-migrations": "fvm dart run drift_dev make-migrations"
+  }
+}

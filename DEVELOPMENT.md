@@ -14,6 +14,16 @@ $ fvm flutter run
 
 For commands, architecture, and coding conventions, see [CLAUDE.md](./CLAUDE.md).
 
+## Scripts
+
+Common commands such as code generation are defined in the `scripts` section of `package.json`.
+Run them with npm or any other Node.js package manager.
+
+```shell
+$ npm run br
+$ npm run slang:watch
+```
+
 ## Firebase
 
 Debug and profile builds run without any Firebase setup.
