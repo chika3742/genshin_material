@@ -2,13 +2,13 @@ import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
+import "../data/models/bag_counts.dart";
 import "../models/character.dart";
 import "../models/common.dart";
 import "../models/ingredients.dart";
 import "../models/level_range_values.dart";
 import "../models/material_bookmark_frame.dart";
 import "../models/weapon.dart";
-import "../providers/game_data_sync.dart";
 import "../providers/versions.dart";
 import "../utils/material_calculator.dart";
 import "material_item.dart";
@@ -18,7 +18,7 @@ class MaterialCardList extends HookConsumerWidget {
   final List<Purpose> purposes;
   final IngredientConfigurations ingredientConf;
   final Map<Purpose, LevelRangeValues> ranges;
-  final ItemLackNums? lackNums;
+  final BagCounts? bagCounts;
   final VariantId? wSelectedCharacter;
 
   const MaterialCardList({
@@ -27,18 +27,13 @@ class MaterialCardList extends HookConsumerWidget {
     required this.purposes,
     required this.ingredientConf,
     required this.ranges,
-    this.lackNums,
+    this.bagCounts,
     this.wSelectedCharacter,
   }) : assert(target is! Weapon || wSelectedCharacter != null);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetData = ref.watch(assetDataProvider).requireValue;
-
-    final fullQuantities = useMemoized(
-      () => calculateFullQuantities(assetData, purposes, ingredientConf, target),
-      [target, ingredientConf, purposes, assetData],
-    );
 
     final items = useMemoized(
       () => generateMaterialCardsFromRange(assetData, ingredientConf, target, ranges),
@@ -53,13 +48,7 @@ class MaterialCardList extends HookConsumerWidget {
             item: item,
             possiblePurposeTypes: purposes,
             targetType: target.targetType,
-            lackNum: calculateLackNum(
-              ingredientConf,
-              lackNums,
-              itemId: item.id,
-              fullQuantity: fullQuantities[item.id],
-              currentQuantity: item.sum,
-            ),
+            bagCounts: bagCounts,
             usage: switch (target.targetType) {
               .character => MaterialUsage(
                 characterId: CharacterOrVariantId(target.id),

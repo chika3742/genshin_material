@@ -26,16 +26,3 @@ bool isCharacterSyncEnabled(Ref ref, {required VariantId variantId, String? weap
       && (weapon == null || !weapon.disableSync)
       && !variant.disableSync;
 }
-
-@riverpod
-bool isBagLackNumSyncEnabled(Ref ref, {required VariantId variantId}) {
-  final assetData = ref.watch(assetDataProvider).requireValue;
-  final variant = assetData.variants[variantId];
-  if (variant == null) {
-    throw ArgumentError.value(variantId, "variantId", "Variant not found");
-  }
-
-  return ref.watch(isLinkedWithHoyolabProvider)
-      && ref.watch(prefProvider(PrefKeys.syncBagLackNums))
-      && !variant.disableSync;
-}

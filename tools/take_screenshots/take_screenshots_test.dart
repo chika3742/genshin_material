@@ -6,8 +6,8 @@ import "package:firebase_core/firebase_core.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/components/game_data_sync_indicator.dart";
 import "package:genshin_material/core/remote_config_keys.dart";
+import "package:genshin_material/data/repositories/bag_counts_single_repository.dart";
 import "package:genshin_material/data/services/local_notification.dart";
 import "package:genshin_material/data/services/remote_config_service.dart";
 import "package:genshin_material/db/database.dart";
@@ -19,7 +19,6 @@ import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/asset_updating_state.dart";
 import "package:genshin_material/providers/database_provider.dart";
-import "package:genshin_material/providers/game_data_sync.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 import "package:genshin_material/providers/versions.dart";
@@ -77,7 +76,7 @@ void main() {
       overrides: [
         appDatabaseProvider.overrideWithValue(db),
         sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
-        gameDataSyncStateProvider(variantId: VariantId("amber")).overrideWithValue(GameDataSyncStatus.synced()),
+        bagCountsSingleProvider(variantId: VariantId("amber")).overrideWith((ref) async => const {}),
         // The app subscribes to config updates on startup, so the service
         // itself has to be there; every value it reads is overridden below.
         remoteConfigServiceProvider

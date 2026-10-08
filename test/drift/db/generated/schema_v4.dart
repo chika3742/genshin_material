@@ -48,8 +48,7 @@ class BookmarkMaterialGroupTable extends Table
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    $customConstraints:
-        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
+    $customConstraints: 'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
     defaultValue: const CustomExpression(
       'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),
@@ -393,8 +392,7 @@ class BookmarkMaterialItemTable extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
-    $customConstraints:
-        'NOT NULL REFERENCES bookmark_material_group_table(group_hash)ON DELETE CASCADE',
+    $customConstraints: 'NOT NULL REFERENCES bookmark_material_group_table(group_hash)ON DELETE CASCADE',
   );
   late final GeneratedColumn<String> materialId = GeneratedColumn<String>(
     'material_id',
@@ -725,8 +723,7 @@ class BookmarkArtifactTable extends Table
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    $customConstraints:
-        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
+    $customConstraints: 'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
     defaultValue: const CustomExpression(
       'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),
@@ -1506,8 +1503,7 @@ class InGameCharacterStateTable extends Table
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    $customConstraints:
-        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
+    $customConstraints: 'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
     defaultValue: const CustomExpression(
       'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),
@@ -1837,8 +1833,7 @@ class InGameWeaponStateTable extends Table
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    $customConstraints:
-        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
+    $customConstraints: 'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
     defaultValue: const CustomExpression(
       'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),
@@ -2153,8 +2148,7 @@ class MaterialBagCountTable extends Table
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    $customConstraints:
-        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
+    $customConstraints: 'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
     defaultValue: const CustomExpression(
       'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),
@@ -2657,8 +2651,7 @@ class FurnishingSetBookmarkTable extends Table
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    $customConstraints:
-        'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
+    $customConstraints: 'NOT NULL DEFAULT (CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER))',
     defaultValue: const CustomExpression(
       'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
     ),

@@ -27,7 +27,7 @@ class MaterialCardEntry {
   final int quantity;
 
   /// If null, this value won't be shown.
-  final int? lackNum;
+  final int? bagCount;
 
   const MaterialCardEntry({
     required this.id,
@@ -35,7 +35,7 @@ class MaterialCardEntry {
     required this.name,
     required this.rarity,
     required this.quantity,
-    this.lackNum,
+    this.bagCount,
   });
 }
 
@@ -124,13 +124,13 @@ class MaterialCard extends HookWidget {
                               Flexible(
                                 child: FittedBox(child: _AnimatedQuantity(material.quantity)),
                               ),
-                              if (material.lackNum case final lackNum?)
+                              if (material.bagCount case final bagCount?)
                                 Flexible(
                                   child: Row(
                                     spacing: 4.0,
                                     children: [
                                       Icon(Symbols.shopping_bag, size: 18),
-                                      FittedBox(child: _buildLackNumIndicator(lackNum)),
+                                      FittedBox(child: _buildLackNumIndicator(material.quantity - bagCount)),
                                     ],
                                   ),
                                 ),

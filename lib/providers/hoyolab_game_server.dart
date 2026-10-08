@@ -4,6 +4,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 import "../core/pref_keys.dart";
 import "../core/remote_config_keys.dart";
 import "../data/models/hoyolab_api.dart";
+import "../data/services/hoyolab/hoyolab_exceptions.dart";
 import "pref_notifier.dart";
 import "remote_config.dart";
 
@@ -36,6 +37,8 @@ sealed class HoyolabGameServerState with _$HoyolabGameServerState {
     LinkedHoyolabGameServer(:final uid) => uid,
     UnlinkedHoyolabGameServer() => null,
   };
+
+  String get requireUid => uidOrNull ?? (throw HoyolabServerNotSelectedException());
 }
 
 /// The single read/write path for the HoYoLAB server and user identity.

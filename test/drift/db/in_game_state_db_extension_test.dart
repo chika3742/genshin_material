@@ -151,4 +151,24 @@ void main() {
       expect(await queue.next, hasLength(1));
     });
   });
+
+  group("getSavedHyvId", () {
+    test("Returns the id saved among the given ones", () async {
+      await db.setCharacterState(buildCharacterState(characterId: 90002));
+
+      expect(await db.getSavedHyvId("uid_1", [90001, 90002]), 90002);
+    });
+
+    test("Ignores the ids saved for another uid", () async {
+      await db.setCharacterState(buildCharacterState(uid: "uid_2", characterId: 90002));
+
+      expect(await db.getSavedHyvId("uid_1", [90001, 90002]), isNull);
+    });
+
+    test("Ignores the ids not given", () async {
+      await db.setCharacterState(buildCharacterState(characterId: 90003));
+
+      expect(await db.getSavedHyvId("uid_1", [90001, 90002]), isNull);
+    });
+  });
 }

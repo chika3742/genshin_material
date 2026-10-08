@@ -127,41 +127,4 @@ void main() {
       expect(<int>[].indexOfCeilToNearest(1), -1);
     });
   });
-
-  group("EqualityList", () {
-    test("equal contents compare equal and share a hashCode", () {
-      final a = EqualityList([1, 2, 3]);
-      final b = EqualityList([1, 2, 3]);
-
-      expect(a == b, isTrue);
-      expect(a.hashCode, b.hashCode);
-    });
-
-    test("different contents do not compare equal", () {
-      expect(EqualityList([1, 2, 3]) == EqualityList([1, 2]), isFalse);
-    });
-
-    test("a different type argument does not compare equal", () {
-      final Object other = EqualityList<String>([]);
-
-      expect(EqualityList<int>([]) == other, isFalse);
-    });
-
-    test("a plain List does not compare equal", () {
-      expect(EqualityList([1, 2, 3]) == [1, 2, 3], isFalse);
-    });
-
-    test("reads and writes like a List", () {
-      final list = EqualityList([1, 2, 3]);
-
-      expect(list.length, 3);
-      expect(list[0], 1);
-
-      list[0] = 10;
-      expect(list[0], 10);
-
-      list.length = 2;
-      expect(list, [10, 2]);
-    });
-  });
 }

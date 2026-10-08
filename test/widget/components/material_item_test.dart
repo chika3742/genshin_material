@@ -7,6 +7,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/material_item.dart";
 import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/core/theme.dart";
+import "package:genshin_material/data/models/bag_counts.dart";
 import "package:genshin_material/db/database.dart";
 import "package:genshin_material/db/extensions/bookmark_db_extension.dart";
 import "package:genshin_material/db/extensions/material_card_to_companions.dart";
@@ -169,7 +170,7 @@ void main() {
     bool showFarmCount = false,
     bool showItemName = true,
     bool withDropRate = true,
-    int? lackNum,
+    BagCounts? bagCounts,
     bool bookmarkable = false,
     MaterialCardMaterial? card,
   }) async {
@@ -199,7 +200,7 @@ void main() {
             body: MaterialItem(
               item: cardItem,
               targetType: MaterialTargetType.character,
-              lackNum: lackNum,
+              bagCounts: bagCounts,
               usage: bookmarkable ? usage : null,
               possiblePurposeTypes: bookmarkable ? purposeTypes : null,
               hashes: bookmarkable ? null : const [],
@@ -224,22 +225,36 @@ void main() {
       expect(find.text("x12", findRichText: true), findsOne);
     });
 
-    testWidgets("shows how many items are still missing", (tester) async {
-      await pumpItem(tester, lackNum: 5);
+    testWidgets("shows how many items the bag is short of", (tester) async {
+      await pumpItem(tester, bagCounts: {materialId: 7});
 
+      // 12 needed, 7 in the bag.
       expect(find.text("-5", findRichText: true), findsOne);
       expect(find.byIcon(Symbols.shopping_bag), findsOne);
     });
 
-    testWidgets("shows a check instead once nothing is missing", (tester) async {
-      await pumpItem(tester, lackNum: 0);
+    testWidgets("shows a check instead once the bag holds exactly enough", (tester) async {
+      await pumpItem(tester, bagCounts: {materialId: 12});
 
       expect(find.text("-0", findRichText: true), findsNothing);
       expect(find.byIcon(Symbols.check), findsOne);
     });
 
-    testWidgets("omits the missing count when it is unknown", (tester) async {
+    testWidgets("shows a check when the bag holds more than needed", (tester) async {
+      await pumpItem(tester, bagCounts: {materialId: 20});
+
+      expect(find.byIcon(Symbols.check), findsOne);
+    });
+
+    testWidgets("omits the missing count when the bag counts are unknown", (tester) async {
       await pumpItem(tester);
+
+      expect(find.byIcon(Symbols.shopping_bag), findsNothing);
+      expect(find.byIcon(Symbols.check), findsNothing);
+    });
+
+    testWidgets("omits the missing count when the material is not in the bag counts", (tester) async {
+      await pumpItem(tester, bagCounts: {"other": 5});
 
       expect(find.byIcon(Symbols.shopping_bag), findsNothing);
       expect(find.byIcon(Symbols.check), findsNothing);
@@ -422,6 +437,23 @@ void main() {
       await pumpItem(tester, card: expItem);
 
       expect(imagePathOf(tester), path.join(assetDir.path, expImageUrlA));
+    });
+
+    testWidgets("shows the missing count of the default exp item", (tester) async {
+      await pumpItem(tester, card: expItem, bagCounts: {expItemIdA: 1});
+
+      // 3 items needed at 1000 exp per item, 1 in the bag.
+      expect(find.text("-2", findRichText: true), findsOne);
+    });
+
+    testWidgets("omits the missing count for the other exp items", (tester) async {
+      await pumpItem(tester, card: expItem, bagCounts: {expItemIdA: 1, expItemIdB: 100});
+
+      await tester.tap(find.byIcon(Symbols.swap_horiz));
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Symbols.shopping_bag), findsNothing);
+      expect(find.byIcon(Symbols.check), findsNothing);
     });
   });
 

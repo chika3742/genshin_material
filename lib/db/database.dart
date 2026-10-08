@@ -20,7 +20,6 @@ part "database.drift.dart";
   BookmarkArtifactSetTable,
   BookmarkArtifactPieceTable,
   InGameCharacterStateTable,
-  MaterialBagCountTable,
   FurnishingCraftCountTable,
   FurnishingSetBookmarkTable,
 ])
@@ -28,7 +27,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   static const dbName = "db";
 
@@ -227,6 +226,10 @@ class AppDatabase extends _$AppDatabase {
 
               await (delete(items)..where((_) => items.groupHash.isIn(hashes))).go();
               await (delete(groups)..where((_) => groups.groupHash.isIn(hashes))).go();
+            },
+            from6To7: (m, schema) async {
+              final v6 = Schema6(database: this);
+              await m.drop(v6.materialBagCountTable);
             },
           )(m, from, to);
         });

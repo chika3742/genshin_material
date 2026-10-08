@@ -18,6 +18,7 @@ import "../../../components/material_card_list.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/pref_keys.dart";
+import "../../../data/repositories/bag_counts_single_repository.dart";
 import "../../../data/repositories/character_state_repository.dart";
 import "../../../data/repositories/single_character_state_repository.dart";
 import "../../../data/services/crashlytics_service.dart";
@@ -30,7 +31,6 @@ import "../../../models/level_range_values.dart";
 import "../../../models/weapon.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
-import "../../../providers/game_data_sync.dart";
 import "../../../providers/is_sync_enabled.dart";
 import "../../../providers/pref_notifier.dart";
 import "../../../ui_core/layout.dart";
@@ -135,17 +135,8 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
       variantId: selectedCharacter.id,
       weaponId: weapon.id,
     ));
-    final isLackNumSyncEnabled = ref.watch(isBagLackNumSyncEnabledProvider(variantId: selectedCharacter.id));
 
-    // Watch bag lack nums directly so the value is available immediately even when the provider
-    // already has a cached result (e.g. the same weapon screen is open in another ShellRoute).
-    final syncCharacter = GameDataSyncCharacter.single(
-      variantId: state.value.selectedCharacterId,
-      weaponId: weapon.id,
-    );
-    final lackNums = isLackNumSyncEnabled
-        ? ref.watch(bagLackNumProvider(syncCharacter)).value
-        : null;
+    final bagCounts = ref.watch(bagCountsSingleProvider(weaponId: weapon.id));
 
     final fetchState = isWeaponSyncEnabled
         ? ref.watch(SingleCharacterStateRepository.fetchMutation(selectedCharacter.id))
@@ -240,10 +231,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                           GameDataSyncStatus.weaponNotEquipped(),
                         if (fetchState != null)
                           GameDataSyncStatus.fromCharacterFetch(fetchState),
-                        ref.watch(gameDataSyncStateProvider(
-                          variantId: state.value.selectedCharacterId,
-                          weaponId: weapon.id,
-                        )),
+                        GameDataSyncStatus.fromAsyncValue(bagCounts),
                       ]);
                       return syncStatus != null
                           ? GameDataSyncIndicator(
@@ -291,7 +279,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                           target: weapon,
                           purposes: slider.purposes,
                           ingredientConf: ingredients,
-                          lackNums: lackNums,
+                          bagCounts: bagCounts.value,
                           ranges: state.value.rangeValues,
                           wSelectedCharacter: state.value.selectedCharacterId,
                         )
