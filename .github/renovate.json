@@ -6,6 +6,10 @@
   "ignorePaths": ["packages/**"],
   "minimumReleaseAge": "2 days",
   "prHourlyLimit": 0,
+  "group": {
+    "commitMessageTopic": "{{{groupName}}}{{#with (distinct (lookupArray upgrades \"depName\"))}}{{#unless (equals length 1)}} ({{length}} packages){{/unless}}{{/with}}"
+  },
+  "commitBodyTable": true,
   "customManagers": [
     {
       "description": "Keep the Flutter SDK path in the VS Code settings in sync with .fvmrc",
