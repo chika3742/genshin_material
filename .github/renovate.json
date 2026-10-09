@@ -2,10 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "timezone": "Asia/Tokyo",
-  "enabledManagers": ["pub", "fvm", "github-actions", "bundler", "custom.regex"],
+  "enabledManagers": ["pub", "fvm", "github-actions", "bundler", "custom.regex", "gradle", "gradle-wrapper"],
   "ignorePaths": ["packages/**"],
   "labels": ["deps"],
   "minimumReleaseAge": "2 days",
+  "prHourlyLimit": 0,
   "customManagers": [
     {
       "description": "Keep the Flutter SDK path in the VS Code settings in sync with .fvmrc",
@@ -44,6 +45,29 @@
     {
       "matchManagers": ["bundler"],
       "groupName": "gems"
+    },
+    {
+      "description": "CI does not build Android, so create these PRs only on approval",
+      "matchManagers": ["gradle", "gradle-wrapper"],
+      "groupName": "android",
+      "addLabels": ["deps:android"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "matchManagers": ["pub"],
+      "addLabels": ["deps:pub"]
+    },
+    {
+      "matchManagers": ["fvm", "custom.regex"],
+      "addLabels": ["deps:flutter"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["deps:workflow"]
+    },
+    {
+      "matchManagers": ["bundler"],
+      "addLabels": ["deps:gem"]
     }
   ],
   "lockFileMaintenance": {
