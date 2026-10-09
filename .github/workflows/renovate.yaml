@@ -12,6 +12,8 @@ on:
 concurrency:
   group: renovate
 
+permissions: {}
+
 jobs:
   renovate:
     name: Renovate
