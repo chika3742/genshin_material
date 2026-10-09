@@ -8,15 +8,32 @@ on:
     branches:
       - main
   workflow_dispatch:
-
-concurrency:
-  group: renovate
+  # Checkboxes on the Dependency Dashboard and on Renovate PRs
+  issues:
+    types:
+      - edited
+  pull_request:
+    types:
+      - edited
 
 permissions: {}
 
 jobs:
   renovate:
     name: Renovate
+    # For edits, run only when someone other than Renovate ticks a checkbox on a Renovate issue or PR
+    if: >-
+      (github.event_name != 'issues' && github.event_name != 'pull_request') ||
+      (github.actor != 'renovate-dependency-updates[bot]' && (
+        (github.event_name == 'issues'
+          && github.event.issue.user.login == 'renovate-dependency-updates[bot]'
+          && contains(github.event.issue.body, '- [x]')) ||
+        (github.event_name == 'pull_request'
+          && github.event.pull_request.user.login == 'renovate-dependency-updates[bot]'
+          && contains(github.event.pull_request.body, '- [x] <!-- rebase-check -->'))))
+    # Job-level, so runs whose job is skipped do not replace a pending run
+    concurrency:
+      group: renovate
     runs-on: ubuntu-latest
     steps:
       - name: Generate token
