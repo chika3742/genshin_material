@@ -1,0 +1,51 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Asia/Tokyo",
+  "enabledManagers": ["pub", "fvm", "github-actions", "bundler", "custom.regex"],
+  "ignorePaths": ["packages/**"],
+  "labels": ["deps"],
+  "minimumReleaseAge": "2 days",
+  "constraints": {
+    "flutter": "3.47.6"
+  },
+  "customManagers": [
+    {
+      "description": "pubspec.lock の更新に使う Flutter の版を .fvmrc と揃える",
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/renovate\\.json$/"],
+      "matchStrings": ["\"flutter\": \"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "flutter",
+      "datasourceTemplate": "flutter-version"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "minor and patch"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": ["slang*"],
+      "groupName": "slang"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": ["drift*", "!drift_db_viewer"],
+      "groupName": "drift"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": ["go_router*"],
+      "groupName": "go_router"
+    },
+    {
+      "matchManagers": ["bundler"],
+      "groupName": "gems"
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["* 0-8 * * 1"]
+  }
+}
