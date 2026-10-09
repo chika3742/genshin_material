@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "timezone": "Asia/Tokyo",
-  "enabledManagers": ["pub", "fvm", "github-actions", "bundler", "custom.regex"],
+  "enabledManagers": ["pub", "fvm", "github-actions", "bundler", "custom.regex", "gradle", "gradle-wrapper"],
   "ignorePaths": ["packages/**"],
   "labels": ["deps"],
   "minimumReleaseAge": "2 days",
@@ -45,6 +45,13 @@
     {
       "matchManagers": ["bundler"],
       "groupName": "gems"
+    },
+    {
+      "description": "CI does not build Android, so create these PRs only on approval",
+      "matchManagers": ["gradle", "gradle-wrapper"],
+      "groupName": "android",
+      "addLabels": ["deps:android"],
+      "dependencyDashboardApproval": true
     },
     {
       "matchManagers": ["pub"],
