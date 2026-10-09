@@ -11,7 +11,7 @@
   },
   "customManagers": [
     {
-      "description": "pubspec.lock の更新に使う Flutter の版を .fvmrc と揃える",
+      "description": "Keep the Flutter version used for pubspec.lock updates in sync with .fvmrc",
       "customType": "regex",
       "managerFilePatterns": ["/^\\.github/renovate\\.json$/"],
       "matchStrings": ["\"flutter\": \"(?<currentValue>[^\"]+)\""],
@@ -38,6 +38,11 @@
       "matchUpdateTypes": ["major"],
       "matchPackageNames": ["go_router*"],
       "groupName": "go_router"
+    },
+    {
+      "description": "Update .fvmrc and constraints.flutter together in a dedicated PR",
+      "matchDepNames": ["flutter"],
+      "groupName": "flutter"
     },
     {
       "matchManagers": ["bundler"],
