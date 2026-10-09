@@ -66,7 +66,7 @@ final class BagLackNumProvider
   }
 }
 
-String _$bagLackNumHash() => r'bb6b6009a501d13b49513baffacf5bc7b3e10721';
+String _$bagLackNumHash() => r'3d3eee4feebc07666fce4f549fd40b575a367278';
 
 final class BagLackNumFamily extends $Family
     with

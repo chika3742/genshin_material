@@ -19,7 +19,7 @@ Future<PackageInfo> packageInfo(Ref ref) async {
   return await PackageInfo.fromPlatform();
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<AssetData> assetData(Ref ref) async {
   final dataCache = AssetDataCacheProvider(getCurrentAssetDirectoryPath(await getAssetsDirectoryPath()));
   await dataCache.load();

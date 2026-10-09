@@ -65,7 +65,7 @@ final class AssetDataProvider
         argument: null,
         retry: null,
         name: r'assetDataProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -84,7 +84,7 @@ final class AssetDataProvider
   }
 }
 
-String _$assetDataHash() => r'4c8488b79a57405dd9a44bf520a7bbe1a6f7665f';
+String _$assetDataHash() => r'4f3feabcbc8639b0e9942635ac1049dd36139941';
 
 @ProviderFor(featuresReleaseNotesData)
 final featuresReleaseNotesDataProvider = FeaturesReleaseNotesDataProvider._();

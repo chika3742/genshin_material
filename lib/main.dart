@@ -1,3 +1,7 @@
+// Wrapping root ProviderScope with other widgets causes these lints because they
+// don't consider whether the parent widget is a consumer.
+// ignore_for_file: riverpod_lint/missing_provider_scope, riverpod_lint/scoped_providers_should_specify_dependencies
+
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:firebase_remote_config/firebase_remote_config.dart";
@@ -19,6 +23,7 @@ import "core/theme.dart";
 import "data/repositories/character_state_repository.dart";
 import "data/services/local_notification.dart";
 import "data/services/remote_config_service.dart";
+import "database.dart";
 import "hooks/use_login_bonus_state_refresher.dart";
 import "hooks/use_remote_config_listener.dart";
 import "i18n/strings.g.dart";
@@ -77,15 +82,15 @@ void main() async {
   await localNotification.initialize();
 
   runApp(
-    ProviderScope(
-      observers: [ProviderErrorObserver()],
-      overrides: [
-        sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
-        remoteConfigServiceProvider.overrideWithValue(remoteConfigService),
-        localNotificationProvider.overrideWithValue(localNotification),
-      ],
-      retry: (_, _) => null,
-      child: const Restartable(
+    Restartable(
+      child: ProviderScope(
+        observers: [ProviderErrorObserver()],
+        overrides: [
+          sharedPreferencesWithCacheProvider.overrideWithValue(spInstance),
+          remoteConfigServiceProvider.overrideWithValue(remoteConfigService),
+          localNotificationProvider.overrideWithValue(localNotification),
+        ],
+        retry: (_, _) => null,
         child: MyApp(),
       ),
     ),
@@ -107,8 +112,7 @@ class MyApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(assetDataProvider);
-    ref.watch(appDatabaseProvider);
+    ref.watch(assetDataProvider); // preload assets
     ref.watch(characterStateRepositoryProvider);
     useRemoteConfigListener(ref);
     useLoginBonusStateRefresher(ref);
@@ -177,33 +181,40 @@ class ScrollbarOnAllPlatformsScrollBehavior extends MaterialScrollBehavior {
   }
 }
 
-class Restartable extends ConsumerStatefulWidget {
+/// Disposes all the child widgets when [restartApp] is called.
+class Restartable extends StatefulWidget {
   final Widget child;
 
   const Restartable({super.key, required this.child});
 
-  static void restartApp(BuildContext context) {
-    context.findAncestorStateOfType<_RestartableState>()?.restartApp();
+  static Future<void> restartApp(BuildContext context) async {
+    final db = ProviderScope.containerOf(context, listen: false)
+        .read(appDatabaseProvider);
+    if (context.mounted) {
+      context.findAncestorStateOfType<_RestartableState>()?.restartApp(db);
+    }
   }
 
   @override
-  ConsumerState<Restartable> createState() => _RestartableState();
+  State<Restartable> createState() => _RestartableState();
 }
 
-class _RestartableState extends ConsumerState<Restartable> {
+class _RestartableState extends State<Restartable> {
   Widget currentChild = Container();
 
-  Future<void> restartApp() async {
-    await ref.read(appDatabaseProvider).close();
-
+  Future<void> restartApp(AppDatabase db) async {
     setState(() {
       currentChild = const SizedBox();
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+
+    // wait for every query stream is cancelled
+    await WidgetsBinding.instance.endOfFrame;
+    await db.close();
+    if (mounted) {
       setState(() {
         currentChild = widget.child;
       });
-    });
+    }
   }
 
   @override
