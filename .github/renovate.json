@@ -6,6 +6,7 @@
   "ignorePaths": ["packages/**"],
   "labels": ["deps"],
   "minimumReleaseAge": "2 days",
+  "prHourlyLimit": 0,
   "customManagers": [
     {
       "description": "Keep the Flutter SDK path in the VS Code settings in sync with .fvmrc",
