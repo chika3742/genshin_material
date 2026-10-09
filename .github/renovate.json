@@ -1,0 +1,53 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Asia/Tokyo",
+  "enabledManagers": ["pub", "fvm", "github-actions", "bundler", "custom.regex"],
+  "ignorePaths": ["packages/**"],
+  "labels": ["deps"],
+  "minimumReleaseAge": "2 days",
+  "customManagers": [
+    {
+      "description": "Keep the Flutter SDK path in the VS Code settings in sync with .fvmrc",
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.vscode/settings\\.json$/"],
+      "matchStrings": ["\\.fvm/versions/(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "flutter",
+      "datasourceTemplate": "flutter-version"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "minor and patch"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": ["slang*"],
+      "groupName": "slang"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": ["drift*", "!drift_db_viewer"],
+      "groupName": "drift"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": ["go_router*"],
+      "groupName": "go_router"
+    },
+    {
+      "description": "Update every file pinning the Flutter version in a single PR",
+      "matchDepNames": ["flutter"],
+      "groupName": "flutter"
+    },
+    {
+      "matchManagers": ["bundler"],
+      "groupName": "gems"
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["* 0-8 * * 1"]
+  }
+}

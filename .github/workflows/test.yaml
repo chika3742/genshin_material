@@ -14,10 +14,10 @@ jobs:
     name: Test & Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Init Flutter SDK
-        uses: chika3742/setup-fvm@v3
+        uses: chika3742/setup-fvm@d1196876be64380ba19f9d45e4a84d9277b7a0ed # v3.1.4
 
       - name: Install lcov
         run: sudo apt-get update && sudo apt-get install -y lcov
