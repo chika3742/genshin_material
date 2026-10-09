@@ -54,6 +54,11 @@
       "dependencyDashboardApproval": true
     },
     {
+      "description": "Gradle plugins bundled with the Flutter SDK, not published to any repository",
+      "matchDepNames": ["dev.flutter.*"],
+      "enabled": false
+    },
+    {
       "matchManagers": ["pub"],
       "addLabels": ["deps:pub"]
     },
