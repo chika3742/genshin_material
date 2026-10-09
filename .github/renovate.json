@@ -6,15 +6,12 @@
   "ignorePaths": ["packages/**"],
   "labels": ["deps"],
   "minimumReleaseAge": "2 days",
-  "constraints": {
-    "flutter": "3.47.6"
-  },
   "customManagers": [
     {
-      "description": "Keep the Flutter version used for pubspec.lock updates in sync with .fvmrc",
+      "description": "Keep the Flutter SDK path in the VS Code settings in sync with .fvmrc",
       "customType": "regex",
-      "managerFilePatterns": ["/^\\.github/renovate\\.json$/"],
-      "matchStrings": ["\"flutter\": \"(?<currentValue>[^\"]+)\""],
+      "managerFilePatterns": ["/^\\.vscode/settings\\.json$/"],
+      "matchStrings": ["\\.fvm/versions/(?<currentValue>[^\"]+)\""],
       "depNameTemplate": "flutter",
       "datasourceTemplate": "flutter-version"
     }
@@ -40,7 +37,7 @@
       "groupName": "go_router"
     },
     {
-      "description": "Update .fvmrc and constraints.flutter together in a dedicated PR",
+      "description": "Update every file pinning the Flutter version in a single PR",
       "matchDepNames": ["flutter"],
       "groupName": "flutter"
     },
