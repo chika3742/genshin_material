@@ -44,6 +44,22 @@
     {
       "matchManagers": ["bundler"],
       "groupName": "gems"
+    },
+    {
+      "matchManagers": ["pub"],
+      "addLabels": ["deps:pub"]
+    },
+    {
+      "matchManagers": ["fvm", "custom.regex"],
+      "addLabels": ["deps:flutter"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["deps:workflow"]
+    },
+    {
+      "matchManagers": ["bundler"],
+      "addLabels": ["deps:gem"]
     }
   ],
   "lockFileMaintenance": {
