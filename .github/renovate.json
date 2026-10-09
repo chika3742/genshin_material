@@ -4,7 +4,6 @@
   "timezone": "Asia/Tokyo",
   "enabledManagers": ["pub", "fvm", "github-actions", "bundler", "custom.regex", "gradle", "gradle-wrapper"],
   "ignorePaths": ["packages/**"],
-  "labels": ["deps"],
   "minimumReleaseAge": "2 days",
   "prHourlyLimit": 0,
   "customManagers": [
