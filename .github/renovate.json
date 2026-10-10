@@ -57,12 +57,6 @@
       "dependencyDashboardApproval": true
     },
     {
-      "description": "No Gradle lock files in this repository",
-      "matchManagers": ["gradle", "gradle-wrapper"],
-      "matchUpdateTypes": ["lockFileMaintenance"],
-      "enabled": false
-    },
-    {
       "description": "Gradle plugins bundled with the Flutter SDK, not published to any repository",
       "matchDepNames": ["dev.flutter.*"],
       "enabled": false
@@ -83,9 +77,5 @@
       "matchManagers": ["bundler"],
       "addLabels": ["deps:gem"]
     }
-  ],
-  "lockFileMaintenance": {
-    "enabled": true,
-    "schedule": ["* 0-8 * * 1"]
-  }
+  ]
 }
