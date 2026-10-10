@@ -14,16 +14,28 @@ part "remote_config_service.g.dart";
 /// Values are not read from here directly: `remoteConfigProvider`
 /// (`lib/providers/remote_config.dart`) wraps every key in a
 /// provider so that a value participates in the dependency graph.
+///
+/// When [_rc] is null (Firebase is unavailable), every key returns its value in
+/// [RemoteConfigKeys.defaults], or the SDK's own default for its type.
 class RemoteConfigService {
-  final FirebaseRemoteConfig _rc;
+  final FirebaseRemoteConfig? _rc;
 
   const RemoteConfigService(this._rc);
 
   T get<T extends Object>(RemoteConfigKey<T> key) {
+    final rc = _rc;
+    if (rc == null) {
+      return (RemoteConfigKeys.defaults[key.key] ??
+          switch (key) {
+            BoolRemoteConfigKey() => false,
+            StringRemoteConfigKey() => "",
+            IntRemoteConfigKey() => 0,
+          }) as T;
+    }
     return switch (key) {
-      BoolRemoteConfigKey(:final key) => _rc.getBool(key) as T,
-      StringRemoteConfigKey(:final key) => _rc.getString(key) as T,
-      IntRemoteConfigKey(:final key) => _rc.getInt(key) as T,
+      BoolRemoteConfigKey(:final key) => rc.getBool(key) as T,
+      StringRemoteConfigKey(:final key) => rc.getString(key) as T,
+      IntRemoteConfigKey(:final key) => rc.getInt(key) as T,
     };
   }
 
@@ -38,24 +50,32 @@ class RemoteConfigService {
   StreamSubscription<RemoteConfigUpdate> listenConfigUpdate(
     void Function() onActivated,
   ) {
-    return _rc.onConfigUpdated.listen((event) async {
-      await _rc.activate();
+    final rc = _rc;
+    if (rc == null) {
+      return const Stream<RemoteConfigUpdate>.empty().listen(null);
+    }
+    return rc.onConfigUpdated.listen((event) async {
+      await rc.activate();
       onActivated();
     });
   }
 
   Future<void> initialize() async {
-    await _rc.ensureInitialized();
-    await _rc.setConfigSettings(RemoteConfigSettings(
+    final rc = _rc;
+    if (rc == null) {
+      return;
+    }
+    await rc.ensureInitialized();
+    await rc.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(seconds: 5),
       // minimumFetchInterval controls the background polling interval.
       // Since real-time updates are delivered via server-side push in listenConfigUpdate(),
       // a short interval is not necessary even in debug mode.
       minimumFetchInterval: const Duration(hours: 12),
     ));
-    await _rc.setDefaults(RemoteConfigKeys.defaults);
+    await rc.setDefaults(RemoteConfigKeys.defaults);
     try {
-      await _rc.fetchAndActivate();
+      await rc.fetchAndActivate();
     } catch (e, st) {
       log("Remote Config fetch failed", error: e, stackTrace: st);
     }

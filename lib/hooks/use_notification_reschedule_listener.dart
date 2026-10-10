@@ -1,11 +1,11 @@
 import "dart:developer";
 
 import "package:drift/drift.dart";
-import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
 import "../core/pref_keys.dart";
+import "../data/services/crashlytics_service.dart";
 import "../data/services/local_notification.dart";
 import "../i18n/strings.g.dart";
 import "../providers/database_provider.dart";
@@ -38,7 +38,7 @@ void useNotificationRescheduleListener(WidgetRef ref) {
         // rebuilds, so an instance captured during build would be stale.
         await ref.read(rescheduleDailyMaterialNotificationsProvider).execute();
       } catch (e, st) {
-        FirebaseCrashlytics.instance.recordError(e, st);
+        ref.read(crashlyticsServiceProvider).reportIfNonSilent(e, st);
         if (context.mounted) {
           showSnackBar(context: context, message: tr.errors.notificationRegistrationFailed, error: true);
         }

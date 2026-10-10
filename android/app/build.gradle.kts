@@ -1,3 +1,5 @@
+import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
+import com.google.gms.googleservices.GoogleServicesTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
@@ -75,6 +77,16 @@ android {
         release {
             signingConfig = signingConfigs["release"]
         }
+    }
+}
+
+googleServices {
+    missingGoogleServicesStrategy = MissingGoogleServicesStrategy.WARN
+}
+
+afterEvaluate {
+    tasks.named<GoogleServicesTask>("processReleaseGoogleServices") {
+        missingGoogleServicesStrategy = MissingGoogleServicesStrategy.ERROR
     }
 }
 

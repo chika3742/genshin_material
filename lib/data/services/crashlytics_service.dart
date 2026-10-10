@@ -1,6 +1,7 @@
 import "dart:async";
 import "dart:io";
 
+import "package:firebase_core/firebase_core.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:http/http.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
@@ -10,8 +11,9 @@ import "../../core/silent_exception.dart";
 
 part "crashlytics_service.g.dart";
 
+/// Reports nothing when [_crashlytics] is null (Firebase is unavailable).
 class CrashlyticsService {
-  final FirebaseCrashlytics _crashlytics;
+  final FirebaseCrashlytics? _crashlytics;
 
   const CrashlyticsService(this._crashlytics);
 
@@ -19,7 +21,7 @@ class CrashlyticsService {
   /// network error.
   void reportIfNonSilent(Object error, StackTrace st) {
     if (!_isTransientNetworkError(error) && (error is! SilentException || !error.isSilent)) {
-      _crashlytics.recordError(error, st);
+      _crashlytics?.recordError(error, st);
     }
   }
 
@@ -41,5 +43,7 @@ class CrashlyticsService {
 
 @Riverpod(keepAlive: true)
 CrashlyticsService crashlyticsService(Ref ref) {
-  return CrashlyticsService(FirebaseCrashlytics.instance);
+  return CrashlyticsService(
+    Firebase.apps.isNotEmpty ? FirebaseCrashlytics.instance : null,
+  );
 }

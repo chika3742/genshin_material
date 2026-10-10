@@ -125,4 +125,26 @@ void main() {
       verifyNever(firebaseRemoteConfig.activate());
     });
   });
+
+  group("without Firebase", () {
+    const service = RemoteConfigService(null);
+
+    test("returns the value in RemoteConfigKeys.defaults", () {
+      expect(service.get(RemoteConfigKeys.showBanner), isFalse);
+      expect(service.get(RemoteConfigKeys.hoyolabLinkEnabled), isFalse);
+    });
+
+    test("returns the SDK's default for a key without a default", () {
+      expect(service.get(const BoolRemoteConfigKey("bool_key")), isFalse);
+      expect(service.get(const StringRemoteConfigKey("string_key")), "");
+      expect(service.get(const IntRemoteConfigKey("int_key")), 0);
+    });
+
+    test("initializes and listens without doing anything", () async {
+      await service.initialize();
+      final subscription = service.listenConfigUpdate(() => fail("never fires"));
+      await pumpEventQueue();
+      await subscription.cancel();
+    });
+  });
 }
