@@ -126,25 +126,18 @@ void main() {
     });
 
     group("requestPermission", () {
-      test("Does not request exact alarms if the notification permission is denied", () async {
+      test("Returns false if the notification permission is denied", () async {
         when(android.requestNotificationsPermission()).thenAnswer((_) async => false);
 
         expect(await LocalNotification(onAndroid()).requestPermission(), isFalse);
         verifyNever(android.requestExactAlarmsPermission());
       });
 
-      test("Returns false if the exact alarm permission is denied", () async {
+      test("Returns true without requesting exact alarms if the notification permission is granted", () async {
         when(android.requestNotificationsPermission()).thenAnswer((_) async => true);
-        when(android.requestExactAlarmsPermission()).thenAnswer((_) async => false);
-
-        expect(await LocalNotification(onAndroid()).requestPermission(), isFalse);
-      });
-
-      test("Returns true if both Android permissions are granted", () async {
-        when(android.requestNotificationsPermission()).thenAnswer((_) async => true);
-        when(android.requestExactAlarmsPermission()).thenAnswer((_) async => true);
 
         expect(await LocalNotification(onAndroid()).requestPermission(), isTrue);
+        verifyNever(android.requestExactAlarmsPermission());
       });
     });
 

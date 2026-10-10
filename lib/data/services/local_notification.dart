@@ -92,13 +92,7 @@ class LocalNotification {
   Future<bool> requestPermission() async {
     return _platformSpecific(
       android: (android) async {
-        if (await android.requestNotificationsPermission() != true) {
-          return false;
-        }
-        if (await android.requestExactAlarmsPermission() != true) {
-          return false;
-        }
-        return true;
+        return await android.requestNotificationsPermission() == true;
       },
       ios: (ios) async {
         return await ios.requestPermissions(sound: true, alert: true, badge: true) ?? false;
