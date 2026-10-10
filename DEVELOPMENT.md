@@ -39,5 +39,5 @@ To improve the readability of the file list, configure **File Nesting**.
 
 Add `.freezed.dart` and `.g.dart` to `.dart` parent file suffix.
 
-![instruction image 1](./readme_assets/file_nesting_1.png)
-![instruction image 2](./readme_assets/file_nesting_2.png)
+<img src="./readme_assets/file_nesting_1.png" alt="Open menu in Project tool window → Appearance → File Nesting..." width="500">
+<img src="./readme_assets/file_nesting_2.png" alt="Add child file suffixes to .dart" width="300">

@@ -2,15 +2,17 @@
 
 [English](./README.md) | 日本語
 
-原神の育成素材ブックマーク＆データベースアプリです。iOS / Android で利用できます。
+原神の育成素材ブックマーク＆データベースアプリ。
 
-<!-- ストアバッジ -->
+<img src="./readme_assets/screenshot.png" width="200" alt="Screenshot 1">
 
 <p>
-  <img src="./readme_assets/screenshots/1.png" width="200" alt="スクリーンショット 1">
-  <img src="./readme_assets/screenshots/2.png" width="200" alt="スクリーンショット 2">
-  <img src="./readme_assets/screenshots/3.png" width="200" alt="スクリーンショット 3">
-  <img src="./readme_assets/screenshots/4.png" width="200" alt="スクリーンショット 4">
+  <a href="https://play.google.com/store/apps/details?id=net.chikach.genshinmaterial&utm_source=github">
+    <img src="./readme_assets/GetItOnGooglePlay.svg" alt="Get it on Google Play" height="48" hspace="8">
+  </a>
+  <a href="https://apps.apple.com/app/id1643283692?utm_source=github">
+    <img src="./readme_assets/Download_on_the_App_Store.svg" alt="Download on the App Store" height="48" hspace="8">
+  </a>
 </p>
 
 ## 機能
@@ -26,10 +28,15 @@
 本アプリは非公式のファンメイドアプリであり、HoYoverse とは一切関係ありません。
 原神および関連する名称・画像・ゲームデータの権利は HoYoverse に帰属します。
 
+Apple および Apple ロゴは、米国およびその他の国や地域で登録された Apple Inc. の商標です。App Store は Apple Inc. のサービスマークです。
+
+Google Play および Google Play ロゴは Google LLC の商標です。
+
 ## ライセンス
 
 ソースコードは [MIT License](./LICENSE) で公開しています。
-アプリ内で表示されるゲームデータおよび画像は、このライセンスの対象外です。
+
+アプリ内で表示されるゲームデータ、画像、および[readme_assets](./readme_assets) 内のファイルはこのライセンスの対象外です。
 
 ## 開発
 

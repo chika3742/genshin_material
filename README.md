@@ -2,15 +2,17 @@
 
 English | [日本語](./README.ja.md)
 
-Material bookmark & database app for Genshin Impact, available on iOS and Android.
+Material bookmark & database app for Genshin Impact.
 
-<!-- Store badges -->
+<img src="./readme_assets/screenshot.png" width="200" alt="Screenshot 1">
 
-<p>
-  <img src="./readme_assets/screenshots/1.png" width="200" alt="Screenshot 1">
-  <img src="./readme_assets/screenshots/2.png" width="200" alt="Screenshot 2">
-  <img src="./readme_assets/screenshots/3.png" width="200" alt="Screenshot 3">
-  <img src="./readme_assets/screenshots/4.png" width="200" alt="Screenshot 4">
+<p style="display: flex; gap: 16px">
+  <a href="https://play.google.com/store/apps/details?id=net.chikach.genshinmaterial&utm_source=github">
+    <img src="./readme_assets/GetItOnGooglePlay.svg" alt="Get it on Google Play" height="48" hspace="8">
+  </a>
+  <a href="https://apps.apple.com/app/id1643283692?utm_source=github">
+    <img src="./readme_assets/Download_on_the_App_Store.svg" alt="Download on the App Store" height="48" hspace="8">
+  </a>
 </p>
 
 ## Features
@@ -26,10 +28,15 @@ Material bookmark & database app for Genshin Impact, available on iOS and Androi
 This is an unofficial fan-made app and is not affiliated with or endorsed by HoYoverse.
 Genshin Impact and all related names, images, and game data are the property of HoYoverse.
 
+Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other countries and regions. App Store is a service mark of Apple Inc.
+
+Google Play and the Google Play logo are trademarks of Google LLC.
+
 ## License
 
 The source code is licensed under the [MIT License](./LICENSE).
-Game data and images displayed in the app are not covered by this license.
+
+In-app game data, images, and files in [readme_assets](./readme_assets) are not covered by this license.
 
 ## Development
 
