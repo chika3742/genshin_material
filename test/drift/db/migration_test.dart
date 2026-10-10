@@ -6,7 +6,7 @@ import "package:clock/clock.dart";
 import "package:drift/drift.dart";
 import "package:drift_dev/api/migrations_native.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/database.dart";
+import "package:genshin_material/db/database.dart";
 import "package:genshin_material/models/common.dart";
 
 import "generated/schema.dart";

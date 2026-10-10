@@ -1,7 +1,7 @@
 import "package:collection/collection.dart";
 import "package:drift/drift.dart";
 
-import "../../database.dart";
+import "../../db/database.dart";
 import "../../models/common.dart";
 import "../models/hoyolab_api.dart";
 

@@ -13,7 +13,11 @@ analyzer:
   exclude:
     - lib/**.g.dart
     - lib/**.freezed.dart
+    - lib/**.drift.dart
+    - lib/**.steps.dart
     - test/**.mocks.dart
+    - test/drift/db/generated/*
+    - packages/**
     - build/**
     - android/**
     - ios/**

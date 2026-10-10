@@ -1,6 +1,6 @@
 import "package:drift/drift.dart";
 import "package:drift/native.dart";
-import "package:genshin_material/database.dart";
+import "package:genshin_material/db/database.dart";
 import "package:genshin_material/models/bookmark.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";

@@ -3,7 +3,7 @@ import "package:flutter_riverpod/experimental/mutation.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../db/in_game_character_state_db_extension.dart";
+import "../../db/extensions/in_game_character_state_db_extension.dart";
 import "../../models/character.dart";
 import "../../providers/database_provider.dart";
 import "../../providers/hoyolab_api.dart";

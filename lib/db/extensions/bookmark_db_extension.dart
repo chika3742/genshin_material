@@ -3,9 +3,9 @@ import "dart:math";
 import "package:drift/drift.dart";
 import "package:fractional_indexing/fractional_indexing.dart";
 
+import "../../models/bookmark.dart";
+import "../../models/common.dart";
 import "../database.dart";
-import "../models/bookmark.dart";
-import "../models/common.dart";
 
 extension BookmarkDbExtension on AppDatabase {
   Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarks() {

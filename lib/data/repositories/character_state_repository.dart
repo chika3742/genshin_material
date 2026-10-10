@@ -8,8 +8,8 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../core/asset_cache.dart";
 import "../../core/pref_keys.dart";
-import "../../database.dart";
-import "../../db/in_game_character_state_db_extension.dart";
+import "../../db/database.dart";
+import "../../db/extensions/in_game_character_state_db_extension.dart";
 import "../../models/common.dart";
 import "../../providers/database_provider.dart";
 import "../../providers/hoyolab_api.dart";

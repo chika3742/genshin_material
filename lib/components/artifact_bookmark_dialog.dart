@@ -5,7 +5,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../core/asset_cache.dart";
-import "../db/bookmark_db_extension.dart";
+import "../db/extensions/bookmark_db_extension.dart";
 import "../i18n/strings.g.dart";
 import "../models/artifact.dart";
 import "../models/bookmark.dart";

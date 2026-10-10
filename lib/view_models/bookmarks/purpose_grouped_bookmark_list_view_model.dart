@@ -5,7 +5,7 @@ import "package:fractional_indexing/fractional_indexing.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../db/bookmark_db_extension.dart";
+import "../../db/extensions/bookmark_db_extension.dart";
 import "../../models/bookmark.dart";
 import "../../models/common.dart";
 import "../../providers/database_provider.dart";

@@ -10,7 +10,7 @@ import "package:timezone/timezone.dart" as tz;
 import "../core/asset_cache.dart";
 import "../core/pref_keys.dart";
 import "../data/services/local_notification.dart";
-import "../database.dart";
+import "../db/database.dart";
 import "../i18n/strings.g.dart";
 import "../models/character.dart";
 import "../models/common.dart";

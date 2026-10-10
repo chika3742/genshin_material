@@ -5,8 +5,8 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../core/pref_keys.dart";
-import "../db/bookmark_db_extension.dart";
-import "../db/material_card_to_companions.dart";
+import "../db/extensions/bookmark_db_extension.dart";
+import "../db/extensions/material_card_to_companions.dart";
 import "../i18n/strings.g.dart";
 import "../models/bookmark.dart";
 import "../models/common.dart";

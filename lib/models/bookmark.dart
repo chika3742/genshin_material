@@ -3,7 +3,7 @@ import "package:drift/drift.dart" show Value;
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
-import "../database.dart";
+import "../db/database.dart";
 import "../utils/hash.dart";
 import "character.dart";
 import "common.dart";

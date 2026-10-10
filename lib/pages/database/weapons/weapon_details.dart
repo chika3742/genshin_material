@@ -21,7 +21,7 @@ import "../../../core/pref_keys.dart";
 import "../../../data/repositories/character_state_repository.dart";
 import "../../../data/repositories/single_character_state_repository.dart";
 import "../../../data/services/crashlytics_service.dart";
-import "../../../db/bookmark_db_extension.dart";
+import "../../../db/extensions/bookmark_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";

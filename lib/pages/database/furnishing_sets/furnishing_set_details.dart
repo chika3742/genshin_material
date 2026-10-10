@@ -9,7 +9,7 @@ import "../../../components/furnishing_table.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/theme.dart";
-import "../../../db/furnishing_db_extension.dart";
+import "../../../db/extensions/furnishing_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/common.dart";
 import "../../../providers/asset_image_resolver.dart";

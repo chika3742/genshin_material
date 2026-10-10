@@ -1,7 +1,7 @@
 import "package:drift/drift.dart" show OrderingTerm;
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/database.dart";
-import "package:genshin_material/db/bookmark_db_extension.dart";
+import "package:genshin_material/db/database.dart";
+import "package:genshin_material/db/extensions/bookmark_db_extension.dart";
 import "package:genshin_material/models/bookmark.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";

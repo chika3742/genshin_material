@@ -1938,7 +1938,7 @@ class $InGameCharacterStateTableTable extends InGameCharacterStateTable
 }
 
 class InGameCharacterState extends DataClass
-    implements Insertable<InGameCharacterState>, InGameState {
+    implements Insertable<InGameCharacterState> {
   final String uid;
   final int characterId;
 

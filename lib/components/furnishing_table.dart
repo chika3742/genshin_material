@@ -4,7 +4,7 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
-import "../db/furnishing_db_extension.dart";
+import "../db/extensions/furnishing_db_extension.dart";
 import "../i18n/strings.g.dart";
 import "../models/common.dart";
 import "../models/furnishing_set.dart";

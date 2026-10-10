@@ -23,7 +23,7 @@ import "core/theme.dart";
 import "data/repositories/character_state_repository.dart";
 import "data/services/local_notification.dart";
 import "data/services/remote_config_service.dart";
-import "database.dart";
+import "db/database.dart";
 import "hooks/use_login_bonus_state_refresher.dart";
 import "hooks/use_remote_config_listener.dart";
 import "i18n/strings.g.dart";

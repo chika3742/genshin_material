@@ -6,7 +6,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/api_request_queue.dart";
 import "package:genshin_material/data/repositories/hoyolab_cookie_repository.dart";
 import "package:genshin_material/data/services/hoyolab/hoyolab_account_api.dart";
-import "package:genshin_material/database.dart";
+import "package:genshin_material/db/database.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:http/http.dart" as http;

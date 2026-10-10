@@ -1,6 +1,6 @@
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../../db/furnishing_db_extension.dart";
+import "../../db/extensions/furnishing_db_extension.dart";
 import "../../models/common.dart";
 import "../../models/furnishing_set.dart";
 import "../../providers/database_provider.dart";

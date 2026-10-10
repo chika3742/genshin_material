@@ -1,5 +1,5 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/database.dart";
+import "package:genshin_material/db/database.dart";
 import "package:genshin_material/models/bookmark.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";

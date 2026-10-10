@@ -1,5 +1,5 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/db/material_card_to_companions.dart";
+import "package:genshin_material/db/extensions/material_card_to_companions.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/material_bookmark_frame.dart";

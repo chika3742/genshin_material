@@ -10,7 +10,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/asset_cache.dart";
 import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/data/services/local_notification.dart";
-import "package:genshin_material/database.dart";
+import "package:genshin_material/db/database.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";

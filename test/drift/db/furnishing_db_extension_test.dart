@@ -1,7 +1,7 @@
 import "package:drift/drift.dart" show Value;
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/database.dart";
-import "package:genshin_material/db/furnishing_db_extension.dart";
+import "package:genshin_material/db/database.dart";
+import "package:genshin_material/db/extensions/furnishing_db_extension.dart";
 
 import "../../utils/async.dart";
 import "../../utils/db.dart";

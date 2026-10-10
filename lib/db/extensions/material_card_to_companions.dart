@@ -1,5 +1,5 @@
-import "../models/bookmark.dart";
-import "../models/material_bookmark_frame.dart";
+import "../../models/bookmark.dart";
+import "../../models/material_bookmark_frame.dart";
 
 List<MaterialBookmarkInsertable> materialCardToCompanions(
   MaterialCardMaterial card,

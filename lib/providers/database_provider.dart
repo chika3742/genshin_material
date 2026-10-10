@@ -1,7 +1,7 @@
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
-import "../database.dart";
-import "../db/bookmark_db_extension.dart";
+import "../db/database.dart";
+import "../db/extensions/bookmark_db_extension.dart";
 import "../models/bookmark.dart";
 
 part "database_provider.g.dart";

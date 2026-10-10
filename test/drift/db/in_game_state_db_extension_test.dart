@@ -1,6 +1,6 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/database.dart";
-import "package:genshin_material/db/in_game_character_state_db_extension.dart";
+import "package:genshin_material/db/database.dart";
+import "package:genshin_material/db/extensions/in_game_character_state_db_extension.dart";
 import "package:genshin_material/models/common.dart";
 
 import "../../utils/async.dart";
