@@ -68,14 +68,14 @@ void main() async {
 
   // Firebase
   // Only non-release builds may start without Firebase config files (see DEVELOPMENT.md).
+  FirebaseApp? firebaseApp;
   try {
-    await Firebase.initializeApp();
+    firebaseApp = await Firebase.initializeApp();
   } catch (e) {
     if (kReleaseMode) rethrow;
     debugPrint("Firebase is disabled: $e");
   }
-  final firebaseEnabled = Firebase.apps.isNotEmpty;
-  if (firebaseEnabled) {
+  if (firebaseApp != null) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
@@ -84,7 +84,7 @@ void main() async {
   }
 
   final remoteConfigService = RemoteConfigService(
-    firebaseEnabled ? FirebaseRemoteConfig.instance : null,
+    firebaseApp != null ? FirebaseRemoteConfig.instance : null,
   );
   await remoteConfigService.initialize();
 
