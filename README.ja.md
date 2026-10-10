@@ -33,38 +33,4 @@
 
 ## 開発
 
-### 必要なもの
-
-- [FVM](https://fvm.app)（Flutter のバージョンは `.fvmrc` で固定しています）
-
-### ビルドの前に
-
-ビルドするには、**自分の Firebase プロジェクト**を設定する必要があります。
-
-1. [Firebase Console](https://console.firebase.google.com/) でプロジェクトを作成し、**Crashlytics** と **Remote Config** を有効にします。
-2. パッケージ名・Bundle ID を `net.chikach.genshinmaterial` として、Android アプリと iOS アプリを登録します。
-3. プロジェクトの設定から設定ファイルをダウンロードし、次の場所に置きます。
-    - `google-services.json` → `android/app/`
-    - `GoogleService-Info.plist` → `ios/Runner/`
-
-### ビルドと実行
-
-FVM を使って実行します。
-
-```shell
-$ fvm flutter run
-```
-
-コマンド、アーキテクチャ、コーディング規約については [CLAUDE.md](./CLAUDE.md) を参照してください。
-
-### 生成ファイルについて
-
-このプロジェクトでは、Freezed や Riverpod などが生成するファイルを元のファイルと同じディレクトリに置いています。
-ファイル一覧を見やすくするため、**File Nesting** を設定してください。
-
-#### IntelliJ IDEA
-
-`.dart` の親ファイルのサフィックスに `.freezed.dart` と `.g.dart` を追加します。
-
-![設定画面 1](./readme_assets/file_nesting_1.png)
-![設定画面 2](./readme_assets/file_nesting_2.png)
+[DEVELOPMENT.md](./DEVELOPMENT.md)（英語）を参照してください。

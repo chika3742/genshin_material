@@ -67,15 +67,25 @@ void main() async {
   });
 
   // Firebase
-  await Firebase.initializeApp();
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
+  // Only non-release builds may start without Firebase config files (see DEVELOPMENT.md).
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    if (kReleaseMode) rethrow;
+    debugPrint("Firebase is disabled: $e");
+  }
+  final firebaseEnabled = Firebase.apps.isNotEmpty;
+  if (firebaseEnabled) {
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+  }
 
-  final remoteConfig = FirebaseRemoteConfig.instance;
-  final remoteConfigService = RemoteConfigService(remoteConfig);
+  final remoteConfigService = RemoteConfigService(
+    firebaseEnabled ? FirebaseRemoteConfig.instance : null,
+  );
   await remoteConfigService.initialize();
 
   final localNotification = LocalNotification(FlutterLocalNotificationsPlugin());

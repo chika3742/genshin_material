@@ -189,4 +189,11 @@ The code conventions above apply to test code as well. In addition:
 
 ## Firebase
 
-Firebase is initialized from the native config files (`android/app/google-services.json`, `ios/Runner/GoogleService-Info.plist`), which are `.gitignore`d; `firebase_options.dart` is not used. The app requires Firebase to be configured before building. Required services: **Crashlytics**, **Remote Config**.
+Firebase is initialized from the native config files (`android/app/google-services.json`, `ios/Runner/GoogleService-Info.plist`), which are `.gitignore`d; `firebase_options.dart` is not used. Required services: **Crashlytics**, **Remote Config**.
+
+Non-release builds also start without the config files:
+
+- `main.dart` catches the failure of `Firebase.initializeApp()` and rethrows it only in release mode.
+- `RemoteConfigService` and `CrashlyticsService` take a nullable SDK instance. Without one, `get` returns `RemoteConfigKeys.defaults` (or the type's SDK default) and nothing is reported. Check `Firebase.apps.isNotEmpty` before touching any other Firebase API.
+- Android sets the google-services plugin's `missingGoogleServicesStrategy` to `ERROR` only when a `Release` task is requested.
+- On iOS the plist is not a bundle resource: the Runner target's "Copy GoogleService-Info.plist" build phase copies it into the app when present, and fails only the Release configuration when it is missing.
