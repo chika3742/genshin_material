@@ -361,9 +361,12 @@ void main() {
     });
 
     group("retention", () {
-      // testWidgets, so that tester.pump can run the retention timer.
+      // testWidgets, so that tester.pump can run the retention timer. Each test
+      // disposes the container itself, as testWidgets fails on a timer still
+      // pending at its end. tester.pump(Duration.zero) runs the zero-delay
+      // timers Riverpod disposes providers with, which tester.pump() does not.
 
-      testWidgets("keeps the counts for a while after the last listener leaves", (tester) async {
+      testWidgets("keeps the counts for a while after fetching", (tester) async {
         final api = FakeHoyolabGameApi();
         final container = createContainer(api);
         final provider = bagCountsProvider(_request(weaponId: testWeaponId));
@@ -377,6 +380,7 @@ void main() {
         await container.read(provider.future);
 
         expect(api.batchComputeCalls, hasLength(1));
+        container.dispose();
       });
 
       testWidgets("fetches again once the counts are dropped", (tester) async {
@@ -393,6 +397,61 @@ void main() {
         await container.read(provider.future);
 
         expect(api.batchComputeCalls, hasLength(2));
+        container.dispose();
+      });
+
+      testWidgets("drops expired counts as soon as the last listener leaves", (tester) async {
+        final api = FakeHoyolabGameApi();
+        final container = createContainer(api);
+        final provider = bagCountsProvider(_request(weaponId: testWeaponId));
+
+        final subscription = container.listen(provider, (_, _) {});
+        await container.read(provider.future);
+        await tester.pump(const Duration(hours: 1));
+        // does not fetch again while listened
+        expect(api.batchComputeCalls, hasLength(1));
+
+        subscription.close();
+        await tester.pump(Duration.zero);
+        container.listen(provider, (_, _) {});
+        await container.read(provider.future);
+
+        expect(api.batchComputeCalls, hasLength(2));
+        container.dispose();
+      });
+
+      testWidgets("fetches again on resume after the counts expire", (tester) async {
+        final api = FakeHoyolabGameApi();
+        final container = createContainer(api);
+        final provider = bagCountsProvider(_request(weaponId: testWeaponId));
+
+        final subscription = container.listen(provider, (_, _) {});
+        await container.read(provider.future);
+        subscription.pause();
+        await tester.pump(const Duration(hours: 1));
+        subscription.resume();
+        await tester.pump(Duration.zero);
+        await container.read(provider.future);
+
+        expect(api.batchComputeCalls, hasLength(2));
+        container.dispose();
+      });
+
+      testWidgets("keeps the counts on resume before they expire", (tester) async {
+        final api = FakeHoyolabGameApi();
+        final container = createContainer(api);
+        final provider = bagCountsProvider(_request(weaponId: testWeaponId));
+
+        final subscription = container.listen(provider, (_, _) {});
+        await container.read(provider.future);
+        subscription.pause();
+        await tester.pump(const Duration(minutes: 1));
+        subscription.resume();
+        await tester.pump(Duration.zero);
+        await container.read(provider.future);
+
+        expect(api.batchComputeCalls, hasLength(1));
+        container.dispose();
       });
     });
   });
@@ -453,6 +512,25 @@ void main() {
       final item = api.batchComputeCalls.single.single;
       expect(item.avatarId, isNull);
       expect(item.weapon?.id, weaponHyvId);
+    });
+
+    // testWidgets, so that tester.pump can run the retention timer. See the
+    // retention group of bagCountsProvider.
+    testWidgets("fetches again when a listener is added after the counts expire", (tester) async {
+      final api = FakeHoyolabGameApi();
+      final container = createContainer(api);
+      final provider = bagCountsSingleProvider(weaponId: testWeaponId);
+
+      container.listen(provider, (_, _) {});
+      await container.read(provider.future);
+      await tester.pump(const Duration(hours: 1));
+      container.listen(provider, (_, _) {});
+      await tester.pump(Duration.zero);
+      await container.read(provider.future);
+
+      expect(api.batchComputeCalls, hasLength(2));
+      // testWidgets fails on a timer still pending at its end
+      container.dispose();
     });
   });
 }

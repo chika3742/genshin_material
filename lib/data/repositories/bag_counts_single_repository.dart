@@ -20,8 +20,15 @@ Future<BagCounts?> bagCountsSingle(
     return null;
   }
 
-  return ref.watch(bagCountsProvider(BagCountRequests(requests: {(
+  final provider = bagCountsProvider(BagCountRequests(requests: {(
     variantId: variantId,
     weaponId: weaponId,
-  )})).future);
+  )}));
+
+  ref.onAddListener(() => Future.microtask(() {
+    if (ref.mounted) {
+      ref.read(provider.notifier).refreshIfExpired();
+    }
+  }));
+  return ref.watch(provider.future);
 }

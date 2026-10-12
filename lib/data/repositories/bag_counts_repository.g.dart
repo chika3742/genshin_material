@@ -8,24 +8,14 @@ part of 'bag_counts_repository.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Returns `null` if sync is disabled.
 
-@ProviderFor(bagCounts)
-final bagCountsProvider = BagCountsFamily._();
+@ProviderFor(BagCountsNotifier)
+final bagCountsProvider = BagCountsNotifierFamily._();
 
-/// Returns `null` if sync is disabled.
-
-final class BagCountsProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<BagCounts?>,
-          BagCounts?,
-          FutureOr<BagCounts?>
-        >
-    with $FutureModifier<BagCounts?>, $FutureProvider<BagCounts?> {
-  /// Returns `null` if sync is disabled.
-  BagCountsProvider._({
-    required BagCountsFamily super.from,
+final class BagCountsNotifierProvider
+    extends $AsyncNotifierProvider<BagCountsNotifier, BagCounts?> {
+  BagCountsNotifierProvider._({
+    required BagCountsNotifierFamily super.from,
     required BagCountRequests super.argument,
   }) : super(
          retry: null,
@@ -36,7 +26,7 @@ final class BagCountsProvider
        );
 
   @override
-  String debugGetCreateSourceHash() => _$bagCountsHash();
+  String debugGetCreateSourceHash() => _$bagCountsNotifierHash();
 
   @override
   String toString() {
@@ -47,18 +37,11 @@ final class BagCountsProvider
 
   @$internal
   @override
-  $FutureProviderElement<BagCounts?> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<BagCounts?> create(Ref ref) {
-    final argument = this.argument as BagCountRequests;
-    return bagCounts(ref, argument);
-  }
+  BagCountsNotifier create() => BagCountsNotifier();
 
   @override
   bool operator ==(Object other) {
-    return other is BagCountsProvider && other.argument == argument;
+    return other is BagCountsNotifierProvider && other.argument == argument;
   }
 
   @override
@@ -67,13 +50,18 @@ final class BagCountsProvider
   }
 }
 
-String _$bagCountsHash() => r'7012e96d8158d80f2029095b6631ba75d0380b33';
+String _$bagCountsNotifierHash() => r'496378ad0c466a374d22d8b93e2442ead83e005c';
 
-/// Returns `null` if sync is disabled.
-
-final class BagCountsFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<BagCounts?>, BagCountRequests> {
-  BagCountsFamily._()
+final class BagCountsNotifierFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          BagCountsNotifier,
+          AsyncValue<BagCounts?>,
+          BagCounts?,
+          FutureOr<BagCounts?>,
+          BagCountRequests
+        > {
+  BagCountsNotifierFamily._()
     : super(
         retry: null,
         name: r'bagCountsProvider',
@@ -82,11 +70,30 @@ final class BagCountsFamily extends $Family
         isAutoDispose: true,
       );
 
-  /// Returns `null` if sync is disabled.
-
-  BagCountsProvider call(BagCountRequests requests) =>
-      BagCountsProvider._(argument: requests, from: this);
+  BagCountsNotifierProvider call(BagCountRequests requests) =>
+      BagCountsNotifierProvider._(argument: requests, from: this);
 
   @override
   String toString() => r'bagCountsProvider';
+}
+
+abstract class _$BagCountsNotifier extends $AsyncNotifier<BagCounts?> {
+  late final _$args = ref.$arg as BagCountRequests;
+  BagCountRequests get requests => _$args;
+
+  FutureOr<BagCounts?> build(BagCountRequests requests);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<BagCounts?>, BagCounts?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<BagCounts?>, BagCounts?>,
+              AsyncValue<BagCounts?>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
+  }
 }

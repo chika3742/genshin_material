@@ -22,67 +22,82 @@ import "avatar_to_companion_extension.dart";
 
 part "bag_counts_repository.g.dart";
 
-const _retainAfterUnused = Duration(minutes: 3);
+const _cacheTtl = Duration(minutes: 3);
 
 /// Returns `null` if sync is disabled.
 @riverpod
-Future<BagCounts?> bagCounts(Ref ref, BagCountRequests requests) async {
-  if (!ref.watch(isLinkedWithHoyolabProvider)
-      || !ref.watch(prefProvider(PrefKeys.syncBagLackNums))) {
-    return null; // sync is disabled
-  }
+class BagCountsNotifier extends _$BagCountsNotifier {
+  var _expired = false;
 
-  final assetData = ref.watch(assetDataProvider).requireValue;
-  for (final e in requests.requests) {
-    if (e.variantId != null && assetData.variants[e.variantId] == null) {
-      throw ArgumentError.value(e.variantId, "variantId", "variant not found");
+  @override
+  Future<BagCounts?> build(BagCountRequests requests) async {
+    _expired = false;
+
+    if (!ref.watch(isLinkedWithHoyolabProvider)
+        || !ref.watch(prefProvider(PrefKeys.syncBagLackNums))) {
+      return null; // sync is disabled
     }
-    if (e.weaponId != null && assetData.weapons[e.weaponId] == null) {
-      throw ArgumentError.value(e.weaponId, "weaponId", "weapon not found");
+
+    final assetData = ref.watch(assetDataProvider).requireValue;
+    for (final e in requests.requests) {
+      if (e.variantId != null && assetData.variants[e.variantId] == null) {
+        throw ArgumentError.value(e.variantId, "variantId", "variant not found");
+      }
+      if (e.weaponId != null && assetData.weapons[e.weaponId] == null) {
+        throw ArgumentError.value(e.weaponId, "weaponId", "weapon not found");
+      }
     }
-  }
-  if (requests.requests.any((r) {
-    return assetData.variants[r.variantId]?.disableSync == true
-        || assetData.weapons[r.weaponId]?.disableSync == true;
-  })) {
-    throw ArgumentError("Request contains item(s) that is/are sync-disabled.");
-  }
+    if (requests.requests.any((r) {
+      return assetData.variants[r.variantId]?.disableSync == true
+          || assetData.weapons[r.weaponId]?.disableSync == true;
+    })) {
+      throw ArgumentError("Request contains item(s) that is/are sync-disabled.");
+    }
 
-  // keep the result for a while after the last listener leaves
-  final link = ref.keepAlive();
-  Timer? timer;
-  ref.onCancel(() => timer = Timer(_retainAfterUnused, link.close));
-  ref.onResume(() => timer?.cancel());
-  ref.onDispose(() => timer?.cancel());
+    final api = await ref.watch(hoyolabGameApiProvider.future);
 
-  final api = await ref.watch(hoyolabGameApiProvider.future);
+    final items = <CalcComputeItem>[];
 
-  final items = <CalcComputeItem>[];
+    for (final (:variantId, :weaponId) in requests.requests) {
+      final variant = variantId != null ? assetData.variants[variantId]! : null;
 
-  for (final (:variantId, :weaponId) in requests.requests) {
-    final variant = variantId != null ? assetData.variants[variantId]! : null;
-
-    items.add(_createCalcComputeRequest(
-      assetData: assetData,
-      character: variant != null ? (
+      items.add(_createCalcComputeRequest(
+        assetData: assetData,
+        character: variant != null ? (
         variant: variant,
         avatarId: await _resolveAvatarId(ref, assetData.characterOf(variant)),
-      ) : null,
-      weapon: weaponId != null ? assetData.weapons[weaponId] : null,
-    ));
+        ) : null,
+        weapon: weaponId != null ? assetData.weapons[weaponId] : null,
+      ));
+    }
+
+    final result = await api.batchCompute(items);
+
+    final counts = Map.fromEntries(result.overallConsume.map((e) {
+      final material = assetData.materials.values.firstWhereOrNull((m) => m.hyvId == e.id);
+      if (material == null) {
+        return null;
+      }
+      return MapEntry(material.id, e.num - e.lackNum);
+    }).nonNulls);
+
+    // keep the result for a while after fetching
+    final link = ref.keepAlive();
+    final timer = Timer(_cacheTtl, () {
+      _expired = true;
+      link.close();
+    });
+    ref.onDispose(timer.cancel);
+    ref.onResume(() => Future.microtask(refreshIfExpired));
+
+    return counts;
   }
 
-  final result = await api.batchCompute(items);
-
-  final counts = Map.fromEntries(result.overallConsume.map((e) {
-    final material = assetData.materials.values.firstWhereOrNull((m) => m.hyvId == e.id);
-    if (material == null) {
-      return null;
+  void refreshIfExpired() {
+    if (_expired && ref.mounted) {
+      ref.invalidateSelf();
     }
-    return MapEntry(material.id, e.num - e.lackNum);
-  }).nonNulls);
-
-  return counts;
+  }
 }
 
 Future<int> _resolveAvatarId(Ref ref, Character character) async {
