@@ -159,10 +159,11 @@ CharacterVariant buildTestCharacterVariant({
   MaterialDefinitions materials = const {},
   TeyvatElement element = "",
   Talents talents = const {},
+  bool disableSync = false,
 }) {
   return CharacterVariant(
     id: id,
-    disableSync: false,
+    disableSync: disableSync,
     characterId: characterId,
     name: name ?? LocalizedText(locales: {}),
     jaPronunciation: jaPronunciation,
@@ -184,9 +185,11 @@ Weapon buildTestWeapon({
   WeaponType type = "",
   WeaponSubStat? subStat,
   int hyvId = 0,
+  bool disableSync = false,
 }) {
   return Weapon(
     id: id,
+    disableSync: disableSync,
     hyvId: hyvId,
     name: name ?? LocalizedText(locales: {}),
     jaPronunciation: jaPronunciation,

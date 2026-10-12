@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:flutter_riverpod/experimental/mutation.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
 import "../data/repositories/single_character_state_repository.dart";
@@ -129,6 +130,15 @@ sealed class GameDataSyncStatus {
       MutationSuccess(value: FetchSuccess()) => const GameDataSyncStatus.synced(),
       MutationSuccess(value: FetchCharacterNotFound()) => const GameDataSyncStatus.characterNotExists(),
       MutationSuccess(value: FetchVariantInactive()) => const GameDataSyncStatus.mustBeResonatedWithStatue(),
+    };
+  }
+
+  static GameDataSyncStatus? fromAsyncValue(AsyncValue<Object?> async) {
+    return switch (async) {
+      AsyncData(value: null) => null,
+      AsyncData() => GameDataSyncStatus.synced(),
+      AsyncLoading() => GameDataSyncStatus.syncing(),
+      AsyncError(:final error) => GameDataSyncStatus.error(error: error),
     };
   }
 

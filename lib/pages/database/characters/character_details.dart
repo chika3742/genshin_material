@@ -18,6 +18,7 @@ import "../../../components/rarity_stars.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../core/pref_keys.dart";
+import "../../../data/repositories/bag_counts_single_repository.dart";
 import "../../../data/repositories/character_state_repository.dart";
 import "../../../data/repositories/single_character_state_repository.dart";
 import "../../../data/services/crashlytics_service.dart";
@@ -29,7 +30,6 @@ import "../../../models/ingredients.dart";
 import "../../../models/level_range_values.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/database_provider.dart";
-import "../../../providers/game_data_sync.dart";
 import "../../../providers/is_sync_enabled.dart";
 import "../../../providers/pref_notifier.dart";
 import "../../../routes.dart";
@@ -144,11 +144,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
 
     final isCharaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(variantId: variant.value.id));
 
-    // Watch bag lack nums directly so the value is available immediately even when the provider
-    // already has a cached result (e.g. the same character screen is open in another ShellRoute).
-    final lackNums = ref.watch(isBagLackNumSyncEnabledProvider(variantId: variant.value.id))
-        ? ref.watch(bagLackNumProvider(GameDataSyncCharacter.single(variantId: variant.value.id))).value
-        : null;
+    final bagCounts = ref.watch(bagCountsSingleProvider(variantId: variant.value.id));
 
     final characterState = isCharaSyncEnabled
         ? ref.watch(singleCharacterStateRepositoryProvider(variant.value.id)).value
@@ -294,7 +290,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                           final state = GameDataSyncStatus.combine([
                             if (fetchState != null)
                               GameDataSyncStatus.fromCharacterFetch(fetchState),
-                            ref.watch(gameDataSyncStateProvider(variantId: variant.value.id)),
+                            GameDataSyncStatus.fromAsyncValue(bagCounts),
                           ]);
                           return state != null ? GameDataSyncIndicator(
                             status: state,
@@ -429,7 +425,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                           },
                           purposes: sliderGroup.purposes,
                           ingredientConf: ingredients,
-                          lackNums: lackNums,
+                          bagCounts: bagCounts.value,
                           ranges: state.value.rangeValues.retainKeys(sliderGroup
                               .purposes.whereNot((e) => state.value.hiddenTalents.contains(e)).toSet()),
                         ),

@@ -1,3 +1,5 @@
+import "package:drift/drift.dart";
+
 import "../database.dart";
 
 extension InGameCharacterStateDbExtension on AppDatabase {
@@ -18,5 +20,13 @@ extension InGameCharacterStateDbExtension on AppDatabase {
     final query = select(inGameCharacterStateTable)
       ..where((tbl) => tbl.uid.equals(uid));
     return query.watch();
+  }
+
+  Future<int?> getSavedHyvId(String uid, List<int> hyvIds) async {
+    final query = selectOnly(inGameCharacterStateTable)
+      ..addColumns([inGameCharacterStateTable.characterId])
+      ..where(inGameCharacterStateTable.uid.equals(uid) & inGameCharacterStateTable.characterId.isIn(hyvIds))
+      ..limit(1);
+    return (await query.getSingleOrNull())?.read(inGameCharacterStateTable.characterId);
   }
 }

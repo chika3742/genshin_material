@@ -137,7 +137,7 @@ Reuse these rather than writing new equivalents.
 | `test/utils/in_memory_pref.dart` | `overridePref()`, `InMemoryPrefNotifier` |
 | `test/utils/remote_config.dart` | `overrideRemoteConfig()`, `createRemoteConfigServiceMock()` (`MockRemoteConfigService` itself comes from `remote_config.mocks.dart` — import both) |
 | `test/utils/http_client.dart` | `overrideHttpClient()` (`MockClient` comes from `http_client.mocks.dart`) |
-| `test/utils/fake_hoyolab_game_api.dart` | `FakeHoyolabGameApi` (serves fixed `avatarList` pages and records the calls), `buildTestAvatar()` |
+| `test/utils/fake_hoyolab_game_api.dart` | `FakeHoyolabGameApi` (serves fixed `avatarList` pages and a fixed `batchCompute` result, and records the calls), `buildTestAvatar()` |
 | `test/utils/hoyolab_api.dart` | `successResponse`, `signInfoResponse()` (HoYoLAB response bodies) |
 | `test/utils/hoyolab_game_server.dart` | `overrideHoyolabGameServerPrefs()` (a linked server by default; pass null for an unlinked one) |
 | `test/utils/fake_login_bonus_state.dart` | `FakeLoginBonusState` (override `loginBonusStateProvider` with a build result of the test's choice) |
@@ -159,6 +159,7 @@ The code conventions above apply to test code as well. In addition:
 - Widget tests: wrap the widget in `createProviderScope()` instead of a bare `ProviderScope`.
 - Preference-backed providers: `overridePref(key, value)` instead of setting up `SharedPreferences`.
 - Anything reading Remote Config overrides the values it needs with `overrideRemoteConfig(key, value)`. Only a test whose subject reaches the service itself needs `createRemoteConfigServiceMock()`; classes taking a plain value (`minimumSchemaVersion`, for one) get it passed in directly.
+- Never use real character IDs in tests; use placeholders such as `char_1`.
 - Pin time with `withClock` from `package:clock` rather than waiting on real durations.
 - Await drift query streams with `createStreamQueue()` instead of a fixed delay.
 

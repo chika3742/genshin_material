@@ -80,17 +80,6 @@ class InGameCharacterStateTable extends Table {
   Set<Column> get primaryKey => {uid, characterId, elementId};
 }
 
-@DataClassName("MaterialBagCount")
-class MaterialBagCountTable extends Table {
-  TextColumn get uid => text()();
-  IntColumn get hyvId => integer()();
-  IntColumn get count => integer()();
-  DateTimeColumn get lastUpdated => dateTime().withDefault(currentDateAndTime)();
-
-  @override
-  Set<Column<Object>> get primaryKey => {uid, hyvId};
-}
-
 @DataClassName("FurnishingCraftCount")
 class FurnishingCraftCountTable extends Table {
   TextColumn get furnishingId => text()();

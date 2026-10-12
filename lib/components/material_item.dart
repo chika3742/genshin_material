@@ -5,6 +5,7 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
 
 import "../core/pref_keys.dart";
+import "../data/models/bag_counts.dart";
 import "../db/extensions/bookmark_db_extension.dart";
 import "../db/extensions/material_card_to_companions.dart";
 import "../i18n/strings.g.dart";
@@ -26,7 +27,7 @@ class MaterialItem extends HookConsumerWidget {
   final List<Purpose>? possiblePurposeTypes;
   final MaterialTargetType targetType;
   final List<String>? hashes;
-  final int? lackNum;
+  final BagCounts? bagCounts;
 
   const MaterialItem({
     super.key,
@@ -35,7 +36,7 @@ class MaterialItem extends HookConsumerWidget {
     this.possiblePurposeTypes,
     required this.targetType,
     this.hashes,
-    this.lackNum,
+    this.bagCounts,
   })  : assert(hashes != null || (possiblePurposeTypes != null && usage != null));
 
   @override
@@ -103,7 +104,7 @@ class MaterialItem extends HookConsumerWidget {
       quantity: item.sum,
       farmCount: farmCount,
       bookmarkState: bookmarkState,
-      lackNumForMainItem: lackNum,
+      bagCountForMainItem: bagCounts?[referenceMaterial.id],
       dailyMaterialAvailable: referenceMaterial
           .getDailyMaterialAvailable(dailyResetServer),
       onBookmark: usage != null ? (entryIndex) async {

@@ -16,7 +16,7 @@ class AssetInflatedMaterialCard extends ConsumerWidget {
 
   final String? materialId;
   final int quantity;
-  final int? lackNumForMainItem;
+  final int? bagCountForMainItem;
   final int? farmCount;
   final BookmarkState? bookmarkState;
   final bool dailyMaterialAvailable;
@@ -29,7 +29,7 @@ class AssetInflatedMaterialCard extends ConsumerWidget {
     required this.targetType,
     required this.materialId,
     required this.quantity,
-    this.lackNumForMainItem,
+    this.bagCountForMainItem,
     this.bookmarkState,
     this.dailyMaterialAvailable = false,
     this.farmCount,
@@ -51,8 +51,8 @@ class AssetInflatedMaterialCard extends ConsumerWidget {
           name: showItemNameOnCard ? material.name.localized : null,
           rarity: material.rarity,
           quantity: (quantity / expItem.expPerItem).ceil(),
-          // Only show lackNum for the first exp item
-          lackNum: i == 0 ? lackNumForMainItem : null,
+          // Only show bagCount for the first exp item
+          bagCount: i == 0 ? bagCountForMainItem : null,
         );
       }).toList(),
       _ => () {
@@ -63,7 +63,7 @@ class AssetInflatedMaterialCard extends ConsumerWidget {
           name: showItemNameOnCard ? material.name.localized : null,
           rarity: material.rarity,
           quantity: quantity,
-          lackNum: lackNumForMainItem,
+          bagCount: bagCountForMainItem,
         )];
       }(),
     };
