@@ -123,6 +123,7 @@ CalcComputeItem _createCalcComputeRequest({
 
   if (character != null) {
     final (:variant, :avatarId) = character;
+    final hyvIdIndex = assetData.characterOf(variant).hyvIds.indexOf(avatarId);
 
     final ascensionTargetLv = assetData.characterIngredients.getLevels(
       rarity: variant.rarity,
@@ -140,7 +141,7 @@ CalcComputeItem _createCalcComputeRequest({
       elementAttrId: assetData.elements[variant.element]!.hyvId,
       targetAvatarLevel: ascensionTargetLv,
       skills: variant.talents.values.map((e) => CalcComputeSkill(
-        id: e.idList.first,
+        id: e.idList.length == 1 ? e.idList.single : e.idList[hyvIdIndex],
         currentLevel: 1,
         targetLevel: skillsTargetLv,
       )).toList(),

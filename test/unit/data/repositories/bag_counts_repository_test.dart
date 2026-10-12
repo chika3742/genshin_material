@@ -33,6 +33,9 @@ const _disabledVariantId = VariantId("disabled_chara");
 const WeaponId _disabledWeaponId = "disabled_weapon";
 
 const _talentHyvId = 80001;
+const _groupTalentHyvId1 = 80101;
+const _groupTalentHyvId2 = 80102;
+const _groupSharedTalentHyvId = 80103;
 const MaterialId _materialId1 = "material_1";
 const MaterialId _materialId2 = "material_2";
 const _materialHyvId1 = 91001;
@@ -72,6 +75,16 @@ AssetData _buildAssetData() {
               characterId: _groupId,
               element: testAnemo,
               weaponType: testSword,
+              talents: {
+                "normalAttack": CharacterTalent(
+                  idList: [_groupTalentHyvId1, _groupTalentHyvId2],
+                  name: LocalizedText.untranslatable(text: "Talent"),
+                ),
+                "elementalSkill": CharacterTalent(
+                  idList: [_groupSharedTalentHyvId],
+                  name: LocalizedText.untranslatable(text: "Talent"),
+                ),
+              },
             ),
           ],
         ),
@@ -305,6 +318,25 @@ void main() {
 
         expect(api.batchComputeCalls.single.single.avatarId, groupHyvId2);
         expect(api.avatarListCalls, isEmpty);
+      });
+
+      test("sends the talent ids of the resolved id", () async {
+        await db.setCharacterState(InGameCharacterStateCompanion.insert(
+          uid: _uid,
+          characterId: groupHyvId2,
+          elementId: anemoHyvId,
+          purposes: const {Purpose.ascension: 40},
+          equippedWeaponId: weaponHyvId,
+          weaponPurposes: const {Purpose.ascension: 50},
+        ));
+        final api = FakeHoyolabGameApi();
+
+        await readBagCounts(createContainer(api), _request(variantId: _groupVariantId));
+
+        expect(
+          api.batchComputeCalls.single.single.skills!.map((e) => e.id),
+          [_groupTalentHyvId2, _groupSharedTalentHyvId],
+        );
       });
 
       test("looks the id up by the weapon type and saves it", () async {
