@@ -6,18 +6,18 @@ import "../models/common.dart";
 import "../models/ingredients.dart";
 import "../models/level_range_values.dart";
 
-part "character_slider_state.freezed.dart";
+part "level_slider_state.freezed.dart";
 
 @Freezed(copyWith: true)
-sealed class CharacterSliderState with _$CharacterSliderState {
-  const CharacterSliderState._();
+sealed class LevelSliderState with _$LevelSliderState {
+  const LevelSliderState._();
 
-  const factory CharacterSliderState({
+  const factory LevelSliderState({
     required Map<Purpose, LevelRangeValues> ranges,
     required Set<Purpose> hiddenPurposes,
-  }) = _CharacterSliderState;
+  }) = _LevelSliderState;
 
-  factory CharacterSliderState.initial({
+  factory LevelSliderState.initial({
     required IngredientConfigurations ingredients,
     required int rarity,
     Map<Purpose, int> levels = const {},
@@ -42,7 +42,7 @@ sealed class CharacterSliderState with _$CharacterSliderState {
         range = LevelRangeValues(start, bookmark.maxUpperLevel);
       } else {
         range = LevelRangeValues(characterCurrentLevel, ingLevels.keys.last);
-        // Slider is initially closed if:
+        // Slider should be initially closed if:
         // There are talent bookmarks and this purpose is not bookmarked
         // OR
         // Talent is fully leveled.
@@ -54,13 +54,13 @@ sealed class CharacterSliderState with _$CharacterSliderState {
       rangeValues[purpose] = range;
     }
 
-    return CharacterSliderState(
+    return LevelSliderState(
       ranges: rangeValues,
       hiddenPurposes: hiddenTalents,
     );
   }
 
-  CharacterSliderState withLevels(
+  LevelSliderState withLevels(
     Map<Purpose, int> levels, {
     required IngredientConfigurations ingredients,
     required int rarity,

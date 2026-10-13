@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CharacterDetailsState implements DiagnosticableTreeMixin {
 
- Character get character; CharacterVariant get variant; CharacterSliderState get sliders;
+ Character get character; CharacterVariant get variant; LevelSliderState get sliders;
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -58,11 +58,11 @@ abstract mixin class $CharacterDetailsStateCopyWith<$Res>  {
   factory $CharacterDetailsStateCopyWith(CharacterDetailsState value, $Res Function(CharacterDetailsState) _then) = _$CharacterDetailsStateCopyWithImpl;
 @useResult
 $Res call({
- Character character, CharacterVariant variant, CharacterSliderState sliders
+ Character character, CharacterVariant variant, LevelSliderState sliders
 });
 
 
-$CharacterSliderStateCopyWith<$Res> get sliders;
+$LevelSliderStateCopyWith<$Res> get sliders;
 
 }
 /// @nodoc
@@ -80,16 +80,16 @@ class _$CharacterDetailsStateCopyWithImpl<$Res>
 character: null == character ? _self.character : character // ignore: cast_nullable_to_non_nullable
 as Character,variant: null == variant ? _self.variant : variant // ignore: cast_nullable_to_non_nullable
 as CharacterVariant,sliders: null == sliders ? _self.sliders : sliders // ignore: cast_nullable_to_non_nullable
-as CharacterSliderState,
+as LevelSliderState,
   ));
 }
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CharacterSliderStateCopyWith<$Res> get sliders {
+$LevelSliderStateCopyWith<$Res> get sliders {
   
-  return $CharacterSliderStateCopyWith<$Res>(_self.sliders, (value) {
+  return $LevelSliderStateCopyWith<$Res>(_self.sliders, (value) {
     return _then(_self.copyWith(sliders: value));
   });
 }
@@ -106,7 +106,7 @@ class _CharacterDetailsState with DiagnosticableTreeMixin implements CharacterDe
 
 @override final  Character character;
 @override final  CharacterVariant variant;
-@override final  CharacterSliderState sliders;
+@override final  LevelSliderState sliders;
 
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
@@ -146,11 +146,11 @@ abstract mixin class _$CharacterDetailsStateCopyWith<$Res> implements $Character
   factory _$CharacterDetailsStateCopyWith(_CharacterDetailsState value, $Res Function(_CharacterDetailsState) _then) = __$CharacterDetailsStateCopyWithImpl;
 @override @useResult
 $Res call({
- Character character, CharacterVariant variant, CharacterSliderState sliders
+ Character character, CharacterVariant variant, LevelSliderState sliders
 });
 
 
-@override $CharacterSliderStateCopyWith<$Res> get sliders;
+@override $LevelSliderStateCopyWith<$Res> get sliders;
 
 }
 /// @nodoc
@@ -168,7 +168,7 @@ class __$CharacterDetailsStateCopyWithImpl<$Res>
 character: null == character ? _self.character : character // ignore: cast_nullable_to_non_nullable
 as Character,variant: null == variant ? _self.variant : variant // ignore: cast_nullable_to_non_nullable
 as CharacterVariant,sliders: null == sliders ? _self.sliders : sliders // ignore: cast_nullable_to_non_nullable
-as CharacterSliderState,
+as LevelSliderState,
   ));
 }
 
@@ -176,9 +176,9 @@ as CharacterSliderState,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CharacterSliderStateCopyWith<$Res> get sliders {
+$LevelSliderStateCopyWith<$Res> get sliders {
   
-  return $CharacterSliderStateCopyWith<$Res>(_self.sliders, (value) {
+  return $LevelSliderStateCopyWith<$Res>(_self.sliders, (value) {
     return _then(_self.copyWith(sliders: value));
   });
 }

@@ -15,7 +15,7 @@ import "../../providers/database_provider.dart";
 import "../../providers/is_sync_enabled.dart";
 import "../../providers/pref_notifier.dart";
 import "../../providers/versions.dart";
-import "../../ui_models/character_slider_state.dart";
+import "../../ui_models/level_slider_state.dart";
 
 part "character_details_view_model.g.dart";
 part "character_details_view_model.freezed.dart";
@@ -56,7 +56,7 @@ class CharacterDetailsViewModel extends _$CharacterDetailsViewModel {
     return CharacterDetailsState(
       character: character,
       variant: variant,
-      sliders: CharacterSliderState.initial(
+      sliders: LevelSliderState.initial(
         ingredients: assetData.characterIngredients,
         rarity: variant.rarity,
         levels: characterState?.levels ?? {},
@@ -150,7 +150,7 @@ sealed class CharacterDetailsState with _$CharacterDetailsState {
   const factory CharacterDetailsState({
     required Character character,
     required CharacterVariant variant,
-    required CharacterSliderState sliders,
+    required LevelSliderState sliders,
   }) = _CharacterDetailsState;
 }
 
