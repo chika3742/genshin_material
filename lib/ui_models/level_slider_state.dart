@@ -68,8 +68,9 @@ sealed class LevelSliderState with _$LevelSliderState {
     var newState = this;
     for (final e in levels.entries) {
       final ingLevels = ingredients.getLevels(rarity: rarity, purpose: e.key);
+      final range = newState.ranges[e.key]!;
       newState = newState.copyWith(
-        ranges: {...newState.ranges}..[e.key] = LevelRangeValues(e.value, max(e.value, newState.ranges[e.key]!.end)),
+        ranges: {...newState.ranges}..[e.key] = LevelRangeValues(max(e.value, range.start), max(e.value, range.end)),
       );
       if (e.key != .ascension && e.value == ingLevels.levels.keys.last) {
         newState = newState.copyWith(
