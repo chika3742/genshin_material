@@ -59,7 +59,7 @@ final class CharacterDetailsViewModelProvider
 }
 
 String _$characterDetailsViewModelHash() =>
-    r'11e6512632c56a27e06fde33562c139bfd274619';
+    r'230a9d3813229339de3cce3c8b844dcb9c783645';
 
 /// null = character not found
 

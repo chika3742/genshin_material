@@ -84,7 +84,8 @@ class _CharacterDetailsContents extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     CharacterDetailsViewModel notifier() => ref.read(provider.notifier);
 
-    final CharacterDetailsState(:character, :variant, :sliders) = state;
+    final CharacterDetailsState(:variant, :sliders) = state;
+    final character = assetData.characterOf(variant);
 
     final images = ref.watch(assetImageResolverProvider);
     final isCharaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(variantId: variant.id));

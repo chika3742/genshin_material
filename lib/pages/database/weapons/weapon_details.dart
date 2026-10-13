@@ -131,17 +131,17 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
     final characters = useMemoized(() => _filterCharactersByWeaponType(assetData.variants.values, weapon.type));
     final selectedCharacter = characters.firstWhere((e) => e.id == state.value.selectedCharacterId);
 
-    final isWeaponSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(
+    final isSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(
       variantId: selectedCharacter.id,
       weaponId: weapon.id,
     ));
 
     final bagCounts = ref.watch(bagCountsSingleProvider(weaponId: weapon.id));
 
-    final fetchState = isWeaponSyncEnabled
+    final fetchState = isSyncEnabled
         ? ref.watch(SingleCharacterStateRepository.fetchMutation(selectedCharacter.id))
         : null;
-    final characterState = isWeaponSyncEnabled
+    final characterState = isSyncEnabled
         ? ref.watch(singleCharacterStateRepositoryProvider(selectedCharacter.id))
         : null;
 
@@ -186,14 +186,14 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
     });
 
     useEffect(() {
-      if (isWeaponSyncEnabled) {
+      if (isSyncEnabled) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           SingleCharacterStateRepository.executeFetch(ref, selectedCharacter.id)
               .catchError(ref.read(crashlyticsServiceProvider).logAndReport);
         });
       }
       return null;
-    }, [selectedCharacter.id, isWeaponSyncEnabled]);
+    }, [selectedCharacter.id, isSyncEnabled]);
 
     return Scaffold(
       appBar: AppBar(
@@ -223,7 +223,7 @@ class WeaponDetailsPageContents extends HookConsumerWidget {
                     ],
                   ),
                 ),
-                if (isWeaponSyncEnabled)
+                if (isSyncEnabled)
                   Consumer(
                     builder: (context, ref, _) {
                       final syncStatus = GameDataSyncStatus.combine([
