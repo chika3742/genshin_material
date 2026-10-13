@@ -351,6 +351,62 @@ void main() {
     });
   });
 
+  // Regression: switching the variant only applied its levels to the sliders
+  // of the previous one, ignoring the bookmarks of the new one.
+  group("slider ranges after switching the variant", () {
+    Future<void> switchVariant(WidgetTester tester, String element) async {
+      await tester.tap(find.byType(DropdownButtonFormField<VariantId>));
+      await tester.pumpAndSettle();
+      // The button keeps every item in an IndexedStack, so the menu item is the last match.
+      await tester.tap(find.text(element).last);
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets("start from the talent bookmarks of the new variant", (tester) async {
+      await addBookmark(characterId: variantBId, materialId: variantBSecondaryId, purpose: Purpose.normalAttack, upperLevel: 4);
+
+      await pumpPage(tester, lastSelectedVariant: variantAId);
+      await switchVariant(tester, elementB);
+
+      final sliders = slidersOf(tester);
+      expect(sliders[Purpose.normalAttack]!.values, _range(3, 4));
+      expect(sliders[Purpose.normalAttack]!.active, isTrue);
+      expect(sliders[Purpose.elementalSkill]!.active, isFalse);
+      expect(sliders[Purpose.elementalBurst]!.active, isFalse);
+    });
+
+    testWidgets("end at the talent bookmarks of the new variant rather than the max level when synced", (tester) async {
+      await addBookmark(characterId: variantBId, materialId: variantBSecondaryId, purpose: Purpose.normalAttack, upperLevel: 4);
+
+      await pumpPage(tester, lastSelectedVariant: variantAId, syncedLevels: const {
+        Purpose.ascension: 1,
+        Purpose.normalAttack: 3,
+        Purpose.elementalSkill: 1,
+        Purpose.elementalBurst: 1,
+      });
+      await switchVariant(tester, elementB);
+
+      final sliders = slidersOf(tester);
+      expect(sliders[Purpose.normalAttack]!.values, _range(3, 4));
+      expect(sliders[Purpose.normalAttack]!.active, isTrue);
+      expect(sliders[Purpose.elementalSkill]!.active, isFalse);
+      expect(sliders[Purpose.elementalBurst]!.active, isFalse);
+    });
+
+    testWidgets("drop the talent bookmarks of the previous variant", (tester) async {
+      await addBookmark(characterId: variantBId, materialId: variantBSecondaryId, purpose: Purpose.normalAttack, upperLevel: 4);
+
+      await pumpPage(tester, lastSelectedVariant: variantBId);
+      await switchVariant(tester, elementA);
+
+      final sliders = slidersOf(tester);
+      expect(sliders[Purpose.normalAttack]!.values, _range(1, 5));
+      for (final purpose in talentPurposes) {
+        expect(sliders[purpose]!.active, isTrue);
+      }
+    });
+  });
+
   // Regression: the removal after a sync only looked at the variant ID, so the
   // bookmarks of group-targeted purposes (saved under the group ID) survived it.
   group("obsolete bookmarks of a character group after a sync", () {
