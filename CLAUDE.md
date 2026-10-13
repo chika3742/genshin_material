@@ -12,7 +12,7 @@ fvm flutter pub get
 fvm flutter run
 
 # Lint
-fvm flutter analyze
+fvm dart analyze
 
 # Quick fix lints if applicable
 fvm dart fix --apply
@@ -108,7 +108,7 @@ Generated files are committed to the repo. After any of the following changes, r
 
 ## Code Conventions
 
-- Style (enforced by `fvm flutter analyze`): double quotes, trailing commas on multi-line argument lists, `final` locals, relative imports within `lib/`, `Future<void>` (not `void`) for async functions.
+- Style (enforced by linter): double quotes, trailing commas on multi-line argument lists, `final` locals, relative imports within `lib/`, `Future<void>` (not `void`) for async functions.
 - All type IDs (character, weapon, material, etc.) are `typedef` aliases over `String`, defined in `lib/models/common.dart`. Use the specific typedef rather than raw `String` in signatures.
 - Models use sealed freezed classes. `copyWith`, `map`, and `when` are disabled globally in `build.yaml`; enable one per class with `@Freezed(copyWith: true, ...)` only when needed.
 - Routes use go_router and are defined in `lib/routes.dart`. `@immutable` is applied to all GoRoute data classes.

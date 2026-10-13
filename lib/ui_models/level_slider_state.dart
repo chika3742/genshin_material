@@ -18,11 +18,16 @@ sealed class LevelSliderState with _$LevelSliderState {
   }) = _LevelSliderState;
 
   factory LevelSliderState.initial({
+    required LevelSliderState? previousState,
     required IngredientConfigurations ingredients,
     required int rarity,
-    Map<Purpose, int> levels = const {},
+    Map<Purpose, int>? levels,
     Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> bookmarkRanges = const {},
   }) {
+    if (levels == null && bookmarkRanges.isEmpty && previousState != null) {
+      return previousState;
+    }
+
     final rangeValues = <Purpose, LevelRangeValues>{};
     final hiddenTalents = <Purpose>{};
 
@@ -32,13 +37,13 @@ sealed class LevelSliderState with _$LevelSliderState {
     for (final purpose in ingredients.rarities[rarity]!.purposes.keys) {
       final ingLevels = ingredients.getLevels(rarity: rarity, purpose: purpose).levels;
       final levelTicks = ingLevels.keys.toList();
-      final characterCurrentLevel = levels[purpose] ?? 1;
+      final characterCurrentLevel = levels?[purpose] ?? 1;
 
       final LevelRangeValues range;
       if (bookmarkRanges.containsKey(purpose)) {
         final bookmark = bookmarkRanges[purpose]!;
         final minUpperLevelIndex = levelTicks.indexOf(bookmark.minUpperLevel);
-        final start = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : levelTicks.first;
+        final start = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : 1;
         range = LevelRangeValues(start, bookmark.maxUpperLevel);
       } else {
         range = LevelRangeValues(characterCurrentLevel, ingLevels.keys.last);

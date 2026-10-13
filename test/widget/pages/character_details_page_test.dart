@@ -393,17 +393,17 @@ void main() {
       expect(sliders[Purpose.elementalBurst]!.active, isFalse);
     });
 
-    testWidgets("drop the talent bookmarks of the previous variant", (tester) async {
+    testWidgets("stay as they were if the new variant has neither levels nor bookmarks", (tester) async {
       await addBookmark(characterId: variantBId, materialId: variantBSecondaryId, purpose: Purpose.normalAttack, upperLevel: 4);
 
       await pumpPage(tester, lastSelectedVariant: variantBId);
       await switchVariant(tester, elementA);
 
       final sliders = slidersOf(tester);
-      expect(sliders[Purpose.normalAttack]!.values, _range(1, 5));
-      for (final purpose in talentPurposes) {
-        expect(sliders[purpose]!.active, isTrue);
-      }
+      expect(sliders[Purpose.normalAttack]!.values, _range(3, 4));
+      expect(sliders[Purpose.normalAttack]!.active, isTrue);
+      expect(sliders[Purpose.elementalSkill]!.active, isFalse);
+      expect(sliders[Purpose.elementalBurst]!.active, isFalse);
     });
   });
 

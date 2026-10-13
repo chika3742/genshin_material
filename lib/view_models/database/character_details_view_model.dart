@@ -58,8 +58,9 @@ class CharacterDetailsViewModel extends _$CharacterDetailsViewModel {
       sliders: LevelSliderState.initial(
         ingredients: assetData.characterIngredients,
         rarity: variant.rarity,
-        levels: characterState?.levels ?? {},
+        levels: characterState?.levels,
         bookmarkRanges: bookmarkRanges,
+        previousState: state.value?.sliders,
       ),
     );
   }

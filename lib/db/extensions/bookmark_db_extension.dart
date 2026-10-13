@@ -4,6 +4,7 @@ import "package:drift/drift.dart";
 import "package:fractional_indexing/fractional_indexing.dart";
 
 import "../../models/bookmark.dart";
+import "../../models/character.dart";
 import "../../models/common.dart";
 import "../database.dart";
 
@@ -88,9 +89,10 @@ extension BookmarkDbExtension on AppDatabase {
     return _aggregateBookmarkLevelRanges(await query.get());
   }
 
-  Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getWeaponMaterialBookmarkLevelRanges(String weaponId) async {
+  Future<Map<Purpose, ({int minUpperLevel, int maxUpperLevel})>> getWeaponMaterialBookmarkLevelRanges(String weaponId, VariantId characterId) async {
     final query = _createMaterialJoin()..where(
-      bookmarkMaterialGroupTable.weaponId.equals(weaponId),
+      bookmarkMaterialGroupTable.weaponId.equals(weaponId)
+        & bookmarkMaterialGroupTable.characterId.equals(characterId),
     );
     return _aggregateBookmarkLevelRanges(await query.get());
   }
