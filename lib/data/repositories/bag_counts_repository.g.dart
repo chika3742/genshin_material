@@ -8,12 +8,15 @@ part of 'bag_counts_repository.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Returns `null` if sync is disabled.
 
 @ProviderFor(BagCountsNotifier)
 final bagCountsProvider = BagCountsNotifierFamily._();
 
+/// Returns `null` if sync is disabled.
 final class BagCountsNotifierProvider
     extends $AsyncNotifierProvider<BagCountsNotifier, BagCounts?> {
+  /// Returns `null` if sync is disabled.
   BagCountsNotifierProvider._({
     required BagCountsNotifierFamily super.from,
     required BagCountRequests super.argument,
@@ -50,7 +53,9 @@ final class BagCountsNotifierProvider
   }
 }
 
-String _$bagCountsNotifierHash() => r'496378ad0c466a374d22d8b93e2442ead83e005c';
+String _$bagCountsNotifierHash() => r'6180671ad35f453ddf8f39cb5c4d3cd083504dc1';
+
+/// Returns `null` if sync is disabled.
 
 final class BagCountsNotifierFamily extends $Family
     with
@@ -70,12 +75,16 @@ final class BagCountsNotifierFamily extends $Family
         isAutoDispose: true,
       );
 
+  /// Returns `null` if sync is disabled.
+
   BagCountsNotifierProvider call(BagCountRequests requests) =>
       BagCountsNotifierProvider._(argument: requests, from: this);
 
   @override
   String toString() => r'bagCountsProvider';
 }
+
+/// Returns `null` if sync is disabled.
 
 abstract class _$BagCountsNotifier extends $AsyncNotifier<BagCounts?> {
   late final _$args = ref.$arg as BagCountRequests;

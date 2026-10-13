@@ -1,10 +1,6 @@
-import "dart:math";
-
-import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:flutter_riverpod/experimental/mutation.dart";
-import "package:freezed_annotation/freezed_annotation.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
 
@@ -17,26 +13,20 @@ import "../../../components/material_card_list.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
-import "../../../core/pref_keys.dart";
 import "../../../data/repositories/bag_counts_single_repository.dart";
 import "../../../data/repositories/character_state_repository.dart";
 import "../../../data/repositories/single_character_state_repository.dart";
 import "../../../data/services/crashlytics_service.dart";
-import "../../../db/extensions/bookmark_db_extension.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
 import "../../../models/common.dart";
-import "../../../models/ingredients.dart";
 import "../../../models/level_range_values.dart";
 import "../../../providers/asset_image_resolver.dart";
-import "../../../providers/database_provider.dart";
 import "../../../providers/is_sync_enabled.dart";
-import "../../../providers/pref_notifier.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
-
-part "character_details.freezed.dart";
+import "../../../view_models/database/character_details_view_model.dart";
 
 class CharacterDetailsPage extends HookConsumerWidget {
   final AssetData assetData;
@@ -44,179 +34,91 @@ class CharacterDetailsPage extends HookConsumerWidget {
 
   const CharacterDetailsPage({super.key, required this.assetData, required this.id});
 
-  (Character character, CharacterVariant variant)? _resolveCharacter(VariantId? lastSelectedVariantId) {
-    final character = assetData.characters[id];
-    final variant = assetData.variants[id];
-    return switch ((character, variant)) {
-      (null, null) => null,
-      (null, final variant?) => (assetData.characterOf(variant), variant),
-      (final character?, null) => (
-          character,
-          character.variants.firstWhereOrNull((e) => e.id == lastSelectedVariantId)
-              ?? character.variants.first,
-        ),
-      (final character?, final variant?) => (character, variant),
-    };
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Store the value to avoid rebuilding the main page
-    final lastSelectedVariantId = useMemoized(() {
-      return ref.read(prefProvider(PrefKeys.lastSelectedCharacterVariants))[id];
-    });
+    final key = useMemoized(UniqueKey.new);
+    final stateSnapshot = ref.watch(characterDetailsViewModelProvider(key, id));
 
-    final record = _resolveCharacter(lastSelectedVariantId);
-    if (record == null) {
+    // loading initial state
+    if (!stateSnapshot.hasValue && stateSnapshot.isLoading) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+    // failed to create state
+    if (stateSnapshot.hasError) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: CenterText(tr.common.error),
+      );
+    }
+    // character not found
+    if (stateSnapshot.value == null) {
       return Scaffold(
         appBar: AppBar(),
         body: CenterText(tr.errors.characterNotFound),
       );
     }
 
-    final (character, variant) = record;
-
-    final db = ref.watch(appDatabaseProvider);
-
-    final charaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(
-      variantId: variant.id,
-    ));
-    final characterState = charaSyncEnabled
-        ? ref.watch(singleCharacterStateRepositoryProvider(variant.id))
-        : null;
-
-    final bookmarkRangesResult = useMemoized(
-        () => db.getCharacterMaterialBookmarkLevelRanges([character.id, variant.id]));
-    final bookmarkRangesSnapshot = useFuture(bookmarkRangesResult);
-
-    // loading
-    if (bookmarkRangesSnapshot.connectionState != ConnectionState.done
-        || (characterState is AsyncLoading<CharacterState?> && !characterState.hasValue)) {
-      return Scaffold(
-        appBar: AppBar(),
-        body: const Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    return _CharacterDetailsPageContents(
-      character: character,
+    return _CharacterDetailsContents(
       assetData: assetData,
-      initialVariantId: variant.id,
-      initialCharacterState: characterState?.value,
-      initialBookmarkRanges: bookmarkRangesSnapshot.data ?? {},
+      provider: characterDetailsViewModelProvider(key, id),
+      state: stateSnapshot.value!,
     );
   }
 }
 
-class _CharacterDetailsPageContents extends HookConsumerWidget {
-  final Character character;
+class _CharacterDetailsContents extends HookConsumerWidget {
   final AssetData assetData;
-  final VariantId initialVariantId;
-  final CharacterState? initialCharacterState;
-  final Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> initialBookmarkRanges;
+  final CharacterDetailsViewModelProvider provider;
+  final CharacterDetailsState state;
 
-  const _CharacterDetailsPageContents({
-    required this.character,
+  const _CharacterDetailsContents({
     required this.assetData,
-    required this.initialVariantId,
-    this.initialCharacterState,
-    this.initialBookmarkRanges = const {},
+    required this.provider,
+    required this.state,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final character = this.character; // for type guard
-    final images = ref.watch(assetImageResolverProvider);
+    CharacterDetailsViewModel notifier() => ref.read(provider.notifier);
 
-    final state = useState(useMemoized(() => _CharacterDetailsPageState.init(
-      ingredients: assetData.characterIngredients,
-      rarity: character.rarity,
-      initialCharacterState: initialCharacterState,
-      bookmarkRanges: initialBookmarkRanges,
-    )));
+    final CharacterDetailsState(:character, :variant, :sliders) = state;
+
+    final images = ref.watch(assetImageResolverProvider);
+    final isCharaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(variantId: variant.id));
+    final bagCounts = ref.watch(bagCountsSingleProvider(variantId: variant.id));
+    final characterState = isCharaSyncEnabled
+        ? ref.watch(singleCharacterStateRepositoryProvider(variant.id)).value
+        : null;
+    final fetchState = isCharaSyncEnabled
+        ? ref.watch(SingleCharacterStateRepository.fetchMutation(variant.id))
+        : null;
 
     final ingredients = assetData.characterIngredients;
-
-    final autoRemoveBookmarks = ref.watch(prefProvider(PrefKeys.autoRemoveBookmarks));
-    final db = ref.watch(appDatabaseProvider);
-
-    final variant = useState(assetData.variants[initialVariantId]!);
-
-    final isCharaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(variantId: variant.value.id));
-
-    final bagCounts = ref.watch(bagCountsSingleProvider(variantId: variant.value.id));
-
-    final characterState = isCharaSyncEnabled
-        ? ref.watch(singleCharacterStateRepositoryProvider(variant.value.id)).value
-        : null;
-
-    final fetchState = isCharaSyncEnabled
-        ? ref.watch(SingleCharacterStateRepository.fetchMutation(variant.value.id))
-        : null;
-
-    void applyCharacterState(Map<Purpose, int> levels) {
-      var newState = state.value;
-      for (final e in levels.entries) {
-        final ingLevels = ingredients.getLevels(rarity: character.rarity, purpose: e.key);
-        newState = newState.copyWith(
-          rangeValues: {...newState.rangeValues}..[e.key] = LevelRangeValues(e.value, max(e.value, newState.rangeValues[e.key]!.end)),
-        );
-        if (e.key != .ascension && e.value == ingLevels.levels.keys.last) {
-          newState = newState.copyWith(
-            hiddenTalents: {...newState.hiddenTalents}..add(e.key),
-          );
-        }
-      }
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        state.value = newState;
-      });
-    }
-
-    useEffect(() {
-      if (fetchState case MutationSuccess(value: FetchSuccess(state: CharacterState(:final levels)))) {
-        applyCharacterState(levels);
-
-        if (autoRemoveBookmarks) {
-          // Bookmarks of group-targeted purposes are saved under the group ID.
-          final groupPurposes = ingredients.sliders
-              .where((e) => e.preferredTargetType == .group)
-              .expand((e) => e.purposes);
-          Future.wait([
-            db.deleteObsoleteBookmarks(
-              characterId: character.id,
-              levels: Map.fromEntries(levels.entries.where((e) => groupPurposes.contains(e.key))),
-            ),
-            db.deleteObsoleteBookmarks(
-              characterId: variant.value.id,
-              levels: levels,
-            ),
-          ]).then((removed) {
-            if (context.mounted && removed.contains(true)) {
-              showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
-            }
-          });
-        }
-      }
-      return null;
-    }, [fetchState]);
-
-    // applies character state when selected variant is changed
-    useValueChanged<String, void>(variant.value.id, (_, _) {
-      if (ref.read(singleCharacterStateRepositoryProvider(variant.value.id)).value case final s?) {
-        applyCharacterState(s.levels);
-      }
-    });
 
     useEffect(() {
       if (isCharaSyncEnabled) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          SingleCharacterStateRepository.executeFetch(ref, variant.value.id)
+          SingleCharacterStateRepository.executeFetch(ref, variant.id)
               .catchError(ref.read(crashlyticsServiceProvider).logAndReport);
         });
       }
       return null;
-    }, [variant.value.id, isCharaSyncEnabled]);
+    }, [variant.id, isCharaSyncEnabled]);
+
+    if (isCharaSyncEnabled) {
+      ref.listen(SingleCharacterStateRepository.fetchMutation(variant.id), (_, next) {
+        if (next case MutationSuccess(value: FetchSuccess(state: CharacterState(:final levels)))) {
+          notifier().applySyncedLevels(levels).then((removed) {
+            if (removed && context.mounted) {
+              showSnackBar(context: context, message: tr.common.removedObsoleteBookmarks);
+            }
+          });
+        }
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -254,7 +156,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                   Expanded(
                     child: GameItemInfoBox(
                       itemImage: Image.file(
-                        images.getSmallFile(variant.value),
+                        images.getSmallFile(variant),
                         width: 70,
                         height: 70,
                       ),
@@ -265,13 +167,13 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                         Row(
                           children: [
                             Image.file(
-                              assetData.elements[variant.value.element]!.getImageFile(assetData.assetDir),
+                              assetData.elements[variant.element]!.getImageFile(assetData.assetDir),
                               width: 26,
                               height: 26,
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
                             const SizedBox(width: 4),
-                            Text(assetData.elements[variant.value.element]!.text.localized),
+                            Text(assetData.elements[variant.element]!.text.localized),
                           ],
                         ),
                         // weapon type
@@ -284,7 +186,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                     children: [
                       Consumer(
                         builder: (context, ref, _) {
-                          if (variant.value.disableSync) {
+                          if (variant.disableSync) {
                             return const SizedBox();
                           }
                           final state = GameDataSyncStatus.combine([
@@ -303,13 +205,13 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                           IconButton(
                             icon: const Icon(Symbols.swords),
                             onPressed: () {
-                              WeaponListRoute(equipCharacterId: variant.value.id).push(context);
+                              WeaponListRoute(equipCharacterId: variant.id).push(context);
                             },
                           ),
                           IconButton(
                             icon: const Icon(Symbols.person_play),
                             onPressed: () {
-                              ArtifactListRoute(equipCharacterId: variant.value.id).push(context);
+                              ArtifactListRoute(equipCharacterId: variant.id).push(context);
                             },
                           ),
                         ],
@@ -322,7 +224,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
               // character variant dropdown
               if (character.variants.length > 1)
                 DropdownButtonFormField<VariantId>(
-                  initialValue: variant.value.id,
+                  initialValue: variant.id,
                   items: character.variants.map((e) {
                     return DropdownMenuItem(
                       value: e.id,
@@ -346,19 +248,12 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                     border: const OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    final selected = assetData.variants[value]!;
-                    variant.value = selected;
-
-                    const key = PrefKeys.lastSelectedCharacterVariants;
-                    ref.read(prefProvider(key).notifier).set({
-                      ...ref.read(prefProvider(key)),
-                      character.id: selected.id,
-                    });
+                    notifier().selectVariant(value!);
                   },
                 ),
 
               if (characterState != null)
-                () {
+                    () {
                   final equippedWeapon = characterState.equippedWeaponId != null
                       ? assetData.weapons[characterState.equippedWeaponId]
                       : null;
@@ -377,7 +272,7 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                       onTap: equippedWeapon != null ? () {
                         WeaponDetailsRoute(
                           id: equippedWeapon.id,
-                          initialSelectedCharacter: variant.value.id,
+                          initialSelectedCharacter: variant.id,
                         ).push(context);
                       } : null,
                     ),
@@ -397,37 +292,28 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
                           children: [
                             for (final purpose in sliderGroup.purposes)
                               _buildSlider(
-                                ingredients,
-                                variant.value,
+                                variant,
                                 purpose,
-                                state.value.rangeValues[purpose]!,
-                                active: !state.value.hiddenTalents.contains(purpose),
+                                sliders.ranges[purpose]!,
+                                active: !sliders.hiddenPurposes.contains(purpose),
                                 onActiveChanged: (value) {
-                                  state.value = state.value.copyWith(
-                                    hiddenTalents: value
-                                        ? ({...state.value.hiddenTalents}..remove(purpose))
-                                        : ({...state.value.hiddenTalents}..add(purpose)),
-                                  );
+                                  notifier().setActive(purpose, value);
                                 },
                                 onRangeChanged: (value) {
-                                  state.value = state.value.copyWith(
-                                    rangeValues: {...state.value.rangeValues}..[purpose] = value,
-                                  );
+                                  notifier().setRange(purpose, value);
                                 },
-                                preferredTargetType: sliderGroup.preferredTargetType,
                               ),
                           ],
                         ),
                         MaterialCardList(
                           target: switch (sliderGroup.preferredTargetType) {
-                            .group => character,
-                            .variant || null => variant.value,
+                                .group => character,
+                                .variant || null => variant,
                           },
                           purposes: sliderGroup.purposes,
                           ingredientConf: ingredients,
                           bagCounts: bagCounts.value,
-                          ranges: state.value.rangeValues.retainKeys(sliderGroup
-                              .purposes.whereNot((e) => state.value.hiddenTalents.contains(e)).toSet()),
+                          ranges: sliders.visibleRanges(sliderGroup.purposes),
                         ),
                       ],
                     ),
@@ -462,21 +348,16 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
   }
 
   Widget _buildSlider(
-    IngredientConfigurations ingredients,
     CharacterVariant variant,
     Purpose purpose,
     LevelRangeValues values, {
     required bool active,
-    PreferredTargetType? preferredTargetType,
     required ValueChanged<bool> onActiveChanged,
     required ValueChanged<LevelRangeValues> onRangeChanged,
   }) {
     final context = useContext();
-    final CharacterOrWeapon target = switch (preferredTargetType) {
-      .group => character,
-      .variant || null => variant,
-    };
-    final levels = ingredients.getLevels(rarity: target.rarity, purpose: purpose);
+    final levels = assetData.characterIngredients
+        .getLevels(rarity: variant.rarity, purpose: purpose);
     return LevelSlider(
       levels: levels.levels.keys.toList(),
       ticks: levels.sliderTicks,
@@ -498,73 +379,5 @@ class _CharacterDetailsPageContents extends HookConsumerWidget {
       onActiveChanged: onActiveChanged,
       onChanged: onRangeChanged,
     );
-  }
-}
-
-@Freezed(copyWith: true)
-sealed class _CharacterDetailsPageState with _$CharacterDetailsPageState {
-  const factory _CharacterDetailsPageState({
-    required Map<Purpose, LevelRangeValues> rangeValues,
-    required Set<Purpose> hiddenTalents,
-    required Map<Purpose, GlobalKey> talentSectionKeys,
-  }) = __CharacterDetailsPageState;
-
-  /// Initializes state for each purpose
-  factory _CharacterDetailsPageState.init({
-    required IngredientConfigurations ingredients,
-    required int rarity,
-    CharacterState? initialCharacterState,
-    Map<Purpose, ({int minUpperLevel, int maxUpperLevel})> bookmarkRanges = const {},
-  }) {
-    final rangeValues = <Purpose, LevelRangeValues>{};
-    final hiddenTalents = <Purpose>{};
-    final talentSectionKeys = <Purpose, GlobalKey>{};
-
-    final talents = {Purpose.normalAttack, Purpose.elementalSkill, Purpose.elementalBurst};
-    final hasBookmarkedTalents = talents.any((e) => bookmarkRanges.containsKey(e));
-
-    for (final purpose in ingredients.rarities[rarity]!.purposes.keys) {
-      final levels = ingredients.getLevels(rarity: rarity, purpose: purpose).levels;
-      final levelTicks = levels.keys.toList();
-      final characterCurrentLevel = initialCharacterState?.levels[purpose] ?? 1;
-
-      final LevelRangeValues range;
-      if (bookmarkRanges.containsKey(purpose)) {
-        final bookmark = bookmarkRanges[purpose]!;
-        final minUpperLevelIndex = levelTicks.indexOf(bookmark.minUpperLevel);
-        final start = minUpperLevelIndex >= 1 ? levelTicks[minUpperLevelIndex - 1] : levelTicks.first;
-        range = LevelRangeValues(start, bookmark.maxUpperLevel);
-      } else {
-        range = LevelRangeValues(characterCurrentLevel, levels.keys.last);
-        // Slider is initially closed if:
-        // There are talent bookmarks and this purpose is not bookmarked
-        // OR
-        // Talent is fully leveled.
-        if (purpose != .ascension && (hasBookmarkedTalents || range.start == range.end)) {
-          hiddenTalents.add(purpose);
-        }
-      }
-
-      rangeValues[purpose] = range;
-      talentSectionKeys[purpose] = GlobalKey();
-    }
-
-    return _CharacterDetailsPageState(
-      rangeValues: rangeValues,
-      hiddenTalents: hiddenTalents,
-      talentSectionKeys: talentSectionKeys,
-    );
-  }
-}
-
-extension <K, V> on Map<K, V> {
-  Map<K, V> retainKeys(Set<K> keys) {
-    final newMap = <K, V>{};
-    for (final key in keys) {
-      if (containsKey(key)) {
-        newMap[key] = this[key] as V;
-      }
-    }
-    return newMap;
   }
 }
