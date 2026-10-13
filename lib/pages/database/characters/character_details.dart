@@ -253,7 +253,7 @@ class _CharacterDetailsContents extends HookConsumerWidget {
                 ),
 
               if (characterState != null)
-                    () {
+                () {
                   final equippedWeapon = characterState.equippedWeaponId != null
                       ? assetData.weapons[characterState.equippedWeaponId]
                       : null;

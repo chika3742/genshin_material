@@ -6,6 +6,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 import "../../core/asset_cache.dart";
 import "../../core/pref_keys.dart";
 import "../../data/repositories/single_character_state_repository.dart";
+import "../../data/services/crashlytics_service.dart";
 import "../../db/extensions/bookmark_db_extension.dart";
 import "../../models/character.dart";
 import "../../models/common.dart";
@@ -39,6 +40,10 @@ class CharacterDetailsViewModel extends _$CharacterDetailsViewModel {
     ));
     final characterState = charaSyncEnabled
         ? await ref.watch(singleCharacterStateRepositoryProvider(variant.id).future)
+            .catchError((e, st) {
+              ref.read(crashlyticsServiceProvider).logAndReport(e, st);
+              return null;
+            })
         : null;
 
     // Retain the previous state when the variant is unchanged.
