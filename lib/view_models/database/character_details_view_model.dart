@@ -15,7 +15,7 @@ import "../../providers/database_provider.dart";
 import "../../providers/is_sync_enabled.dart";
 import "../../providers/pref_notifier.dart";
 import "../../providers/versions.dart";
-import "../../ui_models/character_slider_state.dart";
+import "../../ui_models/level_slider_state.dart";
 
 part "character_details_view_model.g.dart";
 part "character_details_view_model.freezed.dart";
@@ -48,19 +48,19 @@ class CharacterDetailsViewModel extends _$CharacterDetailsViewModel {
 
     // Retain the previous state when the variant is unchanged.
     if (state.value case final prev? when prev.variant.id == variant.id) {
-      return prev.copyWith(character: character, variant: variant);
+      return prev.copyWith(variant: variant);
     }
 
     final bookmarkRanges = await db.getCharacterMaterialBookmarkLevelRanges([character.id, variant.id]);
 
     return CharacterDetailsState(
-      character: character,
       variant: variant,
-      sliders: CharacterSliderState.initial(
+      sliders: LevelSliderState.initial(
         ingredients: assetData.characterIngredients,
         rarity: variant.rarity,
-        levels: characterState?.levels ?? {},
+        levels: characterState?.levels,
         bookmarkRanges: bookmarkRanges,
+        previousState: state.value?.sliders,
       ),
     );
   }
@@ -73,14 +73,14 @@ class CharacterDetailsViewModel extends _$CharacterDetailsViewModel {
 
     ref.read(prefProvider(PrefKeys.lastSelectedCharacterVariants).notifier).set({
       ...ref.read(prefProvider(PrefKeys.lastSelectedCharacterVariants)),
-      current.character.id: id,
+      current.variant.characterId: id,
     });
 
     ref.read(_characterVariantSelectionProvider(key, initialId).notifier)
         .set(id);
   }
 
-  /// Applies the levels and deletes obsolete bookmarks. Returns true if any
+  /// Applies the levels and deletes obsolete bookmarks. Returns `true` if any
   /// were deleted.
   Future<bool> applySyncedLevels(Map<Purpose, int> levels) async {
     final current = state.value;
@@ -110,7 +110,7 @@ class CharacterDetailsViewModel extends _$CharacterDetailsViewModel {
         .expand((e) => e.purposes);
     final removed = await Future.wait([
       db.deleteObsoleteBookmarks(
-        characterId: current.character.id,
+        characterId: current.variant.characterId,
         levels: Map.fromEntries(levels.entries.where((e) => groupPurposes.contains(e.key))),
       ),
       db.deleteObsoleteBookmarks(
@@ -148,9 +148,8 @@ class CharacterDetailsViewModel extends _$CharacterDetailsViewModel {
 @Freezed(copyWith: true)
 sealed class CharacterDetailsState with _$CharacterDetailsState {
   const factory CharacterDetailsState({
-    required Character character,
     required CharacterVariant variant,
-    required CharacterSliderState sliders,
+    required LevelSliderState sliders,
   }) = _CharacterDetailsState;
 }
 

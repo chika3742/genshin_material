@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CharacterDetailsState implements DiagnosticableTreeMixin {
 
- Character get character; CharacterVariant get variant; CharacterSliderState get sliders;
+ CharacterVariant get variant; LevelSliderState get sliders;
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,26 +28,26 @@ void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   final _this = this as CharacterDetailsState;
   properties
     ..add(DiagnosticsProperty('type', 'CharacterDetailsState'))
-    ..add(DiagnosticsProperty('character', _this.character))..add(DiagnosticsProperty('variant', _this.variant))..add(DiagnosticsProperty('sliders', _this.sliders));
+    ..add(DiagnosticsProperty('variant', _this.variant))..add(DiagnosticsProperty('sliders', _this.sliders));
 }
 
 @override
 bool operator ==(Object other) {
   final _this = this as CharacterDetailsState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterDetailsState&&(identical(other.character, _this.character) || other.character == _this.character)&&(identical(other.variant, _this.variant) || other.variant == _this.variant)&&(identical(other.sliders, _this.sliders) || other.sliders == _this.sliders));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterDetailsState&&(identical(other.variant, _this.variant) || other.variant == _this.variant)&&(identical(other.sliders, _this.sliders) || other.sliders == _this.sliders));
 }
 
 
 @override
 int get hashCode {
   final _this = this as CharacterDetailsState;
-  return Object.hash(runtimeType,_this.character,_this.variant,_this.sliders);
+  return Object.hash(runtimeType,_this.variant,_this.sliders);
 }
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   final _this = this as CharacterDetailsState;
-  return 'CharacterDetailsState(character: ${_this.character}, variant: ${_this.variant}, sliders: ${_this.sliders})';
+  return 'CharacterDetailsState(variant: ${_this.variant}, sliders: ${_this.sliders})';
 }
 
 
@@ -58,11 +58,11 @@ abstract mixin class $CharacterDetailsStateCopyWith<$Res>  {
   factory $CharacterDetailsStateCopyWith(CharacterDetailsState value, $Res Function(CharacterDetailsState) _then) = _$CharacterDetailsStateCopyWithImpl;
 @useResult
 $Res call({
- Character character, CharacterVariant variant, CharacterSliderState sliders
+ CharacterVariant variant, LevelSliderState sliders
 });
 
 
-$CharacterSliderStateCopyWith<$Res> get sliders;
+$LevelSliderStateCopyWith<$Res> get sliders;
 
 }
 /// @nodoc
@@ -75,21 +75,20 @@ class _$CharacterDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? character = null,Object? variant = null,Object? sliders = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? variant = null,Object? sliders = null,}) {
   return _then(CharacterDetailsState(
-character: null == character ? _self.character : character // ignore: cast_nullable_to_non_nullable
-as Character,variant: null == variant ? _self.variant : variant // ignore: cast_nullable_to_non_nullable
+variant: null == variant ? _self.variant : variant // ignore: cast_nullable_to_non_nullable
 as CharacterVariant,sliders: null == sliders ? _self.sliders : sliders // ignore: cast_nullable_to_non_nullable
-as CharacterSliderState,
+as LevelSliderState,
   ));
 }
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CharacterSliderStateCopyWith<$Res> get sliders {
+$LevelSliderStateCopyWith<$Res> get sliders {
   
-  return $CharacterSliderStateCopyWith<$Res>(_self.sliders, (value) {
+  return $LevelSliderStateCopyWith<$Res>(_self.sliders, (value) {
     return _then(_self.copyWith(sliders: value));
   });
 }
@@ -101,12 +100,11 @@ $CharacterSliderStateCopyWith<$Res> get sliders {
 
 
 class _CharacterDetailsState with DiagnosticableTreeMixin implements CharacterDetailsState {
-  const _CharacterDetailsState({required this.character, required this.variant, required this.sliders});
+  const _CharacterDetailsState({required this.variant, required this.sliders});
   
 
-@override final  Character character;
 @override final  CharacterVariant variant;
-@override final  CharacterSliderState sliders;
+@override final  LevelSliderState sliders;
 
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
@@ -119,23 +117,23 @@ _$CharacterDetailsStateCopyWith<_CharacterDetailsState> get copyWith => __$Chara
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
     ..add(DiagnosticsProperty('type', 'CharacterDetailsState'))
-    ..add(DiagnosticsProperty('character', character))..add(DiagnosticsProperty('variant', variant))..add(DiagnosticsProperty('sliders', sliders));
+    ..add(DiagnosticsProperty('variant', variant))..add(DiagnosticsProperty('sliders', sliders));
 }
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterDetailsState&&(identical(other.character, character) || other.character == character)&&(identical(other.variant, variant) || other.variant == variant)&&(identical(other.sliders, sliders) || other.sliders == sliders));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterDetailsState&&(identical(other.variant, variant) || other.variant == variant)&&(identical(other.sliders, sliders) || other.sliders == sliders));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,character,variant,sliders);
+    return Object.hash(runtimeType,variant,sliders);
 }
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-    return 'CharacterDetailsState(character: $character, variant: $variant, sliders: $sliders)';
+    return 'CharacterDetailsState(variant: $variant, sliders: $sliders)';
 }
 
 
@@ -146,11 +144,11 @@ abstract mixin class _$CharacterDetailsStateCopyWith<$Res> implements $Character
   factory _$CharacterDetailsStateCopyWith(_CharacterDetailsState value, $Res Function(_CharacterDetailsState) _then) = __$CharacterDetailsStateCopyWithImpl;
 @override @useResult
 $Res call({
- Character character, CharacterVariant variant, CharacterSliderState sliders
+ CharacterVariant variant, LevelSliderState sliders
 });
 
 
-@override $CharacterSliderStateCopyWith<$Res> get sliders;
+@override $LevelSliderStateCopyWith<$Res> get sliders;
 
 }
 /// @nodoc
@@ -163,12 +161,11 @@ class __$CharacterDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? character = null,Object? variant = null,Object? sliders = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? variant = null,Object? sliders = null,}) {
   return _then(_CharacterDetailsState(
-character: null == character ? _self.character : character // ignore: cast_nullable_to_non_nullable
-as Character,variant: null == variant ? _self.variant : variant // ignore: cast_nullable_to_non_nullable
+variant: null == variant ? _self.variant : variant // ignore: cast_nullable_to_non_nullable
 as CharacterVariant,sliders: null == sliders ? _self.sliders : sliders // ignore: cast_nullable_to_non_nullable
-as CharacterSliderState,
+as LevelSliderState,
   ));
 }
 
@@ -176,9 +173,9 @@ as CharacterSliderState,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CharacterSliderStateCopyWith<$Res> get sliders {
+$LevelSliderStateCopyWith<$Res> get sliders {
   
-  return $CharacterSliderStateCopyWith<$Res>(_self.sliders, (value) {
+  return $LevelSliderStateCopyWith<$Res>(_self.sliders, (value) {
     return _then(_self.copyWith(sliders: value));
   });
 }

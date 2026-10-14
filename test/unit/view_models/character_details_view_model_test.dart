@@ -64,6 +64,7 @@ void main() {
         ),
         overridePref(PrefKeys.syncCharaState, true),
         overridePref(PrefKeys.lastSelectedCharacterVariants, const <CharacterId, VariantId>{}),
+        overridePref(PrefKeys.autoRemoveBookmarks, false),
       ],
     );
   }
@@ -162,6 +163,29 @@ void main() {
 
       expect(state!.variant.id, _variantBId);
       expect(state.sliders.ranges[Purpose.normalAttack], _range(2, 5));
+    });
+  });
+
+  // Regression: a synced level below the bookmarked range pulled its start
+  // down to the current level.
+  group("applying synced levels", () {
+    test("keeps the bookmarked start above the current level", () async {
+      await addNormalAttackBookmark(_variantAId);
+      final container = createContainer(storedLevels: {Purpose.normalAttack: 2});
+      final provider = await open(container);
+
+      await container.read(provider.notifier).applySyncedLevels({Purpose.normalAttack: 2});
+
+      expect(container.read(provider).value!.sliders.ranges[Purpose.normalAttack], _range(3, 4));
+    });
+
+    test("raises the start to the current level", () async {
+      final container = createContainer(storedLevels: {Purpose.normalAttack: 2});
+      final provider = await open(container);
+
+      await container.read(provider.notifier).applySyncedLevels({Purpose.normalAttack: 3});
+
+      expect(container.read(provider).value!.sliders.ranges[Purpose.normalAttack], _range(3, 5));
     });
   });
 }

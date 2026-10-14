@@ -147,7 +147,7 @@ void main() {
 
   group("getWeaponMaterialBookmarkLevelRanges", () {
     test("returns empty map when no bookmarks", () async {
-      final result = await db.getWeaponMaterialBookmarkLevelRanges("weapon_1");
+      final result = await db.getWeaponMaterialBookmarkLevelRanges("weapon_1", VariantId("char_1"));
       expect(result, isEmpty);
     });
 
@@ -162,15 +162,14 @@ void main() {
         ),
       ]);
 
-      final result = await db.getWeaponMaterialBookmarkLevelRanges("weapon_1");
+      final result = await db.getWeaponMaterialBookmarkLevelRanges("weapon_1", VariantId("char_1"));
 
       expect(result, hasLength(1));
       expect(result[Purpose.ascension]!.minUpperLevel, 50);
       expect(result[Purpose.ascension]!.maxUpperLevel, 50);
     });
 
-    test("aggregates across multiple characters sharing the same weapon",
-        () async {
+    test("does not include bookmarks for other characters", () async {
       await db.addMaterialBookmarks([
         buildMaterialBookmark(
           characterId: CharacterOrVariantId("char_1"),
@@ -188,10 +187,9 @@ void main() {
         ),
       ]);
 
-      final result = await db.getWeaponMaterialBookmarkLevelRanges("weapon_1");
+      final result = await db.getWeaponMaterialBookmarkLevelRanges("weapon_1", VariantId("char_1"));
 
-      expect(result[Purpose.ascension]!.minUpperLevel, 40);
-      expect(result[Purpose.ascension]!.maxUpperLevel, 70);
+      expect(result[Purpose.ascension]!.maxUpperLevel, 40);
     });
 
     test("does not include character bookmarks", () async {
@@ -211,7 +209,7 @@ void main() {
         ),
       ]);
 
-      final result = await db.getWeaponMaterialBookmarkLevelRanges("weapon_1");
+      final result = await db.getWeaponMaterialBookmarkLevelRanges("weapon_1", VariantId("char_1"));
 
       expect(result, hasLength(1));
       expect(result[Purpose.ascension]!.maxUpperLevel, 50);
@@ -235,7 +233,7 @@ void main() {
         ),
       ]);
 
-      final result = await db.getWeaponMaterialBookmarkLevelRanges("weapon_1");
+      final result = await db.getWeaponMaterialBookmarkLevelRanges("weapon_1", VariantId("char_1"));
 
       expect(result[Purpose.ascension]!.maxUpperLevel, 50);
     });
