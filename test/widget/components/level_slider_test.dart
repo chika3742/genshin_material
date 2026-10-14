@@ -29,6 +29,8 @@ void main() {
     Widget? label,
     bool active = true,
     bool activatable = true,
+    int? syncedLevel,
+    bool reserveSyncedLevelSpace = false,
   }) async {
     await tester.pumpWidget(
       createScreenWithApp(
@@ -44,6 +46,8 @@ void main() {
                 label: label,
                 onActiveChanged: activatable ? activeChanges.add : null,
                 onChanged: enabled ? changes.add : null,
+                syncedLevel: syncedLevel,
+                reserveSyncedLevelSpace: reserveSyncedLevelSpace,
               ),
             ),
           ),
@@ -308,6 +312,79 @@ void main() {
 
       expect(find.byType(LabeledCheckBox), findsNothing);
       expect(find.byType(AnimatedCrossFade), findsNothing);
+    });
+  });
+
+  group("synced level indicator", () {
+    Finder indicator() => find.byKey(LevelSlider.syncedLevelIndicatorKey);
+
+    /// The x where the RangeSlider centers a thumb at [index]: the track is
+    /// inset by the overlay radius, and a discrete one further by half its height.
+    double xOfTickIndex(WidgetTester tester, double index) {
+      const inset = 24.0 + 4.0 / 2;
+      final rect = tester.getRect(find.byType(CustomRangeSlider));
+      return rect.left + inset + index / (ticks.length - 1) * (rect.width - inset * 2);
+    }
+
+    testWidgets("is absent without a synced level", (tester) async {
+      await pumpSlider(tester);
+
+      expect(indicator(), findsNothing);
+    });
+
+    testWidgets("marks a level on a tick", (tester) async {
+      await pumpSlider(tester, syncedLevel: 50);
+
+      expect(find.text("Lv.50"), findsOne);
+      expect(tester.getCenter(indicator()).dx, moreOrLessEquals(xOfTickIndex(tester, 3)));
+      // the diamond sits on the track
+      expect(
+        tester.getCenter(find.descendant(of: indicator(), matching: find.byType(Transform))).dy,
+        moreOrLessEquals(tester.getCenter(find.byType(CustomRangeSlider)).dy),
+      );
+    });
+
+    testWidgets("interpolates a level between ticks", (tester) async {
+      await pumpSlider(tester, syncedLevel: 45);
+
+      expect(tester.getCenter(indicator()).dx, moreOrLessEquals(xOfTickIndex(tester, 2.5)));
+    });
+
+    testWidgets("keeps its space reserved until the level arrives", (tester) async {
+      // The space is above the slider, so it pushes the slider down.
+      double sliderTop() => tester.getTopLeft(find.byType(CustomRangeSlider)).dy;
+
+      await pumpSlider(tester, syncedLevel: 50);
+      final withLevel = sliderTop();
+      await pumpSlider(tester, reserveSyncedLevelSpace: true);
+      final reserved = sliderTop();
+      await pumpSlider(tester);
+      final withoutSync = sliderTop();
+
+      expect(indicator(), findsNothing);
+      expect(reserved, withLevel);
+      expect(withoutSync, lessThan(withLevel));
+    });
+
+    testWidgets("is absent for a level above the last tick", (tester) async {
+      await pumpSlider(tester, syncedLevel: 95);
+
+      expect(indicator(), findsNothing);
+    });
+
+    testWidgets("lets a tap on it through to the slider", (tester) async {
+      await pumpSlider(tester, syncedLevel: 40);
+
+      await tester.tapAt(Offset(
+        tester.getCenter(indicator()).dx,
+        tester.getCenter(find.byType(CustomRangeSlider)).dy,
+      ));
+      await tester.pumpAndSettle();
+
+      // the start thumb, the nearest one, moves to the tapped tick
+      expect(changes, hasLength(1));
+      expect(changes.single.start, 40);
+      expect(changes.single.end, initialValues.end);
     });
   });
 }

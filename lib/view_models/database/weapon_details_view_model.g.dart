@@ -56,7 +56,7 @@ final class WeaponDetailsViewModelProvider
 }
 
 String _$weaponDetailsViewModelHash() =>
-    r'f82e4b9d54009cb507de69d30e6e01c31f34c2ac';
+    r'1e0713c05fa9afb08b8c1eb8e95b45507b729bca';
 
 /// null = weapon not found
 
