@@ -22,38 +22,48 @@ part "weapon_details_view_model.freezed.dart";
 /// null = weapon not found
 @riverpod
 class WeaponDetailsViewModel extends _$WeaponDetailsViewModel {
+  /// null = not selected by the user yet
+  VariantId? _selectedId;
+
   @override
   Future<WeaponDetailsState?> build(UniqueKey key, WeaponId id, VariantId? initialSelectedCharacterId) async {
     final db = ref.watch(appDatabaseProvider);
     final assetData = ref.watch(assetDataProvider).requireValue;
 
-    final selection = ref.watch(_weaponCharacterSelectionProvider(key, id, initialSelectedCharacterId));
-    if (selection == null) {
+    final weapon = assetData.weapons[id];
+    if (weapon == null) {
       return null;
     }
 
+    final selectableCharacters = assetData.variants.values
+        .where((e) => e.weaponType == weapon.type)
+        .toList();
+    final selectedId = _selectedId ?? initialSelectedCharacterId;
+    final selectedCharacter = selectableCharacters.firstWhereOrNull((e) => e.id == selectedId)
+        ?? selectableCharacters.first;
+
     // Retain the previous state
-    if (state.value case final prev? when prev.selectedCharacter.id == selection.variantId) {
+    if (state.value case final prev? when prev.selectedCharacter.id == selectedCharacter.id) {
       return prev.copyWith(
-        selectableCharacters: selection.selectableCharacters,
+        selectableCharacters: selectableCharacters,
       );
     }
 
-    final characterState = ref.watch(isCharacterSyncEnabledProvider(variantId: selection.variantId, weaponId: id))
-        ? await ref.watch(singleCharacterStateRepositoryProvider(selection.variantId).future)
+    final characterState = ref.watch(isCharacterSyncEnabledProvider(variantId: selectedCharacter.id, weaponId: id))
+        ? await ref.watch(singleCharacterStateRepositoryProvider(selectedCharacter.id).future)
             .catchError((e, st) {
               ref.read(crashlyticsServiceProvider).logAndReport(e, st);
               return null;
             })
         : null;
-    final bookmarkRanges = await db.getWeaponMaterialBookmarkLevelRanges(id, selection.variantId);
+    final bookmarkRanges = await db.getWeaponMaterialBookmarkLevelRanges(id, selectedCharacter.id);
 
     return WeaponDetailsState(
-      selectableCharacters: selection.selectableCharacters,
-      selectedCharacter: assetData.variants[selection.variantId]!,
+      selectableCharacters: selectableCharacters,
+      selectedCharacter: selectedCharacter,
       sliders: LevelSliderState.initial(
         ingredients: assetData.weaponIngredients,
-        rarity: assetData.weapons[id]!.rarity,
+        rarity: weapon.rarity,
         levels: characterState?.equippedWeaponId == id ? characterState!.weaponLevels : null,
         bookmarkRanges: bookmarkRanges,
         previousState: state.value?.sliders,
@@ -62,8 +72,8 @@ class WeaponDetailsViewModel extends _$WeaponDetailsViewModel {
   }
 
   void selectCharacter(VariantId variantId) {
-    ref.read(_weaponCharacterSelectionProvider(key, id, initialSelectedCharacterId).notifier)
-        .set(variantId);
+    _selectedId = variantId;
+    ref.invalidateSelf();
   }
 
   /// Applies the levels and deletes obsolete bookmarks. Returns `true` if any
@@ -115,49 +125,4 @@ sealed class WeaponDetailsState with _$WeaponDetailsState {
     required CharacterVariant selectedCharacter,
     required LevelSliderState sliders,
   }) = _WeaponDetailsState;
-}
-
-@riverpod
-class _WeaponCharacterSelection extends _$WeaponCharacterSelection {
-  @override
-  _CharacterSelectionState? build(UniqueKey key, WeaponId id, VariantId? initialSelectedCharacterId) {
-    final assetData = ref.watch(assetDataProvider).requireValue;
-
-    final weapon = assetData.weapons[id];
-    if (weapon == null) {
-      return null;
-    }
-
-    final selectableCharacters = assetData.variants.values
-        .where((e) => e.weaponType == weapon.type)
-        .toList();
-    final variant = selectableCharacters.firstWhereOrNull((e) => e.id == initialSelectedCharacterId)
-        ?? selectableCharacters.first;
-
-    final current = stateOrNull;
-    if (current != null) {
-      return current.copyWith(
-        selectableCharacters: selectableCharacters,
-      );
-    }
-
-    return _CharacterSelectionState(
-      variantId: variant.id,
-      selectableCharacters: selectableCharacters,
-    );
-  }
-
-  void set(VariantId id) {
-    if (stateOrNull case final current?) {
-      state = current.copyWith(variantId: id);
-    }
-  }
-}
-
-@Freezed(copyWith: true)
-sealed class _CharacterSelectionState with _$CharacterSelectionState {
-  const factory _CharacterSelectionState({
-    required VariantId variantId,
-    required List<CharacterVariant> selectableCharacters,
-  }) = __CharacterSelectionState;
 }
