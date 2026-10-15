@@ -76,6 +76,15 @@
     {
       "matchManagers": ["bundler"],
       "addLabels": ["deps:gem"]
+    },
+    {
+      "description": "Regenerate code in the same commit. Flutter itself is excluded: the tool constraint comes from the pubspec before the update",
+      "matchManagers": ["pub"],
+      "matchDepNames": ["!flutter"],
+      "postUpgradeTasks": {
+        "commands": ["./scripts/ci_codegen.sh"],
+        "installTools": { "flutter": {} }
+      }
     }
   ]
 }
