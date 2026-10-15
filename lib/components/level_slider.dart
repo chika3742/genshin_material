@@ -156,7 +156,8 @@ class LevelSlider extends HookWidget {
   static const double _syncedLevelLabelHeight = 16.0;
   static const double _syncedLevelMarkerSize = 12.0;
   static const double _syncedLevelMarkerBorderWidth = 2.0;
-  /// The time a discrete [RangeSlider] takes to slide a thumb to a new value.
+  /// The time a thumb takes to slide to a new value, a Material 3 motion token
+  /// in place of the animation a discrete [RangeSlider] would run.
   static const Duration _thumbAnimationDuration = Durations.short2;
 
   @override
@@ -192,9 +193,12 @@ class LevelSlider extends HookWidget {
       final distance = (value - shown).abs();
       // the thumb left in place keeps its level, even one between ticks
       if (distance < precisionErrorTolerance) return level;
-      if (isTouchDown) {
-        // so does a thumb only touched within the target RangeSlider grabs it
-        // by. The track is inset by the overlay radius, as are the tick labels.
+      // So does a thumb between ticks only touched, within a touch radius of
+      // our own; RangeSlider grabs the nearest thumb wherever the touch is.
+      // A thumb on a tick needs none, as the touch rounds back onto it unless
+      // it is nearer to the next tick. The track is inset by the overlay
+      // radius, as are the tick labels.
+      if (isTouchDown && position != position.roundToDouble()) {
         final trackWidth = sliderKey.currentContext!.size!.width - _sliderLabelHorizontalPadding * 2;
         if (distance / (ticks.length - 1) * trackWidth < kMinInteractiveDimension / 2) return level;
       }

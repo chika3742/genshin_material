@@ -32,13 +32,14 @@ void main() {
     int? syncedLevel,
     bool reserveSyncedLevelSpace = false,
     bool settle = true,
+    double width = 400,
   }) async {
     await tester.pumpWidget(
       createScreenWithApp(
         child: Scaffold(
           body: Center(
             child: SizedBox(
-              width: 400,
+              width: width,
               child: LevelSlider(
                 levels: levels,
                 ticks: ticks,
@@ -197,6 +198,18 @@ void main() {
 
       expect(changes.single.start, 20);
       expect(changes.single.end, 60);
+    });
+
+    testWidgets("moves a thumb on a tick to the next tick tapped nearer to it", (tester) async {
+      // narrow enough for a tick spacing below the minimum interactive dimension
+      await pumpSlider(tester, width: 300);
+
+      // within half the minimum interactive dimension of the start thumb
+      await tester.tapAt(thumbOffset(tester, 1.6));
+      await tester.pumpAndSettle();
+
+      expect(changes.single.start, 40);
+      expect(changes.single.end, initialValues.end);
     });
 
     // Without divisions, a semantic action moves a thumb by a fraction of the
