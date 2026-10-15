@@ -76,6 +76,15 @@
     {
       "matchManagers": ["bundler"],
       "addLabels": ["deps:gem"]
+    },
+    {
+      "description": "Regenerate code once per branch. Branch mode takes the tasks of the first upgrade only, so match every manager that can share a branch with pub. Flutter updates are excluded: installing another version would desync the Flutter that Renovate believes is active",
+      "matchManagers": ["pub", "github-actions"],
+      "matchDepNames": ["!flutter"],
+      "postUpgradeTasks": {
+        "commands": ["./scripts/ci_codegen.sh"],
+        "executionMode": "branch"
+      }
     }
   ]
 }
