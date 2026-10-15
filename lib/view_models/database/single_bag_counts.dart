@@ -1,15 +1,15 @@
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../data/models/bag_counts.dart";
+import "../../data/repositories/bag_counts_repository.dart";
 import "../../models/character.dart";
 import "../../models/common.dart";
 import "../../providers/versions.dart";
-import "../models/bag_counts.dart";
-import "bag_counts_repository.dart";
 
-part "bag_counts_single_repository.g.dart";
+part "single_bag_counts.g.dart";
 
 @riverpod
-Future<BagCounts?> bagCountsSingle(
+Future<BagCounts?> singleBagCounts(
   Ref ref, {
   VariantId? variantId,
   WeaponId? weaponId,
@@ -20,10 +20,10 @@ Future<BagCounts?> bagCountsSingle(
     return null;
   }
 
-  final provider = bagCountsProvider(BagCountRequests(requests: {(
-    variantId: variantId,
-    weaponId: weaponId,
-  )}));
+  final provider = bagCountsProvider(BagCountRequests(
+    variantIds: {?variantId},
+    weaponIds: {?weaponId},
+  ));
 
   ref.onAddListener(() => Future.microtask(() {
     if (ref.mounted) {

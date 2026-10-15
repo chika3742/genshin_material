@@ -48,6 +48,7 @@ class BookmarksPurposeGroupedTab extends ConsumerWidget {
                       ),
                       hashes: items.map((e) => e.item.hash).toList(),
                       targetType: .fromWeaponNullity(items.first.group.weaponId),
+                      bagCounts: group.bagCounts,
                     ),
                   IconButton(
                     icon: const Icon(Symbols.expand_content),

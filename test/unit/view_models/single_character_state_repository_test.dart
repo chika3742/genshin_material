@@ -13,12 +13,12 @@ import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
 
-import "../../../utils/asset_data.dart";
-import "../../../utils/db.dart";
-import "../../../utils/fake_hoyolab_game_api.dart";
-import "../../../utils/hoyolab_game_server.dart";
-import "../../../utils/provider_container.dart";
-import "../../../utils/test_data.dart";
+import "../../utils/asset_data.dart";
+import "../../utils/db.dart";
+import "../../utils/fake_hoyolab_game_api.dart";
+import "../../utils/hoyolab_game_server.dart";
+import "../../utils/provider_container.dart";
+import "../../utils/test_data.dart";
 
 const _uid = "uid_1";
 

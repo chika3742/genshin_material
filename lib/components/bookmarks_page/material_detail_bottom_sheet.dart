@@ -74,7 +74,7 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
               },
             )
                 .values
-                .map((e) => BookmarkGroup.fromBookmarks(e.sorted(sortByLevels), assetData))
+                .map((e) => BookmarkGroup.fromBookmarks(e.sorted(sortByLevels), assetData, null))
                 .toList();
 
             final headerIndexes = [1];

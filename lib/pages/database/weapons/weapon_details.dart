@@ -13,7 +13,6 @@ import "../../../components/level_slider.dart";
 import "../../../components/material_card_list.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
-import "../../../data/repositories/bag_counts_single_repository.dart";
 import "../../../data/repositories/character_state_repository.dart";
 import "../../../data/repositories/single_character_state_repository.dart";
 import "../../../data/services/crashlytics_service.dart";
@@ -27,6 +26,7 @@ import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/is_sync_enabled.dart";
 import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
+import "../../../view_models/database/single_bag_counts.dart";
 import "../../../view_models/database/weapon_details_view_model.dart";
 
 class WeaponDetailsPage extends HookConsumerWidget {
@@ -105,7 +105,7 @@ class _WeaponDetailsContents extends HookConsumerWidget {
       weaponId: weapon.id,
     ));
 
-    final bagCounts = ref.watch(bagCountsSingleProvider(weaponId: weapon.id));
+    final bagCounts = ref.watch(singleBagCountsProvider(weaponId: weapon.id));
 
     final fetchState = isSyncEnabled
         ? ref.watch(SingleCharacterStateRepository.fetchMutation(selectedCharacter.id))

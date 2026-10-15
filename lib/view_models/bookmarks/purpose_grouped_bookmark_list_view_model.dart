@@ -5,11 +5,14 @@ import "package:fractional_indexing/fractional_indexing.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../core/asset_cache.dart";
+import "../../data/models/bag_counts.dart";
 import "../../db/extensions/bookmark_db_extension.dart";
 import "../../models/bookmark.dart";
 import "../../models/common.dart";
 import "../../providers/database_provider.dart";
 import "../../providers/versions.dart";
+import "bookmark_bag_counts.dart";
 import "bookmark_sorter.dart";
 
 part "purpose_grouped_bookmark_list_view_model.g.dart";
@@ -30,22 +33,60 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
   PurposeGroupedBookmarkListState build() {
     final assetData = ref.watch(assetDataProvider).requireValue;
 
-    final bookmarks = (ref.watch(bookmarksProvider()).value ?? []);
+    final bookmarks = (ref.watch(bookmarksProvider()).value ?? [])
+        .sortedBy((k) => k.group.orderIndex);
 
-    final bookmarkGroups = bookmarks.groupListsBy((e) => e.group.groupHash)
-        .map((k, v) => MapEntry(k, BookmarkGroup.fromBookmarks(v, assetData)));
+    final byGroupHash = bookmarks.groupListsBy((e) => e.group.groupHash);
+    final bagCounts = <String /* group hash */, BagCounts>{};
+    final bagCountsInfo = ref.watch(bookmarkBagCountsProvider).value;
 
-    final bookmarkGroupList = bookmarkGroups.values.toList()
+    if (bagCountsInfo != null) {
+      var consumed = const <MaterialId, int>{};
+      for (final MapEntry(key: groupHash, value: groupBookmarks) in byGroupHash.entries) {
+        if (!bagCountsInfo.targetGroupHashes.contains(groupHash)) {
+          continue;
+        }
+
+        bagCounts[groupHash] = {
+          for (final MapEntry(key: id, value: count) in bagCountsInfo.bagCounts.entries)
+            id: count - (consumed[id] ?? 0),
+        };
+        consumed = {
+          ...consumed,
+          for (final MapEntry(key: id, value: qty) in _quantities(groupBookmarks, assetData).entries)
+            id: (consumed[id] ?? 0) + qty,
+        };
+      }
+    }
+
+    final bookmarkGroupMap = byGroupHash
+        .map((k, v) => MapEntry(k, BookmarkGroup.fromBookmarks(v, assetData, bagCounts[k])));
+
+    final bookmarkGroupList = bookmarkGroupMap.values.toList()
       ..sort((a, b) => a.orderIndex.compareTo(b.orderIndex));
 
     return PurposeGroupedBookmarkListState(
       groups: bookmarkGroupList,
-      sortedBookmarks: bookmarkGroups.map((k, v) => MapEntry(
+      sortedBookmarks: bookmarkGroupMap.map((k, v) => MapEntry(
         k,
         sortBookmarks(v.bookmarks, assetData)
             .groupListsBy((e) => e.item.materialId),
       )),
     );
+  }
+
+  Map<MaterialId, int> _quantities(List<MaterialBookmark> bookmarks, AssetData assetData) {
+    final expItem = MaterialTargetType.fromWeaponNullity(bookmarks.first.group.weaponId)
+        .getExpItemConf(assetData)
+        .first;
+    final quantities = bookmarks.groupFoldBy<MaterialId, int>(
+      (b) => b.item.materialId ?? expItem.itemId,
+      (sum, b) => (sum ?? 0) + b.item.quantity,
+    );
+    if (quantities[expItem.itemId] case final exp?) {
+      quantities[expItem.itemId] = (exp / expItem.expPerItem).ceil();
+    }
+    return quantities;
   }
 
   void reorder(int oldIndex, int newIndex) {

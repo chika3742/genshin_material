@@ -3,6 +3,7 @@ import "package:drift/drift.dart" show Value;
 import "package:freezed_annotation/freezed_annotation.dart";
 
 import "../core/asset_cache.dart";
+import "../data/models/bag_counts.dart";
 import "../db/database.dart";
 import "../utils/hash.dart";
 import "character.dart";
@@ -143,9 +144,14 @@ sealed class BookmarkGroup with _$BookmarkGroup {
     required String orderIndex,
     required LevelRangeValues levelRange,
     required List<MaterialBookmark> bookmarks,
+    required BagCounts? bagCounts,
   }) = _BookmarkGroup;
 
-  factory BookmarkGroup.fromBookmarks(List<MaterialBookmark> bookmarks, AssetData assetData) {
+  factory BookmarkGroup.fromBookmarks(
+    List<MaterialBookmark> bookmarks,
+    AssetData assetData, [
+    BagCounts? bagCounts,
+  ]) {
     assert(bookmarks.isNotEmpty);
 
     final sample = bookmarks.first;
@@ -175,6 +181,7 @@ sealed class BookmarkGroup with _$BookmarkGroup {
       levelRange: levelRange,
       bookmarks: bookmarks,
       orderIndex: sample.group.orderIndex,
+      bagCounts: bagCounts,
     );
   }
 }

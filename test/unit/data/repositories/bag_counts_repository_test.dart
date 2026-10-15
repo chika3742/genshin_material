@@ -5,7 +5,6 @@ import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/data/models/bag_counts.dart";
 import "package:genshin_material/data/models/hoyolab_api.dart";
 import "package:genshin_material/data/repositories/bag_counts_repository.dart";
-import "package:genshin_material/data/repositories/bag_counts_single_repository.dart";
 import "package:genshin_material/db/database.dart";
 import "package:genshin_material/db/extensions/in_game_character_state_db_extension.dart";
 import "package:genshin_material/models/character.dart";
@@ -14,6 +13,7 @@ import "package:genshin_material/models/ingredients.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
 import "package:genshin_material/providers/hoyolab_game_server.dart";
+import "package:genshin_material/view_models/database/single_bag_counts.dart";
 
 import "../../../utils/asset_data.dart";
 import "../../../utils/db.dart";
@@ -143,7 +143,7 @@ AssetData _buildAssetData() {
 }
 
 BagCountRequests _request({VariantId? variantId, WeaponId? weaponId}) {
-  return BagCountRequests(requests: {(variantId: variantId, weaponId: weaponId)});
+  return BagCountRequests(variantIds: {?variantId}, weaponIds: {?weaponId});
 }
 
 void main() {
@@ -287,18 +287,34 @@ void main() {
         expect(item.weapon?.id, weaponHyvId);
       });
 
-      test("sends one item per request in a single call", () async {
+      test("pairs the characters with the weapons in a single call", () async {
         final api = FakeHoyolabGameApi();
 
         await readBagCounts(
           createContainer(api),
-          BagCountRequests(requests: {
-            (variantId: _charaVariantId, weaponId: null),
-            (variantId: null, weaponId: testWeaponId),
-          }),
+          const BagCountRequests(variantIds: {_charaVariantId, _groupVariantId}, weaponIds: {testWeaponId}),
         );
 
-        expect(api.batchComputeCalls.single, hasLength(2));
+        final items = api.batchComputeCalls.single;
+        expect(items, hasLength(2));
+        expect(items.map((e) => e.avatarId), unorderedEquals([charaHyvId, groupHyvId1]));
+        expect(items.map((e) => e.weapon?.id).nonNulls, [weaponHyvId]);
+      });
+
+      test("does not fetch again for the same characters and weapons in another order", () async {
+        final api = FakeHoyolabGameApi();
+        final container = createContainer(api);
+
+        await readBagCounts(
+          container,
+          const BagCountRequests(variantIds: {_charaVariantId, _groupVariantId}, weaponIds: {testWeaponId}),
+        );
+        await readBagCounts(
+          container,
+          const BagCountRequests(variantIds: {_groupVariantId, _charaVariantId}, weaponIds: {testWeaponId}),
+        );
+
+        expect(api.batchComputeCalls, hasLength(1));
       });
     });
 
@@ -456,13 +472,13 @@ void main() {
     });
   });
 
-  group("bagCountsSingleProvider", () {
+  group("singleBagCountsProvider", () {
     Future<BagCounts?> readSingle(
       ProviderContainer container, {
       VariantId? variantId,
       WeaponId? weaponId,
     }) {
-      final provider = bagCountsSingleProvider(variantId: variantId, weaponId: weaponId);
+      final provider = singleBagCountsProvider(variantId: variantId, weaponId: weaponId);
       container.listen(provider, (_, _) {});
       return container.read(provider.future);
     }
@@ -519,7 +535,7 @@ void main() {
     testWidgets("fetches again when a listener is added after the counts expire", (tester) async {
       final api = FakeHoyolabGameApi();
       final container = createContainer(api);
-      final provider = bagCountsSingleProvider(weaponId: testWeaponId);
+      final provider = singleBagCountsProvider(weaponId: testWeaponId);
 
       container.listen(provider, (_, _) {});
       await container.read(provider.future);

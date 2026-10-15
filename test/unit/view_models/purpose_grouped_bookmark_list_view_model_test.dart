@@ -9,7 +9,9 @@ import "package:genshin_material/db/extensions/bookmark_db_extension.dart";
 import "package:genshin_material/models/bookmark.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
+import "package:genshin_material/models/ingredients.dart";
 import "package:genshin_material/providers/database_provider.dart";
+import "package:genshin_material/view_models/bookmarks/bookmark_bag_counts.dart";
 import "package:genshin_material/view_models/bookmarks/purpose_grouped_bookmark_list_view_model.dart";
 
 import "../../utils/asset_data.dart";
@@ -30,44 +32,66 @@ void main() {
 
   // `BookmarkGroup.fromBookmarks` resolves the character and its ingredient
   // table with `!`, so every character used in a test must be present with a
-  // matching rarity and purpose.
+  // matching rarity and purpose. The same goes for weapons.
   final assetData = buildTestAssetData(
     characters: {
       for (final id in const [CharacterId("char_1"), CharacterId("char_2"), CharacterId("char_3")])
         id: buildTestCharacter(id: id, rarity: 5),
+    },
+    weapons: {
+      "weapon_1": buildTestWeapon(id: "weapon_1", rarity: 5),
     },
     materials: {
       "mat_a": buildTestMaterial(id: "mat_a"),
       "mat_b": buildTestMaterial(id: "mat_b"),
     },
     materialSortOrder: {"id:mat_a": 2, "id:mat_b": 1},
+    // The bag counts of EXP are keyed by the first EXP item.
     characterIngredients: buildIngredientConfigurations(
       rarity: 5,
       purpose: Purpose.ascension,
       levels: {20: [], 40: [], 60: []},
+      expItems: const [ExpItem(itemId: "exp_book", expPerItem: 1000)],
+    ),
+    weaponIngredients: buildIngredientConfigurations(
+      rarity: 5,
+      purpose: Purpose.ascension,
+      levels: {20: [], 40: [], 60: []},
+      expItems: const [ExpItem(itemId: "exp_ore", expPerItem: 1000)],
     ),
   );
 
   /// Builds a container and waits for the bookmark stream to emit, because the
   /// view model reads `bookmarksProvider().value` and would otherwise build
-  /// from an empty list. Both providers stay listened to so that the notifier
-  /// survives the awaits inside a test.
-  Future<ProviderContainer> createContainer() async {
-    final container = createTestContainer(assetData: assetData, db: db);
+  /// from an empty list. [bagCounts] stands in for `bookmarkBagCountsProvider`
+  /// and is awaited the same way. The providers stay listened to so that the
+  /// notifier survives the awaits inside a test.
+  Future<ProviderContainer> createContainer({BookmarkBagCountsResult? bagCounts}) async {
+    final container = createTestContainer(
+      assetData: assetData,
+      db: db,
+      overrides: [
+        bookmarkBagCountsProvider.overrideWith((ref) async => bagCounts),
+      ],
+    );
     container.listen(bookmarksProvider(), (_, _) {});
     await container.read(bookmarksProvider().future);
+    container.listen(bookmarkBagCountsProvider, (_, _) {});
+    await container.read(bookmarkBagCountsProvider.future);
     container.listen(purposeGroupedBookmarkListViewModelProvider, (_, _) {});
     return container;
   }
 
   /// Adds one ascension bookmark for each of [characterIds], in order, so that
-  /// their groups get ascending order indexes.
-  Future<void> addGroupsFor(List<CharacterOrVariantId> characterIds) async {
+  /// their groups get ascending order indexes. Returns the group hashes.
+  Future<List<String>> addGroupsFor(List<CharacterOrVariantId> characterIds) async {
+    final groupHashes = <String>[];
     for (final characterId in characterIds) {
-      await db.addMaterialBookmarks([
-        buildMaterialBookmark(characterId: characterId, materialId: "mat_a"),
-      ]);
+      final bookmark = buildMaterialBookmark(characterId: characterId, materialId: "mat_a");
+      await db.addMaterialBookmarks([bookmark]);
+      groupHashes.add(bookmark.groupHash);
     }
+    return groupHashes;
   }
 
   StreamQueue<List<BookmarkMaterialGroup>> watchGroups() {
@@ -214,6 +238,8 @@ void main() {
       expect(state.sortedBookmarks, isEmpty);
     });
   });
+
+  group("bag counts", () {});
 
   group("reorder", () {
     test("moves a group to the end and gives it the last order index", () async {
