@@ -95,7 +95,7 @@ class _WeaponDetailsContents extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     WeaponDetailsViewModel notifier() => ref.read(provider.notifier);
 
-    final WeaponDetailsState(:selectableCharacters, :selectedCharacter, :sliders) = state;
+    final WeaponDetailsState(:selectableCharacters, :selectedCharacter, :syncedLevels, :sliders) = state;
 
     final images = ref.watch(assetImageResolverProvider);
     final ingredients = assetData.weaponIngredients;
@@ -204,6 +204,8 @@ class _WeaponDetailsContents extends HookConsumerWidget {
                           ingredients,
                           purpose,
                           sliders.ranges[purpose]!,
+                          syncedLevel: syncedLevels?[purpose],
+                          reserveSyncedLevelSpace: isSyncEnabled,
                           onRangeChanged: (value) {
                             notifier().setRange(purpose, value);
                           },
@@ -251,6 +253,8 @@ class _WeaponDetailsContents extends HookConsumerWidget {
     IngredientConfigurations ingredients,
     Purpose purpose,
     LevelRangeValues values, {
+    int? syncedLevel,
+    required bool reserveSyncedLevelSpace,
     required ValueChanged<LevelRangeValues> onRangeChanged,
   }) {
     final levels = ingredients.getLevels(rarity: weapon.rarity, purpose: purpose);
@@ -258,6 +262,8 @@ class _WeaponDetailsContents extends HookConsumerWidget {
       levels: levels.levels.keys.toList(),
       ticks: levels.sliderTicks,
       values: values,
+      syncedLevel: syncedLevel,
+      reserveSyncedLevelSpace: reserveSyncedLevelSpace,
       onChanged: onRangeChanged,
     );
   }

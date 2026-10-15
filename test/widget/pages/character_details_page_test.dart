@@ -455,6 +455,29 @@ void main() {
       expect(await remainingMaterialIds(), [variantBSecondaryId]);
     });
   });
+
+  group("synced levels on the sliders", () {
+    testWidgets("are passed to each slider when synced", (tester) async {
+      const syncedLevels = {
+        Purpose.ascension: 2,
+        Purpose.normalAttack: 3,
+        Purpose.elementalSkill: 1,
+        Purpose.elementalBurst: 4,
+      };
+
+      await pumpPage(tester, syncedLevels: syncedLevels);
+
+      expect(slidersOf(tester).map((purpose, slider) => MapEntry(purpose, slider.syncedLevel)), syncedLevels);
+      expect(slidersOf(tester).values.map((e) => e.reserveSyncedLevelSpace), everyElement(isTrue));
+    });
+
+    testWidgets("are absent when not synced", (tester) async {
+      await pumpPage(tester);
+
+      expect(slidersOf(tester).values.map((e) => e.syncedLevel), everyElement(isNull));
+      expect(slidersOf(tester).values.map((e) => e.reserveSyncedLevelSpace), everyElement(isFalse));
+    });
+  });
 }
 
 /// Serves a character state fresh enough for the sync on opening the page to

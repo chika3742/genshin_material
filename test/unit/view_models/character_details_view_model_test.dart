@@ -91,6 +91,36 @@ void main() {
     ]);
   }
 
+  group("synced character state", () {
+    test("is the stored state of the selected variant", () async {
+      final container = createContainer(storedLevels: {Purpose.normalAttack: 2});
+      final provider = await open(container);
+
+      expect(container.read(provider).value!.characterState?.levels, {Purpose.normalAttack: 2});
+    });
+
+    test("follows the stored state being updated by a sync", () async {
+      final container = createContainer(storedLevels: {Purpose.normalAttack: 2});
+      final provider = await open(container);
+
+      final repository = container.read(singleCharacterStateRepositoryProvider(_variantAId).notifier);
+      (repository as _FakeCharacterStateRepository).store({Purpose.normalAttack: 3});
+      final state = await container.read(provider.future);
+
+      expect(state!.characterState?.levels, {Purpose.normalAttack: 3});
+    });
+
+    test("is null once sync is turned off", () async {
+      final container = createContainer(storedLevels: {Purpose.normalAttack: 2});
+      final provider = await open(container);
+
+      await container.read(prefProvider(PrefKeys.syncCharaState).notifier).set(false);
+      final state = await container.read(provider.future);
+
+      expect(state!.characterState, isNull);
+    });
+  });
+
   // Regression: a rebuild caused by a watched dependency is an AsyncLoading,
   // so `build` never kept the previous sliders and started over instead.
   group("manual slider changes", () {

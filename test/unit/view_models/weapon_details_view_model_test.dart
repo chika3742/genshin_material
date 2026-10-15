@@ -102,6 +102,48 @@ void main() {
     ]);
   }
 
+  group("synced levels", () {
+    test("are the levels the selected character has the weapon at", () async {
+      final container = createContainer(equippedLevels: {_variantAId: 40});
+      final provider = await open(container);
+
+      expect(container.read(provider).value!.syncedLevels, {Purpose.ascension: 40});
+    });
+
+    test("are null when the selected character has another weapon equipped", () async {
+      final container = createContainer();
+      final provider = await open(container);
+
+      expect(container.read(provider).value!.syncedLevels, isNull);
+    });
+
+    test("follow the stored state of the same character", () async {
+      final container = createContainer(equippedLevels: {_variantAId: 20});
+      final provider = await open(container);
+      final repository = container.read(singleCharacterStateRepositoryProvider(_variantAId).notifier)
+          as _FakeCharacterStateRepository;
+
+      // Twice: the first store rebuilds through the early return, which must
+      // keep watching the repository for the second.
+      repository.store(40);
+      await container.read(provider.future);
+      repository.store(50);
+      final state = await container.read(provider.future);
+
+      expect(state!.syncedLevels, {Purpose.ascension: 50});
+    });
+
+    test("are null once sync is turned off", () async {
+      final container = createContainer(equippedLevels: {_variantAId: 40});
+      final provider = await open(container);
+
+      await container.read(prefProvider(PrefKeys.syncCharaState).notifier).set(false);
+      final state = await container.read(provider.future);
+
+      expect(state!.syncedLevels, isNull);
+    });
+  });
+
   group("character selection", () {
     test("selects the initial character among those who can equip the weapon", () async {
       final container = createContainer();
@@ -250,6 +292,15 @@ void main() {
       expect(removed, isTrue);
       expect(await db.getWeaponMaterialBookmarkLevelRanges(_weaponId, _variantAId), isEmpty);
       expect(await db.getWeaponMaterialBookmarkLevelRanges(_weaponId, _variantBId), isNotEmpty);
+    });
+
+    test("exposes the applied levels as the synced levels", () async {
+      final container = createContainer(equippedLevels: {_variantAId: 20});
+      final provider = await open(container);
+
+      await container.read(provider.notifier).applySyncedLevels({Purpose.ascension: 40});
+
+      expect(container.read(provider).value!.syncedLevels, {Purpose.ascension: 40});
     });
 
     test("keeps the bookmarks when auto removal is off", () async {

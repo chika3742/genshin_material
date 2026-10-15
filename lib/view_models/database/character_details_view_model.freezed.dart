@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CharacterDetailsState implements DiagnosticableTreeMixin {
 
- CharacterVariant get variant; LevelSliderState get sliders;
+ CharacterVariant get variant;/// The levels and the equipped weapon synced from the game, or `null`
+/// unless sync is on and the state has been stored.
+ CharacterState? get characterState; LevelSliderState get sliders;
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,26 +30,26 @@ void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   final _this = this as CharacterDetailsState;
   properties
     ..add(DiagnosticsProperty('type', 'CharacterDetailsState'))
-    ..add(DiagnosticsProperty('variant', _this.variant))..add(DiagnosticsProperty('sliders', _this.sliders));
+    ..add(DiagnosticsProperty('variant', _this.variant))..add(DiagnosticsProperty('characterState', _this.characterState))..add(DiagnosticsProperty('sliders', _this.sliders));
 }
 
 @override
 bool operator ==(Object other) {
   final _this = this as CharacterDetailsState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterDetailsState&&(identical(other.variant, _this.variant) || other.variant == _this.variant)&&(identical(other.sliders, _this.sliders) || other.sliders == _this.sliders));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CharacterDetailsState&&(identical(other.variant, _this.variant) || other.variant == _this.variant)&&(identical(other.characterState, _this.characterState) || other.characterState == _this.characterState)&&(identical(other.sliders, _this.sliders) || other.sliders == _this.sliders));
 }
 
 
 @override
 int get hashCode {
   final _this = this as CharacterDetailsState;
-  return Object.hash(runtimeType,_this.variant,_this.sliders);
+  return Object.hash(runtimeType,_this.variant,_this.characterState,_this.sliders);
 }
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   final _this = this as CharacterDetailsState;
-  return 'CharacterDetailsState(variant: ${_this.variant}, sliders: ${_this.sliders})';
+  return 'CharacterDetailsState(variant: ${_this.variant}, characterState: ${_this.characterState}, sliders: ${_this.sliders})';
 }
 
 
@@ -58,7 +60,7 @@ abstract mixin class $CharacterDetailsStateCopyWith<$Res>  {
   factory $CharacterDetailsStateCopyWith(CharacterDetailsState value, $Res Function(CharacterDetailsState) _then) = _$CharacterDetailsStateCopyWithImpl;
 @useResult
 $Res call({
- CharacterVariant variant, LevelSliderState sliders
+ CharacterVariant variant, CharacterState? characterState, LevelSliderState sliders
 });
 
 
@@ -75,10 +77,11 @@ class _$CharacterDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? variant = null,Object? sliders = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? variant = null,Object? characterState = freezed,Object? sliders = null,}) {
   return _then(CharacterDetailsState(
 variant: null == variant ? _self.variant : variant // ignore: cast_nullable_to_non_nullable
-as CharacterVariant,sliders: null == sliders ? _self.sliders : sliders // ignore: cast_nullable_to_non_nullable
+as CharacterVariant,characterState: freezed == characterState ? _self.characterState : characterState // ignore: cast_nullable_to_non_nullable
+as CharacterState?,sliders: null == sliders ? _self.sliders : sliders // ignore: cast_nullable_to_non_nullable
 as LevelSliderState,
   ));
 }
@@ -100,10 +103,13 @@ $LevelSliderStateCopyWith<$Res> get sliders {
 
 
 class _CharacterDetailsState with DiagnosticableTreeMixin implements CharacterDetailsState {
-  const _CharacterDetailsState({required this.variant, required this.sliders});
+  const _CharacterDetailsState({required this.variant, required this.characterState, required this.sliders});
   
 
 @override final  CharacterVariant variant;
+/// The levels and the equipped weapon synced from the game, or `null`
+/// unless sync is on and the state has been stored.
+@override final  CharacterState? characterState;
 @override final  LevelSliderState sliders;
 
 /// Create a copy of CharacterDetailsState
@@ -117,23 +123,23 @@ _$CharacterDetailsStateCopyWith<_CharacterDetailsState> get copyWith => __$Chara
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
     ..add(DiagnosticsProperty('type', 'CharacterDetailsState'))
-    ..add(DiagnosticsProperty('variant', variant))..add(DiagnosticsProperty('sliders', sliders));
+    ..add(DiagnosticsProperty('variant', variant))..add(DiagnosticsProperty('characterState', characterState))..add(DiagnosticsProperty('sliders', sliders));
 }
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterDetailsState&&(identical(other.variant, variant) || other.variant == variant)&&(identical(other.sliders, sliders) || other.sliders == sliders));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CharacterDetailsState&&(identical(other.variant, variant) || other.variant == variant)&&(identical(other.characterState, characterState) || other.characterState == characterState)&&(identical(other.sliders, sliders) || other.sliders == sliders));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,variant,sliders);
+    return Object.hash(runtimeType,variant,characterState,sliders);
 }
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-    return 'CharacterDetailsState(variant: $variant, sliders: $sliders)';
+    return 'CharacterDetailsState(variant: $variant, characterState: $characterState, sliders: $sliders)';
 }
 
 
@@ -144,7 +150,7 @@ abstract mixin class _$CharacterDetailsStateCopyWith<$Res> implements $Character
   factory _$CharacterDetailsStateCopyWith(_CharacterDetailsState value, $Res Function(_CharacterDetailsState) _then) = __$CharacterDetailsStateCopyWithImpl;
 @override @useResult
 $Res call({
- CharacterVariant variant, LevelSliderState sliders
+ CharacterVariant variant, CharacterState? characterState, LevelSliderState sliders
 });
 
 
@@ -161,10 +167,11 @@ class __$CharacterDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of CharacterDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? variant = null,Object? sliders = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? variant = null,Object? characterState = freezed,Object? sliders = null,}) {
   return _then(_CharacterDetailsState(
 variant: null == variant ? _self.variant : variant // ignore: cast_nullable_to_non_nullable
-as CharacterVariant,sliders: null == sliders ? _self.sliders : sliders // ignore: cast_nullable_to_non_nullable
+as CharacterVariant,characterState: freezed == characterState ? _self.characterState : characterState // ignore: cast_nullable_to_non_nullable
+as CharacterState?,sliders: null == sliders ? _self.sliders : sliders // ignore: cast_nullable_to_non_nullable
 as LevelSliderState,
   ));
 }

@@ -84,15 +84,12 @@ class _CharacterDetailsContents extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     CharacterDetailsViewModel notifier() => ref.read(provider.notifier);
 
-    final CharacterDetailsState(:variant, :sliders) = state;
+    final CharacterDetailsState(:variant, :characterState, :sliders) = state;
     final character = assetData.characterOf(variant);
 
     final images = ref.watch(assetImageResolverProvider);
     final isCharaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(variantId: variant.id));
     final bagCounts = ref.watch(bagCountsSingleProvider(variantId: variant.id));
-    final characterState = isCharaSyncEnabled
-        ? ref.watch(singleCharacterStateRepositoryProvider(variant.id)).value
-        : null;
     final fetchState = isCharaSyncEnabled
         ? ref.watch(SingleCharacterStateRepository.fetchMutation(variant.id))
         : null;
@@ -297,6 +294,8 @@ class _CharacterDetailsContents extends HookConsumerWidget {
                                 purpose,
                                 sliders.ranges[purpose]!,
                                 active: !sliders.hiddenPurposes.contains(purpose),
+                                syncedLevel: characterState?.levels[purpose],
+                                reserveSyncedLevelSpace: isCharaSyncEnabled,
                                 onActiveChanged: (value) {
                                   notifier().setActive(purpose, value);
                                 },
@@ -353,6 +352,8 @@ class _CharacterDetailsContents extends HookConsumerWidget {
     Purpose purpose,
     LevelRangeValues values, {
     required bool active,
+    int? syncedLevel,
+    required bool reserveSyncedLevelSpace,
     required ValueChanged<bool> onActiveChanged,
     required ValueChanged<LevelRangeValues> onRangeChanged,
   }) {
@@ -377,6 +378,8 @@ class _CharacterDetailsContents extends HookConsumerWidget {
           text: variant.talents[purpose.name]!.name.localized,
         ),
       ])) : null,
+      syncedLevel: syncedLevel,
+      reserveSyncedLevelSpace: reserveSyncedLevelSpace,
       onActiveChanged: onActiveChanged,
       onChanged: onRangeChanged,
     );

@@ -42,13 +42,8 @@ class WeaponDetailsViewModel extends _$WeaponDetailsViewModel {
     final selectedCharacter = selectableCharacters.firstWhereOrNull((e) => e.id == selectedId)
         ?? selectableCharacters.first;
 
-    // Retain the previous state
-    if (state.value case final prev? when prev.selectedCharacter.id == selectedCharacter.id) {
-      return prev.copyWith(
-        selectableCharacters: selectableCharacters,
-      );
-    }
-
+    // Watched before the early return below, so a sync storing new data keeps
+    // rebuilding this and updating `syncedLevels`.
     final characterState = ref.watch(isCharacterSyncEnabledProvider(variantId: selectedCharacter.id, weaponId: id))
         ? await ref.watch(singleCharacterStateRepositoryProvider(selectedCharacter.id).future)
             .catchError((e, st) {
@@ -56,15 +51,26 @@ class WeaponDetailsViewModel extends _$WeaponDetailsViewModel {
               return null;
             })
         : null;
+    final syncedLevels = characterState?.equippedWeaponId == id ? characterState!.weaponLevels : null;
+
+    // Retain the previous state
+    if (state.value case final prev? when prev.selectedCharacter.id == selectedCharacter.id) {
+      return prev.copyWith(
+        selectableCharacters: selectableCharacters,
+        syncedLevels: syncedLevels,
+      );
+    }
+
     final bookmarkRanges = await db.getWeaponMaterialBookmarkLevelRanges(id, selectedCharacter.id);
 
     return WeaponDetailsState(
       selectableCharacters: selectableCharacters,
       selectedCharacter: selectedCharacter,
+      syncedLevels: syncedLevels,
       sliders: LevelSliderState.initial(
         ingredients: assetData.weaponIngredients,
         rarity: weapon.rarity,
-        levels: characterState?.equippedWeaponId == id ? characterState!.weaponLevels : null,
+        levels: syncedLevels,
         bookmarkRanges: bookmarkRanges,
         previousState: state.value?.sliders,
       ),
@@ -87,6 +93,7 @@ class WeaponDetailsViewModel extends _$WeaponDetailsViewModel {
     final assetData = ref.read(assetDataProvider).requireValue;
 
     state = AsyncData(current.copyWith(
+      syncedLevels: levels,
       sliders: current.sliders.withLevels(
         levels,
         ingredients: assetData.weaponIngredients,
@@ -123,6 +130,9 @@ sealed class WeaponDetailsState with _$WeaponDetailsState {
   const factory WeaponDetailsState({
     required List<CharacterVariant> selectableCharacters,
     required CharacterVariant selectedCharacter,
+    /// The levels of this weapon synced from the game, or `null` unless sync is
+    /// on and the selected character has it equipped.
+    required Map<Purpose, int>? syncedLevels,
     required LevelSliderState sliders,
   }) = _WeaponDetailsState;
 }

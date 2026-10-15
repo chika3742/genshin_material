@@ -5,6 +5,7 @@ import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../core/asset_cache.dart";
 import "../../core/pref_keys.dart";
+import "../../data/repositories/character_state_repository.dart";
 import "../../data/repositories/single_character_state_repository.dart";
 import "../../data/services/crashlytics_service.dart";
 import "../../db/extensions/bookmark_db_extension.dart";
@@ -48,13 +49,14 @@ class CharacterDetailsViewModel extends _$CharacterDetailsViewModel {
 
     // Retain the previous state when the variant is unchanged.
     if (state.value case final prev? when prev.variant.id == variant.id) {
-      return prev.copyWith(variant: variant);
+      return prev.copyWith(variant: variant, characterState: characterState);
     }
 
     final bookmarkRanges = await db.getCharacterMaterialBookmarkLevelRanges([character.id, variant.id]);
 
     return CharacterDetailsState(
       variant: variant,
+      characterState: characterState,
       sliders: LevelSliderState.initial(
         ingredients: assetData.characterIngredients,
         rarity: variant.rarity,
@@ -149,6 +151,9 @@ class CharacterDetailsViewModel extends _$CharacterDetailsViewModel {
 sealed class CharacterDetailsState with _$CharacterDetailsState {
   const factory CharacterDetailsState({
     required CharacterVariant variant,
+    /// The levels and the equipped weapon synced from the game, or `null`
+    /// unless sync is on and the state has been stored.
+    required CharacterState? characterState,
     required LevelSliderState sliders,
   }) = _CharacterDetailsState;
 }
