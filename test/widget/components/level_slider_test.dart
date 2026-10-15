@@ -31,13 +31,15 @@ void main() {
     bool activatable = true,
     int? syncedLevel,
     bool reserveSyncedLevelSpace = false,
+    bool settle = true,
+    double width = 400,
   }) async {
     await tester.pumpWidget(
       createScreenWithApp(
         child: Scaffold(
           body: Center(
             child: SizedBox(
-              width: 400,
+              width: width,
               child: LevelSlider(
                 levels: levels,
                 ticks: ticks,
@@ -54,7 +56,7 @@ void main() {
         ),
       ),
     );
-    await tester.pumpAndSettle();
+    if (settle) await tester.pumpAndSettle();
   }
 
   CustomRangeSlider rangeSlider(WidgetTester tester) =>
@@ -72,14 +74,37 @@ void main() {
     await tester.pumpAndSettle();
   }
 
+  /// Reports [values] from the slider as a pointer would, which rounds them.
+  Future<void> dragTo(WidgetTester tester, RangeValues values) async {
+    final slider = rangeSlider(tester);
+    slider.onChangeStart!(slider.values);
+    // the touch down on the thumb, which the slider reports first
+    slider.onChanged!(slider.values);
+    slider.onChanged!(values);
+    slider.onChangeEnd!(values);
+    await tester.pumpAndSettle();
+  }
+
+  /// The x where the RangeSlider centers a thumb at [index]: the track is
+  /// inset by the overlay radius.
+  double xOfTickIndex(WidgetTester tester, double index) {
+    const inset = 24.0;
+    final rect = tester.getRect(find.byType(CustomRangeSlider));
+    return rect.left + inset + index / (ticks.length - 1) * (rect.width - inset * 2);
+  }
+
+  Offset thumbOffset(WidgetTester tester, double index) =>
+      Offset(xOfTickIndex(tester, index), tester.getCenter(find.byType(CustomRangeSlider)).dy);
+
   group("slider wiring", () {
-    testWidgets("spans one division per tick", (tester) async {
+    testWidgets("spans one index per tick without divisions", (tester) async {
       await pumpSlider(tester);
 
       final slider = rangeSlider(tester);
       expect(slider.min, 0);
       expect(slider.max, ticks.length - 1);
-      expect(slider.divisions, ticks.length - 1);
+      // a discrete slider would round the thumbs onto the ticks
+      expect(slider.divisions, isNull);
     });
 
     testWidgets("places the thumbs on the indices of the current levels", (tester) async {
@@ -88,27 +113,149 @@ void main() {
       expect(rangeSlider(tester).values, const RangeValues(1, 6));
     });
 
-    testWidgets("rounds a level that is not a tick up to the next one", (tester) async {
+    testWidgets("interpolates the thumbs of levels between ticks", (tester) async {
       await pumpSlider(tester, values: const LevelRangeValues(30, 85));
 
-      expect(rangeSlider(tester).values, const RangeValues(2, 7));
+      expect(rangeSlider(tester).values, const RangeValues(1.5, 6.5));
     });
 
-    testWidgets("translates the slider indices back into levels", (tester) async {
+    testWidgets("slides the thumbs to new levels", (tester) async {
+      await pumpSlider(tester);
+      await pumpSlider(tester, values: const LevelRangeValues(20, 90), settle: false);
+      await tester.pump(const Duration(milliseconds: 30));
+
+      expect(rangeSlider(tester).values.end, inExclusiveRange(6, 7));
+
+      await tester.pumpAndSettle();
+
+      expect(rangeSlider(tester).values, const RangeValues(1, 7));
+    });
+
+    testWidgets("snaps a dragged thumb to the nearest tick", (tester) async {
       await pumpSlider(tester);
 
-      rangeSlider(tester).onChanged!(const RangeValues(2, 5));
-      await tester.pumpAndSettle();
+      await dragTo(tester, const RangeValues(2.4, 4.6));
 
       expect(changes, hasLength(1));
       expect(changes.single.start, 40);
       expect(changes.single.end, 70);
     });
 
+    testWidgets("keeps the level of the thumb left between ticks", (tester) async {
+      await pumpSlider(tester, values: const LevelRangeValues(20, 75));
+
+      await dragTo(tester, const RangeValues(2.2, 5.5));
+
+      expect(changes.single.start, 40);
+      expect(changes.single.end, 75);
+    });
+
+    testWidgets("snaps a dragged thumb that was between ticks", (tester) async {
+      await pumpSlider(tester, values: const LevelRangeValues(20, 75));
+
+      await dragTo(tester, const RangeValues(1, 5.8));
+
+      expect(changes.single.start, 20);
+      expect(changes.single.end, 80);
+    });
+
     testWidgets("ignores a collapsed range", (tester) async {
       await pumpSlider(tester);
 
-      rangeSlider(tester).onChanged!(const RangeValues(3, 3));
+      await dragTo(tester, const RangeValues(2.8, 3.2));
+
+      expect(changes, isEmpty);
+    });
+
+    testWidgets("keeps a thumb between ticks that is only touched", (tester) async {
+      await pumpSlider(tester, values: const LevelRangeValues(20, 75));
+
+      // off its center, nearer to the next tick
+      await tester.tapAt(thumbOffset(tester, 5.6));
+      await tester.pumpAndSettle();
+
+      expect(changes, isEmpty);
+    });
+
+    testWidgets("snaps a touched thumb between ticks once it is dragged", (tester) async {
+      await pumpSlider(tester, values: const LevelRangeValues(20, 75));
+
+      final gesture = await tester.startGesture(thumbOffset(tester, 5.5));
+      // past the drag slop, yet short of the pan slop of the range drag
+      await gesture.moveBy(const Offset(30, 0));
+      await gesture.up();
+      await tester.pumpAndSettle();
+
+      expect(changes.last.start, 20);
+      expect(changes.last.end, 80);
+    });
+
+    testWidgets("moves the nearest thumb to a tick tapped off the thumbs", (tester) async {
+      await pumpSlider(tester, values: const LevelRangeValues(20, 75));
+
+      await tester.tapAt(thumbOffset(tester, 4.1));
+      await tester.pumpAndSettle();
+
+      expect(changes.single.start, 20);
+      expect(changes.single.end, 60);
+    });
+
+    testWidgets("moves a thumb on a tick to the next tick tapped nearer to it", (tester) async {
+      // narrow enough for a tick spacing below the minimum interactive dimension
+      await pumpSlider(tester, width: 300);
+
+      // within half the minimum interactive dimension of the start thumb
+      await tester.tapAt(thumbOffset(tester, 1.6));
+      await tester.pumpAndSettle();
+
+      expect(changes.single.start, 40);
+      expect(changes.single.end, initialValues.end);
+    });
+
+    // Without divisions, a semantic action moves a thumb by a fraction of the
+    // range that rounding would undo.
+    testWidgets("steps a thumb to the next tick on a semantic action", (tester) async {
+      await pumpSlider(tester);
+
+      rangeSlider(tester).onChanged!(const RangeValues(1.35, 6));
+      await tester.pumpAndSettle();
+
+      expect(changes.single.start, 40);
+      expect(changes.single.end, 80);
+    });
+
+    testWidgets("steps a thumb between ticks to the previous tick on a semantic action", (tester) async {
+      await pumpSlider(tester, values: const LevelRangeValues(20, 75));
+
+      rangeSlider(tester).onChanged!(const RangeValues(1, 5.15));
+      await tester.pumpAndSettle();
+
+      expect(changes.single.start, 20);
+      expect(changes.single.end, 70);
+    });
+
+    /// Pumps the end thumb sliding from [from] to [to] and stops it halfway.
+    Future<RangeValues> pumpSliding(WidgetTester tester, int from, int to) async {
+      await pumpSlider(tester, values: LevelRangeValues(20, from));
+      await pumpSlider(tester, values: LevelRangeValues(20, to), settle: false);
+      await tester.pump(const Duration(milliseconds: 30));
+      return rangeSlider(tester).values;
+    }
+
+    testWidgets("steps a sliding thumb on from where it is headed on a semantic action", (tester) async {
+      final shown = await pumpSliding(tester, 70, 80);
+
+      rangeSlider(tester).onChanged!(RangeValues(shown.start, shown.end + 0.35));
+      await tester.pumpAndSettle();
+
+      expect(changes.single.start, 20);
+      expect(changes.single.end, 90);
+    });
+
+    testWidgets("keeps a thumb sliding to the last tick on a semantic action past it", (tester) async {
+      final shown = await pumpSliding(tester, 80, 90);
+
+      rangeSlider(tester).onChanged!(RangeValues(shown.start, shown.end + 0.35));
       await tester.pumpAndSettle();
 
       expect(changes, isEmpty);
@@ -127,6 +274,28 @@ void main() {
         ),
         findsOne,
       );
+    });
+
+    testWidgets("paints a tick mark on the track at every tick", (tester) async {
+      await pumpSlider(tester);
+
+      final slider = find.byType(RangeSlider);
+      final circleXs = <double>[];
+      expect(
+        slider,
+        paints..everything((method, arguments) {
+          if (method == #drawCircle) circleXs.add((arguments[0] as Offset).dx);
+          return true;
+        }),
+      );
+
+      // the track is inset by the overlay radius
+      const inset = 24.0;
+      final trackWidth = tester.getSize(slider).width - inset * 2;
+      for (var i = 0; i < ticks.length; i++) {
+        final x = inset + i / (ticks.length - 1) * trackWidth;
+        expect(circleXs, contains(moreOrLessEquals(x)), reason: "tick $i");
+      }
     });
 
     testWidgets("reports nothing when no callback is given", (tester) async {
@@ -317,14 +486,6 @@ void main() {
 
   group("synced level indicator", () {
     Finder indicator() => find.byKey(LevelSlider.syncedLevelIndicatorKey);
-
-    /// The x where the RangeSlider centers a thumb at [index]: the track is
-    /// inset by the overlay radius, and a discrete one further by half its height.
-    double xOfTickIndex(WidgetTester tester, double index) {
-      const inset = 24.0 + 4.0 / 2;
-      final rect = tester.getRect(find.byType(CustomRangeSlider));
-      return rect.left + inset + index / (ticks.length - 1) * (rect.width - inset * 2);
-    }
 
     testWidgets("is absent without a synced level", (tester) async {
       await pumpSlider(tester);
