@@ -1,5 +1,6 @@
 import "dart:math";
 
+import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
@@ -12,12 +13,71 @@ import "../utils/lists.dart";
 import "custom_range_slider.dart";
 import "labeled_check_box.dart";
 
-/// The x where a discrete [RangeSlider] centers a thumb at [index], measured
-/// from the start of the track inset. It insets the thumbs by half the track
-/// height on each side.
-double _thumbX(BuildContext context, double index, int tickCount, double width) {
-  final trackHeight = SliderTheme.of(context).trackHeight ?? LevelSlider._defaultSliderTrackHeight;
-  return trackHeight / 2 + index / (tickCount - 1) * (width - trackHeight);
+/// The x where a continuous [RangeSlider] centers a thumb at [index], measured
+/// from the start of the track.
+double _thumbX(double index, int tickCount, double width) => index / (tickCount - 1) * width;
+
+/// Paints a tick mark per division on the track, which [RangeSlider] itself
+/// only does while discrete, i.e. while it rounds the thumbs onto the ticks.
+///
+/// When switching to the 2024 Material 3 style (`year2023: false`):
+/// - extend [GappedRangeSliderTrackShape] instead, the default of that style.
+/// - set `SliderThemeData.thumbSize` to a height of 32 or less. The default
+///   handle height of 44 overflows the slider onto the synced level label.
+class _TickedRangeSliderTrackShape extends RoundedRectRangeSliderTrackShape {
+  const _TickedRangeSliderTrackShape(this.divisions);
+
+  final int divisions;
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset offset, {
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required Animation<double> enableAnimation,
+    required Offset startThumbCenter,
+    required Offset endThumbCenter,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+    required TextDirection textDirection,
+    double additionalActiveTrackHeight = 2,
+  }) {
+    super.paint(
+      context,
+      offset,
+      parentBox: parentBox,
+      sliderTheme: sliderTheme,
+      enableAnimation: enableAnimation,
+      startThumbCenter: startThumbCenter,
+      endThumbCenter: endThumbCenter,
+      isEnabled: isEnabled,
+      isDiscrete: isDiscrete,
+      textDirection: textDirection,
+      additionalActiveTrackHeight: additionalActiveTrackHeight,
+    );
+
+    final trackRect = getPreferredRect(
+      parentBox: parentBox,
+      offset: offset,
+      sliderTheme: sliderTheme,
+      isEnabled: isEnabled,
+      isDiscrete: isDiscrete,
+    );
+    for (var i = 0; i <= divisions; i++) {
+      sliderTheme.rangeTickMarkShape!.paint(
+        context,
+        Offset(trackRect.left + _thumbX(i.toDouble(), divisions + 1, trackRect.width), trackRect.center.dy),
+        parentBox: parentBox,
+        sliderTheme: sliderTheme,
+        enableAnimation: enableAnimation,
+        startThumbCenter: startThumbCenter,
+        endThumbCenter: endThumbCenter,
+        isEnabled: isEnabled,
+        textDirection: textDirection,
+      );
+    }
+  }
 }
 
 class _SliderLabelPainter extends CustomPainter {
@@ -40,7 +100,7 @@ class _SliderLabelPainter extends CustomPainter {
       painter.text = textSpan;
       painter.layout();
 
-      final offsetX = _thumbX(context, ticks.indexOf(tick).toDouble(), ticks.length, size.width) -
+      final offsetX = _thumbX(ticks.indexOf(tick).toDouble(), ticks.length, size.width) -
           (painter.width / 2);
       painter.paint(canvas, Offset(offsetX, (size.height - painter.height) / 2));
     }
@@ -96,18 +156,55 @@ class LevelSlider extends HookWidget {
   static const double _syncedLevelLabelHeight = 16.0;
   static const double _syncedLevelMarkerSize = 12.0;
   static const double _syncedLevelMarkerBorderWidth = 2.0;
-  /// The track height of [RangeSlider] when the theme sets none, with
-  /// `year2023: true` (the default).
-  ///
-  /// When switching to the 2024 Material 3 style (`year2023: false`):
-  /// - change this to 16, and `xOfTickIndex` in `level_slider_test.dart` to match.
-  /// - set `SliderThemeData.thumbSize` to a height of 32 or less. The default
-  ///   handle height of 44 overflows the slider onto the synced level label.
-  static const double _defaultSliderTrackHeight = 4.0;
+  /// The time a discrete [RangeSlider] takes to slide a thumb to a new value.
+  static const Duration _thumbAnimationDuration = Durations.short2;
 
   @override
   Widget build(BuildContext context) {
-    final syncedLevelPosition = _syncedLevelPosition();
+    final syncedLevelPosition = syncedLevel != null ? _positionOf(syncedLevel!) : null;
+    final startPosition = _positionOf(values.start)!;
+    final endPosition = _positionOf(values.end)!;
+
+    // RangeSlider animates the thumbs only while discrete, which rounds them
+    // onto the ticks, so they are animated here instead
+    final positionController = useAnimationController(duration: _thumbAnimationDuration);
+    final startTween = useRef(Tween(begin: startPosition, end: startPosition));
+    final endTween = useRef(Tween(begin: endPosition, end: endPosition));
+    final t = Easing.standard.transform(useAnimation(positionController));
+    final shownStart = startTween.value.transform(t);
+    final shownEnd = endTween.value.transform(t);
+    useValueChanged<(double, double), void>((startPosition, endPosition), (_, _) {
+      // from where the thumbs are shown, should they be retargeted mid-way
+      startTween.value = Tween(begin: shownStart, end: startPosition);
+      endTween.value = Tween(begin: shownEnd, end: endPosition);
+      positionController.forward(from: 0);
+    });
+
+    final sliderKey = useMemoized(GlobalKey.new);
+    // a semantic action moves a thumb by less than a tick, so only a pointer rounds
+    final isDragging = useRef(false);
+    // the slider reports where the pointer went down as the first change
+    final isTouchDown = useRef(false);
+
+    /// Snaps [value] reported for the thumb shown at [shown], on its way to
+    /// [position] of [level].
+    int snap(double value, double shown, double position, int level, {required bool isTouchDown}) {
+      final distance = (value - shown).abs();
+      // the thumb left in place keeps its level, even one between ticks
+      if (distance < precisionErrorTolerance) return level;
+      if (isTouchDown) {
+        // so does a thumb only touched within the target RangeSlider grabs it
+        // by. The track is inset by the overlay radius, as are the tick labels.
+        final trackWidth = sliderKey.currentContext!.size!.width - _sliderLabelHorizontalPadding * 2;
+        if (distance / (ticks.length - 1) * trackWidth < kMinInteractiveDimension / 2) return level;
+      }
+      // A pointer lands on the nearest tick. A semantic action steps to the
+      // next one from where the thumb is headed, which a sliding thumb may
+      // not have reached yet, and past which no tick may lie.
+      return ticks[isDragging.value
+          ? value.round()
+          : (value > shown ? position.floor() + 1 : position.ceil() - 1).clamp(0, ticks.length - 1)];
+    }
 
     return _buildContainer(
       child: Column(
@@ -123,26 +220,34 @@ class LevelSlider extends HookWidget {
                 ),
                 child: SizedBox(
                   height: _sliderHeight,
-                  child: CustomRangeSlider(
-                    values: RangeValues(
-                      ticks.indexOfCeilToNearest(values.start).toDouble(),
-                      ticks.indexOfCeilToNearest(values.end).toDouble(),
+                  // continuous, since a discrete slider rounds the thumbs of
+                  // levels between ticks onto them; the ticks come from the
+                  // track shape and the snapping from onChanged instead
+                  child: SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      rangeTrackShape: _TickedRangeSliderTrackShape(ticks.length - 1),
+                      showValueIndicator: ShowValueIndicator.onDrag,
                     ),
-                    min: 0,
-                    max: ticks.length - 1,
-                    divisions: ticks.length - 1,
-                    labels: RangeLabels(
-                        "${tr.common.currentLevel}: ${values.start}",
-                        "${tr.common.goalLevel}: ${values.end}"),
-                    onChanged: (values) {
-                      if (values.start == values.end) return;
-                      onChanged?.call(
-                        LevelRangeValues(
-                          ticks[values.start.toInt()],
-                          ticks[values.end.toInt()],
-                        ),
-                      );
-                    },
+                    child: CustomRangeSlider(
+                      key: sliderKey,
+                      values: RangeValues(shownStart, shownEnd),
+                      min: 0,
+                      max: ticks.length - 1,
+                      labels: RangeLabels(
+                          "${tr.common.currentLevel}: ${values.start}",
+                          "${tr.common.goalLevel}: ${values.end}"),
+                      onChangeStart: (_) => isDragging.value = isTouchDown.value = true,
+                      onChangeEnd: (_) => isDragging.value = isTouchDown.value = false,
+                      onChanged: (newValues) {
+                        final touchDown = isTouchDown.value;
+                        isTouchDown.value = false;
+                        final start =
+                            snap(newValues.start, shownStart, startPosition, values.start, isTouchDown: touchDown);
+                        final end = snap(newValues.end, shownEnd, endPosition, values.end, isTouchDown: touchDown);
+                        if (start >= end || (start == values.start && end == values.end)) return;
+                        onChanged?.call(LevelRangeValues(start, end));
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -172,11 +277,10 @@ class LevelSlider extends HookWidget {
     );
   }
 
-  /// [syncedLevel] as a fractional index into [ticks], or `null` if it is
-  /// unset or out of their range.
-  double? _syncedLevelPosition() {
-    final level = syncedLevel;
-    if (level == null || level < ticks.first) return null;
+  /// [level] as a fractional index into [ticks], or `null` if it is out of
+  /// their range.
+  double? _positionOf(int level) {
+    if (level < ticks.first) return null;
 
     final index = ticks.indexOfCeilToNearest(level);
     if (index < 0) return null;
@@ -197,7 +301,7 @@ class LevelSlider extends HookWidget {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              left: _thumbX(context, position, ticks.length, constraints.maxWidth),
+              left: _thumbX(position, ticks.length, constraints.maxWidth),
               top: 0,
               child: FractionalTranslation(
                 translation: const Offset(-0.5, 0),
