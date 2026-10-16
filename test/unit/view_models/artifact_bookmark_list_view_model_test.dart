@@ -1,4 +1,4 @@
-import "package:drift/drift.dart" show OrderingTerm;
+import "package:drift/drift.dart" show OrderingTerm, Value;
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:fractional_indexing/fractional_indexing.dart";
@@ -126,10 +126,10 @@ void main() {
       // last one so that the two orders differ and only the `orderBy` can
       // produce the expected result.
       final before = await readArtifactsById();
-      await db.updateArtifactOrderIndex(
-        before.first.id,
-        FractionalIndexer.generateKeyBetween(before.last.orderIndex, null)!,
-      );
+      await (db.update(db.bookmarkArtifactTable)..where((t) => t.id.equals(before.first.id)))
+          .write(BookmarkArtifactCompanion(
+            orderIndex: Value(FractionalIndexer.generateKeyBetween(before.last.orderIndex, null)!),
+          ));
       final container = createContainer();
 
       final items = await readItems(container);

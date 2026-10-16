@@ -13,24 +13,29 @@ part of 'bookmark.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$BookmarkWithDetails {
+mixin _$MaterialBookmark {
 
-
+ BookmarkMaterialGroup get group; BookmarkMaterialItem get item;
 
 
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithDetails);
+  final _this = this as MaterialBookmark;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialBookmark&&(identical(other.group, _this.group) || other.group == _this.group)&&(identical(other.item, _this.item) || other.item == _this.item));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode {
+  final _this = this as MaterialBookmark;
+  return Object.hash(runtimeType,_this.group,_this.item);
+}
 
 @override
 String toString() {
-    return 'BookmarkWithDetails()';
+  final _this = this as MaterialBookmark;
+  return 'MaterialBookmark(group: ${_this.group}, item: ${_this.item})';
 }
 
 
@@ -43,19 +48,19 @@ String toString() {
 /// @nodoc
 
 
-class BookmarkWithMaterialDetails implements BookmarkWithDetails {
-  const BookmarkWithMaterialDetails({required this.group, required this.item});
+class _MaterialBookmark implements MaterialBookmark {
+  const _MaterialBookmark({required this.group, required this.item});
   
 
- final  BookmarkMaterialGroup group;
- final  BookmarkMaterialItem item;
+@override final  BookmarkMaterialGroup group;
+@override final  BookmarkMaterialItem item;
 
 
 
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithMaterialDetails&&(identical(other.group, group) || other.group == group)&&(identical(other.item, item) || other.item == item));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MaterialBookmark&&(identical(other.group, group) || other.group == group)&&(identical(other.item, item) || other.item == item));
 }
 
 
@@ -66,77 +71,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'BookmarkWithDetails.material(group: $group, item: $item)';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class BookmarkWithArtifactSetDetails implements BookmarkWithDetails {
-  const BookmarkWithArtifactSetDetails({required this.artifact, required this.artifactSet});
-  
-
- final  BookmarkArtifact artifact;
- final  BookmarkArtifactSet artifactSet;
-
-
-
-
-@override
-bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactSetDetails&&(identical(other.artifact, artifact) || other.artifact == artifact)&&(identical(other.artifactSet, artifactSet) || other.artifactSet == artifactSet));
-}
-
-
-@override
-int get hashCode {
-    return Object.hash(runtimeType,artifact,artifactSet);
-}
-
-@override
-String toString() {
-    return 'BookmarkWithDetails.artifactSet(artifact: $artifact, artifactSet: $artifactSet)';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class BookmarkWithArtifactPieceDetails implements BookmarkWithDetails {
-  const BookmarkWithArtifactPieceDetails({required this.artifact, required this.artifactPiece});
-  
-
- final  BookmarkArtifact artifact;
- final  BookmarkArtifactPiece artifactPiece;
-
-
-
-
-@override
-bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkWithArtifactPieceDetails&&(identical(other.artifact, artifact) || other.artifact == artifact)&&(identical(other.artifactPiece, artifactPiece) || other.artifactPiece == artifactPiece));
-}
-
-
-@override
-int get hashCode {
-    return Object.hash(runtimeType,artifact,artifactPiece);
-}
-
-@override
-String toString() {
-    return 'BookmarkWithDetails.artifactPiece(artifact: $artifact, artifactPiece: $artifactPiece)';
+    return 'MaterialBookmark(group: $group, item: $item)';
 }
 
 
@@ -148,7 +83,7 @@ String toString() {
 /// @nodoc
 mixin _$BookmarkGroup {
 
- String get hash; BookmarkType get type; CharacterOrVariantId get characterId; String get orderIndex; LevelRangeValues? get levelRange; List<BookmarkWithDetails> get bookmarks;
+ String get hash; BookmarkType get type; CharacterOrVariantId get characterId; String get orderIndex; LevelRangeValues? get levelRange; List<MaterialBookmark> get bookmarks;
 
 
 
@@ -182,7 +117,7 @@ String toString() {
 
 
 class _BookmarkGroup extends BookmarkGroup {
-  const _BookmarkGroup({required this.hash, required this.type, required this.characterId, required this.orderIndex, this.levelRange, required  List<BookmarkWithDetails> bookmarks}): _bookmarks = bookmarks,super._();
+  const _BookmarkGroup({required this.hash, required this.type, required this.characterId, required this.orderIndex, this.levelRange, required  List<MaterialBookmark> bookmarks}): _bookmarks = bookmarks,super._();
   
 
 @override final  String hash;
@@ -190,8 +125,8 @@ class _BookmarkGroup extends BookmarkGroup {
 @override final  CharacterOrVariantId characterId;
 @override final  String orderIndex;
 @override final  LevelRangeValues? levelRange;
- final  List<BookmarkWithDetails> _bookmarks;
-@override List<BookmarkWithDetails> get bookmarks {
+ final  List<MaterialBookmark> _bookmarks;
+@override List<MaterialBookmark> get bookmarks {
   if (_bookmarks is EqualUnmodifiableListView) return _bookmarks;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_bookmarks);

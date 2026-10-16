@@ -69,7 +69,7 @@ class _GroupTypeText extends HookConsumerWidget {
     final assetData = assetDataAsync.value!;
     final images = ref.watch(assetImageResolverProvider);
 
-    final first = group.bookmarks.first as BookmarkWithMaterialDetails;
+    final first = group.bookmarks.first;
     if (first.group.weaponId == null) {
       final purposeType = first.group.purposeType;
       return switch (purposeType) {

@@ -42,7 +42,7 @@ void main() {
     ),
   );
 
-  BookmarkWithDetails buildMaterialBookmark({
+  MaterialBookmark buildMaterialBookmark({
     required int upperLevel,
     WeaponId? weaponId,
     String orderIndex = "a0",
@@ -55,7 +55,7 @@ void main() {
       weaponId: weaponId,
     );
 
-    return BookmarkWithDetails.material(
+    return MaterialBookmark(
       group: BookmarkMaterialGroup(
         groupHash: groupHash,
         characterId: characterId,
@@ -77,19 +77,6 @@ void main() {
         quantity: 1,
         upperLevel: upperLevel,
       ),
-    );
-  }
-
-  BookmarkArtifact buildArtifact({
-    int id = 7,
-    String orderIndex = "b0",
-  }) {
-    return BookmarkArtifact(
-      id: id,
-      characterId: VariantId(characterId),
-      createdAt: DateTime.utc(2024),
-      subStats: const ["crit_rate"],
-      orderIndex: orderIndex,
     );
   }
 
@@ -182,10 +169,7 @@ void main() {
       final bookmarks = [buildMaterialBookmark(upperLevel: 40)];
       final group = BookmarkGroup.fromBookmarks(bookmarks, assetData);
 
-      expect(
-        group.hash,
-        (bookmarks.first as BookmarkWithMaterialDetails).group.groupHash,
-      );
+      expect(group.hash, bookmarks.first.group.groupHash);
       expect(group.type, BookmarkType.material);
       expect(group.characterId, characterId);
       expect(group.bookmarks, bookmarks);
@@ -282,110 +266,6 @@ void main() {
 
       expect(group.levelRange!.start, 4);
       expect(group.levelRange!.end, 6);
-    });
-  });
-
-  group("fromBookmarks with artifact bookmarks", () {
-    test("Uses the artifact row id as the hash of an artifact set", () {
-      final artifact = buildArtifact(id: 12, orderIndex: "b3");
-      final group = BookmarkGroup.fromBookmarks(
-        [
-          BookmarkWithDetails.artifactSet(
-            artifact: artifact,
-            artifactSet: const BookmarkArtifactSet(
-              id: 12,
-              sets: ["gladiator"],
-              mainStats: {},
-            ),
-          ),
-        ],
-        assetData,
-      );
-
-      expect(group.hash, "12");
-      expect(group.type, BookmarkType.artifactSet);
-      expect(group.characterId, characterId);
-      expect(group.orderIndex, "b3");
-      expect(group.levelRange, isNull);
-    });
-
-    test("Uses the artifact row id as the hash of an artifact piece", () {
-      final artifact = buildArtifact(id: 34, orderIndex: "b4");
-      final group = BookmarkGroup.fromBookmarks(
-        [
-          BookmarkWithDetails.artifactPiece(
-            artifact: artifact,
-            artifactPiece: const BookmarkArtifactPiece(
-              id: 34,
-              piece: "flower_of_life",
-            ),
-          ),
-        ],
-        assetData,
-      );
-
-      expect(group.hash, "34");
-      expect(group.type, BookmarkType.artifactPiece);
-      expect(group.characterId, characterId);
-      expect(group.orderIndex, "b4");
-      expect(group.levelRange, isNull);
-    });
-
-    test("Never touches the asset data for artifact bookmarks", () {
-      // Empty asset data would break the material branch, but not this one.
-      final group = BookmarkGroup.fromBookmarks(
-        [
-          BookmarkWithDetails.artifactPiece(
-            artifact: buildArtifact(),
-            artifactPiece: const BookmarkArtifactPiece(
-              id: 7,
-              piece: "flower_of_life",
-            ),
-          ),
-        ],
-        buildTestAssetData(),
-      );
-
-      expect(group.hash, "7");
-    });
-  });
-
-  group("asArtifactSet / asArtifactPiece", () {
-    test("Returns the first bookmark cast to the artifact set variant", () {
-      final bookmark = BookmarkWithDetails.artifactSet(
-        artifact: buildArtifact(),
-        artifactSet: const BookmarkArtifactSet(
-          id: 7,
-          sets: ["gladiator"],
-          mainStats: {},
-        ),
-      );
-      final group = BookmarkGroup.fromBookmarks([bookmark], assetData);
-
-      expect(group.asArtifactSet(), bookmark);
-    });
-
-    test("Returns the first bookmark cast to the artifact piece variant", () {
-      final bookmark = BookmarkWithDetails.artifactPiece(
-        artifact: buildArtifact(),
-        artifactPiece: const BookmarkArtifactPiece(
-          id: 7,
-          piece: "flower_of_life",
-        ),
-      );
-      final group = BookmarkGroup.fromBookmarks([bookmark], assetData);
-
-      expect(group.asArtifactPiece(), bookmark);
-    });
-
-    test("Throws when the group does not hold the expected variant", () {
-      final group = BookmarkGroup.fromBookmarks(
-        [buildMaterialBookmark(upperLevel: 40)],
-        assetData,
-      );
-
-      expect(group.asArtifactSet, throwsA(isA<TypeError>()));
-      expect(group.asArtifactPiece, throwsA(isA<TypeError>()));
     });
   });
 

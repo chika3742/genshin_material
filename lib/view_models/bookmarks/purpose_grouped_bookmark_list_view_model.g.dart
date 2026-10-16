@@ -51,7 +51,7 @@ final class PurposeGroupedBookmarkListViewModelProvider
 }
 
 String _$purposeGroupedBookmarkListViewModelHash() =>
-    r'1229659b8acaf395b22a263f176c251e1a6b3124';
+    r'1aee617f3d655c3a55a3e0dd17563c34a52b2f58';
 
 abstract class _$PurposeGroupedBookmarkListViewModel
     extends $Notifier<PurposeGroupedBookmarkListState> {

@@ -146,7 +146,7 @@ class MaterialItem extends HookConsumerWidget {
 
   Future<PartialBookmarkBottomSheetResult?> showPartialBookmarkBottomSheet(
     BuildContext context,
-    List<BookmarkWithMaterialDetails> bookmarkedMaterials,
+    List<MaterialBookmark> bookmarkedMaterials,
     int expItemIndex,
   ) async {
     return await showModalBottomSheet<PartialBookmarkBottomSheetResult>(
@@ -170,7 +170,7 @@ class _PartialBookmarkBottomSheet extends ConsumerWidget {
   final String? materialId;
   final int expItemIndex;
   final MaterialTargetType targetType;
-  final List<BookmarkWithMaterialDetails> bookmarkedMaterials;
+  final List<MaterialBookmark> bookmarkedMaterials;
   final int currentQuantity;
 
   const _PartialBookmarkBottomSheet({

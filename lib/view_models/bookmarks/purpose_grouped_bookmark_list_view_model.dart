@@ -20,7 +20,7 @@ sealed class PurposeGroupedBookmarkListState with _$PurposeGroupedBookmarkListSt
   const factory PurposeGroupedBookmarkListState({
     required List<BookmarkGroup> groups,
     /// Map of group hashes.
-    required Map<String, Map<MaterialId?, List<BookmarkWithMaterialDetails>>> sortedBookmarks,
+    required Map<String, Map<MaterialId?, List<MaterialBookmark>>> sortedBookmarks,
   }) = _PurposeGroupedBookmarkListState;
 }
 
@@ -37,8 +37,8 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
 
     final bookmarkGroupList = bookmarkGroups.values.toList()
       ..sort((a, b) {
-        final aIdx = (a.bookmarks.first as BookmarkWithMaterialDetails).group.orderIndex;
-        final bIdx = (b.bookmarks.first as BookmarkWithMaterialDetails).group.orderIndex;
+        final aIdx = (a.bookmarks.first).group.orderIndex;
+        final bIdx = (b.bookmarks.first).group.orderIndex;
         return aIdx.compareTo(bIdx);
       });
 
@@ -46,7 +46,7 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
       groups: bookmarkGroupList,
       sortedBookmarks: bookmarkGroups.map((k, v) => MapEntry(
         k,
-        sortBookmarks(v.bookmarks.cast<BookmarkWithMaterialDetails>(), assetData)
+        sortBookmarks(v.bookmarks.cast<MaterialBookmark>(), assetData)
             .groupListsBy((e) => e.item.materialId),
       )),
     );

@@ -14,7 +14,7 @@ part "material_grouped_bookmark_list_view_model.freezed.dart";
 @freezed
 sealed class MaterialGroupedBookmarkListState with _$MaterialGroupedBookmarkListState {
   const factory MaterialGroupedBookmarkListState({
-    required Map<String, List<BookmarkWithMaterialDetails>> materials,
+    required Map<String, List<MaterialBookmark>> materials,
   }) = _MaterialGroupedBookmarkListState;
 }
 
@@ -36,7 +36,7 @@ class MaterialGroupedBookmarkListViewModel extends _$MaterialGroupedBookmarkList
   }
 
   /// Removes bookmarks. Returns a function that can undo the deletion.
-  Future<void Function()> unbookmark(List<BookmarkWithMaterialDetails> bookmarks) async {
+  Future<void Function()> unbookmark(List<MaterialBookmark> bookmarks) async {
     final db = ref.read(appDatabaseProvider);
     await db.removeMaterialBookmarksByHashes(bookmarks.map((e) => e.item.hash).toList());
 

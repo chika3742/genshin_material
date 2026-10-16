@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$PurposeGroupedBookmarkListState {
 
  List<BookmarkGroup> get groups;/// Map of group hashes.
- Map<String, Map<MaterialId?, List<BookmarkWithMaterialDetails>>> get sortedBookmarks;
+ Map<String, Map<MaterialId?, List<MaterialBookmark>>> get sortedBookmarks;
 /// Create a copy of PurposeGroupedBookmarkListState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -52,7 +52,7 @@ abstract mixin class $PurposeGroupedBookmarkListStateCopyWith<$Res>  {
   factory $PurposeGroupedBookmarkListStateCopyWith(PurposeGroupedBookmarkListState value, $Res Function(PurposeGroupedBookmarkListState) _then) = _$PurposeGroupedBookmarkListStateCopyWithImpl;
 @useResult
 $Res call({
- List<BookmarkGroup> groups, Map<String, Map<MaterialId?, List<BookmarkWithMaterialDetails>>> sortedBookmarks
+ List<BookmarkGroup> groups, Map<String, Map<MaterialId?, List<MaterialBookmark>>> sortedBookmarks
 });
 
 
@@ -73,7 +73,7 @@ class _$PurposeGroupedBookmarkListStateCopyWithImpl<$Res>
   return _then(PurposeGroupedBookmarkListState(
 groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
 as List<BookmarkGroup>,sortedBookmarks: null == sortedBookmarks ? _self.sortedBookmarks : sortedBookmarks // ignore: cast_nullable_to_non_nullable
-as Map<String, Map<MaterialId?, List<BookmarkWithMaterialDetails>>>,
+as Map<String, Map<MaterialId?, List<MaterialBookmark>>>,
   ));
 }
 
@@ -85,7 +85,7 @@ as Map<String, Map<MaterialId?, List<BookmarkWithMaterialDetails>>>,
 
 
 class _PurposeGroupedBookmarkListState implements PurposeGroupedBookmarkListState {
-  const _PurposeGroupedBookmarkListState({required  List<BookmarkGroup> groups, required  Map<String, Map<MaterialId?, List<BookmarkWithMaterialDetails>>> sortedBookmarks}): _groups = groups,_sortedBookmarks = sortedBookmarks;
+  const _PurposeGroupedBookmarkListState({required  List<BookmarkGroup> groups, required  Map<String, Map<MaterialId?, List<MaterialBookmark>>> sortedBookmarks}): _groups = groups,_sortedBookmarks = sortedBookmarks;
   
 
  final  List<BookmarkGroup> _groups;
@@ -96,9 +96,9 @@ class _PurposeGroupedBookmarkListState implements PurposeGroupedBookmarkListStat
 }
 
 /// Map of group hashes.
- final  Map<String, Map<MaterialId?, List<BookmarkWithMaterialDetails>>> _sortedBookmarks;
+ final  Map<String, Map<MaterialId?, List<MaterialBookmark>>> _sortedBookmarks;
 /// Map of group hashes.
-@override Map<String, Map<MaterialId?, List<BookmarkWithMaterialDetails>>> get sortedBookmarks {
+@override Map<String, Map<MaterialId?, List<MaterialBookmark>>> get sortedBookmarks {
   if (_sortedBookmarks is EqualUnmodifiableMapView) return _sortedBookmarks;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableMapView(_sortedBookmarks);
@@ -137,7 +137,7 @@ abstract mixin class _$PurposeGroupedBookmarkListStateCopyWith<$Res> implements 
   factory _$PurposeGroupedBookmarkListStateCopyWith(_PurposeGroupedBookmarkListState value, $Res Function(_PurposeGroupedBookmarkListState) _then) = __$PurposeGroupedBookmarkListStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<BookmarkGroup> groups, Map<String, Map<MaterialId?, List<BookmarkWithMaterialDetails>>> sortedBookmarks
+ List<BookmarkGroup> groups, Map<String, Map<MaterialId?, List<MaterialBookmark>>> sortedBookmarks
 });
 
 
@@ -158,7 +158,7 @@ class __$PurposeGroupedBookmarkListStateCopyWithImpl<$Res>
   return _then(_PurposeGroupedBookmarkListState(
 groups: null == groups ? _self._groups : groups // ignore: cast_nullable_to_non_nullable
 as List<BookmarkGroup>,sortedBookmarks: null == sortedBookmarks ? _self._sortedBookmarks : sortedBookmarks // ignore: cast_nullable_to_non_nullable
-as Map<String, Map<MaterialId?, List<BookmarkWithMaterialDetails>>>,
+as Map<String, Map<MaterialId?, List<MaterialBookmark>>>,
   ));
 }
 

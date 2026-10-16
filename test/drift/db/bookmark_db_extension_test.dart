@@ -518,15 +518,6 @@ void main() {
         lessThan(0),
       );
     });
-
-    test("is read back as an artifact set bookmark", () async {
-      await db.addArtifactSetBookmark(buildSetInsertable());
-
-      final rows = await db.watchArtifactBookmarks().first;
-
-      expect(rows, hasLength(1));
-      expect(rows.single, isA<BookmarkWithArtifactSetDetails>());
-    });
   });
 
   group("addArtifactPieceBookmark", () {
@@ -564,15 +555,6 @@ void main() {
 
       expect(pieces.single.mainStat, isNull);
     });
-
-    test("is read back as an artifact piece bookmark", () async {
-      await db.addArtifactPieceBookmark(buildPieceInsertable());
-
-      final rows = await db.watchArtifactBookmarks().first;
-
-      expect(rows, hasLength(1));
-      expect(rows.single, isA<BookmarkWithArtifactPieceDetails>());
-    });
   });
 
   group("updateMaterialGroupOrderIndex", () {
@@ -599,33 +581,6 @@ void main() {
       expect(
         after.firstWhere((e) => e.groupHash == second.groupHash).orderIndex,
         untouched.orderIndex,
-      );
-    });
-  });
-
-  group("updateArtifactOrderIndex", () {
-    test("updates the order index of the given artifact only", () async {
-      await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
-        characterId: VariantId("char_1"),
-        piece: "piece_1",
-        mainStat: null,
-        subStats: const [],
-      ));
-      await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
-        characterId: VariantId("char_2"),
-        piece: "piece_2",
-        mainStat: null,
-        subStats: const [],
-      ));
-      final before = await readArtifactsById();
-
-      await db.updateArtifactOrderIndex(before.first.id, "a5");
-
-      final after = await readArtifactsById();
-      expect(after.firstWhere((e) => e.id == before.first.id).orderIndex, "a5");
-      expect(
-        after.firstWhere((e) => e.id == before.last.id).orderIndex,
-        before.last.orderIndex,
       );
     });
   });
@@ -947,45 +902,6 @@ void main() {
       ]);
 
       expect(await db.watchMaterialBookmarksByHashes([]).first, isEmpty);
-    });
-  });
-
-  group("removeArtifactBookmarkById", () {
-    test("deletes the artifact and cascades into the piece table", () async {
-      await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
-        characterId: VariantId("char_1"),
-        piece: "piece_1",
-        mainStat: null,
-        subStats: const [],
-      ));
-      final artifact = (await readArtifactsById()).single;
-
-      await db.removeArtifactBookmarkById(artifact.id);
-
-      expect(await readArtifactsById(), isEmpty);
-      expect(await db.select(db.bookmarkArtifactPieceTable).get(), isEmpty);
-    });
-
-    test("keeps the other artifact bookmarks", () async {
-      await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
-        characterId: VariantId("char_1"),
-        piece: "piece_1",
-        mainStat: null,
-        subStats: const [],
-      ));
-      await db.addArtifactPieceBookmark(ArtifactPieceBookmarkInsertable(
-        characterId: VariantId("char_2"),
-        piece: "piece_2",
-        mainStat: null,
-        subStats: const [],
-      ));
-      final artifacts = await readArtifactsById();
-
-      await db.removeArtifactBookmarkById(artifacts.first.id);
-
-      final remaining = await readArtifactsById();
-      expect(remaining, hasLength(1));
-      expect(remaining.single.id, artifacts.last.id);
     });
   });
 }

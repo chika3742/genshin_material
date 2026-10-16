@@ -58,15 +58,15 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
               return const SizedBox(width: double.infinity);
             }
 
-            int sortByLevels(BookmarkWithMaterialDetails a, BookmarkWithMaterialDetails b) {
+            int sortByLevels(MaterialBookmark a, MaterialBookmark b) {
               return a.item.upperLevel - b.item.upperLevel;
             }
 
-            final groups = bookmarks.groupFoldBy<String, List<BookmarkWithMaterialDetails>>(
+            final groups = bookmarks.groupFoldBy<String, List<MaterialBookmark>>(
                   (e) => e.group.groupHash,
                   (prev, element) {
                 if (prev == null) {
-                  return <BookmarkWithMaterialDetails>[element];
+                  return <MaterialBookmark>[element];
                 } else {
                   prev.add(element);
                   return prev;
@@ -108,7 +108,7 @@ class MaterialBookmarkDetailBottomSheet extends StatelessWidget {
                   }
 
                   final bookmark = groups[headerIndexesIndex]
-                      .bookmarks[index - headerIndexes[headerIndexesIndex] - 1] as BookmarkWithMaterialDetails;
+                      .bookmarks[index - headerIndexes[headerIndexesIndex] - 1];
                   return Padding(
                     padding: const EdgeInsets.only(left: 16.0, bottom: 2.0, top: 2.0),
                     child: Row(
