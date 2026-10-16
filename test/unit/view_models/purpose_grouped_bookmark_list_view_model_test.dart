@@ -146,7 +146,6 @@ void main() {
         state.groups.map((e) => e.characterId),
         unorderedEquals(["char_1", "char_2"]),
       );
-      expect(state.groups.every((e) => e.type == BookmarkType.material), isTrue);
     });
 
     test("keeps bookmarks of the same character and purpose in one group",

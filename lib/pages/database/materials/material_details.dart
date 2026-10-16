@@ -25,8 +25,6 @@ class MaterialDetailsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final bagCountInfoKey = useMemoized(() => GlobalKey());
-
     final images = ref.watch(assetImageResolverProvider);
     final material = assetData.materials[id];
     if (material == null) {

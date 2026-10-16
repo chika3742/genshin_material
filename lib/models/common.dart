@@ -53,10 +53,6 @@ enum Purpose {
   normalAttack,
   elementalSkill,
   elementalBurst;
-
-  factory Purpose.fromTalentType(TalentType type) {
-    return Purpose.values.firstWhere((e) => e.name == type);
-  }
 }
 
 enum BookmarkState {

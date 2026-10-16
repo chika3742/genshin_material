@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 
 import "../models/character.dart";
-import "../models/common.dart";
 import "../providers/asset_image_resolver.dart";
 import "../providers/versions.dart";
 
@@ -10,7 +9,6 @@ class CharacterSelectDropdown extends HookConsumerWidget {
   final VariantId? initialValue;
   final void Function(VariantId? value) onChanged;
   final List<CharacterVariant> characters;
-  final WeaponType? weaponTypeFilter;
   final String? label;
   final String? errorText;
 
@@ -19,7 +17,6 @@ class CharacterSelectDropdown extends HookConsumerWidget {
     this.initialValue,
     required this.onChanged,
     required this.characters,
-    this.weaponTypeFilter,
     this.label,
     this.errorText,
   });

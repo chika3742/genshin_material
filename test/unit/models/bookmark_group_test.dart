@@ -165,12 +165,11 @@ void main() {
       expect(group.levelRange.end, 50);
     });
 
-    test("Takes the hash, the type and the character from the group row", () {
+    test("Takes the hash and the character from the group row", () {
       final bookmarks = [buildMaterialBookmark(upperLevel: 40)];
       final group = BookmarkGroup.fromBookmarks(bookmarks, assetData);
 
       expect(group.hash, bookmarks.first.group.groupHash);
-      expect(group.type, BookmarkType.material);
       expect(group.characterId, characterId);
       expect(group.bookmarks, bookmarks);
     });

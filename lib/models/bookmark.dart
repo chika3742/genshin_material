@@ -139,7 +139,6 @@ sealed class BookmarkGroup with _$BookmarkGroup {
 
   const factory BookmarkGroup({
     required String hash,
-    required BookmarkType type,
     required CharacterOrVariantId characterId,
     required String orderIndex,
     required LevelRangeValues levelRange,
@@ -172,7 +171,6 @@ sealed class BookmarkGroup with _$BookmarkGroup {
 
     return BookmarkGroup(
       hash: sample.group.groupHash,
-      type: .material,
       characterId: CharacterOrVariantId(sample.group.characterId),
       levelRange: levelRange,
       bookmarks: bookmarks,

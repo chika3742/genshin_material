@@ -3,12 +3,11 @@ import "package:flutter/material.dart";
 import "../utils/text_style_parser.dart";
 
 class StyleParsedText extends StatelessWidget {
-  final String text;
   final TextStyle? defaultStyle;
   final TextStyle strongStyle;
 
   StyleParsedText(
-    this.text, {
+    String text, {
     super.key,
     this.defaultStyle,
     this.strongStyle = const TextStyle(fontWeight: FontWeight.bold),
