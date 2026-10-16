@@ -67,9 +67,9 @@ void main() {
           type: BookmarkType.material,
           purposeType: Purpose.ascension,
           weaponId: "weapon_1",
-          bookmarkId: 3,
         ),
-        "char_1:material:ascension:weapon_1:3",
+        // The trailing colon must stay so that the stored hashes keep matching.
+        "char_1:material:ascension:weapon_1:",
       );
     });
 
@@ -80,25 +80,6 @@ void main() {
           type: BookmarkType.material,
         ),
         "char_1:material:::",
-      );
-    });
-
-    test("writes only the bookmarkId for the artifact types", () {
-      expect(
-        generateBookmarkGroupHash(
-          characterId: "char_1",
-          type: BookmarkType.artifactSet,
-          bookmarkId: 12,
-        ),
-        "char_1:artifactSet:::12",
-      );
-      expect(
-        generateBookmarkGroupHash(
-          characterId: "char_1",
-          type: BookmarkType.artifactPiece,
-          bookmarkId: 12,
-        ),
-        "char_1:artifactPiece:::12",
       );
     });
   });

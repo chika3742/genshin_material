@@ -18,8 +18,8 @@ void main() {
     orderIndex: "a0",
   );
 
-  BookmarkWithMaterialDetails bookmarkOf(MaterialId? materialId) {
-    return BookmarkWithMaterialDetails(
+  MaterialBookmark bookmarkOf(MaterialId? materialId) {
+    return MaterialBookmark(
       group: bookmarkGroup,
       item: BookmarkMaterialItem(
         hash: "item:$materialId",
@@ -31,7 +31,7 @@ void main() {
     );
   }
 
-  List<MaterialId?> materialIdsOf(List<BookmarkWithMaterialDetails> bookmarks) {
+  List<MaterialId?> materialIdsOf(List<MaterialBookmark> bookmarks) {
     return bookmarks.map((e) => e.item.materialId).toList();
   }
 

@@ -51,7 +51,7 @@ final class MaterialGroupedBookmarkListViewModelProvider
 }
 
 String _$materialGroupedBookmarkListViewModelHash() =>
-    r'4bda97e75a1ecae89a4ba892bf755524d0bff804';
+    r'f88b94dc53cdc66d0ef1dc7e0422feaeda4d9acc';
 
 abstract class _$MaterialGroupedBookmarkListViewModel
     extends $Notifier<MaterialGroupedBookmarkListState> {

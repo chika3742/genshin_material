@@ -36,7 +36,7 @@ class MaterialCardMaterial {
     );
   }
 
-  factory MaterialCardMaterial.fromBookmarks(List<BookmarkWithMaterialDetails> bookmarks) {
+  factory MaterialCardMaterial.fromBookmarks(List<MaterialBookmark> bookmarks) {
     assert(bookmarks.isNotEmpty);
 
     return MaterialCardMaterial(

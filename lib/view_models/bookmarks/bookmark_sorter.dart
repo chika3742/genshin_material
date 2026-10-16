@@ -3,7 +3,7 @@ import "package:collection/collection.dart";
 import "../../core/asset_cache.dart";
 import "../../models/bookmark.dart";
 
-List<BookmarkWithMaterialDetails> sortBookmarks(Iterable<BookmarkWithMaterialDetails> bookmarks, AssetData assetData) {
+List<MaterialBookmark> sortBookmarks(Iterable<MaterialBookmark> bookmarks, AssetData assetData) {
   return bookmarks.sorted((a, b) {
     final aMaterial = assetData.materials[a.item.materialId];
     final bMaterial = assetData.materials[b.item.materialId];

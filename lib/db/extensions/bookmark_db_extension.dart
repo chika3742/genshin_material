@@ -9,28 +9,11 @@ import "../../models/common.dart";
 import "../database.dart";
 
 extension BookmarkDbExtension on AppDatabase {
-  Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarks() {
+  Stream<List<MaterialBookmark>> watchMaterialBookmarks() {
     return _createMaterialJoin().watch().map((rows) => rows.map(_mapMaterialRow).toList());
   }
 
-  Stream<List<BookmarkWithDetails>> watchArtifactBookmarks() {
-    return (select(bookmarkArtifactTable).join([
-      leftOuterJoin(bookmarkArtifactSetTable, bookmarkArtifactSetTable.id.equalsExp(bookmarkArtifactTable.id)),
-      leftOuterJoin(bookmarkArtifactPieceTable, bookmarkArtifactPieceTable.id.equalsExp(bookmarkArtifactTable.id)),
-    ])).watch().map((rows) => rows.map((row) {
-      final artifact = row.readTable(bookmarkArtifactTable);
-      final set = row.readTableOrNull(bookmarkArtifactSetTable);
-      if (set != null) {
-        return BookmarkWithDetails.artifactSet(artifact: artifact, artifactSet: set);
-      }
-      return BookmarkWithDetails.artifactPiece(
-        artifact: artifact,
-        artifactPiece: row.readTable(bookmarkArtifactPieceTable),
-      );
-    }).toList());
-  }
-
-  BookmarkWithMaterialDetails _mapMaterialRow(TypedResult row) => BookmarkWithMaterialDetails(
+  MaterialBookmark _mapMaterialRow(TypedResult row) => MaterialBookmark(
     group: row.readTable(bookmarkMaterialGroupTable),
     item: row.readTable(bookmarkMaterialItemTable),
   );
@@ -44,7 +27,7 @@ extension BookmarkDbExtension on AppDatabase {
     ]);
   }
 
-  Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksPartially({
+  Stream<List<MaterialBookmark>> watchMaterialBookmarksPartially({
     required String characterId,
     required String? weaponId,
     required String? materialId,
@@ -60,19 +43,19 @@ extension BookmarkDbExtension on AppDatabase {
     return query.watch().map((rows) => rows.map(_mapMaterialRow).toList());
   }
 
-  Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksByHashes(List<String> hashes) {
+  Stream<List<MaterialBookmark>> watchMaterialBookmarksByHashes(List<String> hashes) {
     final query = _createMaterialJoin();
     query.where(bookmarkMaterialItemTable.hash.isIn(hashes));
     return query.watch().map((rows) => rows.map(_mapMaterialRow).toList());
   }
 
-  Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksByGroupHash(String groupHash) {
+  Stream<List<MaterialBookmark>> watchMaterialBookmarksByGroupHash(String groupHash) {
     final query = _createMaterialJoin();
     query.where(bookmarkMaterialGroupTable.groupHash.equals(groupHash));
     return query.watch().map((rows) => rows.map(_mapMaterialRow).toList());
   }
 
-  Stream<List<BookmarkWithMaterialDetails>> watchMaterialBookmarksByMaterial(String? materialId, bool hasWeapon) {
+  Stream<List<MaterialBookmark>> watchMaterialBookmarksByMaterial(String? materialId, bool hasWeapon) {
     final query = _createMaterialJoin();
     query.where(
       bookmarkMaterialItemTable.materialId.equalsNullable(materialId) &
@@ -180,18 +163,9 @@ extension BookmarkDbExtension on AppDatabase {
     });
   }
 
-  Future<void> removeArtifactBookmarkById(int id) {
-    return (delete(bookmarkArtifactTable)..where((tbl) => tbl.id.equals(id))).go();
-  }
-
   Future<void> updateMaterialGroupOrderIndex(String groupHash, String orderIndex) {
     return (update(bookmarkMaterialGroupTable)..where((tbl) => tbl.groupHash.equals(groupHash)))
         .write(BookmarkMaterialGroupCompanion(orderIndex: Value(orderIndex)));
-  }
-
-  Future<void> updateArtifactOrderIndex(int id, String orderIndex) {
-    return (update(bookmarkArtifactTable)..where((tbl) => tbl.id.equals(id)))
-        .write(BookmarkArtifactCompanion(orderIndex: Value(orderIndex)));
   }
 
   Future<bool> deleteObsoleteBookmarks({

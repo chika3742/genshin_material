@@ -48,8 +48,8 @@ void main() {
 
   /// Waits until the bookmark table holds exactly [count] rows. A count that
   /// never arrives fails the test by timing out instead of racing a delay.
-  Future<List<BookmarkWithMaterialDetails>> waitForBookmarkCount(
-    StreamQueue<List<BookmarkWithMaterialDetails>> queue,
+  Future<List<MaterialBookmark>> waitForBookmarkCount(
+    StreamQueue<List<MaterialBookmark>> queue,
     int count,
   ) async {
     while (true) {

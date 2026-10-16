@@ -126,21 +126,11 @@ class ArtifactPieceBookmarkInsertable {
 }
 
 @freezed
-sealed class BookmarkWithDetails with _$BookmarkWithDetails {
-  const factory BookmarkWithDetails.material({
+sealed class MaterialBookmark with _$MaterialBookmark {
+  const factory MaterialBookmark({
     required BookmarkMaterialGroup group,
     required BookmarkMaterialItem item,
-  }) = BookmarkWithMaterialDetails;
-
-  const factory BookmarkWithDetails.artifactSet({
-    required BookmarkArtifact artifact,
-    required BookmarkArtifactSet artifactSet,
-  }) = BookmarkWithArtifactSetDetails;
-
-  const factory BookmarkWithDetails.artifactPiece({
-    required BookmarkArtifact artifact,
-    required BookmarkArtifactPiece artifactPiece,
-  }) = BookmarkWithArtifactPieceDetails;
+  }) = _MaterialBookmark;
 }
 
 @freezed
@@ -152,73 +142,41 @@ sealed class BookmarkGroup with _$BookmarkGroup {
     required BookmarkType type,
     required CharacterOrVariantId characterId,
     required String orderIndex,
-    LevelRangeValues? levelRange,
-    required List<BookmarkWithDetails> bookmarks,
+    required LevelRangeValues levelRange,
+    required List<MaterialBookmark> bookmarks,
   }) = _BookmarkGroup;
 
-  factory BookmarkGroup.fromBookmarks(List<BookmarkWithDetails> bookmarks, AssetData assetData) {
+  factory BookmarkGroup.fromBookmarks(List<MaterialBookmark> bookmarks, AssetData assetData) {
     assert(bookmarks.isNotEmpty);
 
-    LevelRangeValues? levelRange;
     final sample = bookmarks.first;
 
-    late final String hash;
-    late final BookmarkType type;
-    late final CharacterOrVariantId characterId;
-
-    if (sample is BookmarkWithMaterialDetails) {
-      hash = sample.group.groupHash;
-      type = BookmarkType.material;
-      characterId = CharacterOrVariantId(sample.group.characterId);
-      final levels = bookmarks.cast<BookmarkWithMaterialDetails>()
-          .sorted((a, b) => a.item.upperLevel - b.item.upperLevel);
-      final ingredients = switch (sample.group.weaponId) {
-        null => assetData.characterIngredients.getLevels(
-          rarity: assetData.findCharacterOrVariant(sample.group.characterId)!.rarity,
-          purpose: sample.group.purposeType,
-        ),
-        _ => assetData.weaponIngredients.getLevels(
-          rarity: assetData.weapons[sample.group.weaponId]!.rarity,
-          purpose: sample.group.purposeType,
-        ),
-      };
-      final levelTicks = ingredients.levels.keys.toList();
-      final upperLevelIndex = levelTicks.indexOf(levels.first.item.upperLevel);
-      levelRange = LevelRangeValues(
-        upperLevelIndex >= 1 ? levelTicks[upperLevelIndex - 1] : 1,
-        levels.last.item.upperLevel,
-      );
-    } else if (sample is BookmarkWithArtifactSetDetails) {
-      hash = sample.artifact.id.toString();
-      type = BookmarkType.artifactSet;
-      characterId = VariantId(sample.artifact.characterId);
-    } else if (sample is BookmarkWithArtifactPieceDetails) {
-      hash = sample.artifact.id.toString();
-      type = BookmarkType.artifactPiece;
-      characterId = sample.artifact.characterId;
-    } else {
-      throw StateError("Unknown bookmark type: $sample");
-    }
+    final levels = bookmarks
+        .sorted((a, b) => a.item.upperLevel - b.item.upperLevel);
+    final ingredients = switch (sample.group.weaponId) {
+      null => assetData.characterIngredients.getLevels(
+        rarity: assetData.findCharacterOrVariant(sample.group.characterId)!.rarity,
+        purpose: sample.group.purposeType,
+      ),
+      _ => assetData.weaponIngredients.getLevels(
+        rarity: assetData.weapons[sample.group.weaponId]!.rarity,
+        purpose: sample.group.purposeType,
+      ),
+    };
+    final levelTicks = ingredients.levels.keys.toList();
+    final upperLevelIndex = levelTicks.indexOf(levels.first.item.upperLevel);
+    final levelRange = LevelRangeValues(
+      upperLevelIndex >= 1 ? levelTicks[upperLevelIndex - 1] : 1,
+      levels.last.item.upperLevel,
+    );
 
     return BookmarkGroup(
-      hash: hash,
-      type: type,
-      characterId: characterId,
+      hash: sample.group.groupHash,
+      type: .material,
+      characterId: CharacterOrVariantId(sample.group.characterId),
       levelRange: levelRange,
       bookmarks: bookmarks,
-      orderIndex: switch (sample) {
-        BookmarkWithMaterialDetails(group: BookmarkMaterialGroup(:final orderIndex)) => orderIndex,
-        BookmarkWithArtifactSetDetails(artifact: BookmarkArtifact(:final orderIndex))
-          || BookmarkWithArtifactPieceDetails(artifact: BookmarkArtifact(:final orderIndex)) => orderIndex,
-      },
+      orderIndex: sample.group.orderIndex,
     );
-  }
-
-  BookmarkWithArtifactSetDetails asArtifactSet() {
-    return bookmarks.first as BookmarkWithArtifactSetDetails;
-  }
-
-  BookmarkWithArtifactPieceDetails asArtifactPiece() {
-    return bookmarks.first as BookmarkWithArtifactPieceDetails;
   }
 }

@@ -56,13 +56,13 @@ final bookmarksProvider = BookmarksFamily._();
 final class BookmarksProvider
     extends
         $FunctionalProvider<
-          AsyncValue<List<BookmarkWithMaterialDetails>>,
-          List<BookmarkWithMaterialDetails>,
-          Stream<List<BookmarkWithMaterialDetails>>
+          AsyncValue<List<MaterialBookmark>>,
+          List<MaterialBookmark>,
+          Stream<List<MaterialBookmark>>
         >
     with
-        $FutureModifier<List<BookmarkWithMaterialDetails>>,
-        $StreamProvider<List<BookmarkWithMaterialDetails>> {
+        $FutureModifier<List<MaterialBookmark>>,
+        $StreamProvider<List<MaterialBookmark>> {
   BookmarksProvider._({
     required BookmarksFamily super.from,
     required ({
@@ -91,12 +91,12 @@ final class BookmarksProvider
 
   @$internal
   @override
-  $StreamProviderElement<List<BookmarkWithMaterialDetails>> $createElement(
+  $StreamProviderElement<List<MaterialBookmark>> $createElement(
     $ProviderPointer pointer,
   ) => $StreamProviderElement(pointer);
 
   @override
-  Stream<List<BookmarkWithMaterialDetails>> create(Ref ref) {
+  Stream<List<MaterialBookmark>> create(Ref ref) {
     final argument =
         this.argument
             as ({
@@ -123,12 +123,12 @@ final class BookmarksProvider
   }
 }
 
-String _$bookmarksHash() => r'cb84210224f52223a2f07d3df1aaac9ffb05c054';
+String _$bookmarksHash() => r'004b937a485f051ef5096db5af0424733b400ce8';
 
 final class BookmarksFamily extends $Family
     with
         $FunctionalFamilyOverride<
-          Stream<List<BookmarkWithMaterialDetails>>,
+          Stream<List<MaterialBookmark>>,
           ({
             String? groupHash,
             List<String>? hashes,
@@ -160,44 +160,3 @@ final class BookmarksFamily extends $Family
   @override
   String toString() => r'bookmarksProvider';
 }
-
-@ProviderFor(artifactBookmarks)
-final artifactBookmarksProvider = ArtifactBookmarksProvider._();
-
-final class ArtifactBookmarksProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<BookmarkWithDetails>>,
-          List<BookmarkWithDetails>,
-          Stream<List<BookmarkWithDetails>>
-        >
-    with
-        $FutureModifier<List<BookmarkWithDetails>>,
-        $StreamProvider<List<BookmarkWithDetails>> {
-  ArtifactBookmarksProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'artifactBookmarksProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$artifactBookmarksHash();
-
-  @$internal
-  @override
-  $StreamProviderElement<List<BookmarkWithDetails>> $createElement(
-    $ProviderPointer pointer,
-  ) => $StreamProviderElement(pointer);
-
-  @override
-  Stream<List<BookmarkWithDetails>> create(Ref ref) {
-    return artifactBookmarks(ref);
-  }
-}
-
-String _$artifactBookmarksHash() => r'0376e6dc2dc5fd2cb26746b9247aceecd7878ce6';

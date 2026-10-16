@@ -93,8 +93,6 @@ enum GameServer {
 
 enum BookmarkType {
   material,
-  artifactSet,
-  artifactPiece,
   ;
 }
 
