@@ -142,14 +142,13 @@ sealed class BookmarkGroup with _$BookmarkGroup {
     required BookmarkType type,
     required CharacterOrVariantId characterId,
     required String orderIndex,
-    LevelRangeValues? levelRange,
+    required LevelRangeValues levelRange,
     required List<MaterialBookmark> bookmarks,
   }) = _BookmarkGroup;
 
   factory BookmarkGroup.fromBookmarks(List<MaterialBookmark> bookmarks, AssetData assetData) {
     assert(bookmarks.isNotEmpty);
 
-    LevelRangeValues? levelRange;
     final sample = bookmarks.first;
 
     final levels = bookmarks
@@ -166,7 +165,7 @@ sealed class BookmarkGroup with _$BookmarkGroup {
     };
     final levelTicks = ingredients.levels.keys.toList();
     final upperLevelIndex = levelTicks.indexOf(levels.first.item.upperLevel);
-    levelRange = LevelRangeValues(
+    final levelRange = LevelRangeValues(
       upperLevelIndex >= 1 ? levelTicks[upperLevelIndex - 1] : 1,
       levels.last.item.upperLevel,
     );

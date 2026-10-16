@@ -36,17 +36,13 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
         .map((k, v) => MapEntry(k, BookmarkGroup.fromBookmarks(v, assetData)));
 
     final bookmarkGroupList = bookmarkGroups.values.toList()
-      ..sort((a, b) {
-        final aIdx = (a.bookmarks.first).group.orderIndex;
-        final bIdx = (b.bookmarks.first).group.orderIndex;
-        return aIdx.compareTo(bIdx);
-      });
+      ..sort((a, b) => a.orderIndex.compareTo(b.orderIndex));
 
     return PurposeGroupedBookmarkListState(
       groups: bookmarkGroupList,
       sortedBookmarks: bookmarkGroups.map((k, v) => MapEntry(
         k,
-        sortBookmarks(v.bookmarks.cast<MaterialBookmark>(), assetData)
+        sortBookmarks(v.bookmarks, assetData)
             .groupListsBy((e) => e.item.materialId),
       )),
     );

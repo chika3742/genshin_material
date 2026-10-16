@@ -33,24 +33,23 @@ class BookmarkPurposeHeader extends ConsumerWidget {
         ),
         const Spacer(),
         _GroupTypeText(group),
-        if (group.type == BookmarkType.material)
-          Text.rich(
-            TextSpan(
-              children: [
-                const TextSpan(text: "Lv.", style: TextStyle(fontSize: 18)),
-                TextSpan(text: group.levelRange!.start.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
-                const WidgetSpan(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 4),
-                    child: Icon(Symbols.double_arrow),
-                  ),
-                  alignment: PlaceholderAlignment.middle,
+        Text.rich(
+          TextSpan(
+            children: [
+              const TextSpan(text: "Lv.", style: TextStyle(fontSize: 18)),
+              TextSpan(text: group.levelRange.start.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+              const WidgetSpan(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 4),
+                  child: Icon(Symbols.double_arrow),
                 ),
-                TextSpan(text: group.levelRange!.end.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
-            style: GoogleFonts.titilliumWeb(fontSize: 24),
+                alignment: PlaceholderAlignment.middle,
+              ),
+              TextSpan(text: group.levelRange.end.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+            ],
           ),
+          style: GoogleFonts.titilliumWeb(fontSize: 24),
+        ),
       ],
     );
   }

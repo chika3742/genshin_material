@@ -91,8 +91,8 @@ void main() {
       );
 
       // 40 sits at index 2 of the character ticks, so the range starts at 20.
-      expect(group.levelRange!.start, 20);
-      expect(group.levelRange!.end, 60);
+      expect(group.levelRange.start, 20);
+      expect(group.levelRange.end, 60);
     });
 
     test("Starts at 1 when the lowest bookmark is the first tick", () {
@@ -104,8 +104,8 @@ void main() {
         assetData,
       );
 
-      expect(group.levelRange!.start, 1);
-      expect(group.levelRange!.end, 40);
+      expect(group.levelRange.start, 1);
+      expect(group.levelRange.end, 40);
     });
 
     test("Starts at 1 when the lowest bookmark is the second tick", () {
@@ -114,8 +114,8 @@ void main() {
         assetData,
       );
 
-      expect(group.levelRange!.start, 1);
-      expect(group.levelRange!.end, 20);
+      expect(group.levelRange.start, 1);
+      expect(group.levelRange.end, 20);
     });
 
     test("Starts at 1 when the lowest bookmark is absent from the table", () {
@@ -125,8 +125,8 @@ void main() {
         assetData,
       );
 
-      expect(group.levelRange!.start, 1);
-      expect(group.levelRange!.end, 45);
+      expect(group.levelRange.start, 1);
+      expect(group.levelRange.end, 45);
     });
 
     test("Sorts the bookmarks before picking the ends of the range", () {
@@ -139,8 +139,8 @@ void main() {
         assetData,
       );
 
-      expect(group.levelRange!.start, 20);
-      expect(group.levelRange!.end, 60);
+      expect(group.levelRange.start, 20);
+      expect(group.levelRange.end, 60);
     });
 
     test("Collapses a single bookmark into a one-step range", () {
@@ -149,8 +149,8 @@ void main() {
         assetData,
       );
 
-      expect(group.levelRange!.start, 40);
-      expect(group.levelRange!.end, 50);
+      expect(group.levelRange.start, 40);
+      expect(group.levelRange.end, 50);
     });
 
     test("Reads the weapon table when the group carries a weapon id", () {
@@ -161,8 +161,8 @@ void main() {
 
       // 50 sits at index 2 of the weapon ticks, so the range starts at 25.
       // The character table would have produced 40 instead.
-      expect(group.levelRange!.start, 25);
-      expect(group.levelRange!.end, 50);
+      expect(group.levelRange.start, 25);
+      expect(group.levelRange.end, 50);
     });
 
     test("Takes the hash, the type and the character from the group row", () {
@@ -190,8 +190,8 @@ void main() {
         assetData,
       );
 
-      expect(group.levelRange!.start, 20);
-      expect(group.levelRange!.end, 40);
+      expect(group.levelRange.start, 20);
+      expect(group.levelRange.end, 40);
     });
 
     test("Throws when the character is missing from the asset data", () {
@@ -243,8 +243,8 @@ void main() {
         talentAssetData,
       );
 
-      expect(group.levelRange!.start, 1);
-      expect(group.levelRange!.end, 2);
+      expect(group.levelRange.start, 1);
+      expect(group.levelRange.end, 2);
     });
 
     test("Falls back to 1 rather than to the first tick when absent", () {
@@ -254,8 +254,8 @@ void main() {
         talentAssetData,
       );
 
-      expect(group.levelRange!.start, 1);
-      expect(group.levelRange!.end, 5);
+      expect(group.levelRange.start, 1);
+      expect(group.levelRange.end, 5);
     });
 
     test("Still reads the previous tick for a level inside the table", () {
@@ -264,8 +264,8 @@ void main() {
         talentAssetData,
       );
 
-      expect(group.levelRange!.start, 4);
-      expect(group.levelRange!.end, 6);
+      expect(group.levelRange.start, 4);
+      expect(group.levelRange.end, 6);
     });
   });
 

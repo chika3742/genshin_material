@@ -83,7 +83,7 @@ String toString() {
 /// @nodoc
 mixin _$BookmarkGroup {
 
- String get hash; BookmarkType get type; CharacterOrVariantId get characterId; String get orderIndex; LevelRangeValues? get levelRange; List<MaterialBookmark> get bookmarks;
+ String get hash; BookmarkType get type; CharacterOrVariantId get characterId; String get orderIndex; LevelRangeValues get levelRange; List<MaterialBookmark> get bookmarks;
 
 
 
@@ -117,14 +117,14 @@ String toString() {
 
 
 class _BookmarkGroup extends BookmarkGroup {
-  const _BookmarkGroup({required this.hash, required this.type, required this.characterId, required this.orderIndex, this.levelRange, required  List<MaterialBookmark> bookmarks}): _bookmarks = bookmarks,super._();
+  const _BookmarkGroup({required this.hash, required this.type, required this.characterId, required this.orderIndex, required this.levelRange, required  List<MaterialBookmark> bookmarks}): _bookmarks = bookmarks,super._();
   
 
 @override final  String hash;
 @override final  BookmarkType type;
 @override final  CharacterOrVariantId characterId;
 @override final  String orderIndex;
-@override final  LevelRangeValues? levelRange;
+@override final  LevelRangeValues levelRange;
  final  List<MaterialBookmark> _bookmarks;
 @override List<MaterialBookmark> get bookmarks {
   if (_bookmarks is EqualUnmodifiableListView) return _bookmarks;
