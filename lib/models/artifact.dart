@@ -8,7 +8,6 @@ part "artifact.freezed.dart";
 part "artifact.g.dart";
 
 sealed class ArtifactSetOrPiece implements Searchable {
-  String get id;
   @override
   LocalizedText get name;
   @override
@@ -91,17 +90,6 @@ sealed class ArtifactPieceType with _$ArtifactPieceType {
 
   factory ArtifactPieceType.fromJson(Map<String, dynamic> json) =>
       _$ArtifactPieceTypeFromJson(json);
-}
-
-@Freezed(toJson: false)
-sealed class ArtifactStat with _$ArtifactStat {
-  const factory ArtifactStat({
-    required StatId id,
-    required LocalizedText desc,
-  }) = _ArtifactStat;
-
-  factory ArtifactStat.fromJson(Map<String, dynamic> json) =>
-      _$ArtifactStatFromJson(json);
 }
 
 @Freezed(toJson: false)

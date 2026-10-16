@@ -6,25 +6,6 @@ import "package:path/path.dart" as path;
 import "../../utils/asset_data.dart";
 
 void main() {
-  group("Purpose.fromTalentType", () {
-    test("Resolves every declared purpose from its name", () {
-      for (final purpose in Purpose.values) {
-        expect(Purpose.fromTalentType(purpose.name), purpose);
-      }
-    });
-
-    test("Throws a StateError for an unknown talent type", () {
-      expect(
-        () => Purpose.fromTalentType("unknownTalent"),
-        throwsStateError,
-      );
-    });
-
-    test("Throws a StateError for an empty talent type", () {
-      expect(() => Purpose.fromTalentType(""), throwsStateError);
-    });
-  });
-
   group("MaterialTargetType.fromWeaponNullity", () {
     test("Resolves to character when the weapon id is null", () {
       expect(

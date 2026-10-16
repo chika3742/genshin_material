@@ -2,7 +2,6 @@ import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/ingredients.dart";
-import "package:genshin_material/models/level_range_values.dart";
 import "package:genshin_material/models/material_bookmark_frame.dart";
 import "package:genshin_material/utils/ingredients_converter.dart";
 
@@ -165,52 +164,6 @@ void main() {
         ),
         "exp",
       );
-    });
-  });
-
-  group("narrowLevelMap", () {
-    final map = {
-      20: const [Ingredient.exp(exp: 20)],
-      30: const [Ingredient.exp(exp: 30)],
-      40: const [Ingredient.exp(exp: 40)],
-      50: const [Ingredient.exp(exp: 50)],
-    };
-
-    test("excludes start and includes end", () {
-      expect(
-        narrowLevelMap(map, const LevelRangeValues(20, 40)).keys,
-        [30, 40],
-      );
-    });
-
-    test("returns an empty map when nothing falls in the range", () {
-      expect(narrowLevelMap(map, const LevelRangeValues(40, 40)), isEmpty);
-    });
-  });
-
-  group("runInMapKeyRange", () {
-    final map = {
-      20: const [Ingredient.exp(exp: 20)],
-      30: const [Ingredient.exp(exp: 30)],
-      40: const [Ingredient.exp(exp: 40)],
-    };
-
-    test("calls back only for levels above start and up to end", () {
-      final calledLevels = <int>[];
-      runInMapKeyRange(map, const LevelRangeValues(20, 40), (level, _) {
-        calledLevels.add(level);
-      });
-
-      expect(calledLevels, [30, 40]);
-    });
-
-    test("never calls back when nothing falls in the range", () {
-      var callCount = 0;
-      runInMapKeyRange(map, const LevelRangeValues(40, 40), (_, _) {
-        callCount++;
-      });
-
-      expect(callCount, 0);
     });
   });
 

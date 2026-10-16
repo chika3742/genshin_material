@@ -5,7 +5,6 @@ import "package:collection/collection.dart";
 import "../core/asset_cache.dart";
 import "../models/common.dart";
 import "../models/ingredients.dart";
-import "../models/level_range_values.dart";
 import "../models/material_bookmark_frame.dart";
 
 String? getConcreteItemId(Ingredient ingredient, CharacterOrWeapon characterOrWeapon, AssetData assetData) {
@@ -35,30 +34,6 @@ String? getConcreteItemId(Ingredient ingredient, CharacterOrWeapon characterOrWe
     IngredientWithFixedId(:final itemId) => itemId,
     _ => "exp",
   };
-}
-
-Map<int, List<Ingredient>> narrowLevelMap(
-  Map<int, List<Ingredient>> map,
-  LevelRangeValues levelRangeValues,
-) {
-  return Map.fromEntries(
-    map.entries.where(
-      (e) => e.key > levelRangeValues.start && e.key <= levelRangeValues.end,
-    ),
-  );
-}
-
-void runInMapKeyRange(
-  Map<int, List<Ingredient>> map,
-  LevelRangeValues levelRangeValues,
-  void Function(int, List<Ingredient>) callback,
-) {
-  for (final entry in map.entries) {
-    final level = entry.key;
-    if (level > levelRangeValues.start && level <= levelRangeValues.end) {
-      callback(level, entry.value);
-    }
-  }
 }
 
 /// Converts the ingredients to material bookmark frames.

@@ -12,6 +12,7 @@ import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
 import "../../../i18n/strings.g.dart";
 import "../../../models/character.dart";
+import "../../../models/weapon.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/filter_state.dart";
 import "../../../routes.dart";
@@ -38,7 +39,7 @@ class WeaponListPage extends HookConsumerWidget {
       () {
         final grouped = assetData.weapons.values.groupListsBy((element) => element.type);
         return grouped.map((key, value) {
-          List sortedList;
+          List<Weapon> sortedList;
           switch (filterState.sortType) {
             case WeaponSortType.defaultSort:
               // Keep the original data order (appearance order)

@@ -16,10 +16,6 @@ sealed class HoyolabApiResult<T> with _$HoyolabApiResult<T> {
   factory HoyolabApiResult.fromJson(Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
       _$HoyolabApiResultFromJson(json, fromJsonT);
 
-  static HoyolabApiResult<HoyolabListData<I>> fromJsonList<I>(Map<String, dynamic> json, I Function(Object?) fromJsonItem) {
-    return HoyolabApiResult.fromJson(json, (Object? it) => HoyolabListData.fromJson(it! as Map<String, dynamic>, fromJsonItem));
-  }
-
   bool get hasError => retcode != 0;
 }
 
@@ -88,28 +84,6 @@ sealed class AvatarListResultItem with _$AvatarListResultItem, WithId {
       _$AvatarListResultItemFromJson(json);
 }
 
-// @freezed
-// class AvatarDetail with _$AvatarDetail {
-//   const factory AvatarDetail({
-//     @JsonKey(name: "skill_list") required List<AvatarDetailSkill> skills,
-//   }) = _AvatarDetail;
-//
-//   factory AvatarDetail.fromJson(Map<String, dynamic> json) =>
-//       _$AvatarDetailFromJson(json);
-// }
-
-// @freezed
-// class AvatarDetailSkill with _$AvatarDetailSkill {
-//   const factory AvatarDetailSkill({
-//     @JsonKey(name: "group_id") required int groupId,
-//     @JsonKey(name: "max_level") required int maxLevel,
-//     @JsonKey(name: "level_current") required int currentLevel,
-//   }) = _AvatarDetailSkill;
-//
-//   factory AvatarDetailSkill.fromJson(Map<String, dynamic> json) =>
-//       _$AvatarDetailSkillFromJson(json);
-// }
-
 @freezed
 sealed class AvatarSkill with _$AvatarSkill {
   const factory AvatarSkill({
@@ -120,16 +94,6 @@ sealed class AvatarSkill with _$AvatarSkill {
 
   factory AvatarSkill.fromJson(Map<String, dynamic> json) =>
       _$AvatarSkillFromJson(json);
-}
-
-@freezed
-sealed class AvatarAuth with _$AvatarAuth {
-  const factory AvatarAuth({
-    @JsonKey(name: "avatar_auth") required int avatarAuth,
-  }) = _AvatarAuth;
-
-  factory AvatarAuth.fromJson(Map<String, dynamic> json) =>
-      _$AvatarAuthFromJson(json);
 }
 
 @freezed
@@ -237,18 +201,6 @@ sealed class CalcComputeWeapon with _$CalcComputeWeapon {
     required String name,
     String? icon,
   }) = _CalcComputeWeapon;
-
-  factory CalcComputeWeapon.fromWeapon(AvatarWeapon weapon, int targetLevel) =>
-      CalcComputeWeapon(
-        id: weapon.id,
-        maxLevel: weapon.maxLevel,
-        currentLevel: weapon.currentLevel,
-        targetLevel: targetLevel,
-        categoryId: weapon.categoryId,
-        rarity: weapon.rarity,
-        name: weapon.name,
-        icon: weapon.icon,
-      );
 }
 
 @freezed

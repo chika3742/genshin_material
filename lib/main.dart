@@ -18,8 +18,6 @@ import "package:shared_preferences/shared_preferences.dart";
 
 import "core/provider_error_observer.dart";
 import "core/theme.dart";
-// ignore: uri_does_not_exist
-// import "firebase_options.dart";
 import "data/repositories/character_state_repository.dart";
 import "data/services/local_notification.dart";
 import "data/services/remote_config_service.dart";
@@ -114,8 +112,6 @@ final _router = GoRouter(
   navigatorKey: rootNavigatorKey,
   routes: $appRoutes,
 );
-
-BuildContext? get routerContext => _router.routerDelegate.navigatorKey.currentContext;
 
 class MyApp extends HookConsumerWidget {
   const MyApp({super.key});

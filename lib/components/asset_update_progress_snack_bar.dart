@@ -17,15 +17,6 @@ class AssetUpdateProgressSnackBar extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(assetUpdatingStateProvider);
 
-    // useEffect(() {
-    //   if (!state.state.isUpdating) {
-    //     WidgetsBinding.instance.addPostFrameCallback((_) {
-    //       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    //     });
-    //   }
-    //   return null;
-    // }, [state.state],);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

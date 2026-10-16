@@ -171,17 +171,6 @@ Map<String, dynamic> _$AvatarSkillToJson(_AvatarSkill instance) =>
       'level_current': instance.currentLevel,
     };
 
-_AvatarAuth _$AvatarAuthFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('_AvatarAuth', json, ($checkedConvert) {
-      final val = _AvatarAuth(
-        avatarAuth: $checkedConvert('avatar_auth', (v) => (v as num).toInt()),
-      );
-      return val;
-    }, fieldKeyMap: const {'avatarAuth': 'avatar_auth'});
-
-Map<String, dynamic> _$AvatarAuthToJson(_AvatarAuth instance) =>
-    <String, dynamic>{'avatar_auth': instance.avatarAuth};
-
 _GameRecordCard _$GameRecordCardFromJson(
   Map<String, dynamic> json,
 ) => $checkedCreate('_GameRecordCard', json, ($checkedConvert) {

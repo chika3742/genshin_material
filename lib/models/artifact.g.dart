@@ -60,12 +60,6 @@ _ArtifactPieceType _$ArtifactPieceTypeFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-_ArtifactStat _$ArtifactStatFromJson(Map<String, dynamic> json) =>
-    _ArtifactStat(
-      id: json['id'] as String,
-      desc: LocalizedText.fromJson(json['desc']),
-    );
-
 _ArtifactTagCategoriesInternal _$ArtifactTagCategoriesInternalFromJson(
   Map<String, dynamic> json,
 ) => _ArtifactTagCategoriesInternal(
