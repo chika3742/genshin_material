@@ -15,27 +15,27 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BagCountRequests {
 
- Set<({VariantId? variantId, WeaponId? weaponId,})> get requests;
+ Set<VariantId> get variantIds; Set<WeaponId> get weaponIds;
 
 
 
 @override
 bool operator ==(Object other) {
   final _this = this as BagCountRequests;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BagCountRequests&&const DeepCollectionEquality().equals(other.requests, _this.requests));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BagCountRequests&&const DeepCollectionEquality().equals(other.variantIds, _this.variantIds)&&const DeepCollectionEquality().equals(other.weaponIds, _this.weaponIds));
 }
 
 
 @override
 int get hashCode {
   final _this = this as BagCountRequests;
-  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.requests));
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.variantIds),const DeepCollectionEquality().hash(_this.weaponIds));
 }
 
 @override
 String toString() {
   final _this = this as BagCountRequests;
-  return 'BagCountRequests(requests: ${_this.requests})';
+  return 'BagCountRequests(variantIds: ${_this.variantIds}, weaponIds: ${_this.weaponIds})';
 }
 
 
@@ -49,14 +49,21 @@ String toString() {
 
 
 class _BagCountRequests implements BagCountRequests {
-  const _BagCountRequests({required  Set<({VariantId? variantId, WeaponId? weaponId,})> requests}): _requests = requests;
+  const _BagCountRequests({ Set<VariantId> variantIds = const {},  Set<WeaponId> weaponIds = const {}}): _variantIds = variantIds,_weaponIds = weaponIds;
   
 
- final  Set<({VariantId? variantId, WeaponId? weaponId,})> _requests;
-@override Set<({VariantId? variantId, WeaponId? weaponId,})> get requests {
-  if (_requests is EqualUnmodifiableSetView) return _requests;
+ final  Set<VariantId> _variantIds;
+@override@JsonKey() Set<VariantId> get variantIds {
+  if (_variantIds is EqualUnmodifiableSetView) return _variantIds;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableSetView(_requests);
+  return EqualUnmodifiableSetView(_variantIds);
+}
+
+ final  Set<WeaponId> _weaponIds;
+@override@JsonKey() Set<WeaponId> get weaponIds {
+  if (_weaponIds is EqualUnmodifiableSetView) return _weaponIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableSetView(_weaponIds);
 }
 
 
@@ -65,18 +72,18 @@ class _BagCountRequests implements BagCountRequests {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BagCountRequests&&const DeepCollectionEquality().equals(other.requests, _requests));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BagCountRequests&&const DeepCollectionEquality().equals(other.variantIds, _variantIds)&&const DeepCollectionEquality().equals(other.weaponIds, _weaponIds));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_requests));
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_variantIds),const DeepCollectionEquality().hash(_weaponIds));
 }
 
 @override
 String toString() {
-    return 'BagCountRequests(requests: $requests)';
+    return 'BagCountRequests(variantIds: $variantIds, weaponIds: $weaponIds)';
 }
 
 

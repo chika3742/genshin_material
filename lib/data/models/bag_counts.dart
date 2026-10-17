@@ -5,13 +5,14 @@ import "../../models/common.dart";
 
 part "bag_counts.freezed.dart";
 
-/// Bag counts per material, each capped at the quantity needed for the
-/// requests.
+/// Bag counts per material. Values can be negative because other bookmark
+/// groups can consume the material with no ceiling.
 typedef BagCounts = Map<MaterialId, int>;
 
 @freezed
 sealed class BagCountRequests with _$BagCountRequests {
   const factory BagCountRequests({
-    required Set<({VariantId? variantId, WeaponId? weaponId})> requests,
+    @Default({}) Set<VariantId> variantIds,
+    @Default({}) Set<WeaponId> weaponIds,
   }) = _BagCountRequests;
 }
