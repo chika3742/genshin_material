@@ -26,6 +26,11 @@
       "groupName": "minor and patch"
     },
     {
+      "description": "Temporary: build_runner >=2.17 requires build 5, which freezed does not support yet. Keep it out of the minor and patch group so the other updates can be merged. Remove once freezed supports build 5",
+      "matchPackageNames": ["build_runner"],
+      "groupName": "build_runner"
+    },
+    {
       "matchUpdateTypes": ["major"],
       "matchPackageNames": ["slang*"],
       "groupName": "slang"
