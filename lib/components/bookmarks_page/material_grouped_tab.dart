@@ -39,6 +39,7 @@ class BookmarksMaterialGroupedTab extends ConsumerWidget {
                   item: MaterialCardMaterial.fromBookmarks(bookmarks),
                   hashes: bookmarks.map((e) => e.item.hash).toList(),
                   targetType: .fromWeaponNullity(bookmarks.first.group.weaponId),
+                  bagCounts: state.bagCounts,
                 ),
               ),
               Row(

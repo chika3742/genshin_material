@@ -1,3 +1,5 @@
+import "dart:math";
+
 import "package:collection/collection.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
@@ -46,6 +48,7 @@ class MaterialItem extends HookConsumerWidget {
     final condensedMultiplier = ref.watch(prefProvider(PrefKeys.condensedMultiplier));
     final dailyResetServer = ref.watch(prefProvider(PrefKeys.dailyResetServer));
     final showFarmCount = ref.watch(prefProvider(PrefKeys.showFarmCount));
+    final useLackNumForFarmCount = ref.watch(prefProvider(PrefKeys.useLackNumForFarmCount));
 
     final bookmarkedMaterials = useStream(
       useMemoized(
@@ -88,11 +91,19 @@ class MaterialItem extends HookConsumerWidget {
         ? assetData.materials[targetType.getExpItemConf(assetData).first.itemId]!
         : item.getMaterial(assetData);
 
+    final expItem = item.isExp ? targetType.getExpItemConf(assetData).first : null;
+    final bagCount = bagCounts?[referenceMaterial.id];
+    final bagQuantityForFarmCount = bagCount != null && useLackNumForFarmCount
+        ? bagCount * (expItem?.expPerItem ?? 1)
+        : null;
+
     final farmCount = showFarmCount
         ? calculateFarmCount(
             referenceMaterial,
             assetData.dropRates,
-            item.sum,
+            bagQuantityForFarmCount != null
+                ? max(item.sum - bagQuantityForFarmCount, 0)
+                : item.sum,
             adventureRank,
             condensedMultiplier,
           )
@@ -104,7 +115,7 @@ class MaterialItem extends HookConsumerWidget {
       quantity: item.sum,
       farmCount: farmCount,
       bookmarkState: bookmarkState,
-      bagCountForMainItem: bagCounts?[referenceMaterial.id],
+      bagCountForMainItem: bagCount,
       dailyMaterialAvailable: referenceMaterial
           .getDailyMaterialAvailable(dailyResetServer),
       onBookmark: usage != null ? (entryIndex) async {

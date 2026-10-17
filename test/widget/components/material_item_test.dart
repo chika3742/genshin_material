@@ -299,6 +299,27 @@ void main() {
       expect(find.byIcon(Symbols.agriculture), findsOne);
     });
 
+    testWidgets("shows the runs needed for the quantity the bag is short of", (tester) async {
+      await pumpItem(tester, showFarmCount: true, bagCounts: {materialId: 4});
+
+      // 12 needed and 4 in the bag: 8 items at a rate of 2.0 per run.
+      expect(find.text("4"), findsOne);
+    });
+
+    testWidgets("shows no runs needed once the bag holds more than needed", (tester) async {
+      await pumpItem(tester, showFarmCount: true, bagCounts: {materialId: 20});
+
+      expect(find.text("0"), findsOne);
+      expect(find.byIcon(Symbols.agriculture), findsOne);
+    });
+
+    testWidgets("subtracts the EXP of the bag for the farm count", (tester) async {
+      await pumpItem(tester, card: expItem, showFarmCount: true, bagCounts: {expItemIdA: 1});
+
+      // 3000 EXP needed and 1 item of 1000 EXP in the bag: 2000 EXP at 500 per run.
+      expect(find.text("4"), findsOne);
+    });
+
     testWidgets("hides the farm count when the preference is off", (tester) async {
       await pumpItem(tester, showFarmCount: false);
 

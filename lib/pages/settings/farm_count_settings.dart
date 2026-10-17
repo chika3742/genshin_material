@@ -24,6 +24,7 @@ class FarmCountSettingsPage extends ConsumerWidget {
     final advRank = ref.watch(prefProvider(PrefKeys.adventureRank));
     final condensedMultiplier = ref.watch(prefProvider(PrefKeys.condensedMultiplier));
     final showFarmCount = ref.watch(prefProvider(PrefKeys.showFarmCount));
+    final useLackNumForFarmCount = ref.watch(prefProvider(PrefKeys.useLackNumForFarmCount));
 
     String multiplierText(double n) {
       return tr.farmCountSettingsPage.multiplier(n: n.toStringAsFixed(0))
@@ -48,6 +49,14 @@ class FarmCountSettingsPage extends ConsumerWidget {
             value: showFarmCount,
             onChanged: (value) {
               ref.read(prefProvider(PrefKeys.showFarmCount).notifier).set(value);
+            },
+          ),
+          CheckboxListTile(
+            title: Text(tr.farmCountSettingsPage.useLackNumForFarmCount),
+            value: useLackNumForFarmCount,
+            onChanged: (value) {
+              ref.read(prefProvider(PrefKeys.useLackNumForFarmCount).notifier)
+                  .set(value!);
             },
           ),
           SimpleListTile(

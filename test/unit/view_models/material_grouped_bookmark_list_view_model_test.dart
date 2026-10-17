@@ -8,6 +8,7 @@ import "package:genshin_material/models/character.dart";
 import "package:genshin_material/models/common.dart";
 import "package:genshin_material/models/material.dart";
 import "package:genshin_material/providers/database_provider.dart";
+import "package:genshin_material/view_models/bookmarks/bookmark_bag_counts.dart";
 import "package:genshin_material/view_models/bookmarks/material_grouped_bookmark_list_view_model.dart";
 
 import "../../utils/asset_data.dart";
@@ -28,10 +29,12 @@ void main() {
 
   /// Builds a container and waits for the bookmark stream to emit, because the
   /// view model reads `bookmarksProvider().value` and would otherwise build
-  /// from an empty list.
+  /// from an empty list. [bagCounts] stands in for `bookmarkBagCountsProvider`
+  /// and is awaited the same way.
   Future<ProviderContainer> createContainer({
     Map<MaterialId, Material> materials = const {},
     Map<String, int> materialSortOrder = const {},
+    BookmarkBagCountsResult? bagCounts,
   }) async {
     final container = createTestContainer(
       assetData: buildTestAssetData(
@@ -39,9 +42,14 @@ void main() {
         materialSortOrder: materialSortOrder,
       ),
       db: db,
+      overrides: [
+        bookmarkBagCountsProvider.overrideWith((ref) async => bagCounts),
+      ],
     );
     container.listen(bookmarksProvider(), (_, _) {});
     await container.read(bookmarksProvider().future);
+    container.listen(bookmarkBagCountsProvider, (_, _) {});
+    await container.read(bookmarkBagCountsProvider.future);
     container.listen(materialGroupedBookmarkListViewModelProvider, (_, _) {});
     return container;
   }
@@ -144,6 +152,36 @@ void main() {
       final state = container.read(materialGroupedBookmarkListViewModelProvider);
 
       expect(state.materials, isEmpty);
+    });
+  });
+
+  group("bag counts", () {
+    test("passes the bag counts as they are when every target is sent", () async {
+      final container = await createContainer(
+        bagCounts: (countMismatch: false, bagCounts: {"mat_a": 10, "mat_b": 0}, targetGroupHashes: {}),
+      );
+
+      final state = container.read(materialGroupedBookmarkListViewModelProvider);
+
+      expect(state.bagCounts, {"mat_a": 10, "mat_b": 0});
+    });
+
+    test("gives no bag counts when some targets are left out", () async {
+      final container = await createContainer(
+        bagCounts: (countMismatch: true, bagCounts: {"mat_a": 10}, targetGroupHashes: {}),
+      );
+
+      final state = container.read(materialGroupedBookmarkListViewModelProvider);
+
+      expect(state.bagCounts, isEmpty);
+    });
+
+    test("gives no bag counts when there are none", () async {
+      final container = await createContainer();
+
+      final state = container.read(materialGroupedBookmarkListViewModelProvider);
+
+      expect(state.bagCounts, isEmpty);
     });
   });
 

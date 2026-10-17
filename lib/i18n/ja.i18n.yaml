@@ -263,6 +263,7 @@ settingsPage:
   openSourceLicenses: オープンソースライセンス
 farmCountSettingsPage:
   showFarmCount: 周回目安回数を表示する
+  useLackNumForFarmCount: バッグ不足数をもとに計算する
   adventureRank: 冒険ランク
   skipRate: 濃縮樹脂等使用時の獲得数の倍率
   dropRateList: ドロップ率一覧

@@ -4,6 +4,7 @@ import "package:async/async.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:fractional_indexing/fractional_indexing.dart";
+import "package:genshin_material/data/models/bag_counts.dart";
 import "package:genshin_material/db/database.dart";
 import "package:genshin_material/db/extensions/bookmark_db_extension.dart";
 import "package:genshin_material/models/bookmark.dart";
@@ -239,7 +240,140 @@ void main() {
     });
   });
 
-  group("bag counts", () {});
+  group("bag counts", () {
+    const char1 = CharacterOrVariantId("char_1");
+    const char2 = CharacterOrVariantId("char_2");
+    const char3 = CharacterOrVariantId("char_3");
+
+    BookmarkBagCountsResult bagCountsResult(BagCounts bagCounts, Iterable<String> targetGroupHashes) {
+      return (countMismatch: false, bagCounts: bagCounts, targetGroupHashes: targetGroupHashes.toSet());
+    }
+
+    /// Adds [bookmarks] at once, which orders their groups as listed. Returns
+    /// the group hashes in that order.
+    Future<List<String>> addBookmarks(List<MaterialBookmarkInsertable> bookmarks) async {
+      await db.addMaterialBookmarks(bookmarks);
+      return bookmarks.map((e) => e.groupHash).toSet().toList();
+    }
+
+    /// The bag counts of each group, from the top.
+    List<BagCounts?> bagCountsOf(ProviderContainer container) {
+      return container.read(purposeGroupedBookmarkListViewModelProvider).groups.map((e) => e.bagCounts).toList();
+    }
+
+    test("gives no bag counts to any group when there are none", () async {
+      await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: "mat_a"),
+        buildMaterialBookmark(characterId: char2, materialId: "mat_a"),
+      ]);
+      final container = await createContainer();
+
+      expect(bagCountsOf(container), [null, null]);
+    });
+
+    test("passes the bag counts as they are to the first target group", () async {
+      final groupHashes = await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: "mat_a", quantity: 30),
+      ]);
+      final container = await createContainer(bagCounts: bagCountsResult({"mat_a": 10}, groupHashes));
+
+      expect(bagCountsOf(container), [{"mat_a": 10}]);
+    });
+
+    test("subtracts the quantities of the target groups above, even below zero", () async {
+      final groupHashes = await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: "mat_a", quantity: 30),
+        buildMaterialBookmark(characterId: char2, materialId: "mat_a", quantity: 5),
+        buildMaterialBookmark(characterId: char3, materialId: "mat_a"),
+      ]);
+      final container = await createContainer(bagCounts: bagCountsResult({"mat_a": 10}, groupHashes));
+
+      expect(bagCountsOf(container), [{"mat_a": 10}, {"mat_a": -20}, {"mat_a": -25}]);
+    });
+
+    test("does not reduce a material the groups above do not use", () async {
+      final groupHashes = await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: "mat_a", quantity: 30),
+        buildMaterialBookmark(characterId: char2, materialId: "mat_b"),
+      ]);
+      final container = await createContainer(bagCounts: bagCountsResult({"mat_a": 10, "mat_b": 5}, groupHashes));
+
+      expect(bagCountsOf(container), [
+        {"mat_a": 10, "mat_b": 5},
+        {"mat_a": -20, "mat_b": 5},
+      ]);
+    });
+
+    test("gives no bag counts to a group out of the targets and lets it consume nothing", () async {
+      final groupHashes = await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: "mat_a", quantity: 30),
+        buildMaterialBookmark(characterId: char2, materialId: "mat_a", quantity: 5),
+      ]);
+      final container = await createContainer(bagCounts: bagCountsResult({"mat_a": 10}, [groupHashes[1]]));
+
+      expect(bagCountsOf(container), [null, {"mat_a": 10}]);
+    });
+
+    test("consumes the sum of the levels of a material in a group", () async {
+      final groupHashes = await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: "mat_a", upperLevel: 40, quantity: 3),
+        buildMaterialBookmark(characterId: char1, materialId: "mat_a", upperLevel: 60, quantity: 4),
+        buildMaterialBookmark(characterId: char2, materialId: "mat_a"),
+      ]);
+      final container = await createContainer(bagCounts: bagCountsResult({"mat_a": 10}, groupHashes));
+
+      expect(bagCountsOf(container), [{"mat_a": 10}, {"mat_a": 3}]);
+    });
+
+    test("consumes EXP as the first EXP item, rounding up the sum of the levels", () async {
+      // 1.5 books per level: 3 in total, not 2 + 2.
+      final groupHashes = await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: null, upperLevel: 40, quantity: 1500),
+        buildMaterialBookmark(characterId: char1, materialId: null, upperLevel: 60, quantity: 1500),
+        buildMaterialBookmark(characterId: char2, materialId: "mat_a"),
+      ]);
+      final container = await createContainer(bagCounts: bagCountsResult({"exp_book": 10}, groupHashes));
+
+      expect(bagCountsOf(container), [{"exp_book": 10}, {"exp_book": 7}]);
+    });
+
+    test("keeps the EXP of characters and weapons apart", () async {
+      final groupHashes = await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: null, quantity: 2000),
+        buildMaterialBookmark(characterId: char1, weaponId: "weapon_1", materialId: null, quantity: 3000),
+        buildMaterialBookmark(characterId: char2, materialId: "mat_a"),
+      ]);
+      final container = await createContainer(
+        bagCounts: bagCountsResult({"exp_book": 10, "exp_ore": 10}, groupHashes),
+      );
+
+      expect(bagCountsOf(container), [
+        {"exp_book": 10, "exp_ore": 10},
+        {"exp_book": 8, "exp_ore": 10},
+        {"exp_book": 8, "exp_ore": 7},
+      ]);
+    });
+
+    test("recalculates the bag counts in the new order after a reorder", () async {
+      final groupHashes = await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: "mat_a", quantity: 30),
+        buildMaterialBookmark(characterId: char2, materialId: "mat_a", quantity: 5),
+      ]);
+      final container = await createContainer(bagCounts: bagCountsResult({"mat_a": 10}, groupHashes));
+      // Waits for the state rebuilt from the database, as in "persists the new
+      // order so that a rebuild keeps it".
+      final rebuilt = nextGroupsWhere(
+        container,
+        (groups) => isAscending(groups.map((e) => e.orderIndex)),
+      );
+
+      container.read(purposeGroupedBookmarkListViewModelProvider.notifier).reorder(0, 1);
+
+      final groups = await rebuilt;
+      expect(groups.map((e) => e.characterId).toList(), ["char_2", "char_1"]);
+      expect(groups.map((e) => e.bagCounts).toList(), [{"mat_a": 10}, {"mat_a": 5}]);
+    });
+  });
 
   group("reorder", () {
     test("moves a group to the end and gives it the last order index", () async {

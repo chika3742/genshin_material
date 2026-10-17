@@ -954,6 +954,9 @@ class Translations$farmCountSettingsPage$ja {
 	/// ja: '周回目安回数を表示する'
 	String get showFarmCount => '周回目安回数を表示する';
 
+	/// ja: 'バッグ不足数をもとに計算する'
+	String get useLackNumForFarmCount => 'バッグ不足数をもとに計算する';
+
 	/// ja: '冒険ランク'
 	String get adventureRank => '冒険ランク';
 
@@ -1471,6 +1474,7 @@ extension on Translations {
 			'settingsPage.reDownloadAssetsDesc' => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。',
 			'settingsPage.openSourceLicenses' => 'オープンソースライセンス',
 			'farmCountSettingsPage.showFarmCount' => '周回目安回数を表示する',
+			'farmCountSettingsPage.useLackNumForFarmCount' => 'バッグ不足数をもとに計算する',
 			'farmCountSettingsPage.adventureRank' => '冒険ランク',
 			'farmCountSettingsPage.skipRate' => '濃縮樹脂等使用時の獲得数の倍率',
 			'farmCountSettingsPage.dropRateList' => 'ドロップ率一覧',
