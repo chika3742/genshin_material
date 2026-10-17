@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Init Flutter SDK
-        uses: chika3742/setup-fvm@d1196876be64380ba19f9d45e4a84d9277b7a0ed # v3.1.4
+        uses: chika3742/setup-fvm@8846c1a1b7557ed285858cda0dece0311c31f2d6 # v3.2.0
 
       - name: Install lcov
         run: sudo apt-get update && sudo apt-get install -y lcov
