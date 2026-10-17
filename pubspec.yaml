@@ -63,7 +63,7 @@ dependencies:
   flutter_secure_storage: 10.3.4
   firebase_core: 4.15.0
   firebase_crashlytics: 5.4.0
-  firebase_remote_config: 6.7.0
+  firebase_remote_config: 7.0.0
   signed_spacing_flex: 1.1.0
   flutter_svg: 2.3.0
   fractional_indexing: 1.0.0
