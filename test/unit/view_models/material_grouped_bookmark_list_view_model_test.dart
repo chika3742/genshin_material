@@ -158,7 +158,7 @@ void main() {
   group("bag counts", () {
     test("passes the bag counts as they are when every target is sent", () async {
       final container = await createContainer(
-        bagCounts: (countMismatch: false, bagCounts: {"mat_a": 10, "mat_b": 0}, targetGroupHashes: {}),
+        bagCounts: (isOverflowed: false, bagCounts: {"mat_a": 10, "mat_b": 0}, targetGroupHashes: {}),
       );
 
       final state = container.read(materialGroupedBookmarkListViewModelProvider);
@@ -168,7 +168,7 @@ void main() {
 
     test("gives no bag counts when some targets are left out", () async {
       final container = await createContainer(
-        bagCounts: (countMismatch: true, bagCounts: {"mat_a": 10}, targetGroupHashes: {}),
+        bagCounts: (isOverflowed: true, bagCounts: {"mat_a": 10}, targetGroupHashes: {}),
       );
 
       final state = container.read(materialGroupedBookmarkListViewModelProvider);

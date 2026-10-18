@@ -239,7 +239,7 @@ void main() {
         ...characterGroupHashes.take(maxBatchComputeItems),
         ...weaponGroupHashes.take(maxBatchComputeItems),
       });
-      expect(result?.countMismatch, isTrue);
+      expect(result?.isOverflowed, isTrue);
     });
 
     test("picks the targets by order index rather than by insertion order", () async {
@@ -262,7 +262,7 @@ void main() {
         ...characterGroupHashes.where((h) => h != characterGroupHashes[2]),
         ...weaponGroupHashes.where((h) => h != weaponGroupHashes[3]),
       });
-      expect(result?.countMismatch, isTrue);
+      expect(result?.isOverflowed, isTrue);
     });
 
     test("sends a character in several groups only once", () async {
@@ -291,7 +291,7 @@ void main() {
         api,
         weaponIds: [3001, 3001],
       );
-      expect(result!.countMismatch, isFalse);
+      expect(result!.isOverflowed, isFalse);
     });
 
     test("counts a weapon in 2 groups twice toward the request limit", () async {
@@ -306,7 +306,24 @@ void main() {
         api,
         weaponIds: [3001, 3001, 3002, 3003, 3004, 3005, 3006, 3007],
       );
-      expect(result!.countMismatch, isTrue);
+      expect(result!.isOverflowed, isTrue);
+    });
+
+    test("leaves a weapon group cut off by the limit out of the targets even if the same weapon is sent for another wielder", () async {
+      final api = FakeHoyolabGameApi();
+      final container = createContainer(api);
+
+      final sentGroupHashes = await addWeaponGroups([_weaponIds.first], wielder: _characterIds[1]);
+      sentGroupHashes.addAll(await addWeaponGroups(_weaponIds.sublist(1, maxBatchComputeItems), wielder: _characterIds[2]));
+      await addWeaponGroups([_weaponIds.first], wielder: _characterIds[3]);
+
+      final result = await readResult(container);
+      _expectRequested(
+        api,
+        weaponIds: [for (int n = 0; n < maxBatchComputeItems; n++) 3001 + n],
+      );
+      expect(result!.targetGroupHashes, sentGroupHashes.toSet());
+      expect(result.isOverflowed, isTrue);
     });
   });
 
@@ -324,7 +341,7 @@ void main() {
         avatarIds: [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008],
         weaponIds: [3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008],
       );
-      expect(result?.countMismatch, isTrue);
+      expect(result?.isOverflowed, isTrue);
     });
 
     test("sends weapon even if the wielder is sync-disabled", () async {
@@ -355,7 +372,7 @@ void main() {
         avatarIds: [1001, 1002, 1003, 1004, 1005, 1006, 1007, 2001],
       );
       expect(result!.targetGroupHashes, groupHashes.take(maxBatchComputeItems).toSet());
-      expect(result.countMismatch, isTrue);
+      expect(result.isOverflowed, isTrue);
     });
 
     test("does not count a bookmark under the group ID toward the request limit when it merges into a variant, but still targets it", () async {
@@ -374,7 +391,7 @@ void main() {
         avatarIds: [1001, 1002, 1003, 1004, 1005, 1006, 1007, 2001],
       );
       expect(result!.targetGroupHashes, groupHashes.toSet());
-      expect(result.countMismatch, isFalse);
+      expect(result.isOverflowed, isFalse);
     });
     
     test("sends the first variant when only the group ID is bookmarked", () async {
@@ -413,7 +430,7 @@ void main() {
 
       final result = await readResult(container);
       expect(api.batchComputeCalls, isEmpty);
-      expect(result!.countMismatch, isFalse);
+      expect(result!.isOverflowed, isFalse);
       expect(result.targetGroupHashes, isEmpty);
     });
 
@@ -426,7 +443,7 @@ void main() {
 
       final result = await readResult(container);
       expect(api.batchComputeCalls, isEmpty);
-      expect(result!.countMismatch, isTrue);
+      expect(result!.isOverflowed, isFalse);
       expect(result.targetGroupHashes, isEmpty);
     });
 

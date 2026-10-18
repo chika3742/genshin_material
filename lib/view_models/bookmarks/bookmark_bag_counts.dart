@@ -12,7 +12,7 @@ import "../../providers/versions.dart";
 
 part "bookmark_bag_counts.g.dart";
 
-typedef BookmarkBagCountsResult = ({bool countMismatch, BagCounts bagCounts, Set<String> targetGroupHashes});
+typedef BookmarkBagCountsResult = ({bool isOverflowed, BagCounts bagCounts, Set<String> targetGroupHashes});
 
 @riverpod
 Future<BookmarkBagCountsResult?> bookmarkBagCounts(Ref ref) async {
@@ -31,7 +31,6 @@ Future<BookmarkBagCountsResult?> bookmarkBagCounts(Ref ref) async {
       characterIds.add(b.group.characterId);
     }
   }
-  final weaponIds = weaponVariantIdPairs.map((e) => e.$1).toList();
 
   // A group bookmark merges into a bookmarked variant of the group, or falls
   // back to the group's first variant.
@@ -48,35 +47,39 @@ Future<BookmarkBagCountsResult?> bookmarkBagCounts(Ref ref) async {
   final filteredVariantIds = resolvedVariants
       .nonNulls
       .where((v) => !v.disableSync)
-      .take(maxBatchComputeItems)
       .map((v) => v.id)
       .toList();
-  final filteredWeaponIds = weaponIds
-      .where((w) => assetData.weapons[w]?.disableSync == false)
-      .take(maxBatchComputeItems)
+  final filteredWeaponPairs = weaponVariantIdPairs
+      .where((e) => assetData.weapons[e.$1]?.disableSync == false)
       .toList();
-  final countMismatch = filteredVariantIds.length != resolvedVariants.length
-      || filteredWeaponIds.length != weaponIds.length;
 
-  if (filteredVariantIds.isEmpty && filteredWeaponIds.isEmpty) {
-    return (countMismatch: countMismatch, bagCounts: <MaterialId, int>{}, targetGroupHashes: <String>{});
+  final truncatedVariantIds = filteredVariantIds.take(maxBatchComputeItems)
+      .toList();
+  final truncatedWeaponPairs = filteredWeaponPairs.take(maxBatchComputeItems)
+      .toList();
+
+  final isOverflowed = filteredVariantIds.length != truncatedVariantIds.length
+      || filteredWeaponPairs.length != truncatedWeaponPairs.length;
+
+  if (truncatedVariantIds.isEmpty && truncatedWeaponPairs.isEmpty) {
+    return (isOverflowed: isOverflowed, bagCounts: <MaterialId, int>{}, targetGroupHashes: <String>{});
   }
 
   final bagCounts = await ref.watch(bagCountsProvider(BagCountRequests(
-    variantIds: filteredVariantIds.toSet(),
-    weaponIds: filteredWeaponIds,
+    variantIds: truncatedVariantIds.toSet(),
+    weaponIds: truncatedWeaponPairs.map((e) => e.$1).toList(),
   )).future);
   if (bagCounts == null) {
     return null;
   }
 
   bool isTarget(MaterialBookmark b) => switch (b.group.weaponId) {
-    final weaponId? => filteredWeaponIds.contains(weaponId),
-    null => filteredVariantIds.contains(resolveVariant(b.group.characterId)?.id),
+    final weaponId? => truncatedWeaponPairs.contains((weaponId, b.group.characterId)),
+    null => truncatedVariantIds.contains(resolveVariant(b.group.characterId)?.id),
   };
 
   return (
-    countMismatch: countMismatch,
+    isOverflowed: isOverflowed,
     bagCounts: bagCounts,
     targetGroupHashes: bookmarks.where(isTarget).map((e) => e.group.groupHash).toSet(),
   );

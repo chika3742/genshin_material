@@ -73,7 +73,7 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
         sortBookmarks(v.bookmarks, assetData)
             .groupListsBy((e) => e.item.materialId),
       )),
-      bagCountsMayNotShown: bagCountsInfo?.countMismatch == true,
+      bagCountsMayNotShown: bagCountsInfo?.isOverflowed == true,
     );
   }
 

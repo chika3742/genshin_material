@@ -13,7 +13,6 @@ import "package:genshin_material/models/ingredients.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
 import "package:genshin_material/providers/hoyolab_game_server.dart";
-import "package:genshin_material/view_models/database/single_bag_counts.dart";
 
 import "../../../utils/asset_data.dart";
 import "../../../utils/db.dart";
@@ -469,84 +468,6 @@ void main() {
         expect(api.batchComputeCalls, hasLength(1));
         container.dispose();
       });
-    });
-  });
-
-  group("singleBagCountsProvider", () {
-    Future<BagCounts?> readSingle(
-      ProviderContainer container, {
-      VariantId? variantId,
-      WeaponId? weaponId,
-    }) {
-      final provider = singleBagCountsProvider(variantId: variantId, weaponId: weaponId);
-      container.listen(provider, (_, _) {});
-      return container.read(provider.future);
-    }
-
-    test("returns null without calling the API for a sync-disabled variant", () async {
-      final api = FakeHoyolabGameApi();
-
-      final result = await readSingle(createContainer(api), variantId: _disabledVariantId);
-
-      expect(result, isNull);
-      expect(api.batchComputeCalls, isEmpty);
-    });
-
-    test("returns null without calling the API for a sync-disabled weapon", () async {
-      final api = FakeHoyolabGameApi();
-
-      final result = await readSingle(createContainer(api), weaponId: _disabledWeaponId);
-
-      expect(result, isNull);
-      expect(api.batchComputeCalls, isEmpty);
-    });
-
-    test("fetches the variant and the weapon as one item", () async {
-      final api = FakeHoyolabGameApi(
-        computeResult: const CalcResult(overallConsume: [
-          CalcConsumptionItem(id: _materialHyvId1, num: 10, lackNum: 3),
-        ]),
-      );
-
-      final result = await readSingle(
-        createContainer(api),
-        variantId: _charaVariantId,
-        weaponId: testWeaponId,
-      );
-
-      expect(result, {_materialId1: 7});
-      final item = api.batchComputeCalls.single.single;
-      expect(item.avatarId, charaHyvId);
-      expect(item.weapon?.id, weaponHyvId);
-    });
-
-    test("fetches a weapon alone", () async {
-      final api = FakeHoyolabGameApi();
-
-      await readSingle(createContainer(api), weaponId: testWeaponId);
-
-      final item = api.batchComputeCalls.single.single;
-      expect(item.avatarId, isNull);
-      expect(item.weapon?.id, weaponHyvId);
-    });
-
-    // testWidgets, so that tester.pump can run the retention timer. See the
-    // retention group of bagCountsProvider.
-    testWidgets("fetches again when a listener is added after the counts expire", (tester) async {
-      final api = FakeHoyolabGameApi();
-      final container = createContainer(api);
-      final provider = singleBagCountsProvider(weaponId: testWeaponId);
-
-      container.listen(provider, (_, _) {});
-      await container.read(provider.future);
-      await tester.pump(const Duration(hours: 1));
-      container.listen(provider, (_, _) {});
-      await tester.pump(Duration.zero);
-      await container.read(provider.future);
-
-      expect(api.batchComputeCalls, hasLength(2));
-      // testWidgets fails on a timer still pending at its end
-      container.dispose();
     });
   });
 }

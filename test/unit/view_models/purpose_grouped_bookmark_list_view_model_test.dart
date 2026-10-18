@@ -246,7 +246,7 @@ void main() {
     const char3 = CharacterOrVariantId("char_3");
 
     BookmarkBagCountsResult bagCountsResult(BagCounts bagCounts, Iterable<String> targetGroupHashes) {
-      return (countMismatch: false, bagCounts: bagCounts, targetGroupHashes: targetGroupHashes.toSet());
+      return (isOverflowed: false, bagCounts: bagCounts, targetGroupHashes: targetGroupHashes.toSet());
     }
 
     /// Adds [bookmarks] at once, which orders their groups as listed. Returns

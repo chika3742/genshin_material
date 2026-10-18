@@ -38,8 +38,8 @@ class MaterialGroupedBookmarkListViewModel extends _$MaterialGroupedBookmarkList
 
     return MaterialGroupedBookmarkListState(
       materials: bookmarkMaterials,
-      bagCounts: bagCountsInfo?.countMismatch == false ? bagCountsInfo!.bagCounts : {},
-      cannotShowBagCounts: bagCountsInfo?.countMismatch == true,
+      bagCounts: bagCountsInfo?.isOverflowed == false ? bagCountsInfo!.bagCounts : {},
+      cannotShowBagCounts: bagCountsInfo?.isOverflowed == true,
     );
   }
 
