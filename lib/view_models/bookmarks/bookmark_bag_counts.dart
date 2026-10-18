@@ -23,14 +23,15 @@ Future<BookmarkBagCountsResult?> bookmarkBagCounts(Ref ref) async {
   }
 
   final characterIds = <CharacterOrVariantId>{};
-  final weaponIds = <WeaponId>{};
+  final weaponVariantIdPairs = <(WeaponId, VariantId)>{};
   for (final b in bookmarks.sortedBy((b) => b.group.orderIndex)) {
     if (b.group.weaponId != null) {
-      weaponIds.add(b.group.weaponId!);
+      weaponVariantIdPairs.add((b.group.weaponId!, VariantId(b.group.characterId)));
     } else {
       characterIds.add(b.group.characterId);
     }
   }
+  final weaponIds = weaponVariantIdPairs.map((e) => e.$1).toList();
 
   // A group bookmark merges into a bookmarked variant of the group, or falls
   // back to the group's first variant.
@@ -63,7 +64,7 @@ Future<BookmarkBagCountsResult?> bookmarkBagCounts(Ref ref) async {
 
   final bagCounts = await ref.watch(bagCountsProvider(BagCountRequests(
     variantIds: filteredVariantIds.toSet(),
-    weaponIds: filteredWeaponIds.toSet(),
+    weaponIds: filteredWeaponIds,
   )).future);
   if (bagCounts == null) {
     return null;

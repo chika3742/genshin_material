@@ -13,6 +13,6 @@ typedef BagCounts = Map<MaterialId, int>;
 sealed class BagCountRequests with _$BagCountRequests {
   const factory BagCountRequests({
     @Default({}) Set<VariantId> variantIds,
-    @Default({}) Set<WeaponId> weaponIds,
+    @Default([]) List<WeaponId> weaponIds,
   }) = _BagCountRequests;
 }

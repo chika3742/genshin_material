@@ -48,4 +48,4 @@ final class BookmarkBagCountsProvider
   }
 }
 
-String _$bookmarkBagCountsHash() => r'528bf8d718d03decabd403a57732370a2a2e3854';
+String _$bookmarkBagCountsHash() => r'1fd80fbaa60f1a6a52c120ca90ff823fe5b5820f';

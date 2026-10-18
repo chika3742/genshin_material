@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BagCountRequests {
 
- Set<VariantId> get variantIds; Set<WeaponId> get weaponIds;
+ Set<VariantId> get variantIds; List<WeaponId> get weaponIds;
 
 
 
@@ -49,7 +49,7 @@ String toString() {
 
 
 class _BagCountRequests implements BagCountRequests {
-  const _BagCountRequests({ Set<VariantId> variantIds = const {},  Set<WeaponId> weaponIds = const {}}): _variantIds = variantIds,_weaponIds = weaponIds;
+  const _BagCountRequests({ Set<VariantId> variantIds = const {},  List<WeaponId> weaponIds = const []}): _variantIds = variantIds,_weaponIds = weaponIds;
   
 
  final  Set<VariantId> _variantIds;
@@ -59,11 +59,11 @@ class _BagCountRequests implements BagCountRequests {
   return EqualUnmodifiableSetView(_variantIds);
 }
 
- final  Set<WeaponId> _weaponIds;
-@override@JsonKey() Set<WeaponId> get weaponIds {
-  if (_weaponIds is EqualUnmodifiableSetView) return _weaponIds;
+ final  List<WeaponId> _weaponIds;
+@override@JsonKey() List<WeaponId> get weaponIds {
+  if (_weaponIds is EqualUnmodifiableListView) return _weaponIds;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableSetView(_weaponIds);
+  return EqualUnmodifiableListView(_weaponIds);
 }
 
 

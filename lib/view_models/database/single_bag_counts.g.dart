@@ -68,7 +68,7 @@ final class SingleBagCountsProvider
   }
 }
 
-String _$singleBagCountsHash() => r'7e4f3ba6c9943119604c8028a2670d0c88a3586b';
+String _$singleBagCountsHash() => r'837759df09b96a4182b74565d724aa64ab1f6534';
 
 final class SingleBagCountsFamily extends $Family
     with

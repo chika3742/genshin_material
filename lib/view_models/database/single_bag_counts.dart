@@ -22,7 +22,7 @@ Future<BagCounts?> singleBagCounts(
 
   final provider = bagCountsProvider(BagCountRequests(
     variantIds: {?variantId},
-    weaponIds: {?weaponId},
+    weaponIds: [?weaponId],
   ));
 
   ref.onAddListener(() => Future.microtask(() {

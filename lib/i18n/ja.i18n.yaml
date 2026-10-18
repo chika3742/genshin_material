@@ -133,6 +133,8 @@ bookmarksPage:
   byMaterial: 素材
   furnishings: 調度品
   allFurnishingsAreCrafted: すべての調度品が作成済みです
+  cannotShowLackNumsInMaterialTab: 取得対象キャラ・武器のいずれかが$max件を超えているため、素材タブでは不足数を表示できません
+  cannotShowLackNumsForSeveralTargets: 取得対象キャラ・武器のいずれかが$max件を超えているため、不足数を表示できないものがあります
 characterListPage:
   owned: 所持
   unowned: 未所持

@@ -143,7 +143,7 @@ AssetData _buildAssetData() {
 }
 
 BagCountRequests _request({VariantId? variantId, WeaponId? weaponId}) {
-  return BagCountRequests(variantIds: {?variantId}, weaponIds: {?weaponId});
+  return BagCountRequests(variantIds: {?variantId}, weaponIds: [?weaponId]);
 }
 
 void main() {
@@ -292,7 +292,7 @@ void main() {
 
         await readBagCounts(
           createContainer(api),
-          const BagCountRequests(variantIds: {_charaVariantId, _groupVariantId}, weaponIds: {testWeaponId}),
+          const BagCountRequests(variantIds: {_charaVariantId, _groupVariantId}, weaponIds: [testWeaponId]),
         );
 
         final items = api.batchComputeCalls.single;
@@ -307,11 +307,11 @@ void main() {
 
         await readBagCounts(
           container,
-          const BagCountRequests(variantIds: {_charaVariantId, _groupVariantId}, weaponIds: {testWeaponId}),
+          const BagCountRequests(variantIds: {_charaVariantId, _groupVariantId}, weaponIds: [testWeaponId]),
         );
         await readBagCounts(
           container,
-          const BagCountRequests(variantIds: {_groupVariantId, _charaVariantId}, weaponIds: {testWeaponId}),
+          const BagCountRequests(variantIds: {_groupVariantId, _charaVariantId}, weaponIds: [testWeaponId]),
         );
 
         expect(api.batchComputeCalls, hasLength(1));

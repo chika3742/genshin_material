@@ -18,6 +18,7 @@ sealed class MaterialGroupedBookmarkListState with _$MaterialGroupedBookmarkList
   const factory MaterialGroupedBookmarkListState({
     required Map<String, List<MaterialBookmark>> materials,
     required BagCounts bagCounts,
+    required bool cannotShowBagCounts,
   }) = _MaterialGroupedBookmarkListState;
 }
 
@@ -38,6 +39,7 @@ class MaterialGroupedBookmarkListViewModel extends _$MaterialGroupedBookmarkList
     return MaterialGroupedBookmarkListState(
       materials: bookmarkMaterials,
       bagCounts: bagCountsInfo?.countMismatch == false ? bagCountsInfo!.bagCounts : {},
+      cannotShowBagCounts: bagCountsInfo?.countMismatch == true,
     );
   }
 

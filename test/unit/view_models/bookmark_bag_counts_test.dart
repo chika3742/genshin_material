@@ -265,26 +265,36 @@ void main() {
       expect(result?.countMismatch, isTrue);
     });
 
-    test("sends a character or a weapon in several groups only once", () async {
+    test("sends a character in several groups only once", () async {
       final api = FakeHoyolabGameApi();
       final container = createContainer(api);
 
       await addCharacterGroups([_characterIds.first], purposeType: .ascension);
       await addCharacterGroups([_characterIds.first], purposeType: .elementalSkill);
-      await addWeaponGroups([_weaponIds.first], wielder: _characterIds[1]);
-      await addWeaponGroups([_weaponIds.first], wielder: _characterIds[2]);
 
       await readResult(container);
       _expectRequested(
         api,
         avatarIds: [1001],
-        weaponIds: [3001],
       );
     });
 
-    // Characters need no counterpart: the dedup of the resolved variants is
-    // covered in the variant resolution group.
-    test("counts a weapon in several groups only once toward the request limit", () async {
+    test("sends multiple identical weapons if bookmarked for different characters", () async {
+      final api = FakeHoyolabGameApi();
+      final container = createContainer(api);
+
+      await addWeaponGroups([_weaponIds.first], wielder: _characterIds[1]);
+      await addWeaponGroups([_weaponIds.first], wielder: _characterIds[2]);
+
+      final result = await readResult(container);
+      _expectRequested(
+        api,
+        weaponIds: [3001, 3001],
+      );
+      expect(result!.countMismatch, isFalse);
+    });
+
+    test("counts a weapon in 2 groups twice toward the request limit", () async {
       final api = FakeHoyolabGameApi();
       final container = createContainer(api);
 
@@ -294,23 +304,9 @@ void main() {
       final result = await readResult(container);
       _expectRequested(
         api,
-        weaponIds: [for (var n = 0; n < maxBatchComputeItems; n++) 3001 + n],
+        weaponIds: [3001, 3001, 3002, 3003, 3004, 3005, 3006, 3007],
       );
-      expect(result!.countMismatch, isFalse);
-    });
-
-    test("does not send the wielder of a weapon group as a character", () async {
-      final api = FakeHoyolabGameApi();
-      final container = createContainer(api);
-
-      await addWeaponGroups([_weaponIds.first], wielder: _characterIds[1]);
-      await addWeaponGroups([_weaponIds.first], wielder: _characterIds[2]);
-
-      await readResult(container);
-      _expectRequested(
-        api,
-        weaponIds: [3001],
-      );
+      expect(result!.countMismatch, isTrue);
     });
   });
 

@@ -24,6 +24,7 @@ sealed class PurposeGroupedBookmarkListState with _$PurposeGroupedBookmarkListSt
     required List<BookmarkGroup> groups,
     /// Map of group hashes.
     required Map<String, Map<MaterialId?, List<MaterialBookmark>>> sortedBookmarks,
+    required bool bagCountsMayNotShown,
   }) = _PurposeGroupedBookmarkListState;
 }
 
@@ -72,6 +73,7 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
         sortBookmarks(v.bookmarks, assetData)
             .groupListsBy((e) => e.item.materialId),
       )),
+      bagCountsMayNotShown: bagCountsInfo?.countMismatch == true,
     );
   }
 
