@@ -1,0 +1,12 @@
+$schema: https://raw.githubusercontent.com/chika3742/pubreform/v1/pubreform.schema.json
+schedule:
+  cron: "0 9 * * *"
+  timezone: "Asia/Tokyo"
+min_release_age_days: 2
+labels:
+  - deps:pub
+post_update:
+  - run: dart run build_runner build --force-jit
+    network: true
+  - run: dart run slang
+  - run: dart run pigeon --input ./pigeon.dart

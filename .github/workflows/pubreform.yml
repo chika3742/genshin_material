@@ -1,0 +1,37 @@
+name: pubreform
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+      timezone: Asia/Tokyo
+  push:
+    branches: [main]
+    paths: [pubspec.yaml, pubspec.lock, .fvmrc, .github/pubreform.yaml]
+  pull_request:
+    types: [edited]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pubreform:
+    # On pull_request, run only for pubreform's pull requests, and not for its own edits.
+    if: >-
+      github.event_name != 'pull_request' ||
+      (startsWith(github.head_ref, 'pubreform/') && github.event.sender.type != 'Bot')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pubreform
+      cancel-in-progress: false
+    steps:
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: app-token
+        with:
+          client-id: ${{ vars.PUBREFORM_CLIENT_ID }}
+          private-key: ${{ secrets.PUBREFORM_PRIVATE_KEY }}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: chika3742/setup-fvm@8846c1a1b7557ed285858cda0dece0311c31f2d6 # v3.2.0
+      - uses: chika3742/pubreform@a7e3f96b5c8ed460511b5bb18e159fbee08f481a # v1.0.0
+        with:
+          token: ${{ steps.app-token.outputs.token }}
