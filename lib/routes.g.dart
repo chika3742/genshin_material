@@ -6,7 +6,7 @@ part of 'routes.dart';
 // GoRouterGenerator
 // **************************************************************************
 
-List<RouteBase> get $appRoutes => [$homeRoute];
+List<RouteBase> get $appRoutes => [$homeRoute, $debugMenuRoute];
 
 RouteBase get $homeRoute => StatefulShellRouteData.$route(
   factory: $HomeRouteExtension._fromState,
@@ -188,28 +188,6 @@ RouteBase get $homeRoute => StatefulShellRouteData.$route(
               hasOverriddenOnExit: false,
               parentNavigatorKey: LicensesRoute.$parentNavigatorKey,
               factory: $LicensesRoute._fromState,
-            ),
-            GoRouteData.$route(
-              path: 'debug',
-              hasOverriddenOnExit: false,
-              factory: $DebugMenuRoute._fromState,
-              routes: [
-                GoRouteData.$route(
-                  path: 'sp-editor',
-                  hasOverriddenOnExit: false,
-                  factory: $DebugSharedPreferencesEditorRoute._fromState,
-                ),
-                GoRouteData.$route(
-                  path: 'drift-db-viewer',
-                  hasOverriddenOnExit: false,
-                  factory: $DebugDriftDbViewerRoute._fromState,
-                ),
-                GoRouteData.$route(
-                  path: 'component-gallery',
-                  hasOverriddenOnExit: false,
-                  factory: $DebugComponentGalleryRoute._fromState,
-                ),
-              ],
             ),
           ],
         ),
@@ -835,11 +813,43 @@ mixin $LicensesRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
+T? _$convertMapValue<T>(
+  String key,
+  Map<String, String> map,
+  T? Function(String) converter,
+) {
+  final value = map[key];
+  return value == null ? null : converter(value);
+}
+
+RouteBase get $debugMenuRoute => GoRouteData.$route(
+  path: '/debug',
+  hasOverriddenOnExit: false,
+  factory: $DebugMenuRoute._fromState,
+  routes: [
+    GoRouteData.$route(
+      path: 'sp-editor',
+      hasOverriddenOnExit: false,
+      factory: $DebugSharedPreferencesEditorRoute._fromState,
+    ),
+    GoRouteData.$route(
+      path: 'drift-db-viewer',
+      hasOverriddenOnExit: false,
+      factory: $DebugDriftDbViewerRoute._fromState,
+    ),
+    GoRouteData.$route(
+      path: 'component-gallery',
+      hasOverriddenOnExit: false,
+      factory: $DebugComponentGalleryRoute._fromState,
+    ),
+  ],
+);
+
 mixin $DebugMenuRoute on GoRouteData {
   static DebugMenuRoute _fromState(GoRouterState state) => DebugMenuRoute();
 
   @override
-  String get location => GoRouteData.$location('/more/debug');
+  String get location => GoRouteData.$location('/debug');
 
   @override
   void go(BuildContext context) => context.go(location);
@@ -860,7 +870,7 @@ mixin $DebugSharedPreferencesEditorRoute on GoRouteData {
       DebugSharedPreferencesEditorRoute();
 
   @override
-  String get location => GoRouteData.$location('/more/debug/sp-editor');
+  String get location => GoRouteData.$location('/debug/sp-editor');
 
   @override
   void go(BuildContext context) => context.go(location);
@@ -881,7 +891,7 @@ mixin $DebugDriftDbViewerRoute on GoRouteData {
       DebugDriftDbViewerRoute();
 
   @override
-  String get location => GoRouteData.$location('/more/debug/drift-db-viewer');
+  String get location => GoRouteData.$location('/debug/drift-db-viewer');
 
   @override
   void go(BuildContext context) => context.go(location);
@@ -902,7 +912,7 @@ mixin $DebugComponentGalleryRoute on GoRouteData {
       DebugComponentGalleryRoute();
 
   @override
-  String get location => GoRouteData.$location('/more/debug/component-gallery');
+  String get location => GoRouteData.$location('/debug/component-gallery');
 
   @override
   void go(BuildContext context) => context.go(location);
@@ -916,13 +926,4 @@ mixin $DebugComponentGalleryRoute on GoRouteData {
 
   @override
   void replace(BuildContext context) => context.replace(location);
-}
-
-T? _$convertMapValue<T>(
-  String key,
-  Map<String, String> map,
-  T? Function(String) converter,
-) {
-  final value = map[key];
-  return value == null ? null : converter(value);
 }

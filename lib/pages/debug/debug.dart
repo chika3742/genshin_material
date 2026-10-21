@@ -27,14 +27,17 @@ class DebugMenuPage extends ConsumerWidget {
         children: [
           SimpleListTile(
             title: "Shared Preferences Editor",
+            routingStrategy: .push,
             location: DebugSharedPreferencesEditorRoute().location,
           ),
           SimpleListTile(
             title: "Drift DB Viewer",
+            routingStrategy: .push,
             location: DebugDriftDbViewerRoute().location,
           ),
           SimpleListTile(
             title: "Component Gallery",
+            routingStrategy: .push,
             location: DebugComponentGalleryRoute().location,
           ),
           SimpleListTile(

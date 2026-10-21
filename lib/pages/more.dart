@@ -128,6 +128,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
           ),
           if (!kReleaseMode) SimpleListTile(
             title: "Debug Menu",
+            routingStrategy: .push,
             location: DebugMenuRoute().location,
           ),
           InkWell(

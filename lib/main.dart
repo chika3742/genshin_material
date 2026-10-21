@@ -109,7 +109,7 @@ final rootNavigatorKey = GlobalKey<NavigatorState>();
 final _router = GoRouter(
   initialLocation: "/bookmarks",
   navigatorKey: rootNavigatorKey,
-  routes: $appRoutes,
+  routes: [$homeRoute, if (!kReleaseMode) $debugMenuRoute],
 );
 
 class MyApp extends HookConsumerWidget {

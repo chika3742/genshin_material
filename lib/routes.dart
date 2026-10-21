@@ -121,11 +121,6 @@ part "routes.g.dart";
               TypedGoRoute<HoyolabSignInRoute>(path: "sign-in"),
             ]),
             TypedGoRoute<LicensesRoute>(path: "licenses"),
-            TypedGoRoute<DebugMenuRoute>(path: "debug", routes: [
-              TypedGoRoute<DebugSharedPreferencesEditorRoute>(path: "sp-editor"),
-              TypedGoRoute<DebugDriftDbViewerRoute>(path: "drift-db-viewer"),
-              TypedGoRoute<DebugComponentGalleryRoute>(path: "component-gallery"),
-            ]),
           ],
         ),
       ],
@@ -585,6 +580,11 @@ class LicensesRoute extends GoRouteData with $LicensesRoute {
   }
 }
 
+@TypedGoRoute<DebugMenuRoute>(path: "/debug", routes: [
+  TypedGoRoute<DebugSharedPreferencesEditorRoute>(path: "sp-editor"),
+  TypedGoRoute<DebugDriftDbViewerRoute>(path: "drift-db-viewer"),
+  TypedGoRoute<DebugComponentGalleryRoute>(path: "component-gallery"),
+])
 @immutable
 class DebugMenuRoute extends GoRouteData with $DebugMenuRoute {
   @override
