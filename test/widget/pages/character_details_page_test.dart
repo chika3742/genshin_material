@@ -3,7 +3,6 @@ import "dart:io";
 
 import "package:clock/clock.dart";
 import "package:collection/collection.dart";
-import "package:flutter/material.dart" hide Material;
 import "package:flutter_riverpod/misc.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/level_slider.dart";
@@ -26,6 +25,7 @@ import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/hoyolab_game_server.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
+import "package:material_ui/material_ui.dart" hide Material;
 
 import "../../utils/asset_data.dart";
 import "../../utils/crashlytics.dart";

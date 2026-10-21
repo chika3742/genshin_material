@@ -1,4 +1,3 @@
-import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/bookmarks_page/furnishing_sets_tab.dart";
 import "package:genshin_material/components/furnishing_table.dart";
@@ -9,6 +8,7 @@ import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../../utils/asset_data.dart";
 import "../../utils/db.dart";

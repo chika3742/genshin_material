@@ -1,9 +1,9 @@
 import "dart:io";
 
-import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../constants/dimens.dart";
 import "rarity_badge.dart";

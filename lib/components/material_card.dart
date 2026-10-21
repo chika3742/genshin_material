@@ -1,10 +1,10 @@
 import "dart:io";
 
-import "package:flutter/material.dart" hide Material;
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:intl/intl.dart";
 import "package:material_symbols_icons/symbols.dart";
+import "package:material_ui/material_ui.dart" hide Material;
 import "package:signed_spacing_flex/signed_spacing_flex.dart";
 
 import "../core/theme.dart";

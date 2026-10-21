@@ -1,5 +1,5 @@
-import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:material_ui/material_ui.dart";
 import "package:tutorial_coach_mark/tutorial_coach_mark.dart";
 
 import "../core/pref_keys.dart";

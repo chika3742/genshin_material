@@ -1,7 +1,7 @@
 import "package:drift_db_viewer/drift_db_viewer.dart";
-import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:material_ui/material_ui.dart";
 
 import "components/data_asset_scope.dart";
 import "i18n/strings.g.dart";

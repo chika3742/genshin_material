@@ -1,7 +1,7 @@
 import "dart:math";
 
-import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../hooks/use_scroll_to_top_on_status_bar_tap.dart";
 import "scroll_blur_effect.dart";

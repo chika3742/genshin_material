@@ -1,9 +1,9 @@
 import "dart:async";
 import "dart:io";
 
+import "package:cupertino_ui/cupertino_ui.dart";
 import "package:drift/native.dart";
 import "package:firebase_core/firebase_core.dart";
-import "package:flutter/cupertino.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/remote_config_keys.dart";

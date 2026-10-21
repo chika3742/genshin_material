@@ -1,6 +1,6 @@
-import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_riverpod/misc.dart";
+import "package:material_ui/material_ui.dart";
 
 Widget createScreenWithApp({ThemeData? theme, required Widget child}) {
   return MaterialApp(

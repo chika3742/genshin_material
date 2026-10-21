@@ -1,7 +1,7 @@
-import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../data/services/launch_url.dart";
 import "../hooks/use_asset_update_progress.dart";

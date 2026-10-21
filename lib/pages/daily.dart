@@ -1,12 +1,12 @@
-import "package:flutter/material.dart";
-import "package:flutter_hooks/flutter_hooks.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../components/character_small_card.dart";
 import "../components/list_tile.dart";
 import "../components/weekday_tab.dart";
 import "../core/asset_cache.dart";
 import "../core/pref_keys.dart";
+import "../hooks/use_tab_controller.dart";
 import "../i18n/strings.g.dart";
 import "../models/material.dart";
 import "../providers/asset_image_resolver.dart";

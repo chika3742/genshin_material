@@ -1,7 +1,7 @@
-import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/rarity_stars.dart";
 import "package:genshin_material/core/theme.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../utils.dart";
 
