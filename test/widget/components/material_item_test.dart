@@ -1,7 +1,6 @@
 import "dart:convert";
 import "dart:io";
 
-import "package:flutter/material.dart" hide Material;
 import "package:flutter_riverpod/misc.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/material_item.dart";
@@ -22,6 +21,7 @@ import "package:genshin_material/providers/database_provider.dart";
 import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:material_symbols_icons/symbols.dart";
+import "package:material_ui/material_ui.dart" hide Material;
 import "package:path/path.dart" as path;
 
 import "../../utils/asset_data.dart";

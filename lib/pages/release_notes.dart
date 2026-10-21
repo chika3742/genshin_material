@@ -1,6 +1,6 @@
-import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_riverpod/misc.dart";
+import "package:material_ui/material_ui.dart";
 import "package:timelines/timelines.dart";
 
 import "../components/center_text.dart";

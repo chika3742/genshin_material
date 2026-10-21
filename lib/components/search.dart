@@ -1,8 +1,8 @@
 import "package:animations/animations.dart";
-import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:go_router/go_router.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../i18n/strings.g.dart";
 import "list_tile.dart";

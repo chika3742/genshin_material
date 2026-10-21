@@ -1,6 +1,6 @@
-import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../../i18n/strings.g.dart";
 import "../../models/character.dart";

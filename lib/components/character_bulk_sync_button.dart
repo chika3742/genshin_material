@@ -1,7 +1,7 @@
 import "package:clock/clock.dart";
-import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_symbols_icons/symbols.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../core/pref_keys.dart";
 import "../data/repositories/character_state_repository.dart";

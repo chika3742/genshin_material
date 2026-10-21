@@ -1,4 +1,3 @@
-import "package:flutter/material.dart" hide Material;
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/search.dart";
 import "package:genshin_material/i18n/strings.g.dart";
@@ -6,6 +5,7 @@ import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/models/material.dart";
 import "package:genshin_material/utils/filtering.dart";
 import "package:go_router/go_router.dart";
+import "package:material_ui/material_ui.dart" hide Material;
 
 import "../../utils/asset_data.dart";
 import "../utils.dart";

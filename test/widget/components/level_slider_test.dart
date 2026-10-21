@@ -1,9 +1,9 @@
-import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/custom_range_slider.dart";
 import "package:genshin_material/components/labeled_check_box.dart";
 import "package:genshin_material/components/level_slider.dart";
 import "package:genshin_material/models/level_range_values.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../utils.dart";
 

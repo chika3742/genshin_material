@@ -1,13 +1,13 @@
 import "dart:async";
 
 import "package:firebase_remote_config/firebase_remote_config.dart";
-import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/data/services/remote_config_service.dart";
 import "package:genshin_material/hooks/use_remote_config_listener.dart";
 import "package:genshin_material/providers/remote_config.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:material_ui/material_ui.dart";
 import "package:mockito/mockito.dart";
 
 import "../utils/provider_container.dart";

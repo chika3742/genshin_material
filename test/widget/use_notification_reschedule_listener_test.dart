@@ -2,7 +2,6 @@ import "dart:async";
 
 import "package:drift/drift.dart" as drift;
 import "package:drift/native.dart";
-import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/asset_cache.dart";
 import "package:genshin_material/core/pref_keys.dart";
@@ -18,6 +17,7 @@ import "package:genshin_material/providers/pref_notifier.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:genshin_material/use_cases/reschedule_daily_material_notifications.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:material_ui/material_ui.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 import "package:timezone/data/latest_10y.dart" as tz;

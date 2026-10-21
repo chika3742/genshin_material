@@ -1,9 +1,9 @@
-import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/hooks/use_startup_banner.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/models/banner_data.dart";
+import "package:material_ui/material_ui.dart";
 
 class _Host extends HookWidget {
   final BannerData? banner;

@@ -1,4 +1,3 @@
-import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/character_select_dropdown.dart";
 import "package:genshin_material/core/theme.dart";
@@ -11,6 +10,7 @@ import "package:genshin_material/providers/miscellaneous.dart";
 import "package:genshin_material/providers/versions.dart";
 import "package:genshin_material/routes.dart";
 import "package:go_router/go_router.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../../utils/asset_data.dart";
 import "../utils.dart";

@@ -1,4 +1,3 @@
-import "package:flutter/material.dart";
 import "package:flutter_riverpod/misc.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/pref_keys.dart";
@@ -8,6 +7,7 @@ import "package:genshin_material/hooks/use_banner.dart";
 import "package:genshin_material/providers/pref_notifier.dart";
 import "package:genshin_material/providers/remote_config.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
+import "package:material_ui/material_ui.dart";
 import "package:mockito/mockito.dart";
 
 import "../utils/in_memory_pref.dart";

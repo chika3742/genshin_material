@@ -1,7 +1,7 @@
 
-import "package:flutter/material.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../components/asset_update_progress_snack_bar.dart";
 import "../core/asset_updater.dart";

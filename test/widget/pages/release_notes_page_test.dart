@@ -1,10 +1,10 @@
-import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/components/release_notes_timeline.dart";
 import "package:genshin_material/models/localized_text.dart";
 import "package:genshin_material/models/release_note.dart";
 import "package:genshin_material/pages/release_notes.dart";
 import "package:genshin_material/providers/versions.dart";
+import "package:material_ui/material_ui.dart";
 
 import "../../utils/asset_data.dart";
 import "../utils.dart";
