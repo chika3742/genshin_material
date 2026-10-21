@@ -615,8 +615,11 @@ class DebugDriftDbViewerRoute extends GoRouteData with $DebugDriftDbViewerRoute 
       context: context,
       child: Consumer(
         builder: (context, ref, _) {
-          return DriftDbViewer(
-            ref.watch(appDatabaseProvider),
+          // ignore: deprecated_member_use
+          return MaterialUiCompatibilityBridge(
+            child: DriftDbViewer(
+              ref.watch(appDatabaseProvider),
+            ),
           );
         },
       ),
