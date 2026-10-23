@@ -1,10 +1,13 @@
 # コピー用改行
 
-- releasedOn: TBD
+- releasedOn: 2026/10/24
   version: 4.11.0
   contents:
     locales:
       ja: |
+        # セキュリティ修正
+        - (Androidのみに影響します) eMudhra中間CA証明書の秘密鍵侵害に対処しました。
+        
         # 調整
         - 日替わり素材ページに旅人が表示されるようにしました。
         - 同期された現在レベルをスライダー上に表示するようにしました。
@@ -19,6 +22,22 @@
         - キャラ/天賦Lv.1→2を範囲に含むキャラクター素材をブックマークしていた際、スライダー位置が復元されるときにその範囲が含まれない不具合を修正しました。
         - Androidにおいて、通知権限の許可後にすぐスケジュール権限の画面に遷移する問題を修正しました。
       en: |
+        # Security Fixes
+        - (Affects Android only) Addressed the private key compromise of the eMudhra intermediate CA certificate.
+
+        # Adjustments
+        - The Traveler is now shown on the Daily Materials page.
+        - The synced current level is now shown on the sliders.
+        - When a level that is not on the slider's tick marks is selected, the thumb is now shown at the correct position.
+          - Previously, it was shown rounded up to the next higher value.
+        - Adjusted the animation when dragging the sliders.
+
+        # Bug Fixes
+        - Fixed a bug where the material shortage could be displayed as greater than the required amount.
+        - Fixed a bug where, when syncing in-game characters, the current level took precedence over the bookmarked range when restoring slider positions.
+        - Fixed a bug where the slider positions of a bookmarked weapon were restored based on the bookmarked range of a character that was not selected.
+        - Fixed a bug where, if character materials whose range included character/talent Lv.1→2 were bookmarked, that range was not included when the slider positions were restored.
+        - Fixed an issue on Android where the "Alarms & reminders" permission screen opened immediately after allowing the notification permission.
 
 - releasedOn: 2026/10/03
   version: 4.10.0
