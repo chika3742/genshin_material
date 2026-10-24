@@ -74,8 +74,24 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+        }
         release {
-            signingConfig = signingConfigs["release"]
+            // flavor-side signing config will be used
+        }
+    }
+
+    flavorDimensions += "default"
+    productFlavors {
+        create("dev") {
+            dimension = "default"
+            applicationIdSuffix = ".dev"
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        create("prod") {
+            dimension = "default"
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }
@@ -85,7 +101,9 @@ googleServices {
 }
 
 afterEvaluate {
-    tasks.named<GoogleServicesTask>("processReleaseGoogleServices") {
+    tasks.withType<GoogleServicesTask>().named {
+        it.matches(Regex("^processProd(?:Debug|Profile|Release)GoogleServices$"))
+    }.configureEach {
         missingGoogleServicesStrategy = MissingGoogleServicesStrategy.ERROR
     }
 }
