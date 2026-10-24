@@ -32,6 +32,6 @@ jobs:
           private-key: ${{ secrets.PUBREFORM_PRIVATE_KEY }}
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: chika3742/setup-fvm@8846c1a1b7557ed285858cda0dece0311c31f2d6 # v3.2.0
-      - uses: chika3742/pubreform@a7e3f96b5c8ed460511b5bb18e159fbee08f481a # v1.0.0
+      - uses: chika3742/pubreform@c5908214c6aa7cb05399b2d821ce1f0e8d8f6975 # v1.2.0
         with:
           token: ${{ steps.app-token.outputs.token }}
