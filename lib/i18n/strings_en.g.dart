@@ -296,6 +296,8 @@ class _Translations$bookmarksPage$en extends Translations$bookmarksPage$ja {
 	@override String get byMaterial => 'Material';
 	@override String get furnishings => 'Furnishings';
 	@override String get allFurnishingsAreCrafted => 'All furnishings in this set have been crafted.';
+	@override String cannotShowLackNumsInMaterialTab({required Object max}) => 'Shortage numbers cannot be shown in the Material tab because either the characters or the weapons to fetch exceed ${max}.';
+	@override String cannotShowLackNumsForSeveralTargets({required Object max}) => 'Some shortage numbers cannot be shown because either the characters or the weapons to fetch exceed ${max}.';
 }
 
 // Path: characterListPage
@@ -557,6 +559,7 @@ class _Translations$farmCountSettingsPage$en extends Translations$farmCountSetti
 
 	// Translations
 	@override String get showFarmCount => 'Show Farming Count';
+	@override String get useLackNumForFarmCount => 'Calculate from Bag Shortage Numbers';
 	@override String get adventureRank => 'Adventure Rank';
 	@override String get skipRate => 'Multiplier for using Condensed Resin etc.';
 	@override String get dropRateList => 'Drop Rate List';
@@ -836,6 +839,8 @@ extension on TranslationsEn {
 			'bookmarksPage.byMaterial' => 'Material',
 			'bookmarksPage.furnishings' => 'Furnishings',
 			'bookmarksPage.allFurnishingsAreCrafted' => 'All furnishings in this set have been crafted.',
+			'bookmarksPage.cannotShowLackNumsInMaterialTab' => ({required Object max}) => 'Shortage numbers cannot be shown in the Material tab because either the characters or the weapons to fetch exceed ${max}.',
+			'bookmarksPage.cannotShowLackNumsForSeveralTargets' => ({required Object max}) => 'Some shortage numbers cannot be shown because either the characters or the weapons to fetch exceed ${max}.',
 			'characterListPage.owned' => 'Owned',
 			'characterListPage.unowned' => 'Not owned',
 			'characterListPage.firstSyncBanner.text' => 'Run a bulk sync to fetch data for all your owned characters at once.',
@@ -945,6 +950,7 @@ extension on TranslationsEn {
 			'settingsPage.reDownloadAssetsDesc' => 'Please try this if the assets of the app are not loading properly.',
 			'settingsPage.openSourceLicenses' => 'Open Source Licenses',
 			'farmCountSettingsPage.showFarmCount' => 'Show Farming Count',
+			'farmCountSettingsPage.useLackNumForFarmCount' => 'Calculate from Bag Shortage Numbers',
 			'farmCountSettingsPage.adventureRank' => 'Adventure Rank',
 			'farmCountSettingsPage.skipRate' => 'Multiplier for using Condensed Resin etc.',
 			'farmCountSettingsPage.dropRateList' => 'Drop Rate List',

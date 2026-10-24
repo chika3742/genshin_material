@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bag_counts_single_repository.dart';
+part of 'single_bag_counts.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,10 +9,10 @@ part of 'bag_counts_single_repository.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(bagCountsSingle)
-final bagCountsSingleProvider = BagCountsSingleFamily._();
+@ProviderFor(singleBagCounts)
+final singleBagCountsProvider = SingleBagCountsFamily._();
 
-final class BagCountsSingleProvider
+final class SingleBagCountsProvider
     extends
         $FunctionalProvider<
           AsyncValue<BagCounts?>,
@@ -20,23 +20,23 @@ final class BagCountsSingleProvider
           FutureOr<BagCounts?>
         >
     with $FutureModifier<BagCounts?>, $FutureProvider<BagCounts?> {
-  BagCountsSingleProvider._({
-    required BagCountsSingleFamily super.from,
+  SingleBagCountsProvider._({
+    required SingleBagCountsFamily super.from,
     required ({VariantId? variantId, WeaponId? weaponId}) super.argument,
   }) : super(
          retry: null,
-         name: r'bagCountsSingleProvider',
+         name: r'singleBagCountsProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$bagCountsSingleHash();
+  String debugGetCreateSourceHash() => _$singleBagCountsHash();
 
   @override
   String toString() {
-    return r'bagCountsSingleProvider'
+    return r'singleBagCountsProvider'
         ''
         '$argument';
   }
@@ -50,7 +50,7 @@ final class BagCountsSingleProvider
   FutureOr<BagCounts?> create(Ref ref) {
     final argument =
         this.argument as ({VariantId? variantId, WeaponId? weaponId});
-    return bagCountsSingle(
+    return singleBagCounts(
       ref,
       variantId: argument.variantId,
       weaponId: argument.weaponId,
@@ -59,7 +59,7 @@ final class BagCountsSingleProvider
 
   @override
   bool operator ==(Object other) {
-    return other is BagCountsSingleProvider && other.argument == argument;
+    return other is SingleBagCountsProvider && other.argument == argument;
   }
 
   @override
@@ -68,29 +68,29 @@ final class BagCountsSingleProvider
   }
 }
 
-String _$bagCountsSingleHash() => r'c671378d8792df77820b73ada5fd2711cf3464cc';
+String _$singleBagCountsHash() => r'837759df09b96a4182b74565d724aa64ab1f6534';
 
-final class BagCountsSingleFamily extends $Family
+final class SingleBagCountsFamily extends $Family
     with
         $FunctionalFamilyOverride<
           FutureOr<BagCounts?>,
           ({VariantId? variantId, WeaponId? weaponId})
         > {
-  BagCountsSingleFamily._()
+  SingleBagCountsFamily._()
     : super(
         retry: null,
-        name: r'bagCountsSingleProvider',
+        name: r'singleBagCountsProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
       );
 
-  BagCountsSingleProvider call({VariantId? variantId, WeaponId? weaponId}) =>
-      BagCountsSingleProvider._(
+  SingleBagCountsProvider call({VariantId? variantId, WeaponId? weaponId}) =>
+      SingleBagCountsProvider._(
         argument: (variantId: variantId, weaponId: weaponId),
         from: this,
       );
 
   @override
-  String toString() => r'bagCountsSingleProvider';
+  String toString() => r'singleBagCountsProvider';
 }

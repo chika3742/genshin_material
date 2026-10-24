@@ -13,7 +13,6 @@ import "../../../components/material_card_list.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
-import "../../../data/repositories/bag_counts_single_repository.dart";
 import "../../../data/repositories/character_state_repository.dart";
 import "../../../data/repositories/single_character_state_repository.dart";
 import "../../../data/services/crashlytics_service.dart";
@@ -27,6 +26,7 @@ import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
 import "../../../view_models/database/character_details_view_model.dart";
+import "../../../view_models/database/single_bag_counts.dart";
 
 class CharacterDetailsPage extends HookConsumerWidget {
   final AssetData assetData;
@@ -89,7 +89,7 @@ class _CharacterDetailsContents extends HookConsumerWidget {
 
     final images = ref.watch(assetImageResolverProvider);
     final isCharaSyncEnabled = ref.watch(isCharacterSyncEnabledProvider(variantId: variant.id));
-    final bagCounts = ref.watch(bagCountsSingleProvider(variantId: variant.id));
+    final bagCounts = ref.watch(singleBagCountsProvider(variantId: variant.id));
     final fetchState = isCharaSyncEnabled
         ? ref.watch(SingleCharacterStateRepository.fetchMutation(variant.id))
         : null;

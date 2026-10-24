@@ -1,4 +1,5 @@
 import "dart:async";
+import "dart:math";
 
 import "package:clock/clock.dart";
 import "package:collection/collection.dart";
@@ -39,33 +40,45 @@ class BagCountsNotifier extends _$BagCountsNotifier {
     }
 
     final assetData = ref.watch(assetDataProvider).requireValue;
-    for (final e in requests.requests) {
-      if (e.variantId != null && assetData.variants[e.variantId] == null) {
-        throw ArgumentError.value(e.variantId, "variantId", "variant not found");
+
+    for (final v in requests.variantIds) {
+      final variant = assetData.variants[v];
+      if (variant == null) {
+        throw ArgumentError.value(v, "variantId", "variant not found");
       }
-      if (e.weaponId != null && assetData.weapons[e.weaponId] == null) {
-        throw ArgumentError.value(e.weaponId, "weaponId", "weapon not found");
+      if (variant.disableSync) {
+        throw ArgumentError.value(v, "variantId", "variant's sync is disabled");
       }
     }
-    if (requests.requests.any((r) {
-      return assetData.variants[r.variantId]?.disableSync == true
-          || assetData.weapons[r.weaponId]?.disableSync == true;
-    })) {
-      throw ArgumentError("Request contains item(s) that is/are sync-disabled.");
+
+    for (final w in requests.weaponIds) {
+      final weapon = assetData.weapons[w];
+      if (weapon == null) {
+        throw ArgumentError.value(w, "weaponId", "weapon not found");
+      }
+      if (weapon.disableSync) {
+        throw ArgumentError.value(w, "weaponId", "weapon's sync is disabled");
+      }
     }
 
     final api = await ref.watch(hoyolabGameApiProvider.future);
 
-    final items = <CalcComputeItem>[];
+    final requestPairs = [
+      for (var i = 0; i < max(requests.variantIds.length, requests.weaponIds.length); i++) (
+        variantId: requests.variantIds.elementAtOrNull(i),
+        weaponId: requests.weaponIds.elementAtOrNull(i),
+      ),
+    ];
 
-    for (final (:variantId, :weaponId) in requests.requests) {
+    final items = <CalcComputeItem>[];
+    for (final (:variantId, :weaponId) in requestPairs) {
       final variant = variantId != null ? assetData.variants[variantId]! : null;
 
       items.add(_createCalcComputeRequest(
         assetData: assetData,
         character: variant != null ? (
-        variant: variant,
-        avatarId: await _resolveAvatarId(ref, assetData.characterOf(variant)),
+          variant: variant,
+          avatarId: await _resolveAvatarId(ref, assetData.characterOf(variant)),
         ) : null,
         weapon: weaponId != null ? assetData.weapons[weaponId] : null,
       ));

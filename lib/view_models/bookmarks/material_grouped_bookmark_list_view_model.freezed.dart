@@ -15,27 +15,27 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MaterialGroupedBookmarkListState {
 
- Map<String, List<MaterialBookmark>> get materials;
+ Map<String, List<MaterialBookmark>> get materials; BagCounts get bagCounts; bool get cannotShowBagCounts;
 
 
 
 @override
 bool operator ==(Object other) {
   final _this = this as MaterialGroupedBookmarkListState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, _this.materials));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, _this.materials)&&const DeepCollectionEquality().equals(other.bagCounts, _this.bagCounts)&&(identical(other.cannotShowBagCounts, _this.cannotShowBagCounts) || other.cannotShowBagCounts == _this.cannotShowBagCounts));
 }
 
 
 @override
 int get hashCode {
   final _this = this as MaterialGroupedBookmarkListState;
-  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.materials));
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.materials),const DeepCollectionEquality().hash(_this.bagCounts),_this.cannotShowBagCounts);
 }
 
 @override
 String toString() {
   final _this = this as MaterialGroupedBookmarkListState;
-  return 'MaterialGroupedBookmarkListState(materials: ${_this.materials})';
+  return 'MaterialGroupedBookmarkListState(materials: ${_this.materials}, bagCounts: ${_this.bagCounts}, cannotShowBagCounts: ${_this.cannotShowBagCounts})';
 }
 
 
@@ -49,7 +49,7 @@ String toString() {
 
 
 class _MaterialGroupedBookmarkListState implements MaterialGroupedBookmarkListState {
-  const _MaterialGroupedBookmarkListState({required  Map<String, List<MaterialBookmark>> materials}): _materials = materials;
+  const _MaterialGroupedBookmarkListState({required  Map<String, List<MaterialBookmark>> materials, required  BagCounts bagCounts, required this.cannotShowBagCounts}): _materials = materials,_bagCounts = bagCounts;
   
 
  final  Map<String, List<MaterialBookmark>> _materials;
@@ -59,24 +59,32 @@ class _MaterialGroupedBookmarkListState implements MaterialGroupedBookmarkListSt
   return EqualUnmodifiableMapView(_materials);
 }
 
+ final  BagCounts _bagCounts;
+@override BagCounts get bagCounts {
+  if (_bagCounts is EqualUnmodifiableMapView) return _bagCounts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_bagCounts);
+}
+
+@override final  bool cannotShowBagCounts;
 
 
 
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, _materials));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, _materials)&&const DeepCollectionEquality().equals(other.bagCounts, _bagCounts)&&(identical(other.cannotShowBagCounts, cannotShowBagCounts) || other.cannotShowBagCounts == cannotShowBagCounts));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials));
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),const DeepCollectionEquality().hash(_bagCounts),cannotShowBagCounts);
 }
 
 @override
 String toString() {
-    return 'MaterialGroupedBookmarkListState(materials: $materials)';
+    return 'MaterialGroupedBookmarkListState(materials: $materials, bagCounts: $bagCounts, cannotShowBagCounts: $cannotShowBagCounts)';
 }
 
 

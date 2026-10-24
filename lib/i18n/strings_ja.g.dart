@@ -487,6 +487,12 @@ class Translations$bookmarksPage$ja {
 
 	/// ja: 'すべての調度品が作成済みです'
 	String get allFurnishingsAreCrafted => 'すべての調度品が作成済みです';
+
+	/// ja: '取得対象キャラ・武器のいずれかが$max件を超えているため、素材タブでは不足数を表示できません'
+	String cannotShowLackNumsInMaterialTab({required Object max}) => '取得対象キャラ・武器のいずれかが${max}件を超えているため、素材タブでは不足数を表示できません';
+
+	/// ja: '取得対象キャラ・武器のいずれかが$max件を超えているため、不足数を表示できないものがあります'
+	String cannotShowLackNumsForSeveralTargets({required Object max}) => '取得対象キャラ・武器のいずれかが${max}件を超えているため、不足数を表示できないものがあります';
 }
 
 // Path: characterListPage
@@ -954,6 +960,9 @@ class Translations$farmCountSettingsPage$ja {
 	/// ja: '周回目安回数を表示する'
 	String get showFarmCount => '周回目安回数を表示する';
 
+	/// ja: 'バッグ不足数をもとに計算する'
+	String get useLackNumForFarmCount => 'バッグ不足数をもとに計算する';
+
 	/// ja: '冒険ランク'
 	String get adventureRank => '冒険ランク';
 
@@ -1362,6 +1371,8 @@ extension on Translations {
 			'bookmarksPage.byMaterial' => '素材',
 			'bookmarksPage.furnishings' => '調度品',
 			'bookmarksPage.allFurnishingsAreCrafted' => 'すべての調度品が作成済みです',
+			'bookmarksPage.cannotShowLackNumsInMaterialTab' => ({required Object max}) => '取得対象キャラ・武器のいずれかが${max}件を超えているため、素材タブでは不足数を表示できません',
+			'bookmarksPage.cannotShowLackNumsForSeveralTargets' => ({required Object max}) => '取得対象キャラ・武器のいずれかが${max}件を超えているため、不足数を表示できないものがあります',
 			'characterListPage.owned' => '所持',
 			'characterListPage.unowned' => '未所持',
 			'characterListPage.firstSyncBanner.text' => '一括同期を行うと、所持キャラクターの情報をまとめて取得できます。',
@@ -1471,6 +1482,7 @@ extension on Translations {
 			'settingsPage.reDownloadAssetsDesc' => 'アプリの画像やキャラクター等が正常に読み込まれない場合にお試しください。',
 			'settingsPage.openSourceLicenses' => 'オープンソースライセンス',
 			'farmCountSettingsPage.showFarmCount' => '周回目安回数を表示する',
+			'farmCountSettingsPage.useLackNumForFarmCount' => 'バッグ不足数をもとに計算する',
 			'farmCountSettingsPage.adventureRank' => '冒険ランク',
 			'farmCountSettingsPage.skipRate' => '濃縮樹脂等使用時の獲得数の倍率',
 			'farmCountSettingsPage.dropRateList' => 'ドロップ率一覧',

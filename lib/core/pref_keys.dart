@@ -31,4 +31,5 @@ abstract final class PrefKeys {
   // format: <HoYoLAB account ID (ltuid)>;<expires at (ISO8601 UTC)>;<last value>
   // This key should be accessed through loginBonusStateProvider.
   static const lastLoginBonusStateSynced = NullableStringPrefKey("lastLoginBonusStateSynced");
+  static const useLackNumForFarmCount = BooleanPrefKey("useLackNumForFarmCount", true);
 }

@@ -83,27 +83,27 @@ String toString() {
 /// @nodoc
 mixin _$BookmarkGroup {
 
- String get hash; CharacterOrVariantId get characterId; String get orderIndex; LevelRangeValues get levelRange; List<MaterialBookmark> get bookmarks;
+ String get hash; CharacterOrVariantId get characterId; String get orderIndex; LevelRangeValues get levelRange; List<MaterialBookmark> get bookmarks; BagCounts? get bagCounts;
 
 
 
 @override
 bool operator ==(Object other) {
   final _this = this as BookmarkGroup;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkGroup&&(identical(other.hash, _this.hash) || other.hash == _this.hash)&&(identical(other.characterId, _this.characterId) || other.characterId == _this.characterId)&&(identical(other.orderIndex, _this.orderIndex) || other.orderIndex == _this.orderIndex)&&(identical(other.levelRange, _this.levelRange) || other.levelRange == _this.levelRange)&&const DeepCollectionEquality().equals(other.bookmarks, _this.bookmarks));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookmarkGroup&&(identical(other.hash, _this.hash) || other.hash == _this.hash)&&(identical(other.characterId, _this.characterId) || other.characterId == _this.characterId)&&(identical(other.orderIndex, _this.orderIndex) || other.orderIndex == _this.orderIndex)&&(identical(other.levelRange, _this.levelRange) || other.levelRange == _this.levelRange)&&const DeepCollectionEquality().equals(other.bookmarks, _this.bookmarks)&&const DeepCollectionEquality().equals(other.bagCounts, _this.bagCounts));
 }
 
 
 @override
 int get hashCode {
   final _this = this as BookmarkGroup;
-  return Object.hash(runtimeType,_this.hash,_this.characterId,_this.orderIndex,_this.levelRange,const DeepCollectionEquality().hash(_this.bookmarks));
+  return Object.hash(runtimeType,_this.hash,_this.characterId,_this.orderIndex,_this.levelRange,const DeepCollectionEquality().hash(_this.bookmarks),const DeepCollectionEquality().hash(_this.bagCounts));
 }
 
 @override
 String toString() {
   final _this = this as BookmarkGroup;
-  return 'BookmarkGroup(hash: ${_this.hash}, characterId: ${_this.characterId}, orderIndex: ${_this.orderIndex}, levelRange: ${_this.levelRange}, bookmarks: ${_this.bookmarks})';
+  return 'BookmarkGroup(hash: ${_this.hash}, characterId: ${_this.characterId}, orderIndex: ${_this.orderIndex}, levelRange: ${_this.levelRange}, bookmarks: ${_this.bookmarks}, bagCounts: ${_this.bagCounts})';
 }
 
 
@@ -117,7 +117,7 @@ String toString() {
 
 
 class _BookmarkGroup extends BookmarkGroup {
-  const _BookmarkGroup({required this.hash, required this.characterId, required this.orderIndex, required this.levelRange, required  List<MaterialBookmark> bookmarks}): _bookmarks = bookmarks,super._();
+  const _BookmarkGroup({required this.hash, required this.characterId, required this.orderIndex, required this.levelRange, required  List<MaterialBookmark> bookmarks, required  BagCounts? bagCounts}): _bookmarks = bookmarks,_bagCounts = bagCounts,super._();
   
 
 @override final  String hash;
@@ -131,24 +131,33 @@ class _BookmarkGroup extends BookmarkGroup {
   return EqualUnmodifiableListView(_bookmarks);
 }
 
+ final  BagCounts? _bagCounts;
+@override BagCounts? get bagCounts {
+  final value = _bagCounts;
+  if (value == null) return null;
+  if (_bagCounts is EqualUnmodifiableMapView) return _bagCounts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
 
 
 
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookmarkGroup&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&(identical(other.levelRange, levelRange) || other.levelRange == levelRange)&&const DeepCollectionEquality().equals(other.bookmarks, _bookmarks));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookmarkGroup&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.characterId, characterId) || other.characterId == characterId)&&(identical(other.orderIndex, orderIndex) || other.orderIndex == orderIndex)&&(identical(other.levelRange, levelRange) || other.levelRange == levelRange)&&const DeepCollectionEquality().equals(other.bookmarks, _bookmarks)&&const DeepCollectionEquality().equals(other.bagCounts, _bagCounts));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,hash,characterId,orderIndex,levelRange,const DeepCollectionEquality().hash(_bookmarks));
+    return Object.hash(runtimeType,hash,characterId,orderIndex,levelRange,const DeepCollectionEquality().hash(_bookmarks),const DeepCollectionEquality().hash(_bagCounts));
 }
 
 @override
 String toString() {
-    return 'BookmarkGroup(hash: $hash, characterId: $characterId, orderIndex: $orderIndex, levelRange: $levelRange, bookmarks: $bookmarks)';
+    return 'BookmarkGroup(hash: $hash, characterId: $characterId, orderIndex: $orderIndex, levelRange: $levelRange, bookmarks: $bookmarks, bagCounts: $bagCounts)';
 }
 
 

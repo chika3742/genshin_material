@@ -94,12 +94,20 @@ void main() {
       ExpItem(itemId: expItemIdB, expPerItem: 200),
     ],
   );
-  final dropRate = DropRateEntry(
-    description: LocalizedText.untranslatable(text: "drop"),
-    target: const DropRateTarget(ids: [materialId]),
-    originalRate: const [DropRate(lowerAR: 1, rate: 2.0)],
-    condensedAvailable: false,
-  );
+  final dropRates = [
+    DropRateEntry(
+      description: LocalizedText.untranslatable(text: "drop"),
+      target: const DropRateTarget(ids: [materialId]),
+      originalRate: const [DropRate(lowerAR: 1, rate: 2.0)],
+      condensedAvailable: false,
+    ),
+    DropRateEntry(
+      description: LocalizedText.untranslatable(text: "drop"),
+      target: const DropRateTarget(ids: [expItemIdA]),
+      originalRate: const [DropRate(lowerAR: 1, rate: 500)],
+      condensedAvailable: true,
+    ),
+  ];
 
   // Two levels, so the bookmark state can be partial as well.
   final item = MaterialCardMaterial(
@@ -154,6 +162,7 @@ void main() {
   List<Override> prefOverrides({
     bool showFarmCount = false,
     bool showItemName = true,
+    bool useLackNumForFarmCount = true,
   }) {
     return [
       overridePref(PrefKeys.showFarmCount, showFarmCount),
@@ -161,6 +170,7 @@ void main() {
       overridePref(PrefKeys.adventureRank, 60),
       overridePref(PrefKeys.condensedMultiplier, 2.0),
       overridePref(PrefKeys.dailyResetServer, GameServer.asia),
+      overridePref(PrefKeys.useLackNumForFarmCount, useLackNumForFarmCount),
     ];
   }
 
@@ -172,6 +182,7 @@ void main() {
     bool withDropRate = true,
     BagCounts? bagCounts,
     bool bookmarkable = false,
+    bool useLackNumForFarmCount = true,
     MaterialCardMaterial? card,
   }) async {
     final cardItem = card ?? item;
@@ -187,11 +198,12 @@ void main() {
               for (final material in [material, ...expMaterials]) material.id: material,
             },
             characterIngredients: ingredients,
-            dropRates: withDropRate ? [dropRate] : [],
+            dropRates: withDropRate ? dropRates : [],
           )),
           ...prefOverrides(
             showFarmCount: showFarmCount,
             showItemName: showItemName,
+            useLackNumForFarmCount: useLackNumForFarmCount,
           ),
         ],
         child: createScreenWithApp(
@@ -297,6 +309,34 @@ void main() {
       // 12 items at a rate of 2.0 per run.
       expect(find.text("6"), findsOne);
       expect(find.byIcon(Symbols.agriculture), findsOne);
+    });
+
+    testWidgets("shows the runs needed for the quantity the bag is short of", (tester) async {
+      await pumpItem(tester, showFarmCount: true, bagCounts: {materialId: 4});
+
+      // 12 needed and 4 in the bag: 8 items at a rate of 2.0 per run.
+      expect(find.text("4"), findsOne);
+    });
+
+    testWidgets("shows no runs needed once the bag holds more than needed", (tester) async {
+      await pumpItem(tester, showFarmCount: true, bagCounts: {materialId: 20});
+
+      expect(find.text("0"), findsOne);
+      expect(find.byIcon(Symbols.agriculture), findsOne);
+    });
+
+    testWidgets("subtracts the EXP of the bag for the farm count", (tester) async {
+      await pumpItem(tester, card: expItem, showFarmCount: true, bagCounts: {expItemIdA: 1});
+
+      // 3000 EXP needed and 1 item of 1000 EXP in the bag: 2000 EXP at 1000 (500*2.0) per run.
+      expect(find.text("2"), findsOne);
+    });
+
+    testWidgets("use required quantity if useLackNumForFarmCount is false", (tester) async {
+      await pumpItem(tester, showFarmCount: true, useLackNumForFarmCount: false, bagCounts: {materialId: 20});
+
+      // 12 items at a rate of 2.0 per run.
+      expect(find.text("6"), findsOne);
     });
 
     testWidgets("hides the farm count when the preference is off", (tester) async {

@@ -136,6 +136,8 @@ bookmarksPage:
   byMaterial: Material
   furnishings: Furnishings
   allFurnishingsAreCrafted: All furnishings in this set have been crafted.
+  cannotShowLackNumsInMaterialTab: Shortage numbers cannot be shown in the Material tab because either the characters or the weapons to fetch exceed $max.
+  cannotShowLackNumsForSeveralTargets: Some shortage numbers cannot be shown because either the characters or the weapons to fetch exceed $max.
 characterListPage:
   owned: Owned
   unowned: Not owned
@@ -267,6 +269,7 @@ settingsPage:
   openSourceLicenses: Open Source Licenses
 farmCountSettingsPage:
   showFarmCount: Show Farming Count
+  useLackNumForFarmCount: Calculate from Bag Shortage Numbers
   adventureRank: Adventure Rank
   skipRate: Multiplier for using Condensed Resin etc.
   dropRateList: Drop Rate List
