@@ -14,11 +14,11 @@ _Weapon _$WeaponFromJson(Map<String, dynamic> json) => _Weapon(
   jaPronunciation: json['jaPronunciation'] as String,
   imageUrl: json['imageUrl'] as String,
   rarity: (json['rarity'] as num).toInt(),
-  subStat: json['subStat'] as String?,
+  subStat: json['subStat'] as WeaponSubStat?,
   weaponAffixDesc: json['weaponAffixDesc'] == null
       ? null
       : LocalizedText.fromJson(json['weaponAffixDesc']),
-  type: json['type'] as String,
+  type: json['type'] as WeaponType,
   materials: (json['materials'] as Map<String, dynamic>?)?.map(
     (k, e) => MapEntry(k, MaterialRef.fromJson(e as String)),
   ),
