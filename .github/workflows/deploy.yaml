@@ -13,24 +13,37 @@ jobs:
     outputs:
       build_num: ${{ steps.build-attr.outputs.build_num }}
       build_name: ${{ steps.build-attr.outputs.build_name }}
-      channel: ${{ steps.build-attr.outputs.channel }}
+      promote: ${{ steps.build-attr.outputs.promote }}
 
     steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # needed for `git tag --points-at`
+
       - id: build-attr
         run: |
           echo "build_num=$(($GITHUB_RUN_NUMBER + $BUILD_NUM_OFFSET))" >> $GITHUB_OUTPUT
           echo "build_name=`echo "$GITHUB_REF_NAME" | perl -nle "print $& while m/(?<=v)\d+\.\d+\.\d+/g"`" >> $GITHUB_OUTPUT
-          echo "channel=$([[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] && echo "prod" || echo "dev")" >> $GITHUB_OUTPUT
+          if [[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            if ! git tag --points-at HEAD | grep -q "^${GITHUB_REF_NAME}-"; then
+              echo "::error::No pre-release tag points at this commit. Cut an RC first."
+              exit 1
+            fi
+            echo "promote=true" >> $GITHUB_OUTPUT
+          else
+            echo "promote=false" >> $GITHUB_OUTPUT
+          fi
 
   deploy-app-store:
     name: Deploy to App Store
     needs: build-attr
+    if: needs.build-attr.outputs.promote == 'false'
     uses: chika3742/flutter-app-deploy/.github/workflows/ios.yml@main
     with:
       build-name: ${{ needs.build-attr.outputs.build_name }}
       build-number: ${{ needs.build-attr.outputs.build_num }}
-      build-options: "--dart-define=ASSET_CHANNEL=${{ needs.build-attr.outputs.channel }}"
-      deploy-channel: ${{ needs.build-attr.outputs.channel }}
+      build-options: "--flavor prod"
       xcode-version: '26.5'
     secrets:
       provisioning_profile_1_base64: ${{ secrets.APPLE_PROVISIONING_PROFILE_BASE64 }}
@@ -41,9 +54,22 @@ jobs:
       asc_issuer_id: ${{ secrets.ASC_ISSUER_ID }}
       asc_key_base64: ${{ secrets.ASC_AUTH_KEY_BASE64 }}
 
+  promote-app-store:
+    name: Promote App (App Store)
+    needs: build-attr
+    if: needs.build-attr.outputs.promote == 'true'
+    uses: chika3742/flutter-app-deploy/.github/workflows/ios-promote.yml@88a8eff9780291bec0d5d96ce1051fa2b9220880
+    with:
+      build-name: ${{ needs.build-attr.outputs.build_name }}
+    secrets:
+      asc_key_id: ${{ secrets.ASC_KEY_ID }}
+      asc_issuer_id: ${{ secrets.ASC_ISSUER_ID }}
+      asc_key_base64: ${{ secrets.ASC_AUTH_KEY_BASE64 }}
+
   deploy-play-store:
     name: Deploy to Play Store
     needs: build-attr
+    if: needs.build-attr.outputs.promote == 'false'
     uses: chika3742/flutter-app-deploy/.github/workflows/android.yml@main
     permissions:
       contents: read
@@ -51,8 +77,7 @@ jobs:
     with:
       build-name: ${{ needs.build-attr.outputs.build_name }}
       build-number: ${{ needs.build-attr.outputs.build_num }}
-      build-options: "--dart-define=ASSET_CHANNEL=${{ needs.build-attr.outputs.channel }}"
-      deploy-channel: ${{ needs.build-attr.outputs.channel }}
+      build-options: "--flavor prod"
       wif-audience: ${{ vars.WIF_AUDIENCE }}
     secrets:
       keystore_base64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -61,6 +86,17 @@ jobs:
       wif_provider: ${{ secrets.ANDROID_WIF_PROVIDER }}
       wif_service_account: ${{ secrets.ANDROID_WIF_SERVICE_ACCOUNT }}
 
+  promote-play-store:
+    name: Promote App (Play Store)
+    needs: build-attr
+    if: needs.build-attr.outputs.promote == 'true'
+    uses: chika3742/flutter-app-deploy/.github/workflows/android-promote.yml@88a8eff9780291bec0d5d96ce1051fa2b9220880
+    with:
+      wif-audience: ${{ vars.WIF_AUDIENCE }}
+    secrets:
+      wif_provider: ${{ secrets.ANDROID_WIF_PROVIDER }}
+      wif_service_account: ${{ secrets.ANDROID_WIF_SERVICE_ACCOUNT }}
+
 concurrency:
   group: deploy
-  cancel-in-progress: true
+  cancel-in-progress: false
