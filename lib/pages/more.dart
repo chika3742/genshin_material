@@ -1,4 +1,3 @@
-import "package:flutter/foundation.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
@@ -11,6 +10,7 @@ import "../../../i18n/strings.g.dart";
 import "../../../providers/versions.dart";
 import "../../../routes.dart";
 import "../../../ui_core/custom_tabs.dart";
+import "../constants/flavors.dart";
 import "../core/errors.dart";
 import "../core/remote_config_keys.dart";
 import "../data/services/launch_url.dart" hide launchUrlString;
@@ -126,7 +126,7 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
               LicensesRoute().go(context);
             },
           ),
-          if (!kReleaseMode) SimpleListTile(
+          if (kDevFlavor) SimpleListTile(
             title: "Debug Menu",
             routingStrategy: .push,
             location: DebugMenuRoute().location,

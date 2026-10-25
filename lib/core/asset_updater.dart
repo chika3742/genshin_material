@@ -11,7 +11,6 @@ import "package:path_provider/path_provider.dart";
 import "package:uuid/uuid.dart";
 
 import "../constants/urls.dart";
-import "../main.dart";
 import "../models/asset_release_version.dart";
 import "../models/common.dart" as common;
 import "asset_cache.dart";
@@ -52,7 +51,7 @@ class AssetUpdater {
     required int minimumSchemaVersion,
     bool force = false,
   }) async {
-    final releases = await _fetchAssetRelease(assetChannel);
+    final releases = await _fetchAssetRelease();
 
     final latestRelease = releases.fold<AssetReleaseVersion?>(null, (prev, element) {
       // ignore minimumSchemaVersion when force download mode
@@ -182,12 +181,8 @@ class AssetUpdater {
     }
   }
 
-  Future<List<AssetReleaseVersion>> _fetchAssetRelease(String channel) async {
-    final uri = Uri.parse(assetReleasesUrl).replace(
-      queryParameters: {
-        "channel": channel,
-      },
-    );
+  Future<List<AssetReleaseVersion>> _fetchAssetRelease() async {
+    final uri = Uri.parse(assetReleasesUrl);
     final response = await httpClient.get(uri);
     final json = const JsonDecoder().convert(response.body);
     if (json is! List) {
