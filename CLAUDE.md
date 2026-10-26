@@ -8,9 +8,6 @@ This file provides guidance to coding agents when working with code in this repo
 # Install dependencies
 fvm flutter pub get
 
-# Run the app
-fvm flutter run
-
 # Lint
 fvm dart analyze
 
@@ -49,7 +46,6 @@ Game data (characters, weapons, materials, artifacts, furnishings) is **not bund
 - `AssetLoader` (`lib/core/asset_loader.dart`) reads JSON files from the current asset directory.
 - `AssetDataCacheProvider` (`lib/core/asset_cache.dart`) orchestrates loading all JSON files into a single `AssetData` freezed struct, which is the canonical in-memory representation of all game data.
 - The Riverpod provider `assetDataProvider` (`lib/providers/versions.dart`) exposes `AssetData` to the widget tree.
-- The `ASSET_CHANNEL` build environment variable (default: `"dev"` in debug, `"prod"` in release) controls which release channel is fetched.
 - `dataSchemaVersion` in `lib/models/common.dart` must match the remote asset schema version; mismatches throw `SchemaVersionMismatchException`.
 
 ### Data Flow: Widget Access to Assets
@@ -112,6 +108,7 @@ Generated files are committed to the repo. After any of the following changes, r
 - All type IDs (character, weapon, material, etc.) are `typedef` aliases over `String`, defined in `lib/models/common.dart`. Use the specific typedef rather than raw `String` in signatures.
 - Models use sealed freezed classes. `copyWith`, `map`, and `when` are disabled globally in `build.yaml`; enable one per class with `@Freezed(copyWith: true, ...)` only when needed.
 - Routes use go_router and are defined in `lib/routes.dart`. `@immutable` is applied to all GoRoute data classes.
+- Branch on `kDevFlavor` / `kProdFlavor` (`lib/constants/flavors.dart`), not `kReleaseMode`: debug builds of `prod` and release builds of `dev` both exist.
 
 ## Testing
 
@@ -160,12 +157,18 @@ The code conventions above apply to test code as well. In addition:
 - Preference-backed providers: `overridePref(key, value)` instead of setting up `SharedPreferences`.
 - Anything reading Remote Config overrides the values it needs with `overrideRemoteConfig(key, value)`. Only a test whose subject reaches the service itself needs `createRemoteConfigServiceMock()`; classes taking a plain value (`minimumSchemaVersion`, for one) get it passed in directly.
 - Never use real character IDs in tests; use placeholders such as `char_1`.
+- Tests run as the `dev` flavor, and the flavor constants are compile-time. Build expected values from them (e.g. `assetReleasesUrl`) instead of hard-coding a channel.
 - Pin time with `withClock` from `package:clock` rather than waiting on real durations.
 - Await drift query streams with `createStreamQueue()` instead of a fixed delay.
 
+## Release
+
+- Add the version's entry to `assets/release_notes.yaml` before tagging the RC (`vX.Y.Z-*`): the binary bundles it, and the `vX.Y.Z` tag promotes that build without rebuilding.
+- The Android `promote` lane finds the build by the release name Play generates (`<versionCode> (<versionName>)`), so the `upload` lane must not set `version_name`.
+
 ## Firebase
 
-The app is allowed to start without the Firebase config files, so Firebase may be unavailable anywhere in the app. Access it through providers in general, and always check that `Firebase.apps` is not empty before using a Firebase API instance directly.
+Non-`prod` flavors start without the Firebase config files, so Firebase may be unavailable anywhere in the app. Access it through providers in general, and always check that `Firebase.apps` is not empty before using a Firebase API instance directly.
 
 ## Editing This File
 

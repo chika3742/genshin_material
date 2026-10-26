@@ -39,12 +39,13 @@ jobs:
     name: Deploy to App Store
     needs: build-attr
     if: needs.build-attr.outputs.promote == 'false'
-    uses: chika3742/flutter-app-deploy/.github/workflows/ios.yml@main
+    uses: chika3742/flutter-app-deploy/.github/workflows/ios.yml@6eac78aa419a9e2edf6d5db452fc23674bbefc90
     with:
       build-name: ${{ needs.build-attr.outputs.build_name }}
       build-number: ${{ needs.build-attr.outputs.build_num }}
       build-options: "--flavor prod"
       xcode-version: '26.5'
+      google-service-path: 'ios/Runner/GoogleService-prod-Info.plist'
     secrets:
       provisioning_profile_1_base64: ${{ secrets.APPLE_PROVISIONING_PROFILE_BASE64 }}
       codesign_cert_base64: ${{ secrets.APPLE_DIST_CERT_BASE64 }}
@@ -58,7 +59,7 @@ jobs:
     name: Promote App (App Store)
     needs: build-attr
     if: needs.build-attr.outputs.promote == 'true'
-    uses: chika3742/flutter-app-deploy/.github/workflows/ios-promote.yml@88a8eff9780291bec0d5d96ce1051fa2b9220880
+    uses: chika3742/flutter-app-deploy/.github/workflows/ios-promote.yml@6eac78aa419a9e2edf6d5db452fc23674bbefc90
     with:
       build-name: ${{ needs.build-attr.outputs.build_name }}
     secrets:
@@ -70,7 +71,7 @@ jobs:
     name: Deploy to Play Store
     needs: build-attr
     if: needs.build-attr.outputs.promote == 'false'
-    uses: chika3742/flutter-app-deploy/.github/workflows/android.yml@main
+    uses: chika3742/flutter-app-deploy/.github/workflows/android.yml@6eac78aa419a9e2edf6d5db452fc23674bbefc90
     permissions:
       contents: read
       id-token: write
@@ -79,6 +80,7 @@ jobs:
       build-number: ${{ needs.build-attr.outputs.build_num }}
       build-options: "--flavor prod"
       wif-audience: ${{ vars.WIF_AUDIENCE }}
+      google-service-path: 'android/app/src/prod/google-services.json'
     secrets:
       keystore_base64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
       key_properties_base64: ${{ secrets.ANDROID_KEY_PROPERTIES_BASE64 }}
@@ -90,9 +92,10 @@ jobs:
     name: Promote App (Play Store)
     needs: build-attr
     if: needs.build-attr.outputs.promote == 'true'
-    uses: chika3742/flutter-app-deploy/.github/workflows/android-promote.yml@88a8eff9780291bec0d5d96ce1051fa2b9220880
+    uses: chika3742/flutter-app-deploy/.github/workflows/android-promote.yml@6eac78aa419a9e2edf6d5db452fc23674bbefc90
     with:
       wif-audience: ${{ vars.WIF_AUDIENCE }}
+      build-name: ${{ needs.build-attr.outputs.build_name }}
     secrets:
       wif_provider: ${{ secrets.ANDROID_WIF_PROVIDER }}
       wif_service_account: ${{ secrets.ANDROID_WIF_SERVICE_ACCOUNT }}

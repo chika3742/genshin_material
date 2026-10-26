@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "$CONFIGURATION" = "Release" ]; then
+if [[ "$CONFIGURATION" == "Release-"* ]]; then
     gsinfo_plist_path="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-Info.plist"
     firebase_app_id=$(/usr/libexec/PlistBuddy -c "Print :GOOGLE_APP_ID" "$gsinfo_plist_path")
     upload_symbols="${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols"
