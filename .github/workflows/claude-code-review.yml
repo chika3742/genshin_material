@@ -17,11 +17,12 @@ jobs:
       contents: read
       pull-requests: write
       id-token: write
-      actions: read # Required for Claude to read CI results on PRs
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # Agent mode doesn't check out the PR, and issue_comment would otherwise get the default branch
+          ref: refs/pull/${{ github.event.pull_request.number || github.event.issue.number }}/head
           fetch-depth: 1
 
       - name: Run Claude Code
@@ -29,11 +30,11 @@ jobs:
         uses: anthropics/claude-code-action@6b6870e649b5ff408753befeaee5fc7989d4e6a9 # v1.0.258
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          track_progress: true
-          prompt: "Read .github/prompts/review.md and follow the instructions in it."
+          prompt: "/pr-review ${{ github.event.pull_request.number || github.event.issue.number }} --comment ${{ github.event.comment.body }}"
+          show_full_output: true
           claude_args: |
-            --model claude-opus-5-5\
-            --effort high\
+            --model claude-opus-5-5
+            --effort high
             --mcp-config '
               {
                 "mcpServers": {
@@ -44,7 +45,5 @@ jobs:
                   }
                 }
               }
-            '\
-            --allowed-tools "mcp__github_public__*,mcp__github_inline_comment__create_inline_comment,Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh issue view:*),Bash(grep:*),Bash(wc:*)"\
-            --disallowed-tools "Bash(git add:*),Bash(git commit:*),Bash(git rm:*)"
-            --append-system-prompt "返答はすべて日本語で行うこと。特定のコード部分に関するレビューはインラインコメントを使用すること。依存するライブラリのAPIを確認する必要が生じたときは、`mcp__github_public__*`のツールを使用すること。特に、想像で存在しないAPIをでっち上げないよう、よく確認すること。レビューにはLint/Testの結果を用いないこと。flutter analyzeを実行したり、CIの結果を取得したりしない。そしてその旨を最終結果に出力しないこと。"
+            '
+            --allowed-tools "mcp__github_public__*,mcp__github_inline_comment__create_inline_comment,Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api --paginate repos/{owner}/{repo}/pulls/*/comments),Bash(gh issue view:*),Bash(grep:*),Bash(wc:*)"
