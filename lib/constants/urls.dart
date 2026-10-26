@@ -1,8 +1,10 @@
+import "flavors.dart";
+
 const tosUrl = "https://www.chikach.net/genshin-material-terms";
 
 const privacyPolicyUrl = "https://www.chikach.net/genshin-material-privacy";
 
-const assetReleasesUrl = "https://matnote-releases.chikach.net/releases/genshin";
+const assetReleasesUrl = "https://matnote-releases.chikach.net/releases/genshin?channel=${kProdFlavor ? "prod" : "dev"}";
 
 const wishesPageUrl = "https://gc.chikach.net";
 

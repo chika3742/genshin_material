@@ -72,35 +72,52 @@ platform :ios do
             key_filepath: ENV["ASC_KEY_FILEPATH"],
         )
 
-        app_version = ENV["APP_VERSION"]
-        is_test_version = ENV["DEPLOY_CHANNEL"] != "prod"
+        upload_to_testflight(
+          skip_waiting_for_build_processing: true,
+          ipa: "../build/ios/ipa/GenshinMaterial.ipa"
+        )
+    end
 
-        if is_test_version
-            upload_to_testflight(
-              skip_waiting_for_build_processing: true,
-              ipa: "../build/ios/ipa/GenshinMaterial.ipa"
-            )
-        else
-            contents = YAML.safe_load(File.read("../../assets/release_notes.yaml"))
-            version_entry = contents.find { |e| e["version"] == app_version }
-            if version_entry == nil
-                raise "No release note for version #{app_version}. Did you add it?"
-            end
-            version_entry["contents"]["locales"].each do |locale, contents|
-                path = "./metadata/#{locale_map[locale]}/release_notes.txt"
-                FileUtils.mkdir_p(File.dirname(path))
-                truncated = truncate_release_notes(contents, APP_STORE_RELEASE_NOTES_LENGTH_LIMIT, continue_message_map[locale])
-                File.write(path, truncated)
-            end
-            upload_to_app_store(
-              app_version: app_version,
-              skip_screenshots: true,
-              precheck_include_in_app_purchases: false,
-              submit_for_review: false,
-              force: true,
-              ipa: "../build/ios/ipa/GenshinMaterial.ipa",
-            )
+    lane :promote do
+        app_store_connect_api_key(
+          key_id: ENV["ASC_KEY_ID"],
+          issuer_id: ENV["ASC_ISSUER_ID"],
+          key_filepath: ENV["ASC_KEY_FILEPATH"],
+        )
+
+        # Write release notes to file
+        app_version = ENV["APP_VERSION"]
+        contents = YAML.safe_load(File.read("../../assets/release_notes.yaml"))
+        version_entry = contents.find { |e| e["version"] == app_version }
+        if version_entry == nil
+            raise "No release note for version #{app_version}. Did you add it?"
         end
+        version_entry["contents"]["locales"].each do |locale, contents|
+            path = "./metadata/#{locale_map[locale]}/release_notes.txt"
+            FileUtils.mkdir_p(File.dirname(path))
+            truncated = truncate_release_notes(contents, APP_STORE_RELEASE_NOTES_LENGTH_LIMIT, continue_message_map[locale])
+            File.write(path, truncated)
+        end
+
+        # Create new version entry
+        upload_to_app_store(
+          app_version: app_version,
+          skip_binary_upload: true,
+          skip_screenshots: true,
+          precheck_include_in_app_purchases: false,
+          submit_for_review: false,
+          force: true,
+        )
+
+        # Attach a build to the version entry
+        app = Spaceship::ConnectAPI::App.find(CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier))
+        version = app.get_edit_app_store_version(platform: Spaceship::ConnectAPI::Platform::IOS)
+        build = Spaceship::ConnectAPI::Build.all(app_id: app.id, version: app_version).first
+        unless build&.processing_state == Spaceship::ConnectAPI::Build::ProcessingState::VALID
+            UI.user_error!("Latest build for #{app_version} is not ready (#{build&.processing_state || "none"})")
+        end
+        version.select_build(build_id: build.id)
+        UI.success("Attached build #{build.version} to #{app_version}")
     end
 
     lane :upload_screenshots do

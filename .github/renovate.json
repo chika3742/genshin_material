@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "timezone": "Asia/Tokyo",
-  "enabledManagers": ["fvm", "github-actions", "bundler", "custom.regex", "gradle", "gradle-wrapper"],
+  "enabledManagers": ["fvm", "github-actions", "ruby-version", "bundler", "custom.regex", "gradle", "gradle-wrapper"],
   "ignorePaths": ["packages/**"],
   "minimumReleaseAge": "2 days",
   "prHourlyLimit": 0,
@@ -29,6 +29,12 @@
       "description": "Update every file pinning the Flutter version in a single PR",
       "matchDepNames": ["flutter"],
       "groupName": "flutter"
+    },
+    {
+      "matchManagers": "ruby-version",
+      "postUpgradeTasks": {
+        "commands": ["bundle update --ruby"]
+      }
     },
     {
       "matchManagers": ["bundler"],

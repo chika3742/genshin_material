@@ -28,7 +28,7 @@ void main() {
     final client = MockClient();
 
     // current version is null
-    when(client.get(Uri.parse("$assetReleasesUrl?channel=dev"))).thenAnswer((_) async {
+    when(client.get(Uri.parse(assetReleasesUrl))).thenAnswer((_) async {
       return http.Response('[{"createdAt": "2024-01-01T00:00:00Z", "dataVersion": "test", "channel": "dev", "distUrl": "", "schemaVersion": 0}]', 200);
     });
     final updater = AssetUpdater(
@@ -50,7 +50,7 @@ void main() {
     expect(updater.isUpdateAvailable, false);
 
     // latest version is newer than current
-    when(client.get(Uri.parse("$assetReleasesUrl?channel=dev"))).thenAnswer((_) async {
+    when(client.get(Uri.parse(assetReleasesUrl))).thenAnswer((_) async {
       return http.Response('[{"createdAt": "2024-06-01T00:00:00Z", "dataVersion": "test", "channel": "dev", "distUrl": "", "schemaVersion": 0}]', 200);
     });
     await updater.checkForUpdate(minimumSchemaVersion: 0);
@@ -60,7 +60,7 @@ void main() {
   test("Forced update timing adjustment", () async {
     final client = MockClient();
 
-    when(client.get(Uri.parse("$assetReleasesUrl?channel=dev"))).thenAnswer((_) async {
+    when(client.get(Uri.parse(assetReleasesUrl))).thenAnswer((_) async {
       final data = [
         AssetReleaseVersion(
           createdAt: DateTime.parse("2024-01-01T00:00:00Z"),
@@ -121,7 +121,7 @@ void main() {
     setUp(() {
       client = MockClient();
 
-      when(client.get(Uri.parse("$assetReleasesUrl?channel=dev")))
+      when(client.get(Uri.parse(assetReleasesUrl)))
           .thenAnswer((_) async {
         final data = [
           AssetReleaseVersion(

@@ -44,32 +44,15 @@ default_platform(:android)
 platform :android do
     desc "Deploy a new version to the Google Play"
     lane :upload do
-        app_version = ENV["APP_VERSION"]
-        is_test_version = ENV["DEPLOY_CHANNEL"] != "prod"
-
-        Dir.chdir("../../build/app/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib") do
+        Dir.chdir("../../build/app/intermediates/merged_native_libs/prodRelease/mergeProdReleaseNativeLibs/out/lib") do
             sh("zip -r ../../../../../../../../android/native_debug_symbols.zip ./* -x *x86/*")
         end
 
-        if !is_test_version
-            contents = YAML.safe_load(File.read("../../assets/release_notes.yaml"))
-            version_entry = contents.find { |e| e["version"] == app_version }
-            if version_entry == nil
-                raise "No release note for version #{app_version}. Did you add it?"
-            end
-            version_entry["contents"]["locales"].each do |locale, contents|
-                path = "./metadata/android/#{locale_map[locale]}/changelogs/default.txt"
-                FileUtils.mkdir_p(File.dirname(path))
-                truncated = truncate_release_notes(contents, PLAY_STORE_RELEASE_NOTES_LENGTH_LIMIT, continue_message_map[locale])
-                File.write(path, truncated)
-            end
-        end
-
         upload_to_play_store(
-            aab: "../build/app/outputs/bundle/release/app-release.aab",
-            mapping_paths: ["../build/app/outputs/mapping/release/mapping.txt", "./native_debug_symbols.zip"],
-            track: is_test_version ? "internal" : "production",
-            release_status: is_test_version ? "completed" : "draft",
+            aab: "../build/app/outputs/bundle/prodRelease/app-prod-release.aab",
+            mapping_paths: ["../build/app/outputs/mapping/prodRelease/mapping.txt", "./native_debug_symbols.zip"],
+            track: "internal",
+            release_status: "completed",
             skip_upload_metadata: true,
             skip_upload_images: true,
             skip_upload_screenshots: true,
@@ -77,10 +60,44 @@ platform :android do
         )
     end
 
+    lane :promote do
+      # Write release notes to file
+      app_version = ENV["APP_VERSION"]
+      contents = YAML.safe_load(File.read("../../assets/release_notes.yaml"))
+      version_entry = contents.find { |e| e["version"] == app_version }
+      if version_entry == nil
+        raise "No release note for version #{app_version}. Did you add it?"
+      end
+      version_entry["contents"]["locales"].each do |locale, contents|
+        path = "./metadata/android/#{locale_map[locale]}/changelogs/default.txt"
+        FileUtils.mkdir_p(File.dirname(path))
+        truncated = truncate_release_notes(contents, PLAY_STORE_RELEASE_NOTES_LENGTH_LIMIT, continue_message_map[locale])
+        File.write(path, truncated)
+      end
+
+      release_names = google_play_track_release_names(track: "internal")
+      match = release_names.size == 1 && release_names.first.match(/\A(\d+) \((.+)\)\z/)
+      unless match && match[2] == app_version
+        UI.user_error!("Expected a single internal release of #{app_version}, found #{release_names.inspect}")
+      end
+      version_code = match[1].to_i
+      upload_to_play_store(
+        track: "internal",
+        track_promote_to: "production",
+        track_promote_release_status: "draft",
+        version_code: version_code,
+        skip_upload_aab: true,
+        skip_upload_apk: true,
+        skip_upload_metadata: true,
+        skip_upload_images: true,
+        skip_upload_screenshots: true,
+        changes_not_sent_for_review: true,
+      )
+    end
+
     lane :upload_screenshots do
         desc "Upload screenshots to the Google Play"
         upload_to_play_store(
-            json_key: "/Users/chika/Documents/secrets/service_account_key/mydatauploader-cb1806f10377.json",
             track: "internal",
             skip_upload_aab: true,
             skip_upload_changelogs: true,

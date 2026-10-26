@@ -15,6 +15,7 @@ import "package:intl/date_symbol_data_local.dart";
 import "package:material_ui/material_ui.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
+import "constants/flavors.dart";
 import "core/provider_error_observer.dart";
 import "core/theme.dart";
 import "data/repositories/character_state_repository.dart";
@@ -30,10 +31,6 @@ import "providers/versions.dart";
 import "routes.dart";
 
 const isScreenshotMode = bool.fromEnvironment("SCREENSHOT_MODE");
-const assetChannel = String.fromEnvironment(
-  "ASSET_CHANNEL",
-  defaultValue: kReleaseMode ? "prod" : "dev",
-);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,7 +66,7 @@ void main() async {
   try {
     firebaseApp = await Firebase.initializeApp();
   } catch (e) {
-    if (kReleaseMode) rethrow;
+    if (kProdFlavor) rethrow;
     debugPrint("Firebase is disabled: $e");
   }
   if (firebaseApp != null) {
@@ -109,7 +106,7 @@ final rootNavigatorKey = GlobalKey<NavigatorState>();
 final _router = GoRouter(
   initialLocation: "/bookmarks",
   navigatorKey: rootNavigatorKey,
-  routes: [$homeRoute, if (!kReleaseMode) $debugMenuRoute],
+  routes: [$homeRoute, if (kDevFlavor) $debugMenuRoute],
 );
 
 class MyApp extends HookConsumerWidget {
