@@ -1,3 +1,5 @@
+import "package:flutter/foundation.dart";
+import "package:flutter/services.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_symbols_icons/material_symbols_icons.dart";
@@ -157,13 +159,14 @@ class _MoreNavPageState extends ConsumerState<MorePage> {
     final dataVersion = ref.watch(assetDataProvider);
 
     final dataVersionText = dataVersion.hasValue ? dataVersion.value!.version.dataVersion : "Unknown";
+    final buildMode = kReleaseMode ? "release" : kProfileMode ? "profile" : "debug";
 
     if (packageInfoAsync.value != null) {
       final packageInfo = packageInfoAsync.value!;
       if (!showVersionDetails) {
         return "v${packageInfo.version}_D$dataVersionText";
       } else {
-        return "v${packageInfo.version} / Build ${packageInfo.buildNumber} / Data Version $dataVersionText";
+        return "v${packageInfo.version}($appFlavor,$buildMode) / Build ${packageInfo.buildNumber} / Data Version $dataVersionText";
       }
     } else if (packageInfoAsync.hasError) {
       handleError(packageInfoAsync.error!, packageInfoAsync.stackTrace!);
