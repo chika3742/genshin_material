@@ -62,7 +62,7 @@ Future<BookmarkBagCountsResult?> bookmarkBagCounts(Ref ref) async {
       || filteredWeaponPairs.length != truncatedWeaponPairs.length;
 
   if (truncatedVariantIds.isEmpty && truncatedWeaponPairs.isEmpty) {
-    return (isOverflowed: isOverflowed, bagCounts: <MaterialId, int>{}, targetGroupHashes: <String>{});
+    return null;
   }
 
   final bagCounts = await ref.watch(bagCountsProvider(BagCountRequests(

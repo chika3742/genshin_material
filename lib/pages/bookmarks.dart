@@ -7,11 +7,14 @@ import "../components/bookmarks_page/furnishing_sets_tab.dart";
 import "../components/bookmarks_page/material_grouped_tab.dart";
 import "../components/bookmarks_page/purpose_grouped_tab.dart";
 import "../components/center_text.dart";
+import "../components/game_data_sync_indicator.dart";
 import "../hooks/use_tab_controller.dart";
 import "../i18n/strings.g.dart";
 import "../providers/database_provider.dart";
+import "../providers/hoyolab_game_server.dart";
 import "../ui_core/error_messages.dart";
 import "../ui_core/page_handoff_horizontal_scroll.dart";
+import "../view_models/bookmarks/bookmark_bag_counts.dart";
 
 class BookmarksPage extends HookConsumerWidget {
   const BookmarksPage({super.key});
@@ -58,9 +61,33 @@ class BookmarksPage extends HookConsumerWidget {
 
     final bookmarks = ref.watch(bookmarksProvider());
 
+    final selectedTabIndex = useState(0);
+    useEffect(() {
+      void listener() {
+        selectedTabIndex.value = tabController.index;
+      }
+      tabController.addListener(listener);
+      return () {
+        tabController.removeListener(listener);
+      };
+    }, [tabController]);
+
+    final bagSyncStatus = [0, 1].contains(selectedTabIndex.value)
+        ? ref.watch(bookmarkBagCountsProvider.select(GameDataSyncStatus.fromAsyncValue))
+        : null;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.bookmarks),
+        actions: [
+          if (ref.watch(isLinkedWithHoyolabProvider) && bagSyncStatus != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: GameDataSyncIndicator(
+                status: bagSyncStatus,
+              ),
+            ),
+        ],
         bottom: bookmarks.value != null
             ? TabBar(
                 controller: tabController,
