@@ -428,10 +428,8 @@ void main() {
       final api = FakeHoyolabGameApi();
       final container = createContainer(api);
 
-      final result = await readResult(container);
+      await readResult(container);
       expect(api.batchComputeCalls, isEmpty);
-      expect(result!.isOverflowed, isFalse);
-      expect(result.targetGroupHashes, isEmpty);
     });
 
     test("does not call API when all bookmarks are sync-disabled", () async {
@@ -441,10 +439,8 @@ void main() {
       await addCharacterGroups([_disabledCharaId]);
       await addWeaponGroups([_disabledWeaponId]);
 
-      final result = await readResult(container);
+      await readResult(container);
       expect(api.batchComputeCalls, isEmpty);
-      expect(result!.isOverflowed, isFalse);
-      expect(result.targetGroupHashes, isEmpty);
     });
 
     test("returns null when not linked", () async {
@@ -468,6 +464,17 @@ void main() {
 
       final result = await readResult(container);
       expect(api.batchComputeCalls, isEmpty);
+      expect(result, isNull);
+    });
+
+    test("returns null when no characters/weapons are capable to sync", () async {
+      final api = FakeHoyolabGameApi();
+      final container = createContainer(api);
+
+      await addCharacterGroups([_disabledCharaId]);
+      await addWeaponGroups([_disabledWeaponId]);
+
+      final result = await readResult(container);
       expect(result, isNull);
     });
   });

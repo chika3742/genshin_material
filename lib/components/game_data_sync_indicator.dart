@@ -135,10 +135,10 @@ sealed class GameDataSyncStatus {
 
   static GameDataSyncStatus? fromAsyncValue(AsyncValue<Object?> async) {
     return switch (async) {
-      AsyncData(value: null) => null,
-      AsyncData() => GameDataSyncStatus.synced(),
-      AsyncLoading() => GameDataSyncStatus.syncing(),
+      _ when async.isLoading => .syncing(),
       AsyncError(:final error) => GameDataSyncStatus.error(error: error),
+      _ when async.value == null => null,
+      _ => .synced(),
     };
   }
 
@@ -161,6 +161,12 @@ sealed class GameDataSyncStatus {
       _Synced() => 3,
     };
   }
+
+  @override
+  bool operator ==(Object other) => other.runtimeType == runtimeType;
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 }
 
 class _Syncing extends GameDataSyncStatus {
@@ -177,6 +183,12 @@ class _Error extends GameDataSyncStatus {
   const _Error({
     required this.error,
   }) : super._();
+
+  @override
+  bool operator ==(Object other) => other is _Error && other.error == error;
+
+  @override
+  int get hashCode => Object.hash(_Error, error);
 }
 
 class _CharacterNotExists extends GameDataSyncStatus {
