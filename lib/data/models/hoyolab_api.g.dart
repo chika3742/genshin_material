@@ -337,14 +337,26 @@ _CalcResult _$CalcResultFromJson(Map<String, dynamic> json) => $checkedCreate(
             .map((e) => CalcConsumptionItem.fromJson(e as Map<String, dynamic>))
             .toList(),
       ),
+      availableMaterial: $checkedConvert(
+        'available_material',
+        (v) => (v as List<dynamic>)
+            .map((e) => CalcConsumptionItem.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      ),
     );
     return val;
   },
-  fieldKeyMap: const {'overallConsume': 'overall_consume'},
+  fieldKeyMap: const {
+    'overallConsume': 'overall_consume',
+    'availableMaterial': 'available_material',
+  },
 );
 
 Map<String, dynamic> _$CalcResultToJson(_CalcResult instance) =>
-    <String, dynamic>{'overall_consume': instance.overallConsume};
+    <String, dynamic>{
+      'overall_consume': instance.overallConsume,
+      'available_material': instance.availableMaterial,
+    };
 
 _CalcConsumptionItem _$CalcConsumptionItemFromJson(Map<String, dynamic> json) =>
     $checkedCreate('_CalcConsumptionItem', json, ($checkedConvert) {

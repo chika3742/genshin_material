@@ -1176,7 +1176,7 @@ String toString() {
 /// @nodoc
 mixin _$CalcResult {
 
-@JsonKey(name: "overall_consume") List<CalcConsumptionItem> get overallConsume;
+@JsonKey(name: "overall_consume") List<CalcConsumptionItem> get overallConsume;@JsonKey(name: "available_material") List<CalcConsumptionItem> get availableMaterial;
 
   /// Serializes this CalcResult to a JSON map.
   Map<String, dynamic> toJson();
@@ -1185,20 +1185,20 @@ mixin _$CalcResult {
 @override
 bool operator ==(Object other) {
   final _this = this as CalcResult;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcResult&&const DeepCollectionEquality().equals(other.overallConsume, _this.overallConsume));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CalcResult&&const DeepCollectionEquality().equals(other.overallConsume, _this.overallConsume)&&const DeepCollectionEquality().equals(other.availableMaterial, _this.availableMaterial));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as CalcResult;
-  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.overallConsume));
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.overallConsume),const DeepCollectionEquality().hash(_this.availableMaterial));
 }
 
 @override
 String toString() {
   final _this = this as CalcResult;
-  return 'CalcResult(overallConsume: ${_this.overallConsume})';
+  return 'CalcResult(overallConsume: ${_this.overallConsume}, availableMaterial: ${_this.availableMaterial})';
 }
 
 
@@ -1212,7 +1212,7 @@ String toString() {
 @JsonSerializable()
 
 class _CalcResult implements CalcResult {
-  const _CalcResult({@JsonKey(name: "overall_consume") required  List<CalcConsumptionItem> overallConsume}): _overallConsume = overallConsume;
+  const _CalcResult({@JsonKey(name: "overall_consume") required  List<CalcConsumptionItem> overallConsume, @JsonKey(name: "available_material") required  List<CalcConsumptionItem> availableMaterial}): _overallConsume = overallConsume,_availableMaterial = availableMaterial;
   factory _CalcResult.fromJson(Map<String, dynamic> json) => _$CalcResultFromJson(json);
 
  final  List<CalcConsumptionItem> _overallConsume;
@@ -1220,6 +1220,13 @@ class _CalcResult implements CalcResult {
   if (_overallConsume is EqualUnmodifiableListView) return _overallConsume;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_overallConsume);
+}
+
+ final  List<CalcConsumptionItem> _availableMaterial;
+@override@JsonKey(name: "available_material") List<CalcConsumptionItem> get availableMaterial {
+  if (_availableMaterial is EqualUnmodifiableListView) return _availableMaterial;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_availableMaterial);
 }
 
 
@@ -1231,18 +1238,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcResult&&const DeepCollectionEquality().equals(other.overallConsume, _overallConsume));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CalcResult&&const DeepCollectionEquality().equals(other.overallConsume, _overallConsume)&&const DeepCollectionEquality().equals(other.availableMaterial, _availableMaterial));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_overallConsume));
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_overallConsume),const DeepCollectionEquality().hash(_availableMaterial));
 }
 
 @override
 String toString() {
-    return 'CalcResult(overallConsume: $overallConsume)';
+    return 'CalcResult(overallConsume: $overallConsume, availableMaterial: $availableMaterial)';
 }
 
 

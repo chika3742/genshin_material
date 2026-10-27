@@ -6,12 +6,15 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "../../core/asset_cache.dart";
+import "../../core/pref_keys.dart";
 import "../../data/models/bag_counts.dart";
 import "../../db/extensions/bookmark_db_extension.dart";
 import "../../models/bookmark.dart";
 import "../../models/common.dart";
 import "../../providers/database_provider.dart";
+import "../../providers/pref_notifier.dart";
 import "../../providers/versions.dart";
+import "../../utils/material_calculator.dart";
 import "bookmark_bag_counts.dart";
 import "bookmark_sorter.dart";
 
@@ -33,6 +36,7 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
   @override
   PurposeGroupedBookmarkListState build() {
     final assetData = ref.watch(assetDataProvider).requireValue;
+    final showCraftConvertedLackNum = ref.watch(prefProvider(PrefKeys.showCraftConvertedLackNum));
 
     final bookmarks = (ref.watch(bookmarksProvider()).value ?? [])
         .sortedBy((k) => k.group.orderIndex);
@@ -42,21 +46,25 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
     final bagCountsInfo = ref.watch(bookmarkBagCountsProvider).value;
 
     if (bagCountsInfo != null) {
-      var consumed = const <MaterialId, int>{};
+      var remaining = bagCountsInfo.bagCounts;
       for (final MapEntry(key: groupHash, value: groupBookmarks) in byGroupHash.entries) {
         if (!bagCountsInfo.targetGroupHashes.contains(groupHash)) {
           continue;
         }
 
-        bagCounts[groupHash] = {
-          for (final MapEntry(key: id, value: count) in bagCountsInfo.bagCounts.entries)
-            id: count - (consumed[id] ?? 0),
-        };
-        consumed = {
-          ...consumed,
-          for (final MapEntry(key: id, value: qty) in _quantities(groupBookmarks, assetData).entries)
-            id: (consumed[id] ?? 0) + qty,
-        };
+        final quantities = _quantities(groupBookmarks, assetData);
+        if (showCraftConvertedLackNum) {
+          final result = applyCrafting(remaining, quantities, assetData);
+
+          bagCounts[groupHash] = result.effective;
+          remaining = result.remaining;
+        } else {
+          bagCounts[groupHash] = remaining;
+          remaining = {
+            for (final MapEntry(key: id, value: count) in remaining.entries)
+              id: count - (quantities[id] ?? 0),
+          };
+        }
       }
     }
 

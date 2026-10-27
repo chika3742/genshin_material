@@ -4,6 +4,7 @@ import "package:async/async.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:fractional_indexing/fractional_indexing.dart";
+import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/data/models/bag_counts.dart";
 import "package:genshin_material/db/database.dart";
 import "package:genshin_material/db/extensions/bookmark_db_extension.dart";
@@ -18,6 +19,7 @@ import "package:genshin_material/view_models/bookmarks/purpose_grouped_bookmark_
 import "../../utils/asset_data.dart";
 import "../../utils/async.dart";
 import "../../utils/db.dart";
+import "../../utils/in_memory_pref.dart";
 import "../../utils/provider_container.dart";
 
 void main() {
@@ -45,6 +47,8 @@ void main() {
     materials: {
       "mat_a": buildTestMaterial(id: "mat_a"),
       "mat_b": buildTestMaterial(id: "mat_b"),
+      "book_1": buildTestMaterial(id: "book_1", groupId: "book", craftLevel: 1),
+      "book_2": buildTestMaterial(id: "book_2", groupId: "book", craftLevel: 2),
     },
     materialSortOrder: {"id:mat_a": 2, "id:mat_b": 1},
     // The bag counts of EXP are keyed by the first EXP item.
@@ -67,12 +71,16 @@ void main() {
   /// from an empty list. [bagCounts] stands in for `bookmarkBagCountsProvider`
   /// and is awaited the same way. The providers stay listened to so that the
   /// notifier survives the awaits inside a test.
-  Future<ProviderContainer> createContainer({BookmarkBagCountsResult? bagCounts}) async {
+  Future<ProviderContainer> createContainer({
+    BookmarkBagCountsResult? bagCounts,
+    bool showCraftConvertedLackNum = true,
+  }) async {
     final container = createTestContainer(
       assetData: assetData,
       db: db,
       overrides: [
         bookmarkBagCountsProvider.overrideWith((ref) async => bagCounts),
+        overridePref(PrefKeys.showCraftConvertedLackNum, showCraftConvertedLackNum),
       ],
     );
     container.listen(bookmarksProvider(), (_, _) {});
@@ -304,6 +312,22 @@ void main() {
       ]);
     });
 
+    for (final showCraftConvertedLackNum in [true, false]) {
+      test("does not give a material missing from the bag counts to the groups below "
+          "(showCraftConvertedLackNum: $showCraftConvertedLackNum)", () async {
+        final groupHashes = await addBookmarks([
+          buildMaterialBookmark(characterId: char1, materialId: "mat_b", quantity: 3),
+          buildMaterialBookmark(characterId: char2, materialId: "mat_b"),
+        ]);
+        final container = await createContainer(
+          bagCounts: bagCountsResult({"mat_a": 10}, groupHashes),
+          showCraftConvertedLackNum: showCraftConvertedLackNum,
+        );
+
+        expect(bagCountsOf(container), [{"mat_a": 10}, {"mat_a": 10}]);
+      });
+    }
+
     test("gives no bag counts to a group out of the targets and lets it consume nothing", () async {
       final groupHashes = await addBookmarks([
         buildMaterialBookmark(characterId: char1, materialId: "mat_a", quantity: 30),
@@ -351,6 +375,35 @@ void main() {
         {"exp_book": 10, "exp_ore": 10},
         {"exp_book": 8, "exp_ore": 10},
         {"exp_book": 8, "exp_ore": 7},
+      ]);
+    });
+
+    test("spends the lower rank that a group above crafts from", () async {
+      final groupHashes = await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: "book_2", quantity: 2),
+        buildMaterialBookmark(characterId: char2, materialId: "book_1", quantity: 6),
+      ]);
+      final container = await createContainer(bagCounts: bagCountsResult({"book_1": 9, "book_2": 0}, groupHashes));
+
+      expect(bagCountsOf(container), [
+        {"book_1": 9, "book_2": 3},
+        {"book_1": 3, "book_2": 0},
+      ]);
+    });
+
+    test("does not craft when the preference is off", () async {
+      final groupHashes = await addBookmarks([
+        buildMaterialBookmark(characterId: char1, materialId: "book_2", quantity: 2),
+        buildMaterialBookmark(characterId: char2, materialId: "book_1", quantity: 6),
+      ]);
+      final container = await createContainer(
+        bagCounts: bagCountsResult({"book_1": 9, "book_2": 0}, groupHashes),
+        showCraftConvertedLackNum: false,
+      );
+
+      expect(bagCountsOf(container), [
+        {"book_1": 9, "book_2": 0},
+        {"book_1": 9, "book_2": -2},
       ]);
     });
 

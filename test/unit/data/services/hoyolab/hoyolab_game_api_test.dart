@@ -169,10 +169,13 @@ void main() {
   });
 
   group("batchCompute", () {
-    test("returns the overall consumption", () async {
+    test("returns the overall consumption and the available materials", () async {
       stubPost(client, _okBody({
         "overall_consume": [
           {"id": 104301, "lack_num": 2, "num": 5},
+        ],
+        "available_material": [
+          {"id": 104302, "lack_num": 0, "num": 3},
         ],
       }));
 
@@ -183,6 +186,8 @@ void main() {
       expect(result.overallConsume.single.id, 104301);
       expect(result.overallConsume.single.lackNum, 2);
       expect(result.overallConsume.single.num, 5);
+      expect(result.availableMaterial.single.id, 104302);
+      expect(result.availableMaterial.single.num, 3);
     });
 
     test("rejects more items than the endpoint accepts", () {

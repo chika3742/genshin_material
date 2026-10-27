@@ -50,7 +50,7 @@ class FakeHoyolabGameApi extends HoyolabGameApi {
     if (error case final error?) {
       throw error;
     }
-    return computeResult ?? const CalcResult(overallConsume: []);
+    return computeResult ?? const CalcResult(overallConsume: [], availableMaterial: []);
   }
 }
 

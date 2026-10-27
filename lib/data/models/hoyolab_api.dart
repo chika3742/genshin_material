@@ -207,6 +207,7 @@ sealed class CalcComputeWeapon with _$CalcComputeWeapon {
 sealed class CalcResult with _$CalcResult {
   const factory CalcResult({
     @JsonKey(name: "overall_consume") required List<CalcConsumptionItem> overallConsume,
+    @JsonKey(name: "available_material") required List<CalcConsumptionItem> availableMaterial,
   }) = _CalcResult;
 
   factory CalcResult.fromJson(Map<String, dynamic> json) =>

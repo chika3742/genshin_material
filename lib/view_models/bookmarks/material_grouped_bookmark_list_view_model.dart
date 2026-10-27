@@ -2,11 +2,15 @@ import "package:collection/collection.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "../../core/pref_keys.dart";
 import "../../data/models/bag_counts.dart";
 import "../../db/extensions/bookmark_db_extension.dart";
 import "../../models/bookmark.dart";
+import "../../models/common.dart";
 import "../../providers/database_provider.dart";
+import "../../providers/pref_notifier.dart";
 import "../../providers/versions.dart";
+import "../../utils/material_calculator.dart";
 import "bookmark_bag_counts.dart";
 import "bookmark_sorter.dart";
 
@@ -33,12 +37,18 @@ class MaterialGroupedBookmarkListViewModel extends _$MaterialGroupedBookmarkList
         .groupListsBy(
       (e) => e.item.materialId ?? (e.group.weaponId != null).toString(),
     );
+    Map<MaterialId, int> needs() {
+      return bookmarkMaterials.map((id, v) => MapEntry(id, v.fold(0, (p, e) => p + e.item.quantity)));
+    }
 
     final bagCountsInfo = ref.watch(bookmarkBagCountsProvider).value;
+    final bagCounts = ref.watch(prefProvider(PrefKeys.showCraftConvertedLackNum)) && bagCountsInfo != null
+        ? applyCrafting(bagCountsInfo.bagCounts, needs(), assetData).effective
+        : bagCountsInfo?.bagCounts;
 
     return MaterialGroupedBookmarkListState(
       materials: bookmarkMaterials,
-      bagCounts: bagCountsInfo?.isOverflowed == false ? bagCountsInfo!.bagCounts : {},
+      bagCounts: bagCountsInfo?.isOverflowed == false && bagCounts != null ? bagCounts : {},
       cannotShowBagCounts: bagCountsInfo?.isOverflowed == true,
     );
   }

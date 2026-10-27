@@ -1,6 +1,7 @@
 import "package:async/async.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_test/flutter_test.dart";
+import "package:genshin_material/core/pref_keys.dart";
 import "package:genshin_material/db/database.dart";
 import "package:genshin_material/db/extensions/bookmark_db_extension.dart";
 import "package:genshin_material/models/bookmark.dart";
@@ -14,6 +15,7 @@ import "package:genshin_material/view_models/bookmarks/material_grouped_bookmark
 import "../../utils/asset_data.dart";
 import "../../utils/async.dart";
 import "../../utils/db.dart";
+import "../../utils/in_memory_pref.dart";
 import "../../utils/provider_container.dart";
 
 void main() {
@@ -44,6 +46,7 @@ void main() {
       db: db,
       overrides: [
         bookmarkBagCountsProvider.overrideWith((ref) async => bagCounts),
+        overridePref(PrefKeys.showCraftConvertedLackNum, true),
       ],
     );
     container.listen(bookmarksProvider(), (_, _) {});
