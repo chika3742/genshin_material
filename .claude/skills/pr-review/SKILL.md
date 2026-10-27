@@ -25,6 +25,22 @@ The review criteria are in `.claude/skills/pr-review/criteria.md`. Read it befor
 - Only you post to the pull request. Subagents return their results to you.
 - When you launch a subagent, tell it that the working directory is expected to hold the pull request's head commit. Do not copy the diff into its prompt; it gets the diff itself.
 
+## Progress
+
+With `--comment`, keep a progress comment on the pull request. Before step 1, post it with `gh pr comment <number> --body '<progress>'`. When each later step starts, update it with `gh pr comment <number> --edit-last --body '<progress>'`. Step 5 replaces it with the summary.
+
+Write the progress in this form, checking the finished steps:
+
+```markdown
+レビュー中…
+
+- [x] 情報収集
+- [ ] 候補の洗い出し
+- [ ] 候補の検証
+- [ ] 選別
+- [ ] 報告
+```
+
 ## 1. Gather context
 
 Run these, replacing `<number>` with the pull request number. Type `{owner}/{repo}` literally; `gh` fills it in.
@@ -68,17 +84,17 @@ Write the summary in this form:
 ```markdown
 指摘 N 件（Important N / Nit N）
 
-### 指摘
+**指摘**
 - [Important] One line per issue. Link to the inline comment for issues posted inline. For the others, give the file and line, or only the file if no line applies.
 
-### 気づいたこと
+**気づいたこと**
 Things that are not issues but worth knowing, such as gaps in the documentation. Omit the section if there are none.
 
-### 確かめられなかったこと
+**確かめられなかったこと**
 What could not be verified, and why. Omit the section if there are none.
 ```
 
-When there are no issues, write "指摘 0 件" and "なし" under "### 指摘".
+When there are no issues, write "指摘 0 件" and "なし" under "**指摘**".
 
 Each inline comment states the severity, the problem, the scenario or the quoted rule, and how to fix it. Add a suggestion block only when applying it fixes the issue completely.
 
@@ -87,5 +103,5 @@ Each inline comment states the severity, the problem, the scenario or the quoted
 **With `--comment`:**
 
 1. Post each issue that points at lines in the diff as an inline comment with `mcp__github_inline_comment__create_inline_comment` and `confirmed: true`, one comment per issue. Inline comments can only go on lines that are part of the diff. Put an issue that points at other lines in the summary only.
-2. Post the summary with `gh pr comment <number> --body '<summary>'`. Wrap the body in single quotes so that backticks in it are not run as commands, and escape any single quote inside it as `'\''`.
+2. Replace the progress comment with the summary: `gh pr comment <number> --edit-last --body '<summary>'`. Wrap the body in single quotes so that backticks in it are not run as commands, and escape any single quote inside it as `'\''`. Do not start any line of the body with `#`; the permission check denies a quoted argument with a newline followed by `#`.
 

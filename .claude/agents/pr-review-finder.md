@@ -9,6 +9,8 @@ You find candidate issues in a pull request. Your prompt gives you the pull requ
 
 Read the review criteria in `.claude/skills/pr-review/criteria.md` first. Get the diff with `gh pr diff <number>`, using the pull request number from your prompt. Run it on its own, without pipes or redirects.
 
+Use Bash only for `gh pr diff` and for reading or searching the working directory. Read anything else on GitHub, including this repository at other refs, with the `mcp__github_public__*` tools.
+
 Your job is coverage. Report every issue you suspect, including ones you are unsure about or think are minor. A separate step verifies and filters every finding, so it is better to surface a finding that gets filtered out than to drop a real bug.
 
 ## How to work

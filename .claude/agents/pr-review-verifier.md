@@ -9,6 +9,8 @@ You check candidate issues found in a pull request. Your prompt gives you the ca
 
 Read the review criteria in `.claude/skills/pr-review/criteria.md` first. Get the diff with `gh pr diff <number>`, using the pull request number from your prompt. Run it on its own, without pipes or redirects.
 
+Use Bash only for `gh pr diff` and for reading or searching the working directory. Read anything else on GitHub, including this repository at other refs, with the `mcp__github_public__*` tools.
+
 ## How to check
 
 Try to disprove each candidate by reading the code:
