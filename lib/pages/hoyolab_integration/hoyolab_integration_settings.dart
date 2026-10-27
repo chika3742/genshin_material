@@ -1,4 +1,5 @@
 import "dart:developer";
+import "dart:io";
 
 import "package:collection/collection.dart";
 import "package:flutter_hooks/flutter_hooks.dart";
@@ -63,7 +64,7 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
           ),
           ListTile(
             title: Text(tr.hoyolab.aboutHeading),
-            subtitle: Text(tr.hoyolab.about),
+            subtitle: Text(tr.hoyolab.about(extra: Platform.isIOS ? tr.hoyolab.aboutExtra : "")),
           ),
         ],
       );
