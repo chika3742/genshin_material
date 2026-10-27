@@ -93,6 +93,9 @@ jobs:
     needs: build-attr
     if: needs.build-attr.outputs.promote == 'true'
     uses: chika3742/flutter-app-deploy/.github/workflows/android-promote.yml@6eac78aa419a9e2edf6d5db452fc23674bbefc90
+    permissions:
+      contents: read
+      id-token: write
     with:
       wif-audience: ${{ vars.WIF_AUDIENCE }}
       build-name: ${{ needs.build-attr.outputs.build_name }}
