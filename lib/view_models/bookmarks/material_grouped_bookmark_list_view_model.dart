@@ -22,6 +22,7 @@ sealed class MaterialGroupedBookmarkListState with _$MaterialGroupedBookmarkList
   const factory MaterialGroupedBookmarkListState({
     required Map<String, List<MaterialBookmark>> materials,
     required BagCounts bagCounts,
+    required Map<MaterialId, int>? craftedCounts,
     required bool cannotShowBagCounts,
   }) = _MaterialGroupedBookmarkListState;
 }
@@ -42,13 +43,20 @@ class MaterialGroupedBookmarkListViewModel extends _$MaterialGroupedBookmarkList
     }
 
     final bagCountsInfo = ref.watch(bookmarkBagCountsProvider).value;
-    final bagCounts = ref.watch(prefProvider(PrefKeys.showCraftConvertedLackNum)) && bagCountsInfo != null
-        ? applyCrafting(bagCountsInfo.bagCounts, needs(), assetData).effective
-        : bagCountsInfo?.bagCounts;
+    final BagCounts? bagCounts;
+    Map<MaterialId, int>? craftedCounts;
+    if (ref.watch(prefProvider(PrefKeys.showCraftConvertedLackNum)) && bagCountsInfo != null) {
+      final result = applyCrafting(bagCountsInfo.bagCounts, needs(), assetData);
+      bagCounts = result.effective;
+      craftedCounts = result.crafted;
+    } else {
+      bagCounts = bagCountsInfo?.bagCounts;
+    }
 
     return MaterialGroupedBookmarkListState(
       materials: bookmarkMaterials,
       bagCounts: bagCountsInfo?.isOverflowed == false && bagCounts != null ? bagCounts : {},
+      craftedCounts: craftedCounts,
       cannotShowBagCounts: bagCountsInfo?.isOverflowed == true,
     );
   }

@@ -47,6 +47,7 @@ void main() {
 
       expect(result.effective, {"book_1": -6, "book_2": 1, "book_3": 0});
       expect(result.remaining, {"book_1": -6, "book_2": -1, "book_3": 0});
+      expect(result.crafted, isEmpty);
     });
 
     group("effective", () {
@@ -60,6 +61,7 @@ void main() {
         final result = applyCrafting({"book_1": 9, "book_2": 2, "book_3": 0}, {"book_2": 2}, assetData);
 
         expect(result.effective, {"book_1": 9, "book_2": 5, "book_3": 1});
+        expect(result.crafted, {"book_2": 3, "book_3": 1});
       });
 
       test("keeps the groups apart", () {

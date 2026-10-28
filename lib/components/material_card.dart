@@ -26,6 +26,8 @@ class MaterialCardEntry {
 
   final int quantity;
 
+  final int? craftedCount;
+
   /// If null, this value won't be shown.
   final int? bagCount;
 
@@ -35,6 +37,7 @@ class MaterialCardEntry {
     required this.name,
     required this.rarity,
     required this.quantity,
+    required this.craftedCount,
     this.bagCount,
   });
 }
@@ -126,12 +129,9 @@ class MaterialCard extends HookWidget {
                               ),
                               if (material.bagCount case final bagCount?)
                                 Flexible(
-                                  child: Row(
-                                    spacing: 4.0,
-                                    children: [
-                                      Icon(Symbols.shopping_bag, size: 18),
-                                      FittedBox(child: _buildLackNumIndicator(material.quantity - bagCount)),
-                                    ],
+                                  child: _buildLackNumIndicator(
+                                    material.quantity - bagCount,
+                                    needsCrafting: (material.craftedCount ?? 0) > 0 && material.quantity > bagCount - (material.craftedCount ?? 0),
                                   ),
                                 ),
                             ],
@@ -198,14 +198,25 @@ class MaterialCard extends HookWidget {
     );
   }
 
-  Widget _buildLackNumIndicator(int lackNum) {
-    if (lackNum <= 0) {
-      return Icon(Symbols.check, weight: 700, size: 22, color: Colors.green);
-    }
-
-    return DefaultTextStyle(
-      style: TextStyle(color: Colors.red),
-      child: _AnimatedQuantity(-lackNum, showCross: false),
+  Widget _buildLackNumIndicator(int lackNum, {required bool needsCrafting}) {
+    return Row(
+      spacing: 4.0,
+      children: [
+        Icon(needsCrafting ? Symbols.orbit : Symbols.shopping_bag, size: 18),
+        FittedBox(
+          child: lackNum <= 0
+              ? Icon(
+                  Symbols.check,
+                  weight: 700,
+                  size: 22,
+                  color: needsCrafting ? Colors.blue : Colors.green,
+                )
+              : DefaultTextStyle(
+                  style: TextStyle(color: Colors.red),
+                  child: _AnimatedQuantity(-lackNum, showCross: false),
+                ),
+        ),
+      ],
     );
   }
 }

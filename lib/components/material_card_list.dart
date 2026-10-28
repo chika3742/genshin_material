@@ -43,12 +43,15 @@ class MaterialCardList extends HookConsumerWidget {
     );
 
     var effectiveBagCounts = bagCounts;
+    Map<MaterialId, int>? craftedCounts;
     if (bagCounts case final bagCounts? when ref.watch(prefProvider(PrefKeys.showCraftConvertedLackNum))) {
       final needs = {
         for (final e in items)
-          ?e.id: e.sum
+          ?e.id: e.sum,
       };
-      effectiveBagCounts = applyCrafting(bagCounts, needs, assetData).effective;
+      final result = applyCrafting(bagCounts, needs, assetData);
+      effectiveBagCounts = result.effective;
+      craftedCounts = result.crafted;
     }
 
     return Wrap(
@@ -60,6 +63,7 @@ class MaterialCardList extends HookConsumerWidget {
             possiblePurposeTypes: purposes,
             targetType: target.targetType,
             bagCounts: effectiveBagCounts,
+            craftedCounts: craftedCounts,
             usage: switch (target.targetType) {
               .character => MaterialUsage(
                 characterId: CharacterOrVariantId(target.id),

@@ -30,6 +30,7 @@ class MaterialItem extends HookConsumerWidget {
   final MaterialTargetType targetType;
   final List<String>? hashes;
   final BagCounts? bagCounts;
+  final Map<MaterialId, int>? craftedCounts;
 
   const MaterialItem({
     super.key,
@@ -39,6 +40,7 @@ class MaterialItem extends HookConsumerWidget {
     required this.targetType,
     this.hashes,
     this.bagCounts,
+    this.craftedCounts,
   })  : assert(hashes != null || (possiblePurposeTypes != null && usage != null));
 
   @override
@@ -116,6 +118,7 @@ class MaterialItem extends HookConsumerWidget {
       farmCount: farmCount,
       bookmarkState: bookmarkState,
       bagCountForMainItem: bagCount,
+      craftedCountForMainItem: craftedCounts?[referenceMaterial.id],
       dailyMaterialAvailable: referenceMaterial
           .getDailyMaterialAvailable(dailyResetServer),
       onBookmark: usage != null ? (entryIndex) async {

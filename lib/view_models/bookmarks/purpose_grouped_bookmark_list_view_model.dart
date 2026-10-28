@@ -44,6 +44,7 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
     final byGroupHash = bookmarks.groupListsBy((e) => e.group.groupHash);
     final bagCounts = <String /* group hash */, BagCounts>{};
     final bagCountsInfo = ref.watch(bookmarkBagCountsProvider).value;
+    final craftedCounts = <String, Map<MaterialId, int>>{};
 
     if (bagCountsInfo != null) {
       var remaining = bagCountsInfo.bagCounts;
@@ -57,6 +58,7 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
           final result = applyCrafting(remaining, quantities, assetData);
 
           bagCounts[groupHash] = result.effective;
+          craftedCounts[groupHash] = result.crafted;
           remaining = result.remaining;
         } else {
           bagCounts[groupHash] = remaining;
@@ -69,7 +71,7 @@ class PurposeGroupedBookmarkListViewModel extends _$PurposeGroupedBookmarkListVi
     }
 
     final bookmarkGroupMap = byGroupHash
-        .map((k, v) => MapEntry(k, BookmarkGroup.fromBookmarks(v, assetData, bagCounts[k])));
+        .map((k, v) => MapEntry(k, BookmarkGroup.fromBookmarks(v, assetData, bagCounts[k], craftedCounts[k])));
 
     final bookmarkGroupList = bookmarkGroupMap.values.toList()
       ..sort((a, b) => a.orderIndex.compareTo(b.orderIndex));

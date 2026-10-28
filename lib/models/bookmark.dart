@@ -145,12 +145,14 @@ sealed class BookmarkGroup with _$BookmarkGroup {
     required LevelRangeValues levelRange,
     required List<MaterialBookmark> bookmarks,
     required BagCounts? bagCounts,
+    required Map<MaterialId, int>? craftedCounts,
   }) = _BookmarkGroup;
 
   factory BookmarkGroup.fromBookmarks(
     List<MaterialBookmark> bookmarks,
     AssetData assetData, [
     BagCounts? bagCounts,
+    Map<MaterialId, int>? craftedCounts,
   ]) {
     assert(bookmarks.isNotEmpty);
 
@@ -182,6 +184,7 @@ sealed class BookmarkGroup with _$BookmarkGroup {
       bookmarks: bookmarks,
       orderIndex: sample.group.orderIndex,
       bagCounts: bagCounts,
+      craftedCounts: craftedCounts,
     );
   }
 }

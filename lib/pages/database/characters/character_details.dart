@@ -146,7 +146,7 @@ class _CharacterDetailsContents extends HookConsumerWidget {
                           .set(!showCraftedLackNum);
                     },
                     child: Text(tr.popupMenu.useCraftConverted),
-                  )
+                  ),
               ];
             },
           ),
