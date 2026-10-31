@@ -3,6 +3,7 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
 import 'dart:async' as _i2;
 
 import 'package:firebase_remote_config/firebase_remote_config.dart' as _i6;
