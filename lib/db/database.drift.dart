@@ -3118,10 +3118,11 @@ class $$BookmarkMaterialGroupTableTableTableManager
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (bookmarkMaterialItemTableRefs)
-                    await $_getPrefetchedData<
+                    await $_getPrefetchedDataByColumns<
                       BookmarkMaterialGroup,
                       $BookmarkMaterialGroupTableTable,
-                      BookmarkMaterialItem
+                      BookmarkMaterialItem,
+                      $BookmarkMaterialItemTableTable
                     >(
                       currentTable: table,
                       referencedTable:
@@ -3133,10 +3134,8 @@ class $$BookmarkMaterialGroupTableTableTableManager
                             table,
                             p0,
                           ).bookmarkMaterialItemTableRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where(
-                            (e) => e.groupHash == item.groupHash,
-                          ),
+                      currentColumn: 'group_hash',
+                      referencedColumn: 'group_hash',
                       typedResults: items,
                     ),
                 ];
@@ -3900,10 +3899,11 @@ class $$BookmarkArtifactTableTableTableManager
                   getPrefetchedDataCallback: (items) async {
                     return [
                       if (bookmarkArtifactSetTableRefs)
-                        await $_getPrefetchedData<
+                        await $_getPrefetchedDataByColumns<
                           BookmarkArtifact,
                           $BookmarkArtifactTableTable,
-                          BookmarkArtifactSet
+                          BookmarkArtifactSet,
+                          $BookmarkArtifactSetTableTable
                         >(
                           currentTable: table,
                           referencedTable:
@@ -3915,17 +3915,16 @@ class $$BookmarkArtifactTableTableTableManager
                                 table,
                                 p0,
                               ).bookmarkArtifactSetTableRefs,
-                          referencedItemsForCurrentItem: (
-                            item,
-                            referencedItems,
-                          ) => referencedItems.where((e) => e.id == item.id),
+                          currentColumn: 'id',
+                          referencedColumn: 'id',
                           typedResults: items,
                         ),
                       if (bookmarkArtifactPieceTableRefs)
-                        await $_getPrefetchedData<
+                        await $_getPrefetchedDataByColumns<
                           BookmarkArtifact,
                           $BookmarkArtifactTableTable,
-                          BookmarkArtifactPiece
+                          BookmarkArtifactPiece,
+                          $BookmarkArtifactPieceTableTable
                         >(
                           currentTable: table,
                           referencedTable:
@@ -3937,10 +3936,8 @@ class $$BookmarkArtifactTableTableTableManager
                                 table,
                                 p0,
                               ).bookmarkArtifactPieceTableRefs,
-                          referencedItemsForCurrentItem: (
-                            item,
-                            referencedItems,
-                          ) => referencedItems.where((e) => e.id == item.id),
+                          currentColumn: 'id',
+                          referencedColumn: 'id',
                           typedResults: items,
                         ),
                     ];

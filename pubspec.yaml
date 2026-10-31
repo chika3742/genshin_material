@@ -28,11 +28,11 @@ dependencies:
   cupertino_ui: 1.1.4
   collection: ^1.19.1
   path: ^1.9.1
-  intl: ^0.20.2
+  intl: ^0.20.3
   clock: ^1.1.3
   flutter_riverpod: 3.4.3
   riverpod_annotation: 4.0.7
-  go_router: 18.1.0
+  go_router: 18.1.1
   freezed_annotation: 3.1.0
   material_symbols_icons: 4.2960.0
   slang: 4.19.2
@@ -51,20 +51,20 @@ dependencies:
   shared_preferences: 2.5.6
   hooks_riverpod: 3.4.3
   url_launcher: 6.3.3
-  drift: 2.35.2
+  drift: 2.35.3
   drift_flutter: 0.3.1
   webview_flutter: 4.14.1
-  crypto: 3.0.7
+  crypto: 3.0.8
   drift_db_viewer: 2.1.0
   google_fonts: 9.0.0
   uuid: 4.6.0
   tutorial_coach_mark: 1.3.4
   flutter_secure_storage: 10.3.4
-  firebase_core: 5.0.0
-  firebase_crashlytics: 6.0.0
-  firebase_remote_config: 7.0.0
+  firebase_core: 5.1.0
+  firebase_crashlytics: 6.0.1
+  firebase_remote_config: 7.0.1
   signed_spacing_flex: 1.1.0
-  flutter_svg: 2.3.0
+  flutter_svg: 2.3.2
   fractional_indexing: 1.0.0
   flutter_local_notifications:
     git:
@@ -83,12 +83,12 @@ dev_dependencies:
   flutter_lints: 6.0.0
   riverpod_generator: 4.0.9
   build_runner: 2.16.2
-  freezed: 4.0.2
-  go_router_builder: 4.5.0
-  json_serializable: 6.14.1
+  freezed: 4.0.3
+  go_router_builder: 4.5.2
+  json_serializable: 6.15.2
   mockito: 5.8.1
-  drift_dev: 2.35.1
-  pigeon: 29.0.8
+  drift_dev: 2.35.2
+  pigeon: 29.0.11
   args: 2.7.0
   async: 2.13.1
 
