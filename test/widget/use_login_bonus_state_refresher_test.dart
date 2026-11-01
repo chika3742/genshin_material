@@ -5,7 +5,6 @@ import "package:flutter/widgets.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:genshin_material/core/api_request_queue.dart";
 import "package:genshin_material/core/pref_keys.dart";
-import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/hooks/use_login_bonus_state_refresher.dart";
 import "package:genshin_material/providers/hoyolab_api.dart";
 import "package:genshin_material/providers/login_bonus_state.dart";
@@ -18,7 +17,6 @@ import "../utils/hoyolab_api.dart";
 import "../utils/http_client.dart";
 import "../utils/http_client.mocks.dart";
 import "../utils/in_memory_pref.dart";
-import "../utils/remote_config.dart";
 import "../utils/secure_storage.dart";
 import "utils.dart";
 
@@ -181,8 +179,8 @@ void main() {
     Future<ProviderContainer> pumpApp(WidgetTester tester, {required String cache}) async {
       tester.binding.handleAppLifecycleStateChanged(.resumed);
       await tester.pumpWidget(createProviderScope(
+        hoyolabLinkEnabled: true,
         overrides: [
-          overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, true),
           overrideHttpClient(client),
           hoyolabRequestQueueProvider.overrideWithValue(ApiRequestQueue(interval: Duration.zero)),
           overridePref(PrefKeys.lastLoginBonusStateSynced, cache),

@@ -515,12 +515,6 @@ List<Override> _prefOverrides({required Map<String, String> lastSelectedVariants
     overridePref(PrefKeys.autoRemoveBookmarks, true),
     overridePref(PrefKeys.syncCharaState, true),
     overridePref(PrefKeys.syncBagLackNums, false),
-    overridePref(PrefKeys.showFarmCount, false),
-    overridePref(PrefKeys.showItemNameOnCard, false),
-    overridePref(PrefKeys.adventureRank, 60),
-    overridePref(PrefKeys.condensedMultiplier, 2.0),
-    overridePref(PrefKeys.dailyResetServer, GameServer.asia),
-    overridePref(PrefKeys.useLackNumForFarmCount, true),
   ];
 }
 

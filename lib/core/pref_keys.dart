@@ -32,4 +32,5 @@ abstract final class PrefKeys {
   // This key should be accessed through loginBonusStateProvider.
   static const lastLoginBonusStateSynced = NullableStringPrefKey("lastLoginBonusStateSynced");
   static const useLackNumForFarmCount = BooleanPrefKey("useLackNumForFarmCount", true);
+  static const showCraftConvertedLackNum = BooleanPrefKey("showCraftConvertedLackNum", true);
 }

@@ -169,7 +169,6 @@ void main() {
       overridePref(PrefKeys.showItemNameOnCard, showItemName),
       overridePref(PrefKeys.adventureRank, 60),
       overridePref(PrefKeys.condensedMultiplier, 2.0),
-      overridePref(PrefKeys.dailyResetServer, GameServer.asia),
       overridePref(PrefKeys.useLackNumForFarmCount, useLackNumForFarmCount),
     ];
   }

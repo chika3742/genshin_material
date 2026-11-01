@@ -40,6 +40,8 @@ common:
   none: なし
   selected: "選択中: $character"
   dismiss: 閉じる
+popupMenu:
+  useCraftConverted: バッグ不足数を合成換算
 search:
   hint: $targetを検索...
   noResults: 検索結果が見つかりません
@@ -314,6 +316,8 @@ hoyolab:
   syncCharaState: ゲーム内のキャラクターを同期する
   syncCharaStateDesc: キャラクターのレベル、天賦レベル、装備武器のレベルを同期します。
   syncBagLackNums: ゲーム内のバッグ不足数を同期する
+  useCraftAppliedLackNums: 合成換算後のバッグ不足数を表示
+  useCraftAppliedLackNumsDesc: 天賦本など、バッグにある下位の素材を合成した後の不足数を表示します。
   autoRemoveBookmarks: 育成完了のブックマークを自動解除する
   autoRemoveBookmarksDesc: キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。
   mustBeResonatedWithStatue: 旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。

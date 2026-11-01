@@ -46,6 +46,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	String get appName => '原神素材ノート';
 
 	late final Translations$common$ja common = Translations$common$ja.internal(_root);
+	late final Translations$popupMenu$ja popupMenu = Translations$popupMenu$ja.internal(_root);
 	late final Translations$search$ja search = Translations$search$ja.internal(_root);
 	late final Translations$tutorial$ja tutorial = Translations$tutorial$ja.internal(_root);
 	Map<String, String> get purposes => {
@@ -215,6 +216,18 @@ class Translations$common$ja {
 
 	/// ja: '閉じる'
 	String get dismiss => '閉じる';
+}
+
+// Path: popupMenu
+class Translations$popupMenu$ja {
+	Translations$popupMenu$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// ja: 'バッグ不足数を合成換算'
+	String get useCraftConverted => 'バッグ不足数を合成換算';
 }
 
 // Path: search
@@ -1095,6 +1108,12 @@ class Translations$hoyolab$ja {
 	/// ja: 'ゲーム内のバッグ不足数を同期する'
 	String get syncBagLackNums => 'ゲーム内のバッグ不足数を同期する';
 
+	/// ja: '合成換算後のバッグ不足数を表示'
+	String get useCraftAppliedLackNums => '合成換算後のバッグ不足数を表示';
+
+	/// ja: '天賦本など、バッグにある下位の素材を合成した後の不足数を表示します。'
+	String get useCraftAppliedLackNumsDesc => '天賦本など、バッグにある下位の素材を合成した後の不足数を表示します。';
+
 	/// ja: '育成完了のブックマークを自動解除する'
 	String get autoRemoveBookmarks => '育成完了のブックマークを自動解除する';
 
@@ -1291,6 +1310,7 @@ extension on Translations {
 			'common.none' => 'なし',
 			'common.selected' => ({required Object character}) => '選択中: ${character}',
 			'common.dismiss' => '閉じる',
+			'popupMenu.useCraftConverted' => 'バッグ不足数を合成換算',
 			'search.hint' => ({required Object target}) => '${target}を検索...',
 			'search.noResults' => '検索結果が見つかりません',
 			'search.targets.characters' => 'キャラクター',
@@ -1527,6 +1547,8 @@ extension on Translations {
 			'hoyolab.syncCharaState' => 'ゲーム内のキャラクターを同期する',
 			'hoyolab.syncCharaStateDesc' => 'キャラクターのレベル、天賦レベル、装備武器のレベルを同期します。',
 			'hoyolab.syncBagLackNums' => 'ゲーム内のバッグ不足数を同期する',
+			'hoyolab.useCraftAppliedLackNums' => '合成換算後のバッグ不足数を表示',
+			'hoyolab.useCraftAppliedLackNumsDesc' => '天賦本など、バッグにある下位の素材を合成した後の不足数を表示します。',
 			'hoyolab.autoRemoveBookmarks' => '育成完了のブックマークを自動解除する',
 			'hoyolab.autoRemoveBookmarksDesc' => 'キャラクターページもしくは武器ページを開いた際、素材ブックマークを自動的に解除します。',
 			'hoyolab.mustBeResonatedWithStatue' => '旅人のレベルを同期するには、七天神像で該当する元素と共鳴する必要があります。',

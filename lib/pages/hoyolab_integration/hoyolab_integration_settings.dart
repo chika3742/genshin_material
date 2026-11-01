@@ -137,6 +137,14 @@ class _HoyolabIntegrationSettingsPageState extends ConsumerState<HoyolabIntegrat
               ref.read(prefProvider(PrefKeys.syncBagLackNums).notifier).set(value);
             } : null,
           ),
+          CheckboxListTile(
+            title: Text(tr.hoyolab.useCraftAppliedLackNums),
+            subtitle: Text(tr.hoyolab.useCraftAppliedLackNumsDesc),
+            value: ref.watch<bool>(prefProvider(PrefKeys.showCraftConvertedLackNum)),
+            onChanged: isLinked && syncBagLackNums ? (value) {
+              ref.read(prefProvider(PrefKeys.showCraftConvertedLackNum).notifier).set(value!);
+            } : null,
+          ),
           SwitchListTile(
             title: Text(tr.hoyolab.autoRemoveBookmarks),
             subtitle: Text(tr.hoyolab.autoRemoveBookmarksDesc),

@@ -7,6 +7,7 @@ import "../components/bookmarks_page/furnishing_sets_tab.dart";
 import "../components/bookmarks_page/material_grouped_tab.dart";
 import "../components/bookmarks_page/purpose_grouped_tab.dart";
 import "../components/center_text.dart";
+import "../components/config_popup_menu_button.dart";
 import "../components/game_data_sync_indicator.dart";
 import "../hooks/use_tab_controller.dart";
 import "../i18n/strings.g.dart";
@@ -81,12 +82,10 @@ class BookmarksPage extends HookConsumerWidget {
         title: Text(tr.pages.bookmarks),
         actions: [
           if (ref.watch(isLinkedWithHoyolabProvider) && bagSyncStatus != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: GameDataSyncIndicator(
-                status: bagSyncStatus,
-              ),
+            GameDataSyncIndicator(
+              status: bagSyncStatus,
             ),
+          ConfigPopupMenuButton(),
         ],
         bottom: bookmarks.value != null
             ? TabBar(

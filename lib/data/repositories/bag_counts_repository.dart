@@ -86,13 +86,18 @@ class BagCountsNotifier extends _$BagCountsNotifier {
 
     final result = await api.batchCompute(items);
 
-    final counts = Map.fromEntries(result.overallConsume.map((e) {
-      final material = assetData.materials.values.firstWhereOrNull((m) => m.hyvId == e.id);
-      if (material == null) {
-        return null;
+    final counts = <MaterialId, int>{};
+    MaterialId? toMaterialId(int id) => assetData.materials.values.firstWhereOrNull((m) => m.hyvId == id)?.id;
+    for (final e in result.overallConsume) {
+      if (toMaterialId(e.id) case final id?) {
+        counts[id] = e.num - e.lackNum;
       }
-      return MapEntry(material.id, e.num - e.lackNum);
-    }).nonNulls);
+    }
+    for (final e in result.availableMaterial) {
+      if (toMaterialId(e.id) case final id?) {
+        counts.update(id, (v) => v + e.num, ifAbsent: () => e.num);
+      }
+    }
 
     // keep the result for a while after fetching
     final link = ref.keepAlive();

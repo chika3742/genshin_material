@@ -26,3 +26,19 @@ class InMemoryPrefNotifier<PrefT, ConvT> extends PrefNotifier<PrefT, ConvT> {
     state = _value;
   }
 }
+
+class _DefaultPrefNotifier<PrefT, ConvT> extends PrefNotifier<PrefT, ConvT> {
+  @override
+  ConvT build(PrefKey<PrefT, ConvT> key) {
+    return key.fromPref(key.defaultValue as PrefT);
+  }
+
+  @override
+  Future<void> set(ConvT value) async {
+    state = value;
+  }
+}
+
+Override overridePrefDefaults() {
+  return prefProvider.overrideWith(<PrefT, ConvT>() => _DefaultPrefNotifier<PrefT, ConvT>());
+}

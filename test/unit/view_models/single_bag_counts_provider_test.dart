@@ -127,9 +127,12 @@ void main() {
 
   test("fetches the variant and the weapon as one item", () async {
     final api = FakeHoyolabGameApi(
-      computeResult: const CalcResult(overallConsume: [
-        CalcConsumptionItem(id: _materialHyvId, num: 10, lackNum: 3),
-      ]),
+      computeResult: const CalcResult(
+        overallConsume: [
+          CalcConsumptionItem(id: _materialHyvId, num: 10, lackNum: 3),
+        ],
+        availableMaterial: [],
+      ),
     );
 
     final result = await readSingle(

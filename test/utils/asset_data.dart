@@ -94,7 +94,7 @@ Material buildTestMaterial({
   return Material(
     id: id,
     hyvId: hyvId,
-    name: name ?? LocalizedText(locales: {}),
+    name: name ?? LocalizedText.untranslatable(text: id),
     jaPronunciation: jaPronunciation,
     imageUrl: imageUrl,
     rarity: rarity,

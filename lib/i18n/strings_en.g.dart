@@ -41,6 +41,7 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	// Translations
 	@override String get appName => 'Genshin Material Notebook';
 	@override late final _Translations$common$en common = _Translations$common$en._(_root);
+	@override late final _Translations$popupMenu$en popupMenu = _Translations$popupMenu$en._(_root);
 	@override late final _Translations$search$en search = _Translations$search$en._(_root);
 	@override late final _Translations$tutorial$en tutorial = _Translations$tutorial$en._(_root);
 	@override Map<String, String> get purposes => {
@@ -163,6 +164,16 @@ class _Translations$common$en extends Translations$common$ja {
 	@override String get none => 'None';
 	@override String selected({required Object character}) => 'Selected: ${character}';
 	@override String get dismiss => 'Dismiss';
+}
+
+// Path: popupMenu
+class _Translations$popupMenu$en extends Translations$popupMenu$ja {
+	_Translations$popupMenu$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get useCraftConverted => 'Apply Crafting for Shortages';
 }
 
 // Path: search
@@ -610,6 +621,8 @@ class _Translations$hoyolab$en extends Translations$hoyolab$ja {
 	@override String get syncCharaState => 'Sync character state';
 	@override String get syncCharaStateDesc => 'Synchronizes character levels, talent levels, and equipped weapon levels from the game.';
 	@override String get syncBagLackNums => 'Sync bag shortage numbers';
+	@override String get useCraftAppliedLackNums => 'Show bag shortage numbers after crafting';
+	@override String get useCraftAppliedLackNumsDesc => 'Shows the shortage numbers after crafting lower-tier materials in your bag, such as talent books.';
 	@override String get autoRemoveBookmarks => 'Auto remove bookmarks';
 	@override String get autoRemoveBookmarksDesc => 'Automatically remove bookmarks for completed ascensions when opening a character or weapon page.';
 	@override String get mustBeResonatedWithStatue => 'This character must be resonated with the Statue of The Seven to be able to sync game data.';
@@ -757,6 +770,7 @@ extension on TranslationsEn {
 			'common.none' => 'None',
 			'common.selected' => ({required Object character}) => 'Selected: ${character}',
 			'common.dismiss' => 'Dismiss',
+			'popupMenu.useCraftConverted' => 'Apply Crafting for Shortages',
 			'search.hint' => ({required Object target}) => 'Search for ${target}...',
 			'search.noResults' => 'No search results found',
 			'search.targets.characters' => 'characters',
@@ -993,6 +1007,8 @@ extension on TranslationsEn {
 			'hoyolab.syncCharaState' => 'Sync character state',
 			'hoyolab.syncCharaStateDesc' => 'Synchronizes character levels, talent levels, and equipped weapon levels from the game.',
 			'hoyolab.syncBagLackNums' => 'Sync bag shortage numbers',
+			'hoyolab.useCraftAppliedLackNums' => 'Show bag shortage numbers after crafting',
+			'hoyolab.useCraftAppliedLackNumsDesc' => 'Shows the shortage numbers after crafting lower-tier materials in your bag, such as talent books.',
 			'hoyolab.autoRemoveBookmarks' => 'Auto remove bookmarks',
 			'hoyolab.autoRemoveBookmarksDesc' => 'Automatically remove bookmarks for completed ascensions when opening a character or weapon page.',
 			'hoyolab.mustBeResonatedWithStatue' => 'This character must be resonated with the Statue of The Seven to be able to sync game data.',

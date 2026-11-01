@@ -53,7 +53,7 @@ final class BagCountsNotifierProvider
   }
 }
 
-String _$bagCountsNotifierHash() => r'5a95e0238e031015a59324fb4d77e8d470b69c9e';
+String _$bagCountsNotifierHash() => r'41bf230a9976c06a79a050ba2f93f60e4d5ed6b1';
 
 /// Returns `null` if sync is disabled.
 

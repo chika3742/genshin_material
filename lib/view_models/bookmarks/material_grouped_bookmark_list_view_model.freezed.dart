@@ -15,27 +15,27 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MaterialGroupedBookmarkListState {
 
- Map<String, List<MaterialBookmark>> get materials; BagCounts get bagCounts; bool get cannotShowBagCounts;
+ Map<String, List<MaterialBookmark>> get materials; BagCounts get bagCounts; Map<MaterialId, int>? get craftedCounts; bool get cannotShowBagCounts;
 
 
 
 @override
 bool operator ==(Object other) {
   final _this = this as MaterialGroupedBookmarkListState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, _this.materials)&&const DeepCollectionEquality().equals(other.bagCounts, _this.bagCounts)&&(identical(other.cannotShowBagCounts, _this.cannotShowBagCounts) || other.cannotShowBagCounts == _this.cannotShowBagCounts));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, _this.materials)&&const DeepCollectionEquality().equals(other.bagCounts, _this.bagCounts)&&const DeepCollectionEquality().equals(other.craftedCounts, _this.craftedCounts)&&(identical(other.cannotShowBagCounts, _this.cannotShowBagCounts) || other.cannotShowBagCounts == _this.cannotShowBagCounts));
 }
 
 
 @override
 int get hashCode {
   final _this = this as MaterialGroupedBookmarkListState;
-  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.materials),const DeepCollectionEquality().hash(_this.bagCounts),_this.cannotShowBagCounts);
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.materials),const DeepCollectionEquality().hash(_this.bagCounts),const DeepCollectionEquality().hash(_this.craftedCounts),_this.cannotShowBagCounts);
 }
 
 @override
 String toString() {
   final _this = this as MaterialGroupedBookmarkListState;
-  return 'MaterialGroupedBookmarkListState(materials: ${_this.materials}, bagCounts: ${_this.bagCounts}, cannotShowBagCounts: ${_this.cannotShowBagCounts})';
+  return 'MaterialGroupedBookmarkListState(materials: ${_this.materials}, bagCounts: ${_this.bagCounts}, craftedCounts: ${_this.craftedCounts}, cannotShowBagCounts: ${_this.cannotShowBagCounts})';
 }
 
 
@@ -49,7 +49,7 @@ String toString() {
 
 
 class _MaterialGroupedBookmarkListState implements MaterialGroupedBookmarkListState {
-  const _MaterialGroupedBookmarkListState({required  Map<String, List<MaterialBookmark>> materials, required  BagCounts bagCounts, required this.cannotShowBagCounts}): _materials = materials,_bagCounts = bagCounts;
+  const _MaterialGroupedBookmarkListState({required  Map<String, List<MaterialBookmark>> materials, required  BagCounts bagCounts, required  Map<MaterialId, int>? craftedCounts, required this.cannotShowBagCounts}): _materials = materials,_bagCounts = bagCounts,_craftedCounts = craftedCounts;
   
 
  final  Map<String, List<MaterialBookmark>> _materials;
@@ -66,6 +66,15 @@ class _MaterialGroupedBookmarkListState implements MaterialGroupedBookmarkListSt
   return EqualUnmodifiableMapView(_bagCounts);
 }
 
+ final  Map<MaterialId, int>? _craftedCounts;
+@override Map<MaterialId, int>? get craftedCounts {
+  final value = _craftedCounts;
+  if (value == null) return null;
+  if (_craftedCounts is EqualUnmodifiableMapView) return _craftedCounts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
 @override final  bool cannotShowBagCounts;
 
 
@@ -73,18 +82,18 @@ class _MaterialGroupedBookmarkListState implements MaterialGroupedBookmarkListSt
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, _materials)&&const DeepCollectionEquality().equals(other.bagCounts, _bagCounts)&&(identical(other.cannotShowBagCounts, cannotShowBagCounts) || other.cannotShowBagCounts == cannotShowBagCounts));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MaterialGroupedBookmarkListState&&const DeepCollectionEquality().equals(other.materials, _materials)&&const DeepCollectionEquality().equals(other.bagCounts, _bagCounts)&&const DeepCollectionEquality().equals(other.craftedCounts, _craftedCounts)&&(identical(other.cannotShowBagCounts, cannotShowBagCounts) || other.cannotShowBagCounts == cannotShowBagCounts));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),const DeepCollectionEquality().hash(_bagCounts),cannotShowBagCounts);
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),const DeepCollectionEquality().hash(_bagCounts),const DeepCollectionEquality().hash(_craftedCounts),cannotShowBagCounts);
 }
 
 @override
 String toString() {
-    return 'MaterialGroupedBookmarkListState(materials: $materials, bagCounts: $bagCounts, cannotShowBagCounts: $cannotShowBagCounts)';
+    return 'MaterialGroupedBookmarkListState(materials: $materials, bagCounts: $bagCounts, craftedCounts: $craftedCounts, cannotShowBagCounts: $cannotShowBagCounts)';
 }
 
 

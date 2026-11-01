@@ -229,10 +229,13 @@ void main() {
     group("bag counts", () {
       test("subtracts the missing number from the needed number per material", () async {
         final api = FakeHoyolabGameApi(
-          computeResult: const CalcResult(overallConsume: [
-            CalcConsumptionItem(id: _materialHyvId1, num: 10, lackNum: 3),
-            CalcConsumptionItem(id: _materialHyvId2, num: 5, lackNum: 0),
-          ]),
+          computeResult: const CalcResult(
+            overallConsume: [
+              CalcConsumptionItem(id: _materialHyvId1, num: 10, lackNum: 3),
+              CalcConsumptionItem(id: _materialHyvId2, num: 5, lackNum: 0),
+            ],
+            availableMaterial: [],
+          ),
         );
 
         final result = await readBagCounts(createContainer(api), _request(variantId: _charaVariantId));
@@ -240,12 +243,49 @@ void main() {
         expect(result, {_materialId1: 7, _materialId2: 5});
       });
 
+      test("adds the available materials to the consumed ones", () async {
+        final api = FakeHoyolabGameApi(
+          computeResult: const CalcResult(
+            overallConsume: [
+              CalcConsumptionItem(id: _materialHyvId1, num: 10, lackNum: 0),
+            ],
+            availableMaterial: [
+              CalcConsumptionItem(id: _materialHyvId1, num: 4, lackNum: 0),
+            ],
+          ),
+        );
+
+        final result = await readBagCounts(createContainer(api), _request(variantId: _charaVariantId));
+
+        expect(result, {_materialId1: 14});
+      });
+
+      test("counts an available material that is not consumed", () async {
+        final api = FakeHoyolabGameApi(
+          computeResult: const CalcResult(
+            overallConsume: [],
+            availableMaterial: [
+              CalcConsumptionItem(id: _materialHyvId2, num: 4, lackNum: 0),
+            ],
+          ),
+        );
+
+        final result = await readBagCounts(createContainer(api), _request(variantId: _charaVariantId));
+
+        expect(result, {_materialId2: 4});
+      });
+
       test("skips materials missing from the asset data", () async {
         final api = FakeHoyolabGameApi(
-          computeResult: const CalcResult(overallConsume: [
-            CalcConsumptionItem(id: _materialHyvId1, num: 10, lackNum: 3),
-            CalcConsumptionItem(id: _unknownMaterialHyvId, num: 1, lackNum: 1),
-          ]),
+          computeResult: const CalcResult(
+            overallConsume: [
+              CalcConsumptionItem(id: _materialHyvId1, num: 10, lackNum: 3),
+              CalcConsumptionItem(id: _unknownMaterialHyvId, num: 1, lackNum: 1),
+            ],
+            availableMaterial: [
+              CalcConsumptionItem(id: _unknownMaterialHyvId, num: 1, lackNum: 0),
+            ],
+          ),
         );
 
         final result = await readBagCounts(createContainer(api), _request(variantId: _charaVariantId));

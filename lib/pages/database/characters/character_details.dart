@@ -5,6 +5,7 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "package:material_ui/material_ui.dart";
 
 import "../../../components/center_text.dart";
+import "../../../components/config_popup_menu_button.dart";
 import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/level_slider.dart";
@@ -126,18 +127,7 @@ class _CharacterDetailsContents extends HookConsumerWidget {
           ),
         ),
         actions: [
-          PopupMenuButton(
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem(
-                  child: Text(tr.pages.hoyolabIntegrationSettings),
-                  onTap: () {
-                    HoyolabIntegrationSettingsRoute().push(context);
-                  },
-                ),
-              ];
-            },
-          ),
+          ConfigPopupMenuButton(),
         ],
       ),
       body: SingleChildScrollView(
