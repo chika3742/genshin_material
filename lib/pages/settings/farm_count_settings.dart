@@ -53,6 +53,7 @@ class FarmCountSettingsPage extends ConsumerWidget {
           ),
           CheckboxListTile(
             title: Text(tr.farmCountSettingsPage.useLackNumForFarmCount),
+            enabled: showFarmCount,
             value: useLackNumForFarmCount,
             onChanged: (value) {
               ref.read(prefProvider(PrefKeys.useLackNumForFarmCount).notifier)
