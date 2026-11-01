@@ -2,7 +2,7 @@ name: pubreform
 
 on:
   schedule:
-    - cron: "24 8 * * *"
+    - cron: "0 0 * * *"
       timezone: Asia/Tokyo
   push:
     branches: [main]
