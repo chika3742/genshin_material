@@ -19,7 +19,7 @@ abstract final class PrefKeys {
   static const indexSheetTutorialShown = BooleanPrefKey("indexSheetTutorialShown", false);
   static const bannerReadKeys = StringListPrefKey("bannerReadKeys", []);
   static const adventureRank = IntPrefKey("adventureRank", 60);
-  static const condensedMultiplier = DoublePrefKey("condensedMultiplier", 2.0);
+  static const condensedMultiplier = DoublePrefKey("condensedMultiplier", 3.0);
   static const showFarmCount = BooleanPrefKey("showFarmCount", true);
   static const dailyResetServer = EnumPrefKey("dailyResetServer", GameServer.values, GameServer.asia);
   static const characterSortType = EnumPrefKey("characterSortType", CharacterSortType.values);
