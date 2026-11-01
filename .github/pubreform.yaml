@@ -1,6 +1,6 @@
 $schema: https://raw.githubusercontent.com/chika3742/pubreform/v1/pubreform.schema.json
 schedule:
-  cron: "0 9 * * *"
+  cron: "0 0 * * *"
   timezone: "Asia/Tokyo"
 min_release_age_days: 2
 labels:
