@@ -8,12 +8,11 @@ import "../components/bookmarks_page/material_grouped_tab.dart";
 import "../components/bookmarks_page/purpose_grouped_tab.dart";
 import "../components/center_text.dart";
 import "../components/game_data_sync_indicator.dart";
-import "../core/pref_keys.dart";
+import "../components/config_popup_menu_button.dart";
 import "../hooks/use_tab_controller.dart";
 import "../i18n/strings.g.dart";
 import "../providers/database_provider.dart";
 import "../providers/hoyolab_game_server.dart";
-import "../providers/pref_notifier.dart";
 import "../ui_core/error_messages.dart";
 import "../ui_core/page_handoff_horizontal_scroll.dart";
 import "../view_models/bookmarks/bookmark_bag_counts.dart";
@@ -78,34 +77,15 @@ class BookmarksPage extends HookConsumerWidget {
         ? ref.watch(bookmarkBagCountsProvider.select(GameDataSyncStatus.fromAsyncValue))
         : null;
 
-    final showCraftedLackNum = ref.watch<bool>(prefProvider(PrefKeys.showCraftConvertedLackNum));
-    final menuItems = [
-      if (bagSyncStatus != null) CheckedPopupMenuItem(
-        checked: showCraftedLackNum,
-        onTap: () {
-          ref.read(prefProvider(PrefKeys.showCraftConvertedLackNum).notifier)
-              .set(!showCraftedLackNum);
-        },
-        child: Text(tr.popupMenu.useCraftConverted),
-      ),
-    ];
-
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.pages.bookmarks),
         actions: [
           if (ref.watch(isLinkedWithHoyolabProvider) && bagSyncStatus != null)
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: menuItems.isEmpty ? 16 : 0),
-              child: GameDataSyncIndicator(
-                status: bagSyncStatus,
-              ),
+            GameDataSyncIndicator(
+              status: bagSyncStatus,
             ),
-          if (menuItems.isNotEmpty) PopupMenuButton(
-            itemBuilder: (context) {
-              return menuItems;
-            },
-          ),
+          ConfigPopupMenuButton(),
         ],
         bottom: bookmarks.value != null
             ? TabBar(

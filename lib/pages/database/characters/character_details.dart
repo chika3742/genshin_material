@@ -10,10 +10,10 @@ import "../../../components/game_item_info_box.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/material_card_list.dart";
+import "../../../components/config_popup_menu_button.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";
-import "../../../core/pref_keys.dart";
 import "../../../data/repositories/character_state_repository.dart";
 import "../../../data/repositories/single_character_state_repository.dart";
 import "../../../data/services/crashlytics_service.dart";
@@ -23,7 +23,6 @@ import "../../../models/common.dart";
 import "../../../models/level_range_values.dart";
 import "../../../providers/asset_image_resolver.dart";
 import "../../../providers/is_sync_enabled.dart";
-import "../../../providers/pref_notifier.dart";
 import "../../../routes.dart";
 import "../../../ui_core/layout.dart";
 import "../../../ui_core/snack_bar.dart";
@@ -128,28 +127,7 @@ class _CharacterDetailsContents extends HookConsumerWidget {
           ),
         ),
         actions: [
-          PopupMenuButton(
-            itemBuilder: (context) {
-              final showCraftedLackNum = ref.watch(prefProvider(PrefKeys.showCraftConvertedLackNum));
-              return [
-                PopupMenuItem(
-                  child: Text(tr.pages.hoyolabIntegrationSettings),
-                  onTap: () {
-                    HoyolabIntegrationSettingsRoute().push(context);
-                  },
-                ),
-                if (bagCounts.value != null)
-                  CheckedPopupMenuItem(
-                    checked: showCraftedLackNum,
-                    onTap: () {
-                      ref.read(prefProvider(PrefKeys.showCraftConvertedLackNum).notifier)
-                          .set(!showCraftedLackNum);
-                    },
-                    child: Text(tr.popupMenu.useCraftConverted),
-                  ),
-              ];
-            },
-          ),
+          ConfigPopupMenuButton(),
         ],
       ),
       body: SingleChildScrollView(

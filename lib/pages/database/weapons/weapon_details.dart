@@ -11,6 +11,7 @@ import "../../../components/game_item_info_box.dart";
 import "../../../components/item_source_widget.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/material_card_list.dart";
+import "../../../components/config_popup_menu_button.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../data/repositories/character_state_repository.dart";
@@ -136,6 +137,9 @@ class _WeaponDetailsContents extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          ConfigPopupMenuButton(),
+        ],
         title: Text(tr.pages.weaponDetails(weapon: weapon.name.localized)),
       ),
       body: SingleChildScrollView(

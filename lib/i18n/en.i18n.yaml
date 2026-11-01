@@ -43,6 +43,8 @@ common:
   none: None
   selected: "Selected: $character"
   dismiss: Dismiss
+popupMenu:
+  useCraftConverted: Apply Crafting for Shortages
 search:
   hint: Search for $target...
   noResults: No search results found
@@ -318,6 +320,8 @@ hoyolab:
   syncCharaState: Sync character state
   syncCharaStateDesc: Synchronizes character levels, talent levels, and equipped weapon levels from the game.
   syncBagLackNums: Sync bag shortage numbers
+  useCraftAppliedLackNums: Show bag shortage numbers after crafting
+  useCraftAppliedLackNumsDesc: Shows the shortage numbers after crafting lower-tier materials in your bag, such as talent books.
   autoRemoveBookmarks: Auto remove bookmarks
   autoRemoveBookmarksDesc: Automatically remove bookmarks for completed ascensions when opening a character or weapon page.
   mustBeResonatedWithStatue: This character must be resonated with the Statue of The Seven to be able to sync game data.
