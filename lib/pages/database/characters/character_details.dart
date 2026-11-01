@@ -5,12 +5,12 @@ import "package:material_symbols_icons/material_symbols_icons.dart";
 import "package:material_ui/material_ui.dart";
 
 import "../../../components/center_text.dart";
+import "../../../components/config_popup_menu_button.dart";
 import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/list_tile.dart";
 import "../../../components/material_card_list.dart";
-import "../../../components/config_popup_menu_button.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../constants/dimens.dart";
 import "../../../core/asset_cache.dart";

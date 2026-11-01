@@ -2,7 +2,6 @@ import "dart:async";
 import "dart:io";
 
 import "package:flutter_test/flutter_test.dart";
-import "package:genshin_material/core/remote_config_keys.dart";
 import "package:genshin_material/i18n/strings.g.dart";
 import "package:genshin_material/pages/tools/tools.dart";
 import "package:genshin_material/providers/login_bonus_state.dart";
@@ -10,7 +9,6 @@ import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:material_ui/material_ui.dart";
 
 import "../../utils/fake_login_bonus_state.dart";
-import "../../utils/remote_config.dart";
 import "../../utils/secure_storage.dart";
 import "../utils.dart";
 
@@ -25,8 +23,8 @@ void main() {
   Future<ProviderContainer> pumpPage(WidgetTester tester) async {
     nextResult = () async => true;
     await tester.pumpWidget(createProviderScope(
+      hoyolabLinkEnabled: true,
       overrides: [
-        overrideRemoteConfig(RemoteConfigKeys.hoyolabLinkEnabled, true),
         loginBonusStateProvider.overrideWith(() => FakeLoginBonusState(() => nextResult())),
       ],
       child: const MaterialApp(home: ToolsPage()),

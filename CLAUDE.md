@@ -127,11 +127,11 @@ Reuse these rather than writing new equivalents.
 
 | File | Provides |
 |---|---|
-| `test/widget/utils.dart` | `createScreenWithApp()`, `createProviderScope()` (a `ProviderScope` with retry disabled) |
+| `test/widget/utils.dart` | `createScreenWithApp()`, `createProviderScope()` (a `ProviderScope` with retry disabled, every pref at its key's default, and `hoyolabLinkEnabled` on) |
 | `test/utils/asset_data.dart` | `buildTestAssetData()`, `buildTestMaterial()`, `buildTestCharacter()`, `buildTestCharacterGroup()`, `buildTestCharacterVariant()`, `buildTestWeapon()`, `buildIngredientConfigurations()` |
 | `test/utils/db.dart` | `createTestDatabase()`, `buildMaterialBookmark()` |
 | `test/utils/provider_container.dart` | `createTestContainer()` (retry disabled; `shouldHideImages: null` runs the real `shouldHideImagesProvider`) |
-| `test/utils/in_memory_pref.dart` | `overridePref()`, `InMemoryPrefNotifier` |
+| `test/utils/in_memory_pref.dart` | `overridePref()`, `InMemoryPrefNotifier`, `overridePrefDefaults()` |
 | `test/utils/remote_config.dart` | `overrideRemoteConfig()`, `createRemoteConfigServiceMock()` (`MockRemoteConfigService` itself comes from `remote_config.mocks.dart` — import both) |
 | `test/utils/http_client.dart` | `overrideHttpClient()` (`MockClient` comes from `http_client.mocks.dart`) |
 | `test/utils/fake_hoyolab_game_api.dart` | `FakeHoyolabGameApi` (serves fixed `avatarList` pages and a fixed `batchCompute` result, and records the calls), `buildTestAvatar()` |
@@ -154,8 +154,8 @@ The code conventions above apply to test code as well. In addition:
 - Database tests: create the database with `createTestDatabase()` in `setUp` and `close()` it in `tearDown`.
 - Provider tests: use `createTestContainer()`, which wraps `ProviderContainer.test` (self-disposing) and applies the overrides most tests need.
 - Widget tests: wrap the widget in `createProviderScope()` instead of a bare `ProviderScope`.
-- Preference-backed providers: `overridePref(key, value)` instead of setting up `SharedPreferences`.
-- Anything reading Remote Config overrides the values it needs with `overrideRemoteConfig(key, value)`. Only a test whose subject reaches the service itself needs `createRemoteConfigServiceMock()`; classes taking a plain value (`minimumSchemaVersion`, for one) get it passed in directly.
+- Preference-backed providers: `overridePref(key, value)` instead of setting up `SharedPreferences`. Under `createProviderScope()`, override only the prefs the test depends on, and never pass `overridePrefDefaults()` (Riverpod rejects overriding a family twice).
+- Anything reading Remote Config overrides the values it needs with `overrideRemoteConfig(key, value)`, except `hoyolabLinkEnabled` under `createProviderScope()`: set it through its argument, since Riverpod rejects overriding the same provider twice. Only a test whose subject reaches the service itself needs `createRemoteConfigServiceMock()`; classes taking a plain value (`minimumSchemaVersion`, for one) get it passed in directly.
 - Never use real character IDs in tests; use placeholders such as `char_1`.
 - Tests run as the `dev` flavor, and the flavor constants are compile-time. Build expected values from them (e.g. `assetReleasesUrl`) instead of hard-coding a channel.
 - Pin time with `withClock` from `package:clock` rather than waiting on real durations.

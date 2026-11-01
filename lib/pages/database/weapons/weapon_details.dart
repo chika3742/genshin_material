@@ -5,13 +5,13 @@ import "package:material_ui/material_ui.dart";
 
 import "../../../components/center_text.dart";
 import "../../../components/character_select_dropdown.dart";
+import "../../../components/config_popup_menu_button.dart";
 import "../../../components/effect_description.dart";
 import "../../../components/game_data_sync_indicator.dart";
 import "../../../components/game_item_info_box.dart";
 import "../../../components/item_source_widget.dart";
 import "../../../components/level_slider.dart";
 import "../../../components/material_card_list.dart";
-import "../../../components/config_popup_menu_button.dart";
 import "../../../components/rarity_stars.dart";
 import "../../../core/asset_cache.dart";
 import "../../../data/repositories/character_state_repository.dart";
