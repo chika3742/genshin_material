@@ -19,6 +19,7 @@ Try to disprove each candidate by reading the code:
 - Does something elsewhere already prevent the failure, such as a caller, a guard, a type, or framework or library behavior? Read the dependency's source instead of assuming how it behaves, with the `mcp__github_public__*` tools where they are available.
 - For a rule candidate, does the rule apply to this file, and does the code actually break it?
 - Did this pull request introduce the issue? Check the diff.
+- How often can the scenario occur? Refute a candidate whose scenario needs extremely narrow conditions.
 
 The title and body state what the author intends. They are not evidence that the change is correct.
 
@@ -29,7 +30,7 @@ Return these fields for each candidate:
 - **candidate:** its location and claim, as you received them
 - **verdict:**
   - `confirmed` when the code shows the issue is real
-  - `refuted` when the code shows the issue is not real
+  - `refuted` when the code shows the issue is not real, or its scenario needs extremely narrow conditions
   - `unverifiable` only when settling it needs something you cannot get, such as running the code or a remote service's behavior
 - **evidence:** `path:line` references that support the verdict
 - **introduced:** yes if this pull request introduced it, no if it was already there
