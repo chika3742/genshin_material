@@ -632,6 +632,8 @@ class Translations$materialCard$ja {
 
 	/// ja: 'ブックマークを解除しました'
 	String get unBookmarked => 'ブックマークを解除しました';
+
+	late final Translations$materialCard$guide$ja guide = Translations$materialCard$guide$ja.internal(_root);
 }
 
 // Path: artifactsPage
@@ -1222,6 +1224,60 @@ class Translations$characterBulkSync$confirmDialog$ja {
 	String content({required num ttlMinutes}) => '所持している全キャラクターの育成状況を一括で取得します。最後に実行してから${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}間は再実行できません。';
 }
 
+// Path: materialCard.guide
+class Translations$materialCard$guide$ja {
+	Translations$materialCard$guide$ja.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// ja: '素材カードの見方'
+	String get title => '素材カードの見方';
+
+	/// ja: '左端の色は素材のレアリティを表します'
+	String get rarity => '左端の色は素材のレアリティを表します';
+
+	/// ja: '経験値素材などで、表示する素材を切り替えます'
+	String get swap => '経験値素材などで、表示する素材を切り替えます';
+
+	/// ja: 'バッグの不足数は最初の素材にのみ表示されます'
+	String get swapNote => 'バッグの不足数は最初の素材にのみ表示されます';
+
+	/// ja: '本日入手できる素材です'
+	String get dailyAvailable => '本日入手できる素材です';
+
+	/// ja: '選択した範囲で必要な数です'
+	String get quantity => '選択した範囲で必要な数です';
+
+	/// ja: 'バッグの所持数では、この数だけ不足しています'
+	String get bagLack => 'バッグの所持数では、この数だけ不足しています';
+
+	/// ja: 'バッグの所持数で足りています'
+	String get bagEnough => 'バッグの所持数で足りています';
+
+	/// ja: 'HoYoLAB連携時に表示されます'
+	String get bagNote => 'HoYoLAB連携時に表示されます';
+
+	/// ja: '下位素材を合成すれば足ります'
+	String get craftEnough => '下位素材を合成すれば足ります';
+
+	/// ja: '下位素材を合成しても、この数だけ不足しています'
+	String get craftLack => '下位素材を合成しても、この数だけ不足しています';
+
+	/// ja: '「バッグ不足数を合成換算」がオンのときに表示されます'
+	String get craftNote => '「${_root.popupMenu.useCraftConverted}」がオンのときに表示されます';
+
+	/// ja: '必要数を集めるための周回数の目安です'
+	String get farmCount => '必要数を集めるための周回数の目安です';
+
+	/// ja: '「周回数目安の表示設定」で表示調整できます'
+	String get farmCountNote => '「${_root.pages.farmCountSettings}」で表示調整できます';
+
+	/// ja: '現在のスライダーとは異なる範囲でブックマーク済みです'
+	String get bookmarkPartial => '現在のスライダーとは異なる範囲でブックマーク済みです';
+}
+
 // Path: android.notificationChannels
 class Translations$android$notificationChannels$ja {
 	Translations$android$notificationChannels$ja.internal(this._root);
@@ -1422,6 +1478,21 @@ extension on Translations {
 			'materialCard.unBookmark' => 'ブックマークを解除',
 			'materialCard.unBookmarkDesc' => 'この素材のブックマークを解除します',
 			'materialCard.unBookmarked' => 'ブックマークを解除しました',
+			'materialCard.guide.title' => '素材カードの見方',
+			'materialCard.guide.rarity' => '左端の色は素材のレアリティを表します',
+			'materialCard.guide.swap' => '経験値素材などで、表示する素材を切り替えます',
+			'materialCard.guide.swapNote' => 'バッグの不足数は最初の素材にのみ表示されます',
+			'materialCard.guide.dailyAvailable' => '本日入手できる素材です',
+			'materialCard.guide.quantity' => '選択した範囲で必要な数です',
+			'materialCard.guide.bagLack' => 'バッグの所持数では、この数だけ不足しています',
+			'materialCard.guide.bagEnough' => 'バッグの所持数で足りています',
+			'materialCard.guide.bagNote' => 'HoYoLAB連携時に表示されます',
+			'materialCard.guide.craftEnough' => '下位素材を合成すれば足ります',
+			'materialCard.guide.craftLack' => '下位素材を合成しても、この数だけ不足しています',
+			'materialCard.guide.craftNote' => '「${_root.popupMenu.useCraftConverted}」がオンのときに表示されます',
+			'materialCard.guide.farmCount' => '必要数を集めるための周回数の目安です',
+			'materialCard.guide.farmCountNote' => '「${_root.pages.farmCountSettings}」で表示調整できます',
+			'materialCard.guide.bookmarkPartial' => '現在のスライダーとは異なる範囲でブックマーク済みです',
 			'artifactsPage.bonusTypes.1-pc' => '1セット効果',
 			'artifactsPage.bonusTypes.2-pc' => '2セット効果',
 			'artifactsPage.bonusTypes.4-pc' => '4セット効果',

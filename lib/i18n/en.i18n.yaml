@@ -176,6 +176,22 @@ materialCard:
   unBookmark: Remove bookmark
   unBookmarkDesc: Remove the bookmark of this material
   unBookmarked: Removed from bookmarks
+  guide:
+    title: How to Read Material Cards
+    rarity: The color on the left edge shows the material's rarity.
+    swap: Switches the displayed material, such as for EXP materials.
+    swapNote: The bag shortage is shown only for the first material.
+    dailyAvailable: This material is available today.
+    quantity: The quantity required for the selected range.
+    bagLack: Your bag is short by this many.
+    bagEnough: You have enough in your bag.
+    bagNote: Shown when linked with HoYoLAB.
+    craftEnough: You will have enough by crafting lower-tier materials.
+    craftLack: Still short by this many even after crafting lower-tier materials.
+    craftNote: Shown when "@:popupMenu.useCraftConverted" is on.
+    farmCount: The estimated farming count to collect the required quantity.
+    farmCountNote: You can adjust the display in "@:pages.farmCountSettings".
+    bookmarkPartial: Bookmarked in a range different from the current slider.
 artifactsPage:
   bonusTypes(map):
     1-pc: 1-Pc Set Bonus

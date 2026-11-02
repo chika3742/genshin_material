@@ -8,6 +8,7 @@ import "../providers/hoyolab_game_server.dart";
 import "../providers/pref_notifier.dart";
 import "../providers/remote_config.dart";
 import "../routes.dart";
+import "material_card_guide.dart";
 
 class ConfigPopupMenuButton extends ConsumerWidget {
   const ConfigPopupMenuButton({super.key});
@@ -42,6 +43,10 @@ class ConfigPopupMenuButton extends ConsumerWidget {
               FarmCountSettingsRoute().push(context);
             },
             child: Text(tr.pages.farmCountSettings),
+          ),
+          PopupMenuItem(
+            onTap: () => showMaterialCardGuide(context),
+            child: Text(tr.materialCard.guide.title),
           ),
         ];
       },

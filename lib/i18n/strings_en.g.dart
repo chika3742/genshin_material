@@ -390,6 +390,7 @@ class _Translations$materialCard$en extends Translations$materialCard$ja {
 	@override String get unBookmark => 'Remove bookmark';
 	@override String get unBookmarkDesc => 'Remove the bookmark of this material';
 	@override String get unBookmarked => 'Removed from bookmarks';
+	@override late final _Translations$materialCard$guide$en guide = _Translations$materialCard$guide$en._(_root);
 }
 
 // Path: artifactsPage
@@ -692,6 +693,30 @@ class _Translations$characterBulkSync$confirmDialog$en extends Translations$char
 	@override String content({required num ttlMinutes}) => 'Fetches the progression of all your owned characters at once. After a run, it can\'t be run again for ${_root.characterBulkSync.minutes(ttlMinutes: ttlMinutes)}.';
 }
 
+// Path: materialCard.guide
+class _Translations$materialCard$guide$en extends Translations$materialCard$guide$ja {
+	_Translations$materialCard$guide$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'How to Read Material Cards';
+	@override String get rarity => 'The color on the left edge shows the material\'s rarity.';
+	@override String get swap => 'Switches the displayed material, such as for EXP materials.';
+	@override String get swapNote => 'The bag shortage is shown only for the first material.';
+	@override String get dailyAvailable => 'This material is available today.';
+	@override String get quantity => 'The quantity required for the selected range.';
+	@override String get bagLack => 'Your bag is short by this many.';
+	@override String get bagEnough => 'You have enough in your bag.';
+	@override String get bagNote => 'Shown when linked with HoYoLAB.';
+	@override String get craftEnough => 'You will have enough by crafting lower-tier materials.';
+	@override String get craftLack => 'Still short by this many even after crafting lower-tier materials.';
+	@override String get craftNote => 'Shown when "${_root.popupMenu.useCraftConverted}" is on.';
+	@override String get farmCount => 'The estimated farming count to collect the required quantity.';
+	@override String get farmCountNote => 'You can adjust the display in "${_root.pages.farmCountSettings}".';
+	@override String get bookmarkPartial => 'Bookmarked in a range different from the current slider.';
+}
+
 // Path: android.notificationChannels
 class _Translations$android$notificationChannels$en extends Translations$android$notificationChannels$ja {
 	_Translations$android$notificationChannels$en._(TranslationsEn root) : this._root = root, super.internal(root);
@@ -882,6 +907,21 @@ extension on TranslationsEn {
 			'materialCard.unBookmark' => 'Remove bookmark',
 			'materialCard.unBookmarkDesc' => 'Remove the bookmark of this material',
 			'materialCard.unBookmarked' => 'Removed from bookmarks',
+			'materialCard.guide.title' => 'How to Read Material Cards',
+			'materialCard.guide.rarity' => 'The color on the left edge shows the material\'s rarity.',
+			'materialCard.guide.swap' => 'Switches the displayed material, such as for EXP materials.',
+			'materialCard.guide.swapNote' => 'The bag shortage is shown only for the first material.',
+			'materialCard.guide.dailyAvailable' => 'This material is available today.',
+			'materialCard.guide.quantity' => 'The quantity required for the selected range.',
+			'materialCard.guide.bagLack' => 'Your bag is short by this many.',
+			'materialCard.guide.bagEnough' => 'You have enough in your bag.',
+			'materialCard.guide.bagNote' => 'Shown when linked with HoYoLAB.',
+			'materialCard.guide.craftEnough' => 'You will have enough by crafting lower-tier materials.',
+			'materialCard.guide.craftLack' => 'Still short by this many even after crafting lower-tier materials.',
+			'materialCard.guide.craftNote' => 'Shown when "${_root.popupMenu.useCraftConverted}" is on.',
+			'materialCard.guide.farmCount' => 'The estimated farming count to collect the required quantity.',
+			'materialCard.guide.farmCountNote' => 'You can adjust the display in "${_root.pages.farmCountSettings}".',
+			'materialCard.guide.bookmarkPartial' => 'Bookmarked in a range different from the current slider.',
 			'artifactsPage.bonusTypes.1-pc' => '1-Pc Set Bonus',
 			'artifactsPage.bonusTypes.2-pc' => '2-Pc Set Bonus',
 			'artifactsPage.bonusTypes.4-pc' => '4-Pc Set Bonus',

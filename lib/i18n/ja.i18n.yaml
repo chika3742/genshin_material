@@ -172,6 +172,22 @@ materialCard:
   unBookmark: ブックマークを解除
   unBookmarkDesc: この素材のブックマークを解除します
   unBookmarked: ブックマークを解除しました
+  guide:
+    title: 素材カードの見方
+    rarity: 左端の色は素材のレアリティを表します
+    swap: 経験値素材などで、表示する素材を切り替えます
+    swapNote: バッグの不足数は最初の素材にのみ表示されます
+    dailyAvailable: 本日入手できる素材です
+    quantity: 選択した範囲で必要な数です
+    bagLack: バッグの所持数では、この数だけ不足しています
+    bagEnough: バッグの所持数で足りています
+    bagNote: HoYoLAB連携時に表示されます
+    craftEnough: 下位素材を合成すれば足ります
+    craftLack: 下位素材を合成しても、この数だけ不足しています
+    craftNote: 「@:popupMenu.useCraftConverted」がオンのときに表示されます
+    farmCount: 必要数を集めるための周回数の目安です
+    farmCountNote: 「@:pages.farmCountSettings」で表示調整できます
+    bookmarkPartial: 現在のスライダーとは異なる範囲でブックマーク済みです
 artifactsPage:
   bonusTypes(map):
     1-pc: 1セット効果
