@@ -18,6 +18,14 @@
       "matchStrings": ["\\.fvm/versions/(?<currentValue>[^\"]+)\""],
       "depNameTemplate": "flutter",
       "datasourceTemplate": "flutter-version"
+    },
+    {
+      "description": "Update pubspec.yaml for the new Flutter version",
+      "customType": "regex",
+      "managerFilePatterns": ["pubspec.yaml"],
+      "matchStrings": ["\\nenvironment:\\n(?:  .*\\n)*?  flutter: (?<currentValue>\\S+)"],
+      "depNameTemplate": "flutter",
+      "datasourceTemplate": "flutter-version"
     }
   ],
   "packageRules": [
