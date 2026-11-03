@@ -1,7 +1,7 @@
 # コピー用改行
 
-- releasedOn: TBD
-  version: 4.12.0-wip
+- releasedOn: 2026/11/05
+  version: 4.12.0
   contents:
     locales:
       ja: |
@@ -19,6 +19,19 @@
         # 変更
         - 周回回数計算における「濃縮樹脂等使用時の獲得数の倍率」のデフォルトを3倍にしました。
       en: |
+        # New Features
+        - **Bag shortages can now be shown in the bookmark list too!**
+          - On the Purpose tab, a material that appears multiple times shows the total shortage when consumed from the top, in the order you arranged by dragging.
+          - Shortages can be retrieved for up to 8 characters and 8 weapons; any bookmarked beyond that cannot be shown.
+          - If either characters or weapons exceed 8, accurate values cannot be calculated, so shortages are not shown on the Material tab.
+        - **Craftable materials now show the shortage after crafting!**
+          - Shows the shortage after crafting your leftover materials (those remaining after consuming the ones selected with the sliders or bookmarked).
+          - When your bag has enough materials to craft the required amount, the bag icon changes to a crafting icon. Even for a craftable material, the bag icon stays if you already have the required amount of that material itself.
+        - Added a guide on how to read material cards.
+          - You can open it from the "..." menu at the top right of each screen.
+
+        # Changes
+        - Changed the default "Multiplier for using Condensed Resin etc." in the farming count calculation to 3x.
 
 - releasedOn: 2026/10/24
   version: 4.11.0
