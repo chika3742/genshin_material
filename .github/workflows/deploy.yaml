@@ -39,7 +39,7 @@ jobs:
     name: Deploy to App Store
     needs: build-attr
     if: needs.build-attr.outputs.promote == 'false'
-    uses: chika3742/flutter-app-deploy/.github/workflows/ios.yml@6eac78aa419a9e2edf6d5db452fc23674bbefc90
+    uses: chika3742/flutter-app-deploy/.github/workflows/ios.yml@c4696126101b0a881f9ea39a290acff6f8360047
     with:
       build-name: ${{ needs.build-attr.outputs.build_name }}
       build-number: ${{ needs.build-attr.outputs.build_num }}
@@ -59,7 +59,7 @@ jobs:
     name: Promote App (App Store)
     needs: build-attr
     if: needs.build-attr.outputs.promote == 'true'
-    uses: chika3742/flutter-app-deploy/.github/workflows/ios-promote.yml@6eac78aa419a9e2edf6d5db452fc23674bbefc90
+    uses: chika3742/flutter-app-deploy/.github/workflows/ios-promote.yml@c4696126101b0a881f9ea39a290acff6f8360047
     with:
       build-name: ${{ needs.build-attr.outputs.build_name }}
     secrets:
@@ -71,7 +71,7 @@ jobs:
     name: Deploy to Play Store
     needs: build-attr
     if: needs.build-attr.outputs.promote == 'false'
-    uses: chika3742/flutter-app-deploy/.github/workflows/android.yml@6eac78aa419a9e2edf6d5db452fc23674bbefc90
+    uses: chika3742/flutter-app-deploy/.github/workflows/android.yml@c4696126101b0a881f9ea39a290acff6f8360047
     permissions:
       contents: read
       id-token: write
@@ -92,7 +92,7 @@ jobs:
     name: Promote App (Play Store)
     needs: build-attr
     if: needs.build-attr.outputs.promote == 'true'
-    uses: chika3742/flutter-app-deploy/.github/workflows/android-promote.yml@6eac78aa419a9e2edf6d5db452fc23674bbefc90
+    uses: chika3742/flutter-app-deploy/.github/workflows/android-promote.yml@c4696126101b0a881f9ea39a290acff6f8360047
     permissions:
       contents: read
       id-token: write
