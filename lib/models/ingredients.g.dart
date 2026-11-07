@@ -24,7 +24,7 @@ IngredientByType _$IngredientByTypeFromJson(Map<String, dynamic> json) =>
       quantity: (json['quantity'] as num).toInt(),
       craftLevel: (json['craftLevel'] as num?)?.toInt(),
       targetSpecific: (json['targetSpecific'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as String?),
+        (k, e) => MapEntry(k, e as MaterialId?),
       ),
       $type: json['runtimeType'] as String?,
     );
