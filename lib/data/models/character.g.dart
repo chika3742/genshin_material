@@ -19,8 +19,8 @@ _CharacterAssetDefault _$CharacterAssetDefaultFromJson(
   imageUrl: json['imageUrl'] as String,
   smallImageUrl: json['smallImageUrl'] as String,
   rarity: (json['rarity'] as num).toInt(),
-  weaponType: json['weaponType'] as String,
-  element: json['element'] as String,
+  weaponType: json['weaponType'] as WeaponType,
+  element: json['element'] as TeyvatElement,
   talents: (json['talents'] as Map<String, dynamic>).map(
     (k, e) => MapEntry(k, CharacterTalent.fromJson(e as Map<String, dynamic>)),
   ),
@@ -41,7 +41,7 @@ _CharacterAssetGroup _$CharacterAssetGroupFromJson(Map<String, dynamic> json) =>
       imageUrl: json['imageUrl'] as String,
       smallImageUrl: json['smallImageUrl'] as String,
       rarity: (json['rarity'] as num).toInt(),
-      weaponType: json['weaponType'] as String,
+      weaponType: json['weaponType'] as WeaponType,
       variantIds: (json['variantIds'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -61,8 +61,8 @@ _CharacterAssetVariant _$CharacterAssetVariantFromJson(
   jaPronunciation: json['jaPronunciation'] as String,
   smallImageUrl: json['smallImageUrl'] as String,
   rarity: (json['rarity'] as num).toInt(),
-  element: json['element'] as String,
-  weaponType: json['weaponType'] as String,
+  element: json['element'] as TeyvatElement,
+  weaponType: json['weaponType'] as WeaponType,
   talents: (json['talents'] as Map<String, dynamic>).map(
     (k, e) => MapEntry(k, CharacterTalent.fromJson(e as Map<String, dynamic>)),
   ),
