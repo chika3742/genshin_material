@@ -12,7 +12,7 @@ _ArtifactSet _$ArtifactSetFromJson(Map<String, dynamic> json) => _ArtifactSet(
   jaPronunciation: json['jaPronunciation'] as String,
   maxRarity: (json['maxRarity'] as num).toInt(),
   tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  consistsOf: Map<String, String>.from(json['consistsOf'] as Map),
+  consistsOf: Map<String, ArtifactPieceId>.from(json['consistsOf'] as Map),
   bonuses: (json['bonuses'] as List<dynamic>)
       .map((e) => ArtifactSetBonus.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -24,7 +24,7 @@ _ArtifactPiece _$ArtifactPieceFromJson(Map<String, dynamic> json) =>
       name: LocalizedText.fromJson(json['name']),
       jaPronunciation: json['jaPronunciation'] as String,
       parentId: json['parentId'] as String,
-      type: json['type'] as String,
+      type: json['type'] as ArtifactPieceTypeId,
       imageUrl: json['imageUrl'] as String,
     );
 
@@ -44,7 +44,7 @@ _ArtifactsMeta _$ArtifactsMetaFromJson(Map<String, dynamic> json) =>
             MapEntry(k, ArtifactPieceType.fromJson(e as Map<String, dynamic>)),
       ),
       possibleSubStats: (json['possibleSubStats'] as List<dynamic>)
-          .map((e) => e as String)
+          .map((e) => e as StatId)
           .toList(),
       tags: ArtifactTagCategoriesInternal.fromJson(
         json['tags'] as Map<String, dynamic>,
@@ -53,10 +53,10 @@ _ArtifactsMeta _$ArtifactsMetaFromJson(Map<String, dynamic> json) =>
 
 _ArtifactPieceType _$ArtifactPieceTypeFromJson(Map<String, dynamic> json) =>
     _ArtifactPieceType(
-      id: json['id'] as String,
+      id: json['id'] as ArtifactPieceTypeId,
       desc: LocalizedText.fromJson(json['desc']),
       possibleMainStats: (json['possibleMainStats'] as List<dynamic>)
-          .map((e) => e as String)
+          .map((e) => e as StatId)
           .toList(),
     );
 
