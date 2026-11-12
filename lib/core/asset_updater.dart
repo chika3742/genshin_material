@@ -231,7 +231,7 @@ class AssetUpdater {
 
   Future<void> _unzipRelease(String zipPath, String destDir) async {
     final inputStream = InputFileStream(zipPath);
-    final archive = ZipDecoder().decodeStream(inputStream);
+    final archive = ZipDecoder().decodeStream(inputStream, verify: true);
 
     await extractArchiveToDisk(archive, destDir);
   }
