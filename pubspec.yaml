@@ -88,7 +88,7 @@ dev_dependencies:
   json_serializable: 6.15.2
   mockito: 5.8.1
   drift_dev: 2.35.3
-  pigeon: 29.1.1
+  pigeon: 30.0.2
   args: 2.7.0
   async: 2.13.1
 
