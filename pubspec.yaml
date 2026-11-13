@@ -24,7 +24,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  material_ui: 1.10.0
+  material_ui: 1.11.0
   cupertino_ui: 1.1.6
   collection: ^1.19.1
   path: ^1.9.1
@@ -32,7 +32,7 @@ dependencies:
   clock: ^1.1.3
   flutter_riverpod: 3.5.0
   riverpod_annotation: 4.0.8
-  go_router: 18.1.3
+  go_router: 18.1.4
   freezed_annotation: 3.1.0
   material_symbols_icons: 4.2960.0
   slang: 4.19.2
@@ -64,7 +64,7 @@ dependencies:
   firebase_crashlytics: 6.0.1
   firebase_remote_config: 7.0.1
   signed_spacing_flex: 1.1.0
-  flutter_svg: 2.3.2
+  flutter_svg: 2.3.3
   fractional_indexing: 1.0.0
   flutter_local_notifications:
     git:
@@ -88,7 +88,7 @@ dev_dependencies:
   json_serializable: 6.15.2
   mockito: 5.8.1
   drift_dev: 2.35.3
-  pigeon: 29.1.1
+  pigeon: 29.2.0
   args: 2.7.0
   async: 2.13.1
 
